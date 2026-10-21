@@ -1,0 +1,25 @@
+# Unreal generated
+Binaries/
+DerivedDataCache/
+Intermediate/
+Saved/
+Build/
+.vs/
+.vscode/
+.idea/
+*.sln
+*.suo
+*.opensdf
+*.sdf
+*.VC.db
+*.VC.opendb
+*.xcodeproj
+*.xcworkspace
+Plugins/**/Binaries/
+Plugins/**/Intermediate/
+# Python
+__pycache__/
+*.pyc
+# OS
+.DS_Store
+Thumbs.db

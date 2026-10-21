@@ -1,0 +1,28 @@
+#pragma once
+#include "CoreMinimal.h"
+#include "Interaction/InteractableActor.h"
+#include "Station.generated.h"
+
+class URecipeDef;
+
+/** Furnace / anvil / range. Picks a recipe (explicit or first craftable) and "makes all" on a timer. */
+UCLASS()
+class GIELINOR_API AStation : public AInteractableActor
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Station") EStationType StationType = EStationType::Furnace;
+
+	virtual FText GetInteractLabel() const override;
+	virtual void Interact(AActor* Instigator) override;
+
+	/** UI path: craft a specific recipe. */
+	UFUNCTION(BlueprintCallable, Category="Station") void CraftRecipe(AActor* Instigator, URecipeDef* Recipe);
+	UFUNCTION(BlueprintPure, Category="Station") TArray<URecipeDef*> GetRecipes() const;
+
+protected:
+	virtual bool OnLoopTick(AActor* Instigator) override;
+private:
+	bool CanCraft(AActor* Instigator, const URecipeDef* R, bool bTell) const;
+	UPROPERTY() TObjectPtr<URecipeDef> Active;
+};
