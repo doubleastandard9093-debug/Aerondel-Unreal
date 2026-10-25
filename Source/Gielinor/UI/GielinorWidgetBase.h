@@ -47,8 +47,8 @@ class GIELINOR_API UGielinorInventoryWidget : public UGielinorWidgetBase
 	GENERATED_BODY()
 public:
 	/** Click on a slot: equip gear, eat food, or deposit when the bank is open. */
-	UFUNCTION(BlueprintCallable, Category="Gielinor") void UseSlot(int32 Slot);
-	UFUNCTION(BlueprintCallable, Category="Gielinor") void DropSlot(int32 Slot);
+	UFUNCTION(BlueprintCallable, Category="Gielinor") void UseSlot(int32 SlotIndex);
+	UFUNCTION(BlueprintCallable, Category="Gielinor") void DropSlot(int32 SlotIndex);
 protected:
 	virtual void BindSources() override;
 };

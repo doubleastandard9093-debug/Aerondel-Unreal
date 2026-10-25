@@ -103,7 +103,7 @@ AGielinorVRPawn::AGielinorVRPawn()
 void AGielinorVRPawn::BeginPlay()
 {
 	Super::BeginPlay();
-	UHeadMountedDisplayFunctionLibrary::SetTrackingOrigin(EHMDTrackingOrigin::Floor);
+	UHeadMountedDisplayFunctionLibrary::SetTrackingOrigin(EHMDTrackingOrigin::LocalFloor);
 	if (WristWidgetClass) WristPanel->SetWidgetClass(WristWidgetClass);
 }
 
@@ -183,7 +183,7 @@ void AGielinorVRPawn::UpdateTeleportArc()
 	if (bHit)
 	{
 		FNavLocation Nav;
-		UNavigationSystemV1* NavSys = UNavigationSystemV1::GetCurrent<UNavigationSystemV1>(GetWorld());
+		UNavigationSystemV1* NavSys = FNavigationSystem::GetCurrent<UNavigationSystemV1>(GetWorld());
 		if (NavSys && NavSys->ProjectPointToNavigation(R.HitResult.Location, Nav, FVector(50, 50, 100)))
 		{
 			bTeleportValid = true;

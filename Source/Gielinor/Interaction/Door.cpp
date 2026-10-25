@@ -21,13 +21,13 @@ FText ADoor::GetInteractLabel() const { return bOpen ? NSLOCTEXT("Gielinor", "Cl
 
 FVector ADoor::GetInteractPoint() const { return Mesh->Bounds.Origin; }
 
-void ADoor::Interact(AActor* Instigator)
+void ADoor::Interact(AActor* InInstigator)
 {
 	bOpen = !bOpen;
-	if (bOpen && Instigator)
+	if (bOpen && InInstigator)
 	{
 		// Swing away from whoever opened it.
-		const FVector Local = GetActorTransform().InverseTransformPosition(Instigator->GetActorLocation());
+		const FVector Local = GetActorTransform().InverseTransformPosition(InInstigator->GetActorLocation());
 		Sign = Local.Y > 0 ? -1.f : 1.f;
 	}
 }

@@ -10,6 +10,8 @@
 #include "Engine/StaticMesh.h"
 #include "HeadMountedDisplayFunctionLibrary.h"
 #include "HeadMountedDisplayTypes.h"
+#include "IXRTrackingSystem.h"
+#include "Engine/Engine.h"
 #include "UObject/ConstructorHelpers.h"
 #include "Engine/OverlapResult.h"
 #include "Engine/World.h"
@@ -137,14 +139,13 @@ void UVRHandComponent::UpdateHandTracking()
 {
 	// NOTE: GetMotionControllerData is deprecated in UE 5.5+ in favour of GetHandTrackingState; it still works.
 	// Swap to UHeadMountedDisplayFunctionLibrary::GetHandTrackingState when you first build (see docs/NEXT_STEPS.md).
-	FXRMotionControllerData Data;
-	PRAGMA_DISABLE_DEPRECATION_WARNINGS
-	UHeadMountedDisplayFunctionLibrary::GetMotionControllerData(this, Hand, Data);
-	PRAGMA_ENABLE_DEPRECATION_WARNINGS
-	if (!Data.bValid || Data.DeviceVisualType != EXRVisualType::Hand) return;
+	if (!GEngine || !GEngine->XRSystem.IsValid()) return;
+	FXRHandTrackingState Data;
+	GEngine->XRSystem->GetHandTrackingState(this, EXRSpaceType::UnrealWorldSpace, Hand, Data);
+	if (!Data.bValid) return;
 	const int32 Thumb = (int32)EHandKeypoint::ThumbTip, Index = (int32)EHandKeypoint::IndexTip;
-	if (!Data.HandKeyPositions.IsValidIndex(Thumb) || !Data.HandKeyPositions.IsValidIndex(Index)) return;
-	const bool bPinch = FVector::Dist(Data.HandKeyPositions[Thumb], Data.HandKeyPositions[Index]) < PinchCm;
+	if (!Data.HandKeyLocations.IsValidIndex(Thumb) || !Data.HandKeyLocations.IsValidIndex(Index)) return;
+	const bool bPinch = FVector::Dist(Data.HandKeyLocations[Thumb], Data.HandKeyLocations[Index]) < PinchCm;
 	if (bPinch && !bPinching) GripPressed();
 	if (!bPinch && bPinching) GripReleased();
 	bPinching = bPinch;

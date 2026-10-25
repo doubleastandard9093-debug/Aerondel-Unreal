@@ -4,9 +4,9 @@
 
 ABankChest::ABankChest() { PrimaryActorTick.bCanEverTick = true; PrimaryActorTick.TickInterval = 0.25f; }
 
-void ABankChest::Interact(AActor* Instigator)
+void ABankChest::Interact(AActor* InInstigator)
 {
-	if (AGielinorPlayerState* S = PS(Instigator)) { S->Bank->Open(); User = Instigator; }
+	if (AGielinorPlayerState* S = PS(InInstigator)) { S->Bank->Open(); User = InInstigator; }
 }
 
 void ABankChest::Tick(float Dt)

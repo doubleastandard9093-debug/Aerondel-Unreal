@@ -14,15 +14,15 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Station") EStationType StationType = EStationType::Furnace;
 
 	virtual FText GetInteractLabel() const override;
-	virtual void Interact(AActor* Instigator) override;
+	virtual void Interact(AActor* InInstigator) override;
 
 	/** UI path: craft a specific recipe. */
-	UFUNCTION(BlueprintCallable, Category="Station") void CraftRecipe(AActor* Instigator, URecipeDef* Recipe);
+	UFUNCTION(BlueprintCallable, Category="Station") void CraftRecipe(AActor* InInstigator, URecipeDef* Recipe);
 	UFUNCTION(BlueprintPure, Category="Station") TArray<URecipeDef*> GetRecipes() const;
 
 protected:
-	virtual bool OnLoopTick(AActor* Instigator) override;
+	virtual bool OnLoopTick(AActor* InInstigator) override;
 private:
-	bool CanCraft(AActor* Instigator, const URecipeDef* R, bool bTell) const;
+	bool CanCraft(AActor* InInstigator, const URecipeDef* R, bool bTell) const;
 	UPROPERTY() TObjectPtr<URecipeDef> Active;
 };

@@ -16,24 +16,24 @@ AInteractableActor::AInteractableActor()
 	Mesh->SetGenerateOverlapEvents(true); // VR hands/tools overlap interactables
 }
 
-bool AInteractableActor::InRange(const AActor* Instigator, const IGielinorInteractable* Target, float Slack)
+bool AInteractableActor::InRange(const AActor* InInstigator, const IGielinorInteractable* Target, float Slack)
 {
-	if (!Instigator || !Target) return false;
-	const FVector A = Instigator->GetActorLocation();
+	if (!InInstigator || !Target) return false;
+	const FVector A = InInstigator->GetActorLocation();
 	const FVector B = Target->GetInteractPoint();
 	return FVector::Dist2D(A, B) <= Target->GetInteractRange() * Slack;
 }
 
-AGielinorPlayerState* AInteractableActor::PS(AActor* Instigator) { return AGielinorPlayerState::FromActor(Instigator); }
+AGielinorPlayerState* AInteractableActor::PS(AActor* InInstigator) { return AGielinorPlayerState::FromActor(InInstigator); }
 
 void AInteractableActor::Msg(const FText& T) const
 {
 	if (UGielinorEvents* Ev = UGielinorEvents::Get(this)) Ev->Message(T);
 }
 
-void AInteractableActor::StartLoop(AActor* Instigator, float Seconds)
+void AInteractableActor::StartLoop(AActor* InInstigator, float Seconds)
 {
-	Current = Instigator;
+	Current = InInstigator;
 	GetWorldTimerManager().SetTimer(LoopTimer, this, &AInteractableActor::LoopTick, FMath::Max(0.1f, Seconds), true);
 }
 

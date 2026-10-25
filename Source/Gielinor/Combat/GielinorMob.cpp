@@ -75,12 +75,12 @@ FText AGielinorMob::GetInteractLabel() const
 	return Definition ? FText::Format(NSLOCTEXT("Gielinor", "Attack", "Attack {0} (level {1})"), Definition->DisplayName, Definition->CombatLevel) : FText::GetEmpty();
 }
 
-void AGielinorMob::Interact(AActor* Instigator)
+void AGielinorMob::Interact(AActor* InInstigator)
 {
-	if (UPlayerCombatComponent* C = Instigator ? Instigator->FindComponentByClass<UPlayerCombatComponent>() : nullptr) C->SetTarget(this);
+	if (UPlayerCombatComponent* C = InInstigator ? InInstigator->FindComponentByClass<UPlayerCombatComponent>() : nullptr) C->SetTarget(this);
 }
 
-void AGielinorMob::OnToolHit(AActor* Instigator, EToolType, float Power) { ReceivePlayerHit(Instigator, Power); }
+void AGielinorMob::OnToolHit(AActor* InInstigator, EToolType, float Power) { ReceivePlayerHit(InInstigator, Power); }
 
 void AGielinorMob::ReceivePlayerHit(AActor* Attacker, float Power)
 {
@@ -126,7 +126,7 @@ void AGielinorMob::Tick(float Dt)
 		if (StateTime > FMath::FRandRange(3.f, 7.f))
 		{
 			FNavLocation Out;
-			if (UNavigationSystemV1* Nav = UNavigationSystemV1::GetCurrent<UNavigationSystemV1>(GetWorld()))
+			if (UNavigationSystemV1* Nav = FNavigationSystem::GetCurrent<UNavigationSystemV1>(GetWorld()))
 				if (Nav->GetRandomReachablePointInRadius(Home, WanderRadius, Out)) C->MoveToLocation(Out.Location, 30.f);
 			SetState(EMobState::Wander);
 		}

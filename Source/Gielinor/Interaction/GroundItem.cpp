@@ -29,9 +29,9 @@ FText AGroundItem::GetInteractLabel() const
 	return FText::Format(NSLOCTEXT("Gielinor", "Take", "Take {0}"), Item ? Item->DisplayName : FText::GetEmpty());
 }
 
-void AGroundItem::Interact(AActor* Instigator)
+void AGroundItem::Interact(AActor* InInstigator)
 {
-	AGielinorPlayerState* S = PS(Instigator);
+	AGielinorPlayerState* S = PS(InInstigator);
 	if (!S || !Item) return;
 	const int32 Left = S->Inventory->Add(Item, Count);
 	if (Left == 0) Destroy(); else Count = Left;

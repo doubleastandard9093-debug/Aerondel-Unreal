@@ -17,7 +17,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Item") float DespawnSeconds = 120.f;
 
 	virtual FText GetInteractLabel() const override;
-	virtual void Interact(AActor* Instigator) override;
+	virtual void Interact(AActor* InInstigator) override;
 	virtual void BeginPlay() override;
 
 	static AGroundItem* Spawn(UWorld* World, UItemDef* Item, int32 Count, const FVector& Where);

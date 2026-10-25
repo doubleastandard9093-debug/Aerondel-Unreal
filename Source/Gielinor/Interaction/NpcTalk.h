@@ -12,7 +12,7 @@ class GIELINOR_API ANpcTalk : public AInteractableActor
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Npc") TObjectPtr<UNpcDef> Definition;
 	virtual FText GetInteractLabel() const override;
-	virtual void Interact(AActor* Instigator) override;
+	virtual void Interact(AActor* InInstigator) override;
 	virtual void OnConstruction(const FTransform& Xf) override;
 private:
 	int32 LineIndex = 0;

@@ -66,25 +66,25 @@ void UGielinorInventoryWidget::BindSources()
 	}
 }
 
-void UGielinorInventoryWidget::UseSlot(int32 Slot)
+void UGielinorInventoryWidget::UseSlot(int32 SlotIndex)
 {
 	AGielinorPlayerState* PS = GetGielinorPlayerState();
 	if (!PS) return;
-	const FItemStack S = PS->Inventory->GetSlot(Slot);
+	const FItemStack S = PS->Inventory->GetSlot(SlotIndex);
 	if (S.IsEmpty()) return;
 	if (PS->Bank->IsOpen()) { PS->Bank->Deposit(PS->Inventory, S.Item, S.Item->bStackable ? S.Count : 1); return; }
-	if (S.Item->EquipSlot != EEquipSlot::None) { PS->Equipment->EquipFromInventory(Slot); return; }
-	if (S.Item->HealAmount > 0) { PS->Inventory->RemoveFromSlot(Slot, 1); PS->Health->Heal(S.Item->HealAmount); return; }
+	if (S.Item->EquipSlot != EEquipSlot::None) { PS->Equipment->EquipFromInventory(SlotIndex); return; }
+	if (S.Item->HealAmount > 0) { PS->Inventory->RemoveFromSlot(SlotIndex, 1); PS->Health->Heal(S.Item->HealAmount); return; }
 }
 
-void UGielinorInventoryWidget::DropSlot(int32 Slot)
+void UGielinorInventoryWidget::DropSlot(int32 SlotIndex)
 {
 	AGielinorPlayerState* PS = GetGielinorPlayerState();
 	APawn* Pawn = GetOwningPlayerPawn();
 	if (!PS || !Pawn) return;
-	const FItemStack S = PS->Inventory->GetSlot(Slot);
+	const FItemStack S = PS->Inventory->GetSlot(SlotIndex);
 	if (S.IsEmpty()) return;
-	PS->Inventory->RemoveFromSlot(Slot, S.Count);
+	PS->Inventory->RemoveFromSlot(SlotIndex, S.Count);
 	AGroundItem::Spawn(Pawn->GetWorld(), S.Item, S.Count, Pawn->GetActorLocation() + Pawn->GetActorForwardVector() * 60.f - FVector(0, 0, 80));
 }
 

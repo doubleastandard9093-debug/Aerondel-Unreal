@@ -23,17 +23,17 @@ public:
 	virtual FText GetInteractLabel() const override { return DisplayName; }
 	virtual float GetInteractRange() const override { return Range; }
 	virtual FVector GetInteractPoint() const override { return GetActorLocation(); }
-	virtual void Interact(AActor* Instigator) override {}
-	virtual void StopInteract(AActor* Instigator) override;
+	virtual void Interact(AActor* InInstigator) override {}
+	virtual void StopInteract(AActor* InInstigator) override;
 
-	static bool InRange(const AActor* Instigator, const IGielinorInteractable* Target, float Slack = 1.5f);
+	static bool InRange(const AActor* InInstigator, const IGielinorInteractable* Target, float Slack = 1.5f);
 
 protected:
 	/** Starts a repeating action; OnLoopTick returns false to stop. Auto-stops if the instigator walks off. */
-	void StartLoop(AActor* Instigator, float Seconds);
-	virtual bool OnLoopTick(AActor* Instigator) { return false; }
+	void StartLoop(AActor* InInstigator, float Seconds);
+	virtual bool OnLoopTick(AActor* InInstigator) { return false; }
 	void Msg(const FText& T) const;
-	static AGielinorPlayerState* PS(AActor* Instigator);
+	static AGielinorPlayerState* PS(AActor* InInstigator);
 
 	FTimerHandle LoopTimer;
 	TWeakObjectPtr<AActor> Current;

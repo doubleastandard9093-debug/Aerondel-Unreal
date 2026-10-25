@@ -27,9 +27,9 @@ TArray<URecipeDef*> AStation::GetRecipes() const
 	return Out;
 }
 
-bool AStation::CanCraft(AActor* Instigator, const URecipeDef* R, bool bTell) const
+bool AStation::CanCraft(AActor* InInstigator, const URecipeDef* R, bool bTell) const
 {
-	AGielinorPlayerState* S = PS(Instigator);
+	AGielinorPlayerState* S = PS(InInstigator);
 	if (!S || !R) return false;
 	if (S->Skills->GetLevel(R->Skill) < R->LevelRequired) { if (bTell) Msg(FText::Format(LOCTEXT("Lvl", "You need level {0}."), R->LevelRequired)); return false; }
 	if (R->ToolRequired != EToolType::None && !S->Inventory->BestTool(R->ToolRequired) && !S->Equipment->EquippedTool(R->ToolRequired))
@@ -38,26 +38,26 @@ bool AStation::CanCraft(AActor* Instigator, const URecipeDef* R, bool bTell) con
 	return true;
 }
 
-void AStation::Interact(AActor* Instigator)
+void AStation::Interact(AActor* InInstigator)
 {
 	for (URecipeDef* R : GetRecipes())
 	{
-		if (CanCraft(Instigator, R, false)) { CraftRecipe(Instigator, R); return; }
+		if (CanCraft(InInstigator, R, false)) { CraftRecipe(InInstigator, R); return; }
 	}
 	Msg(LOCTEXT("Nothing", "You don't have anything to use here."));
 }
 
-void AStation::CraftRecipe(AActor* Instigator, URecipeDef* Recipe)
+void AStation::CraftRecipe(AActor* InInstigator, URecipeDef* Recipe)
 {
-	if (!CanCraft(Instigator, Recipe, true)) return;
+	if (!CanCraft(InInstigator, Recipe, true)) return;
 	Active = Recipe;
-	StartLoop(Instigator, Recipe->Seconds);
+	StartLoop(InInstigator, Recipe->Seconds);
 }
 
-bool AStation::OnLoopTick(AActor* Instigator)
+bool AStation::OnLoopTick(AActor* InInstigator)
 {
-	AGielinorPlayerState* S = PS(Instigator);
-	if (!S || !CanCraft(Instigator, Active, false)) return false;
+	AGielinorPlayerState* S = PS(InInstigator);
+	if (!S || !CanCraft(InInstigator, Active, false)) return false;
 	for (const FItemAmount& In : Active->Inputs) S->Inventory->Remove(In.Item, In.Amount);
 	const int32 Lvl = S->Skills->GetLevel(Active->Skill);
 	if (Active->FailItem && FMath::FRand() < Active->FailChance(Lvl))
@@ -70,7 +70,7 @@ bool AStation::OnLoopTick(AActor* Instigator)
 		S->Inventory->Add(Active->Output, Active->OutputAmount);
 		S->Skills->AddXp(Active->Skill, Active->Xp);
 	}
-	return CanCraft(Instigator, Active, false);
+	return CanCraft(InInstigator, Active, false);
 }
 
 #undef LOCTEXT_NAMESPACE

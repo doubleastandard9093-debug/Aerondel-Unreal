@@ -28,9 +28,9 @@ public:
 	// IGielinorInteractable: "Attack Goblin (level 2)".
 	virtual FText GetInteractLabel() const override;
 	virtual float GetInteractRange() const override { return 180.f; }
-	virtual bool CanInteract(AActor* Instigator) const override { return State != EMobState::Dead; }
-	virtual void Interact(AActor* Instigator) override;
-	virtual void OnToolHit(AActor* Instigator, EToolType Tool, float Power) override;
+	virtual bool CanInteract(AActor* InInstigator) const override { return State != EMobState::Dead; }
+	virtual void Interact(AActor* InInstigator) override;
+	virtual void OnToolHit(AActor* InInstigator, EToolType Tool, float Power) override;
 	virtual FVector GetInteractPoint() const override { return GetActorLocation(); }
 
 	/** Player melee hit (desktop auto-attack or VR swing with Power 0..1). Handles xp and aggro. */

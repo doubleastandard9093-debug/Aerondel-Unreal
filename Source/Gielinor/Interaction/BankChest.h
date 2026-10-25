@@ -10,7 +10,7 @@ class GIELINOR_API ABankChest : public AInteractableActor
 public:
 	ABankChest();
 	virtual FText GetInteractLabel() const override { return NSLOCTEXT("Gielinor", "Bank", "Bank Bank chest"); }
-	virtual void Interact(AActor* Instigator) override;
+	virtual void Interact(AActor* InInstigator) override;
 	virtual void Tick(float Dt) override;
 private:
 	TWeakObjectPtr<AActor> User;

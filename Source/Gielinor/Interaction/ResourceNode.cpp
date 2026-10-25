@@ -36,9 +36,9 @@ FText AResourceNode::GetInteractLabel() const
 	}
 }
 
-UItemDef* AResourceNode::FindTool(AActor* Instigator) const
+UItemDef* AResourceNode::FindTool(AActor* InInstigator) const
 {
-	AGielinorPlayerState* S = PS(Instigator);
+	AGielinorPlayerState* S = PS(InInstigator);
 	if (!S || !Definition || Definition->ToolRequired == EToolType::None) return nullptr;
 	UItemDef* A = S->Equipment->EquippedTool(Definition->ToolRequired);
 	UItemDef* B = S->Inventory->BestTool(Definition->ToolRequired);
@@ -46,11 +46,11 @@ UItemDef* AResourceNode::FindTool(AActor* Instigator) const
 	return A ? A : B;
 }
 
-bool AResourceNode::Validate(AActor* Instigator, UItemDef*& OutTool) const
+bool AResourceNode::Validate(AActor* InInstigator, UItemDef*& OutTool) const
 {
-	AGielinorPlayerState* S = PS(Instigator);
+	AGielinorPlayerState* S = PS(InInstigator);
 	if (!S || !Definition || bDepleted) return false;
-	OutTool = FindTool(Instigator);
+	OutTool = FindTool(InInstigator);
 	if (Definition->ToolRequired != EToolType::None && !OutTool)
 	{
 		Msg(LOCTEXT("NoTool", "You need the right tool for that.")); return false;
@@ -66,19 +66,19 @@ bool AResourceNode::Validate(AActor* Instigator, UItemDef*& OutTool) const
 	return true;
 }
 
-void AResourceNode::Interact(AActor* Instigator)
+void AResourceNode::Interact(AActor* InInstigator)
 {
 	UItemDef* Tool = nullptr;
-	if (!Validate(Instigator, Tool)) return;
+	if (!Validate(InInstigator, Tool)) return;
 	Msg(LOCTEXT("Begin", "You begin gathering..."));
-	StartLoop(Instigator, Definition->TickSeconds);
+	StartLoop(InInstigator, Definition->TickSeconds);
 }
 
-bool AResourceNode::Roll(AActor* Instigator, float Bonus)
+bool AResourceNode::Roll(AActor* InInstigator, float Bonus)
 {
 	UItemDef* Tool = nullptr;
-	if (!Validate(Instigator, Tool)) return false;
-	AGielinorPlayerState* S = PS(Instigator);
+	if (!Validate(InInstigator, Tool)) return false;
+	AGielinorPlayerState* S = PS(InInstigator);
 	const int32 Lvl = S->Skills->GetLevel(Definition->Skill);
 	const float Tier = Tool ? Tool->ToolTier : 1;
 	const float Chance = FMath::Clamp(Definition->BaseSuccess + 0.01f * (Lvl - Definition->LevelRequired) + 0.05f * (Tier - 1) + Bonus, 0.05f, 0.95f);
@@ -94,13 +94,13 @@ bool AResourceNode::Roll(AActor* Instigator, float Bonus)
 	return S->Inventory->CanAdd(Definition->Product);
 }
 
-bool AResourceNode::OnLoopTick(AActor* Instigator) { return Roll(Instigator, 0.f); }
+bool AResourceNode::OnLoopTick(AActor* InInstigator) { return Roll(InInstigator, 0.f); }
 
-void AResourceNode::OnToolHit(AActor* Instigator, EToolType Tool, float Power)
+void AResourceNode::OnToolHit(AActor* InInstigator, EToolType Tool, float Power)
 {
 	// A VR swing with the right tool is one immediate gather roll; a hard swing earns a bonus.
 	if (!Definition || (Definition->ToolRequired != EToolType::None && Tool != Definition->ToolRequired)) return;
-	Roll(Instigator, 0.25f * FMath::Clamp(Power, 0.f, 1.f));
+	Roll(InInstigator, 0.25f * FMath::Clamp(Power, 0.f, 1.f));
 }
 
 void AResourceNode::SetDepleted(bool b)

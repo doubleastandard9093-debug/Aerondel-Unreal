@@ -15,16 +15,16 @@ FText ANpcTalk::GetInteractLabel() const
 	return FText::Format(NSLOCTEXT("Gielinor", "TalkTo", "Talk-to {0}"), Definition ? Definition->DisplayName : DisplayName);
 }
 
-void ANpcTalk::Interact(AActor* Instigator)
+void ANpcTalk::Interact(AActor* InInstigator)
 {
 	if (!Definition) return;
 	// Face the player.
-	if (Instigator)
+	if (InInstigator)
 	{
-		FVector To = Instigator->GetActorLocation() - GetActorLocation(); To.Z = 0;
+		FVector To = InInstigator->GetActorLocation() - GetActorLocation(); To.Z = 0;
 		if (!To.IsNearlyZero()) SetActorRotation(To.Rotation());
 	}
-	AGielinorPlayerState* S = PS(Instigator);
+	AGielinorPlayerState* S = PS(InInstigator);
 	if (S && S->Quests->HandleTalk(Definition)) return;
 	if (Definition->IdleLines.Num() > 0)
 		if (UGielinorEvents* Ev = UGielinorEvents::Get(this))

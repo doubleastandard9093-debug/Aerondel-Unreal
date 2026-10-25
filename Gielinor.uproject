@@ -1,6 +1,6 @@
 {
 	"FileVersion": 3,
-	"EngineAssociation": "5.6",
+	"EngineAssociation": "{6402E67B-485F-732F-1836-B7B32DC4382F}",
 	"Category": "",
 	"Description": "Gielinor - RuneScape-style single-player open-world RPG, VR-ready (OpenXR).",
 	"Modules": [
@@ -8,19 +8,57 @@
 			"Name": "Gielinor",
 			"Type": "Runtime",
 			"LoadingPhase": "Default",
-			"AdditionalDependencies": ["Engine", "CoreUObject", "UMG"]
+			"AdditionalDependencies": [
+				"Engine",
+				"CoreUObject",
+				"UMG"
+			]
 		}
 	],
 	"Plugins": [
-		{ "Name": "OpenXR", "Enabled": true },
-		{ "Name": "OpenXRHandTracking", "Enabled": true },
-		{ "Name": "EnhancedInput", "Enabled": true },
-		{ "Name": "CommonUI", "Enabled": true },
-		{ "Name": "ModelingToolsEditorMode", "Enabled": true, "TargetAllowList": ["Editor"] },
-		{ "Name": "PythonScriptPlugin", "Enabled": true },
-		{ "Name": "EditorScriptingUtilities", "Enabled": true },
-		{ "Name": "XRBase", "Enabled": true },
-		{ "Name": "OculusXR", "Enabled": false, "MarketplaceURL": "https://developers.meta.com/horizon/downloads/package/unreal-engine-5-integration/" }
+		{
+			"Name": "OpenXR",
+			"Enabled": true
+		},
+		{
+			"Name": "OpenXRHandTracking",
+			"Enabled": true
+		},
+		{
+			"Name": "EnhancedInput",
+			"Enabled": true
+		},
+		{
+			"Name": "CommonUI",
+			"Enabled": true
+		},
+		{
+			"Name": "ModelingToolsEditorMode",
+			"Enabled": true,
+			"TargetAllowList": [
+				"Editor"
+			]
+		},
+		{
+			"Name": "PythonScriptPlugin",
+			"Enabled": true
+		},
+		{
+			"Name": "EditorScriptingUtilities",
+			"Enabled": true
+		},
+		{
+			"Name": "XRBase",
+			"Enabled": true
+		},
+		{
+			"Name": "OculusXR",
+			"Enabled": false,
+			"MarketplaceURL": "https://developers.meta.com/horizon/downloads/package/unreal-engine-5-integration/"
+		}
 	],
-	"TargetPlatforms": ["Windows", "Android"]
+	"TargetPlatforms": [
+		"Windows",
+		"Android"
+	]
 }

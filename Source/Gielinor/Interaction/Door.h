@@ -16,7 +16,7 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Door") TObjectPtr<USceneComponent> Hinge;
 
 	virtual FText GetInteractLabel() const override;
-	virtual void Interact(AActor* Instigator) override;
+	virtual void Interact(AActor* InInstigator) override;
 	virtual FVector GetInteractPoint() const override;
 	virtual void BeginPlay() override;
 	virtual void Tick(float Dt) override;
