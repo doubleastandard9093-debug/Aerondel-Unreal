@@ -11,6 +11,8 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnItemGained, UItemDef*, Item, int
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnMobKilled, UMobDef*, Mob);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnNpcTalked, UNpcDef*, Npc);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnQuestChanged, UQuestDef*, Quest);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnBonesBuried, UItemDef*, Bones);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnPlaceVisited, FName, PlaceId);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnGameMessage, const FText&, Message);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnDialogue, const FText&, Speaker, const TArray<FText>&, Lines);
 
@@ -27,6 +29,8 @@ public:
 	UPROPERTY(BlueprintAssignable) FOnLevelUp OnLevelUp;
 	UPROPERTY(BlueprintAssignable) FOnItemGained OnItemGained;
 	UPROPERTY(BlueprintAssignable) FOnMobKilled OnMobKilled;
+	UPROPERTY(BlueprintAssignable) FOnBonesBuried OnBonesBuried;
+	UPROPERTY(BlueprintAssignable) FOnPlaceVisited OnPlaceVisited;
 	UPROPERTY(BlueprintAssignable) FOnNpcTalked OnNpcTalked;
 	UPROPERTY(BlueprintAssignable) FOnQuestChanged OnQuestChanged;
 	UPROPERTY(BlueprintAssignable) FOnGameMessage OnMessage;

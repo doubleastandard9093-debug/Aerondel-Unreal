@@ -232,6 +232,8 @@ struct FCombatStyle
 	UPROPERTY(EditAnywhere, BlueprintReadOnly) int32 DefenceBonus = 0;
 	/** Ranged rapid: -1 tick. */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly) int32 SpeedTicks = 0;
+	/** Ranged longrange: +2 tiles. */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly) float RangeTiles = 0.f;
 	/** Skill ids sharing the 1.2 xp/damage. */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly) TArray<FName> XpSkills;
 };

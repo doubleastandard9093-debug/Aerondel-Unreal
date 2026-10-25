@@ -23,6 +23,7 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Gielinor") TObjectPtr<UBankComponent> Bank;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Gielinor") TObjectPtr<UQuestComponent> Quests;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Gielinor") TObjectPtr<UHealthComponent> Health;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Gielinor") TObjectPtr<class UPlayerStatsComponent> Stats;
 
 	virtual void BeginPlay() override;
 

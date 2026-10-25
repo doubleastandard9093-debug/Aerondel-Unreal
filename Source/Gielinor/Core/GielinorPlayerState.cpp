@@ -5,6 +5,8 @@
 #include "Bank/BankComponent.h"
 #include "Quests/QuestComponent.h"
 #include "Combat/HealthComponent.h"
+#include "Core/PlayerStatsComponent.h"
+#include "Rules/GielinorRules.h"
 #include "Save/GielinorSaveSubsystem.h"
 #include "GameFramework/Pawn.h"
 #include "GameFramework/Controller.h"
@@ -18,6 +20,7 @@ AGielinorPlayerState::AGielinorPlayerState()
 	Bank = CreateDefaultSubobject<UBankComponent>(TEXT("Bank"));
 	Quests = CreateDefaultSubobject<UQuestComponent>(TEXT("Quests"));
 	Health = CreateDefaultSubobject<UHealthComponent>(TEXT("Health"));
+	Stats = CreateDefaultSubobject<UPlayerStatsComponent>(TEXT("Stats"));
 }
 
 void AGielinorPlayerState::BeginPlay()
@@ -28,9 +31,11 @@ void AGielinorPlayerState::BeginPlay()
 		if (!Save->LoadInto(this))
 		{
 			Inventory->GiveStarterKit();
+			Stats->ResetRuntime();
 		}
 	}
-	Health->SetMax(Skills->GetLevelById(TEXT("hitpoints")), true);
+	Stats->RefreshMaxHp(true);
+	Stats->PrayerPoints = FMath::Min(Stats->PrayerPoints, (float)UGielinorRules::MaxPrayerPoints(this));
 }
 
 AGielinorPlayerState* AGielinorPlayerState::FromActor(const AActor* Actor)
