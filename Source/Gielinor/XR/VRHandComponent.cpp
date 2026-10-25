@@ -1,4 +1,6 @@
 #include "XR/VRHandComponent.h"
+#include "IXRTrackingSystem.h"
+#include "Engine/Engine.h"
 #include "XR/VRInteractionBridge.h"
 #include "Interaction/GielinorInteractable.h"
 #include "Core/GielinorPlayerState.h"
@@ -10,8 +12,6 @@
 #include "Engine/StaticMesh.h"
 #include "HeadMountedDisplayFunctionLibrary.h"
 #include "HeadMountedDisplayTypes.h"
-#include "IXRTrackingSystem.h"
-#include "Engine/Engine.h"
 #include "UObject/ConstructorHelpers.h"
 #include "Engine/OverlapResult.h"
 #include "Engine/World.h"
@@ -137,15 +137,13 @@ void UVRHandComponent::OnHandOverlap(UPrimitiveComponent*, AActor* Other, UPrimi
 
 void UVRHandComponent::UpdateHandTracking()
 {
-	// NOTE: GetMotionControllerData is deprecated in UE 5.5+ in favour of GetHandTrackingState; it still works.
-	// Swap to UHeadMountedDisplayFunctionLibrary::GetHandTrackingState when you first build (see docs/NEXT_STEPS.md).
+	// UE 5.5+: hand joints come from the XR system's hand-tracking state.
 	if (!GEngine || !GEngine->XRSystem.IsValid()) return;
 	FXRHandTrackingState Data;
-	GEngine->XRSystem->GetHandTrackingState(this, EXRSpaceType::UnrealWorldSpace, Hand, Data);
-	if (!Data.bValid) return;
+	if (!GEngine->XRSystem->GetHandTrackingState(this, EXRSpaceType::UnrealWorldSpace, Hand, Data) || !Data.bValid) return;
 	const int32 Thumb = (int32)EHandKeypoint::ThumbTip, Index = (int32)EHandKeypoint::IndexTip;
 	if (!Data.HandKeyLocations.IsValidIndex(Thumb) || !Data.HandKeyLocations.IsValidIndex(Index)) return;
-	const bool bPinch = FVector::Dist(Data.HandKeyLocations[Thumb], Data.HandKeyLocations[Index]) < PinchCm;
+	const bool bPinch = (Data.HandKeyLocations[Thumb] - Data.HandKeyLocations[Index]).Size() < PinchCm;
 	if (bPinch && !bPinching) GripPressed();
 	if (!bPinch && bPinching) GripReleased();
 	bPinching = bPinch;

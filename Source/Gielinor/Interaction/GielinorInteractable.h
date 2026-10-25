@@ -11,7 +11,7 @@ class UGielinorInteractable : public UInterface { GENERATED_BODY() };
  * One interaction contract for every input mode:
  *  - Desktop: click -> walk into range -> Interact().
  *  - VR: grab / poke / trigger -> Interact(); a tracked tool swing -> OnToolHit().
- * Implementations never know which rig triggered them; the InInstigator is just the pawn.
+ * Implementations never know which rig triggered them; the instigator is just the pawn.
  */
 class GIELINOR_API IGielinorInteractable
 {

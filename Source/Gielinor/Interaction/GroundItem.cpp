@@ -37,10 +37,10 @@ void AGroundItem::Interact(AActor* InInstigator)
 	if (Left == 0) Destroy(); else Count = Left;
 }
 
-AGroundItem* AGroundItem::Spawn(UWorld* World, UItemDef* InItem, int32 InCount, const FVector& Where)
+AGroundItem* AGroundItem::Spawn(UWorld* InWorld, UItemDef* InItem, int32 InCount, const FVector& Where)
 {
-	if (!World || !InItem) return nullptr;
-	AGroundItem* G = World->SpawnActorDeferred<AGroundItem>(AGroundItem::StaticClass(), FTransform(Where), nullptr, nullptr, ESpawnActorCollisionHandlingMethod::AlwaysSpawn);
+	if (!InWorld || !InItem) return nullptr;
+	AGroundItem* G = InWorld->SpawnActorDeferred<AGroundItem>(AGroundItem::StaticClass(), FTransform(Where), nullptr, nullptr, ESpawnActorCollisionHandlingMethod::AlwaysSpawn);
 	if (!G) return nullptr;
 	G->Item = InItem; G->Count = InCount; G->DisplayName = InItem->DisplayName;
 	G->FinishSpawning(FTransform(Where));
