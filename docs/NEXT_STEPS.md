@@ -4,13 +4,21 @@
 The C++ now mirrors Gielinor-Lite's `webgpu` branch: rules/formulas (`UGielinorRules`), 0.6 s game tick, HP x10, prayer, potions/food boosts,
 run energy, poison/venom/stun, adrenaline abilities, melee/ranged/magic combat with ammo/runes, procs, block/reflect/riposte, leash,
 bounties, drops, gathering/cooking via rules, activity actors and data-driven quests (requirements, Visit/Xp/Bury steps, QP milestones).
-- [ ] Re-run **Gielinor → Import JSON content** so DataAssets get the new fields (bonuses, prayers, spells, milestones, quest requirements).
-- [ ] Place activity actors in the map: `AAgilityObstacleActor` (set CourseId + Index; drag the End widget), `AThieveTarget` (TargetId),
+- [ ] JSON content (Content/Data/*.json) is merged into the GameDatabase at startup; check the Output Log for loader warnings on first Play.
+- [ ] Run **Gielinor → 4. Build World Blockout** (Content/Python/build_world_blockout.py) to greybox the whole web world into `/Game/Gielinor/Maps/World`
+      from `world.json` (buildings, guilds + stations + bank chests, paths, water, landmarks, cave, and an `AQuestPlaceVolume` per quest place).
+      Set it as the default map, then add resource nodes, NPCs and mobs (positions aren't in world.json yet).
+- [ ] Place the remaining activity actors in the map: `AAgilityObstacleActor` (set CourseId + Index; drag the End widget), `AThieveTarget` (TargetId),
       `ARuneAltar` (AltarId), `APrayerAltar`, `AShopCounter` (shop id) and `AQuestPlaceVolume` (PlaceId matching quests.json `place`).
 - [ ] Bind `AShopCounter::OnShopOpened` to a shop widget calling `Buy`/`Sell`; implement `AAgilityObstacleActor::OnCrossed` for the crossing animation.
 - [ ] Starter mobs placed before the port still use the old HP scale; re-import or multiply their HP by 10.
 - [ ] 22 web quests are flagged `bNeedsStepAuthoring`; author their steps in the Quest DataAssets.
-- [ ] UMG still needed for: prayer book, spellbook/autocast, ability bar, run toggle, shop, bank, quest requirements text.
+- [ ] UMG still needed for: prayer book, spellbook/autocast, ability bar, run toggle, shop, bank, quest requirements text,
+      worn-equipment panel (`UEquipmentComponent::TotalBonuses`, toolbelt, ammo count), graphics menu (`UGielinorScalability::SetAndSaveTier`),
+      and a "Light" option on logs that calls `AGielinorFire::LightFrom` (desktop context menu + VR).
+- [ ] Optional: make `BP_Fire` (child of `AGielinorFire`) with a Niagara flame and pass it as FireClass.
+- [ ] Save v2 is backward compatible: v1 saves get HP x10, starter tools on the toolbelt and pack tools moved there. Test with an old save.
+- [ ] Re-export from the web build (`Tools/export_webgpu_data.mjs`) now also writes `places` into world.json.
 - [ ] `UCombatMath` is only kept for the `Gielinor.Skills.XpCurve` test; gameplay uses `UGielinorRules`.
 
 ## 0. First build (do this first)
@@ -23,7 +31,7 @@ bounties, drops, gathering/cooking via rules, activity actors and data-driven qu
 - [ ] UMG widgets: make `WBP_HUD`, `WBP_Inventory`, `WBP_Skills` and `WBP_QuestLog` inheriting the C++ bases, then set `AGielinorHUD::HudWidgetClass` and `AGielinorVRPawn::WristWidgetClass` in Blueprint subclasses. Add a **bank window** (withdraw/deposit), a **recipe picker** for stations, and **dialogue choices** (accept/decline the quest). These have APIs but no widgets yet.
 - [ ] Doors open automatically when a click-to-move path goes through them.
 - [x] Shop buy/sell logic (`AShopCounter`); widget still needed.
-- [ ] Firemaking fire actor spawn (cooking on fires works). Prayer and Ranged/Magic are done in C++.
+- [x] Firemaking (`AGielinorFire`), Prayer and Ranged/Magic are done in C++.
 - [ ] Death: keep 3 items plus a gravestone, matching the web build rules.
 - [ ] Eat food from the inventory with a delay (the Canvas fallback can't click slots, so the UMG inventory is needed).
 
