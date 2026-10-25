@@ -1,0 +1,2366 @@
+{
+ "recipes": [
+  {
+   "station": "furnace",
+   "tool": null,
+   "name": "Smelt Bronze bar",
+   "cat": "Smithing",
+   "group": "Smelting",
+   "skill": "Smithing",
+   "level": 1,
+   "inputs": {
+    "Copper ore": 1,
+    "Tin ore": 1
+   },
+   "output": "Bronze bar",
+   "xp": 6
+  },
+  {
+   "station": "furnace",
+   "tool": null,
+   "name": "Smelt Iron bar",
+   "cat": "Smithing",
+   "group": "Smelting",
+   "skill": "Smithing",
+   "level": 15,
+   "inputs": {
+    "Iron ore": 1
+   },
+   "output": "Iron bar",
+   "xp": 12
+  },
+  {
+   "station": "furnace",
+   "tool": null,
+   "name": "Smelt Steel bar",
+   "cat": "Smithing",
+   "group": "Smelting",
+   "skill": "Smithing",
+   "level": 30,
+   "inputs": {
+    "Iron ore": 1,
+    "Coal": 2
+   },
+   "output": "Steel bar",
+   "xp": 17
+  },
+  {
+   "station": "furnace",
+   "tool": null,
+   "name": "Smelt Mithril bar",
+   "cat": "Smithing",
+   "group": "Smelting",
+   "skill": "Smithing",
+   "level": 50,
+   "inputs": {
+    "Mithril ore": 1,
+    "Coal": 4
+   },
+   "output": "Mithril bar",
+   "xp": 30
+  },
+  {
+   "station": "furnace",
+   "tool": null,
+   "name": "Smelt Adamant bar",
+   "cat": "Smithing",
+   "group": "Smelting",
+   "skill": "Smithing",
+   "level": 70,
+   "inputs": {
+    "Adamantite ore": 1,
+    "Coal": 6
+   },
+   "output": "Adamant bar",
+   "xp": 37.5
+  },
+  {
+   "station": "furnace",
+   "tool": null,
+   "name": "Smelt Rune bar",
+   "cat": "Smithing",
+   "group": "Smelting",
+   "skill": "Smithing",
+   "level": 85,
+   "inputs": {
+    "Runite ore": 1,
+    "Coal": 8
+   },
+   "output": "Rune bar",
+   "xp": 50
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Bronze sword",
+   "cat": "Smithing",
+   "group": "Bronze",
+   "skill": "Smithing",
+   "level": 1,
+   "inputs": {
+    "Bronze bar": 1
+   },
+   "output": "Bronze sword",
+   "xp": 12.5
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Bronze full helm",
+   "cat": "Smithing",
+   "group": "Bronze",
+   "skill": "Smithing",
+   "level": 3,
+   "inputs": {
+    "Bronze bar": 2
+   },
+   "output": "Bronze full helm",
+   "xp": 25
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Bronze shield",
+   "cat": "Smithing",
+   "group": "Bronze",
+   "skill": "Smithing",
+   "level": 5,
+   "inputs": {
+    "Bronze bar": 2
+   },
+   "output": "Bronze shield",
+   "xp": 25
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Bronze platelegs",
+   "cat": "Smithing",
+   "group": "Bronze",
+   "skill": "Smithing",
+   "level": 10,
+   "inputs": {
+    "Bronze bar": 3
+   },
+   "output": "Bronze platelegs",
+   "xp": 37.5
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Bronze platebody",
+   "cat": "Smithing",
+   "group": "Bronze",
+   "skill": "Smithing",
+   "level": 14,
+   "inputs": {
+    "Bronze bar": 5
+   },
+   "output": "Bronze platebody",
+   "xp": 62.5
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Bronze axe",
+   "cat": "Smithing",
+   "group": "Bronze",
+   "skill": "Smithing",
+   "level": 1,
+   "inputs": {
+    "Bronze bar": 1
+   },
+   "output": "Bronze axe",
+   "xp": 12.5
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Bronze pickaxe",
+   "cat": "Smithing",
+   "group": "Bronze",
+   "skill": "Smithing",
+   "level": 1,
+   "inputs": {
+    "Bronze bar": 2
+   },
+   "output": "Bronze pickaxe",
+   "xp": 25
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Iron sword",
+   "cat": "Smithing",
+   "group": "Iron",
+   "skill": "Smithing",
+   "level": 17,
+   "inputs": {
+    "Iron bar": 1
+   },
+   "output": "Iron sword",
+   "xp": 25
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Iron full helm",
+   "cat": "Smithing",
+   "group": "Iron",
+   "skill": "Smithing",
+   "level": 19,
+   "inputs": {
+    "Iron bar": 2
+   },
+   "output": "Iron full helm",
+   "xp": 50
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Iron shield",
+   "cat": "Smithing",
+   "group": "Iron",
+   "skill": "Smithing",
+   "level": 21,
+   "inputs": {
+    "Iron bar": 2
+   },
+   "output": "Iron shield",
+   "xp": 50
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Iron platelegs",
+   "cat": "Smithing",
+   "group": "Iron",
+   "skill": "Smithing",
+   "level": 27,
+   "inputs": {
+    "Iron bar": 3
+   },
+   "output": "Iron platelegs",
+   "xp": 75
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Iron platebody",
+   "cat": "Smithing",
+   "group": "Iron",
+   "skill": "Smithing",
+   "level": 31,
+   "inputs": {
+    "Iron bar": 5
+   },
+   "output": "Iron platebody",
+   "xp": 125
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Iron axe",
+   "cat": "Smithing",
+   "group": "Iron",
+   "skill": "Smithing",
+   "level": 15,
+   "inputs": {
+    "Iron bar": 1
+   },
+   "output": "Iron axe",
+   "xp": 25
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Iron pickaxe",
+   "cat": "Smithing",
+   "group": "Iron",
+   "skill": "Smithing",
+   "level": 16,
+   "inputs": {
+    "Iron bar": 2
+   },
+   "output": "Iron pickaxe",
+   "xp": 50
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Steel sword",
+   "cat": "Smithing",
+   "group": "Steel",
+   "skill": "Smithing",
+   "level": 32,
+   "inputs": {
+    "Steel bar": 1
+   },
+   "output": "Steel sword",
+   "xp": 37.5
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Steel full helm",
+   "cat": "Smithing",
+   "group": "Steel",
+   "skill": "Smithing",
+   "level": 34,
+   "inputs": {
+    "Steel bar": 2
+   },
+   "output": "Steel full helm",
+   "xp": 75
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Steel shield",
+   "cat": "Smithing",
+   "group": "Steel",
+   "skill": "Smithing",
+   "level": 36,
+   "inputs": {
+    "Steel bar": 2
+   },
+   "output": "Steel shield",
+   "xp": 75
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Steel platelegs",
+   "cat": "Smithing",
+   "group": "Steel",
+   "skill": "Smithing",
+   "level": 42,
+   "inputs": {
+    "Steel bar": 3
+   },
+   "output": "Steel platelegs",
+   "xp": 112.5
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Steel platebody",
+   "cat": "Smithing",
+   "group": "Steel",
+   "skill": "Smithing",
+   "level": 46,
+   "inputs": {
+    "Steel bar": 5
+   },
+   "output": "Steel platebody",
+   "xp": 187.5
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Steel axe",
+   "cat": "Smithing",
+   "group": "Steel",
+   "skill": "Smithing",
+   "level": 30,
+   "inputs": {
+    "Steel bar": 1
+   },
+   "output": "Steel axe",
+   "xp": 37.5
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Steel pickaxe",
+   "cat": "Smithing",
+   "group": "Steel",
+   "skill": "Smithing",
+   "level": 31,
+   "inputs": {
+    "Steel bar": 2
+   },
+   "output": "Steel pickaxe",
+   "xp": 75
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Mithril sword",
+   "cat": "Smithing",
+   "group": "Mithril",
+   "skill": "Smithing",
+   "level": 52,
+   "inputs": {
+    "Mithril bar": 1
+   },
+   "output": "Mithril sword",
+   "xp": 50
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Mithril full helm",
+   "cat": "Smithing",
+   "group": "Mithril",
+   "skill": "Smithing",
+   "level": 54,
+   "inputs": {
+    "Mithril bar": 2
+   },
+   "output": "Mithril full helm",
+   "xp": 100
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Mithril shield",
+   "cat": "Smithing",
+   "group": "Mithril",
+   "skill": "Smithing",
+   "level": 56,
+   "inputs": {
+    "Mithril bar": 2
+   },
+   "output": "Mithril shield",
+   "xp": 100
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Mithril platelegs",
+   "cat": "Smithing",
+   "group": "Mithril",
+   "skill": "Smithing",
+   "level": 62,
+   "inputs": {
+    "Mithril bar": 3
+   },
+   "output": "Mithril platelegs",
+   "xp": 150
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Mithril platebody",
+   "cat": "Smithing",
+   "group": "Mithril",
+   "skill": "Smithing",
+   "level": 66,
+   "inputs": {
+    "Mithril bar": 5
+   },
+   "output": "Mithril platebody",
+   "xp": 250
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Mithril axe",
+   "cat": "Smithing",
+   "group": "Mithril",
+   "skill": "Smithing",
+   "level": 50,
+   "inputs": {
+    "Mithril bar": 1
+   },
+   "output": "Mithril axe",
+   "xp": 50
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Mithril pickaxe",
+   "cat": "Smithing",
+   "group": "Mithril",
+   "skill": "Smithing",
+   "level": 51,
+   "inputs": {
+    "Mithril bar": 2
+   },
+   "output": "Mithril pickaxe",
+   "xp": 100
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Adamant sword",
+   "cat": "Smithing",
+   "group": "Adamant",
+   "skill": "Smithing",
+   "level": 72,
+   "inputs": {
+    "Adamant bar": 1
+   },
+   "output": "Adamant sword",
+   "xp": 62.5
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Adamant full helm",
+   "cat": "Smithing",
+   "group": "Adamant",
+   "skill": "Smithing",
+   "level": 74,
+   "inputs": {
+    "Adamant bar": 2
+   },
+   "output": "Adamant full helm",
+   "xp": 125
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Adamant shield",
+   "cat": "Smithing",
+   "group": "Adamant",
+   "skill": "Smithing",
+   "level": 76,
+   "inputs": {
+    "Adamant bar": 2
+   },
+   "output": "Adamant shield",
+   "xp": 125
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Adamant platelegs",
+   "cat": "Smithing",
+   "group": "Adamant",
+   "skill": "Smithing",
+   "level": 82,
+   "inputs": {
+    "Adamant bar": 3
+   },
+   "output": "Adamant platelegs",
+   "xp": 187.5
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Adamant platebody",
+   "cat": "Smithing",
+   "group": "Adamant",
+   "skill": "Smithing",
+   "level": 86,
+   "inputs": {
+    "Adamant bar": 5
+   },
+   "output": "Adamant platebody",
+   "xp": 312.5
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Adamant axe",
+   "cat": "Smithing",
+   "group": "Adamant",
+   "skill": "Smithing",
+   "level": 70,
+   "inputs": {
+    "Adamant bar": 1
+   },
+   "output": "Adamant axe",
+   "xp": 62.5
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Adamant pickaxe",
+   "cat": "Smithing",
+   "group": "Adamant",
+   "skill": "Smithing",
+   "level": 71,
+   "inputs": {
+    "Adamant bar": 2
+   },
+   "output": "Adamant pickaxe",
+   "xp": 125
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Rune sword",
+   "cat": "Smithing",
+   "group": "Rune",
+   "skill": "Smithing",
+   "level": 87,
+   "inputs": {
+    "Rune bar": 1
+   },
+   "output": "Rune sword",
+   "xp": 75
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Rune full helm",
+   "cat": "Smithing",
+   "group": "Rune",
+   "skill": "Smithing",
+   "level": 89,
+   "inputs": {
+    "Rune bar": 2
+   },
+   "output": "Rune full helm",
+   "xp": 150
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Rune shield",
+   "cat": "Smithing",
+   "group": "Rune",
+   "skill": "Smithing",
+   "level": 91,
+   "inputs": {
+    "Rune bar": 2
+   },
+   "output": "Rune shield",
+   "xp": 150
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Rune platelegs",
+   "cat": "Smithing",
+   "group": "Rune",
+   "skill": "Smithing",
+   "level": 97,
+   "inputs": {
+    "Rune bar": 3
+   },
+   "output": "Rune platelegs",
+   "xp": 225
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Rune platebody",
+   "cat": "Smithing",
+   "group": "Rune",
+   "skill": "Smithing",
+   "level": 99,
+   "inputs": {
+    "Rune bar": 5
+   },
+   "output": "Rune platebody",
+   "xp": 375
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Rune axe",
+   "cat": "Smithing",
+   "group": "Rune",
+   "skill": "Smithing",
+   "level": 85,
+   "inputs": {
+    "Rune bar": 1
+   },
+   "output": "Rune axe",
+   "xp": 75
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Rune pickaxe",
+   "cat": "Smithing",
+   "group": "Rune",
+   "skill": "Smithing",
+   "level": 86,
+   "inputs": {
+    "Rune bar": 2
+   },
+   "output": "Rune pickaxe",
+   "xp": 150
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Dragon sword",
+   "cat": "Smithing",
+   "group": "Dragon",
+   "skill": "Smithing",
+   "level": 92,
+   "inputs": {
+    "Dragon bar": 1
+   },
+   "output": "Dragon sword",
+   "xp": 90
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Dragon full helm",
+   "cat": "Smithing",
+   "group": "Dragon",
+   "skill": "Smithing",
+   "level": 94,
+   "inputs": {
+    "Dragon bar": 2
+   },
+   "output": "Dragon full helm",
+   "xp": 180
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Dragon shield",
+   "cat": "Smithing",
+   "group": "Dragon",
+   "skill": "Smithing",
+   "level": 96,
+   "inputs": {
+    "Dragon bar": 2
+   },
+   "output": "Dragon shield",
+   "xp": 180
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Dragon platelegs",
+   "cat": "Smithing",
+   "group": "Dragon",
+   "skill": "Smithing",
+   "level": 99,
+   "inputs": {
+    "Dragon bar": 3
+   },
+   "output": "Dragon platelegs",
+   "xp": 270
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Dragon platebody",
+   "cat": "Smithing",
+   "group": "Dragon",
+   "skill": "Smithing",
+   "level": 99,
+   "inputs": {
+    "Dragon bar": 5
+   },
+   "output": "Dragon platebody",
+   "xp": 450
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Dragon axe",
+   "cat": "Smithing",
+   "group": "Dragon",
+   "skill": "Smithing",
+   "level": 90,
+   "inputs": {
+    "Dragon bar": 1
+   },
+   "output": "Dragon axe",
+   "xp": 90
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Dragon pickaxe",
+   "cat": "Smithing",
+   "group": "Dragon",
+   "skill": "Smithing",
+   "level": 91,
+   "inputs": {
+    "Dragon bar": 2
+   },
+   "output": "Dragon pickaxe",
+   "xp": 180
+  },
+  {
+   "station": null,
+   "tool": null,
+   "name": "Tan Cowhide",
+   "cat": "Crafting",
+   "group": "Leather",
+   "skill": "Crafting",
+   "level": 1,
+   "inputs": {
+    "Cowhide": 1
+   },
+   "output": "Soft leather",
+   "xp": 20
+  },
+  {
+   "station": null,
+   "tool": null,
+   "name": "Tan Hard leather",
+   "cat": "Crafting",
+   "group": "Leather",
+   "skill": "Crafting",
+   "level": 28,
+   "inputs": {
+    "Cowhide": 1
+   },
+   "output": "Hard leather",
+   "xp": 35
+  },
+  {
+   "station": null,
+   "tool": "needle",
+   "name": "Sew Leather cowl",
+   "cat": "Crafting",
+   "group": "Leather",
+   "skill": "Crafting",
+   "level": 9,
+   "inputs": {
+    "Soft leather": 1
+   },
+   "output": "Leather cowl",
+   "xp": 18.5
+  },
+  {
+   "station": null,
+   "tool": "needle",
+   "name": "Sew Leather body",
+   "cat": "Crafting",
+   "group": "Leather",
+   "skill": "Crafting",
+   "level": 14,
+   "inputs": {
+    "Soft leather": 3
+   },
+   "output": "Leather body",
+   "xp": 25
+  },
+  {
+   "station": null,
+   "tool": "needle",
+   "name": "Sew Leather chaps",
+   "cat": "Crafting",
+   "group": "Leather",
+   "skill": "Crafting",
+   "level": 18,
+   "inputs": {
+    "Soft leather": 2
+   },
+   "output": "Leather chaps",
+   "xp": 27
+  },
+  {
+   "station": null,
+   "tool": "needle",
+   "name": "Sew Hard leather body",
+   "cat": "Crafting",
+   "group": "Leather",
+   "skill": "Crafting",
+   "level": 28,
+   "inputs": {
+    "Hard leather": 2
+   },
+   "output": "Hard leather body",
+   "xp": 35
+  },
+  {
+   "station": null,
+   "tool": null,
+   "name": "Spin Flax",
+   "cat": "Crafting",
+   "group": "Spinning",
+   "skill": "Crafting",
+   "level": 1,
+   "inputs": {
+    "Flax": 1
+   },
+   "output": "Bowstring",
+   "xp": 15
+  },
+  {
+   "station": null,
+   "tool": "hammer",
+   "name": "Craft Wooden shield",
+   "cat": "Crafting",
+   "group": "Woodwork",
+   "skill": "Crafting",
+   "level": 1,
+   "inputs": {
+    "Logs": 2
+   },
+   "output": "Wooden shield",
+   "xp": 10
+  },
+  {
+   "station": null,
+   "tool": "hammer",
+   "name": "Craft Oak shield",
+   "cat": "Crafting",
+   "group": "Woodwork",
+   "skill": "Crafting",
+   "level": 15,
+   "inputs": {
+    "Oak logs": 2
+   },
+   "output": "Oak shield",
+   "xp": 25
+  },
+  {
+   "station": null,
+   "tool": "knife",
+   "name": "Fletch Shortbow",
+   "cat": "Fletching",
+   "group": "Bows",
+   "skill": "Fletching",
+   "level": 5,
+   "inputs": {
+    "Logs": 1,
+    "Bowstring": 1
+   },
+   "output": "Shortbow",
+   "xp": 5
+  },
+  {
+   "station": null,
+   "tool": "knife",
+   "name": "Fletch Oak shortbow",
+   "cat": "Fletching",
+   "group": "Bows",
+   "skill": "Fletching",
+   "level": 20,
+   "inputs": {
+    "Oak logs": 1,
+    "Bowstring": 1
+   },
+   "output": "Oak shortbow",
+   "xp": 16.5
+  },
+  {
+   "station": null,
+   "tool": "knife",
+   "name": "Fletch Willow shortbow",
+   "cat": "Fletching",
+   "group": "Bows",
+   "skill": "Fletching",
+   "level": 35,
+   "inputs": {
+    "Willow logs": 1,
+    "Bowstring": 1
+   },
+   "output": "Willow shortbow",
+   "xp": 33.3
+  },
+  {
+   "station": null,
+   "tool": "knife",
+   "name": "Fletch Maple shortbow",
+   "cat": "Fletching",
+   "group": "Bows",
+   "skill": "Fletching",
+   "level": 50,
+   "inputs": {
+    "Maple logs": 1,
+    "Bowstring": 1
+   },
+   "output": "Maple shortbow",
+   "xp": 50
+  },
+  {
+   "station": null,
+   "tool": "knife",
+   "name": "Fletch Yew shortbow",
+   "cat": "Fletching",
+   "group": "Bows",
+   "skill": "Fletching",
+   "level": 65,
+   "inputs": {
+    "Yew logs": 1,
+    "Bowstring": 1
+   },
+   "output": "Yew shortbow",
+   "xp": 67.5
+  },
+  {
+   "station": null,
+   "tool": "knife",
+   "name": "Fletch Magic shortbow",
+   "cat": "Fletching",
+   "group": "Bows",
+   "skill": "Fletching",
+   "level": 80,
+   "inputs": {
+    "Magic logs": 1,
+    "Bowstring": 1
+   },
+   "output": "Magic shortbow",
+   "xp": 83.3
+  },
+  {
+   "station": null,
+   "tool": "knife",
+   "name": "Fletch Bronze arrows",
+   "cat": "Fletching",
+   "group": "Arrows",
+   "skill": "Fletching",
+   "level": 1,
+   "inputs": {
+    "Bronze bar": 1,
+    "Logs": 1
+   },
+   "output": "Bronze arrows",
+   "xp": 10
+  },
+  {
+   "station": null,
+   "tool": "knife",
+   "name": "Fletch Iron arrows",
+   "cat": "Fletching",
+   "group": "Arrows",
+   "skill": "Fletching",
+   "level": 15,
+   "inputs": {
+    "Iron bar": 1,
+    "Oak logs": 1
+   },
+   "output": "Iron arrows",
+   "xp": 15
+  },
+  {
+   "station": null,
+   "tool": "knife",
+   "name": "Fletch Steel arrows",
+   "cat": "Fletching",
+   "group": "Arrows",
+   "skill": "Fletching",
+   "level": 30,
+   "inputs": {
+    "Steel bar": 1,
+    "Willow logs": 1
+   },
+   "output": "Steel arrows",
+   "xp": 25
+  },
+  {
+   "station": null,
+   "tool": "knife",
+   "name": "Fletch Mithril arrows",
+   "cat": "Fletching",
+   "group": "Arrows",
+   "skill": "Fletching",
+   "level": 45,
+   "inputs": {
+    "Mithril bar": 1,
+    "Maple logs": 1
+   },
+   "output": "Mithril arrows",
+   "xp": 37.5
+  },
+  {
+   "station": null,
+   "tool": "knife",
+   "name": "Fletch Adamant arrows",
+   "cat": "Fletching",
+   "group": "Arrows",
+   "skill": "Fletching",
+   "level": 60,
+   "inputs": {
+    "Adamant bar": 1,
+    "Yew logs": 1
+   },
+   "output": "Adamant arrows",
+   "xp": 50
+  },
+  {
+   "station": null,
+   "tool": "knife",
+   "name": "Fletch Rune arrows",
+   "cat": "Fletching",
+   "group": "Arrows",
+   "skill": "Fletching",
+   "level": 75,
+   "inputs": {
+    "Rune bar": 1,
+    "Magic logs": 1
+   },
+   "output": "Rune arrows",
+   "xp": 62.5
+  },
+  {
+   "station": null,
+   "tool": "knife",
+   "name": "Fletch Dragon arrows",
+   "cat": "Fletching",
+   "group": "Arrows",
+   "skill": "Fletching",
+   "level": 90,
+   "inputs": {
+    "Dragon bar": 1,
+    "Magic logs": 1
+   },
+   "output": "Dragon arrows",
+   "xp": 75
+  },
+  {
+   "station": null,
+   "tool": "knife",
+   "name": "Fletch Bronze crossbow",
+   "cat": "Fletching",
+   "group": "Crossbows",
+   "skill": "Fletching",
+   "level": 9,
+   "inputs": {
+    "Bronze bar": 1,
+    "Logs": 1,
+    "Bowstring": 1
+   },
+   "output": "Bronze crossbow",
+   "xp": 12
+  },
+  {
+   "station": null,
+   "tool": "knife",
+   "name": "Fletch Bronze bolts",
+   "cat": "Fletching",
+   "group": "Bolts",
+   "skill": "Fletching",
+   "level": 9,
+   "inputs": {
+    "Bronze bar": 1,
+    "Feather": 5
+   },
+   "output": "Bronze bolts",
+   "xp": 9.600000000000001
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Bronze thrown dagger",
+   "cat": "Smithing",
+   "group": "Thrown weapons",
+   "skill": "Smithing",
+   "level": 4,
+   "inputs": {
+    "Bronze bar": 1
+   },
+   "output": "Bronze thrown dagger",
+   "xp": 12.5
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Bronze throwing axe",
+   "cat": "Smithing",
+   "group": "Thrown weapons",
+   "skill": "Smithing",
+   "level": 8,
+   "inputs": {
+    "Bronze bar": 2
+   },
+   "output": "Bronze throwing axe",
+   "xp": 25
+  },
+  {
+   "station": null,
+   "tool": "knife",
+   "name": "Fletch Iron crossbow",
+   "cat": "Fletching",
+   "group": "Crossbows",
+   "skill": "Fletching",
+   "level": 24,
+   "inputs": {
+    "Iron bar": 1,
+    "Oak logs": 1,
+    "Bowstring": 1
+   },
+   "output": "Iron crossbow",
+   "xp": 24
+  },
+  {
+   "station": null,
+   "tool": "knife",
+   "name": "Fletch Iron bolts",
+   "cat": "Fletching",
+   "group": "Bolts",
+   "skill": "Fletching",
+   "level": 24,
+   "inputs": {
+    "Iron bar": 1,
+    "Feather": 5
+   },
+   "output": "Iron bolts",
+   "xp": 19.200000000000003
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Iron thrown dagger",
+   "cat": "Smithing",
+   "group": "Thrown weapons",
+   "skill": "Smithing",
+   "level": 18,
+   "inputs": {
+    "Iron bar": 1
+   },
+   "output": "Iron thrown dagger",
+   "xp": 25
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Iron throwing axe",
+   "cat": "Smithing",
+   "group": "Thrown weapons",
+   "skill": "Smithing",
+   "level": 22,
+   "inputs": {
+    "Iron bar": 2
+   },
+   "output": "Iron throwing axe",
+   "xp": 50
+  },
+  {
+   "station": null,
+   "tool": "knife",
+   "name": "Fletch Steel crossbow",
+   "cat": "Fletching",
+   "group": "Crossbows",
+   "skill": "Fletching",
+   "level": 39,
+   "inputs": {
+    "Steel bar": 1,
+    "Willow logs": 1,
+    "Bowstring": 1
+   },
+   "output": "Steel crossbow",
+   "xp": 38
+  },
+  {
+   "station": null,
+   "tool": "knife",
+   "name": "Fletch Steel bolts",
+   "cat": "Fletching",
+   "group": "Bolts",
+   "skill": "Fletching",
+   "level": 39,
+   "inputs": {
+    "Steel bar": 1,
+    "Feather": 5
+   },
+   "output": "Steel bolts",
+   "xp": 30.400000000000002
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Steel thrown dagger",
+   "cat": "Smithing",
+   "group": "Thrown weapons",
+   "skill": "Smithing",
+   "level": 33,
+   "inputs": {
+    "Steel bar": 1
+   },
+   "output": "Steel thrown dagger",
+   "xp": 37.5
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Steel throwing axe",
+   "cat": "Smithing",
+   "group": "Thrown weapons",
+   "skill": "Smithing",
+   "level": 37,
+   "inputs": {
+    "Steel bar": 2
+   },
+   "output": "Steel throwing axe",
+   "xp": 75
+  },
+  {
+   "station": null,
+   "tool": "knife",
+   "name": "Fletch Mithril crossbow",
+   "cat": "Fletching",
+   "group": "Crossbows",
+   "skill": "Fletching",
+   "level": 46,
+   "inputs": {
+    "Mithril bar": 1,
+    "Maple logs": 1,
+    "Bowstring": 1
+   },
+   "output": "Mithril crossbow",
+   "xp": 52
+  },
+  {
+   "station": null,
+   "tool": "knife",
+   "name": "Fletch Mithril bolts",
+   "cat": "Fletching",
+   "group": "Bolts",
+   "skill": "Fletching",
+   "level": 46,
+   "inputs": {
+    "Mithril bar": 1,
+    "Feather": 5
+   },
+   "output": "Mithril bolts",
+   "xp": 41.6
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Mithril thrown dagger",
+   "cat": "Smithing",
+   "group": "Thrown weapons",
+   "skill": "Smithing",
+   "level": 53,
+   "inputs": {
+    "Mithril bar": 1
+   },
+   "output": "Mithril thrown dagger",
+   "xp": 50
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Mithril throwing axe",
+   "cat": "Smithing",
+   "group": "Thrown weapons",
+   "skill": "Smithing",
+   "level": 57,
+   "inputs": {
+    "Mithril bar": 2
+   },
+   "output": "Mithril throwing axe",
+   "xp": 100
+  },
+  {
+   "station": null,
+   "tool": "knife",
+   "name": "Fletch Adamant crossbow",
+   "cat": "Fletching",
+   "group": "Crossbows",
+   "skill": "Fletching",
+   "level": 54,
+   "inputs": {
+    "Adamant bar": 1,
+    "Yew logs": 1,
+    "Bowstring": 1
+   },
+   "output": "Adamant crossbow",
+   "xp": 68
+  },
+  {
+   "station": null,
+   "tool": "knife",
+   "name": "Fletch Adamant bolts",
+   "cat": "Fletching",
+   "group": "Bolts",
+   "skill": "Fletching",
+   "level": 54,
+   "inputs": {
+    "Adamant bar": 1,
+    "Feather": 5
+   },
+   "output": "Adamant bolts",
+   "xp": 54.400000000000006
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Adamant thrown dagger",
+   "cat": "Smithing",
+   "group": "Thrown weapons",
+   "skill": "Smithing",
+   "level": 73,
+   "inputs": {
+    "Adamant bar": 1
+   },
+   "output": "Adamant thrown dagger",
+   "xp": 62.5
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Adamant throwing axe",
+   "cat": "Smithing",
+   "group": "Thrown weapons",
+   "skill": "Smithing",
+   "level": 77,
+   "inputs": {
+    "Adamant bar": 2
+   },
+   "output": "Adamant throwing axe",
+   "xp": 125
+  },
+  {
+   "station": null,
+   "tool": "knife",
+   "name": "Fletch Rune crossbow",
+   "cat": "Fletching",
+   "group": "Crossbows",
+   "skill": "Fletching",
+   "level": 61,
+   "inputs": {
+    "Rune bar": 1,
+    "Magic logs": 1,
+    "Bowstring": 1
+   },
+   "output": "Rune crossbow",
+   "xp": 84
+  },
+  {
+   "station": null,
+   "tool": "knife",
+   "name": "Fletch Rune bolts",
+   "cat": "Fletching",
+   "group": "Bolts",
+   "skill": "Fletching",
+   "level": 61,
+   "inputs": {
+    "Rune bar": 1,
+    "Feather": 5
+   },
+   "output": "Rune bolts",
+   "xp": 67.2
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Rune thrown dagger",
+   "cat": "Smithing",
+   "group": "Thrown weapons",
+   "skill": "Smithing",
+   "level": 88,
+   "inputs": {
+    "Rune bar": 1
+   },
+   "output": "Rune thrown dagger",
+   "xp": 75
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Rune throwing axe",
+   "cat": "Smithing",
+   "group": "Thrown weapons",
+   "skill": "Smithing",
+   "level": 92,
+   "inputs": {
+    "Rune bar": 2
+   },
+   "output": "Rune throwing axe",
+   "xp": 150
+  },
+  {
+   "station": null,
+   "tool": null,
+   "name": "Weave Cloth",
+   "cat": "Crafting",
+   "group": "Magic gear",
+   "skill": "Crafting",
+   "level": 5,
+   "inputs": {
+    "Flax": 2
+   },
+   "output": "Cloth",
+   "xp": 12
+  },
+  {
+   "station": null,
+   "tool": "needle",
+   "name": "Sew Wizard hat",
+   "cat": "Crafting",
+   "group": "Magic gear",
+   "skill": "Crafting",
+   "level": 10,
+   "inputs": {
+    "Cloth": 1
+   },
+   "output": "Wizard hat",
+   "xp": 20
+  },
+  {
+   "station": null,
+   "tool": "needle",
+   "name": "Sew Wizard robe bottom",
+   "cat": "Crafting",
+   "group": "Magic gear",
+   "skill": "Crafting",
+   "level": 16,
+   "inputs": {
+    "Cloth": 2
+   },
+   "output": "Wizard robe bottom",
+   "xp": 30
+  },
+  {
+   "station": null,
+   "tool": "needle",
+   "name": "Sew Wizard robe",
+   "cat": "Crafting",
+   "group": "Magic gear",
+   "skill": "Crafting",
+   "level": 20,
+   "inputs": {
+    "Cloth": 3
+   },
+   "output": "Wizard robe",
+   "xp": 40
+  },
+  {
+   "station": null,
+   "tool": "needle",
+   "name": "Sew Mystic hat",
+   "cat": "Crafting",
+   "group": "Magic gear",
+   "skill": "Crafting",
+   "level": 50,
+   "inputs": {
+    "Cloth": 2,
+    "Body rune": 10
+   },
+   "output": "Mystic hat",
+   "xp": 80
+  },
+  {
+   "station": null,
+   "tool": "needle",
+   "name": "Sew Mystic robe bottom",
+   "cat": "Crafting",
+   "group": "Magic gear",
+   "skill": "Crafting",
+   "level": 56,
+   "inputs": {
+    "Cloth": 4,
+    "Body rune": 20
+   },
+   "output": "Mystic robe bottom",
+   "xp": 110
+  },
+  {
+   "station": null,
+   "tool": "needle",
+   "name": "Sew Mystic robe top",
+   "cat": "Crafting",
+   "group": "Magic gear",
+   "skill": "Crafting",
+   "level": 60,
+   "inputs": {
+    "Cloth": 5,
+    "Body rune": 25
+   },
+   "output": "Mystic robe top",
+   "xp": 140
+  },
+  {
+   "station": null,
+   "tool": "knife",
+   "name": "Carve Staff",
+   "cat": "Crafting",
+   "group": "Magic gear",
+   "skill": "Crafting",
+   "level": 8,
+   "inputs": {
+    "Oak logs": 1
+   },
+   "output": "Staff",
+   "xp": 18
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Battlestaff",
+   "cat": "Smithing",
+   "group": "Thrown weapons",
+   "skill": "Smithing",
+   "level": 40,
+   "inputs": {
+    "Staff": 1,
+    "Steel bar": 1
+   },
+   "output": "Battlestaff",
+   "xp": 60
+  },
+  {
+   "station": "range",
+   "tool": null,
+   "name": "Cook shrimp",
+   "cat": "Cooking",
+   "group": "Range or fire",
+   "skill": "Cooking",
+   "level": 1,
+   "inputs": {
+    "Raw shrimp": 1
+   },
+   "output": "Cooked shrimp",
+   "xp": 30,
+   "burnStop": 34
+  },
+  {
+   "station": "range",
+   "tool": null,
+   "name": "Cook meat",
+   "cat": "Cooking",
+   "group": "Range or fire",
+   "skill": "Cooking",
+   "level": 1,
+   "inputs": {
+    "Raw beef": 1
+   },
+   "output": "Cooked meat",
+   "xp": 30,
+   "burnStop": 34
+  },
+  {
+   "station": "range",
+   "tool": null,
+   "name": "Cook trout",
+   "cat": "Cooking",
+   "group": "Range or fire",
+   "skill": "Cooking",
+   "level": 15,
+   "inputs": {
+    "Raw trout": 1
+   },
+   "output": "Cooked trout",
+   "xp": 70,
+   "burnStop": 50
+  },
+  {
+   "station": "range",
+   "tool": null,
+   "name": "Cook salmon",
+   "cat": "Cooking",
+   "group": "Range or fire",
+   "skill": "Cooking",
+   "level": 25,
+   "inputs": {
+    "Raw salmon": 1
+   },
+   "output": "Cooked salmon",
+   "xp": 90,
+   "burnStop": 58
+  },
+  {
+   "station": "range",
+   "tool": null,
+   "name": "Cook lobster",
+   "cat": "Cooking",
+   "group": "Range or fire",
+   "skill": "Cooking",
+   "level": 40,
+   "inputs": {
+    "Raw lobster": 1
+   },
+   "output": "Cooked lobster",
+   "xp": 120,
+   "burnStop": 74
+  },
+  {
+   "station": "range",
+   "tool": null,
+   "name": "Cook swordfish",
+   "cat": "Cooking",
+   "group": "Range or fire",
+   "skill": "Cooking",
+   "level": 45,
+   "inputs": {
+    "Raw swordfish": 1
+   },
+   "output": "Cooked swordfish",
+   "xp": 140,
+   "burnStop": 86
+  },
+  {
+   "station": "range",
+   "tool": null,
+   "name": "Cook shark",
+   "cat": "Cooking",
+   "group": "Range or fire",
+   "skill": "Cooking",
+   "level": 80,
+   "inputs": {
+    "Raw shark": 1
+   },
+   "output": "Cooked shark",
+   "xp": 210,
+   "burnStop": 99
+  },
+  {
+   "station": "range",
+   "tool": null,
+   "name": "Cook anchovies",
+   "cat": "Cooking",
+   "group": "Range or fire",
+   "skill": "Cooking",
+   "level": 15,
+   "inputs": {
+    "Raw anchovies": 1
+   },
+   "output": "Cooked anchovies",
+   "xp": 45,
+   "burnStop": 40
+  },
+  {
+   "station": "range",
+   "tool": null,
+   "name": "Cook tuna",
+   "cat": "Cooking",
+   "group": "Range or fire",
+   "skill": "Cooking",
+   "level": 30,
+   "inputs": {
+    "Raw tuna": 1
+   },
+   "output": "Cooked tuna",
+   "xp": 100,
+   "burnStop": 64
+  },
+  {
+   "station": "range",
+   "tool": null,
+   "name": "Cook monkfish",
+   "cat": "Cooking",
+   "group": "Range or fire",
+   "skill": "Cooking",
+   "level": 62,
+   "inputs": {
+    "Raw monkfish": 1
+   },
+   "output": "Cooked monkfish",
+   "xp": 150,
+   "burnStop": 92
+  },
+  {
+   "station": "range",
+   "tool": null,
+   "name": "Cook Hearty stew",
+   "cat": "Cooking",
+   "group": "Dishes (buffs)",
+   "skill": "Cooking",
+   "level": 25,
+   "inputs": {
+    "Cooked meat": 2
+   },
+   "output": "Hearty stew",
+   "xp": 60
+  },
+  {
+   "station": "range",
+   "tool": null,
+   "name": "Cook Monk's broth",
+   "cat": "Cooking",
+   "group": "Dishes (buffs)",
+   "skill": "Cooking",
+   "level": 30,
+   "inputs": {
+    "Cooked salmon": 1,
+    "Vial of water": 1
+   },
+   "output": "Monk's broth",
+   "xp": 80
+  },
+  {
+   "station": "range",
+   "tool": null,
+   "name": "Cook Fisherman's pie",
+   "cat": "Cooking",
+   "group": "Dishes (buffs)",
+   "skill": "Cooking",
+   "level": 45,
+   "inputs": {
+    "Cooked tuna": 1,
+    "Cooked trout": 1
+   },
+   "output": "Fisherman's pie",
+   "xp": 120
+  },
+  {
+   "station": "range",
+   "tool": null,
+   "name": "Cook Warrior's feast",
+   "cat": "Cooking",
+   "group": "Dishes (buffs)",
+   "skill": "Cooking",
+   "level": 82,
+   "inputs": {
+    "Cooked shark": 1,
+    "Cooked lobster": 1
+   },
+   "output": "Warrior's feast",
+   "xp": 260
+  },
+  {
+   "station": "furnace",
+   "tool": null,
+   "name": "Smelt Dragon bar",
+   "cat": "Smithing",
+   "group": "Smelting",
+   "skill": "Smithing",
+   "level": 90,
+   "inputs": {
+    "Dragon ore": 1
+   },
+   "output": "Dragon bar",
+   "xp": 90
+  },
+  {
+   "station": null,
+   "tool": null,
+   "name": "Brew Attack potion",
+   "cat": "Herblore",
+   "group": "Potions",
+   "skill": "Herblore",
+   "level": 3,
+   "inputs": {
+    "Guam leaf": 1,
+    "Vial of water": 1,
+    "Eye of newt": 1
+   },
+   "output": "Attack potion",
+   "xp": 25
+  },
+  {
+   "station": null,
+   "tool": null,
+   "name": "Brew Antipoison",
+   "cat": "Herblore",
+   "group": "Potions",
+   "skill": "Herblore",
+   "level": 5,
+   "inputs": {
+    "Marrentill": 1,
+    "Vial of water": 1,
+    "Unicorn horn dust": 1
+   },
+   "output": "Antipoison",
+   "xp": 37.5
+  },
+  {
+   "station": null,
+   "tool": null,
+   "name": "Brew Strength potion",
+   "cat": "Herblore",
+   "group": "Potions",
+   "skill": "Herblore",
+   "level": 12,
+   "inputs": {
+    "Tarromin": 1,
+    "Vial of water": 1,
+    "Limpwurt root": 1
+   },
+   "output": "Strength potion",
+   "xp": 50
+  },
+  {
+   "station": null,
+   "tool": null,
+   "name": "Brew Energy potion",
+   "cat": "Herblore",
+   "group": "Potions",
+   "skill": "Herblore",
+   "level": 26,
+   "inputs": {
+    "Harralander": 1,
+    "Vial of water": 1,
+    "Chocolate dust": 1
+   },
+   "output": "Energy potion",
+   "xp": 67.5
+  },
+  {
+   "station": null,
+   "tool": null,
+   "name": "Brew Defence potion",
+   "cat": "Herblore",
+   "group": "Potions",
+   "skill": "Herblore",
+   "level": 30,
+   "inputs": {
+    "Ranarr weed": 1,
+    "Vial of water": 1,
+    "White berries": 1
+   },
+   "output": "Defence potion",
+   "xp": 75
+  },
+  {
+   "station": null,
+   "tool": null,
+   "name": "Brew Prospector's brew",
+   "cat": "Herblore",
+   "group": "Potions",
+   "skill": "Herblore",
+   "level": 34,
+   "inputs": {
+    "Toadflax": 1,
+    "Vial of water": 1,
+    "Snape grass": 1
+   },
+   "output": "Prospector's brew",
+   "xp": 80
+  },
+  {
+   "station": null,
+   "tool": null,
+   "name": "Brew Combat potion",
+   "cat": "Herblore",
+   "group": "Potions",
+   "skill": "Herblore",
+   "level": 36,
+   "inputs": {
+    "Harralander": 1,
+    "Vial of water": 1,
+    "Goat horn dust": 1
+   },
+   "output": "Combat potion",
+   "xp": 84
+  },
+  {
+   "station": null,
+   "tool": null,
+   "name": "Brew Prayer potion",
+   "cat": "Herblore",
+   "group": "Potions",
+   "skill": "Herblore",
+   "level": 38,
+   "inputs": {
+    "Ranarr weed": 1,
+    "Vial of water": 1,
+    "Snape grass": 1
+   },
+   "output": "Prayer potion",
+   "xp": 87.5
+  },
+  {
+   "station": null,
+   "tool": null,
+   "name": "Brew Super attack",
+   "cat": "Herblore",
+   "group": "Potions",
+   "skill": "Herblore",
+   "level": 45,
+   "inputs": {
+    "Irit leaf": 1,
+    "Vial of water": 1,
+    "Eye of newt": 1
+   },
+   "output": "Super attack",
+   "xp": 100
+  },
+  {
+   "station": null,
+   "tool": null,
+   "name": "Brew Sage's brew",
+   "cat": "Herblore",
+   "group": "Potions",
+   "skill": "Herblore",
+   "level": 50,
+   "inputs": {
+    "Avantoe": 1,
+    "Vial of water": 1,
+    "Red spider eggs": 1
+   },
+   "output": "Sage's brew",
+   "xp": 112.5
+  },
+  {
+   "station": null,
+   "tool": null,
+   "name": "Brew Super strength",
+   "cat": "Herblore",
+   "group": "Potions",
+   "skill": "Herblore",
+   "level": 55,
+   "inputs": {
+    "Kwuarm": 1,
+    "Vial of water": 1,
+    "Limpwurt root": 1
+   },
+   "output": "Super strength",
+   "xp": 125
+  },
+  {
+   "station": null,
+   "tool": null,
+   "name": "Brew Super restore",
+   "cat": "Herblore",
+   "group": "Potions",
+   "skill": "Herblore",
+   "level": 63,
+   "inputs": {
+    "Snapdragon": 1,
+    "Vial of water": 1,
+    "Red spider eggs": 1
+   },
+   "output": "Super restore",
+   "xp": 142.5
+  },
+  {
+   "station": null,
+   "tool": null,
+   "name": "Brew Super defence",
+   "cat": "Herblore",
+   "group": "Potions",
+   "skill": "Herblore",
+   "level": 66,
+   "inputs": {
+    "Cadantine": 1,
+    "Vial of water": 1,
+    "White berries": 1
+   },
+   "output": "Super defence",
+   "xp": 150
+  },
+  {
+   "station": null,
+   "tool": null,
+   "name": "Brew Ranging potion",
+   "cat": "Herblore",
+   "group": "Potions",
+   "skill": "Herblore",
+   "level": 72,
+   "inputs": {
+    "Dwarf weed": 1,
+    "Vial of water": 1,
+    "Wine of zamorak": 1
+   },
+   "output": "Ranging potion",
+   "xp": 162.5
+  },
+  {
+   "station": null,
+   "tool": null,
+   "name": "Brew Super combat potion",
+   "cat": "Herblore",
+   "group": "Potions",
+   "skill": "Herblore",
+   "level": 90,
+   "inputs": {
+    "Torstol": 1,
+    "Vial of water": 1,
+    "Dragon scale dust": 1
+   },
+   "output": "Super combat potion",
+   "xp": 150
+  },
+  {
+   "station": null,
+   "tool": null,
+   "name": "Clean Guam leaf",
+   "cat": "Herblore",
+   "group": "Cleaning",
+   "skill": "Herblore",
+   "level": 1,
+   "inputs": {
+    "Grimy guam leaf": 1
+   },
+   "output": "Guam leaf",
+   "xp": 2.5
+  },
+  {
+   "station": null,
+   "tool": null,
+   "name": "Clean Marrentill",
+   "cat": "Herblore",
+   "group": "Cleaning",
+   "skill": "Herblore",
+   "level": 5,
+   "inputs": {
+    "Grimy marrentill": 1
+   },
+   "output": "Marrentill",
+   "xp": 3.8
+  },
+  {
+   "station": null,
+   "tool": null,
+   "name": "Clean Tarromin",
+   "cat": "Herblore",
+   "group": "Cleaning",
+   "skill": "Herblore",
+   "level": 11,
+   "inputs": {
+    "Grimy tarromin": 1
+   },
+   "output": "Tarromin",
+   "xp": 5
+  },
+  {
+   "station": null,
+   "tool": null,
+   "name": "Clean Harralander",
+   "cat": "Herblore",
+   "group": "Cleaning",
+   "skill": "Herblore",
+   "level": 20,
+   "inputs": {
+    "Grimy harralander": 1
+   },
+   "output": "Harralander",
+   "xp": 6.3
+  },
+  {
+   "station": null,
+   "tool": null,
+   "name": "Clean Ranarr weed",
+   "cat": "Herblore",
+   "group": "Cleaning",
+   "skill": "Herblore",
+   "level": 25,
+   "inputs": {
+    "Grimy ranarr weed": 1
+   },
+   "output": "Ranarr weed",
+   "xp": 7.5
+  },
+  {
+   "station": null,
+   "tool": null,
+   "name": "Clean Toadflax",
+   "cat": "Herblore",
+   "group": "Cleaning",
+   "skill": "Herblore",
+   "level": 30,
+   "inputs": {
+    "Grimy toadflax": 1
+   },
+   "output": "Toadflax",
+   "xp": 8
+  },
+  {
+   "station": null,
+   "tool": null,
+   "name": "Clean Irit leaf",
+   "cat": "Herblore",
+   "group": "Cleaning",
+   "skill": "Herblore",
+   "level": 40,
+   "inputs": {
+    "Grimy irit leaf": 1
+   },
+   "output": "Irit leaf",
+   "xp": 8.8
+  },
+  {
+   "station": null,
+   "tool": null,
+   "name": "Clean Avantoe",
+   "cat": "Herblore",
+   "group": "Cleaning",
+   "skill": "Herblore",
+   "level": 48,
+   "inputs": {
+    "Grimy avantoe": 1
+   },
+   "output": "Avantoe",
+   "xp": 10
+  },
+  {
+   "station": null,
+   "tool": null,
+   "name": "Clean Kwuarm",
+   "cat": "Herblore",
+   "group": "Cleaning",
+   "skill": "Herblore",
+   "level": 54,
+   "inputs": {
+    "Grimy kwuarm": 1
+   },
+   "output": "Kwuarm",
+   "xp": 11.3
+  },
+  {
+   "station": null,
+   "tool": null,
+   "name": "Clean Snapdragon",
+   "cat": "Herblore",
+   "group": "Cleaning",
+   "skill": "Herblore",
+   "level": 59,
+   "inputs": {
+    "Grimy snapdragon": 1
+   },
+   "output": "Snapdragon",
+   "xp": 11.8
+  },
+  {
+   "station": null,
+   "tool": null,
+   "name": "Clean Cadantine",
+   "cat": "Herblore",
+   "group": "Cleaning",
+   "skill": "Herblore",
+   "level": 65,
+   "inputs": {
+    "Grimy cadantine": 1
+   },
+   "output": "Cadantine",
+   "xp": 12.5
+  },
+  {
+   "station": null,
+   "tool": null,
+   "name": "Clean Dwarf weed",
+   "cat": "Herblore",
+   "group": "Cleaning",
+   "skill": "Herblore",
+   "level": 70,
+   "inputs": {
+    "Grimy dwarf weed": 1
+   },
+   "output": "Dwarf weed",
+   "xp": 13.8
+  },
+  {
+   "station": null,
+   "tool": null,
+   "name": "Clean Torstol",
+   "cat": "Herblore",
+   "group": "Cleaning",
+   "skill": "Herblore",
+   "level": 75,
+   "inputs": {
+    "Grimy torstol": 1
+   },
+   "output": "Torstol",
+   "xp": 15
+  }
+ ],
+ "potionRecipes": [
+  [
+   "Attack potion",
+   "Guam leaf",
+   "Eye of newt",
+   3,
+   25,
+   20,
+   "#4a8ad0"
+  ],
+  [
+   "Antipoison",
+   "Marrentill",
+   "Unicorn horn dust",
+   5,
+   37.5,
+   30,
+   "#e0e0e0"
+  ],
+  [
+   "Strength potion",
+   "Tarromin",
+   "Limpwurt root",
+   12,
+   50,
+   40,
+   "#d04a4a"
+  ],
+  [
+   "Energy potion",
+   "Harralander",
+   "Chocolate dust",
+   26,
+   67.5,
+   50,
+   "#c08ae0"
+  ],
+  [
+   "Defence potion",
+   "Ranarr weed",
+   "White berries",
+   30,
+   75,
+   60,
+   "#4ad08a"
+  ],
+  [
+   "Prospector's brew",
+   "Toadflax",
+   "Snape grass",
+   34,
+   80,
+   80,
+   "#c0a040"
+  ],
+  [
+   "Combat potion",
+   "Harralander",
+   "Goat horn dust",
+   36,
+   84,
+   90,
+   "#d0a060"
+  ],
+  [
+   "Prayer potion",
+   "Ranarr weed",
+   "Snape grass",
+   38,
+   87.5,
+   150,
+   "#40c0b0"
+  ],
+  [
+   "Super attack",
+   "Irit leaf",
+   "Eye of newt",
+   45,
+   100,
+   120,
+   "#3a6ae0"
+  ],
+  [
+   "Sage's brew",
+   "Avantoe",
+   "Red spider eggs",
+   50,
+   112.5,
+   160,
+   "#e0d040"
+  ],
+  [
+   "Super strength",
+   "Kwuarm",
+   "Limpwurt root",
+   55,
+   125,
+   160,
+   "#e03a3a"
+  ],
+  [
+   "Super restore",
+   "Snapdragon",
+   "Red spider eggs",
+   63,
+   142.5,
+   250,
+   "#e06ab0"
+  ],
+  [
+   "Super defence",
+   "Cadantine",
+   "White berries",
+   66,
+   150,
+   200,
+   "#3ae07a"
+  ],
+  [
+   "Ranging potion",
+   "Dwarf weed",
+   "Wine of zamorak",
+   72,
+   162.5,
+   220,
+   "#3a9ae0"
+  ],
+  [
+   "Super combat potion",
+   "Torstol",
+   "Dragon scale dust",
+   90,
+   150,
+   600,
+   "#3a8a3a"
+  ]
+ ]
+}

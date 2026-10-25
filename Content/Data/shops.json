@@ -1,0 +1,1772 @@
+{
+ "shops": {
+  "shop": {
+   "title": "Merchant's General Store",
+   "stock": [
+    {
+     "item": "Bronze sword",
+     "price": 40
+    },
+    {
+     "item": "Wooden shield",
+     "price": 25
+    },
+    {
+     "item": "Leather body",
+     "price": 60
+    },
+    {
+     "item": "Cooked shrimp",
+     "price": 8
+    },
+    {
+     "item": "Cooked trout",
+     "price": 20
+    },
+    {
+     "item": "Shortbow",
+     "price": 50
+    },
+    {
+     "item": "Bronze arrows",
+     "price": 2
+    },
+    {
+     "item": "Feather",
+     "price": 2
+    },
+    {
+     "item": "Flax",
+     "price": 4
+    },
+    {
+     "item": "Cooked lobster",
+     "price": 80,
+     "unlock": "cook"
+    },
+    {
+     "item": "Oak shortbow",
+     "price": 120,
+     "unlock": "hides"
+    },
+    {
+     "item": "Red cape",
+     "price": 20
+    },
+    {
+     "item": "Blue cape",
+     "price": 20
+    },
+    {
+     "item": "Amulet of accuracy",
+     "price": 200
+    },
+    {
+     "item": "Holy symbol",
+     "price": 300
+    },
+    {
+     "item": "Amulet of defence",
+     "price": 500
+    },
+    {
+     "item": "Amulet of strength",
+     "price": 900
+    },
+    {
+     "item": "Miner's ring",
+     "price": 900
+    },
+    {
+     "item": "Forester's ring",
+     "price": 900
+    },
+    {
+     "item": "Angler's ring",
+     "price": 900
+    },
+    {
+     "item": "Ring of regeneration",
+     "price": 2000,
+     "unlock": "fallen"
+    },
+    {
+     "item": "Quest point cape",
+     "price": 99,
+     "unlock": "all"
+    },
+    {
+     "item": "Attack cape",
+     "price": 99000,
+     "skill99": "Attack"
+    },
+    {
+     "item": "Strength cape",
+     "price": 99000,
+     "skill99": "Strength"
+    },
+    {
+     "item": "Defence cape",
+     "price": 99000,
+     "skill99": "Defence"
+    },
+    {
+     "item": "Hitpoints cape",
+     "price": 99000,
+     "skill99": "Hitpoints"
+    },
+    {
+     "item": "Ranged cape",
+     "price": 99000,
+     "skill99": "Ranged"
+    },
+    {
+     "item": "Magic cape",
+     "price": 99000,
+     "skill99": "Magic"
+    },
+    {
+     "item": "Prayer cape",
+     "price": 99000,
+     "skill99": "Prayer"
+    },
+    {
+     "item": "Agility cape",
+     "price": 99000,
+     "skill99": "Agility"
+    },
+    {
+     "item": "Thieving cape",
+     "price": 99000,
+     "skill99": "Thieving"
+    },
+    {
+     "item": "Mining cape",
+     "price": 99000,
+     "skill99": "Mining"
+    },
+    {
+     "item": "Woodcutting cape",
+     "price": 99000,
+     "skill99": "Woodcutting"
+    },
+    {
+     "item": "Fishing cape",
+     "price": 99000,
+     "skill99": "Fishing"
+    },
+    {
+     "item": "Smithing cape",
+     "price": 99000,
+     "skill99": "Smithing"
+    },
+    {
+     "item": "Crafting cape",
+     "price": 99000,
+     "skill99": "Crafting"
+    },
+    {
+     "item": "Cooking cape",
+     "price": 99000,
+     "skill99": "Cooking"
+    },
+    {
+     "item": "Fletching cape",
+     "price": 99000,
+     "skill99": "Fletching"
+    },
+    {
+     "item": "Herblore cape",
+     "price": 99000,
+     "skill99": "Herblore"
+    },
+    {
+     "item": "Runecrafting cape",
+     "price": 99000,
+     "skill99": "Runecrafting"
+    }
+   ]
+  },
+  "tools": {
+   "title": "Bob's Brilliant Tools",
+   "stock": [
+    {
+     "item": "Bronze axe",
+     "price": 16
+    },
+    {
+     "item": "Bronze pickaxe",
+     "price": 20
+    },
+    {
+     "item": "Iron axe",
+     "price": 56
+    },
+    {
+     "item": "Iron pickaxe",
+     "price": 70
+    },
+    {
+     "item": "Steel axe",
+     "price": 200
+    },
+    {
+     "item": "Steel pickaxe",
+     "price": 250
+    },
+    {
+     "item": "Mithril axe",
+     "price": 520,
+     "unlock": "doric"
+    },
+    {
+     "item": "Mithril pickaxe",
+     "price": 650,
+     "unlock": "doric"
+    },
+    {
+     "item": "Adamant axe",
+     "price": 1280,
+     "unlock": "doric"
+    },
+    {
+     "item": "Adamant pickaxe",
+     "price": 1600,
+     "unlock": "doric"
+    },
+    {
+     "item": "Small fishing net",
+     "price": 5
+    },
+    {
+     "item": "Fly fishing rod",
+     "price": 15
+    },
+    {
+     "item": "Lobster pot",
+     "price": 40
+    },
+    {
+     "item": "Harpoon",
+     "price": 60
+    },
+    {
+     "item": "Hammer",
+     "price": 3
+    },
+    {
+     "item": "Knife",
+     "price": 3
+    },
+    {
+     "item": "Needle",
+     "price": 2
+    },
+    {
+     "item": "Tinderbox",
+     "price": 2
+    }
+   ]
+  },
+  "herb": {
+   "title": "Mira's Remedies",
+   "stock": [
+    {
+     "item": "Vial of water",
+     "price": 5
+    },
+    {
+     "item": "Vial",
+     "price": 2
+    },
+    {
+     "item": "Eye of newt",
+     "price": 6
+    },
+    {
+     "item": "Unicorn horn dust",
+     "price": 25
+    },
+    {
+     "item": "Chocolate dust",
+     "price": 18
+    },
+    {
+     "item": "Limpwurt root",
+     "price": 30
+    },
+    {
+     "item": "White berries",
+     "price": 45
+    },
+    {
+     "item": "Snape grass",
+     "price": 40
+    },
+    {
+     "item": "Grimy guam leaf",
+     "price": 12
+    },
+    {
+     "item": "Grimy marrentill",
+     "price": 18
+    },
+    {
+     "item": "Grimy tarromin",
+     "price": 25
+    },
+    {
+     "item": "Attack potion",
+     "price": 60
+    },
+    {
+     "item": "Antipoison",
+     "price": 90
+    },
+    {
+     "item": "Energy potion",
+     "price": 120
+    },
+    {
+     "item": "Prayer potion",
+     "price": 400,
+     "unlock": "apprentice"
+    }
+   ]
+  },
+  "herb2": {
+   "title": "Nessa's Herb Stall (Falador)",
+   "stock": [
+    {
+     "item": "Vial of water",
+     "price": 5
+    },
+    {
+     "item": "Vial",
+     "price": 2
+    },
+    {
+     "item": "Eye of newt",
+     "price": 6
+    },
+    {
+     "item": "Unicorn horn dust",
+     "price": 25
+    },
+    {
+     "item": "Chocolate dust",
+     "price": 18
+    },
+    {
+     "item": "Limpwurt root",
+     "price": 30
+    },
+    {
+     "item": "White berries",
+     "price": 45
+    },
+    {
+     "item": "Snape grass",
+     "price": 40
+    },
+    {
+     "item": "Grimy guam leaf",
+     "price": 12
+    },
+    {
+     "item": "Grimy marrentill",
+     "price": 18
+    },
+    {
+     "item": "Grimy tarromin",
+     "price": 25
+    },
+    {
+     "item": "Attack potion",
+     "price": 60
+    },
+    {
+     "item": "Antipoison",
+     "price": 90
+    },
+    {
+     "item": "Energy potion",
+     "price": 120
+    },
+    {
+     "item": "Prayer potion",
+     "price": 400,
+     "unlock": "apprentice"
+    }
+   ]
+  },
+  "armour": {
+   "title": "Falador Armoury",
+   "stock": [
+    {
+     "item": "Mithril full helm",
+     "price": 384
+    },
+    {
+     "item": "Mithril platebody",
+     "price": 1920
+    },
+    {
+     "item": "Mithril platelegs",
+     "price": 960
+    },
+    {
+     "item": "Mithril shield",
+     "price": 640
+    },
+    {
+     "item": "Adamant full helm",
+     "price": 960
+    },
+    {
+     "item": "Adamant platebody",
+     "price": 4800
+    },
+    {
+     "item": "Adamant platelegs",
+     "price": 2400
+    },
+    {
+     "item": "Adamant shield",
+     "price": 1600
+    },
+    {
+     "item": "Rune full helm",
+     "price": 2496
+    },
+    {
+     "item": "Rune platebody",
+     "price": 12480
+    },
+    {
+     "item": "Rune platelegs",
+     "price": 6240
+    },
+    {
+     "item": "Rune shield",
+     "price": 4160
+    },
+    {
+     "item": "Hard leather body",
+     "price": 96
+    },
+    {
+     "item": "Leather cowl",
+     "price": 13
+    },
+    {
+     "item": "Leather chaps",
+     "price": 24
+    },
+    {
+     "item": "Amulet of defence",
+     "price": 480
+    },
+    {
+     "item": "Ring of recoil",
+     "price": 3000
+    }
+   ]
+  },
+  "weapons": {
+   "title": "Varrock Weaponsmith",
+   "stock": [
+    {
+     "item": "Steel sword",
+     "price": 192
+    },
+    {
+     "item": "Mithril sword",
+     "price": 480
+    },
+    {
+     "item": "Adamant sword",
+     "price": 1200
+    },
+    {
+     "item": "Rune sword",
+     "price": 3120
+    },
+    {
+     "item": "Willow shortbow",
+     "price": 128
+    },
+    {
+     "item": "Maple shortbow",
+     "price": 256
+    },
+    {
+     "item": "Yew shortbow",
+     "price": 640
+    },
+    {
+     "item": "Magic shortbow",
+     "price": 1600
+    },
+    {
+     "item": "Iron arrows",
+     "price": 3
+    },
+    {
+     "item": "Steel arrows",
+     "price": 6
+    },
+    {
+     "item": "Mithril arrows",
+     "price": 13
+    },
+    {
+     "item": "Adamant arrows",
+     "price": 26
+    },
+    {
+     "item": "Rune arrows",
+     "price": 64
+    },
+    {
+     "item": "Warrior ring",
+     "price": 1280
+    },
+    {
+     "item": "Archer ring",
+     "price": 1280
+    },
+    {
+     "item": "Amulet of strength",
+     "price": 800
+    }
+   ]
+  },
+  "general2": {
+   "title": "Port Sarim General Store",
+   "stock": [
+    {
+     "item": "Bronze sword",
+     "price": 40
+    },
+    {
+     "item": "Wooden shield",
+     "price": 25
+    },
+    {
+     "item": "Leather body",
+     "price": 60
+    },
+    {
+     "item": "Cooked shrimp",
+     "price": 8
+    },
+    {
+     "item": "Cooked trout",
+     "price": 20
+    },
+    {
+     "item": "Shortbow",
+     "price": 50
+    },
+    {
+     "item": "Bronze arrows",
+     "price": 2
+    },
+    {
+     "item": "Feather",
+     "price": 2
+    },
+    {
+     "item": "Flax",
+     "price": 4
+    },
+    {
+     "item": "Cooked lobster",
+     "price": 80,
+     "unlock": "cook"
+    },
+    {
+     "item": "Oak shortbow",
+     "price": 120,
+     "unlock": "hides"
+    },
+    {
+     "item": "Red cape",
+     "price": 20
+    },
+    {
+     "item": "Blue cape",
+     "price": 20
+    },
+    {
+     "item": "Amulet of accuracy",
+     "price": 200
+    },
+    {
+     "item": "Holy symbol",
+     "price": 300
+    },
+    {
+     "item": "Amulet of defence",
+     "price": 500
+    },
+    {
+     "item": "Amulet of strength",
+     "price": 900
+    },
+    {
+     "item": "Miner's ring",
+     "price": 900
+    },
+    {
+     "item": "Forester's ring",
+     "price": 900
+    },
+    {
+     "item": "Angler's ring",
+     "price": 900
+    },
+    {
+     "item": "Ring of regeneration",
+     "price": 2000,
+     "unlock": "fallen"
+    },
+    {
+     "item": "Quest point cape",
+     "price": 99,
+     "unlock": "all"
+    },
+    {
+     "item": "Attack cape",
+     "price": 99000,
+     "skill99": "Attack"
+    },
+    {
+     "item": "Strength cape",
+     "price": 99000,
+     "skill99": "Strength"
+    },
+    {
+     "item": "Defence cape",
+     "price": 99000,
+     "skill99": "Defence"
+    },
+    {
+     "item": "Hitpoints cape",
+     "price": 99000,
+     "skill99": "Hitpoints"
+    },
+    {
+     "item": "Ranged cape",
+     "price": 99000,
+     "skill99": "Ranged"
+    },
+    {
+     "item": "Magic cape",
+     "price": 99000,
+     "skill99": "Magic"
+    },
+    {
+     "item": "Prayer cape",
+     "price": 99000,
+     "skill99": "Prayer"
+    },
+    {
+     "item": "Agility cape",
+     "price": 99000,
+     "skill99": "Agility"
+    },
+    {
+     "item": "Thieving cape",
+     "price": 99000,
+     "skill99": "Thieving"
+    },
+    {
+     "item": "Mining cape",
+     "price": 99000,
+     "skill99": "Mining"
+    },
+    {
+     "item": "Woodcutting cape",
+     "price": 99000,
+     "skill99": "Woodcutting"
+    },
+    {
+     "item": "Fishing cape",
+     "price": 99000,
+     "skill99": "Fishing"
+    },
+    {
+     "item": "Smithing cape",
+     "price": 99000,
+     "skill99": "Smithing"
+    },
+    {
+     "item": "Crafting cape",
+     "price": 99000,
+     "skill99": "Crafting"
+    },
+    {
+     "item": "Cooking cape",
+     "price": 99000,
+     "skill99": "Cooking"
+    },
+    {
+     "item": "Fletching cape",
+     "price": 99000,
+     "skill99": "Fletching"
+    },
+    {
+     "item": "Herblore cape",
+     "price": 99000,
+     "skill99": "Herblore"
+    },
+    {
+     "item": "Runecrafting cape",
+     "price": 99000,
+     "skill99": "Runecrafting"
+    }
+   ]
+  },
+  "general3": {
+   "title": "Varrock General Store",
+   "stock": [
+    {
+     "item": "Bronze sword",
+     "price": 40
+    },
+    {
+     "item": "Wooden shield",
+     "price": 25
+    },
+    {
+     "item": "Leather body",
+     "price": 60
+    },
+    {
+     "item": "Cooked shrimp",
+     "price": 8
+    },
+    {
+     "item": "Cooked trout",
+     "price": 20
+    },
+    {
+     "item": "Shortbow",
+     "price": 50
+    },
+    {
+     "item": "Bronze arrows",
+     "price": 2
+    },
+    {
+     "item": "Feather",
+     "price": 2
+    },
+    {
+     "item": "Flax",
+     "price": 4
+    },
+    {
+     "item": "Cooked lobster",
+     "price": 80,
+     "unlock": "cook"
+    },
+    {
+     "item": "Oak shortbow",
+     "price": 120,
+     "unlock": "hides"
+    },
+    {
+     "item": "Red cape",
+     "price": 20
+    },
+    {
+     "item": "Blue cape",
+     "price": 20
+    },
+    {
+     "item": "Amulet of accuracy",
+     "price": 200
+    },
+    {
+     "item": "Holy symbol",
+     "price": 300
+    },
+    {
+     "item": "Amulet of defence",
+     "price": 500
+    },
+    {
+     "item": "Amulet of strength",
+     "price": 900
+    },
+    {
+     "item": "Miner's ring",
+     "price": 900
+    },
+    {
+     "item": "Forester's ring",
+     "price": 900
+    },
+    {
+     "item": "Angler's ring",
+     "price": 900
+    },
+    {
+     "item": "Ring of regeneration",
+     "price": 2000,
+     "unlock": "fallen"
+    },
+    {
+     "item": "Quest point cape",
+     "price": 99,
+     "unlock": "all"
+    },
+    {
+     "item": "Attack cape",
+     "price": 99000,
+     "skill99": "Attack"
+    },
+    {
+     "item": "Strength cape",
+     "price": 99000,
+     "skill99": "Strength"
+    },
+    {
+     "item": "Defence cape",
+     "price": 99000,
+     "skill99": "Defence"
+    },
+    {
+     "item": "Hitpoints cape",
+     "price": 99000,
+     "skill99": "Hitpoints"
+    },
+    {
+     "item": "Ranged cape",
+     "price": 99000,
+     "skill99": "Ranged"
+    },
+    {
+     "item": "Magic cape",
+     "price": 99000,
+     "skill99": "Magic"
+    },
+    {
+     "item": "Prayer cape",
+     "price": 99000,
+     "skill99": "Prayer"
+    },
+    {
+     "item": "Agility cape",
+     "price": 99000,
+     "skill99": "Agility"
+    },
+    {
+     "item": "Thieving cape",
+     "price": 99000,
+     "skill99": "Thieving"
+    },
+    {
+     "item": "Mining cape",
+     "price": 99000,
+     "skill99": "Mining"
+    },
+    {
+     "item": "Woodcutting cape",
+     "price": 99000,
+     "skill99": "Woodcutting"
+    },
+    {
+     "item": "Fishing cape",
+     "price": 99000,
+     "skill99": "Fishing"
+    },
+    {
+     "item": "Smithing cape",
+     "price": 99000,
+     "skill99": "Smithing"
+    },
+    {
+     "item": "Crafting cape",
+     "price": 99000,
+     "skill99": "Crafting"
+    },
+    {
+     "item": "Cooking cape",
+     "price": 99000,
+     "skill99": "Cooking"
+    },
+    {
+     "item": "Fletching cape",
+     "price": 99000,
+     "skill99": "Fletching"
+    },
+    {
+     "item": "Herblore cape",
+     "price": 99000,
+     "skill99": "Herblore"
+    },
+    {
+     "item": "Runecrafting cape",
+     "price": 99000,
+     "skill99": "Runecrafting"
+    }
+   ]
+  },
+  "apothecary": {
+   "title": "Brightwater Apothecary",
+   "stock": [
+    {
+     "item": "Vial of water",
+     "price": 5
+    },
+    {
+     "item": "Vial",
+     "price": 2
+    },
+    {
+     "item": "Eye of newt",
+     "price": 6
+    },
+    {
+     "item": "Unicorn horn dust",
+     "price": 25
+    },
+    {
+     "item": "Chocolate dust",
+     "price": 18
+    },
+    {
+     "item": "Limpwurt root",
+     "price": 30
+    },
+    {
+     "item": "White berries",
+     "price": 45
+    },
+    {
+     "item": "Snape grass",
+     "price": 40
+    },
+    {
+     "item": "Grimy guam leaf",
+     "price": 12
+    },
+    {
+     "item": "Grimy marrentill",
+     "price": 18
+    },
+    {
+     "item": "Grimy tarromin",
+     "price": 25
+    },
+    {
+     "item": "Attack potion",
+     "price": 60
+    },
+    {
+     "item": "Antipoison",
+     "price": 90
+    },
+    {
+     "item": "Energy potion",
+     "price": 120
+    },
+    {
+     "item": "Prayer potion",
+     "price": 400,
+     "unlock": "apprentice"
+    }
+   ]
+  },
+  "magic0": {
+   "title": "Mizgog's Magic Supplies",
+   "stock": [
+    {
+     "item": "Air rune",
+     "price": 6
+    },
+    {
+     "item": "Mind rune",
+     "price": 4
+    },
+    {
+     "item": "Water rune",
+     "price": 6
+    },
+    {
+     "item": "Earth rune",
+     "price": 6
+    },
+    {
+     "item": "Fire rune",
+     "price": 6
+    },
+    {
+     "item": "Rune essence",
+     "price": 8
+    },
+    {
+     "item": "Staff",
+     "price": 20
+    },
+    {
+     "item": "Wizard hat",
+     "price": 30
+    },
+    {
+     "item": "Wizard robe",
+     "price": 45
+    }
+   ]
+  },
+  "magic": {
+   "title": "Betty's Magic Emporium",
+   "stock": [
+    {
+     "item": "Air rune",
+     "price": 6
+    },
+    {
+     "item": "Mind rune",
+     "price": 4
+    },
+    {
+     "item": "Water rune",
+     "price": 6
+    },
+    {
+     "item": "Earth rune",
+     "price": 6
+    },
+    {
+     "item": "Fire rune",
+     "price": 6
+    },
+    {
+     "item": "Body rune",
+     "price": 4
+    },
+    {
+     "item": "Chaos rune",
+     "price": 126
+    },
+    {
+     "item": "Rune essence",
+     "price": 8
+    },
+    {
+     "item": "Staff",
+     "price": 20
+    },
+    {
+     "item": "Staff of air",
+     "price": 1500
+    },
+    {
+     "item": "Staff of water",
+     "price": 1500
+    },
+    {
+     "item": "Staff of earth",
+     "price": 1500
+    },
+    {
+     "item": "Staff of fire",
+     "price": 1500
+    },
+    {
+     "item": "Wizard hat",
+     "price": 30
+    },
+    {
+     "item": "Wizard robe",
+     "price": 45
+    }
+   ]
+  },
+  "runes": {
+   "title": "Aubury's Rune Shop",
+   "stock": [
+    {
+     "item": "Air rune",
+     "price": 6
+    },
+    {
+     "item": "Mind rune",
+     "price": 4
+    },
+    {
+     "item": "Water rune",
+     "price": 6
+    },
+    {
+     "item": "Earth rune",
+     "price": 6
+    },
+    {
+     "item": "Fire rune",
+     "price": 6
+    },
+    {
+     "item": "Body rune",
+     "price": 4
+    },
+    {
+     "item": "Chaos rune",
+     "price": 126
+    },
+    {
+     "item": "Death rune",
+     "price": 252
+    },
+    {
+     "item": "Rune essence",
+     "price": 8
+    },
+    {
+     "item": "Pure essence",
+     "price": 14
+    },
+    {
+     "item": "Mystic staff",
+     "price": 9000
+    },
+    {
+     "item": "Mystic hat",
+     "price": 3500
+    },
+    {
+     "item": "Mystic robe top",
+     "price": 14000
+    },
+    {
+     "item": "Mystic robe bottom",
+     "price": 10500
+    }
+   ]
+  }
+ },
+ "general": [
+  {
+   "item": "Bronze sword",
+   "price": 40
+  },
+  {
+   "item": "Wooden shield",
+   "price": 25
+  },
+  {
+   "item": "Leather body",
+   "price": 60
+  },
+  {
+   "item": "Cooked shrimp",
+   "price": 8
+  },
+  {
+   "item": "Cooked trout",
+   "price": 20
+  },
+  {
+   "item": "Shortbow",
+   "price": 50
+  },
+  {
+   "item": "Bronze arrows",
+   "price": 2
+  },
+  {
+   "item": "Feather",
+   "price": 2
+  },
+  {
+   "item": "Flax",
+   "price": 4
+  },
+  {
+   "item": "Cooked lobster",
+   "price": 80,
+   "unlock": "cook"
+  },
+  {
+   "item": "Oak shortbow",
+   "price": 120,
+   "unlock": "hides"
+  },
+  {
+   "item": "Red cape",
+   "price": 20
+  },
+  {
+   "item": "Blue cape",
+   "price": 20
+  },
+  {
+   "item": "Amulet of accuracy",
+   "price": 200
+  },
+  {
+   "item": "Holy symbol",
+   "price": 300
+  },
+  {
+   "item": "Amulet of defence",
+   "price": 500
+  },
+  {
+   "item": "Amulet of strength",
+   "price": 900
+  },
+  {
+   "item": "Miner's ring",
+   "price": 900
+  },
+  {
+   "item": "Forester's ring",
+   "price": 900
+  },
+  {
+   "item": "Angler's ring",
+   "price": 900
+  },
+  {
+   "item": "Ring of regeneration",
+   "price": 2000,
+   "unlock": "fallen"
+  },
+  {
+   "item": "Quest point cape",
+   "price": 99,
+   "unlock": "all"
+  },
+  {
+   "item": "Attack cape",
+   "price": 99000,
+   "skill99": "Attack"
+  },
+  {
+   "item": "Strength cape",
+   "price": 99000,
+   "skill99": "Strength"
+  },
+  {
+   "item": "Defence cape",
+   "price": 99000,
+   "skill99": "Defence"
+  },
+  {
+   "item": "Hitpoints cape",
+   "price": 99000,
+   "skill99": "Hitpoints"
+  },
+  {
+   "item": "Ranged cape",
+   "price": 99000,
+   "skill99": "Ranged"
+  },
+  {
+   "item": "Magic cape",
+   "price": 99000,
+   "skill99": "Magic"
+  },
+  {
+   "item": "Prayer cape",
+   "price": 99000,
+   "skill99": "Prayer"
+  },
+  {
+   "item": "Agility cape",
+   "price": 99000,
+   "skill99": "Agility"
+  },
+  {
+   "item": "Thieving cape",
+   "price": 99000,
+   "skill99": "Thieving"
+  },
+  {
+   "item": "Mining cape",
+   "price": 99000,
+   "skill99": "Mining"
+  },
+  {
+   "item": "Woodcutting cape",
+   "price": 99000,
+   "skill99": "Woodcutting"
+  },
+  {
+   "item": "Fishing cape",
+   "price": 99000,
+   "skill99": "Fishing"
+  },
+  {
+   "item": "Smithing cape",
+   "price": 99000,
+   "skill99": "Smithing"
+  },
+  {
+   "item": "Crafting cape",
+   "price": 99000,
+   "skill99": "Crafting"
+  },
+  {
+   "item": "Cooking cape",
+   "price": 99000,
+   "skill99": "Cooking"
+  },
+  {
+   "item": "Fletching cape",
+   "price": 99000,
+   "skill99": "Fletching"
+  },
+  {
+   "item": "Herblore cape",
+   "price": 99000,
+   "skill99": "Herblore"
+  },
+  {
+   "item": "Runecrafting cape",
+   "price": 99000,
+   "skill99": "Runecrafting"
+  }
+ ],
+ "tools": [
+  {
+   "item": "Bronze axe",
+   "price": 16
+  },
+  {
+   "item": "Bronze pickaxe",
+   "price": 20
+  },
+  {
+   "item": "Iron axe",
+   "price": 56
+  },
+  {
+   "item": "Iron pickaxe",
+   "price": 70
+  },
+  {
+   "item": "Steel axe",
+   "price": 200
+  },
+  {
+   "item": "Steel pickaxe",
+   "price": 250
+  },
+  {
+   "item": "Mithril axe",
+   "price": 520,
+   "unlock": "doric"
+  },
+  {
+   "item": "Mithril pickaxe",
+   "price": 650,
+   "unlock": "doric"
+  },
+  {
+   "item": "Adamant axe",
+   "price": 1280,
+   "unlock": "doric"
+  },
+  {
+   "item": "Adamant pickaxe",
+   "price": 1600,
+   "unlock": "doric"
+  },
+  {
+   "item": "Small fishing net",
+   "price": 5
+  },
+  {
+   "item": "Fly fishing rod",
+   "price": 15
+  },
+  {
+   "item": "Lobster pot",
+   "price": 40
+  },
+  {
+   "item": "Harpoon",
+   "price": 60
+  },
+  {
+   "item": "Hammer",
+   "price": 3
+  },
+  {
+   "item": "Knife",
+   "price": 3
+  },
+  {
+   "item": "Needle",
+   "price": 2
+  },
+  {
+   "item": "Tinderbox",
+   "price": 2
+  }
+ ],
+ "herbs": [
+  {
+   "item": "Vial of water",
+   "price": 5
+  },
+  {
+   "item": "Vial",
+   "price": 2
+  },
+  {
+   "item": "Eye of newt",
+   "price": 6
+  },
+  {
+   "item": "Unicorn horn dust",
+   "price": 25
+  },
+  {
+   "item": "Chocolate dust",
+   "price": 18
+  },
+  {
+   "item": "Limpwurt root",
+   "price": 30
+  },
+  {
+   "item": "White berries",
+   "price": 45
+  },
+  {
+   "item": "Snape grass",
+   "price": 40
+  },
+  {
+   "item": "Grimy guam leaf",
+   "price": 12
+  },
+  {
+   "item": "Grimy marrentill",
+   "price": 18
+  },
+  {
+   "item": "Grimy tarromin",
+   "price": 25
+  },
+  {
+   "item": "Attack potion",
+   "price": 60
+  },
+  {
+   "item": "Antipoison",
+   "price": 90
+  },
+  {
+   "item": "Energy potion",
+   "price": 120
+  },
+  {
+   "item": "Prayer potion",
+   "price": 400,
+   "unlock": "apprentice"
+  }
+ ],
+ "armour": [
+  {
+   "item": "Mithril full helm",
+   "price": 384
+  },
+  {
+   "item": "Mithril platebody",
+   "price": 1920
+  },
+  {
+   "item": "Mithril platelegs",
+   "price": 960
+  },
+  {
+   "item": "Mithril shield",
+   "price": 640
+  },
+  {
+   "item": "Adamant full helm",
+   "price": 960
+  },
+  {
+   "item": "Adamant platebody",
+   "price": 4800
+  },
+  {
+   "item": "Adamant platelegs",
+   "price": 2400
+  },
+  {
+   "item": "Adamant shield",
+   "price": 1600
+  },
+  {
+   "item": "Rune full helm",
+   "price": 2496
+  },
+  {
+   "item": "Rune platebody",
+   "price": 12480
+  },
+  {
+   "item": "Rune platelegs",
+   "price": 6240
+  },
+  {
+   "item": "Rune shield",
+   "price": 4160
+  },
+  {
+   "item": "Hard leather body",
+   "price": 96
+  },
+  {
+   "item": "Leather cowl",
+   "price": 13
+  },
+  {
+   "item": "Leather chaps",
+   "price": 24
+  },
+  {
+   "item": "Amulet of defence",
+   "price": 480
+  },
+  {
+   "item": "Ring of recoil",
+   "price": 3000
+  }
+ ],
+ "weapons": [
+  {
+   "item": "Steel sword",
+   "price": 192
+  },
+  {
+   "item": "Mithril sword",
+   "price": 480
+  },
+  {
+   "item": "Adamant sword",
+   "price": 1200
+  },
+  {
+   "item": "Rune sword",
+   "price": 3120
+  },
+  {
+   "item": "Willow shortbow",
+   "price": 128
+  },
+  {
+   "item": "Maple shortbow",
+   "price": 256
+  },
+  {
+   "item": "Yew shortbow",
+   "price": 640
+  },
+  {
+   "item": "Magic shortbow",
+   "price": 1600
+  },
+  {
+   "item": "Iron arrows",
+   "price": 3
+  },
+  {
+   "item": "Steel arrows",
+   "price": 6
+  },
+  {
+   "item": "Mithril arrows",
+   "price": 13
+  },
+  {
+   "item": "Adamant arrows",
+   "price": 26
+  },
+  {
+   "item": "Rune arrows",
+   "price": 64
+  },
+  {
+   "item": "Warrior ring",
+   "price": 1280
+  },
+  {
+   "item": "Archer ring",
+   "price": 1280
+  },
+  {
+   "item": "Amulet of strength",
+   "price": 800
+  }
+ ],
+ "magic": [
+  {
+   "item": "Air rune",
+   "price": 6
+  },
+  {
+   "item": "Mind rune",
+   "price": 4
+  },
+  {
+   "item": "Water rune",
+   "price": 6
+  },
+  {
+   "item": "Earth rune",
+   "price": 6
+  },
+  {
+   "item": "Fire rune",
+   "price": 6
+  },
+  {
+   "item": "Body rune",
+   "price": 4
+  },
+  {
+   "item": "Chaos rune",
+   "price": 126
+  },
+  {
+   "item": "Rune essence",
+   "price": 8
+  },
+  {
+   "item": "Staff",
+   "price": 20
+  },
+  {
+   "item": "Staff of air",
+   "price": 1500
+  },
+  {
+   "item": "Staff of water",
+   "price": 1500
+  },
+  {
+   "item": "Staff of earth",
+   "price": 1500
+  },
+  {
+   "item": "Staff of fire",
+   "price": 1500
+  },
+  {
+   "item": "Wizard hat",
+   "price": 30
+  },
+  {
+   "item": "Wizard robe",
+   "price": 45
+  }
+ ],
+ "magicBasic": [
+  {
+   "item": "Air rune",
+   "price": 6
+  },
+  {
+   "item": "Mind rune",
+   "price": 4
+  },
+  {
+   "item": "Water rune",
+   "price": 6
+  },
+  {
+   "item": "Earth rune",
+   "price": 6
+  },
+  {
+   "item": "Fire rune",
+   "price": 6
+  },
+  {
+   "item": "Rune essence",
+   "price": 8
+  },
+  {
+   "item": "Staff",
+   "price": 20
+  },
+  {
+   "item": "Wizard hat",
+   "price": 30
+  },
+  {
+   "item": "Wizard robe",
+   "price": 45
+  }
+ ],
+ "runes": [
+  {
+   "item": "Air rune",
+   "price": 6
+  },
+  {
+   "item": "Mind rune",
+   "price": 4
+  },
+  {
+   "item": "Water rune",
+   "price": 6
+  },
+  {
+   "item": "Earth rune",
+   "price": 6
+  },
+  {
+   "item": "Fire rune",
+   "price": 6
+  },
+  {
+   "item": "Body rune",
+   "price": 4
+  },
+  {
+   "item": "Chaos rune",
+   "price": 126
+  },
+  {
+   "item": "Death rune",
+   "price": 252
+  },
+  {
+   "item": "Rune essence",
+   "price": 8
+  },
+  {
+   "item": "Pure essence",
+   "price": 14
+  },
+  {
+   "item": "Mystic staff",
+   "price": 9000
+  },
+  {
+   "item": "Mystic hat",
+   "price": 3500
+  },
+  {
+   "item": "Mystic robe top",
+   "price": 14000
+  },
+  {
+   "item": "Mystic robe bottom",
+   "price": 10500
+  }
+ ]
+}

@@ -1,0 +1,648 @@
+{
+ "agilityCourses": {
+  "brightwater": {
+   "name": "Brightwater Agility Course",
+   "level": 1,
+   "lapXp": 39,
+   "obstacles": [
+    {
+     "name": "Log balance",
+     "verb": "Walk-across",
+     "kind": "log",
+     "level": 1,
+     "xp": 7.5,
+     "failDmg": 10
+    },
+    {
+     "name": "Obstacle net",
+     "verb": "Climb-over",
+     "kind": "net",
+     "level": 1,
+     "xp": 7.5,
+     "failDmg": 10
+    },
+    {
+     "name": "Balancing rope",
+     "verb": "Walk-on",
+     "kind": "rope",
+     "level": 1,
+     "xp": 7.5,
+     "failDmg": 10
+    },
+    {
+     "name": "Obstacle pipe",
+     "verb": "Squeeze-through",
+     "kind": "pipe",
+     "level": 1,
+     "xp": 7.5,
+     "failDmg": 10
+    }
+   ]
+  },
+  "varrock": {
+   "name": "Varrock Agility Course",
+   "level": 30,
+   "lapXp": 125,
+   "obstacles": [
+    {
+     "name": "Rough wall",
+     "verb": "Climb",
+     "kind": "wall",
+     "level": 30,
+     "xp": 12,
+     "failDmg": 20
+    },
+    {
+     "name": "Clothes line",
+     "verb": "Cross",
+     "kind": "rope",
+     "level": 30,
+     "xp": 21,
+     "failDmg": 30
+    },
+    {
+     "name": "Gap",
+     "verb": "Leap",
+     "kind": "gap",
+     "level": 30,
+     "xp": 17,
+     "failDmg": 30
+    },
+    {
+     "name": "Wall ledge",
+     "verb": "Balance",
+     "kind": "log",
+     "level": 30,
+     "xp": 25,
+     "failDmg": 30
+    }
+   ]
+  },
+  "portsarim": {
+   "name": "Port Sarim Docks Course",
+   "level": 45,
+   "lapXp": 190,
+   "obstacles": [
+    {
+     "name": "Rigging net",
+     "verb": "Climb-over",
+     "kind": "net",
+     "level": 45,
+     "xp": 30,
+     "failDmg": 40
+    },
+    {
+     "name": "Mast rope",
+     "verb": "Swing-on",
+     "kind": "rope",
+     "level": 45,
+     "xp": 35,
+     "failDmg": 40
+    },
+    {
+     "name": "Crate stack",
+     "verb": "Climb",
+     "kind": "wall",
+     "level": 45,
+     "xp": 30,
+     "failDmg": 40
+    },
+    {
+     "name": "Pier gap",
+     "verb": "Jump",
+     "kind": "gap",
+     "level": 45,
+     "xp": 40,
+     "failDmg": 50
+    }
+   ]
+  },
+  "falador": {
+   "name": "Falador Agility Course",
+   "level": 60,
+   "lapXp": 300,
+   "obstacles": [
+    {
+     "name": "Rough wall",
+     "verb": "Climb",
+     "kind": "wall",
+     "level": 60,
+     "xp": 45,
+     "failDmg": 50
+    },
+    {
+     "name": "Tightrope",
+     "verb": "Cross",
+     "kind": "rope",
+     "level": 60,
+     "xp": 50,
+     "failDmg": 60
+    },
+    {
+     "name": "Hand holds",
+     "verb": "Cross",
+     "kind": "net",
+     "level": 60,
+     "xp": 55,
+     "failDmg": 60
+    },
+    {
+     "name": "Gap",
+     "verb": "Jump",
+     "kind": "gap",
+     "level": 60,
+     "xp": 50,
+     "failDmg": 60
+    },
+    {
+     "name": "Ledge",
+     "verb": "Balance",
+     "kind": "log",
+     "level": 60,
+     "xp": 60,
+     "failDmg": 60
+    }
+   ]
+  }
+ },
+ "agilityObstacles": {
+  "brightwater:0": {
+   "name": "Log balance",
+   "verb": "Walk-across",
+   "kind": "log",
+   "level": 1,
+   "xp": 7.5,
+   "failDmg": 10,
+   "id": "brightwater:0",
+   "course": "brightwater",
+   "index": 0,
+   "last": false
+  },
+  "brightwater:1": {
+   "name": "Obstacle net",
+   "verb": "Climb-over",
+   "kind": "net",
+   "level": 1,
+   "xp": 7.5,
+   "failDmg": 10,
+   "id": "brightwater:1",
+   "course": "brightwater",
+   "index": 1,
+   "last": false
+  },
+  "brightwater:2": {
+   "name": "Balancing rope",
+   "verb": "Walk-on",
+   "kind": "rope",
+   "level": 1,
+   "xp": 7.5,
+   "failDmg": 10,
+   "id": "brightwater:2",
+   "course": "brightwater",
+   "index": 2,
+   "last": false
+  },
+  "brightwater:3": {
+   "name": "Obstacle pipe",
+   "verb": "Squeeze-through",
+   "kind": "pipe",
+   "level": 1,
+   "xp": 7.5,
+   "failDmg": 10,
+   "id": "brightwater:3",
+   "course": "brightwater",
+   "index": 3,
+   "last": true
+  },
+  "varrock:0": {
+   "name": "Rough wall",
+   "verb": "Climb",
+   "kind": "wall",
+   "level": 30,
+   "xp": 12,
+   "failDmg": 20,
+   "id": "varrock:0",
+   "course": "varrock",
+   "index": 0,
+   "last": false
+  },
+  "varrock:1": {
+   "name": "Clothes line",
+   "verb": "Cross",
+   "kind": "rope",
+   "level": 30,
+   "xp": 21,
+   "failDmg": 30,
+   "id": "varrock:1",
+   "course": "varrock",
+   "index": 1,
+   "last": false
+  },
+  "varrock:2": {
+   "name": "Gap",
+   "verb": "Leap",
+   "kind": "gap",
+   "level": 30,
+   "xp": 17,
+   "failDmg": 30,
+   "id": "varrock:2",
+   "course": "varrock",
+   "index": 2,
+   "last": false
+  },
+  "varrock:3": {
+   "name": "Wall ledge",
+   "verb": "Balance",
+   "kind": "log",
+   "level": 30,
+   "xp": 25,
+   "failDmg": 30,
+   "id": "varrock:3",
+   "course": "varrock",
+   "index": 3,
+   "last": true
+  },
+  "portsarim:0": {
+   "name": "Rigging net",
+   "verb": "Climb-over",
+   "kind": "net",
+   "level": 45,
+   "xp": 30,
+   "failDmg": 40,
+   "id": "portsarim:0",
+   "course": "portsarim",
+   "index": 0,
+   "last": false
+  },
+  "portsarim:1": {
+   "name": "Mast rope",
+   "verb": "Swing-on",
+   "kind": "rope",
+   "level": 45,
+   "xp": 35,
+   "failDmg": 40,
+   "id": "portsarim:1",
+   "course": "portsarim",
+   "index": 1,
+   "last": false
+  },
+  "portsarim:2": {
+   "name": "Crate stack",
+   "verb": "Climb",
+   "kind": "wall",
+   "level": 45,
+   "xp": 30,
+   "failDmg": 40,
+   "id": "portsarim:2",
+   "course": "portsarim",
+   "index": 2,
+   "last": false
+  },
+  "portsarim:3": {
+   "name": "Pier gap",
+   "verb": "Jump",
+   "kind": "gap",
+   "level": 45,
+   "xp": 40,
+   "failDmg": 50,
+   "id": "portsarim:3",
+   "course": "portsarim",
+   "index": 3,
+   "last": true
+  },
+  "falador:0": {
+   "name": "Rough wall",
+   "verb": "Climb",
+   "kind": "wall",
+   "level": 60,
+   "xp": 45,
+   "failDmg": 50,
+   "id": "falador:0",
+   "course": "falador",
+   "index": 0,
+   "last": false
+  },
+  "falador:1": {
+   "name": "Tightrope",
+   "verb": "Cross",
+   "kind": "rope",
+   "level": 60,
+   "xp": 50,
+   "failDmg": 60,
+   "id": "falador:1",
+   "course": "falador",
+   "index": 1,
+   "last": false
+  },
+  "falador:2": {
+   "name": "Hand holds",
+   "verb": "Cross",
+   "kind": "net",
+   "level": 60,
+   "xp": 55,
+   "failDmg": 60,
+   "id": "falador:2",
+   "course": "falador",
+   "index": 2,
+   "last": false
+  },
+  "falador:3": {
+   "name": "Gap",
+   "verb": "Jump",
+   "kind": "gap",
+   "level": 60,
+   "xp": 50,
+   "failDmg": 60,
+   "id": "falador:3",
+   "course": "falador",
+   "index": 3,
+   "last": false
+  },
+  "falador:4": {
+   "name": "Ledge",
+   "verb": "Balance",
+   "kind": "log",
+   "level": 60,
+   "xp": 60,
+   "failDmg": 60,
+   "id": "falador:4",
+   "course": "falador",
+   "index": 4,
+   "last": true
+  }
+ },
+ "thieveTargets": {
+  "Man": {
+   "level": 1,
+   "xp": 8,
+   "stun": 5,
+   "dmg": 10,
+   "loot": [
+    {
+     "item": "Coins",
+     "qty": [
+      3,
+      3
+     ]
+    }
+   ]
+  },
+  "Woman": {
+   "level": 1,
+   "xp": 8,
+   "stun": 5,
+   "dmg": 10,
+   "loot": [
+    {
+     "item": "Coins",
+     "qty": [
+      3,
+      3
+     ]
+    }
+   ]
+  },
+  "Farmer": {
+   "level": 10,
+   "xp": 14.5,
+   "stun": 5,
+   "dmg": 10,
+   "loot": [
+    {
+     "item": "Coins",
+     "qty": [
+      9,
+      9
+     ]
+    },
+    {
+     "item": "Raw beef",
+     "qty": [
+      1,
+      1
+     ],
+     "chance": 0.2
+    },
+    {
+     "item": "Grimy guam leaf",
+     "qty": [
+      1,
+      1
+     ],
+     "chance": 0.15
+    }
+   ]
+  },
+  "Sailor": {
+   "level": 20,
+   "xp": 22,
+   "stun": 5,
+   "dmg": 20,
+   "loot": [
+    {
+     "item": "Coins",
+     "qty": [
+      12,
+      18
+     ]
+    },
+    {
+     "item": "Raw shrimp",
+     "qty": [
+      1,
+      2
+     ],
+     "chance": 0.25
+    }
+   ]
+  },
+  "Warrior": {
+   "level": 25,
+   "xp": 26,
+   "stun": 5,
+   "dmg": 20,
+   "loot": [
+    {
+     "item": "Coins",
+     "qty": [
+      18,
+      18
+     ]
+    }
+   ]
+  },
+  "Guard": {
+   "level": 40,
+   "xp": 46.8,
+   "stun": 5,
+   "dmg": 20,
+   "loot": [
+    {
+     "item": "Coins",
+     "qty": [
+      30,
+      30
+     ]
+    },
+    {
+     "item": "Iron arrows",
+     "qty": [
+      3,
+      8
+     ],
+     "chance": 0.2
+    }
+   ]
+  },
+  "Knight": {
+   "level": 55,
+   "xp": 84.3,
+   "stun": 6,
+   "dmg": 30,
+   "loot": [
+    {
+     "item": "Coins",
+     "qty": [
+      50,
+      50
+     ]
+    },
+    {
+     "item": "Chaos rune",
+     "qty": [
+      1,
+      2
+     ],
+     "chance": 0.15
+    }
+   ]
+  },
+  "Paladin": {
+   "level": 70,
+   "xp": 151.8,
+   "stun": 6,
+   "dmg": 30,
+   "loot": [
+    {
+     "item": "Coins",
+     "qty": [
+      80,
+      80
+     ]
+    },
+    {
+     "item": "Chaos rune",
+     "qty": [
+      2,
+      2
+     ],
+     "chance": 0.4
+    }
+   ]
+  },
+  "Hero": {
+   "level": 80,
+   "xp": 273.3,
+   "stun": 6,
+   "dmg": 40,
+   "loot": [
+    {
+     "item": "Coins",
+     "qty": [
+      200,
+      300
+     ]
+    },
+    {
+     "item": "Death rune",
+     "qty": [
+      2,
+      2
+     ],
+     "chance": 0.25
+    },
+    {
+     "item": "Blood rune",
+     "qty": [
+      1,
+      1
+     ],
+     "chance": 0.15
+    },
+    {
+     "item": "Amulet of glory",
+     "qty": [
+      1,
+      1
+     ],
+     "chance": 0.01
+    }
+   ]
+  }
+ },
+ "runeAltars": {
+  "Air": {
+   "rune": "Air rune",
+   "level": 1,
+   "xp": 5,
+   "multi": 11,
+   "pure": false
+  },
+  "Mind": {
+   "rune": "Mind rune",
+   "level": 2,
+   "xp": 5.5,
+   "multi": 14,
+   "pure": false
+  },
+  "Water": {
+   "rune": "Water rune",
+   "level": 5,
+   "xp": 6,
+   "multi": 19,
+   "pure": false
+  },
+  "Earth": {
+   "rune": "Earth rune",
+   "level": 9,
+   "xp": 6.5,
+   "multi": 26,
+   "pure": false
+  },
+  "Fire": {
+   "rune": "Fire rune",
+   "level": 14,
+   "xp": 7,
+   "multi": 35,
+   "pure": false
+  },
+  "Body": {
+   "rune": "Body rune",
+   "level": 20,
+   "xp": 7.5,
+   "multi": 46,
+   "pure": false
+  },
+  "Chaos": {
+   "rune": "Chaos rune",
+   "level": 35,
+   "xp": 8.5,
+   "multi": 74,
+   "pure": true
+  },
+  "Death": {
+   "rune": "Death rune",
+   "level": 65,
+   "xp": 10,
+   "multi": 0,
+   "pure": true
+  },
+  "Blood": {
+   "rune": "Blood rune",
+   "level": 77,
+   "xp": 10.5,
+   "multi": 0,
+   "pure": true
+  }
+ }
+}

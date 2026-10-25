@@ -1,0 +1,391 @@
+{
+ "melee": [
+  {
+   "name": "Accurate",
+   "xp": [
+    "Attack"
+   ],
+   "att": 3,
+   "str": 0,
+   "def": 0
+  },
+  {
+   "name": "Aggressive",
+   "xp": [
+    "Strength"
+   ],
+   "att": 0,
+   "str": 3,
+   "def": 0
+  },
+  {
+   "name": "Defensive",
+   "xp": [
+    "Defence"
+   ],
+   "att": 0,
+   "str": 0,
+   "def": 3
+  },
+  {
+   "name": "Controlled",
+   "xp": [
+    "Attack",
+    "Strength",
+    "Defence"
+   ],
+   "att": 1,
+   "str": 1,
+   "def": 1
+  }
+ ],
+ "ranged": [
+  {
+   "name": "Accurate",
+   "xp": [
+    "Ranged"
+   ],
+   "att": 3,
+   "str": 0,
+   "def": 0,
+   "speed": 0,
+   "range": 0
+  },
+  {
+   "name": "Rapid",
+   "xp": [
+    "Ranged"
+   ],
+   "att": 0,
+   "str": 0,
+   "def": 0,
+   "speed": -1,
+   "range": 0
+  },
+  {
+   "name": "Longrange",
+   "xp": [
+    "Ranged",
+    "Defence"
+   ],
+   "att": 0,
+   "str": 0,
+   "def": 3,
+   "speed": 0,
+   "range": 2
+  }
+ ],
+ "spells": [
+  {
+   "id": "wind_strike",
+   "name": "Wind Strike",
+   "level": 1,
+   "maxHit": 20,
+   "xp": 5.5,
+   "icon": "💨",
+   "runes": {
+    "Air rune": 1,
+    "Mind rune": 1
+   }
+  },
+  {
+   "id": "water_strike",
+   "name": "Water Strike",
+   "level": 5,
+   "maxHit": 40,
+   "xp": 7.5,
+   "icon": "💧",
+   "runes": {
+    "Air rune": 1,
+    "Mind rune": 1,
+    "Water rune": 1
+   }
+  },
+  {
+   "id": "earth_strike",
+   "name": "Earth Strike",
+   "level": 9,
+   "maxHit": 60,
+   "xp": 9.5,
+   "icon": "🪨",
+   "runes": {
+    "Air rune": 1,
+    "Mind rune": 1,
+    "Earth rune": 2
+   }
+  },
+  {
+   "id": "fire_strike",
+   "name": "Fire Strike",
+   "level": 13,
+   "maxHit": 80,
+   "xp": 11.5,
+   "icon": "🔥",
+   "runes": {
+    "Air rune": 2,
+    "Mind rune": 1,
+    "Fire rune": 3
+   }
+  },
+  {
+   "id": "wind_bolt",
+   "name": "Wind Bolt",
+   "level": 17,
+   "maxHit": 90,
+   "xp": 13.5,
+   "icon": "💨",
+   "runes": {
+    "Air rune": 2,
+    "Chaos rune": 1
+   }
+  },
+  {
+   "id": "water_bolt",
+   "name": "Water Bolt",
+   "level": 23,
+   "maxHit": 100,
+   "xp": 16.5,
+   "icon": "💧",
+   "runes": {
+    "Air rune": 2,
+    "Water rune": 2,
+    "Chaos rune": 1
+   }
+  },
+  {
+   "id": "earth_bolt",
+   "name": "Earth Bolt",
+   "level": 29,
+   "maxHit": 110,
+   "xp": 19.5,
+   "icon": "🪨",
+   "runes": {
+    "Air rune": 2,
+    "Earth rune": 3,
+    "Chaos rune": 1
+   }
+  },
+  {
+   "id": "fire_bolt",
+   "name": "Fire Bolt",
+   "level": 35,
+   "maxHit": 120,
+   "xp": 22.5,
+   "icon": "🔥",
+   "runes": {
+    "Air rune": 3,
+    "Fire rune": 4,
+    "Chaos rune": 1
+   }
+  },
+  {
+   "id": "wind_blast",
+   "name": "Wind Blast",
+   "level": 41,
+   "maxHit": 130,
+   "xp": 25.5,
+   "icon": "💨",
+   "runes": {
+    "Air rune": 3,
+    "Death rune": 1
+   }
+  },
+  {
+   "id": "water_blast",
+   "name": "Water Blast",
+   "level": 47,
+   "maxHit": 140,
+   "xp": 28.5,
+   "icon": "💧",
+   "runes": {
+    "Air rune": 3,
+    "Water rune": 3,
+    "Death rune": 1
+   }
+  },
+  {
+   "id": "earth_blast",
+   "name": "Earth Blast",
+   "level": 53,
+   "maxHit": 150,
+   "xp": 31.5,
+   "icon": "🪨",
+   "runes": {
+    "Air rune": 3,
+    "Earth rune": 4,
+    "Death rune": 1
+   }
+  },
+  {
+   "id": "fire_blast",
+   "name": "Fire Blast",
+   "level": 59,
+   "maxHit": 160,
+   "xp": 34.5,
+   "icon": "🔥",
+   "runes": {
+    "Air rune": 4,
+    "Fire rune": 5,
+    "Death rune": 1
+   }
+  },
+  {
+   "id": "wind_wave",
+   "name": "Wind Wave",
+   "level": 62,
+   "maxHit": 170,
+   "xp": 36,
+   "icon": "💨",
+   "runes": {
+    "Air rune": 5,
+    "Blood rune": 1
+   }
+  },
+  {
+   "id": "water_wave",
+   "name": "Water Wave",
+   "level": 65,
+   "maxHit": 180,
+   "xp": 37.5,
+   "icon": "💧",
+   "runes": {
+    "Air rune": 5,
+    "Water rune": 7,
+    "Blood rune": 1
+   }
+  },
+  {
+   "id": "earth_wave",
+   "name": "Earth Wave",
+   "level": 70,
+   "maxHit": 190,
+   "xp": 40,
+   "icon": "🪨",
+   "runes": {
+    "Air rune": 5,
+    "Earth rune": 7,
+    "Blood rune": 1
+   }
+  },
+  {
+   "id": "fire_wave",
+   "name": "Fire Wave",
+   "level": 75,
+   "maxHit": 200,
+   "xp": 42.5,
+   "icon": "🔥",
+   "runes": {
+    "Air rune": 5,
+    "Fire rune": 7,
+    "Blood rune": 1
+   }
+  }
+ ],
+ "spellTicks": 5,
+ "abilities": [
+  {
+   "id": "power",
+   "tier": "basic",
+   "name": "Power Strike",
+   "icon": "💥",
+   "skill": "Strength",
+   "level": 5,
+   "cd": 17,
+   "style": "melee",
+   "desc": "Your next hit deals +60% damage and is more accurate."
+  },
+  {
+   "id": "fortify",
+   "tier": "threshold",
+   "name": "Fortify",
+   "icon": "🛡️",
+   "skill": "Defence",
+   "level": 5,
+   "cd": 50,
+   "style": "any",
+   "desc": "Take 50% less damage for 6 seconds."
+  },
+  {
+   "id": "puncture",
+   "tier": "basic",
+   "name": "Puncture",
+   "icon": "🗡️",
+   "skill": "Attack",
+   "level": 10,
+   "cd": 25,
+   "style": "melee",
+   "desc": "Strike twice at once."
+  },
+  {
+   "id": "volley",
+   "tier": "basic",
+   "name": "Rapid Volley",
+   "icon": "🏹",
+   "skill": "Ranged",
+   "level": 10,
+   "cd": 30,
+   "style": "ranged",
+   "desc": "Fire three arrows at once (uses 3 arrows)."
+  },
+  {
+   "id": "bash",
+   "tier": "basic",
+   "name": "Shield Bash",
+   "icon": "🔰",
+   "skill": "Defence",
+   "level": 20,
+   "cd": 34,
+   "style": "melee",
+   "desc": "A light hit that stuns your target for 3 seconds."
+  },
+  {
+   "id": "rage",
+   "tier": "ultimate",
+   "name": "Berserk",
+   "icon": "😡",
+   "skill": "Strength",
+   "level": 30,
+   "cd": 84,
+   "style": "any",
+   "desc": "+20% accuracy and damage for 9 seconds, but you take 10% more damage."
+  },
+  {
+   "id": "snipe",
+   "tier": "threshold",
+   "name": "Snipe",
+   "icon": "🎯",
+   "skill": "Ranged",
+   "level": 30,
+   "cd": 40,
+   "style": "ranged",
+   "desc": "One carefully aimed shot with double max hit."
+  },
+  {
+   "id": "rejuv",
+   "tier": "ultimate",
+   "name": "Rejuvenate",
+   "icon": "✨",
+   "skill": "Defence",
+   "level": 40,
+   "cd": 100,
+   "style": "any",
+   "desc": "Heal 20% of your hitpoints."
+  }
+ ],
+ "adren": {
+  "basic": {
+   "gain": 9,
+   "cost": 0
+  },
+  "threshold": {
+   "gain": 0,
+   "cost": 50
+  },
+  "ultimate": {
+   "gain": 0,
+   "cost": 100
+  }
+ },
+ "drCap": 0.6,
+ "tickMs": 600
+}

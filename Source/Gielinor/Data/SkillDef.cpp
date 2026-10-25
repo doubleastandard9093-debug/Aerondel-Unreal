@@ -6,11 +6,11 @@ const TArray<int32>& UXpCurve::Table()
 	{
 		TArray<int32> Out;
 		Out.SetNumZeroed(MaxTableLevel + 1);
-		double Points = 0.0;
+		int64 Xp = 0;
 		for (int32 Lvl = 1; Lvl < MaxTableLevel; ++Lvl)
 		{
-			Points += FMath::FloorToDouble(Lvl + 300.0 * FMath::Pow(2.0, Lvl / 7.0));
-			Out[Lvl + 1] = (int32)FMath::FloorToDouble(Points / 4.0);
+			Xp += (int64)FMath::FloorToDouble(Lvl * 50.0 + FMath::Pow((double)Lvl, 1.6) * 2.0);
+			Out[Lvl + 1] = (int32)FMath::Min<int64>(Xp, MAX_int32);
 		}
 		return Out;
 	}();

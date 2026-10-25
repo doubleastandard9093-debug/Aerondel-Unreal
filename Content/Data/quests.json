@@ -1,0 +1,7432 @@
+{
+ "quests": [
+  {
+   "id": "cook",
+   "name": "Cook's Assistant",
+   "giver": "cook",
+   "points": 1,
+   "start": "Talk to the Cook in the cookhouse, south-west of the town square.",
+   "rewards": [
+    "300 Cooking XP",
+    "100 coins",
+    "Cooked lobster sold at the General Store"
+   ],
+   "bonus": {
+    "desc": "+5% Cooking XP and burn food 5% less often",
+    "fx": {
+     "xp.Cooking": 0.05,
+     "burnLess": 0.05
+    }
+   },
+   "town": "Brightwater",
+   "diff": "Novice"
+  },
+  {
+   "id": "fallen",
+   "name": "Rest for the Fallen",
+   "giver": "priest",
+   "points": 1,
+   "start": "Talk to Father Elric outside the church, north of the town square.",
+   "rewards": [
+    "250 Prayer XP",
+    "Unlocks the Protect from Melee prayer (Prayer 43)",
+    "2 Cooked trout"
+   ],
+   "bonus": {
+    "desc": "Prayers drain 5% slower and you slowly regain prayer points",
+    "fx": {
+     "drainLess": 0.05,
+     "ppRegen": 0.02
+    }
+   },
+   "town": "Brightwater",
+   "diff": "Novice"
+  },
+  {
+   "id": "doric",
+   "name": "Doric's Quest",
+   "giver": "doric",
+   "points": 1,
+   "start": "Talk to Doric at the smithy, south-east of the town square.",
+   "rewards": [
+    "400 Mining XP",
+    "180 coins",
+    "Mithril and adamant tools sold at the Tool Shop"
+   ],
+   "bonus": {
+    "desc": "+5% Mining and Smithing XP",
+    "fx": {
+     "xp.Mining": 0.05,
+     "xp.Smithing": 0.05
+    }
+   },
+   "town": "Brightwater",
+   "diff": "Novice"
+  },
+  {
+   "id": "goblins",
+   "name": "Goblin Trouble",
+   "giver": "captain",
+   "points": 2,
+   "start": "Talk to Captain Rhea on the south road out of town.",
+   "rewards": [
+    "600 Attack XP",
+    "600 Strength XP",
+    "Steel sword"
+   ],
+   "bonus": {
+    "desc": "+10% damage against goblins and hill giants, +20 max hitpoints",
+    "fx": {
+     "dmgVs.Goblin": 0.1,
+     "dmgVs.Hill Giant": 0.1,
+     "maxHp": 20
+    }
+   },
+   "town": "Brightwater",
+   "diff": "Intermediate"
+  },
+  {
+   "id": "hides",
+   "name": "Farmer's Hides",
+   "giver": "farmer",
+   "points": 1,
+   "start": "Talk to Farmer Gil at the cow field gate, north-west of town.",
+   "rewards": [
+    "350 Crafting XP",
+    "150 coins",
+    "Fly fishing rod and 30 feathers",
+    "Oak shortbows sold at the General Store"
+   ],
+   "bonus": {
+    "desc": "+5% Crafting XP and 5% off everything in shops",
+    "fx": {
+     "xp.Crafting": 0.05,
+     "shopDiscount": 0.05
+    }
+   },
+   "town": "Brightwater",
+   "diff": "Novice"
+  },
+  {
+   "id": "tools",
+   "name": "Tools of the Trade",
+   "giver": "bob",
+   "points": 1,
+   "start": "Talk to Bob at Bob's Brilliant Tools, north-east of the square.",
+   "rewards": [
+    "300 Smithing XP",
+    "300 Woodcutting XP",
+    "150 coins"
+   ],
+   "bonus": {
+    "desc": "+3% success when mining, woodcutting and fishing",
+    "fx": {
+     "gather": 0.03
+    }
+   },
+   "town": "Brightwater",
+   "diff": "Novice"
+  },
+  {
+   "id": "supply",
+   "name": "Supply Run",
+   "giver": "merchant",
+   "points": 1,
+   "start": "Talk to the Merchant at the General Store stall, east of the square.",
+   "rewards": [
+    "250 Fletching XP",
+    "300 coins",
+    "Amulet of accuracy"
+   ],
+   "bonus": {
+    "desc": "Shops pay you 10% more and +5% Fletching XP",
+    "fx": {
+     "sellBonus": 0.1,
+     "xp.Fletching": 0.05
+    }
+   },
+   "town": "Brightwater",
+   "diff": "Novice"
+  },
+  {
+   "id": "archers",
+   "name": "Archers in the Woods",
+   "giver": "ranger",
+   "points": 1,
+   "start": "Talk to Ranger Wyn on the western edge of town.",
+   "rewards": [
+    "600 Ranged XP",
+    "Archer ring"
+   ],
+   "bonus": {
+    "desc": "+2 ranged max hit and +10% damage against dark archers",
+    "fx": {
+     "rmaxHit": 2,
+     "dmgVs.Dark Archer": 0.1
+    }
+   },
+   "town": "Brightwater",
+   "diff": "Novice"
+  },
+  {
+   "id": "honour",
+   "name": "Knight's Honour",
+   "giver": "knight",
+   "points": 2,
+   "start": "Talk to Sir Vyvin on the north road, past the church.",
+   "rewards": [
+    "1000 Defence XP",
+    "500 Attack XP",
+    "Amulet of glory"
+   ],
+   "bonus": {
+    "desc": "Take 3% less damage, +30 max hitpoints, +10% damage against black knights",
+    "fx": {
+     "dr": 0.03,
+     "maxHp": 30,
+     "dmgVs.Black Knight": 0.1
+    }
+   },
+   "town": "Brightwater",
+   "diff": "Intermediate"
+  },
+  {
+   "id": "fishing",
+   "name": "Fisherman's Catch",
+   "giver": "fisherman",
+   "points": 1,
+   "start": "Talk to Fisherman Fred by the lake, south-west of town.",
+   "rewards": [
+    "400 Fishing XP",
+    "200 coins",
+    "Harpoon (if you lack one)"
+   ],
+   "bonus": {
+    "desc": "+5% Fishing XP",
+    "fx": {
+     "xp.Fishing": 0.05
+    }
+   },
+   "town": "Brightwater",
+   "diff": "Novice"
+  },
+  {
+   "id": "ashford_help",
+   "name": "Ashford's Plea",
+   "giver": "mayor",
+   "points": 1,
+   "start": "Talk to Mayor Aldric in Ashford, far to the east.",
+   "rewards": [
+    "2000 XP in any skill",
+    "1000 coins",
+    "Steel pickaxe"
+   ],
+   "bonus": {
+    "desc": "+3% XP in all skills",
+    "fx": {
+     "xp.*": 0.03
+    }
+   },
+   "town": "Ashford",
+   "diff": "Novice"
+  },
+  {
+   "id": "eastern_guards",
+   "name": "Guard Duty",
+   "giver": "guard2",
+   "points": 1,
+   "start": "Talk to Guard Captain Ryn in Ashford.",
+   "rewards": [
+    "2500 Attack XP",
+    "2500 Strength XP",
+    "Steel full helm"
+   ],
+   "bonus": {
+    "desc": "+5% damage against goblins",
+    "fx": {
+     "dmgVs.Goblin": 0.05
+    }
+   },
+   "town": "Ashford",
+   "diff": "Novice"
+  },
+  {
+   "id": "herbs_for_wren",
+   "name": "Herb Gathering",
+   "giver": "herbalist",
+   "points": 1,
+   "start": "Talk to Herbalist Wren near Ashford.",
+   "rewards": [
+    "1800 Crafting XP",
+    "800 coins",
+    "50 Feathers"
+   ],
+   "bonus": {
+    "desc": "+5% Crafting XP",
+    "fx": {
+     "xp.Crafting": 0.05
+    }
+   },
+   "town": "Ashford",
+   "diff": "Novice"
+  },
+  {
+   "id": "smith_order",
+   "name": "Torin's Order",
+   "giver": "smith2",
+   "points": 1,
+   "start": "Talk to Smith Torin in Ashford Smithy.",
+   "rewards": [
+    "2000 Smithing XP",
+    "1200 coins",
+    "Mithril bar"
+   ],
+   "bonus": {
+    "desc": "+5% Smithing XP",
+    "fx": {
+     "xp.Smithing": 0.05
+    }
+   },
+   "town": "Ashford",
+   "diff": "Novice"
+  },
+  {
+   "id": "eastern_feast",
+   "name": "Eastern Feast",
+   "giver": "cook2",
+   "points": 1,
+   "start": "Talk to Chef Bran in Ashford.",
+   "rewards": [
+    "1500 Cooking XP",
+    "600 coins",
+    "10 Cooked lobster"
+   ],
+   "bonus": {
+    "desc": "+5% Cooking XP",
+    "fx": {
+     "xp.Cooking": 0.05
+    }
+   },
+   "town": "Ashford",
+   "diff": "Novice"
+  },
+  {
+   "id": "scout_report",
+   "name": "Scout's Report",
+   "giver": "ranger2",
+   "points": 1,
+   "start": "Talk to Scout Vey near Ashford.",
+   "rewards": [
+    "2200 Ranged XP",
+    "900 coins",
+    "Archer ring"
+   ],
+   "bonus": {
+    "desc": "+2 ranged max hit",
+    "fx": {
+     "rmaxHit": 2
+    }
+   },
+   "town": "Ashford",
+   "diff": "Novice"
+  },
+  {
+   "id": "miner_tools",
+   "name": "Kael's Tools",
+   "giver": "miner",
+   "points": 1,
+   "start": "Talk to Miner Kael near the eastern mines.",
+   "rewards": [
+    "1800 Mining XP",
+    "700 coins",
+    "Adamant pickaxe"
+   ],
+   "bonus": {
+    "desc": "+3% mining success",
+    "fx": {
+     "gather": 0.03
+    }
+   },
+   "town": "Ashford",
+   "diff": "Novice"
+  },
+  {
+   "id": "sister_prayers",
+   "name": "Rest for the East",
+   "giver": "priest2",
+   "points": 1,
+   "start": "Talk to Sister Lira in Ashford.",
+   "rewards": [
+    "1500 Prayer XP",
+    "500 coins",
+    "Holy symbol"
+   ],
+   "bonus": {
+    "desc": "Prayers drain 3% slower",
+    "fx": {
+     "drainLess": 0.03
+    }
+   },
+   "town": "Ashford",
+   "diff": "Novice"
+  },
+  {
+   "id": "trader_supplies",
+   "name": "Supply the Store",
+   "giver": "merchant2",
+   "points": 1,
+   "start": "Talk to Trader Mira in Ashford Store.",
+   "rewards": [
+    "1200 Fletching XP",
+    "1500 coins",
+    "Amulet of strength"
+   ],
+   "bonus": {
+    "desc": "Shops pay 5% more",
+    "fx": {
+     "sellBonus": 0.05
+    }
+   },
+   "town": "Ashford",
+   "diff": "Novice"
+  },
+  {
+   "id": "knight_honour_east",
+   "name": "Eastern Honour",
+   "giver": "knight2",
+   "points": 2,
+   "start": "Talk to Sir Elric near Ashford.",
+   "rewards": [
+    "3000 Defence XP",
+    "2000 Attack XP",
+    "Amulet of glory"
+   ],
+   "bonus": {
+    "desc": "Take 2% less damage",
+    "fx": {
+     "dr": 0.02
+    }
+   },
+   "town": "Ashford",
+   "diff": "Intermediate"
+  },
+  {
+   "id": "angler_catch",
+   "name": "Tess's Catch",
+   "giver": "angler",
+   "points": 1,
+   "start": "Talk to Angler Tess near Ashford.",
+   "rewards": [
+    "1600 Fishing XP",
+    "600 coins",
+    "Fly fishing rod"
+   ],
+   "bonus": {
+    "desc": "+5% Fishing XP",
+    "fx": {
+     "xp.Fishing": 0.05
+    }
+   },
+   "town": "Ashford",
+   "diff": "Novice"
+  },
+  {
+   "id": "carpenter_wood",
+   "name": "Olan's Timber",
+   "giver": "carpenter",
+   "points": 1,
+   "start": "Talk to Carpenter Olan in Ashford.",
+   "rewards": [
+    "1400 Woodcutting XP",
+    "500 coins",
+    "50 Oak logs"
+   ],
+   "bonus": {
+    "desc": "+3% woodcutting success",
+    "fx": {
+     "gather": 0.03
+    }
+   },
+   "town": "Ashford",
+   "diff": "Novice"
+  },
+  {
+   "id": "hilda_pie",
+   "name": "Granny's Pie",
+   "giver": "hilda",
+   "town": "Brightwater",
+   "diff": "Novice",
+   "points": 1,
+   "data": {
+    "id": "hilda_pie",
+    "name": "Granny's Pie",
+    "town": "Brightwater",
+    "giver": "hilda",
+    "where": "by her cottage west of the town square",
+    "diff": "Novice",
+    "points": 1,
+    "intro": [
+     "Oh, hello dearie! My grandchildren are visiting and my old hands can't manage the stove any more.",
+     "Could you cook me 3 pieces of meat and 2 shrimps? The range is in the cookhouse."
+    ],
+    "steps": [
+     {
+      "t": "bring",
+      "items": {
+       "Cooked meat": 3,
+       "Cooked shrimp": 2
+      },
+      "nag": "3 Cooked meat and 2 Cooked shrimp, dearie. Cows are north-west and shrimp are in the lake."
+     }
+    ],
+    "xp": {
+     "Cooking": 1200
+    },
+    "gold": 300,
+    "items": {
+     "Cooked trout": 5
+    },
+    "bonus": {
+     "desc": "Burn food 2% less often",
+     "fx": {
+      "burnLess": 0.02
+     }
+    },
+    "end": "Smells just like I used to make! Here, take some of my trout too.",
+    "thanks": "The grandchildren ate every crumb. Bless you, dearie."
+   },
+   "start": "Talk to Granny Hilda by her cottage west of the town square.",
+   "rewards": [
+    "1200 Cooking XP",
+    "300 coins",
+    "5 x Cooked trout"
+   ],
+   "bonus": {
+    "desc": "Burn food 2% less often",
+    "fx": {
+     "burnLess": 0.02
+    }
+   }
+  },
+  {
+   "id": "hilda_knit",
+   "name": "Wool for Winter",
+   "giver": "hilda",
+   "town": "Brightwater",
+   "diff": "Novice",
+   "points": 1,
+   "data": {
+    "id": "hilda_knit",
+    "name": "Wool for Winter",
+    "town": "Brightwater",
+    "giver": "hilda",
+    "where": "by her cottage west of the town square",
+    "diff": "Novice",
+    "points": 1,
+    "req": {
+     "q": [
+      "hilda_pie"
+     ]
+    },
+    "intro": [
+     "Winter is coming and the grandchildren need warm clothes.",
+     "Mara the Weaver might help. Would you go and ask her for me?"
+    ],
+    "steps": [
+     {
+      "t": "talk",
+      "npc": "mara",
+      "where": "north-west of the square",
+      "say": [
+       "Clothes for Hilda's grandchildren? Of course!",
+       "But I'm out of fibre. Bring me 10 Flax and I'll weave them something cosy."
+      ]
+     },
+     {
+      "t": "bring",
+      "to": "mara",
+      "items": {
+       "Flax": 10
+      },
+      "reply": "Lovely flax! I'll have the clothes woven by tonight. Go and tell Hilda.",
+      "nag": "10 Flax, please. It grows in the fields."
+     }
+    ],
+    "xp": {
+     "Crafting": 1500
+    },
+    "gold": 400,
+    "items": {
+     "Leather cowl": 1
+    },
+    "bonus": {
+     "desc": "+2% Crafting XP",
+     "fx": {
+      "xp.Crafting": 0.02
+     }
+    },
+    "end": "Mara has sent the clothes already! You're a treasure. Have this cowl my late husband wore.",
+    "thanks": "The little ones are warm as toast."
+   },
+   "start": "Talk to Granny Hilda by her cottage west of the town square.",
+   "rewards": [
+    "1500 Crafting XP",
+    "400 coins",
+    "Leather cowl"
+   ],
+   "bonus": {
+    "desc": "+2% Crafting XP",
+    "fx": {
+     "xp.Crafting": 0.02
+    }
+   }
+  },
+  {
+   "id": "pip_pockets",
+   "name": "Pip's Pockets",
+   "giver": "pip",
+   "town": "Brightwater",
+   "diff": "Novice",
+   "points": 1,
+   "data": {
+    "id": "pip_pockets",
+    "name": "Pip's Pockets",
+    "town": "Brightwater",
+    "giver": "pip",
+    "where": "east of the town square",
+    "diff": "Novice",
+    "points": 1,
+    "intro": [
+     "Oi, you! Wanna learn a trick? Nobody notices a quick hand in a busy square.",
+     "Lift a few purses from the townsfolk, then bring me 2 Cooked shrimp. I'm starvin'."
+    ],
+    "steps": [
+     {
+      "t": "xp",
+      "skill": "Thieving",
+      "n": 150,
+      "hint": "Pickpocket the Man or Woman in town."
+     },
+     {
+      "t": "bring",
+      "items": {
+       "Cooked shrimp": 2
+      }
+     }
+    ],
+    "xp": {
+     "Thieving": 1000
+    },
+    "gold": 250,
+    "bonus": {
+     "desc": "+2% Thieving XP",
+     "fx": {
+      "xp.Thieving": 0.02
+     }
+    },
+    "end": "Ha! You're a natural. Here's a cut of my savings.",
+    "thanks": "Keep your fingers light and your feet quick!"
+   },
+   "start": "Talk to Pip east of the town square.",
+   "rewards": [
+    "1000 Thieving XP",
+    "250 coins"
+   ],
+   "bonus": {
+    "desc": "+2% Thieving XP",
+    "fx": {
+     "xp.Thieving": 0.02
+    }
+   }
+  },
+  {
+   "id": "pip_docks",
+   "name": "Light Fingers",
+   "giver": "pip",
+   "town": "Brightwater",
+   "diff": "Intermediate",
+   "points": 1,
+   "data": {
+    "id": "pip_docks",
+    "name": "Light Fingers",
+    "town": "Brightwater",
+    "giver": "pip",
+    "where": "east of the town square",
+    "diff": "Intermediate",
+    "points": 1,
+    "req": {
+     "q": [
+      "pip_pockets"
+     ],
+     "lvl": {
+      "Thieving": 15
+     }
+    },
+    "intro": [
+     "Word is the sailors in Port Sarim carry foreign coin.",
+     "Go west to the docks, ask a sailor about the 'night tide', and practise your craft on the way."
+    ],
+    "steps": [
+     {
+      "t": "visit",
+      "place": "docks"
+     },
+     {
+      "t": "talk",
+      "npc": "sailor",
+      "where": "at the Port Sarim docks",
+      "say": [
+       "The night tide? Hah. Pip sent you, didn't he?",
+       "Tell that rascal the ship sails without him. Here, keep your hands off my purse."
+      ]
+     },
+     {
+      "t": "xp",
+      "skill": "Thieving",
+      "n": 2000,
+      "hint": "Pickpocket anyone you like."
+     }
+    ],
+    "xp": {
+     "Thieving": 4000
+    },
+    "gold": 1000,
+    "items": {
+     "Ring of recoil": 1
+    },
+    "bonus": {
+     "desc": "+3% Thieving XP",
+     "fx": {
+      "xp.Thieving": 0.03
+     }
+    },
+    "end": "Sailin' without me, is it? Fine. You've earned this ring I, er, found.",
+    "thanks": "Best partner I ever had."
+   },
+   "start": "Talk to Pip east of the town square.",
+   "rewards": [
+    "4000 Thieving XP",
+    "1000 coins",
+    "Ring of recoil"
+   ],
+   "bonus": {
+    "desc": "+3% Thieving XP",
+    "fx": {
+     "xp.Thieving": 0.03
+    }
+   }
+  },
+  {
+   "id": "osric_graves",
+   "name": "Unquiet Graves",
+   "giver": "osric",
+   "town": "Brightwater",
+   "diff": "Novice",
+   "points": 1,
+   "data": {
+    "id": "osric_graves",
+    "name": "Unquiet Graves",
+    "town": "Brightwater",
+    "giver": "osric",
+    "where": "north-west of the town square",
+    "diff": "Novice",
+    "points": 1,
+    "intro": [
+     "The dead won't stay put! Zombies keep climbing out of the old graveyard north-west of town.",
+     "Put 3 of them down and bury 3 bones so their spirits rest."
+    ],
+    "steps": [
+     {
+      "t": "kill",
+      "mon": "Zombie",
+      "n": 3
+     },
+     {
+      "t": "bury",
+      "n": 3
+     }
+    ],
+    "xp": {
+     "Prayer": 1500,
+     "Attack": 800
+    },
+    "items": {
+     "Big bones": 5
+    },
+    "bonus": {
+     "desc": "+5% damage against zombies",
+     "fx": {
+      "dmgVs.Zombie": 0.05
+     }
+    },
+    "end": "Quiet at last. Here, I dug these up. Bury them for the gods' favour.",
+    "thanks": "Not a groan from the graveyard all week."
+   },
+   "start": "Talk to Osric the Gravedigger north-west of the town square.",
+   "rewards": [
+    "1500 Prayer XP",
+    "800 Attack XP",
+    "5 x Big bones"
+   ],
+   "bonus": {
+    "desc": "+5% damage against zombies",
+    "fx": {
+     "dmgVs.Zombie": 0.05
+    }
+   }
+  },
+  {
+   "id": "osric_bones",
+   "name": "Rattling Bones",
+   "giver": "osric",
+   "town": "Brightwater",
+   "diff": "Intermediate",
+   "points": 1,
+   "data": {
+    "id": "osric_bones",
+    "name": "Rattling Bones",
+    "town": "Brightwater",
+    "giver": "osric",
+    "where": "north-west of the town square",
+    "diff": "Intermediate",
+    "points": 1,
+    "req": {
+     "q": [
+      "osric_graves"
+     ],
+     "lvl": {
+      "Prayer": 15
+     }
+    },
+    "intro": [
+     "Now it's skeletons! They rattle about north-east of town in the boneyard.",
+     "Visit the boneyard, smash 4 skeletons and bury 5 bones."
+    ],
+    "steps": [
+     {
+      "t": "visit",
+      "place": "boneyard"
+     },
+     {
+      "t": "kill",
+      "mon": "Skeleton",
+      "n": 4
+     },
+     {
+      "t": "bury",
+      "n": 5
+     }
+    ],
+    "xp": {
+     "Prayer": 4000,
+     "Strength": 2000
+    },
+    "items": {
+     "Holy symbol": 1
+    },
+    "bonus": {
+     "desc": "+5% damage against skeletons and prayers drain 2% slower",
+     "fx": {
+      "dmgVs.Skeleton": 0.05,
+      "drainLess": 0.02
+     }
+    },
+    "end": "You've a gravedigger's grit. Take this holy symbol.",
+    "thanks": "The boneyard is silent. Good work."
+   },
+   "start": "Talk to Osric the Gravedigger north-west of the town square.",
+   "rewards": [
+    "4000 Prayer XP",
+    "2000 Strength XP",
+    "Holy symbol"
+   ],
+   "bonus": {
+    "desc": "+5% damage against skeletons and prayers drain 2% slower",
+    "fx": {
+     "dmgVs.Skeleton": 0.05,
+     "drainLess": 0.02
+    }
+   }
+  },
+  {
+   "id": "lena_lamps",
+   "name": "Lamplighter",
+   "giver": "lena",
+   "town": "Brightwater",
+   "diff": "Novice",
+   "points": 1,
+   "data": {
+    "id": "lena_lamps",
+    "name": "Lamplighter",
+    "town": "Brightwater",
+    "giver": "lena",
+    "where": "east of the town square",
+    "diff": "Novice",
+    "points": 1,
+    "intro": [
+     "Brightwater's lamps burn wood all night, and my woodpile is empty.",
+     "Bring me 10 Logs and 5 Oak logs?"
+    ],
+    "steps": [
+     {
+      "t": "bring",
+      "items": {
+       "Logs": 10,
+       "Oak logs": 5
+      }
+     }
+    ],
+    "xp": {
+     "Woodcutting": 1500
+    },
+    "gold": 400,
+    "bonus": {
+     "desc": "+2% Woodcutting XP",
+     "fx": {
+      "xp.Woodcutting": 0.02
+     }
+    },
+    "end": "Brightwater will shine tonight! Thank you.",
+    "thanks": "Every lamp is lit."
+   },
+   "start": "Talk to Lena the Lamplighter east of the town square.",
+   "rewards": [
+    "1500 Woodcutting XP",
+    "400 coins"
+   ],
+   "bonus": {
+    "desc": "+2% Woodcutting XP",
+    "fx": {
+     "xp.Woodcutting": 0.02
+    }
+   }
+  },
+  {
+   "id": "lena_dark",
+   "name": "Into the Dark Wood",
+   "giver": "lena",
+   "town": "Brightwater",
+   "diff": "Intermediate",
+   "points": 1,
+   "data": {
+    "id": "lena_dark",
+    "name": "Into the Dark Wood",
+    "town": "Brightwater",
+    "giver": "lena",
+    "where": "east of the town square",
+    "diff": "Intermediate",
+    "points": 1,
+    "req": {
+     "q": [
+      "lena_lamps"
+     ],
+     "lvl": {
+      "Ranged": 20
+     }
+    },
+    "intro": [
+     "Something shoots out my western lamps every night. I think it's the dark archers.",
+     "Scout the dark wood west of the lake and defeat 3 of them."
+    ],
+    "steps": [
+     {
+      "t": "visit",
+      "place": "darkWood"
+     },
+     {
+      "t": "kill",
+      "mon": "Dark Archer",
+      "n": 3
+     }
+    ],
+    "xp": {
+     "Ranged": 4000
+    },
+    "items": {
+     "Willow shortbow": 1,
+     "Iron arrows": 100
+    },
+    "bonus": {
+     "desc": "+5% damage against dark archers",
+     "fx": {
+      "dmgVs.Dark Archer": 0.05
+     }
+    },
+    "end": "The western lamps stayed lit last night! Take this bow.",
+    "thanks": "Not one broken lamp since."
+   },
+   "start": "Talk to Lena the Lamplighter east of the town square.",
+   "rewards": [
+    "4000 Ranged XP",
+    "Willow shortbow",
+    "100 x Iron arrows"
+   ],
+   "bonus": {
+    "desc": "+5% damage against dark archers",
+    "fx": {
+     "dmgVs.Dark Archer": 0.05
+    }
+   }
+  },
+  {
+   "id": "bram_brew",
+   "name": "Brewer's Errand",
+   "giver": "bram",
+   "town": "Brightwater",
+   "diff": "Novice",
+   "points": 1,
+   "data": {
+    "id": "bram_brew",
+    "name": "Brewer's Errand",
+    "town": "Brightwater",
+    "giver": "bram",
+    "where": "west of the town square",
+    "diff": "Novice",
+    "points": 1,
+    "intro": [
+     "My new ale needs a herbal kick! Guam leaf, to be precise.",
+     "Bring me 2 clean Guam leaf and 3 Vials of water. Pick herbs in the patches north of the square and fill vials at the well."
+    ],
+    "steps": [
+     {
+      "t": "bring",
+      "items": {
+       "Guam leaf": 2,
+       "Vial of water": 3
+      }
+     }
+    ],
+    "xp": {
+     "Herblore": 1500
+    },
+    "items": {
+     "Attack potion": 2
+    },
+    "bonus": {
+     "desc": "Potions last 5% longer",
+     "fx": {
+      "potionTime": 0.05
+     }
+    },
+    "end": "Perfect! My Guam Ale will be famous. Have a couple of my... other brews.",
+    "thanks": "The Guam Ale is selling by the barrel!"
+   },
+   "start": "Talk to Bram the Brewer west of the town square.",
+   "rewards": [
+    "1500 Herblore XP",
+    "2 x Attack potion"
+   ],
+   "bonus": {
+    "desc": "Potions last 5% longer",
+    "fx": {
+     "potionTime": 0.05
+    }
+   }
+  },
+  {
+   "id": "bram_tonic",
+   "name": "Bram's Tonic",
+   "giver": "bram",
+   "town": "Brightwater",
+   "diff": "Intermediate",
+   "points": 1,
+   "data": {
+    "id": "bram_tonic",
+    "name": "Bram's Tonic",
+    "town": "Brightwater",
+    "giver": "bram",
+    "where": "west of the town square",
+    "diff": "Intermediate",
+    "points": 1,
+    "req": {
+     "q": [
+      "bram_brew"
+     ],
+     "lvl": {
+      "Herblore": 5
+     }
+    },
+    "intro": [
+     "Customers keep falling ill from bad water. I want to sell a tonic.",
+     "Brew me 2 Attack potions and 1 Antipoison in the Herblore tab."
+    ],
+    "steps": [
+     {
+      "t": "bring",
+      "items": {
+       "Attack potion": 2,
+       "Antipoison": 1
+      }
+     }
+    ],
+    "xp": {
+     "Herblore": 4000
+    },
+    "gold": 900,
+    "bonus": {
+     "desc": "+2% Herblore XP",
+     "fx": {
+      "xp.Herblore": 0.02
+     }
+    },
+    "end": "Bottled courage and a cure! You're a fine apothecary.",
+    "thanks": "Nobody's been ill since."
+   },
+   "start": "Talk to Bram the Brewer west of the town square.",
+   "rewards": [
+    "4000 Herblore XP",
+    "900 coins"
+   ],
+   "bonus": {
+    "desc": "+2% Herblore XP",
+    "fx": {
+     "xp.Herblore": 0.02
+    }
+   }
+  },
+  {
+   "id": "tamsin_runes",
+   "name": "Runic Studies",
+   "giver": "tamsin",
+   "town": "Brightwater",
+   "diff": "Novice",
+   "points": 1,
+   "data": {
+    "id": "tamsin_runes",
+    "name": "Runic Studies",
+    "town": "Brightwater",
+    "giver": "tamsin",
+    "where": "on the south road near the wizard tower",
+    "diff": "Novice",
+    "points": 1,
+    "intro": [
+     "I'm writing a book on runes, but I've never seen one being made!",
+     "Visit the Air altar south-west of town, craft some runes there and bring me 10 Air runes. Rune essence comes from Aubury in Varrock or the essence mine."
+    ],
+    "steps": [
+     {
+      "t": "visit",
+      "place": "airAltar"
+     },
+     {
+      "t": "xp",
+      "skill": "Runecrafting",
+      "n": 50,
+      "hint": "Use Craft-rune at an altar with Rune essence."
+     },
+     {
+      "t": "bring",
+      "items": {
+       "Air rune": 10
+      }
+     }
+    ],
+    "xp": {
+     "Runecrafting": 2000,
+     "Magic": 1000
+    },
+    "items": {
+     "Mind rune": 50
+    },
+    "bonus": {
+     "desc": "+2% Runecrafting XP",
+     "fx": {
+      "xp.Runecrafting": 0.02
+     }
+    },
+    "end": "Chapter three is finished! Take these mind runes for your trouble.",
+    "thanks": "My book is nearly done, thanks to you."
+   },
+   "start": "Talk to Tamsin the Scholar on the south road near the wizard tower.",
+   "rewards": [
+    "2000 Runecrafting XP",
+    "1000 Magic XP",
+    "50 x Mind rune"
+   ],
+   "bonus": {
+    "desc": "+2% Runecrafting XP",
+    "fx": {
+     "xp.Runecrafting": 0.02
+    }
+   }
+  },
+  {
+   "id": "tamsin_tower",
+   "name": "The Wizard's Student",
+   "giver": "tamsin",
+   "town": "Brightwater",
+   "diff": "Intermediate",
+   "points": 1,
+   "data": {
+    "id": "tamsin_tower",
+    "name": "The Wizard's Student",
+    "town": "Brightwater",
+    "giver": "tamsin",
+    "where": "on the south road near the wizard tower",
+    "diff": "Intermediate",
+    "points": 1,
+    "req": {
+     "q": [
+      "tamsin_runes"
+     ],
+     "lvl": {
+      "Magic": 10
+     }
+    },
+    "intro": [
+     "Wizard Mizgog says he'll review my book if a real spellcaster vouches for it.",
+     "Go to the tower, speak to Mizgog, then prove yourself by casting spells in battle."
+    ],
+    "steps": [
+     {
+      "t": "visit",
+      "place": "tower"
+     },
+     {
+      "t": "talk",
+      "npc": "mizgog",
+      "where": "by the wizard tower",
+      "say": [
+       "Tamsin's book? Hmph. Show me you can cast, and I'll read it.",
+       "Go and earn 1000 Magic experience in battle."
+      ]
+     },
+     {
+      "t": "xp",
+      "skill": "Magic",
+      "n": 1000,
+      "hint": "Cast combat spells at monsters."
+     }
+    ],
+    "xp": {
+     "Magic": 5000
+    },
+    "items": {
+     "Staff of air": 1
+    },
+    "bonus": {
+     "desc": "+2% Magic XP",
+     "fx": {
+      "xp.Magic": 0.02
+     }
+    },
+    "end": "Mizgog loved it! He sent this staff for you.",
+    "thanks": "My book is on the tower's shelf now!"
+   },
+   "start": "Talk to Tamsin the Scholar on the south road near the wizard tower.",
+   "rewards": [
+    "5000 Magic XP",
+    "Staff of air"
+   ],
+   "bonus": {
+    "desc": "+2% Magic XP",
+    "fx": {
+     "xp.Magic": 0.02
+    }
+   }
+  },
+  {
+   "id": "aldo_tales",
+   "name": "An Old Soldier",
+   "giver": "aldo",
+   "town": "Brightwater",
+   "diff": "Novice",
+   "points": 1,
+   "data": {
+    "id": "aldo_tales",
+    "name": "An Old Soldier",
+    "town": "Brightwater",
+    "giver": "aldo",
+    "where": "south-east of the town square",
+    "diff": "Novice",
+    "points": 1,
+    "intro": [
+     "Back in my day, I'd clear goblins and wolves before breakfast.",
+     "Show me you've got the steel: 6 goblins and 2 wolves."
+    ],
+    "steps": [
+     {
+      "t": "kill",
+      "mon": "Goblin",
+      "n": 6
+     },
+     {
+      "t": "kill",
+      "mon": "Wolf",
+      "n": 2
+     }
+    ],
+    "xp": {
+     "Attack": 1500,
+     "Strength": 1500
+    },
+    "gold": 300,
+    "bonus": {
+     "desc": "+5% damage against wolves",
+     "fx": {
+      "dmgVs.Wolf": 0.05
+     }
+    },
+    "end": "Ha! You remind me of myself. Here's some coin.",
+    "thanks": "Keep your guard up, youngster."
+   },
+   "start": "Talk to Old Aldo south-east of the town square.",
+   "rewards": [
+    "1500 Attack XP",
+    "1500 Strength XP",
+    "300 coins"
+   ],
+   "bonus": {
+    "desc": "+5% damage against wolves",
+    "fx": {
+     "dmgVs.Wolf": 0.05
+    }
+   }
+  },
+  {
+   "id": "aldo_giant",
+   "name": "Giant Slayer",
+   "giver": "aldo",
+   "town": "Brightwater",
+   "diff": "Experienced",
+   "points": 2,
+   "data": {
+    "id": "aldo_giant",
+    "name": "Giant Slayer",
+    "town": "Brightwater",
+    "giver": "aldo",
+    "where": "south-east of the town square",
+    "diff": "Experienced",
+    "points": 2,
+    "req": {
+     "q": [
+      "aldo_tales"
+     ],
+     "lvl": {
+      "Attack": 30
+     }
+    },
+    "intro": [
+     "The hill giants took my knee forty years ago. Time for revenge, by proxy.",
+     "Slay 5 hill giants north of town and bring me 3 Big bones as proof."
+    ],
+    "steps": [
+     {
+      "t": "visit",
+      "place": "giants"
+     },
+     {
+      "t": "kill",
+      "mon": "Hill Giant",
+      "n": 5
+     },
+     {
+      "t": "bring",
+      "items": {
+       "Big bones": 3
+      }
+     }
+    ],
+    "xp": {
+     "Attack": 8000,
+     "Strength": 8000
+    },
+    "items": {
+     "Granite maul": 1
+    },
+    "bonus": {
+     "desc": "+5% damage against hill giants and +10 max hitpoints",
+     "fx": {
+      "dmgVs.Hill Giant": 0.05,
+      "maxHp": 10
+     }
+    },
+    "end": "Avenged at last! Take my old maul. It's heavy, mind.",
+    "thanks": "My knee feels better already."
+   },
+   "start": "Talk to Old Aldo south-east of the town square.",
+   "rewards": [
+    "8000 Attack XP",
+    "8000 Strength XP",
+    "Granite maul"
+   ],
+   "bonus": {
+    "desc": "+5% damage against hill giants and +10 max hitpoints",
+    "fx": {
+     "dmgVs.Hill Giant": 0.05,
+     "maxHp": 10
+    }
+   }
+  },
+  {
+   "id": "aldo_outpost",
+   "name": "The Black Outpost",
+   "giver": "aldo",
+   "town": "Brightwater",
+   "diff": "Experienced",
+   "points": 2,
+   "data": {
+    "id": "aldo_outpost",
+    "name": "The Black Outpost",
+    "town": "Brightwater",
+    "giver": "aldo",
+    "where": "south-east of the town square",
+    "diff": "Experienced",
+    "points": 2,
+    "req": {
+     "q": [
+      "aldo_giant"
+     ],
+     "lvl": {
+      "Defence": 30
+     }
+    },
+    "intro": [
+     "The Black Knights have built an outpost north of town. Sir Vyvin's too proud to ask for help.",
+     "Scout it, defeat 5 knights and bring a Steel platebody for the town militia."
+    ],
+    "steps": [
+     {
+      "t": "visit",
+      "place": "blackKnights"
+     },
+     {
+      "t": "kill",
+      "mon": "Black Knight",
+      "n": 5
+     },
+     {
+      "t": "bring",
+      "items": {
+       "Steel platebody": 1
+      }
+     }
+    ],
+    "xp": {
+     "Defence": 10000,
+     "Attack": 4000
+    },
+    "items": {
+     "Amulet of defence": 1
+    },
+    "bonus": {
+     "desc": "Take 1% less damage, +5% damage against black knights",
+     "fx": {
+      "dr": 0.01,
+      "dmgVs.Black Knight": 0.05
+     }
+    },
+    "end": "The militia will wear that with pride. This amulet kept me alive once.",
+    "thanks": "The outpost has gone quiet."
+   },
+   "start": "Talk to Old Aldo south-east of the town square.",
+   "rewards": [
+    "10000 Defence XP",
+    "4000 Attack XP",
+    "Amulet of defence"
+   ],
+   "bonus": {
+    "desc": "Take 1% less damage, +5% damage against black knights",
+    "fx": {
+     "dr": 0.01,
+     "dmgVs.Black Knight": 0.05
+    }
+   }
+  },
+  {
+   "id": "mara_silk",
+   "name": "Spider Silk",
+   "giver": "mara",
+   "town": "Brightwater",
+   "diff": "Intermediate",
+   "points": 1,
+   "data": {
+    "id": "mara_silk",
+    "name": "Spider Silk",
+    "town": "Brightwater",
+    "giver": "mara",
+    "where": "north-west of the square",
+    "diff": "Intermediate",
+    "points": 1,
+    "req": {
+     "q": [
+      "hilda_knit"
+     ],
+     "lvl": {
+      "Crafting": 10
+     }
+    },
+    "intro": [
+     "Giant spiders nest north-west of town, and their silk is the finest thread there is.",
+     "Clear 4 spiders from the nest and bring me 3 Soft leather to line the cloth."
+    ],
+    "steps": [
+     {
+      "t": "visit",
+      "place": "spiderNest"
+     },
+     {
+      "t": "kill",
+      "mon": "Giant Spider",
+      "n": 4
+     },
+     {
+      "t": "bring",
+      "items": {
+       "Soft leather": 3
+      }
+     }
+    ],
+    "xp": {
+     "Crafting": 4000,
+     "Hitpoints": 1500
+    },
+    "items": {
+     "Leather chaps": 1
+    },
+    "bonus": {
+     "desc": "1% off everything in shops",
+     "fx": {
+      "shopDiscount": 0.01
+     }
+    },
+    "end": "Silk and leather! I'll make the finest cloaks in the land.",
+    "thanks": "My cloaks sell all the way to Varrock."
+   },
+   "start": "Talk to Mara the Weaver north-west of the square.",
+   "rewards": [
+    "4000 Crafting XP",
+    "1500 Hitpoints XP",
+    "Leather chaps"
+   ],
+   "bonus": {
+    "desc": "1% off everything in shops",
+    "fx": {
+     "shopDiscount": 0.01
+    }
+   }
+  },
+  {
+   "id": "dell_rooftop",
+   "name": "Rooftop Runner",
+   "giver": "dell",
+   "town": "Brightwater",
+   "diff": "Novice",
+   "points": 1,
+   "data": {
+    "id": "dell_rooftop",
+    "name": "Rooftop Runner",
+    "town": "Brightwater",
+    "giver": "dell",
+    "where": "at the agility course south-east of town",
+    "diff": "Novice",
+    "points": 1,
+    "intro": [
+     "Legs like jelly? Let's fix that.",
+     "Run my course past the mine and earn 400 Agility XP."
+    ],
+    "steps": [
+     {
+      "t": "visit",
+      "place": "bwCourse"
+     },
+     {
+      "t": "xp",
+      "skill": "Agility",
+      "n": 400,
+      "hint": "Cross the obstacles on the course."
+     }
+    ],
+    "xp": {
+     "Agility": 2000
+    },
+    "items": {
+     "Energy potion": 2
+    },
+    "bonus": {
+     "desc": "Run energy restores 5% faster",
+     "fx": {
+      "runRegen": 0.05
+     }
+    },
+    "end": "Now you're moving! Have some energy potions.",
+    "thanks": "Keep those knees high!"
+   },
+   "start": "Talk to Coach Dell at the agility course south-east of town.",
+   "rewards": [
+    "2000 Agility XP",
+    "2 x Energy potion"
+   ],
+   "bonus": {
+    "desc": "Run energy restores 5% faster",
+    "fx": {
+     "runRegen": 0.05
+    }
+   }
+  },
+  {
+   "id": "dell_wall",
+   "name": "Over the Wall",
+   "giver": "dell",
+   "town": "Brightwater",
+   "diff": "Intermediate",
+   "points": 1,
+   "data": {
+    "id": "dell_wall",
+    "name": "Over the Wall",
+    "town": "Brightwater",
+    "giver": "dell",
+    "where": "at the agility course south-east of town",
+    "diff": "Intermediate",
+    "points": 1,
+    "req": {
+     "q": [
+      "dell_rooftop"
+     ],
+     "lvl": {
+      "Agility": 20
+     }
+    },
+    "intro": [
+     "My old rival runs the course in Varrock. Go see it, and train until you're better than his students.",
+     "Visit the Varrock course and earn 2500 Agility XP anywhere."
+    ],
+    "steps": [
+     {
+      "t": "visit",
+      "place": "vCourse"
+     },
+     {
+      "t": "xp",
+      "skill": "Agility",
+      "n": 2500,
+      "hint": "Run any agility course."
+     }
+    ],
+    "xp": {
+     "Agility": 6000
+    },
+    "items": {
+     "Energy potion": 4
+    },
+    "bonus": {
+     "desc": "Run energy restores 5% faster",
+     "fx": {
+      "runRegen": 0.05
+     }
+    },
+    "end": "Better than his whole class! Ha! Take these.",
+    "thanks": "Brightwater's fastest, that's you."
+   },
+   "start": "Talk to Coach Dell at the agility course south-east of town.",
+   "rewards": [
+    "6000 Agility XP",
+    "4 x Energy potion"
+   ],
+   "bonus": {
+    "desc": "Run energy restores 5% faster",
+    "fx": {
+     "runRegen": 0.05
+    }
+   }
+  },
+  {
+   "id": "grell_hound",
+   "name": "The Hermit's Hound",
+   "giver": "grell",
+   "town": "Wilds",
+   "diff": "Intermediate",
+   "points": 1,
+   "data": {
+    "id": "grell_hound",
+    "name": "The Hermit's Hound",
+    "town": "Wilds",
+    "giver": "grell",
+    "where": "in the wilds north-west of Brightwater",
+    "diff": "Intermediate",
+    "points": 1,
+    "intro": [
+     "Wolves killed my dog. Now they circle my hut every night.",
+     "Kill 5 wolves, then bring me 5 Raw beef so I can lure a new pup."
+    ],
+    "steps": [
+     {
+      "t": "kill",
+      "mon": "Wolf",
+      "n": 5
+     },
+     {
+      "t": "bring",
+      "items": {
+       "Raw beef": 5
+      }
+     }
+    ],
+    "xp": {
+     "Hitpoints": 3000,
+     "Strength": 2000
+    },
+    "gold": 600,
+    "bonus": {
+     "desc": "+5 max hitpoints",
+     "fx": {
+      "maxHp": 5
+     }
+    },
+    "end": "A pup came sniffing for the beef already! Thank you, friend.",
+    "thanks": "Little Biscuit says woof."
+   },
+   "start": "Talk to Hermit Grell in the wilds north-west of Brightwater.",
+   "rewards": [
+    "3000 Hitpoints XP",
+    "2000 Strength XP",
+    "600 coins"
+   ],
+   "bonus": {
+    "desc": "+5 max hitpoints",
+    "fx": {
+     "maxHp": 5
+    }
+   }
+  },
+  {
+   "id": "grell_ward",
+   "name": "Grell's Ward",
+   "giver": "grell",
+   "town": "Wilds",
+   "diff": "Experienced",
+   "points": 2,
+   "data": {
+    "id": "grell_ward",
+    "name": "Grell's Ward",
+    "town": "Wilds",
+    "giver": "grell",
+    "where": "in the wilds north-west of Brightwater",
+    "diff": "Experienced",
+    "points": 2,
+    "req": {
+     "q": [
+      "grell_hound"
+     ],
+     "lvl": {
+      "Prayer": 25
+     }
+    },
+    "intro": [
+     "The dead walk near my hut too. I need a holy ward.",
+     "Pray at the Body altar to the north-west, put down 5 zombies, then bury 10 bones to bless the ground."
+    ],
+    "steps": [
+     {
+      "t": "visit",
+      "place": "bodyAltar"
+     },
+     {
+      "t": "kill",
+      "mon": "Zombie",
+      "n": 5
+     },
+     {
+      "t": "bury",
+      "n": 10
+     }
+    ],
+    "xp": {
+     "Prayer": 9000
+    },
+    "items": {
+     "Prayer potion": 3
+    },
+    "bonus": {
+     "desc": "Slowly regain prayer points (+1%)",
+     "fx": {
+      "ppRegen": 0.01
+     }
+    },
+    "end": "I can feel the ward holding. Take these potions.",
+    "thanks": "Biscuit and I sleep soundly now."
+   },
+   "start": "Talk to Hermit Grell in the wilds north-west of Brightwater.",
+   "rewards": [
+    "9000 Prayer XP",
+    "3 x Prayer potion"
+   ],
+   "bonus": {
+    "desc": "Slowly regain prayer points (+1%)",
+    "fx": {
+     "ppRegen": 0.01
+    }
+   }
+  },
+  {
+   "id": "red_grog",
+   "name": "Pirate's Grog",
+   "giver": "redbeard",
+   "town": "Port Sarim",
+   "diff": "Novice",
+   "points": 1,
+   "data": {
+    "id": "red_grog",
+    "name": "Pirate's Grog",
+    "town": "Port Sarim",
+    "giver": "redbeard",
+    "where": "on the Port Sarim docks",
+    "diff": "Novice",
+    "points": 1,
+    "intro": [
+     "Arr! Me crew be hungry and the ship's cook ran off with a mermaid.",
+     "Fetch me 3 Cooked trout and 5 Cooked shrimp and I'll pay ye in honest pirate gold."
+    ],
+    "steps": [
+     {
+      "t": "bring",
+      "items": {
+       "Cooked trout": 3,
+       "Cooked shrimp": 5
+      }
+     }
+    ],
+    "xp": {
+     "Cooking": 1200
+    },
+    "gold": 500,
+    "bonus": {
+     "desc": "Shops pay you 1% more",
+     "fx": {
+      "sellBonus": 0.01
+     }
+    },
+    "end": "Har har! A feast fit for buccaneers.",
+    "thanks": "The crew sings yer name, matey."
+   },
+   "start": "Talk to Captain Redbeard on the Port Sarim docks.",
+   "rewards": [
+    "1200 Cooking XP",
+    "500 coins"
+   ],
+   "bonus": {
+    "desc": "Shops pay you 1% more",
+    "fx": {
+     "sellBonus": 0.01
+    }
+   }
+  },
+  {
+   "id": "red_map",
+   "name": "Treasure of the Tides",
+   "giver": "redbeard",
+   "town": "Port Sarim",
+   "diff": "Intermediate",
+   "points": 1,
+   "data": {
+    "id": "red_map",
+    "name": "Treasure of the Tides",
+    "town": "Port Sarim",
+    "giver": "redbeard",
+    "where": "on the Port Sarim docks",
+    "diff": "Intermediate",
+    "points": 1,
+    "req": {
+     "q": [
+      "red_grog"
+     ],
+     "lvl": {
+      "Thieving": 10
+     }
+    },
+    "intro": [
+     "Some scallywag lifted me treasure map! I reckon it were one of them sailors.",
+     "Ask the sailors, lift a few purses to find it, then dig where it says: the willows west o' town. Bring willow logs so I know ye were there."
+    ],
+    "steps": [
+     {
+      "t": "talk",
+      "npc": "sailor",
+      "where": "by the docks",
+      "say": [
+       "A map? Aye, I nicked it. Don't tell Redbeard!",
+       "I sold it on, but I remember: the X is under the willows west of town."
+      ]
+     },
+     {
+      "t": "xp",
+      "skill": "Thieving",
+      "n": 1000,
+      "hint": "Pickpocket sailors and townsfolk for clues."
+     },
+     {
+      "t": "visit",
+      "place": "willowBank"
+     },
+     {
+      "t": "bring",
+      "items": {
+       "Willow logs": 5
+      }
+     }
+    ],
+    "xp": {
+     "Thieving": 3000,
+     "Woodcutting": 2000
+    },
+    "gold": 2500,
+    "items": {
+     "Captain's cutlass": 1
+    },
+    "bonus": {
+     "desc": "+2% Thieving XP",
+     "fx": {
+      "xp.Thieving": 0.02
+     }
+    },
+    "end": "Me treasure! And ye didn't even keep it. Take me old cutlass, ye've earned it.",
+    "thanks": "Ye'd make a fine pirate."
+   },
+   "start": "Talk to Captain Redbeard on the Port Sarim docks.",
+   "rewards": [
+    "3000 Thieving XP",
+    "2000 Woodcutting XP",
+    "2500 coins",
+    "Captain's cutlass"
+   ],
+   "bonus": {
+    "desc": "+2% Thieving XP",
+    "fx": {
+     "xp.Thieving": 0.02
+    }
+   }
+  },
+  {
+   "id": "red_crew",
+   "name": "Press Gang",
+   "giver": "redbeard",
+   "town": "Port Sarim",
+   "diff": "Experienced",
+   "points": 2,
+   "data": {
+    "id": "red_crew",
+    "name": "Press Gang",
+    "town": "Port Sarim",
+    "giver": "redbeard",
+    "where": "on the Port Sarim docks",
+    "diff": "Experienced",
+    "points": 2,
+    "req": {
+     "q": [
+      "red_map"
+     ],
+     "lvl": {
+      "Attack": 35
+     }
+    },
+    "intro": [
+     "Bandits south-east o' town keep raidin' me supply wagons.",
+     "Sink 6 o' them and bring me 2 Steel swords to arm me new crew."
+    ],
+    "steps": [
+     {
+      "t": "visit",
+      "place": "bandits"
+     },
+     {
+      "t": "kill",
+      "mon": "Bandit",
+      "n": 6
+     },
+     {
+      "t": "bring",
+      "items": {
+       "Steel sword": 2
+      }
+     }
+    ],
+    "xp": {
+     "Attack": 9000,
+     "Strength": 6000
+    },
+    "gold": 3000,
+    "bonus": {
+     "desc": "+5% damage against bandits and +5 max hitpoints",
+     "fx": {
+      "dmgVs.Bandit": 0.05,
+      "maxHp": 5
+     }
+    },
+    "end": "That'll teach 'em! Me crew is armed and ready.",
+    "thanks": "The wagons roll safe now."
+   },
+   "start": "Talk to Captain Redbeard on the Port Sarim docks.",
+   "rewards": [
+    "9000 Attack XP",
+    "6000 Strength XP",
+    "3000 coins"
+   ],
+   "bonus": {
+    "desc": "+5% damage against bandits and +5 max hitpoints",
+    "fx": {
+     "dmgVs.Bandit": 0.05,
+     "maxHp": 5
+    }
+   }
+  },
+  {
+   "id": "wydin_stock",
+   "name": "Grocer's Stock",
+   "giver": "wydin",
+   "town": "Port Sarim",
+   "diff": "Novice",
+   "points": 1,
+   "data": {
+    "id": "wydin_stock",
+    "name": "Grocer's Stock",
+    "town": "Port Sarim",
+    "giver": "wydin",
+    "where": "at his stall in Port Sarim",
+    "diff": "Novice",
+    "points": 1,
+    "intro": [
+     "The ships want fresh food and my shelves are empty!",
+     "Bring me 10 Raw shrimp and 5 Raw beef."
+    ],
+    "steps": [
+     {
+      "t": "bring",
+      "items": {
+       "Raw shrimp": 10,
+       "Raw beef": 5
+      }
+     }
+    ],
+    "xp": {
+     "Fishing": 1200
+    },
+    "gold": 400,
+    "bonus": {
+     "desc": "+2% Fishing XP",
+     "fx": {
+      "xp.Fishing": 0.02
+     }
+    },
+    "end": "Fresh as the sea breeze. Thank you!",
+    "thanks": "Business is booming."
+   },
+   "start": "Talk to Wydin the Grocer at his stall in Port Sarim.",
+   "rewards": [
+    "1200 Fishing XP",
+    "400 coins"
+   ],
+   "bonus": {
+    "desc": "+2% Fishing XP",
+    "fx": {
+     "xp.Fishing": 0.02
+    }
+   }
+  },
+  {
+   "id": "wydin_spice",
+   "name": "Exotic Spices",
+   "giver": "wydin",
+   "town": "Port Sarim",
+   "diff": "Intermediate",
+   "points": 1,
+   "data": {
+    "id": "wydin_spice",
+    "name": "Exotic Spices",
+    "town": "Port Sarim",
+    "giver": "wydin",
+    "where": "at his stall in Port Sarim",
+    "diff": "Intermediate",
+    "points": 1,
+    "req": {
+     "q": [
+      "wydin_stock"
+     ],
+     "lvl": {
+      "Herblore": 10
+     }
+    },
+    "intro": [
+     "Sailors want spiced food. The best spices are herbs, if you know how to clean them.",
+     "Bring me 3 clean Marrentill and 2 clean Tarromin."
+    ],
+    "steps": [
+     {
+      "t": "bring",
+      "items": {
+       "Marrentill": 3,
+       "Tarromin": 2
+      }
+     }
+    ],
+    "xp": {
+     "Herblore": 3000
+    },
+    "items": {
+     "Energy potion": 3
+    },
+    "bonus": {
+     "desc": "Potions last 5% longer",
+     "fx": {
+      "potionTime": 0.05
+     }
+    },
+    "end": "What an aroma! Take these potions, they're good for long voyages.",
+    "thanks": "My spiced fish is famous now."
+   },
+   "start": "Talk to Wydin the Grocer at his stall in Port Sarim.",
+   "rewards": [
+    "3000 Herblore XP",
+    "3 x Energy potion"
+   ],
+   "bonus": {
+    "desc": "Potions last 5% longer",
+    "fx": {
+     "potionTime": 0.05
+    }
+   }
+  },
+  {
+   "id": "gerda_nets",
+   "name": "Mending Nets",
+   "giver": "gerda",
+   "town": "Port Sarim",
+   "diff": "Novice",
+   "points": 1,
+   "data": {
+    "id": "gerda_nets",
+    "name": "Mending Nets",
+    "town": "Port Sarim",
+    "giver": "gerda",
+    "where": "by the nets on the Port Sarim waterfront",
+    "diff": "Novice",
+    "points": 1,
+    "intro": [
+     "A shark tore through my nets. I need flax to mend them.",
+     "Bring me 15 Flax, then go and catch a few fish to test them."
+    ],
+    "steps": [
+     {
+      "t": "bring",
+      "items": {
+       "Flax": 15
+      }
+     },
+     {
+      "t": "xp",
+      "skill": "Fishing",
+      "n": 300,
+      "hint": "Catch any fish."
+     }
+    ],
+    "xp": {
+     "Crafting": 1000,
+     "Fishing": 1000
+    },
+    "gold": 300,
+    "bonus": {
+     "desc": "+1% success when gathering",
+     "fx": {
+      "gather": 0.01
+     }
+    },
+    "end": "Good as new, and you've the hands of a fisher. Off with you!",
+    "thanks": "Not a hole in them."
+   },
+   "start": "Talk to Net-mender Gerda by the nets on the Port Sarim waterfront.",
+   "rewards": [
+    "1000 Crafting XP",
+    "1000 Fishing XP",
+    "300 coins"
+   ],
+   "bonus": {
+    "desc": "+1% success when gathering",
+    "fx": {
+     "gather": 0.01
+    }
+   }
+  },
+  {
+   "id": "gerda_deep",
+   "name": "Deep Water",
+   "giver": "gerda",
+   "town": "Port Sarim",
+   "diff": "Intermediate",
+   "points": 1,
+   "data": {
+    "id": "gerda_deep",
+    "name": "Deep Water",
+    "town": "Port Sarim",
+    "giver": "gerda",
+    "where": "by the nets on the Port Sarim waterfront",
+    "diff": "Intermediate",
+    "points": 1,
+    "req": {
+     "q": [
+      "gerda_nets"
+     ],
+     "lvl": {
+      "Fishing": 40
+     }
+    },
+    "intro": [
+     "The harbour wants lobster and salmon, and I'm too old for the cages.",
+     "Bring me 5 Raw lobster and 5 Raw salmon."
+    ],
+    "steps": [
+     {
+      "t": "bring",
+      "items": {
+       "Raw lobster": 5,
+       "Raw salmon": 5
+      }
+     }
+    ],
+    "xp": {
+     "Fishing": 5000
+    },
+    "items": {
+     "Angler's ring": 1
+    },
+    "bonus": {
+     "desc": "+2% Fishing XP",
+     "fx": {
+      "xp.Fishing": 0.02
+     }
+    },
+    "end": "Beauties! This ring was my mother's. It'll bring you luck.",
+    "thanks": "The harbour is fed."
+   },
+   "start": "Talk to Net-mender Gerda by the nets on the Port Sarim waterfront.",
+   "rewards": [
+    "5000 Fishing XP",
+    "Angler's ring"
+   ],
+   "bonus": {
+    "desc": "+2% Fishing XP",
+    "fx": {
+     "xp.Fishing": 0.02
+    }
+   }
+  },
+  {
+   "id": "gerda_shark",
+   "name": "The Big One",
+   "giver": "gerda",
+   "town": "Port Sarim",
+   "diff": "Master",
+   "points": 3,
+   "data": {
+    "id": "gerda_shark",
+    "name": "The Big One",
+    "town": "Port Sarim",
+    "giver": "gerda",
+    "where": "by the nets on the Port Sarim waterfront",
+    "diff": "Master",
+    "points": 3,
+    "req": {
+     "q": [
+      "gerda_deep"
+     ],
+     "lvl": {
+      "Fishing": 76,
+      "Cooking": 80
+     }
+    },
+    "intro": [
+     "Forty years I've hunted the shark that tore my nets.",
+     "Harpoon 5 Raw shark for me, then cook 5 more so the whole port can feast."
+    ],
+    "steps": [
+     {
+      "t": "bring",
+      "items": {
+       "Raw shark": 5
+      }
+     },
+     {
+      "t": "bring",
+      "items": {
+       "Cooked shark": 5
+      }
+     }
+    ],
+    "xp": {
+     "Fishing": 20000,
+     "Cooking": 12000
+    },
+    "items": {
+     "Cooked shark": 20
+    },
+    "bonus": {
+     "desc": "+3% Fishing XP and burn food 3% less often",
+     "fx": {
+      "xp.Fishing": 0.03,
+      "burnLess": 0.03
+     }
+    },
+    "end": "At last! The port will talk of this for years. Take some shark for the road.",
+    "thanks": "I can retire happy."
+   },
+   "start": "Talk to Net-mender Gerda by the nets on the Port Sarim waterfront.",
+   "rewards": [
+    "20000 Fishing XP",
+    "12000 Cooking XP",
+    "20 x Cooked shark"
+   ],
+   "bonus": {
+    "desc": "+3% Fishing XP and burn food 3% less often",
+    "fx": {
+     "xp.Fishing": 0.03,
+     "burnLess": 0.03
+    }
+   }
+  },
+  {
+   "id": "brice_cargo",
+   "name": "Lost Cargo",
+   "giver": "brice",
+   "town": "Port Sarim",
+   "diff": "Novice",
+   "points": 1,
+   "data": {
+    "id": "brice_cargo",
+    "name": "Lost Cargo",
+    "town": "Port Sarim",
+    "giver": "brice",
+    "where": "at the Port Sarim harbour office",
+    "diff": "Novice",
+    "points": 1,
+    "intro": [
+     "A crate of goods went missing between the docks and Gerrant's shop.",
+     "Check the docks, ask Shopkeeper Gerrant, and replace the cargo: 5 Logs and 3 Iron ore."
+    ],
+    "steps": [
+     {
+      "t": "visit",
+      "place": "docks"
+     },
+     {
+      "t": "talk",
+      "npc": "gerrant",
+      "where": "in his shop in Port Sarim",
+      "say": [
+       "Brice's crate? It fell off the dock, I saw it sink!",
+       "Logs and iron ore, it was. Replace it and he'll never know."
+      ]
+     },
+     {
+      "t": "bring",
+      "items": {
+       "Logs": 5,
+       "Iron ore": 3
+      }
+     }
+    ],
+    "xp": {
+     "Strength": 1000,
+     "Mining": 800
+    },
+    "gold": 600,
+    "bonus": {
+     "desc": "Shops pay you 1% more",
+     "fx": {
+      "sellBonus": 0.01
+     }
+    },
+    "end": "All present and correct. The paperwork is happy.",
+    "thanks": "The ledgers balance."
+   },
+   "start": "Talk to Harbourmaster Brice at the Port Sarim harbour office.",
+   "rewards": [
+    "1000 Strength XP",
+    "800 Mining XP",
+    "600 coins"
+   ],
+   "bonus": {
+    "desc": "Shops pay you 1% more",
+    "fx": {
+     "sellBonus": 0.01
+    }
+   }
+  },
+  {
+   "id": "brice_ropes",
+   "name": "Learning the Ropes",
+   "giver": "brice",
+   "town": "Port Sarim",
+   "diff": "Intermediate",
+   "points": 1,
+   "data": {
+    "id": "brice_ropes",
+    "name": "Learning the Ropes",
+    "town": "Port Sarim",
+    "giver": "brice",
+    "where": "at the Port Sarim harbour office",
+    "diff": "Intermediate",
+    "points": 1,
+    "req": {
+     "q": [
+      "brice_cargo"
+     ],
+     "lvl": {
+      "Agility": 25
+     }
+    },
+    "intro": [
+     "My dock hands need someone to show them the rigging.",
+     "Visit the rigging course east of the docks and earn 2000 Agility XP."
+    ],
+    "steps": [
+     {
+      "t": "visit",
+      "place": "psCourse"
+     },
+     {
+      "t": "xp",
+      "skill": "Agility",
+      "n": 2000,
+      "hint": "Run any agility course."
+     }
+    ],
+    "xp": {
+     "Agility": 5000
+    },
+    "gold": 1500,
+    "bonus": {
+     "desc": "Run energy restores 5% faster",
+     "fx": {
+      "runRegen": 0.05
+     }
+    },
+    "end": "The lads say you climb like a cat. Good work.",
+    "thanks": "The rigging's never been tidier."
+   },
+   "start": "Talk to Harbourmaster Brice at the Port Sarim harbour office.",
+   "rewards": [
+    "5000 Agility XP",
+    "1500 coins"
+   ],
+   "bonus": {
+    "desc": "Run energy restores 5% faster",
+    "fx": {
+     "runRegen": 0.05
+    }
+   }
+  },
+  {
+   "id": "brice_customs",
+   "name": "Customs and Excise",
+   "giver": "brice",
+   "town": "Port Sarim",
+   "diff": "Experienced",
+   "points": 2,
+   "data": {
+    "id": "brice_customs",
+    "name": "Customs and Excise",
+    "town": "Port Sarim",
+    "giver": "brice",
+    "where": "at the Port Sarim harbour office",
+    "diff": "Experienced",
+    "points": 2,
+    "req": {
+     "q": [
+      "brice_ropes"
+     ],
+     "lvl": {
+      "Thieving": 40
+     }
+    },
+    "intro": [
+     "Someone is smuggling chaos runes through my harbour.",
+     "Lift a few purses for evidence, ask Betty what she knows, then find where the runes are made."
+    ],
+    "steps": [
+     {
+      "t": "xp",
+      "skill": "Thieving",
+      "n": 5000,
+      "hint": "Pickpocket anyone in town."
+     },
+     {
+      "t": "talk",
+      "npc": "betty",
+      "where": "in her magic shop in Port Sarim",
+      "say": [
+       "Chaos runes? Not from my shop, dear.",
+       "They're made at the dark altar south-east of town, past the bandits. Be careful."
+      ]
+     },
+     {
+      "t": "visit",
+      "place": "chaosAltar"
+     }
+    ],
+    "xp": {
+     "Thieving": 10000,
+     "Magic": 5000
+    },
+    "items": {
+     "Chaos rune": 100
+    },
+    "bonus": {
+     "desc": "+2% Thieving XP and shops pay you 2% more",
+     "fx": {
+      "xp.Thieving": 0.02,
+      "sellBonus": 0.02
+     }
+    },
+    "end": "The Chaos altar! I'll post guards. Keep these confiscated runes.",
+    "thanks": "Smuggling is down to nothing."
+   },
+   "start": "Talk to Harbourmaster Brice at the Port Sarim harbour office.",
+   "rewards": [
+    "10000 Thieving XP",
+    "5000 Magic XP",
+    "100 x Chaos rune"
+   ],
+   "bonus": {
+    "desc": "+2% Thieving XP and shops pay you 2% more",
+    "fx": {
+     "xp.Thieving": 0.02,
+     "sellBonus": 0.02
+    }
+   }
+  },
+  {
+   "id": "thurgo_pie",
+   "name": "Thurgo's Lunch",
+   "giver": "thurgo",
+   "town": "Port Sarim",
+   "diff": "Novice",
+   "points": 1,
+   "data": {
+    "id": "thurgo_pie",
+    "name": "Thurgo's Lunch",
+    "town": "Port Sarim",
+    "giver": "thurgo",
+    "where": "on the west side of Port Sarim",
+    "diff": "Novice",
+    "points": 1,
+    "intro": [
+     "Hungry. So hungry. Dwarves can't smith on an empty belly.",
+     "Bring me 5 Cooked meat and I'll give you some iron."
+    ],
+    "steps": [
+     {
+      "t": "bring",
+      "items": {
+       "Cooked meat": 5
+      }
+     }
+    ],
+    "xp": {
+     "Smithing": 1200
+    },
+    "items": {
+     "Iron bar": 5
+    },
+    "bonus": {
+     "desc": "+2% Smithing XP",
+     "fx": {
+      "xp.Smithing": 0.02
+     }
+    },
+    "end": "Mmm! Here, iron bars. Fair trade.",
+    "thanks": "Belly's full, hammer's swinging."
+   },
+   "start": "Talk to Thurgo on the west side of Port Sarim.",
+   "rewards": [
+    "1200 Smithing XP",
+    "5 x Iron bar"
+   ],
+   "bonus": {
+    "desc": "+2% Smithing XP",
+    "fx": {
+     "xp.Smithing": 0.02
+    }
+   }
+  },
+  {
+   "id": "thurgo_steel",
+   "name": "Imcando Steel",
+   "giver": "thurgo",
+   "town": "Port Sarim",
+   "diff": "Intermediate",
+   "points": 1,
+   "data": {
+    "id": "thurgo_steel",
+    "name": "Imcando Steel",
+    "town": "Port Sarim",
+    "giver": "thurgo",
+    "where": "on the west side of Port Sarim",
+    "diff": "Intermediate",
+    "points": 1,
+    "req": {
+     "q": [
+      "thurgo_pie"
+     ],
+     "lvl": {
+      "Smithing": 30
+     }
+    },
+    "intro": [
+     "I'll teach you old dwarf tricks, but first, steel and coal.",
+     "Bring me 5 Steel bars and 5 Coal, then go practise at any anvil."
+    ],
+    "steps": [
+     {
+      "t": "bring",
+      "items": {
+       "Steel bar": 5,
+       "Coal": 5
+      }
+     },
+     {
+      "t": "xp",
+      "skill": "Smithing",
+      "n": 1500,
+      "hint": "Smelt or smith anything."
+     }
+    ],
+    "xp": {
+     "Smithing": 5000
+    },
+    "items": {
+     "Mithril bar": 5
+    },
+    "bonus": {
+     "desc": "+2% Smithing XP",
+     "fx": {
+      "xp.Smithing": 0.02
+     }
+    },
+    "end": "Not bad for a non-dwarf! Have some mithril.",
+    "thanks": "You hammer like a dwarf now."
+   },
+   "start": "Talk to Thurgo on the west side of Port Sarim.",
+   "rewards": [
+    "5000 Smithing XP",
+    "5 x Mithril bar"
+   ],
+   "bonus": {
+    "desc": "+2% Smithing XP",
+    "fx": {
+     "xp.Smithing": 0.02
+    }
+   }
+  },
+  {
+   "id": "thurgo_rune",
+   "name": "A Runite Blade",
+   "giver": "thurgo",
+   "town": "Port Sarim",
+   "diff": "Master",
+   "points": 3,
+   "data": {
+    "id": "thurgo_rune",
+    "name": "A Runite Blade",
+    "town": "Port Sarim",
+    "giver": "thurgo",
+    "where": "on the west side of Port Sarim",
+    "diff": "Master",
+    "points": 3,
+    "req": {
+     "q": [
+      "thurgo_steel"
+     ],
+     "lvl": {
+      "Smithing": 85,
+      "Mining": 85
+     }
+    },
+    "intro": [
+     "Before I die I want to forge one perfect runite blade.",
+     "Bring me 4 Runite ore and 3 Rune bars."
+    ],
+    "steps": [
+     {
+      "t": "bring",
+      "items": {
+       "Runite ore": 4,
+       "Rune bar": 3
+      }
+     }
+    ],
+    "xp": {
+     "Smithing": 25000,
+     "Mining": 15000
+    },
+    "items": {
+     "Rune sword": 1
+    },
+    "bonus": {
+     "desc": "+3% Smithing XP and +1% success when gathering",
+     "fx": {
+      "xp.Smithing": 0.03,
+      "gather": 0.01
+     }
+    },
+    "end": "Perfect. Take the first one. I'll make another for me.",
+    "thanks": "My finest work, in your hands."
+   },
+   "start": "Talk to Thurgo on the west side of Port Sarim.",
+   "rewards": [
+    "25000 Smithing XP",
+    "15000 Mining XP",
+    "Rune sword"
+   ],
+   "bonus": {
+    "desc": "+3% Smithing XP and +1% success when gathering",
+    "fx": {
+     "xp.Smithing": 0.03,
+     "gather": 0.01
+    }
+   }
+  },
+  {
+   "id": "mabel_water",
+   "name": "Water for Mabel",
+   "giver": "mabel",
+   "town": "Port Sarim",
+   "diff": "Novice",
+   "points": 1,
+   "data": {
+    "id": "mabel_water",
+    "name": "Water for Mabel",
+    "town": "Port Sarim",
+    "giver": "mabel",
+    "where": "on the east side of Port Sarim",
+    "diff": "Novice",
+    "points": 1,
+    "req": {
+     "lvl": {
+      "Runecrafting": 5
+     }
+    },
+    "intro": [
+     "My garden is dry, and I don't trust well water. Only water runes will do!",
+     "Go to the Water altar south-west of town and craft me 15 Water runes."
+    ],
+    "steps": [
+     {
+      "t": "visit",
+      "place": "waterAltar"
+     },
+     {
+      "t": "xp",
+      "skill": "Runecrafting",
+      "n": 50,
+      "hint": "Craft runes at the Water altar (needs Runecrafting 5)."
+     },
+     {
+      "t": "bring",
+      "items": {
+       "Water rune": 15
+      }
+     }
+    ],
+    "xp": {
+     "Runecrafting": 2000,
+     "Magic": 500
+    },
+    "gold": 500,
+    "bonus": {
+     "desc": "+2% Runecrafting XP",
+     "fx": {
+      "xp.Runecrafting": 0.02
+     }
+    },
+    "end": "Lovely! My roses will bloom like never before.",
+    "thanks": "Come and see my roses some time."
+   },
+   "start": "Talk to Old Mabel on the east side of Port Sarim.",
+   "rewards": [
+    "2000 Runecrafting XP",
+    "500 Magic XP",
+    "500 coins"
+   ],
+   "bonus": {
+    "desc": "+2% Runecrafting XP",
+    "fx": {
+     "xp.Runecrafting": 0.02
+    }
+   }
+  },
+  {
+   "id": "kenn_ship",
+   "name": "Cabin Boy Blues",
+   "giver": "kenn",
+   "town": "Port Sarim",
+   "diff": "Novice",
+   "points": 1,
+   "data": {
+    "id": "kenn_ship",
+    "name": "Cabin Boy Blues",
+    "town": "Port Sarim",
+    "giver": "kenn",
+    "where": "in Port Sarim square",
+    "diff": "Novice",
+    "points": 1,
+    "intro": [
+     "I overslept and Captain Redbeard's ship left without me. Then it came back, and now I'm too scared to face him!",
+     "Could you speak to him for me? And maybe bring me a Bronze sword so I look brave."
+    ],
+    "steps": [
+     {
+      "t": "talk",
+      "npc": "redbeard",
+      "where": "on the docks",
+      "say": [
+       "Kennith? Har! Tell the lad all is forgiven.",
+       "But he swabs the deck for a month."
+      ]
+     },
+     {
+      "t": "bring",
+      "items": {
+       "Bronze sword": 1
+      }
+     }
+    ],
+    "xp": {
+     "Attack": 800,
+     "Defence": 800
+    },
+    "gold": 300,
+    "bonus": {
+     "desc": "+5 max hitpoints",
+     "fx": {
+      "maxHp": 5
+     }
+    },
+    "end": "Forgiven! And a sword! I'll be a pirate yet!",
+    "thanks": "Swabbing the deck isn't so bad."
+   },
+   "start": "Talk to Kennith in Port Sarim square.",
+   "rewards": [
+    "800 Attack XP",
+    "800 Defence XP",
+    "300 coins"
+   ],
+   "bonus": {
+    "desc": "+5 max hitpoints",
+    "fx": {
+     "maxHp": 5
+    }
+   }
+  },
+  {
+   "id": "velma_brew",
+   "name": "Witch's Brew",
+   "giver": "velma",
+   "town": "Port Sarim",
+   "diff": "Intermediate",
+   "points": 1,
+   "data": {
+    "id": "velma_brew",
+    "name": "Witch's Brew",
+    "town": "Port Sarim",
+    "giver": "velma",
+    "where": "at the west edge of Port Sarim",
+    "diff": "Intermediate",
+    "points": 1,
+    "req": {
+     "lvl": {
+      "Herblore": 20,
+      "Magic": 20
+     }
+    },
+    "intro": [
+     "My brew needs moss from a living giant. Giants don't like that.",
+     "Visit the Moss Giant woods west of town, defeat 3, and bring me 2 Strength potions to steady my hand."
+    ],
+    "steps": [
+     {
+      "t": "visit",
+      "place": "mossGiants"
+     },
+     {
+      "t": "kill",
+      "mon": "Moss Giant",
+      "n": 3
+     },
+     {
+      "t": "bring",
+      "items": {
+       "Strength potion": 2
+      }
+     }
+    ],
+    "xp": {
+     "Herblore": 4000,
+     "Magic": 4000
+    },
+    "items": {
+     "Wizard hat": 1
+    },
+    "bonus": {
+     "desc": "+2% Herblore XP",
+     "fx": {
+      "xp.Herblore": 0.02
+     }
+    },
+    "end": "Bubble, bubble! The brew is perfect. Wear this hat, it suits you.",
+    "thanks": "The brew is still bubbling."
+   },
+   "start": "Talk to Velma the Witch at the west edge of Port Sarim.",
+   "rewards": [
+    "4000 Herblore XP",
+    "4000 Magic XP",
+    "Wizard hat"
+   ],
+   "bonus": {
+    "desc": "+2% Herblore XP",
+    "fx": {
+     "xp.Herblore": 0.02
+    }
+   }
+  },
+  {
+   "id": "velma_frost",
+   "name": "Frozen Heart",
+   "giver": "velma",
+   "town": "Port Sarim",
+   "diff": "Experienced",
+   "points": 2,
+   "data": {
+    "id": "velma_frost",
+    "name": "Frozen Heart",
+    "town": "Port Sarim",
+    "giver": "velma",
+    "where": "at the west edge of Port Sarim",
+    "diff": "Experienced",
+    "points": 2,
+    "req": {
+     "q": [
+      "velma_brew"
+     ],
+     "lvl": {
+      "Magic": 40
+     }
+    },
+    "intro": [
+     "The ice giants to the south-west have a frozen heart of magic.",
+     "Go to the frozen hollow, defeat 3 ice giants and earn 3000 Magic XP to bind the cold."
+    ],
+    "steps": [
+     {
+      "t": "visit",
+      "place": "iceWest"
+     },
+     {
+      "t": "kill",
+      "mon": "Ice Giant",
+      "n": 3
+     },
+     {
+      "t": "xp",
+      "skill": "Magic",
+      "n": 3000,
+      "hint": "Cast spells in combat."
+     }
+    ],
+    "xp": {
+     "Magic": 10000
+    },
+    "items": {
+     "Staff of water": 1,
+     "Water rune": 200
+    },
+    "bonus": {
+     "desc": "+5% damage against ice giants and +2% Magic XP",
+     "fx": {
+      "dmgVs.Ice Giant": 0.05,
+      "xp.Magic": 0.02
+     }
+    },
+    "end": "I can feel the cold in you. Take this staff, it never runs dry.",
+    "thanks": "My cauldron stays frosty."
+   },
+   "start": "Talk to Velma the Witch at the west edge of Port Sarim.",
+   "rewards": [
+    "10000 Magic XP",
+    "Staff of water",
+    "200 x Water rune"
+   ],
+   "bonus": {
+    "desc": "+5% damage against ice giants and +2% Magic XP",
+    "fx": {
+     "dmgVs.Ice Giant": 0.05,
+     "xp.Magic": 0.02
+    }
+   }
+  },
+  {
+   "id": "sorrel_moss",
+   "name": "Mossy Menace",
+   "giver": "sorrel",
+   "town": "Wilds",
+   "diff": "Intermediate",
+   "points": 1,
+   "data": {
+    "id": "sorrel_moss",
+    "name": "Mossy Menace",
+    "town": "Wilds",
+    "giver": "sorrel",
+    "where": "in the woods west of Port Sarim",
+    "diff": "Intermediate",
+    "points": 1,
+    "req": {
+     "lvl": {
+      "Strength": 30
+     }
+    },
+    "intro": [
+     "Moss giants are trampling my woods.",
+     "Defeat 4 of them and bury 4 of their bones to keep the forest spirits happy."
+    ],
+    "steps": [
+     {
+      "t": "kill",
+      "mon": "Moss Giant",
+      "n": 4
+     },
+     {
+      "t": "bury",
+      "n": 4
+     }
+    ],
+    "xp": {
+     "Strength": 5000,
+     "Prayer": 2000
+    },
+    "gold": 800,
+    "bonus": {
+     "desc": "+5% damage against moss giants",
+     "fx": {
+      "dmgVs.Moss Giant": 0.05
+     }
+    },
+    "end": "The woods breathe easier. Thank you.",
+    "thanks": "The saplings are growing again."
+   },
+   "start": "Talk to Ranger Sorrel in the woods west of Port Sarim.",
+   "rewards": [
+    "5000 Strength XP",
+    "2000 Prayer XP",
+    "800 coins"
+   ],
+   "bonus": {
+    "desc": "+5% damage against moss giants",
+    "fx": {
+     "dmgVs.Moss Giant": 0.05
+    }
+   }
+  },
+  {
+   "id": "sorrel_bandits",
+   "name": "Highway Robbery",
+   "giver": "sorrel",
+   "town": "Wilds",
+   "diff": "Experienced",
+   "points": 2,
+   "data": {
+    "id": "sorrel_bandits",
+    "name": "Highway Robbery",
+    "town": "Wilds",
+    "giver": "sorrel",
+    "where": "in the woods west of Port Sarim",
+    "diff": "Experienced",
+    "points": 2,
+    "req": {
+     "q": [
+      "sorrel_moss"
+     ],
+     "lvl": {
+      "Ranged": 40
+     }
+    },
+    "intro": [
+     "Bandits ambush travellers on the south road and worship at that dark altar.",
+     "Shoot down 8 bandits, then scout the Chaos altar."
+    ],
+    "steps": [
+     {
+      "t": "kill",
+      "mon": "Bandit",
+      "n": 8
+     },
+     {
+      "t": "visit",
+      "place": "chaosAltar"
+     }
+    ],
+    "xp": {
+     "Ranged": 9000
+    },
+    "items": {
+     "Maple shortbow": 1,
+     "Steel arrows": 200
+    },
+    "bonus": {
+     "desc": "+1 ranged max hit and +3% damage against bandits",
+     "fx": {
+      "rmaxHit": 1,
+      "dmgVs.Bandit": 0.03
+     }
+    },
+    "end": "The road is safe. Take my spare bow.",
+    "thanks": "Travellers sing your praises."
+   },
+   "start": "Talk to Ranger Sorrel in the woods west of Port Sarim.",
+   "rewards": [
+    "9000 Ranged XP",
+    "Maple shortbow",
+    "200 x Steel arrows"
+   ],
+   "bonus": {
+    "desc": "+1 ranged max hit and +3% damage against bandits",
+    "fx": {
+     "rmaxHit": 1,
+     "dmgVs.Bandit": 0.03
+    }
+   }
+  },
+  {
+   "id": "reldo_tome",
+   "name": "The Lost Tome",
+   "giver": "reldo",
+   "town": "Varrock",
+   "diff": "Novice",
+   "points": 1,
+   "data": {
+    "id": "reldo_tome",
+    "name": "The Lost Tome",
+    "town": "Varrock",
+    "giver": "reldo",
+    "where": "in Varrock, west of the square",
+    "diff": "Novice",
+    "points": 1,
+    "intro": [
+     "A book on the Earth altar has gone missing from my library. Aubury borrowed it, I think.",
+     "Ask Aubury, check the altar north-west of the palace, and bring me 20 Feathers so I can make quills to rewrite it."
+    ],
+    "steps": [
+     {
+      "t": "talk",
+      "npc": "aubury",
+      "where": "in his rune shop in Varrock",
+      "say": [
+       "Reldo's book? I'm afraid I spilled tea on it.",
+       "Everything it said is carved on the Earth altar anyway. Go and look."
+      ]
+     },
+     {
+      "t": "visit",
+      "place": "earthAltar"
+     },
+     {
+      "t": "bring",
+      "items": {
+       "Feather": 20
+      }
+     }
+    ],
+    "xp": {
+     "Magic": 1000,
+     "Crafting": 800
+    },
+    "gold": 500,
+    "bonus": {
+     "desc": "+1% Crafting XP",
+     "fx": {
+      "xp.Crafting": 0.01
+     }
+    },
+    "end": "I'll have it rewritten by Saturday. Thank you!",
+    "thanks": "The tome is back on the shelf."
+   },
+   "start": "Talk to Reldo the Librarian in Varrock, west of the square.",
+   "rewards": [
+    "1000 Magic XP",
+    "800 Crafting XP",
+    "500 coins"
+   ],
+   "bonus": {
+    "desc": "+1% Crafting XP",
+    "fx": {
+     "xp.Crafting": 0.01
+    }
+   }
+  },
+  {
+   "id": "reldo_history",
+   "name": "Varrock's History",
+   "giver": "reldo",
+   "town": "Varrock",
+   "diff": "Intermediate",
+   "points": 1,
+   "data": {
+    "id": "reldo_history",
+    "name": "Varrock's History",
+    "town": "Varrock",
+    "giver": "reldo",
+    "where": "in Varrock, west of the square",
+    "diff": "Intermediate",
+    "points": 1,
+    "req": {
+     "q": [
+      "reldo_tome"
+     ],
+     "lvl": {
+      "Runecrafting": 14
+     }
+    },
+    "intro": [
+     "Varrock was built near two great altars and a mine of pure magic.",
+     "Visit the essence mine and the Fire altar, then ask the Hero in Falador what he knows of the dragons."
+    ],
+    "steps": [
+     {
+      "t": "visit",
+      "place": "essMine"
+     },
+     {
+      "t": "visit",
+      "place": "fireAltar"
+     },
+     {
+      "t": "talk",
+      "npc": "hero",
+      "where": "in Falador",
+      "say": [
+       "Reldo wants dragon lore? Tell him the green dragons came after the altars were built.",
+       "Their lair is far north of Varrock. Only a fool goes there unprepared."
+      ]
+     }
+    ],
+    "xp": {
+     "Runecrafting": 3000,
+     "Magic": 3000
+    },
+    "bonus": {
+     "desc": "+2% Runecrafting XP",
+     "fx": {
+      "xp.Runecrafting": 0.02
+     }
+    },
+    "end": "Fascinating! Another chapter for my history.",
+    "thanks": "My history of Varrock grows."
+   },
+   "start": "Talk to Reldo the Librarian in Varrock, west of the square.",
+   "rewards": [
+    "3000 Runecrafting XP",
+    "3000 Magic XP"
+   ],
+   "bonus": {
+    "desc": "+2% Runecrafting XP",
+    "fx": {
+     "xp.Runecrafting": 0.02
+    }
+   }
+  },
+  {
+   "id": "reldo_demon",
+   "name": "Demon Lore",
+   "giver": "reldo",
+   "town": "Varrock",
+   "diff": "Experienced",
+   "points": 2,
+   "data": {
+    "id": "reldo_demon",
+    "name": "Demon Lore",
+    "town": "Varrock",
+    "giver": "reldo",
+    "where": "in Varrock, west of the square",
+    "diff": "Experienced",
+    "points": 2,
+    "req": {
+     "q": [
+      "reldo_history"
+     ],
+     "lvl": {
+      "Magic": 50
+     }
+    },
+    "intro": [
+     "Lesser demons have taken the ruins north of the city. My books say magic hurts them most.",
+     "Go to the ruins, banish 3 demons and earn 4000 Magic XP."
+    ],
+    "steps": [
+     {
+      "t": "visit",
+      "place": "demons"
+     },
+     {
+      "t": "kill",
+      "mon": "Lesser Demon",
+      "n": 3
+     },
+     {
+      "t": "xp",
+      "skill": "Magic",
+      "n": 4000,
+      "hint": "Cast spells in battle."
+     }
+    ],
+    "xp": {
+     "Magic": 12000
+    },
+    "items": {
+     "Mystic hat": 1
+    },
+    "bonus": {
+     "desc": "+5% damage against lesser demons",
+     "fx": {
+      "dmgVs.Lesser Demon": 0.05
+     }
+    },
+    "end": "Banished! Take this hat, it belonged to a wizard who wasn't so lucky.",
+    "thanks": "The ruins are quiet."
+   },
+   "start": "Talk to Reldo the Librarian in Varrock, west of the square.",
+   "rewards": [
+    "12000 Magic XP",
+    "Mystic hat"
+   ],
+   "bonus": {
+    "desc": "+5% damage against lesser demons",
+    "fx": {
+     "dmgVs.Lesser Demon": 0.05
+    }
+   }
+  },
+  {
+   "id": "romeo_letter",
+   "name": "Romeo's Letter",
+   "giver": "romeo",
+   "town": "Varrock",
+   "diff": "Novice",
+   "points": 1,
+   "data": {
+    "id": "romeo_letter",
+    "name": "Romeo's Letter",
+    "town": "Varrock",
+    "giver": "romeo",
+    "where": "in Varrock square",
+    "diff": "Novice",
+    "points": 1,
+    "intro": [
+     "I wish to ask Juliet to a picnic, but I'm too shy! Gertrude knows her.",
+     "Please ask Gertrude to pass on my letter, then bring me 2 Cooked salmon for the picnic."
+    ],
+    "steps": [
+     {
+      "t": "talk",
+      "npc": "gertrude",
+      "where": "in north-west Varrock",
+      "say": [
+       "A letter for Juliet? How sweet! I'll pass it on.",
+       "Tell Romeo she said yes. She always says yes."
+      ]
+     },
+     {
+      "t": "bring",
+      "items": {
+       "Cooked salmon": 2
+      }
+     }
+    ],
+    "xp": {
+     "Cooking": 1000
+    },
+    "gold": 400,
+    "bonus": {
+     "desc": "+2% Cooking XP",
+     "fx": {
+      "xp.Cooking": 0.02
+     }
+    },
+    "end": "She said yes! Oh, joyous day!",
+    "thanks": "The picnic was perfect."
+   },
+   "start": "Talk to Romeo in Varrock square.",
+   "rewards": [
+    "1000 Cooking XP",
+    "400 coins"
+   ],
+   "bonus": {
+    "desc": "+2% Cooking XP",
+    "fx": {
+     "xp.Cooking": 0.02
+    }
+   }
+  },
+  {
+   "id": "romeo_duel",
+   "name": "A Duel of Hearts",
+   "giver": "romeo",
+   "town": "Varrock",
+   "diff": "Intermediate",
+   "points": 1,
+   "data": {
+    "id": "romeo_duel",
+    "name": "A Duel of Hearts",
+    "town": "Varrock",
+    "giver": "romeo",
+    "where": "in Varrock square",
+    "diff": "Intermediate",
+    "points": 1,
+    "req": {
+     "q": [
+      "romeo_letter"
+     ],
+     "lvl": {
+      "Attack": 25
+     }
+    },
+    "intro": [
+     "A Black Knight insulted Juliet! I challenged him, but... I can't fight.",
+     "Defeat 2 Black Knights north of Brightwater in my name, and bring me an Iron platebody so I look the part."
+    ],
+    "steps": [
+     {
+      "t": "kill",
+      "mon": "Black Knight",
+      "n": 2
+     },
+     {
+      "t": "bring",
+      "items": {
+       "Iron platebody": 1
+      }
+     }
+    ],
+    "xp": {
+     "Attack": 3000,
+     "Defence": 3000
+    },
+    "gold": 1000,
+    "bonus": {
+     "desc": "+3% damage against black knights",
+     "fx": {
+      "dmgVs.Black Knight": 0.03
+     }
+    },
+    "end": "Juliet thinks I'm a hero! Our secret, yes?",
+    "thanks": "Juliet loves the armour."
+   },
+   "start": "Talk to Romeo in Varrock square.",
+   "rewards": [
+    "3000 Attack XP",
+    "3000 Defence XP",
+    "1000 coins"
+   ],
+   "bonus": {
+    "desc": "+3% damage against black knights",
+    "fx": {
+     "dmgVs.Black Knight": 0.03
+    }
+   }
+  },
+  {
+   "id": "baraek_furs",
+   "name": "Fur Trade",
+   "giver": "baraek",
+   "town": "Varrock",
+   "diff": "Novice",
+   "points": 1,
+   "data": {
+    "id": "baraek_furs",
+    "name": "Fur Trade",
+    "town": "Varrock",
+    "giver": "baraek",
+    "where": "on the east side of Varrock",
+    "diff": "Novice",
+    "points": 1,
+    "intro": [
+     "Furs are scarce this season. Cowhide will have to do.",
+     "Bring me 10 Cowhide and I'll pay a fair price."
+    ],
+    "steps": [
+     {
+      "t": "bring",
+      "items": {
+       "Cowhide": 10
+      }
+     }
+    ],
+    "xp": {
+     "Crafting": 1200
+    },
+    "gold": 600,
+    "bonus": {
+     "desc": "Shops pay you 1% more",
+     "fx": {
+      "sellBonus": 0.01
+     }
+    },
+    "end": "A fair trade. Come back if you find more.",
+    "thanks": "Business is good."
+   },
+   "start": "Talk to Baraek on the east side of Varrock.",
+   "rewards": [
+    "1200 Crafting XP",
+    "600 coins"
+   ],
+   "bonus": {
+    "desc": "Shops pay you 1% more",
+    "fx": {
+     "sellBonus": 0.01
+    }
+   }
+  },
+  {
+   "id": "baraek_hard",
+   "name": "Hard Bargain",
+   "giver": "baraek",
+   "town": "Varrock",
+   "diff": "Intermediate",
+   "points": 1,
+   "data": {
+    "id": "baraek_hard",
+    "name": "Hard Bargain",
+    "town": "Varrock",
+    "giver": "baraek",
+    "where": "on the east side of Varrock",
+    "diff": "Intermediate",
+    "points": 1,
+    "req": {
+     "q": [
+      "baraek_furs"
+     ],
+     "lvl": {
+      "Crafting": 28
+     }
+    },
+    "intro": [
+     "The guards want armour, not furs. Hard leather!",
+     "Bring me 5 Hard leather and a Hard leather body."
+    ],
+    "steps": [
+     {
+      "t": "bring",
+      "items": {
+       "Hard leather": 5,
+       "Hard leather body": 1
+      }
+     }
+    ],
+    "xp": {
+     "Crafting": 4000
+    },
+    "gold": 2000,
+    "bonus": {
+     "desc": "1% off everything in shops",
+     "fx": {
+      "shopDiscount": 0.01
+     }
+    },
+    "end": "Fine work. I'll give you a discount from now on.",
+    "thanks": "The guards love it."
+   },
+   "start": "Talk to Baraek on the east side of Varrock.",
+   "rewards": [
+    "4000 Crafting XP",
+    "2000 coins"
+   ],
+   "bonus": {
+    "desc": "1% off everything in shops",
+    "fx": {
+     "shopDiscount": 0.01
+    }
+   }
+  },
+  {
+   "id": "zaff_staff",
+   "name": "Staff Shortage",
+   "giver": "zaff",
+   "town": "Varrock",
+   "diff": "Novice",
+   "points": 1,
+   "data": {
+    "id": "zaff_staff",
+    "name": "Staff Shortage",
+    "town": "Varrock",
+    "giver": "zaff",
+    "where": "on the west side of Varrock",
+    "diff": "Novice",
+    "points": 1,
+    "intro": [
+     "I'm out of wood for staves! Oak is best.",
+     "Bring me 10 Oak logs, then try a few spells so I know you can use a staff."
+    ],
+    "steps": [
+     {
+      "t": "bring",
+      "items": {
+       "Oak logs": 10
+      }
+     },
+     {
+      "t": "xp",
+      "skill": "Magic",
+      "n": 200,
+      "hint": "Cast any combat spell."
+     }
+    ],
+    "xp": {
+     "Magic": 1500
+    },
+    "items": {
+     "Staff": 1
+    },
+    "bonus": {
+     "desc": "+1% Magic XP",
+     "fx": {
+      "xp.Magic": 0.01
+     }
+    },
+    "end": "A natural! Have one of my plain staves.",
+    "thanks": "The staves are selling well."
+   },
+   "start": "Talk to Zaff on the west side of Varrock.",
+   "rewards": [
+    "1500 Magic XP",
+    "Staff"
+   ],
+   "bonus": {
+    "desc": "+1% Magic XP",
+    "fx": {
+     "xp.Magic": 0.01
+    }
+   }
+  },
+  {
+   "id": "zaff_elements",
+   "name": "Elemental Staves",
+   "giver": "zaff",
+   "town": "Varrock",
+   "diff": "Intermediate",
+   "points": 1,
+   "data": {
+    "id": "zaff_elements",
+    "name": "Elemental Staves",
+    "town": "Varrock",
+    "giver": "zaff",
+    "where": "on the west side of Varrock",
+    "diff": "Intermediate",
+    "points": 1,
+    "req": {
+     "q": [
+      "zaff_staff"
+     ],
+     "lvl": {
+      "Runecrafting": 14,
+      "Magic": 30
+     }
+    },
+    "intro": [
+     "To make elemental staves I need elemental runes.",
+     "Visit the Fire altar and bring me 50 Fire runes and 50 Earth runes."
+    ],
+    "steps": [
+     {
+      "t": "visit",
+      "place": "fireAltar"
+     },
+     {
+      "t": "bring",
+      "items": {
+       "Fire rune": 50,
+       "Earth rune": 50
+      }
+     }
+    ],
+    "xp": {
+     "Runecrafting": 4000,
+     "Magic": 3000
+    },
+    "items": {
+     "Staff of fire": 1
+    },
+    "bonus": {
+     "desc": "+2% Runecrafting XP",
+     "fx": {
+      "xp.Runecrafting": 0.02
+     }
+    },
+    "end": "Perfect! Your very own staff of fire.",
+    "thanks": "My elemental staves are the talk of the city."
+   },
+   "start": "Talk to Zaff on the west side of Varrock.",
+   "rewards": [
+    "4000 Runecrafting XP",
+    "3000 Magic XP",
+    "Staff of fire"
+   ],
+   "bonus": {
+    "desc": "+2% Runecrafting XP",
+    "fx": {
+     "xp.Runecrafting": 0.02
+    }
+   }
+  },
+  {
+   "id": "zaff_mystic",
+   "name": "Mystic Arts",
+   "giver": "zaff",
+   "town": "Varrock",
+   "diff": "Master",
+   "points": 3,
+   "data": {
+    "id": "zaff_mystic",
+    "name": "Mystic Arts",
+    "town": "Varrock",
+    "giver": "zaff",
+    "where": "on the west side of Varrock",
+    "diff": "Master",
+    "points": 3,
+    "req": {
+     "q": [
+      "zaff_elements"
+     ],
+     "lvl": {
+      "Magic": 75,
+      "Runecrafting": 65
+     }
+    },
+    "intro": [
+     "A mystic staff needs the power of death itself.",
+     "Go to the Death altar deep in the wilds, earn 5000 Runecrafting XP and bring me 100 Death runes."
+    ],
+    "steps": [
+     {
+      "t": "visit",
+      "place": "deathAltar"
+     },
+     {
+      "t": "xp",
+      "skill": "Runecrafting",
+      "n": 5000,
+      "hint": "Craft runes at any altar."
+     },
+     {
+      "t": "bring",
+      "items": {
+       "Death rune": 100
+      }
+     }
+    ],
+    "xp": {
+     "Magic": 25000,
+     "Runecrafting": 15000
+    },
+    "items": {
+     "Mystic staff": 1
+    },
+    "bonus": {
+     "desc": "+3% Magic XP and +2% Runecrafting XP",
+     "fx": {
+      "xp.Magic": 0.03,
+      "xp.Runecrafting": 0.02
+     }
+    },
+    "end": "The finest staff I have ever made. It is yours.",
+    "thanks": "Wield it well."
+   },
+   "start": "Talk to Zaff on the west side of Varrock.",
+   "rewards": [
+    "25000 Magic XP",
+    "15000 Runecrafting XP",
+    "Mystic staff"
+   ],
+   "bonus": {
+    "desc": "+3% Magic XP and +2% Runecrafting XP",
+    "fx": {
+     "xp.Magic": 0.03,
+     "xp.Runecrafting": 0.02
+    }
+   }
+  },
+  {
+   "id": "charlie_change",
+   "name": "Spare Change",
+   "giver": "charlie",
+   "town": "Varrock",
+   "diff": "Novice",
+   "points": 1,
+   "data": {
+    "id": "charlie_change",
+    "name": "Spare Change",
+    "town": "Varrock",
+    "giver": "charlie",
+    "where": "in the north of Varrock",
+    "diff": "Novice",
+    "points": 1,
+    "intro": [
+     "Spare a coin? No? Then let me teach you how to find some.",
+     "Lift a few purses, then bring me 3 Cooked meat. I'm famished."
+    ],
+    "steps": [
+     {
+      "t": "xp",
+      "skill": "Thieving",
+      "n": 300,
+      "hint": "Pickpocket townsfolk."
+     },
+     {
+      "t": "bring",
+      "items": {
+       "Cooked meat": 3
+      }
+     }
+    ],
+    "xp": {
+     "Thieving": 1200
+    },
+    "gold": 200,
+    "bonus": {
+     "desc": "+1% Thieving XP",
+     "fx": {
+      "xp.Thieving": 0.01
+     }
+    },
+    "end": "You're a good sort. Here's what I've saved.",
+    "thanks": "Bless you."
+   },
+   "start": "Talk to Charlie the Tramp in the north of Varrock.",
+   "rewards": [
+    "1200 Thieving XP",
+    "200 coins"
+   ],
+   "bonus": {
+    "desc": "+1% Thieving XP",
+    "fx": {
+     "xp.Thieving": 0.01
+    }
+   }
+  },
+  {
+   "id": "charlie_gang",
+   "name": "The Phoenix Gang",
+   "giver": "charlie",
+   "town": "Varrock",
+   "diff": "Intermediate",
+   "points": 1,
+   "data": {
+    "id": "charlie_gang",
+    "name": "The Phoenix Gang",
+    "town": "Varrock",
+    "giver": "charlie",
+    "where": "in the north of Varrock",
+    "diff": "Intermediate",
+    "points": 1,
+    "req": {
+     "q": [
+      "charlie_change"
+     ],
+     "lvl": {
+      "Thieving": 30
+     }
+    },
+    "intro": [
+     "The Phoenix Gang wants a new member. Want in?",
+     "Distract a Varrock Guard with a chat, prove your skill, then meet the gang in the maples south-west of town."
+    ],
+    "steps": [
+     {
+      "t": "talk",
+      "npc": "vguard",
+      "where": "at the Varrock gates",
+      "say": [
+       "Hm? Directions? The palace is that way, citizen.",
+       "Wait, where did my lunch go?"
+      ]
+     },
+     {
+      "t": "xp",
+      "skill": "Thieving",
+      "n": 3000,
+      "hint": "Pickpocket anyone."
+     },
+     {
+      "t": "visit",
+      "place": "mapleVarrock"
+     }
+    ],
+    "xp": {
+     "Thieving": 5000
+    },
+    "gold": 3000,
+    "items": {
+     "Warrior ring": 1
+    },
+    "bonus": {
+     "desc": "+2% Thieving XP",
+     "fx": {
+      "xp.Thieving": 0.02
+     }
+    },
+    "end": "Welcome to the gang! Here's your cut.",
+    "thanks": "The Phoenix rises."
+   },
+   "start": "Talk to Charlie the Tramp in the north of Varrock.",
+   "rewards": [
+    "5000 Thieving XP",
+    "3000 coins",
+    "Warrior ring"
+   ],
+   "bonus": {
+    "desc": "+2% Thieving XP",
+    "fx": {
+     "xp.Thieving": 0.02
+    }
+   }
+  },
+  {
+   "id": "rovin_guard",
+   "name": "Palace Guard",
+   "giver": "rovin",
+   "town": "Varrock",
+   "diff": "Intermediate",
+   "points": 1,
+   "data": {
+    "id": "rovin_guard",
+    "name": "Palace Guard",
+    "town": "Varrock",
+    "giver": "rovin",
+    "where": "at the south gate of Varrock",
+    "diff": "Intermediate",
+    "points": 1,
+    "req": {
+     "lvl": {
+      "Defence": 25,
+      "Smithing": 18
+     }
+    },
+    "intro": [
+     "The palace guard is short of armour.",
+     "Smith me 2 Iron full helms and 2 Iron shields, then train your Defence."
+    ],
+    "steps": [
+     {
+      "t": "bring",
+      "items": {
+       "Iron full helm": 2,
+       "Iron shield": 2
+      }
+     },
+     {
+      "t": "xp",
+      "skill": "Defence",
+      "n": 2000,
+      "hint": "Fight in a defensive style."
+     }
+    ],
+    "xp": {
+     "Defence": 4000,
+     "Smithing": 2000
+    },
+    "bonus": {
+     "desc": "Take 0.5% less damage",
+     "fx": {
+      "dr": 0.005
+     }
+    },
+    "end": "You'd make a fine guard. Thank you.",
+    "thanks": "The palace is well protected."
+   },
+   "start": "Talk to Captain Rovin at the south gate of Varrock.",
+   "rewards": [
+    "4000 Defence XP",
+    "2000 Smithing XP"
+   ],
+   "bonus": {
+    "desc": "Take 0.5% less damage",
+    "fx": {
+     "dr": 0.005
+    }
+   }
+  },
+  {
+   "id": "rovin_dragons",
+   "name": "Dragon Watch",
+   "giver": "rovin",
+   "town": "Varrock",
+   "diff": "Master",
+   "points": 3,
+   "data": {
+    "id": "rovin_dragons",
+    "name": "Dragon Watch",
+    "town": "Varrock",
+    "giver": "rovin",
+    "where": "at the south gate of Varrock",
+    "diff": "Master",
+    "points": 3,
+    "req": {
+     "q": [
+      "rovin_guard"
+     ],
+     "lvl": {
+      "Attack": 70,
+      "Defence": 70
+     }
+    },
+    "intro": [
+     "Green dragons have been seen flying toward the city.",
+     "Go to their lair, slay 4 and bring back 4 Dragon bones as proof."
+    ],
+    "steps": [
+     {
+      "t": "visit",
+      "place": "dragons"
+     },
+     {
+      "t": "kill",
+      "mon": "Green Dragon",
+      "n": 4
+     },
+     {
+      "t": "bring",
+      "items": {
+       "Dragon bones": 4
+      }
+     }
+    ],
+    "xp": {
+     "Attack": 20000,
+     "Defence": 20000,
+     "Strength": 10000
+    },
+    "items": {
+     "Wyrmscale shield": 1
+    },
+    "bonus": {
+     "desc": "+5% damage against green dragons, take 1% less damage and +10 max hitpoints",
+     "fx": {
+      "dmgVs.Green Dragon": 0.05,
+      "dr": 0.01,
+      "maxHp": 10
+     }
+    },
+    "end": "Varrock owes you its life. Take this wyrmscale shield.",
+    "thanks": "Not a dragon in the sky."
+   },
+   "start": "Talk to Captain Rovin at the south gate of Varrock.",
+   "rewards": [
+    "20000 Attack XP",
+    "20000 Defence XP",
+    "10000 Strength XP",
+    "Wyrmscale shield"
+   ],
+   "bonus": {
+    "desc": "+5% damage against green dragons, take 1% less damage and +10 max hitpoints",
+    "fx": {
+     "dmgVs.Green Dragon": 0.05,
+     "dr": 0.01,
+     "maxHp": 10
+    }
+   }
+  },
+  {
+   "id": "gertrude_cat",
+   "name": "Gertrude's Cat",
+   "giver": "gertrude",
+   "town": "Varrock",
+   "diff": "Novice",
+   "points": 1,
+   "data": {
+    "id": "gertrude_cat",
+    "name": "Gertrude's Cat",
+    "town": "Varrock",
+    "giver": "gertrude",
+    "where": "in the north-west of Varrock",
+    "diff": "Novice",
+    "points": 1,
+    "intro": [
+     "My kitten Fluffs has run off again!",
+     "She loves the maple trees south-west of town. Look there and bring 5 Raw shrimp to lure her home."
+    ],
+    "steps": [
+     {
+      "t": "visit",
+      "place": "mapleVarrock"
+     },
+     {
+      "t": "bring",
+      "items": {
+       "Raw shrimp": 5
+      }
+     }
+    ],
+    "xp": {
+     "Cooking": 800,
+     "Agility": 600
+    },
+    "gold": 300,
+    "bonus": {
+     "desc": "Run energy restores 3% faster",
+     "fx": {
+      "runRegen": 0.03
+     }
+    },
+    "end": "Fluffs! She came running for the shrimp. Thank you!",
+    "thanks": "Fluffs sends a purr."
+   },
+   "start": "Talk to Gertrude in the north-west of Varrock.",
+   "rewards": [
+    "800 Cooking XP",
+    "600 Agility XP",
+    "300 coins"
+   ],
+   "bonus": {
+    "desc": "Run energy restores 3% faster",
+    "fx": {
+     "runRegen": 0.03
+    }
+   }
+  },
+  {
+   "id": "ellis_tan",
+   "name": "Tanner's Apprentice",
+   "giver": "ellis",
+   "town": "Varrock",
+   "diff": "Novice",
+   "points": 1,
+   "data": {
+    "id": "ellis_tan",
+    "name": "Tanner's Apprentice",
+    "town": "Varrock",
+    "giver": "ellis",
+    "where": "in the south-east of Varrock",
+    "diff": "Novice",
+    "points": 1,
+    "intro": [
+     "My apprentice quit. Want to learn the trade?",
+     "Bring me 8 Cowhide, then tan and craft some leather of your own."
+    ],
+    "steps": [
+     {
+      "t": "bring",
+      "items": {
+       "Cowhide": 8
+      }
+     },
+     {
+      "t": "xp",
+      "skill": "Crafting",
+      "n": 500,
+      "hint": "Craft anything in the Crafting tab."
+     }
+    ],
+    "xp": {
+     "Crafting": 1500
+    },
+    "items": {
+     "Soft leather": 5
+    },
+    "bonus": {
+     "desc": "+1% Crafting XP",
+     "fx": {
+      "xp.Crafting": 0.01
+     }
+    },
+    "end": "You've got the knack. Take some leather.",
+    "thanks": "Best apprentice I've had."
+   },
+   "start": "Talk to Ellis the Tanner in the south-east of Varrock.",
+   "rewards": [
+    "1500 Crafting XP",
+    "5 x Soft leather"
+   ],
+   "bonus": {
+    "desc": "+1% Crafting XP",
+    "fx": {
+     "xp.Crafting": 0.01
+    }
+   }
+  },
+  {
+   "id": "vorn_remedy",
+   "name": "Varrock Remedies",
+   "giver": "vorn",
+   "town": "Varrock",
+   "diff": "Intermediate",
+   "points": 1,
+   "data": {
+    "id": "vorn_remedy",
+    "name": "Varrock Remedies",
+    "town": "Varrock",
+    "giver": "vorn",
+    "where": "in the north-west of Varrock",
+    "diff": "Intermediate",
+    "points": 1,
+    "req": {
+     "lvl": {
+      "Herblore": 30
+     }
+    },
+    "intro": [
+     "The palace wants a stock of potions.",
+     "Brew me 2 Defence potions and 2 Strength potions."
+    ],
+    "steps": [
+     {
+      "t": "bring",
+      "items": {
+       "Defence potion": 2,
+       "Strength potion": 2
+      }
+     }
+    ],
+    "xp": {
+     "Herblore": 5000
+    },
+    "items": {
+     "Super restore": 1
+    },
+    "bonus": {
+     "desc": "Potions last 5% longer",
+     "fx": {
+      "potionTime": 0.05
+     }
+    },
+    "end": "Excellent brewing! Have one of my super restores.",
+    "thanks": "The palace is well stocked."
+   },
+   "start": "Talk to Apothecary Vorn in the north-west of Varrock.",
+   "rewards": [
+    "5000 Herblore XP",
+    "Super restore"
+   ],
+   "bonus": {
+    "desc": "Potions last 5% longer",
+    "fx": {
+     "potionTime": 0.05
+    }
+   }
+  },
+  {
+   "id": "vorn_frost",
+   "name": "Frostbite Cure",
+   "giver": "vorn",
+   "town": "Varrock",
+   "diff": "Experienced",
+   "points": 2,
+   "data": {
+    "id": "vorn_frost",
+    "name": "Frostbite Cure",
+    "town": "Varrock",
+    "giver": "vorn",
+    "where": "in the north-west of Varrock",
+    "diff": "Experienced",
+    "points": 2,
+    "req": {
+     "q": [
+      "vorn_remedy"
+     ],
+     "lvl": {
+      "Herblore": 45
+     }
+    },
+    "intro": [
+     "Frostbite is spreading from the icy ridge east of town.",
+     "Defeat 4 ice giants there, then bring me 2 Super attacks and 2 Prayer potions for the sick."
+    ],
+    "steps": [
+     {
+      "t": "visit",
+      "place": "iceEast"
+     },
+     {
+      "t": "kill",
+      "mon": "Ice Giant",
+      "n": 4
+     },
+     {
+      "t": "bring",
+      "items": {
+       "Super attack": 2,
+       "Prayer potion": 2
+      }
+     }
+    ],
+    "xp": {
+     "Herblore": 10000,
+     "Hitpoints": 5000
+    },
+    "gold": 3000,
+    "bonus": {
+     "desc": "+2% Herblore XP and +3% damage against ice giants",
+     "fx": {
+      "xp.Herblore": 0.02,
+      "dmgVs.Ice Giant": 0.03
+     }
+    },
+    "end": "The cure works! Varrock is warm again.",
+    "thanks": "Not a case of frostbite since."
+   },
+   "start": "Talk to Apothecary Vorn in the north-west of Varrock.",
+   "rewards": [
+    "10000 Herblore XP",
+    "5000 Hitpoints XP",
+    "3000 coins"
+   ],
+   "bonus": {
+    "desc": "+2% Herblore XP and +3% damage against ice giants",
+    "fx": {
+     "xp.Herblore": 0.02,
+     "dmgVs.Ice Giant": 0.03
+    }
+   }
+  },
+  {
+   "id": "vannaka_slayer",
+   "name": "Slayer's Challenge",
+   "giver": "vannaka",
+   "town": "Wilds",
+   "diff": "Experienced",
+   "points": 2,
+   "data": {
+    "id": "vannaka_slayer",
+    "name": "Slayer's Challenge",
+    "town": "Wilds",
+    "giver": "vannaka",
+    "where": "on the road north of Varrock",
+    "diff": "Experienced",
+    "points": 2,
+    "req": {
+     "lvl": {
+      "Attack": 50,
+      "Strength": 50
+     }
+    },
+    "intro": [
+     "So you want to be a slayer? Prove it.",
+     "Kill 4 lesser demons in the ruins and 3 ice giants on the ridge."
+    ],
+    "steps": [
+     {
+      "t": "kill",
+      "mon": "Lesser Demon",
+      "n": 4
+     },
+     {
+      "t": "kill",
+      "mon": "Ice Giant",
+      "n": 3
+     }
+    ],
+    "xp": {
+     "Attack": 10000,
+     "Strength": 10000
+    },
+    "gold": 4000,
+    "bonus": {
+     "desc": "+3% damage against lesser demons and +5 max hitpoints",
+     "fx": {
+      "dmgVs.Lesser Demon": 0.03,
+      "maxHp": 5
+     }
+    },
+    "end": "Not bad. Not bad at all.",
+    "thanks": "Keep slaying."
+   },
+   "start": "Talk to Slayer Master Vannaka on the road north of Varrock.",
+   "rewards": [
+    "10000 Attack XP",
+    "10000 Strength XP",
+    "4000 coins"
+   ],
+   "bonus": {
+    "desc": "+3% damage against lesser demons and +5 max hitpoints",
+    "fx": {
+     "dmgVs.Lesser Demon": 0.03,
+     "maxHp": 5
+    }
+   }
+  },
+  {
+   "id": "vannaka_scorch",
+   "name": "Scorchwing",
+   "giver": "vannaka",
+   "town": "Wilds",
+   "diff": "Master",
+   "points": 3,
+   "data": {
+    "id": "vannaka_scorch",
+    "name": "Scorchwing",
+    "town": "Wilds",
+    "giver": "vannaka",
+    "where": "on the road north of Varrock",
+    "diff": "Master",
+    "points": 3,
+    "req": {
+     "q": [
+      "vannaka_slayer"
+     ],
+     "lvl": {
+      "Attack": 85,
+      "Defence": 80
+     }
+    },
+    "intro": [
+     "There is one beast I never managed to kill: Scorchwing.",
+     "Find its nest at the edge of the world, slay it, and bring me 3 Dragon bones."
+    ],
+    "steps": [
+     {
+      "t": "visit",
+      "place": "scorch"
+     },
+     {
+      "t": "kill",
+      "mon": "Scorchwing",
+      "n": 1
+     },
+     {
+      "t": "bring",
+      "items": {
+       "Dragon bones": 3
+      }
+     }
+    ],
+    "xp": {
+     "Attack": 30000,
+     "Strength": 30000,
+     "Defence": 20000
+    },
+    "items": {
+     "Obsidian cape": 1
+    },
+    "bonus": {
+     "desc": "+5% damage against Scorchwing, take 1% less damage and +10 max hitpoints",
+     "fx": {
+      "dmgVs.Scorchwing": 0.05,
+      "dr": 0.01,
+      "maxHp": 10
+     }
+    },
+    "end": "You did it. You actually did it. Take my cape. You've earned it more than I have.",
+    "thanks": "A true slayer."
+   },
+   "start": "Talk to Slayer Master Vannaka on the road north of Varrock.",
+   "rewards": [
+    "30000 Attack XP",
+    "30000 Strength XP",
+    "20000 Defence XP",
+    "Obsidian cape"
+   ],
+   "bonus": {
+    "desc": "+5% damage against Scorchwing, take 1% less damage and +10 max hitpoints",
+    "fx": {
+     "dmgVs.Scorchwing": 0.05,
+     "dr": 0.01,
+     "maxHp": 10
+    }
+   }
+  },
+  {
+   "id": "squire_sword",
+   "name": "The Knight's Sword",
+   "giver": "squire",
+   "town": "Falador",
+   "diff": "Intermediate",
+   "points": 1,
+   "data": {
+    "id": "squire_sword",
+    "name": "The Knight's Sword",
+    "town": "Falador",
+    "giver": "squire",
+    "where": "by the castle in Falador",
+    "diff": "Intermediate",
+    "points": 1,
+    "req": {
+     "lvl": {
+      "Smithing": 20
+     }
+    },
+    "intro": [
+     "I lost Sir Vyvin's sword! He'll have my head!",
+     "Reldo in Varrock may know how it was made. Ask him, then bring me 3 Steel bars and an Iron sword so I can have a copy forged."
+    ],
+    "steps": [
+     {
+      "t": "talk",
+      "npc": "reldo",
+      "where": "in the Varrock library",
+      "say": [
+       "Sir Vyvin's sword? A simple steel blade with an iron core.",
+       "Any good smith could copy it with steel bars and an iron sword."
+      ]
+     },
+     {
+      "t": "bring",
+      "items": {
+       "Steel bar": 3,
+       "Iron sword": 1
+      }
+     }
+    ],
+    "xp": {
+     "Smithing": 4000,
+     "Attack": 2000
+    },
+    "gold": 800,
+    "bonus": {
+     "desc": "+1% Smithing XP",
+     "fx": {
+      "xp.Smithing": 0.01
+     }
+    },
+    "end": "Saved! Sir Vyvin will never know.",
+    "thanks": "Shh! Not a word to Sir Vyvin."
+   },
+   "start": "Talk to The Squire by the castle in Falador.",
+   "rewards": [
+    "4000 Smithing XP",
+    "2000 Attack XP",
+    "800 coins"
+   ],
+   "bonus": {
+    "desc": "+1% Smithing XP",
+    "fx": {
+     "xp.Smithing": 0.01
+    }
+   }
+  },
+  {
+   "id": "squire_honour",
+   "name": "Squire's Honour",
+   "giver": "squire",
+   "town": "Falador",
+   "diff": "Experienced",
+   "points": 2,
+   "data": {
+    "id": "squire_honour",
+    "name": "Squire's Honour",
+    "town": "Falador",
+    "giver": "squire",
+    "where": "by the castle in Falador",
+    "diff": "Experienced",
+    "points": 2,
+    "req": {
+     "q": [
+      "squire_sword"
+     ],
+     "lvl": {
+      "Defence": 40
+     }
+    },
+    "intro": [
+     "I want to become a knight, but I need someone to show me how it's done.",
+     "Defeat 6 Black Knights and bring me a Mithril full helm to wear at my knighting."
+    ],
+    "steps": [
+     {
+      "t": "kill",
+      "mon": "Black Knight",
+      "n": 6
+     },
+     {
+      "t": "bring",
+      "items": {
+       "Mithril full helm": 1
+      }
+     }
+    ],
+    "xp": {
+     "Defence": 8000,
+     "Attack": 3000
+    },
+    "gold": 2000,
+    "bonus": {
+     "desc": "Take 0.5% less damage",
+     "fx": {
+      "dr": 0.005
+     }
+    },
+    "end": "Sir Amik says I'm ready! Thank you!",
+    "thanks": "Sir Squire, at your service!"
+   },
+   "start": "Talk to The Squire by the castle in Falador.",
+   "rewards": [
+    "8000 Defence XP",
+    "3000 Attack XP",
+    "2000 coins"
+   ],
+   "bonus": {
+    "desc": "Take 0.5% less damage",
+    "fx": {
+     "dr": 0.005
+    }
+   }
+  },
+  {
+   "id": "amik_fortress",
+   "name": "Black Knights' Fortress",
+   "giver": "amik",
+   "town": "Falador",
+   "diff": "Experienced",
+   "points": 2,
+   "data": {
+    "id": "amik_fortress",
+    "name": "Black Knights' Fortress",
+    "town": "Falador",
+    "giver": "amik",
+    "where": "in the White Knights’ castle, south of Falador square",
+    "diff": "Experienced",
+    "points": 2,
+    "req": {
+     "lvl": {
+      "Attack": 40,
+      "Thieving": 25
+     }
+    },
+    "intro": [
+     "The Black Knights plan an attack on Falador. I need a spy.",
+     "Sharpen your stealth, scout their outpost north of Brightwater, and thin their ranks by 4. Then report to my squire."
+    ],
+    "steps": [
+     {
+      "t": "xp",
+      "skill": "Thieving",
+      "n": 1500,
+      "hint": "Pickpocket to practise stealth."
+     },
+     {
+      "t": "visit",
+      "place": "blackKnights"
+     },
+     {
+      "t": "kill",
+      "mon": "Black Knight",
+      "n": 4
+     },
+     {
+      "t": "talk",
+      "npc": "squire",
+      "where": "by the castle in Falador",
+      "say": [
+       "You're back! What did you see?",
+       "I'll write it all down for Sir Amik. Go and tell him yourself!"
+      ]
+     }
+    ],
+    "xp": {
+     "Attack": 8000,
+     "Strength": 5000
+    },
+    "gold": 5000,
+    "bonus": {
+     "desc": "+3% damage against black knights and +5 max hitpoints",
+     "fx": {
+      "dmgVs.Black Knight": 0.03,
+      "maxHp": 5
+     }
+    },
+    "end": "Their plans are ruined. Falador thanks you.",
+    "thanks": "The White Knights salute you."
+   },
+   "start": "Talk to Sir Amik Varze in the White Knights’ castle, south of Falador square.",
+   "rewards": [
+    "8000 Attack XP",
+    "5000 Strength XP",
+    "5000 coins"
+   ],
+   "bonus": {
+    "desc": "+3% damage against black knights and +5 max hitpoints",
+    "fx": {
+     "dmgVs.Black Knight": 0.03,
+     "maxHp": 5
+    }
+   }
+  },
+  {
+   "id": "amik_grail",
+   "name": "The Holy Grail",
+   "giver": "amik",
+   "town": "Falador",
+   "diff": "Master",
+   "points": 3,
+   "data": {
+    "id": "amik_grail",
+    "name": "The Holy Grail",
+    "town": "Falador",
+    "giver": "amik",
+    "where": "in the White Knights’ castle, south of Falador square",
+    "diff": "Master",
+    "points": 3,
+    "req": {
+     "q": [
+      "amik_fortress"
+     ],
+     "lvl": {
+      "Prayer": 60,
+      "Attack": 60
+     }
+    },
+    "intro": [
+     "Legends tell of a holy grail guarded by the ogre warlord Grumsh.",
+     "Seek Sister Sabreen's blessing, pray at the Mind altar, bury 20 bones, and defeat Grumsh."
+    ],
+    "steps": [
+     {
+      "t": "talk",
+      "npc": "sabreen",
+      "where": "in south-east Falador",
+      "say": [
+       "The Grail quest? May Saradomin guide you.",
+       "Bless your path at the Mind altar and honour the dead."
+      ]
+     },
+     {
+      "t": "visit",
+      "place": "mindAltar"
+     },
+     {
+      "t": "bury",
+      "n": 20
+     },
+     {
+      "t": "kill",
+      "mon": "Grumsh",
+      "n": 1
+     }
+    ],
+    "xp": {
+     "Prayer": 25000,
+     "Defence": 15000
+    },
+    "gold": 10000,
+    "bonus": {
+     "desc": "Prayers drain 3% slower and +10 max hitpoints",
+     "fx": {
+      "drainLess": 0.03,
+      "maxHp": 10
+     }
+    },
+    "end": "The Grail! You are the greatest knight Falador has known.",
+    "thanks": "Your name is carved in the castle hall."
+   },
+   "start": "Talk to Sir Amik Varze in the White Knights’ castle, south of Falador square.",
+   "rewards": [
+    "25000 Prayer XP",
+    "15000 Defence XP",
+    "10000 coins"
+   ],
+   "bonus": {
+    "desc": "Prayers drain 3% slower and +10 max hitpoints",
+    "fx": {
+     "drainLess": 0.03,
+     "maxHp": 10
+    }
+   }
+  },
+  {
+   "id": "sabreen_heal",
+   "name": "Healing Hands",
+   "giver": "sabreen",
+   "town": "Falador",
+   "diff": "Novice",
+   "points": 1,
+   "data": {
+    "id": "sabreen_heal",
+    "name": "Healing Hands",
+    "town": "Falador",
+    "giver": "sabreen",
+    "where": "in the south-east of Falador",
+    "diff": "Novice",
+    "points": 1,
+    "intro": [
+     "The sick need food, and the dead need rest.",
+     "Bring me 5 Cooked trout and bury 3 bones."
+    ],
+    "steps": [
+     {
+      "t": "bring",
+      "items": {
+       "Cooked trout": 5
+      }
+     },
+     {
+      "t": "bury",
+      "n": 3
+     }
+    ],
+    "xp": {
+     "Prayer": 1200,
+     "Hitpoints": 800
+    },
+    "bonus": {
+     "desc": "Slowly regain prayer points (+0.5%)",
+     "fx": {
+      "ppRegen": 0.005
+     }
+    },
+    "end": "Bless you, child.",
+    "thanks": "The sick are recovering."
+   },
+   "start": "Talk to Sister Sabreen in the south-east of Falador.",
+   "rewards": [
+    "1200 Prayer XP",
+    "800 Hitpoints XP"
+   ],
+   "bonus": {
+    "desc": "Slowly regain prayer points (+0.5%)",
+    "fx": {
+     "ppRegen": 0.005
+    }
+   }
+  },
+  {
+   "id": "sabreen_relic",
+   "name": "Saradomin's Relic",
+   "giver": "sabreen",
+   "town": "Falador",
+   "diff": "Intermediate",
+   "points": 1,
+   "data": {
+    "id": "sabreen_relic",
+    "name": "Saradomin's Relic",
+    "town": "Falador",
+    "giver": "sabreen",
+    "where": "in the south-east of Falador",
+    "diff": "Intermediate",
+    "points": 1,
+    "req": {
+     "q": [
+      "sabreen_heal"
+     ],
+     "lvl": {
+      "Prayer": 30
+     }
+    },
+    "intro": [
+     "A relic was lost near the Body altar, and zombies guard it now.",
+     "Go to the altar, put down 4 zombies and bring me 5 Big bones to bless the relic."
+    ],
+    "steps": [
+     {
+      "t": "visit",
+      "place": "bodyAltar"
+     },
+     {
+      "t": "kill",
+      "mon": "Zombie",
+      "n": 4
+     },
+     {
+      "t": "bring",
+      "items": {
+       "Big bones": 5
+      }
+     }
+    ],
+    "xp": {
+     "Prayer": 5000
+    },
+    "items": {
+     "Prayer potion": 2
+    },
+    "bonus": {
+     "desc": "Prayers drain 2% slower",
+     "fx": {
+      "drainLess": 0.02
+     }
+    },
+    "end": "The relic is safe. Saradomin smiles on you.",
+    "thanks": "The relic glows on the altar."
+   },
+   "start": "Talk to Sister Sabreen in the south-east of Falador.",
+   "rewards": [
+    "5000 Prayer XP",
+    "2 x Prayer potion"
+   ],
+   "bonus": {
+    "desc": "Prayers drain 2% slower",
+    "fx": {
+     "drainLess": 0.02
+    }
+   }
+  },
+  {
+   "id": "boot_pick",
+   "name": "Boot's Lost Pick",
+   "giver": "boot",
+   "town": "Falador",
+   "diff": "Novice",
+   "points": 1,
+   "data": {
+    "id": "boot_pick",
+    "name": "Boot's Lost Pick",
+    "town": "Falador",
+    "giver": "boot",
+    "where": "in the north-west of Falador",
+    "diff": "Novice",
+    "points": 1,
+    "intro": [
+     "I left my pick in the Brightwater mine and now someone's using it!",
+     "Go and look, and bring me 5 Iron ore and 5 Coal while you're there."
+    ],
+    "steps": [
+     {
+      "t": "visit",
+      "place": "bwMine"
+     },
+     {
+      "t": "bring",
+      "items": {
+       "Iron ore": 5,
+       "Coal": 5
+      }
+     }
+    ],
+    "xp": {
+     "Mining": 1500
+    },
+    "gold": 400,
+    "bonus": {
+     "desc": "+2% Mining XP",
+     "fx": {
+      "xp.Mining": 0.02
+     }
+    },
+    "end": "Ore! Who needs a pick anyway?",
+    "thanks": "I bought a new pick."
+   },
+   "start": "Talk to Boot the Dwarf in the north-west of Falador.",
+   "rewards": [
+    "1500 Mining XP",
+    "400 coins"
+   ],
+   "bonus": {
+    "desc": "+2% Mining XP",
+    "fx": {
+     "xp.Mining": 0.02
+    }
+   }
+  },
+  {
+   "id": "boot_delve",
+   "name": "Deep Delving",
+   "giver": "boot",
+   "town": "Falador",
+   "diff": "Experienced",
+   "points": 2,
+   "data": {
+    "id": "boot_delve",
+    "name": "Deep Delving",
+    "town": "Falador",
+    "giver": "boot",
+    "where": "in the north-west of Falador",
+    "diff": "Experienced",
+    "points": 2,
+    "req": {
+     "q": [
+      "boot_pick"
+     ],
+     "lvl": {
+      "Mining": 70
+     }
+    },
+    "intro": [
+     "Dwarves measure a miner by the hardest ore they can dig.",
+     "Bring me 10 Mithril ore and 5 Adamantite ore."
+    ],
+    "steps": [
+     {
+      "t": "bring",
+      "items": {
+       "Mithril ore": 10,
+       "Adamantite ore": 5
+      }
+     }
+    ],
+    "xp": {
+     "Mining": 9000,
+     "Smithing": 3000
+    },
+    "items": {
+     "Miner's ring": 1
+    },
+    "bonus": {
+     "desc": "+1% success when gathering and +2% Mining XP",
+     "fx": {
+      "gather": 0.01,
+      "xp.Mining": 0.02
+     }
+    },
+    "end": "A true miner! Take my ring.",
+    "thanks": "You dig like a dwarf."
+   },
+   "start": "Talk to Boot the Dwarf in the north-west of Falador.",
+   "rewards": [
+    "9000 Mining XP",
+    "3000 Smithing XP",
+    "Miner's ring"
+   ],
+   "bonus": {
+    "desc": "+1% success when gathering and +2% Mining XP",
+    "fx": {
+     "gather": 0.01,
+     "xp.Mining": 0.02
+    }
+   }
+  },
+  {
+   "id": "sarah_harvest",
+   "name": "Sarah's Harvest",
+   "giver": "sarah",
+   "town": "Falador",
+   "diff": "Novice",
+   "points": 1,
+   "data": {
+    "id": "sarah_harvest",
+    "name": "Sarah's Harvest",
+    "town": "Falador",
+    "giver": "sarah",
+    "where": "in the north-east of Falador",
+    "diff": "Novice",
+    "points": 1,
+    "intro": [
+     "The harvest is late and my hands are full.",
+     "Bring me 10 Flax and 3 Grimy guam leaf from the herb patches."
+    ],
+    "steps": [
+     {
+      "t": "bring",
+      "items": {
+       "Flax": 10,
+       "Grimy guam leaf": 3
+      }
+     }
+    ],
+    "xp": {
+     "Crafting": 800,
+     "Herblore": 800
+    },
+    "gold": 300,
+    "bonus": {
+     "desc": "+1% Herblore XP",
+     "fx": {
+      "xp.Herblore": 0.01
+     }
+    },
+    "end": "The harvest is in! Thank you.",
+    "thanks": "The barns are full."
+   },
+   "start": "Talk to Farmer Sarah in the north-east of Falador.",
+   "rewards": [
+    "800 Crafting XP",
+    "800 Herblore XP",
+    "300 coins"
+   ],
+   "bonus": {
+    "desc": "+1% Herblore XP",
+    "fx": {
+     "xp.Herblore": 0.01
+    }
+   }
+  },
+  {
+   "id": "sarah_wolves",
+   "name": "Wolves at the Gate",
+   "giver": "sarah",
+   "town": "Falador",
+   "diff": "Intermediate",
+   "points": 1,
+   "data": {
+    "id": "sarah_wolves",
+    "name": "Wolves at the Gate",
+    "town": "Falador",
+    "giver": "sarah",
+    "where": "in the north-east of Falador",
+    "diff": "Intermediate",
+    "points": 1,
+    "req": {
+     "q": [
+      "sarah_harvest"
+     ],
+     "lvl": {
+      "Attack": 20
+     }
+    },
+    "intro": [
+     "Wolves come down from the hills between here and Brightwater and kill my cows.",
+     "Kill 6 wolves, and bring me 5 Cowhide to replace my losses."
+    ],
+    "steps": [
+     {
+      "t": "kill",
+      "mon": "Wolf",
+      "n": 6
+     },
+     {
+      "t": "bring",
+      "items": {
+       "Cowhide": 5
+      }
+     }
+    ],
+    "xp": {
+     "Attack": 3000,
+     "Strength": 3000
+    },
+    "gold": 800,
+    "bonus": {
+     "desc": "+3% damage against wolves",
+     "fx": {
+      "dmgVs.Wolf": 0.03
+     }
+    },
+    "end": "No howling last night! Thank you.",
+    "thanks": "The cows are safe."
+   },
+   "start": "Talk to Farmer Sarah in the north-east of Falador.",
+   "rewards": [
+    "3000 Attack XP",
+    "3000 Strength XP",
+    "800 coins"
+   ],
+   "bonus": {
+    "desc": "+3% damage against wolves",
+    "fx": {
+     "dmgVs.Wolf": 0.03
+    }
+   }
+  },
+  {
+   "id": "wayne_rush",
+   "name": "Wayne's Rush Order",
+   "giver": "wayne",
+   "town": "Falador",
+   "diff": "Intermediate",
+   "points": 1,
+   "data": {
+    "id": "wayne_rush",
+    "name": "Wayne's Rush Order",
+    "town": "Falador",
+    "giver": "wayne",
+    "where": "on the west side of Falador",
+    "diff": "Intermediate",
+    "points": 1,
+    "req": {
+     "lvl": {
+      "Smithing": 35
+     }
+    },
+    "intro": [
+     "The White Knights want new armour by Friday!",
+     "Smith me 2 Steel platelegs and 2 Steel full helms."
+    ],
+    "steps": [
+     {
+      "t": "bring",
+      "items": {
+       "Steel platelegs": 2,
+       "Steel full helm": 2
+      }
+     }
+    ],
+    "xp": {
+     "Smithing": 5000
+    },
+    "gold": 2000,
+    "bonus": {
+     "desc": "+2% Smithing XP",
+     "fx": {
+      "xp.Smithing": 0.02
+     }
+    },
+    "end": "Just in time! Here's your pay.",
+    "thanks": "The knights look splendid."
+   },
+   "start": "Talk to Wayne the Armourer on the west side of Falador.",
+   "rewards": [
+    "5000 Smithing XP",
+    "2000 coins"
+   ],
+   "bonus": {
+    "desc": "+2% Smithing XP",
+    "fx": {
+     "xp.Smithing": 0.02
+    }
+   }
+  },
+  {
+   "id": "wayne_adamant",
+   "name": "Adamant Order",
+   "giver": "wayne",
+   "town": "Falador",
+   "diff": "Experienced",
+   "points": 2,
+   "data": {
+    "id": "wayne_adamant",
+    "name": "Adamant Order",
+    "town": "Falador",
+    "giver": "wayne",
+    "where": "on the west side of Falador",
+    "diff": "Experienced",
+    "points": 2,
+    "req": {
+     "q": [
+      "wayne_rush"
+     ],
+     "lvl": {
+      "Smithing": 70
+     }
+    },
+    "intro": [
+     "Sir Amik wants adamant. I can't work it. Can you?",
+     "Bring me an Adamant platebody and Adamant platelegs."
+    ],
+    "steps": [
+     {
+      "t": "bring",
+      "items": {
+       "Adamant platebody": 1,
+       "Adamant platelegs": 1
+      }
+     }
+    ],
+    "xp": {
+     "Smithing": 12000
+    },
+    "gold": 6000,
+    "bonus": {
+     "desc": "+2% Smithing XP and shops pay you 1% more",
+     "fx": {
+      "xp.Smithing": 0.02,
+      "sellBonus": 0.01
+     }
+    },
+    "end": "Magnificent. You're a better smith than me.",
+    "thanks": "Sir Amik is delighted."
+   },
+   "start": "Talk to Wayne the Armourer on the west side of Falador.",
+   "rewards": [
+    "12000 Smithing XP",
+    "6000 coins"
+   ],
+   "bonus": {
+    "desc": "+2% Smithing XP and shops pay you 1% more",
+    "fx": {
+     "xp.Smithing": 0.02,
+     "sellBonus": 0.01
+    }
+   }
+  },
+  {
+   "id": "pete_party",
+   "name": "Party Pete's Bash",
+   "giver": "pete",
+   "town": "Falador",
+   "diff": "Novice",
+   "points": 1,
+   "data": {
+    "id": "pete_party",
+    "name": "Party Pete's Bash",
+    "town": "Falador",
+    "giver": "pete",
+    "where": "north of Falador square",
+    "diff": "Novice",
+    "points": 1,
+    "intro": [
+     "It's party time! But there's no food and no decorations!",
+     "Bring me 5 Cooked meat and 30 Feathers for the hats."
+    ],
+    "steps": [
+     {
+      "t": "bring",
+      "items": {
+       "Cooked meat": 5,
+       "Feather": 30
+      }
+     }
+    ],
+    "xp": {
+     "Cooking": 1000
+    },
+    "gold": 500,
+    "bonus": {
+     "desc": "Run energy restores 3% faster",
+     "fx": {
+      "runRegen": 0.03
+     }
+    },
+    "end": "Let's party! Woo!",
+    "thanks": "Best party ever!"
+   },
+   "start": "Talk to Party Pete north of Falador square.",
+   "rewards": [
+    "1000 Cooking XP",
+    "500 coins"
+   ],
+   "bonus": {
+    "desc": "Run energy restores 3% faster",
+    "fx": {
+     "runRegen": 0.03
+    }
+   }
+  },
+  {
+   "id": "pete_dance",
+   "name": "Dance Off",
+   "giver": "pete",
+   "town": "Falador",
+   "diff": "Intermediate",
+   "points": 1,
+   "data": {
+    "id": "pete_dance",
+    "name": "Dance Off",
+    "town": "Falador",
+    "giver": "pete",
+    "where": "north of Falador square",
+    "diff": "Intermediate",
+    "points": 1,
+    "req": {
+     "q": [
+      "pete_party"
+     ],
+     "lvl": {
+      "Agility": 30
+     }
+    },
+    "intro": [
+     "The dance-off is coming and I need a champion with fast feet.",
+     "Train on the Falador course north-west of town until you earn 3000 Agility XP."
+    ],
+    "steps": [
+     {
+      "t": "visit",
+      "place": "fCourse"
+     },
+     {
+      "t": "xp",
+      "skill": "Agility",
+      "n": 3000,
+      "hint": "Run any agility course."
+     }
+    ],
+    "xp": {
+     "Agility": 6000
+    },
+    "gold": 1000,
+    "bonus": {
+     "desc": "Run energy restores 5% faster",
+     "fx": {
+      "runRegen": 0.05
+     }
+    },
+    "end": "You won! The crowd went wild!",
+    "thanks": "Champion of the dance floor."
+   },
+   "start": "Talk to Party Pete north of Falador square.",
+   "rewards": [
+    "6000 Agility XP",
+    "1000 coins"
+   ],
+   "bonus": {
+    "desc": "Run energy restores 5% faster",
+    "fx": {
+     "runRegen": 0.05
+    }
+   }
+  },
+  {
+   "id": "kaylee_orders",
+   "name": "Last Orders",
+   "giver": "kaylee",
+   "town": "Falador",
+   "diff": "Novice",
+   "points": 1,
+   "data": {
+    "id": "kaylee_orders",
+    "name": "Last Orders",
+    "town": "Falador",
+    "giver": "kaylee",
+    "where": "at the Rising Sun inn in Falador",
+    "diff": "Novice",
+    "points": 1,
+    "intro": [
+     "Everyone wants Bram's Guam Ale from Brightwater, and I don't know the recipe.",
+     "Ask Bram the Brewer in Brightwater, then bring me 2 clean Harralander for my own twist."
+    ],
+    "steps": [
+     {
+      "t": "talk",
+      "npc": "bram",
+      "where": "west of Brightwater square",
+      "say": [
+       "Kaylee wants my recipe? Ha! Guam leaf and a wink.",
+       "Tell her Harralander works too, if she's brave."
+      ]
+     },
+     {
+      "t": "bring",
+      "items": {
+       "Harralander": 2
+      }
+     }
+    ],
+    "xp": {
+     "Herblore": 1200,
+     "Cooking": 600
+    },
+    "gold": 400,
+    "bonus": {
+     "desc": "Potions last 3% longer",
+     "fx": {
+      "potionTime": 0.03
+     }
+    },
+    "end": "Harralander Ale! The regulars will love it.",
+    "thanks": "First drink's on the house."
+   },
+   "start": "Talk to Kaylee the Barmaid at the Rising Sun inn in Falador.",
+   "rewards": [
+    "1200 Herblore XP",
+    "600 Cooking XP",
+    "400 coins"
+   ],
+   "bonus": {
+    "desc": "Potions last 3% longer",
+    "fx": {
+     "potionTime": 0.03
+    }
+   }
+  },
+  {
+   "id": "elwyn_bows",
+   "name": "The Bowyer's Apprentice",
+   "giver": "elwyn",
+   "town": "Falador",
+   "diff": "Intermediate",
+   "points": 1,
+   "data": {
+    "id": "elwyn_bows",
+    "name": "The Bowyer's Apprentice",
+    "town": "Falador",
+    "giver": "elwyn",
+    "where": "in the south-west of Falador",
+    "diff": "Intermediate",
+    "points": 1,
+    "req": {
+     "lvl": {
+      "Fletching": 35
+     }
+    },
+    "intro": [
+     "I need an apprentice who can string a bow.",
+     "Bring me 3 Willow shortbows and 10 Bowstrings."
+    ],
+    "steps": [
+     {
+      "t": "bring",
+      "items": {
+       "Willow shortbow": 3,
+       "Bowstring": 10
+      }
+     }
+    ],
+    "xp": {
+     "Fletching": 5000
+    },
+    "gold": 1500,
+    "bonus": {
+     "desc": "+2% Fletching XP",
+     "fx": {
+      "xp.Fletching": 0.02
+     }
+    },
+    "end": "Fine work. You're hired!",
+    "thanks": "My best apprentice."
+   },
+   "start": "Talk to Elwyn the Bowyer in the south-west of Falador.",
+   "rewards": [
+    "5000 Fletching XP",
+    "1500 coins"
+   ],
+   "bonus": {
+    "desc": "+2% Fletching XP",
+    "fx": {
+     "xp.Fletching": 0.02
+    }
+   }
+  },
+  {
+   "id": "elwyn_yew",
+   "name": "Yew Bows",
+   "giver": "elwyn",
+   "town": "Falador",
+   "diff": "Experienced",
+   "points": 2,
+   "data": {
+    "id": "elwyn_yew",
+    "name": "Yew Bows",
+    "town": "Falador",
+    "giver": "elwyn",
+    "where": "in the south-west of Falador",
+    "diff": "Experienced",
+    "points": 2,
+    "req": {
+     "q": [
+      "elwyn_bows"
+     ],
+     "lvl": {
+      "Fletching": 65,
+      "Woodcutting": 60
+     }
+    },
+    "intro": [
+     "The yews east of Falador make the best bows.",
+     "Visit the yew trees and bring me 10 Yew logs and 2 Yew shortbows."
+    ],
+    "steps": [
+     {
+      "t": "visit",
+      "place": "yewFalador"
+     },
+     {
+      "t": "bring",
+      "items": {
+       "Yew logs": 10,
+       "Yew shortbow": 2
+      }
+     }
+    ],
+    "xp": {
+     "Fletching": 10000,
+     "Woodcutting": 6000
+    },
+    "items": {
+     "Rune arrows": 200
+    },
+    "bonus": {
+     "desc": "+1 ranged max hit and +2% Fletching XP",
+     "fx": {
+      "rmaxHit": 1,
+      "xp.Fletching": 0.02
+     }
+    },
+    "end": "Beautiful bows. Take these rune arrows.",
+    "thanks": "The knights' archers love them."
+   },
+   "start": "Talk to Elwyn the Bowyer in the south-west of Falador.",
+   "rewards": [
+    "10000 Fletching XP",
+    "6000 Woodcutting XP",
+    "200 x Rune arrows"
+   ],
+   "bonus": {
+    "desc": "+1 ranged max hit and +2% Fletching XP",
+    "fx": {
+     "rmaxHit": 1,
+     "xp.Fletching": 0.02
+    }
+   }
+  },
+  {
+   "id": "elwyn_magic",
+   "name": "Magic in the Wood",
+   "giver": "elwyn",
+   "town": "Falador",
+   "diff": "Master",
+   "points": 3,
+   "data": {
+    "id": "elwyn_magic",
+    "name": "Magic in the Wood",
+    "town": "Falador",
+    "giver": "elwyn",
+    "where": "in the south-west of Falador",
+    "diff": "Master",
+    "points": 3,
+    "req": {
+     "q": [
+      "elwyn_yew"
+     ],
+     "lvl": {
+      "Fletching": 80,
+      "Woodcutting": 75
+     }
+    },
+    "intro": [
+     "Only one bow is better than yew: magic.",
+     "Visit the magic trees north of Varrock and bring me 10 Magic logs and a Magic shortbow."
+    ],
+    "steps": [
+     {
+      "t": "visit",
+      "place": "magicVarrock"
+     },
+     {
+      "t": "bring",
+      "items": {
+       "Magic logs": 10,
+       "Magic shortbow": 1
+      }
+     }
+    ],
+    "xp": {
+     "Fletching": 20000,
+     "Woodcutting": 15000
+    },
+    "items": {
+     "Dark bow": 1
+    },
+    "bonus": {
+     "desc": "+2 ranged max hit and +1% success when gathering",
+     "fx": {
+      "rmaxHit": 2,
+      "gather": 0.01
+     }
+    },
+    "end": "A masterpiece. Take my dark bow; you've surpassed me.",
+    "thanks": "The master becomes the student."
+   },
+   "start": "Talk to Elwyn the Bowyer in the south-west of Falador.",
+   "rewards": [
+    "20000 Fletching XP",
+    "15000 Woodcutting XP",
+    "Dark bow"
+   ],
+   "bonus": {
+    "desc": "+2 ranged max hit and +1% success when gathering",
+    "fx": {
+     "rmaxHit": 2,
+     "gather": 0.01
+    }
+   }
+  },
+  {
+   "id": "oswin_ogres",
+   "name": "Ogre Trouble",
+   "giver": "oswin",
+   "town": "Wilds",
+   "diff": "Experienced",
+   "points": 2,
+   "data": {
+    "id": "oswin_ogres",
+    "name": "Ogre Trouble",
+    "town": "Wilds",
+    "giver": "oswin",
+    "where": "in the wilds north-west of Falador",
+    "diff": "Experienced",
+    "points": 2,
+    "req": {
+     "lvl": {
+      "Strength": 45
+     }
+    },
+    "intro": [
+     "I was banished from Falador, but I still protect it.",
+     "The ogres in the hills grow bold. Go there, kill 5 and bury 5 of their bones."
+    ],
+    "steps": [
+     {
+      "t": "visit",
+      "place": "ogres"
+     },
+     {
+      "t": "kill",
+      "mon": "Ogre",
+      "n": 5
+     },
+     {
+      "t": "bury",
+      "n": 5
+     }
+    ],
+    "xp": {
+     "Strength": 10000,
+     "Prayer": 3000
+    },
+    "gold": 3000,
+    "bonus": {
+     "desc": "+5% damage against ogres",
+     "fx": {
+      "dmgVs.Ogre": 0.05
+     }
+    },
+    "end": "Good. Falador sleeps safer, though it doesn't know why.",
+    "thanks": "The hills are quieter."
+   },
+   "start": "Talk to Oswin the Exile in the wilds north-west of Falador.",
+   "rewards": [
+    "10000 Strength XP",
+    "3000 Prayer XP",
+    "3000 coins"
+   ],
+   "bonus": {
+    "desc": "+5% damage against ogres",
+    "fx": {
+     "dmgVs.Ogre": 0.05
+    }
+   }
+  },
+  {
+   "id": "oswin_grumsh",
+   "name": "The Ogre Warlord",
+   "giver": "oswin",
+   "town": "Wilds",
+   "diff": "Master",
+   "points": 3,
+   "data": {
+    "id": "oswin_grumsh",
+    "name": "The Ogre Warlord",
+    "town": "Wilds",
+    "giver": "oswin",
+    "where": "in the wilds north-west of Falador",
+    "diff": "Master",
+    "points": 3,
+    "req": {
+     "q": [
+      "oswin_ogres"
+     ],
+     "lvl": {
+      "Attack": 75,
+      "Strength": 75
+     }
+    },
+    "intro": [
+     "Grumsh, the ogre warlord, is the reason I was exiled. I failed to kill him.",
+     "Find his camp, defeat him, then visit the Blood altar beyond it to cleanse yourself."
+    ],
+    "steps": [
+     {
+      "t": "visit",
+      "place": "grumsh"
+     },
+     {
+      "t": "kill",
+      "mon": "Grumsh",
+      "n": 1
+     },
+     {
+      "t": "visit",
+      "place": "bloodAltar"
+     }
+    ],
+    "xp": {
+     "Strength": 25000,
+     "Attack": 15000
+    },
+    "items": {
+     "Highcrag warhammer": 1
+    },
+    "bonus": {
+     "desc": "+5% damage against Grumsh, +3% against ogres and +10 max hitpoints",
+     "fx": {
+      "dmgVs.Grumsh": 0.05,
+      "dmgVs.Ogre": 0.03,
+      "maxHp": 10
+     }
+    },
+    "end": "Grumsh is dead. Maybe now I can go home. Take my hammer.",
+    "thanks": "Thank you, friend."
+   },
+   "start": "Talk to Oswin the Exile in the wilds north-west of Falador.",
+   "rewards": [
+    "25000 Strength XP",
+    "15000 Attack XP",
+    "Highcrag warhammer"
+   ],
+   "bonus": {
+    "desc": "+5% damage against Grumsh, +3% against ogres and +10 max hitpoints",
+    "fx": {
+     "dmgVs.Grumsh": 0.05,
+     "dmgVs.Ogre": 0.03,
+     "maxHp": 10
+    }
+   }
+  },
+  {
+   "id": "hazel_stew",
+   "name": "Ashford Stew",
+   "giver": "hazel",
+   "town": "Ashford",
+   "diff": "Novice",
+   "points": 1,
+   "data": {
+    "id": "hazel_stew",
+    "name": "Ashford Stew",
+    "town": "Ashford",
+    "giver": "hazel",
+    "where": "at the Ashford inn",
+    "diff": "Novice",
+    "points": 1,
+    "intro": [
+     "The inn's famous stew needs beef, and my fire needs wood.",
+     "Bring me 3 Raw beef and 5 Logs."
+    ],
+    "steps": [
+     {
+      "t": "bring",
+      "items": {
+       "Raw beef": 3,
+       "Logs": 5
+      }
+     }
+    ],
+    "xp": {
+     "Cooking": 1000
+    },
+    "gold": 300,
+    "bonus": {
+     "desc": "Burn food 2% less often",
+     "fx": {
+      "burnLess": 0.02
+     }
+    },
+    "end": "The stew is bubbling! Have a bowl on me.",
+    "thanks": "The stew is the best in years."
+   },
+   "start": "Talk to Innkeeper Hazel at the Ashford inn.",
+   "rewards": [
+    "1000 Cooking XP",
+    "300 coins"
+   ],
+   "bonus": {
+    "desc": "Burn food 2% less often",
+    "fx": {
+     "burnLess": 0.02
+    }
+   }
+  },
+  {
+   "id": "hazel_house",
+   "name": "Full House",
+   "giver": "hazel",
+   "town": "Ashford",
+   "diff": "Intermediate",
+   "points": 1,
+   "data": {
+    "id": "hazel_house",
+    "name": "Full House",
+    "town": "Ashford",
+    "giver": "hazel",
+    "where": "at the Ashford inn",
+    "diff": "Intermediate",
+    "points": 1,
+    "req": {
+     "q": [
+      "hazel_stew"
+     ],
+     "lvl": {
+      "Cooking": 30
+     }
+    },
+    "intro": [
+     "A caravan arrived and every room is full!",
+     "Bring me 5 Cooked salmon and 5 Cooked trout."
+    ],
+    "steps": [
+     {
+      "t": "bring",
+      "items": {
+       "Cooked salmon": 5,
+       "Cooked trout": 5
+      }
+     }
+    ],
+    "xp": {
+     "Cooking": 4000
+    },
+    "gold": 1200,
+    "bonus": {
+     "desc": "+2% Cooking XP",
+     "fx": {
+      "xp.Cooking": 0.02
+     }
+    },
+    "end": "Every guest is fed and happy!",
+    "thanks": "The caravan left a glowing review."
+   },
+   "start": "Talk to Innkeeper Hazel at the Ashford inn.",
+   "rewards": [
+    "4000 Cooking XP",
+    "1200 coins"
+   ],
+   "bonus": {
+    "desc": "+2% Cooking XP",
+    "fx": {
+     "xp.Cooking": 0.02
+    }
+   }
+  },
+  {
+   "id": "tomas_toys",
+   "name": "Toy Soldiers",
+   "giver": "tomas",
+   "town": "Ashford",
+   "diff": "Novice",
+   "points": 1,
+   "data": {
+    "id": "tomas_toys",
+    "name": "Toy Soldiers",
+    "town": "Ashford",
+    "giver": "tomas",
+    "where": "in Ashford, north of the square",
+    "diff": "Novice",
+    "points": 1,
+    "intro": [
+     "The children want toy soldiers for the harvest fair.",
+     "Bring me 5 Logs to carve and 2 Bronze bars for the little swords."
+    ],
+    "steps": [
+     {
+      "t": "bring",
+      "items": {
+       "Logs": 5,
+       "Bronze bar": 2
+      }
+     }
+    ],
+    "xp": {
+     "Smithing": 800,
+     "Crafting": 800
+    },
+    "gold": 300,
+    "bonus": {
+     "desc": "+1% Crafting XP",
+     "fx": {
+      "xp.Crafting": 0.01
+     }
+    },
+    "end": "The children will love these!",
+    "thanks": "The fair was a delight."
+   },
+   "start": "Talk to Tomas the Toymaker in Ashford, north of the square.",
+   "rewards": [
+    "800 Smithing XP",
+    "800 Crafting XP",
+    "300 coins"
+   ],
+   "bonus": {
+    "desc": "+1% Crafting XP",
+    "fx": {
+     "xp.Crafting": 0.01
+    }
+   }
+  },
+  {
+   "id": "tomas_bows",
+   "name": "Kites and Bows",
+   "giver": "tomas",
+   "town": "Ashford",
+   "diff": "Intermediate",
+   "points": 1,
+   "data": {
+    "id": "tomas_bows",
+    "name": "Kites and Bows",
+    "town": "Ashford",
+    "giver": "tomas",
+    "where": "in Ashford, north of the square",
+    "diff": "Intermediate",
+    "points": 1,
+    "req": {
+     "q": [
+      "tomas_toys"
+     ],
+     "lvl": {
+      "Fletching": 20
+     }
+    },
+    "intro": [
+     "Now the older children want real bows!",
+     "Fletch me 2 Shortbows and an Oak shortbow, and bring 10 Feathers for kites."
+    ],
+    "steps": [
+     {
+      "t": "bring",
+      "items": {
+       "Shortbow": 2,
+       "Oak shortbow": 1,
+       "Feather": 10
+      }
+     }
+    ],
+    "xp": {
+     "Fletching": 3500
+    },
+    "gold": 800,
+    "bonus": {
+     "desc": "+2% Fletching XP",
+     "fx": {
+      "xp.Fletching": 0.02
+     }
+    },
+    "end": "Perfect! I'll teach them to aim at targets, not each other.",
+    "thanks": "Ashford has a junior archery club now."
+   },
+   "start": "Talk to Tomas the Toymaker in Ashford, north of the square.",
+   "rewards": [
+    "3500 Fletching XP",
+    "800 coins"
+   ],
+   "bonus": {
+    "desc": "+2% Fletching XP",
+    "fx": {
+     "xp.Fletching": 0.02
+    }
+   }
+  },
+  {
+   "id": "iris_vision",
+   "name": "The Seer's Vision",
+   "giver": "iris",
+   "town": "Ashford",
+   "diff": "Novice",
+   "points": 1,
+   "data": {
+    "id": "iris_vision",
+    "name": "The Seer's Vision",
+    "town": "Ashford",
+    "giver": "iris",
+    "where": "in the north of Ashford",
+    "diff": "Novice",
+    "points": 1,
+    "intro": [
+     "I see... trees that shimmer, and still water.",
+     "Go to the magic tree grove north of Brightwater, then to the lake, and tell me what you saw."
+    ],
+    "steps": [
+     {
+      "t": "visit",
+      "place": "magicGrove"
+     },
+     {
+      "t": "visit",
+      "place": "lake"
+     }
+    ],
+    "xp": {
+     "Magic": 800,
+     "Agility": 400
+    },
+    "gold": 300,
+    "bonus": {
+     "desc": "+1% Magic XP",
+     "fx": {
+      "xp.Magic": 0.01
+     }
+    },
+    "end": "Just as I foresaw. Your future is bright.",
+    "thanks": "I see great things for you."
+   },
+   "start": "Talk to Iris the Seer in the north of Ashford.",
+   "rewards": [
+    "800 Magic XP",
+    "400 Agility XP",
+    "300 coins"
+   ],
+   "bonus": {
+    "desc": "+1% Magic XP",
+    "fx": {
+     "xp.Magic": 0.01
+    }
+   }
+  },
+  {
+   "id": "iris_omen",
+   "name": "Dark Omens",
+   "giver": "iris",
+   "town": "Ashford",
+   "diff": "Intermediate",
+   "points": 1,
+   "data": {
+    "id": "iris_omen",
+    "name": "Dark Omens",
+    "town": "Ashford",
+    "giver": "iris",
+    "where": "in the north of Ashford",
+    "diff": "Intermediate",
+    "points": 1,
+    "req": {
+     "q": [
+      "iris_vision"
+     ],
+     "lvl": {
+      "Magic": 25
+     }
+    },
+    "intro": [
+     "My visions show bones rising in the boneyard west of here.",
+     "Go there, destroy 5 skeletons and earn 1500 Magic XP."
+    ],
+    "steps": [
+     {
+      "t": "visit",
+      "place": "boneyard"
+     },
+     {
+      "t": "kill",
+      "mon": "Skeleton",
+      "n": 5
+     },
+     {
+      "t": "xp",
+      "skill": "Magic",
+      "n": 1500,
+      "hint": "Cast spells in battle."
+     }
+    ],
+    "xp": {
+     "Magic": 5000
+    },
+    "items": {
+     "Earth rune": 100
+    },
+    "bonus": {
+     "desc": "+3% damage against skeletons",
+     "fx": {
+      "dmgVs.Skeleton": 0.03
+     }
+    },
+    "end": "The omen has passed. Thank you.",
+    "thanks": "My visions are peaceful now."
+   },
+   "start": "Talk to Iris the Seer in the north of Ashford.",
+   "rewards": [
+    "5000 Magic XP",
+    "100 x Earth rune"
+   ],
+   "bonus": {
+    "desc": "+3% damage against skeletons",
+    "fx": {
+     "dmgVs.Skeleton": 0.03
+    }
+   }
+  },
+  {
+   "id": "iris_mind",
+   "name": "Mind over Matter",
+   "giver": "iris",
+   "town": "Ashford",
+   "diff": "Experienced",
+   "points": 2,
+   "data": {
+    "id": "iris_mind",
+    "name": "Mind over Matter",
+    "town": "Ashford",
+    "giver": "iris",
+    "where": "in the north of Ashford",
+    "diff": "Experienced",
+    "points": 2,
+    "req": {
+     "q": [
+      "iris_omen"
+     ],
+     "lvl": {
+      "Runecrafting": 35,
+      "Magic": 45
+     }
+    },
+    "intro": [
+     "To see further I need the power of the mind, and of chaos.",
+     "Visit the Mind altar, then bring me 200 Mind runes and 50 Chaos runes."
+    ],
+    "steps": [
+     {
+      "t": "visit",
+      "place": "mindAltar"
+     },
+     {
+      "t": "bring",
+      "items": {
+       "Mind rune": 200,
+       "Chaos rune": 50
+      }
+     }
+    ],
+    "xp": {
+     "Runecrafting": 8000,
+     "Magic": 6000
+    },
+    "bonus": {
+     "desc": "+2% Magic XP and +1% Runecrafting XP",
+     "fx": {
+      "xp.Magic": 0.02,
+      "xp.Runecrafting": 0.01
+     }
+    },
+    "end": "I can see the whole realm! Thank you.",
+    "thanks": "I see you coming before you arrive."
+   },
+   "start": "Talk to Iris the Seer in the north of Ashford.",
+   "rewards": [
+    "8000 Runecrafting XP",
+    "6000 Magic XP"
+   ],
+   "bonus": {
+    "desc": "+2% Magic XP and +1% Runecrafting XP",
+    "fx": {
+     "xp.Magic": 0.02,
+     "xp.Runecrafting": 0.01
+    }
+   }
+  },
+  {
+   "id": "bertram_debt",
+   "name": "Unpaid Debts",
+   "giver": "bertram",
+   "town": "Ashford",
+   "diff": "Novice",
+   "points": 1,
+   "data": {
+    "id": "bertram_debt",
+    "name": "Unpaid Debts",
+    "town": "Ashford",
+    "giver": "bertram",
+    "where": "on the east side of Ashford",
+    "diff": "Novice",
+    "points": 1,
+    "intro": [
+     "Trader Mira owes me money, and she's dodging me.",
+     "Remind her of her debt, then bring me 2 Iron bars she promised as payment."
+    ],
+    "steps": [
+     {
+      "t": "talk",
+      "npc": "merchant2",
+      "where": "at the Ashford store",
+      "say": [
+       "Bertram sent you? Ugh. Fine.",
+       "Tell him I'll pay in iron. I don't have any, so you'll have to bring some."
+      ]
+     },
+     {
+      "t": "bring",
+      "items": {
+       "Iron bar": 2
+      }
+     }
+    ],
+    "xp": {
+     "Smithing": 600,
+     "Thieving": 500
+    },
+    "gold": 800,
+    "bonus": {
+     "desc": "Shops pay you 1% more",
+     "fx": {
+      "sellBonus": 0.01
+     }
+    },
+    "end": "Debt settled. Here's your commission.",
+    "thanks": "Pleasure doing business."
+   },
+   "start": "Talk to Bertram on the east side of Ashford.",
+   "rewards": [
+    "600 Smithing XP",
+    "500 Thieving XP",
+    "800 coins"
+   ],
+   "bonus": {
+    "desc": "Shops pay you 1% more",
+    "fx": {
+     "sellBonus": 0.01
+    }
+   }
+  },
+  {
+   "id": "bertram_vault",
+   "name": "The Vault Job",
+   "giver": "bertram",
+   "town": "Ashford",
+   "diff": "Experienced",
+   "points": 2,
+   "data": {
+    "id": "bertram_vault",
+    "name": "The Vault Job",
+    "town": "Ashford",
+    "giver": "bertram",
+    "where": "on the east side of Ashford",
+    "diff": "Experienced",
+    "points": 2,
+    "req": {
+     "q": [
+      "bertram_debt"
+     ],
+     "lvl": {
+      "Thieving": 50,
+      "Agility": 40
+     }
+    },
+    "intro": [
+     "Someone keeps breaking into my vault. I want to know how.",
+     "Practise the thief's arts and climb like one, then ask Sergeant Gruff to set a guard."
+    ],
+    "steps": [
+     {
+      "t": "xp",
+      "skill": "Thieving",
+      "n": 6000,
+      "hint": "Pickpocket anyone."
+     },
+     {
+      "t": "xp",
+      "skill": "Agility",
+      "n": 3000,
+      "hint": "Run any agility course."
+     },
+     {
+      "t": "talk",
+      "npc": "gruff",
+      "where": "south-east of Ashford square",
+      "say": [
+       "Bertram's vault? I'll post my best guard.",
+       "Tell him not to worry."
+      ]
+     }
+    ],
+    "xp": {
+     "Thieving": 12000,
+     "Agility": 6000
+    },
+    "gold": 8000,
+    "bonus": {
+     "desc": "+2% Thieving XP",
+     "fx": {
+      "xp.Thieving": 0.02
+     }
+    },
+    "end": "Now I know their tricks. My vault is safe!",
+    "thanks": "Not a coin missing."
+   },
+   "start": "Talk to Bertram on the east side of Ashford.",
+   "rewards": [
+    "12000 Thieving XP",
+    "6000 Agility XP",
+    "8000 coins"
+   ],
+   "bonus": {
+    "desc": "+2% Thieving XP",
+    "fx": {
+     "xp.Thieving": 0.02
+    }
+   }
+  },
+  {
+   "id": "fen_arrows",
+   "name": "Fen's Arrows",
+   "giver": "fen",
+   "town": "Ashford",
+   "diff": "Novice",
+   "points": 1,
+   "data": {
+    "id": "fen_arrows",
+    "name": "Fen's Arrows",
+    "town": "Ashford",
+    "giver": "fen",
+    "where": "on the west side of Ashford",
+    "diff": "Novice",
+    "points": 1,
+    "intro": [
+     "The militia is out of arrows.",
+     "Bring me 50 Bronze arrows and 20 Feathers."
+    ],
+    "steps": [
+     {
+      "t": "bring",
+      "items": {
+       "Bronze arrows": 50,
+       "Feather": 20
+      }
+     }
+    ],
+    "xp": {
+     "Fletching": 1200
+    },
+    "gold": 400,
+    "bonus": {
+     "desc": "+1% Fletching XP",
+     "fx": {
+      "xp.Fletching": 0.01
+     }
+    },
+    "end": "The militia thanks you!",
+    "thanks": "Quivers are full."
+   },
+   "start": "Talk to Fen the Fletcher on the west side of Ashford.",
+   "rewards": [
+    "1200 Fletching XP",
+    "400 coins"
+   ],
+   "bonus": {
+    "desc": "+1% Fletching XP",
+    "fx": {
+     "xp.Fletching": 0.01
+    }
+   }
+  },
+  {
+   "id": "fen_hunt",
+   "name": "The Great Hunt",
+   "giver": "fen",
+   "town": "Ashford",
+   "diff": "Intermediate",
+   "points": 1,
+   "data": {
+    "id": "fen_hunt",
+    "name": "The Great Hunt",
+    "town": "Ashford",
+    "giver": "fen",
+    "where": "on the west side of Ashford",
+    "diff": "Intermediate",
+    "points": 1,
+    "req": {
+     "q": [
+      "fen_arrows"
+     ],
+     "lvl": {
+      "Ranged": 30
+     }
+    },
+    "intro": [
+     "The wolf pack west of here is getting too big.",
+     "Go to the den, shoot 8 wolves, and bring me 50 Iron arrows to restock."
+    ],
+    "steps": [
+     {
+      "t": "visit",
+      "place": "wolfDen"
+     },
+     {
+      "t": "kill",
+      "mon": "Wolf",
+      "n": 8
+     },
+     {
+      "t": "bring",
+      "items": {
+       "Iron arrows": 50
+      }
+     }
+    ],
+    "xp": {
+     "Ranged": 5000
+    },
+    "items": {
+     "Oak shortbow": 1
+    },
+    "bonus": {
+     "desc": "+1 ranged max hit",
+     "fx": {
+      "rmaxHit": 1
+     }
+    },
+    "end": "A fine hunt! You're a real ranger.",
+    "thanks": "The pack keeps its distance."
+   },
+   "start": "Talk to Fen the Fletcher on the west side of Ashford.",
+   "rewards": [
+    "5000 Ranged XP",
+    "Oak shortbow"
+   ],
+   "bonus": {
+    "desc": "+1 ranged max hit",
+    "fx": {
+     "rmaxHit": 1
+    }
+   }
+  },
+  {
+   "id": "magda_herbs",
+   "name": "Midwife's Herbs",
+   "giver": "magda",
+   "town": "Ashford",
+   "diff": "Novice",
+   "points": 1,
+   "data": {
+    "id": "magda_herbs",
+    "name": "Midwife's Herbs",
+    "town": "Ashford",
+    "giver": "magda",
+    "where": "in the south of Ashford",
+    "diff": "Novice",
+    "points": 1,
+    "intro": [
+     "Babies come at all hours, and I'm out of herbs!",
+     "Bring me 3 clean Guam leaf and 2 clean Marrentill, and learn to brew a little."
+    ],
+    "steps": [
+     {
+      "t": "bring",
+      "items": {
+       "Guam leaf": 3,
+       "Marrentill": 2
+      }
+     },
+     {
+      "t": "xp",
+      "skill": "Herblore",
+      "n": 100,
+      "hint": "Clean herbs or brew potions."
+     }
+    ],
+    "xp": {
+     "Herblore": 1200
+    },
+    "gold": 300,
+    "bonus": {
+     "desc": "Potions last 3% longer",
+     "fx": {
+      "potionTime": 0.03
+     }
+    },
+    "end": "Bless you. Three babies were born last night!",
+    "thanks": "The babies are thriving."
+   },
+   "start": "Talk to Magda the Midwife in the south of Ashford.",
+   "rewards": [
+    "1200 Herblore XP",
+    "300 coins"
+   ],
+   "bonus": {
+    "desc": "Potions last 3% longer",
+    "fx": {
+     "potionTime": 0.03
+    }
+   }
+  },
+  {
+   "id": "magda_fever",
+   "name": "The Fever",
+   "giver": "magda",
+   "town": "Ashford",
+   "diff": "Intermediate",
+   "points": 1,
+   "data": {
+    "id": "magda_fever",
+    "name": "The Fever",
+    "town": "Ashford",
+    "giver": "magda",
+    "where": "in the south of Ashford",
+    "diff": "Intermediate",
+    "points": 1,
+    "req": {
+     "q": [
+      "magda_herbs"
+     ],
+     "lvl": {
+      "Herblore": 20
+     }
+    },
+    "intro": [
+     "A fever is spreading through Ashford.",
+     "Brew me 3 Antipoison and 1 Strength potion."
+    ],
+    "steps": [
+     {
+      "t": "bring",
+      "items": {
+       "Antipoison": 3,
+       "Strength potion": 1
+      }
+     }
+    ],
+    "xp": {
+     "Herblore": 4000
+    },
+    "items": {
+     "Combat potion": 2
+    },
+    "bonus": {
+     "desc": "+2% Herblore XP",
+     "fx": {
+      "xp.Herblore": 0.02
+     }
+    },
+    "end": "The fever is breaking! You've saved lives.",
+    "thanks": "Ashford is healthy again."
+   },
+   "start": "Talk to Magda the Midwife in the south of Ashford.",
+   "rewards": [
+    "4000 Herblore XP",
+    "2 x Combat potion"
+   ],
+   "bonus": {
+    "desc": "+2% Herblore XP",
+    "fx": {
+     "xp.Herblore": 0.02
+    }
+   }
+  },
+  {
+   "id": "gruff_training",
+   "name": "Basic Training",
+   "giver": "gruff",
+   "town": "Ashford",
+   "diff": "Novice",
+   "points": 1,
+   "data": {
+    "id": "gruff_training",
+    "name": "Basic Training",
+    "town": "Ashford",
+    "giver": "gruff",
+    "where": "on the south-east edge of Ashford",
+    "diff": "Novice",
+    "points": 1,
+    "intro": [
+     "Recruit! Drop and give me twenty! Then go and fight something.",
+     "Kill 5 goblins and train your Defence."
+    ],
+    "steps": [
+     {
+      "t": "kill",
+      "mon": "Goblin",
+      "n": 5
+     },
+     {
+      "t": "xp",
+      "skill": "Defence",
+      "n": 500,
+      "hint": "Fight in a defensive style."
+     }
+    ],
+    "xp": {
+     "Defence": 1500,
+     "Hitpoints": 800
+    },
+    "gold": 300,
+    "bonus": {
+     "desc": "+5 max hitpoints",
+     "fx": {
+      "maxHp": 5
+     }
+    },
+    "end": "Not bad, recruit. Not bad.",
+    "thanks": "At ease."
+   },
+   "start": "Talk to Sergeant Gruff on the south-east edge of Ashford.",
+   "rewards": [
+    "1500 Defence XP",
+    "800 Hitpoints XP",
+    "300 coins"
+   ],
+   "bonus": {
+    "desc": "+5 max hitpoints",
+    "fx": {
+     "maxHp": 5
+    }
+   }
+  },
+  {
+   "id": "gruff_patrol",
+   "name": "Night Patrol",
+   "giver": "gruff",
+   "town": "Ashford",
+   "diff": "Intermediate",
+   "points": 1,
+   "data": {
+    "id": "gruff_patrol",
+    "name": "Night Patrol",
+    "town": "Ashford",
+    "giver": "gruff",
+    "where": "on the south-east edge of Ashford",
+    "diff": "Intermediate",
+    "points": 1,
+    "req": {
+     "q": [
+      "gruff_training"
+     ],
+     "lvl": {
+      "Attack": 25
+     }
+    },
+    "intro": [
+     "Time for a real patrol.",
+     "Check the wolf den and the boneyard, and put down 3 wolves and 3 skeletons."
+    ],
+    "steps": [
+     {
+      "t": "visit",
+      "place": "wolfDen"
+     },
+     {
+      "t": "visit",
+      "place": "boneyard"
+     },
+     {
+      "t": "kill",
+      "mon": "Skeleton",
+      "n": 3
+     },
+     {
+      "t": "kill",
+      "mon": "Wolf",
+      "n": 3
+     }
+    ],
+    "xp": {
+     "Attack": 3000,
+     "Defence": 3000
+    },
+    "gold": 800,
+    "bonus": {
+     "desc": "Take 0.5% less damage",
+     "fx": {
+      "dr": 0.005
+     }
+    },
+    "end": "Patrol complete. You'd make a fine sergeant.",
+    "thanks": "Ashford sleeps sound."
+   },
+   "start": "Talk to Sergeant Gruff on the south-east edge of Ashford.",
+   "rewards": [
+    "3000 Attack XP",
+    "3000 Defence XP",
+    "800 coins"
+   ],
+   "bonus": {
+    "desc": "Take 0.5% less damage",
+    "fx": {
+     "dr": 0.005
+    }
+   }
+  },
+  {
+   "id": "nim_lesson",
+   "name": "A Thief's Lesson",
+   "giver": "nim",
+   "town": "Ashford",
+   "diff": "Intermediate",
+   "points": 1,
+   "data": {
+    "id": "nim_lesson",
+    "name": "A Thief's Lesson",
+    "town": "Ashford",
+    "giver": "nim",
+    "where": "in the shadows west of Ashford",
+    "diff": "Intermediate",
+    "points": 1,
+    "req": {
+     "lvl": {
+      "Thieving": 20
+     }
+    },
+    "intro": [
+     "Psst. I hear you've got light fingers. Prove it.",
+     "Earn 2000 Thieving XP, then tell Pip in Brightwater that Nim says hello."
+    ],
+    "steps": [
+     {
+      "t": "xp",
+      "skill": "Thieving",
+      "n": 2000,
+      "hint": "Pickpocket anyone."
+     },
+     {
+      "t": "talk",
+      "npc": "pip",
+      "where": "east of Brightwater square",
+      "say": [
+       "Nim? That old shadow? Tell 'em I said hello back.",
+       "And that I still have their lucky coin."
+      ]
+     }
+    ],
+    "xp": {
+     "Thieving": 4000
+    },
+    "gold": 1000,
+    "bonus": {
+     "desc": "+1% Thieving XP",
+     "fx": {
+      "xp.Thieving": 0.01
+     }
+    },
+    "end": "Pip still has my coin? Ha! Here, your cut.",
+    "thanks": "Stay in the shadows."
+   },
+   "start": "Talk to Nim in the shadows west of Ashford.",
+   "rewards": [
+    "4000 Thieving XP",
+    "1000 coins"
+   ],
+   "bonus": {
+    "desc": "+1% Thieving XP",
+    "fx": {
+     "xp.Thieving": 0.01
+    }
+   }
+  },
+  {
+   "id": "otto_post",
+   "name": "Special Delivery",
+   "giver": "otto",
+   "town": "Ashford",
+   "diff": "Novice",
+   "points": 1,
+   "data": {
+    "id": "otto_post",
+    "name": "Special Delivery",
+    "town": "Ashford",
+    "giver": "otto",
+    "where": "at the north edge of Ashford",
+    "diff": "Novice",
+    "points": 1,
+    "intro": [
+     "I've got three letters and only two legs!",
+     "Deliver one to Granny Hilda in Brightwater, one to Shopkeeper Gerrant in Port Sarim and one to Aubury in Varrock."
+    ],
+    "steps": [
+     {
+      "t": "talk",
+      "npc": "hilda",
+      "where": "in Brightwater",
+      "say": [
+       "A letter from my sister! How lovely, thank you dear."
+      ]
+     },
+     {
+      "t": "talk",
+      "npc": "gerrant",
+      "where": "in Port Sarim",
+      "say": [
+       "An order form! Excellent, thank you."
+      ]
+     },
+     {
+      "t": "talk",
+      "npc": "aubury",
+      "where": "in Varrock",
+      "say": [
+       "Ah, my essence delivery note. Much obliged."
+      ]
+     }
+    ],
+    "xp": {
+     "Agility": 1500
+    },
+    "gold": 1000,
+    "bonus": {
+     "desc": "Run energy restores 3% faster",
+     "fx": {
+      "runRegen": 0.03
+     }
+    },
+    "end": "All three delivered? You're faster than me!",
+    "thanks": "Want a job as a courier?"
+   },
+   "start": "Talk to Otto the Courier at the north edge of Ashford.",
+   "rewards": [
+    "1500 Agility XP",
+    "1000 coins"
+   ],
+   "bonus": {
+    "desc": "Run energy restores 3% faster",
+    "fx": {
+     "runRegen": 0.03
+    }
+   }
+  },
+  {
+   "id": "otto_express",
+   "name": "Express Post",
+   "giver": "otto",
+   "town": "Ashford",
+   "diff": "Intermediate",
+   "points": 1,
+   "data": {
+    "id": "otto_express",
+    "name": "Express Post",
+    "town": "Ashford",
+    "giver": "otto",
+    "where": "at the north edge of Ashford",
+    "diff": "Intermediate",
+    "points": 1,
+    "req": {
+     "q": [
+      "otto_post"
+     ],
+     "lvl": {
+      "Agility": 30
+     }
+    },
+    "intro": [
+     "Express parcels! Cassie in Falador and Horvik in Varrock, as fast as you can.",
+     "And keep your legs in shape: earn 2000 Agility XP."
+    ],
+    "steps": [
+     {
+      "t": "talk",
+      "npc": "cassie",
+      "where": "at her armour shop in Falador",
+      "say": [
+       "My new shield straps! Thank you."
+      ]
+     },
+     {
+      "t": "talk",
+      "npc": "horvik",
+      "where": "at his weapon shop in Varrock",
+      "say": [
+       "Whetstones, finally. Cheers."
+      ]
+     },
+     {
+      "t": "xp",
+      "skill": "Agility",
+      "n": 2000,
+      "hint": "Run any agility course."
+     }
+    ],
+    "xp": {
+     "Agility": 5000
+    },
+    "gold": 2500,
+    "bonus": {
+     "desc": "Run energy restores 5% faster",
+     "fx": {
+      "runRegen": 0.05
+     }
+    },
+    "end": "Record time! You're the best courier in the realm.",
+    "thanks": "Express post, express pay."
+   },
+   "start": "Talk to Otto the Courier at the north edge of Ashford.",
+   "rewards": [
+    "5000 Agility XP",
+    "2500 coins"
+   ],
+   "bonus": {
+    "desc": "Run energy restores 5% faster",
+    "fx": {
+     "runRegen": 0.05
+    }
+   }
+  },
+  {
+   "id": "ada_map",
+   "name": "Mapping the Realm",
+   "giver": "ada",
+   "town": "Wilds",
+   "diff": "Intermediate",
+   "points": 1,
+   "data": {
+    "id": "ada_map",
+    "name": "Mapping the Realm",
+    "town": "Wilds",
+    "giver": "ada",
+    "where": "on the road between Ashford and Varrock",
+    "diff": "Intermediate",
+    "points": 1,
+    "intro": [
+     "I'm drawing a map of the whole realm, but my feet are tired.",
+     "Visit every town square for me: Brightwater, Port Sarim, Varrock, Falador and Ashford."
+    ],
+    "steps": [
+     {
+      "t": "visit",
+      "place": "bwSquare"
+     },
+     {
+      "t": "visit",
+      "place": "sarimSquare"
+     },
+     {
+      "t": "visit",
+      "place": "varrockSquare"
+     },
+     {
+      "t": "visit",
+      "place": "faladorSquare"
+     },
+     {
+      "t": "visit",
+      "place": "ashfordSquare"
+     }
+    ],
+    "xp": {
+     "Agility": 4000
+    },
+    "gold": 3000,
+    "bonus": {
+     "desc": "Run energy restores 5% faster",
+     "fx": {
+      "runRegen": 0.05
+     }
+    },
+    "end": "My map is complete! Thank you, traveller.",
+    "thanks": "Your name is on my map."
+   },
+   "start": "Talk to Ada the Cartographer on the road between Ashford and Varrock.",
+   "rewards": [
+    "4000 Agility XP",
+    "3000 coins"
+   ],
+   "bonus": {
+    "desc": "Run energy restores 5% faster",
+    "fx": {
+     "runRegen": 0.05
+    }
+   }
+  },
+  {
+   "id": "ada_altars",
+   "name": "Rune Pilgrim",
+   "giver": "ada",
+   "town": "Wilds",
+   "diff": "Master",
+   "points": 3,
+   "data": {
+    "id": "ada_altars",
+    "name": "Rune Pilgrim",
+    "town": "Wilds",
+    "giver": "ada",
+    "where": "on the road between Ashford and Varrock",
+    "diff": "Master",
+    "points": 3,
+    "req": {
+     "q": [
+      "ada_map"
+     ],
+     "lvl": {
+      "Runecrafting": 77
+     }
+    },
+    "intro": [
+     "The last blank spots on my map are the rune altars.",
+     "Visit all nine: Air, Mind, Water, Earth, Fire, Body, Chaos, Death and Blood."
+    ],
+    "steps": [
+     {
+      "t": "visit",
+      "place": "airAltar"
+     },
+     {
+      "t": "visit",
+      "place": "mindAltar"
+     },
+     {
+      "t": "visit",
+      "place": "waterAltar"
+     },
+     {
+      "t": "visit",
+      "place": "earthAltar"
+     },
+     {
+      "t": "visit",
+      "place": "fireAltar"
+     },
+     {
+      "t": "visit",
+      "place": "bodyAltar"
+     },
+     {
+      "t": "visit",
+      "place": "chaosAltar"
+     },
+     {
+      "t": "visit",
+      "place": "deathAltar"
+     },
+     {
+      "t": "visit",
+      "place": "bloodAltar"
+     }
+    ],
+    "xp": {
+     "Runecrafting": 30000,
+     "Magic": 10000
+    },
+    "gold": 10000,
+    "bonus": {
+     "desc": "+3% Runecrafting XP and +1% XP in every skill",
+     "fx": {
+      "xp.Runecrafting": 0.03,
+      "xp.*": 0.01
+     }
+    },
+    "end": "Every altar mapped! You truly are a pilgrim of the runes.",
+    "thanks": "The map is finished, thanks to you."
+   },
+   "start": "Talk to Ada the Cartographer on the road between Ashford and Varrock.",
+   "rewards": [
+    "30000 Runecrafting XP",
+    "10000 Magic XP",
+    "10000 coins"
+   ],
+   "bonus": {
+    "desc": "+3% Runecrafting XP and +1% XP in every skill",
+    "fx": {
+     "xp.Runecrafting": 0.03,
+     "xp.*": 0.01
+    }
+   }
+  }
+ ],
+ "npcs": {
+  "cook": {
+   "name": "Cook",
+   "examine": "The head cook of Brightwater."
+  },
+  "priest": {
+   "name": "Father Elric",
+   "examine": "A kindly priest of Saradomin."
+  },
+  "doric": {
+   "name": "Doric",
+   "examine": "A dwarven smith with strong arms."
+  },
+  "captain": {
+   "name": "Captain Rhea",
+   "examine": "Captain of the Brightwater guard."
+  },
+  "farmer": {
+   "name": "Farmer Gil",
+   "examine": "He smells faintly of cow."
+  },
+  "bob": {
+   "name": "Bob",
+   "examine": "An expert on axes, pickaxes and other tools."
+  },
+  "ranger": {
+   "name": "Ranger Wyn",
+   "examine": "A sharp-eyed ranger of the western woods."
+  },
+  "knight": {
+   "name": "Sir Vyvin",
+   "examine": "A knight in shining armour."
+  },
+  "merchant": {
+   "name": "Merchant",
+   "examine": "A trader of general goods."
+  },
+  "banker": {
+   "name": "Banker",
+   "examine": "Good with money."
+  },
+  "fisherman": {
+   "name": "Fisherman Fred",
+   "examine": "An old fisherman who knows the lake well."
+  },
+  "mayor": {
+   "name": "Mayor Aldric",
+   "examine": "Mayor of Ashford, worried about the eastern farms."
+  },
+  "merchant2": {
+   "name": "Trader Mira",
+   "examine": "A shrewd trader from Ashford."
+  },
+  "smith2": {
+   "name": "Smith Torin",
+   "examine": "Ashford's blacksmith, always short of ore."
+  },
+  "farmer2": {
+   "name": "Farmer Elara",
+   "examine": "Tends the eastern fields."
+  },
+  "guard2": {
+   "name": "Guard Captain Ryn",
+   "examine": "Keeps the peace in Ashford."
+  },
+  "priest2": {
+   "name": "Sister Lira",
+   "examine": "A priestess of Saradomin in Ashford."
+  },
+  "ranger2": {
+   "name": "Scout Vey",
+   "examine": "Scouts the woods east of Ashford."
+  },
+  "cook2": {
+   "name": "Chef Bran",
+   "examine": "Cooks for the Ashford inn."
+  },
+  "miner": {
+   "name": "Miner Kael",
+   "examine": "Works the eastern mines."
+  },
+  "angler": {
+   "name": "Angler Tess",
+   "examine": "Fishes the eastern streams."
+  },
+  "knight2": {
+   "name": "Sir Elric",
+   "examine": "A knight stationed near Ashford."
+  },
+  "herbalist": {
+   "name": "Herbalist Wren",
+   "examine": "Gathers herbs in the east."
+  },
+  "carpenter": {
+   "name": "Carpenter Olan",
+   "examine": "Builds and repairs in Ashford."
+  },
+  "hilda": {
+   "name": "Granny Hilda",
+   "examine": "A sweet old lady with flour on her sleeves."
+  },
+  "mara": {
+   "name": "Mara the Weaver",
+   "examine": "Her fingers never stop moving."
+  },
+  "pip": {
+   "name": "Pip",
+   "examine": "A scruffy street urchin. Watch your coin purse."
+  },
+  "osric": {
+   "name": "Osric the Gravedigger",
+   "examine": "He smells of fresh earth."
+  },
+  "lena": {
+   "name": "Lena the Lamplighter",
+   "examine": "She keeps Brightwater’s lamps burning."
+  },
+  "bram": {
+   "name": "Bram the Brewer",
+   "examine": "A jolly man with a barrel-shaped belly."
+  },
+  "tamsin": {
+   "name": "Tamsin the Scholar",
+   "examine": "She is never seen without a book."
+  },
+  "aldo": {
+   "name": "Old Aldo",
+   "examine": "A retired soldier with many scars."
+  },
+  "dell": {
+   "name": "Coach Dell",
+   "examine": "Brightwater’s agility coach. Fit as a fiddle."
+  },
+  "grell": {
+   "name": "Hermit Grell",
+   "examine": "He has lived alone in the wilds for years."
+  },
+  "redbeard": {
+   "name": "Captain Redbeard",
+   "examine": "A pirate captain with a magnificent beard."
+  },
+  "wydin": {
+   "name": "Wydin the Grocer",
+   "examine": "Port Sarim’s food merchant."
+  },
+  "gerda": {
+   "name": "Net-mender Gerda",
+   "examine": "Her nets have caught more fish than anyone alive."
+  },
+  "brice": {
+   "name": "Harbourmaster Brice",
+   "examine": "Nothing enters or leaves the harbour without his say."
+  },
+  "thurgo": {
+   "name": "Thurgo",
+   "examine": "A dwarf smith who loves pie."
+  },
+  "mabel": {
+   "name": "Old Mabel",
+   "examine": "She claims to remember the Water altar being built."
+  },
+  "kenn": {
+   "name": "Kennith",
+   "examine": "A cabin boy who missed his ship."
+  },
+  "velma": {
+   "name": "Velma the Witch",
+   "examine": "She smells of herbs and something stranger."
+  },
+  "sorrel": {
+   "name": "Ranger Sorrel",
+   "examine": "She guards the western woods."
+  },
+  "reldo": {
+   "name": "Reldo the Librarian",
+   "examine": "Varrock’s librarian. He knows a little about everything."
+  },
+  "romeo": {
+   "name": "Romeo",
+   "examine": "A lovesick young man."
+  },
+  "baraek": {
+   "name": "Baraek",
+   "examine": "A fur trader with a keen eye for a bargain."
+  },
+  "zaff": {
+   "name": "Zaff",
+   "examine": "He makes and sells staves."
+  },
+  "charlie": {
+   "name": "Charlie the Tramp",
+   "examine": "He knows the streets of Varrock better than anyone."
+  },
+  "rovin": {
+   "name": "Captain Rovin",
+   "examine": "Captain of the Varrock palace guard."
+  },
+  "gertrude": {
+   "name": "Gertrude",
+   "examine": "She is looking for her cat."
+  },
+  "ellis": {
+   "name": "Ellis the Tanner",
+   "examine": "His hands are stained brown from tanning."
+  },
+  "vorn": {
+   "name": "Apothecary Vorn",
+   "examine": "Varrock’s potion maker."
+  },
+  "vannaka": {
+   "name": "Slayer Master Vannaka",
+   "examine": "A grizzled monster hunter."
+  },
+  "amik": {
+   "name": "Sir Amik Varze",
+   "examine": "Leader of the White Knights."
+  },
+  "squire": {
+   "name": "The Squire",
+   "examine": "A nervous young squire."
+  },
+  "sabreen": {
+   "name": "Sister Sabreen",
+   "examine": "A healer of the Saradomin church."
+  },
+  "boot": {
+   "name": "Boot the Dwarf",
+   "examine": "A dwarf with very muddy boots."
+  },
+  "sarah": {
+   "name": "Farmer Sarah",
+   "examine": "She farms the fields east of Falador."
+  },
+  "wayne": {
+   "name": "Wayne the Armourer",
+   "examine": "He makes the White Knights’ armour."
+  },
+  "pete": {
+   "name": "Party Pete",
+   "examine": "He loves a party."
+  },
+  "kaylee": {
+   "name": "Kaylee the Barmaid",
+   "examine": "She runs the Rising Sun inn."
+  },
+  "elwyn": {
+   "name": "Elwyn the Bowyer",
+   "examine": "He makes the finest bows in Falador."
+  },
+  "oswin": {
+   "name": "Oswin the Exile",
+   "examine": "A knight who was cast out of Falador."
+  },
+  "hazel": {
+   "name": "Innkeeper Hazel",
+   "examine": "She runs the Ashford inn."
+  },
+  "tomas": {
+   "name": "Tomas the Toymaker",
+   "examine": "He makes toys for the village children."
+  },
+  "iris": {
+   "name": "Iris the Seer",
+   "examine": "Her eyes seem to look straight through you."
+  },
+  "bertram": {
+   "name": "Bertram",
+   "examine": "A moneylender. Everyone owes him something."
+  },
+  "fen": {
+   "name": "Fen the Fletcher",
+   "examine": "He makes arrows for the Ashford guard."
+  },
+  "magda": {
+   "name": "Magda the Midwife",
+   "examine": "She has delivered half the babies in Ashford."
+  },
+  "gruff": {
+   "name": "Sergeant Gruff",
+   "examine": "He trains the Ashford militia."
+  },
+  "nim": {
+   "name": "Nim",
+   "examine": "A shadowy figure. Your pockets feel lighter already."
+  },
+  "otto": {
+   "name": "Otto the Courier",
+   "examine": "He delivers letters all over the realm."
+  },
+  "ada": {
+   "name": "Ada the Cartographer",
+   "examine": "She is mapping the whole realm."
+  }
+ },
+ "towns": [
+  "Brightwater",
+  "Ashford",
+  "Port Sarim",
+  "Varrock",
+  "Falador",
+  "Wilds"
+ ],
+ "qpMilestones": [
+  {
+   "qp": 3,
+   "desc": "Run energy restores 25% faster",
+   "fx": {
+    "runRegen": 0.25
+   }
+  },
+  {
+   "qp": 6,
+   "desc": "+2% XP in every skill",
+   "fx": {
+    "xp.*": 0.02
+   }
+  },
+  {
+   "qp": 9,
+   "desc": "+20 max hitpoints",
+   "fx": {
+    "maxHp": 20
+   }
+  },
+  {
+   "qp": 25,
+   "desc": "+3% XP in every skill",
+   "fx": {
+    "xp.*": 0.03
+   }
+  },
+  {
+   "qp": 50,
+   "desc": "+20 max hitpoints",
+   "fx": {
+    "maxHp": 20
+   }
+  },
+  {
+   "qp": 80,
+   "desc": "3% off everything in shops",
+   "fx": {
+    "shopDiscount": 0.03
+   }
+  },
+  {
+   "qp": 110,
+   "desc": "+3% damage against every monster",
+   "fx": {
+    "dmgVs.*": 0.03
+   }
+  },
+  {
+   "qp": 140,
+   "desc": "Run energy restores 25% faster and +20 max hitpoints",
+   "fx": {
+    "runRegen": 0.25,
+    "maxHp": 20
+   }
+  },
+  {
+   "qp": 161,
+   "desc": "Every quest done: Quest point cape and +3% XP in every skill",
+   "fx": {
+    "xp.*": 0.03
+   }
+  }
+ ]
+}

@@ -1,0 +1,15 @@
+{
+ "invSize": 28,
+ "defaults": {
+  "run": true,
+  "autoRetaliate": true,
+  "showDpad": false,
+  "autoLoot": false,
+  "shadows": null,
+  "gfx": null,
+  "autocast": null,
+  "chatFilter": "all",
+  "chatCollapsed": false
+ },
+ "saveVersion": 8
+}

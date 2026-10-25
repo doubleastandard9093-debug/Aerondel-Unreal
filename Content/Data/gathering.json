@@ -1,0 +1,242 @@
+{
+ "trees": {
+  "Tree": {
+   "level": 1,
+   "xp": 25,
+   "item": "Logs",
+   "deplete": 0.35,
+   "respawn": 9000
+  },
+  "Oak": {
+   "level": 15,
+   "xp": 37.5,
+   "item": "Oak logs",
+   "deplete": 0.15,
+   "respawn": 14000
+  },
+  "Willow": {
+   "level": 30,
+   "xp": 67.5,
+   "item": "Willow logs",
+   "deplete": 0.12,
+   "respawn": 14000
+  },
+  "Maple": {
+   "level": 45,
+   "xp": 100,
+   "item": "Maple logs",
+   "deplete": 0.1,
+   "respawn": 20000
+  },
+  "Yew": {
+   "level": 60,
+   "xp": 175,
+   "item": "Yew logs",
+   "deplete": 0.08,
+   "respawn": 30000
+  },
+  "Magic": {
+   "level": 75,
+   "xp": 250,
+   "item": "Magic logs",
+   "deplete": 0.06,
+   "respawn": 45000
+  }
+ },
+ "rocks": {
+  "Copper": {
+   "level": 1,
+   "xp": 17.5,
+   "item": "Copper ore",
+   "respawn": 4000
+  },
+  "Tin": {
+   "level": 1,
+   "xp": 17.5,
+   "item": "Tin ore",
+   "respawn": 4000
+  },
+  "Iron": {
+   "level": 15,
+   "xp": 35,
+   "item": "Iron ore",
+   "respawn": 7000
+  },
+  "Coal": {
+   "level": 30,
+   "xp": 50,
+   "item": "Coal",
+   "respawn": 20000
+  },
+  "Mithril": {
+   "level": 55,
+   "xp": 80,
+   "item": "Mithril ore",
+   "respawn": 30000
+  },
+  "Adamantite": {
+   "level": 70,
+   "xp": 95,
+   "item": "Adamantite ore",
+   "respawn": 50000
+  },
+  "Runite": {
+   "level": 85,
+   "xp": 125,
+   "item": "Runite ore",
+   "respawn": 90000
+  },
+  "Dragon": {
+   "level": 95,
+   "xp": 180,
+   "item": "Dragon ore",
+   "respawn": 120000
+  },
+  "Essence": {
+   "level": 1,
+   "xp": 5,
+   "item": "Rune essence",
+   "respawn": 1000,
+   "pureAt": 30,
+   "pure": "Pure essence"
+  }
+ },
+ "fishSpots": {
+  "Net": {
+   "verb": "Net",
+   "tool": "net",
+   "catches": [
+    {
+     "level": 62,
+     "xp": 120,
+     "item": "Raw monkfish"
+    },
+    {
+     "level": 15,
+     "xp": 40,
+     "item": "Raw anchovies"
+    },
+    {
+     "level": 1,
+     "xp": 20,
+     "item": "Raw shrimp"
+    }
+   ]
+  },
+  "Lure": {
+   "verb": "Lure",
+   "tool": "rod",
+   "catches": [
+    {
+     "level": 30,
+     "xp": 70,
+     "item": "Raw salmon"
+    },
+    {
+     "level": 20,
+     "xp": 50,
+     "item": "Raw trout"
+    }
+   ]
+  },
+  "Cage": {
+   "verb": "Cage",
+   "tool": "cage",
+   "catches": [
+    {
+     "level": 40,
+     "xp": 90,
+     "item": "Raw lobster"
+    }
+   ]
+  },
+  "Harpoon": {
+   "verb": "Harpoon",
+   "tool": "harpoon",
+   "catches": [
+    {
+     "level": 76,
+     "xp": 110,
+     "item": "Raw shark"
+    },
+    {
+     "level": 50,
+     "xp": 100,
+     "item": "Raw swordfish"
+    },
+    {
+     "level": 35,
+     "xp": 80,
+     "item": "Raw tuna"
+    }
+   ]
+  }
+ },
+ "herbPatches": {
+  "Guam leaf": {
+   "level": 1,
+   "xp": 7.5,
+   "item": "Grimy guam leaf"
+  },
+  "Marrentill": {
+   "level": 5,
+   "xp": 11.4,
+   "item": "Grimy marrentill"
+  },
+  "Tarromin": {
+   "level": 11,
+   "xp": 15,
+   "item": "Grimy tarromin"
+  },
+  "Harralander": {
+   "level": 20,
+   "xp": 18.9,
+   "item": "Grimy harralander"
+  },
+  "Ranarr weed": {
+   "level": 25,
+   "xp": 22.5,
+   "item": "Grimy ranarr weed"
+  },
+  "Toadflax": {
+   "level": 30,
+   "xp": 24,
+   "item": "Grimy toadflax"
+  },
+  "Irit leaf": {
+   "level": 40,
+   "xp": 26.4,
+   "item": "Grimy irit leaf"
+  },
+  "Avantoe": {
+   "level": 48,
+   "xp": 30,
+   "item": "Grimy avantoe"
+  },
+  "Kwuarm": {
+   "level": 54,
+   "xp": 33.9,
+   "item": "Grimy kwuarm"
+  },
+  "Snapdragon": {
+   "level": 59,
+   "xp": 35.4,
+   "item": "Grimy snapdragon"
+  },
+  "Cadantine": {
+   "level": 65,
+   "xp": 37.5,
+   "item": "Grimy cadantine"
+  },
+  "Dwarf weed": {
+   "level": 70,
+   "xp": 41.4,
+   "item": "Grimy dwarf weed"
+  },
+  "Torstol": {
+   "level": 75,
+   "xp": 45,
+   "item": "Grimy torstol"
+  }
+ }
+}

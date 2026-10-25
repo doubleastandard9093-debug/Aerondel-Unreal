@@ -5,6 +5,19 @@
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "SkillDef.generated.h"
 
+/** A perk unlocked at a level (web build: every 5 levels, milestones at 25/50/75/99). */
+USTRUCT(BlueprintType)
+struct FSkillPerk
+{
+	GENERATED_BODY()
+	UPROPERTY(EditAnywhere, BlueprintReadOnly) int32 Level = 5;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly) FText Name;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly) FText Description;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly) bool bMilestone = false;
+	/** Effect key -> value, e.g. acc=0.01, maxHit=1, double=0.08. Summed for all perks at or below the level. */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly) TMap<FName, float> Effects;
+};
+
 UCLASS(BlueprintType)
 class GIELINOR_API USkillDef : public UPrimaryDataAsset
 {
@@ -16,11 +29,15 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Skill") TSoftObjectPtr<UTexture2D> Icon;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Skill") int32 StartLevel = 1;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Skill") int32 MaxLevel = 99;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Skill") TArray<FSkillPerk> Perks;
 
 	virtual FPrimaryAssetId GetPrimaryAssetId() const override { return FPrimaryAssetId(TEXT("Skill"), GetFName()); }
 };
 
-/** RuneScape XP curve: xp(L) = floor( sum_{n=1}^{L-1} floor(n + 300 * 2^(n/7)) / 4 ). L2 = 83, L99 = 13,034,431. */
+/**
+ * Gielinor Lite XP curve (same as the web/WebGPU build so saves and balance match):
+ * xp(L) = sum_{l=1}^{L-1} floor(50*l + 2*l^1.6). L2 = 52, L10 = 2,514, L99 = 359,720.
+ */
 UCLASS()
 class GIELINOR_API UXpCurve : public UBlueprintFunctionLibrary
 {

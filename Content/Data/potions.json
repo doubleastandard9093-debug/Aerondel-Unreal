@@ -1,0 +1,127 @@
+{
+ "potions": {
+  "Attack potion": {
+   "icon": "🗡️",
+   "boost": {
+    "Attack": {
+     "flat": 3,
+     "pct": 0.1
+    }
+   }
+  },
+  "Strength potion": {
+   "icon": "💪",
+   "boost": {
+    "Strength": {
+     "flat": 3,
+     "pct": 0.1
+    }
+   }
+  },
+  "Defence potion": {
+   "icon": "🛡️",
+   "boost": {
+    "Defence": {
+     "flat": 3,
+     "pct": 0.1
+    }
+   }
+  },
+  "Combat potion": {
+   "icon": "⚔️",
+   "boost": {
+    "Attack": {
+     "flat": 3,
+     "pct": 0.1
+    },
+    "Strength": {
+     "flat": 3,
+     "pct": 0.1
+    }
+   }
+  },
+  "Super attack": {
+   "icon": "🗡️",
+   "boost": {
+    "Attack": {
+     "flat": 5,
+     "pct": 0.15
+    }
+   }
+  },
+  "Super strength": {
+   "icon": "💪",
+   "boost": {
+    "Strength": {
+     "flat": 5,
+     "pct": 0.15
+    }
+   }
+  },
+  "Super defence": {
+   "icon": "🛡️",
+   "boost": {
+    "Defence": {
+     "flat": 5,
+     "pct": 0.15
+    }
+   }
+  },
+  "Ranging potion": {
+   "icon": "🏹",
+   "boost": {
+    "Ranged": {
+     "flat": 4,
+     "pct": 0.1
+    }
+   }
+  },
+  "Super combat potion": {
+   "icon": "⚔️",
+   "boost": {
+    "Attack": {
+     "flat": 5,
+     "pct": 0.15
+    },
+    "Strength": {
+     "flat": 5,
+     "pct": 0.15
+    },
+    "Defence": {
+     "flat": 5,
+     "pct": 0.15
+    }
+   }
+  },
+  "Prospector's brew": {
+   "icon": "⛏️",
+   "fx": {
+    "gather": 0.1
+   }
+  },
+  "Sage's brew": {
+   "icon": "📖",
+   "fx": {
+    "xp": 0.1
+   }
+  },
+  "Antipoison": {
+   "icon": "💚",
+   "instant": "antipoison",
+   "ticks": 150
+  },
+  "Energy potion": {
+   "icon": "🏃",
+   "instant": "energy"
+  },
+  "Prayer potion": {
+   "icon": "🙏",
+   "instant": "prayer"
+  },
+  "Super restore": {
+   "icon": "✨",
+   "instant": "restore"
+  }
+ },
+ "potionTicks": 500
+}

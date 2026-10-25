@@ -1,0 +1,3391 @@
+{
+ "skills": [
+  "Attack",
+  "Strength",
+  "Defence",
+  "Hitpoints",
+  "Ranged",
+  "Magic",
+  "Prayer",
+  "Agility",
+  "Thieving",
+  "Mining",
+  "Woodcutting",
+  "Fishing",
+  "Smithing",
+  "Crafting",
+  "Cooking",
+  "Fletching",
+  "Herblore",
+  "Runecrafting"
+ ],
+ "perks": {
+  "Attack": [
+   {
+    "level": 5,
+    "name": "Steady Hand I",
+    "fx": {
+     "acc": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% melee accuracy"
+   },
+   {
+    "level": 10,
+    "name": "Battle Rhythm I",
+    "fx": {
+     "abilityCd": 0.05
+    },
+    "milestone": false,
+    "desc": "combat skills recharge 5% faster"
+   },
+   {
+    "level": 15,
+    "name": "Steady Hand II",
+    "fx": {
+     "acc": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% melee accuracy"
+   },
+   {
+    "level": 20,
+    "name": "Battle Rhythm II",
+    "fx": {
+     "abilityCd": 0.05
+    },
+    "milestone": false,
+    "desc": "combat skills recharge 5% faster"
+   },
+   {
+    "level": 25,
+    "name": "Riposte",
+    "fx": {
+     "counter": 0.5
+    },
+    "milestone": true,
+    "desc": "50% chance to counter-attack when a monster misses"
+   },
+   {
+    "level": 30,
+    "name": "Battle Rhythm III",
+    "fx": {
+     "abilityCd": 0.05
+    },
+    "milestone": false,
+    "desc": "combat skills recharge 5% faster"
+   },
+   {
+    "level": 35,
+    "name": "Steady Hand III",
+    "fx": {
+     "acc": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% melee accuracy"
+   },
+   {
+    "level": 40,
+    "name": "Battle Rhythm IV",
+    "fx": {
+     "abilityCd": 0.05
+    },
+    "milestone": false,
+    "desc": "combat skills recharge 5% faster"
+   },
+   {
+    "level": 45,
+    "name": "Steady Hand IV",
+    "fx": {
+     "acc": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% melee accuracy"
+   },
+   {
+    "level": 50,
+    "name": "Battle Focus",
+    "fx": {
+     "abilityCd": 0.4
+    },
+    "milestone": true,
+    "desc": "combat skills recharge 40% faster"
+   },
+   {
+    "level": 55,
+    "name": "Steady Hand V",
+    "fx": {
+     "acc": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% melee accuracy"
+   },
+   {
+    "level": 60,
+    "name": "Battle Rhythm V",
+    "fx": {
+     "abilityCd": 0.05
+    },
+    "milestone": false,
+    "desc": "combat skills recharge 5% faster"
+   },
+   {
+    "level": 65,
+    "name": "Steady Hand VI",
+    "fx": {
+     "acc": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% melee accuracy"
+   },
+   {
+    "level": 70,
+    "name": "Battle Rhythm VI",
+    "fx": {
+     "abilityCd": 0.05
+    },
+    "milestone": false,
+    "desc": "combat skills recharge 5% faster"
+   },
+   {
+    "level": 75,
+    "name": "Swift Strikes",
+    "fx": {
+     "quick": 0.5
+    },
+    "milestone": true,
+    "desc": "50% chance your next swing comes a tick sooner"
+   },
+   {
+    "level": 80,
+    "name": "Battle Rhythm VII",
+    "fx": {
+     "abilityCd": 0.05
+    },
+    "milestone": false,
+    "desc": "combat skills recharge 5% faster"
+   },
+   {
+    "level": 85,
+    "name": "Steady Hand VII",
+    "fx": {
+     "acc": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% melee accuracy"
+   },
+   {
+    "level": 90,
+    "name": "Battle Rhythm VIII",
+    "fx": {
+     "abilityCd": 0.05
+    },
+    "milestone": false,
+    "desc": "combat skills recharge 5% faster"
+   },
+   {
+    "level": 95,
+    "name": "Steady Hand VIII",
+    "fx": {
+     "acc": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% melee accuracy"
+   },
+   {
+    "level": 99,
+    "name": "Attack Mastery",
+    "fx": {
+     "acc": 0.2,
+     "counter": 0.25
+    },
+    "milestone": true,
+    "desc": "+20% melee accuracy, 25% chance to counter-attack when a monster misses"
+   }
+  ],
+  "Strength": [
+   {
+    "level": 5,
+    "name": "Brawn I",
+    "fx": {
+     "maxHit": 5
+    },
+    "milestone": false,
+    "desc": "+5 melee max hit"
+   },
+   {
+    "level": 10,
+    "name": "Killer Instinct I",
+    "fx": {
+     "crit": 0.025
+    },
+    "milestone": false,
+    "desc": "2.5% critical hit chance"
+   },
+   {
+    "level": 15,
+    "name": "Brawn II",
+    "fx": {
+     "maxHit": 5
+    },
+    "milestone": false,
+    "desc": "+5 melee max hit"
+   },
+   {
+    "level": 20,
+    "name": "Killer Instinct II",
+    "fx": {
+     "crit": 0.025
+    },
+    "milestone": false,
+    "desc": "2.5% critical hit chance"
+   },
+   {
+    "level": 25,
+    "name": "Critical Strikes",
+    "fx": {
+     "crit": 0.2
+    },
+    "milestone": true,
+    "desc": "20% critical hit chance"
+   },
+   {
+    "level": 30,
+    "name": "Killer Instinct III",
+    "fx": {
+     "crit": 0.025
+    },
+    "milestone": false,
+    "desc": "2.5% critical hit chance"
+   },
+   {
+    "level": 35,
+    "name": "Brawn III",
+    "fx": {
+     "maxHit": 5
+    },
+    "milestone": false,
+    "desc": "+5 melee max hit"
+   },
+   {
+    "level": 40,
+    "name": "Killer Instinct IV",
+    "fx": {
+     "crit": 0.025
+    },
+    "milestone": false,
+    "desc": "2.5% critical hit chance"
+   },
+   {
+    "level": 45,
+    "name": "Brawn IV",
+    "fx": {
+     "maxHit": 5
+    },
+    "milestone": false,
+    "desc": "+5 melee max hit"
+   },
+   {
+    "level": 50,
+    "name": "Executioner",
+    "fx": {
+     "execute": 1.25
+    },
+    "milestone": true,
+    "desc": "+125% damage to targets under 25% HP"
+   },
+   {
+    "level": 55,
+    "name": "Brawn V",
+    "fx": {
+     "maxHit": 5
+    },
+    "milestone": false,
+    "desc": "+5 melee max hit"
+   },
+   {
+    "level": 60,
+    "name": "Killer Instinct V",
+    "fx": {
+     "crit": 0.025
+    },
+    "milestone": false,
+    "desc": "2.5% critical hit chance"
+   },
+   {
+    "level": 65,
+    "name": "Brawn VI",
+    "fx": {
+     "maxHit": 5
+    },
+    "milestone": false,
+    "desc": "+5 melee max hit"
+   },
+   {
+    "level": 70,
+    "name": "Killer Instinct VI",
+    "fx": {
+     "crit": 0.025
+    },
+    "milestone": false,
+    "desc": "2.5% critical hit chance"
+   },
+   {
+    "level": 75,
+    "name": "Brutal",
+    "fx": {
+     "critMult": 1.25
+    },
+    "milestone": true,
+    "desc": "critical hits deal +125% more"
+   },
+   {
+    "level": 80,
+    "name": "Killer Instinct VII",
+    "fx": {
+     "crit": 0.025
+    },
+    "milestone": false,
+    "desc": "2.5% critical hit chance"
+   },
+   {
+    "level": 85,
+    "name": "Brawn VII",
+    "fx": {
+     "maxHit": 5
+    },
+    "milestone": false,
+    "desc": "+5 melee max hit"
+   },
+   {
+    "level": 90,
+    "name": "Killer Instinct VIII",
+    "fx": {
+     "crit": 0.025
+    },
+    "milestone": false,
+    "desc": "2.5% critical hit chance"
+   },
+   {
+    "level": 95,
+    "name": "Brawn VIII",
+    "fx": {
+     "maxHit": 5
+    },
+    "milestone": false,
+    "desc": "+5 melee max hit"
+   },
+   {
+    "level": 99,
+    "name": "Strength Mastery",
+    "fx": {
+     "maxHit": 20,
+     "crit": 0.1
+    },
+    "milestone": true,
+    "desc": "+20 melee max hit, 10% critical hit chance"
+   }
+  ],
+  "Defence": [
+   {
+    "level": 5,
+    "name": "Tough Hide I",
+    "fx": {
+     "dr": 0.025
+    },
+    "milestone": false,
+    "desc": "take 2.5% less damage"
+   },
+   {
+    "level": 10,
+    "name": "Bracing I",
+    "fx": {
+     "dr": 0.025
+    },
+    "milestone": false,
+    "desc": "take 2.5% less damage"
+   },
+   {
+    "level": 15,
+    "name": "Tough Hide II",
+    "fx": {
+     "dr": 0.025
+    },
+    "milestone": false,
+    "desc": "take 2.5% less damage"
+   },
+   {
+    "level": 20,
+    "name": "Bracing II",
+    "fx": {
+     "dr": 0.025
+    },
+    "milestone": false,
+    "desc": "take 2.5% less damage"
+   },
+   {
+    "level": 25,
+    "name": "Parry",
+    "fx": {
+     "block": 0.25
+    },
+    "milestone": true,
+    "desc": "25% chance to block a hit completely"
+   },
+   {
+    "level": 30,
+    "name": "Bracing III",
+    "fx": {
+     "dr": 0.025
+    },
+    "milestone": false,
+    "desc": "take 2.5% less damage"
+   },
+   {
+    "level": 35,
+    "name": "Tough Hide III",
+    "fx": {
+     "dr": 0.025
+    },
+    "milestone": false,
+    "desc": "take 2.5% less damage"
+   },
+   {
+    "level": 40,
+    "name": "Bracing IV",
+    "fx": {
+     "dr": 0.025
+    },
+    "milestone": false,
+    "desc": "take 2.5% less damage"
+   },
+   {
+    "level": 45,
+    "name": "Tough Hide IV",
+    "fx": {
+     "dr": 0.025
+    },
+    "milestone": false,
+    "desc": "take 2.5% less damage"
+   },
+   {
+    "level": 50,
+    "name": "Iron Skin",
+    "fx": {
+     "dr": 0.15
+    },
+    "milestone": true,
+    "desc": "take 15% less damage"
+   },
+   {
+    "level": 55,
+    "name": "Tough Hide V",
+    "fx": {
+     "dr": 0.025
+    },
+    "milestone": false,
+    "desc": "take 2.5% less damage"
+   },
+   {
+    "level": 60,
+    "name": "Bracing V",
+    "fx": {
+     "dr": 0.025
+    },
+    "milestone": false,
+    "desc": "take 2.5% less damage"
+   },
+   {
+    "level": 65,
+    "name": "Tough Hide VI",
+    "fx": {
+     "dr": 0.025
+    },
+    "milestone": false,
+    "desc": "take 2.5% less damage"
+   },
+   {
+    "level": 70,
+    "name": "Bracing VI",
+    "fx": {
+     "dr": 0.025
+    },
+    "milestone": false,
+    "desc": "take 2.5% less damage"
+   },
+   {
+    "level": 75,
+    "name": "Retribution",
+    "fx": {
+     "reflect": 0.5
+    },
+    "milestone": true,
+    "desc": "reflect 50% of damage taken"
+   },
+   {
+    "level": 80,
+    "name": "Bracing VII",
+    "fx": {
+     "dr": 0.025
+    },
+    "milestone": false,
+    "desc": "take 2.5% less damage"
+   },
+   {
+    "level": 85,
+    "name": "Tough Hide VII",
+    "fx": {
+     "dr": 0.025
+    },
+    "milestone": false,
+    "desc": "take 2.5% less damage"
+   },
+   {
+    "level": 90,
+    "name": "Bracing VIII",
+    "fx": {
+     "dr": 0.025
+    },
+    "milestone": false,
+    "desc": "take 2.5% less damage"
+   },
+   {
+    "level": 95,
+    "name": "Tough Hide VIII",
+    "fx": {
+     "dr": 0.025
+    },
+    "milestone": false,
+    "desc": "take 2.5% less damage"
+   },
+   {
+    "level": 99,
+    "name": "Defence Mastery",
+    "fx": {
+     "dr": 0.15,
+     "block": 0.15
+    },
+    "milestone": true,
+    "desc": "take 15% less damage, 15% chance to block a hit completely"
+   }
+  ],
+  "Hitpoints": [
+   {
+    "level": 5,
+    "name": "Hardy I",
+    "fx": {
+     "regen": 0.15
+    },
+    "milestone": false,
+    "desc": "HP regenerates 15% faster"
+   },
+   {
+    "level": 10,
+    "name": "Hearty Eater I",
+    "fx": {
+     "healBonus": 0.05
+    },
+    "milestone": false,
+    "desc": "food heals 5% more"
+   },
+   {
+    "level": 15,
+    "name": "Hardy II",
+    "fx": {
+     "regen": 0.15
+    },
+    "milestone": false,
+    "desc": "HP regenerates 15% faster"
+   },
+   {
+    "level": 20,
+    "name": "Hearty Eater II",
+    "fx": {
+     "healBonus": 0.05
+    },
+    "milestone": false,
+    "desc": "food heals 5% more"
+   },
+   {
+    "level": 25,
+    "name": "Bloodlust",
+    "fx": {
+     "killHeal": 0.15
+    },
+    "milestone": true,
+    "desc": "heal 15% of max HP on each kill"
+   },
+   {
+    "level": 30,
+    "name": "Hearty Eater III",
+    "fx": {
+     "healBonus": 0.05
+    },
+    "milestone": false,
+    "desc": "food heals 5% more"
+   },
+   {
+    "level": 35,
+    "name": "Hardy III",
+    "fx": {
+     "regen": 0.15
+    },
+    "milestone": false,
+    "desc": "HP regenerates 15% faster"
+   },
+   {
+    "level": 40,
+    "name": "Hearty Eater IV",
+    "fx": {
+     "healBonus": 0.05
+    },
+    "milestone": false,
+    "desc": "food heals 5% more"
+   },
+   {
+    "level": 45,
+    "name": "Hardy IV",
+    "fx": {
+     "regen": 0.15
+    },
+    "milestone": false,
+    "desc": "HP regenerates 15% faster"
+   },
+   {
+    "level": 50,
+    "name": "Second Wind",
+    "fx": {
+     "lowRegen": 1
+    },
+    "milestone": true,
+    "desc": "double HP regen below 30% HP"
+   },
+   {
+    "level": 55,
+    "name": "Hardy V",
+    "fx": {
+     "regen": 0.15
+    },
+    "milestone": false,
+    "desc": "HP regenerates 15% faster"
+   },
+   {
+    "level": 60,
+    "name": "Hearty Eater V",
+    "fx": {
+     "healBonus": 0.05
+    },
+    "milestone": false,
+    "desc": "food heals 5% more"
+   },
+   {
+    "level": 65,
+    "name": "Hardy VI",
+    "fx": {
+     "regen": 0.15
+    },
+    "milestone": false,
+    "desc": "HP regenerates 15% faster"
+   },
+   {
+    "level": 70,
+    "name": "Hearty Eater VI",
+    "fx": {
+     "healBonus": 0.05
+    },
+    "milestone": false,
+    "desc": "food heals 5% more"
+   },
+   {
+    "level": 75,
+    "name": "Iron Constitution",
+    "fx": {
+     "maxHp": 100
+    },
+    "milestone": true,
+    "desc": "+100 max hitpoints"
+   },
+   {
+    "level": 80,
+    "name": "Hearty Eater VII",
+    "fx": {
+     "healBonus": 0.05
+    },
+    "milestone": false,
+    "desc": "food heals 5% more"
+   },
+   {
+    "level": 85,
+    "name": "Hardy VII",
+    "fx": {
+     "regen": 0.15
+    },
+    "milestone": false,
+    "desc": "HP regenerates 15% faster"
+   },
+   {
+    "level": 90,
+    "name": "Hearty Eater VIII",
+    "fx": {
+     "healBonus": 0.05
+    },
+    "milestone": false,
+    "desc": "food heals 5% more"
+   },
+   {
+    "level": 95,
+    "name": "Hardy VIII",
+    "fx": {
+     "regen": 0.15
+    },
+    "milestone": false,
+    "desc": "HP regenerates 15% faster"
+   },
+   {
+    "level": 99,
+    "name": "Hitpoints Mastery",
+    "fx": {
+     "regen": 1,
+     "killHeal": 0.1
+    },
+    "milestone": true,
+    "desc": "HP regenerates 100% faster, heal 10% of max HP on each kill"
+   }
+  ],
+  "Ranged": [
+   {
+    "level": 5,
+    "name": "Keen Eye I",
+    "fx": {
+     "racc": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% ranged accuracy"
+   },
+   {
+    "level": 10,
+    "name": "Thrifty Quiver I",
+    "fx": {
+     "ammoSave": 0.05
+    },
+    "milestone": false,
+    "desc": "5% chance to keep an arrow"
+   },
+   {
+    "level": 15,
+    "name": "Keen Eye II",
+    "fx": {
+     "racc": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% ranged accuracy"
+   },
+   {
+    "level": 20,
+    "name": "Thrifty Quiver II",
+    "fx": {
+     "ammoSave": 0.05
+    },
+    "milestone": false,
+    "desc": "5% chance to keep an arrow"
+   },
+   {
+    "level": 25,
+    "name": "Arrow Retrieval",
+    "fx": {
+     "ammoSave": 0.5
+    },
+    "milestone": true,
+    "desc": "50% chance to keep an arrow"
+   },
+   {
+    "level": 30,
+    "name": "Thrifty Quiver III",
+    "fx": {
+     "ammoSave": 0.05
+    },
+    "milestone": false,
+    "desc": "5% chance to keep an arrow"
+   },
+   {
+    "level": 35,
+    "name": "Keen Eye III",
+    "fx": {
+     "racc": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% ranged accuracy"
+   },
+   {
+    "level": 40,
+    "name": "Thrifty Quiver IV",
+    "fx": {
+     "ammoSave": 0.05
+    },
+    "milestone": false,
+    "desc": "5% chance to keep an arrow"
+   },
+   {
+    "level": 45,
+    "name": "Keen Eye IV",
+    "fx": {
+     "racc": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% ranged accuracy"
+   },
+   {
+    "level": 50,
+    "name": "Double Shot",
+    "fx": {
+     "doubleShot": 0.4
+    },
+    "milestone": true,
+    "desc": "40% chance of a free second arrow"
+   },
+   {
+    "level": 55,
+    "name": "Keen Eye V",
+    "fx": {
+     "racc": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% ranged accuracy"
+   },
+   {
+    "level": 60,
+    "name": "Thrifty Quiver V",
+    "fx": {
+     "ammoSave": 0.05
+    },
+    "milestone": false,
+    "desc": "5% chance to keep an arrow"
+   },
+   {
+    "level": 65,
+    "name": "Keen Eye VI",
+    "fx": {
+     "racc": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% ranged accuracy"
+   },
+   {
+    "level": 70,
+    "name": "Thrifty Quiver VI",
+    "fx": {
+     "ammoSave": 0.05
+    },
+    "milestone": false,
+    "desc": "5% chance to keep an arrow"
+   },
+   {
+    "level": 75,
+    "name": "Deadeye",
+    "fx": {
+     "rcrit": 0.3
+    },
+    "milestone": true,
+    "desc": "30% ranged critical chance"
+   },
+   {
+    "level": 80,
+    "name": "Thrifty Quiver VII",
+    "fx": {
+     "ammoSave": 0.05
+    },
+    "milestone": false,
+    "desc": "5% chance to keep an arrow"
+   },
+   {
+    "level": 85,
+    "name": "Keen Eye VII",
+    "fx": {
+     "racc": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% ranged accuracy"
+   },
+   {
+    "level": 90,
+    "name": "Thrifty Quiver VIII",
+    "fx": {
+     "ammoSave": 0.05
+    },
+    "milestone": false,
+    "desc": "5% chance to keep an arrow"
+   },
+   {
+    "level": 95,
+    "name": "Keen Eye VIII",
+    "fx": {
+     "racc": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% ranged accuracy"
+   },
+   {
+    "level": 99,
+    "name": "Ranged Mastery",
+    "fx": {
+     "racc": 0.2,
+     "rmaxHit": 15
+    },
+    "milestone": true,
+    "desc": "+20% ranged accuracy, +15 ranged max hit"
+   }
+  ],
+  "Magic": [
+   {
+    "level": 5,
+    "name": "Arcane Focus I",
+    "fx": {
+     "magicAcc": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% magic accuracy"
+   },
+   {
+    "level": 10,
+    "name": "Rune Saver I",
+    "fx": {
+     "runeSave": 0.05
+    },
+    "milestone": false,
+    "desc": "5% chance to save runes"
+   },
+   {
+    "level": 15,
+    "name": "Arcane Focus II",
+    "fx": {
+     "magicAcc": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% magic accuracy"
+   },
+   {
+    "level": 20,
+    "name": "Rune Saver II",
+    "fx": {
+     "runeSave": 0.05
+    },
+    "milestone": false,
+    "desc": "5% chance to save runes"
+   },
+   {
+    "level": 25,
+    "name": "Spell Power",
+    "fx": {
+     "magicDmg": 0.25
+    },
+    "milestone": true,
+    "desc": "+25% magic damage"
+   },
+   {
+    "level": 30,
+    "name": "Rune Saver III",
+    "fx": {
+     "runeSave": 0.05
+    },
+    "milestone": false,
+    "desc": "5% chance to save runes"
+   },
+   {
+    "level": 35,
+    "name": "Arcane Focus III",
+    "fx": {
+     "magicAcc": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% magic accuracy"
+   },
+   {
+    "level": 40,
+    "name": "Rune Saver IV",
+    "fx": {
+     "runeSave": 0.05
+    },
+    "milestone": false,
+    "desc": "5% chance to save runes"
+   },
+   {
+    "level": 45,
+    "name": "Arcane Focus IV",
+    "fx": {
+     "magicAcc": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% magic accuracy"
+   },
+   {
+    "level": 50,
+    "name": "Efficient Casting",
+    "fx": {
+     "runeSave": 0.5
+    },
+    "milestone": true,
+    "desc": "50% chance to save runes"
+   },
+   {
+    "level": 55,
+    "name": "Arcane Focus V",
+    "fx": {
+     "magicAcc": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% magic accuracy"
+   },
+   {
+    "level": 60,
+    "name": "Rune Saver V",
+    "fx": {
+     "runeSave": 0.05
+    },
+    "milestone": false,
+    "desc": "5% chance to save runes"
+   },
+   {
+    "level": 65,
+    "name": "Arcane Focus VI",
+    "fx": {
+     "magicAcc": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% magic accuracy"
+   },
+   {
+    "level": 70,
+    "name": "Rune Saver VI",
+    "fx": {
+     "runeSave": 0.05
+    },
+    "milestone": false,
+    "desc": "5% chance to save runes"
+   },
+   {
+    "level": 75,
+    "name": "Master of Magic",
+    "fx": {
+     "magicAcc": 0.25
+    },
+    "milestone": true,
+    "desc": "+25% magic accuracy"
+   },
+   {
+    "level": 80,
+    "name": "Rune Saver VII",
+    "fx": {
+     "runeSave": 0.05
+    },
+    "milestone": false,
+    "desc": "5% chance to save runes"
+   },
+   {
+    "level": 85,
+    "name": "Arcane Focus VII",
+    "fx": {
+     "magicAcc": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% magic accuracy"
+   },
+   {
+    "level": 90,
+    "name": "Rune Saver VIII",
+    "fx": {
+     "runeSave": 0.05
+    },
+    "milestone": false,
+    "desc": "5% chance to save runes"
+   },
+   {
+    "level": 95,
+    "name": "Arcane Focus VIII",
+    "fx": {
+     "magicAcc": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% magic accuracy"
+   },
+   {
+    "level": 99,
+    "name": "Magic Mastery",
+    "fx": {
+     "magicDmg": 0.4,
+     "runeSave": 0.25
+    },
+    "milestone": true,
+    "desc": "+40% magic damage, 25% chance to save runes"
+   }
+  ],
+  "Prayer": [
+   {
+    "level": 5,
+    "name": "Devout I",
+    "fx": {
+     "drainLess": 0.05
+    },
+    "milestone": false,
+    "desc": "prayers drain 5% slower"
+   },
+   {
+    "level": 10,
+    "name": "Blessed Rites I",
+    "fx": {
+     "buryXp": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% XP from burying bones"
+   },
+   {
+    "level": 15,
+    "name": "Devout II",
+    "fx": {
+     "drainLess": 0.05
+    },
+    "milestone": false,
+    "desc": "prayers drain 5% slower"
+   },
+   {
+    "level": 20,
+    "name": "Blessed Rites II",
+    "fx": {
+     "buryXp": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% XP from burying bones"
+   },
+   {
+    "level": 25,
+    "name": "Faithful",
+    "fx": {
+     "ppRegen": 0.15
+    },
+    "milestone": true,
+    "desc": "regain 0.25 prayer points/sec"
+   },
+   {
+    "level": 30,
+    "name": "Blessed Rites III",
+    "fx": {
+     "buryXp": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% XP from burying bones"
+   },
+   {
+    "level": 35,
+    "name": "Devout III",
+    "fx": {
+     "drainLess": 0.05
+    },
+    "milestone": false,
+    "desc": "prayers drain 5% slower"
+   },
+   {
+    "level": 40,
+    "name": "Blessed Rites IV",
+    "fx": {
+     "buryXp": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% XP from burying bones"
+   },
+   {
+    "level": 45,
+    "name": "Devout IV",
+    "fx": {
+     "drainLess": 0.05
+    },
+    "milestone": false,
+    "desc": "prayers drain 5% slower"
+   },
+   {
+    "level": 50,
+    "name": "Blessed Burial",
+    "fx": {
+     "buryRestore": 10
+    },
+    "milestone": true,
+    "desc": "burying bones restores 10 prayer points"
+   },
+   {
+    "level": 55,
+    "name": "Devout V",
+    "fx": {
+     "drainLess": 0.05
+    },
+    "milestone": false,
+    "desc": "prayers drain 5% slower"
+   },
+   {
+    "level": 60,
+    "name": "Blessed Rites V",
+    "fx": {
+     "buryXp": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% XP from burying bones"
+   },
+   {
+    "level": 65,
+    "name": "Devout VI",
+    "fx": {
+     "drainLess": 0.05
+    },
+    "milestone": false,
+    "desc": "prayers drain 5% slower"
+   },
+   {
+    "level": 70,
+    "name": "Blessed Rites VI",
+    "fx": {
+     "buryXp": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% XP from burying bones"
+   },
+   {
+    "level": 75,
+    "name": "Zealot",
+    "fx": {
+     "drainLess": 0.5
+    },
+    "milestone": true,
+    "desc": "prayers drain 50% slower"
+   },
+   {
+    "level": 80,
+    "name": "Blessed Rites VII",
+    "fx": {
+     "buryXp": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% XP from burying bones"
+   },
+   {
+    "level": 85,
+    "name": "Devout VII",
+    "fx": {
+     "drainLess": 0.05
+    },
+    "milestone": false,
+    "desc": "prayers drain 5% slower"
+   },
+   {
+    "level": 90,
+    "name": "Blessed Rites VIII",
+    "fx": {
+     "buryXp": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% XP from burying bones"
+   },
+   {
+    "level": 95,
+    "name": "Devout VIII",
+    "fx": {
+     "drainLess": 0.05
+    },
+    "milestone": false,
+    "desc": "prayers drain 5% slower"
+   },
+   {
+    "level": 99,
+    "name": "Prayer Mastery",
+    "fx": {
+     "ppRegen": 0.15,
+     "buryXp": 0.5
+    },
+    "milestone": true,
+    "desc": "regain 0.25 prayer points/sec, +50% XP from burying bones"
+   }
+  ],
+  "Agility": [
+   {
+    "level": 5,
+    "name": "Light Foot I",
+    "fx": {
+     "agilityXp": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% Agility XP"
+   },
+   {
+    "level": 10,
+    "name": "Sure Step I",
+    "fx": {
+     "failLess": 0.05
+    },
+    "milestone": false,
+    "desc": "5% less chance to fail obstacles"
+   },
+   {
+    "level": 15,
+    "name": "Light Foot II",
+    "fx": {
+     "agilityXp": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% Agility XP"
+   },
+   {
+    "level": 20,
+    "name": "Sure Step II",
+    "fx": {
+     "failLess": 0.05
+    },
+    "milestone": false,
+    "desc": "5% less chance to fail obstacles"
+   },
+   {
+    "level": 25,
+    "name": "Course Runner",
+    "fx": {
+     "agilityXp": 0.25
+    },
+    "milestone": true,
+    "desc": "+25% Agility XP"
+   },
+   {
+    "level": 30,
+    "name": "Sure Step III",
+    "fx": {
+     "failLess": 0.05
+    },
+    "milestone": false,
+    "desc": "5% less chance to fail obstacles"
+   },
+   {
+    "level": 35,
+    "name": "Light Foot III",
+    "fx": {
+     "agilityXp": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% Agility XP"
+   },
+   {
+    "level": 40,
+    "name": "Sure Step IV",
+    "fx": {
+     "failLess": 0.05
+    },
+    "milestone": false,
+    "desc": "5% less chance to fail obstacles"
+   },
+   {
+    "level": 45,
+    "name": "Light Foot IV",
+    "fx": {
+     "agilityXp": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% Agility XP"
+   },
+   {
+    "level": 50,
+    "name": "Agile",
+    "fx": {
+     "failLess": 0.5
+    },
+    "milestone": true,
+    "desc": "50% less chance to fail obstacles"
+   },
+   {
+    "level": 55,
+    "name": "Light Foot V",
+    "fx": {
+     "agilityXp": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% Agility XP"
+   },
+   {
+    "level": 60,
+    "name": "Sure Step V",
+    "fx": {
+     "failLess": 0.05
+    },
+    "milestone": false,
+    "desc": "5% less chance to fail obstacles"
+   },
+   {
+    "level": 65,
+    "name": "Light Foot VI",
+    "fx": {
+     "agilityXp": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% Agility XP"
+   },
+   {
+    "level": 70,
+    "name": "Sure Step VI",
+    "fx": {
+     "failLess": 0.05
+    },
+    "milestone": false,
+    "desc": "5% less chance to fail obstacles"
+   },
+   {
+    "level": 75,
+    "name": "Master Acrobat",
+    "fx": {
+     "agilityXp": 0.25
+    },
+    "milestone": true,
+    "desc": "+25% Agility XP"
+   },
+   {
+    "level": 80,
+    "name": "Sure Step VII",
+    "fx": {
+     "failLess": 0.05
+    },
+    "milestone": false,
+    "desc": "5% less chance to fail obstacles"
+   },
+   {
+    "level": 85,
+    "name": "Light Foot VII",
+    "fx": {
+     "agilityXp": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% Agility XP"
+   },
+   {
+    "level": 90,
+    "name": "Sure Step VIII",
+    "fx": {
+     "failLess": 0.05
+    },
+    "milestone": false,
+    "desc": "5% less chance to fail obstacles"
+   },
+   {
+    "level": 95,
+    "name": "Light Foot VIII",
+    "fx": {
+     "agilityXp": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% Agility XP"
+   },
+   {
+    "level": 99,
+    "name": "Agility Mastery",
+    "fx": {
+     "failLess": 0.5,
+     "agilityXp": 0.25
+    },
+    "milestone": true,
+    "desc": "50% less chance to fail obstacles, +25% Agility XP"
+   }
+  ],
+  "Thieving": [
+   {
+    "level": 5,
+    "name": "Nimble Fingers I",
+    "fx": {
+     "thieveXp": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% Thieving XP"
+   },
+   {
+    "level": 10,
+    "name": "Lucky Pick I",
+    "fx": {
+     "lootChance": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% chance of better loot"
+   },
+   {
+    "level": 15,
+    "name": "Nimble Fingers II",
+    "fx": {
+     "thieveXp": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% Thieving XP"
+   },
+   {
+    "level": 20,
+    "name": "Lucky Pick II",
+    "fx": {
+     "lootChance": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% chance of better loot"
+   },
+   {
+    "level": 25,
+    "name": "Pickpocket",
+    "fx": {
+     "thieveXp": 0.25
+    },
+    "milestone": true,
+    "desc": "+25% Thieving XP"
+   },
+   {
+    "level": 30,
+    "name": "Lucky Pick III",
+    "fx": {
+     "lootChance": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% chance of better loot"
+   },
+   {
+    "level": 35,
+    "name": "Nimble Fingers III",
+    "fx": {
+     "thieveXp": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% Thieving XP"
+   },
+   {
+    "level": 40,
+    "name": "Lucky Pick IV",
+    "fx": {
+     "lootChance": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% chance of better loot"
+   },
+   {
+    "level": 45,
+    "name": "Nimble Fingers IV",
+    "fx": {
+     "thieveXp": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% Thieving XP"
+   },
+   {
+    "level": 50,
+    "name": "Better Loot",
+    "fx": {
+     "lootChance": 0.5
+    },
+    "milestone": true,
+    "desc": "+50% chance of better loot"
+   },
+   {
+    "level": 55,
+    "name": "Nimble Fingers V",
+    "fx": {
+     "thieveXp": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% Thieving XP"
+   },
+   {
+    "level": 60,
+    "name": "Lucky Pick V",
+    "fx": {
+     "lootChance": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% chance of better loot"
+   },
+   {
+    "level": 65,
+    "name": "Nimble Fingers VI",
+    "fx": {
+     "thieveXp": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% Thieving XP"
+   },
+   {
+    "level": 70,
+    "name": "Lucky Pick VI",
+    "fx": {
+     "lootChance": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% chance of better loot"
+   },
+   {
+    "level": 75,
+    "name": "Master Thief",
+    "fx": {
+     "thieveXp": 0.25
+    },
+    "milestone": true,
+    "desc": "+25% Thieving XP"
+   },
+   {
+    "level": 80,
+    "name": "Lucky Pick VII",
+    "fx": {
+     "lootChance": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% chance of better loot"
+   },
+   {
+    "level": 85,
+    "name": "Nimble Fingers VII",
+    "fx": {
+     "thieveXp": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% Thieving XP"
+   },
+   {
+    "level": 90,
+    "name": "Lucky Pick VIII",
+    "fx": {
+     "lootChance": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% chance of better loot"
+   },
+   {
+    "level": 95,
+    "name": "Nimble Fingers VIII",
+    "fx": {
+     "thieveXp": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% Thieving XP"
+   },
+   {
+    "level": 99,
+    "name": "Thieving Mastery",
+    "fx": {
+     "lootChance": 0.5,
+     "thieveXp": 0.25
+    },
+    "milestone": true,
+    "desc": "+50% chance of better loot, +25% Thieving XP"
+   }
+  ],
+  "Mining": [
+   {
+    "level": 5,
+    "name": "Keen Pick I",
+    "fx": {
+     "speed": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% gathering success"
+   },
+   {
+    "level": 10,
+    "name": "Lucky Strike I",
+    "fx": {
+     "double": 0.05
+    },
+    "milestone": false,
+    "desc": "5% chance of double resources"
+   },
+   {
+    "level": 15,
+    "name": "Keen Pick II",
+    "fx": {
+     "speed": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% gathering success"
+   },
+   {
+    "level": 20,
+    "name": "Lucky Strike II",
+    "fx": {
+     "double": 0.05
+    },
+    "milestone": false,
+    "desc": "5% chance of double resources"
+   },
+   {
+    "level": 25,
+    "name": "Rich Vein",
+    "fx": {
+     "fastGather": 0.4
+    },
+    "milestone": true,
+    "desc": "40% chance your next gather comes a tick sooner"
+   },
+   {
+    "level": 30,
+    "name": "Lucky Strike III",
+    "fx": {
+     "double": 0.05
+    },
+    "milestone": false,
+    "desc": "5% chance of double resources"
+   },
+   {
+    "level": 35,
+    "name": "Keen Pick III",
+    "fx": {
+     "speed": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% gathering success"
+   },
+   {
+    "level": 40,
+    "name": "Lucky Strike IV",
+    "fx": {
+     "double": 0.05
+    },
+    "milestone": false,
+    "desc": "5% chance of double resources"
+   },
+   {
+    "level": 45,
+    "name": "Keen Pick IV",
+    "fx": {
+     "speed": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% gathering success"
+   },
+   {
+    "level": 50,
+    "name": "Ore Cart",
+    "fx": {
+     "autoBank": 0.25
+    },
+    "milestone": true,
+    "desc": "25% chance resources go straight to your bank"
+   },
+   {
+    "level": 55,
+    "name": "Keen Pick V",
+    "fx": {
+     "speed": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% gathering success"
+   },
+   {
+    "level": 60,
+    "name": "Lucky Strike V",
+    "fx": {
+     "double": 0.05
+    },
+    "milestone": false,
+    "desc": "5% chance of double resources"
+   },
+   {
+    "level": 65,
+    "name": "Keen Pick VI",
+    "fx": {
+     "speed": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% gathering success"
+   },
+   {
+    "level": 70,
+    "name": "Lucky Strike VI",
+    "fx": {
+     "double": 0.05
+    },
+    "milestone": false,
+    "desc": "5% chance of double resources"
+   },
+   {
+    "level": 75,
+    "name": "Motherlode",
+    "fx": {
+     "double": 0.4
+    },
+    "milestone": true,
+    "desc": "40% chance of double resources"
+   },
+   {
+    "level": 80,
+    "name": "Lucky Strike VII",
+    "fx": {
+     "double": 0.05
+    },
+    "milestone": false,
+    "desc": "5% chance of double resources"
+   },
+   {
+    "level": 85,
+    "name": "Keen Pick VII",
+    "fx": {
+     "speed": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% gathering success"
+   },
+   {
+    "level": 90,
+    "name": "Lucky Strike VIII",
+    "fx": {
+     "double": 0.05
+    },
+    "milestone": false,
+    "desc": "5% chance of double resources"
+   },
+   {
+    "level": 95,
+    "name": "Keen Pick VIII",
+    "fx": {
+     "speed": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% gathering success"
+   },
+   {
+    "level": 99,
+    "name": "Mining Mastery",
+    "fx": {
+     "speed": 0.2,
+     "autoBank": 0.25
+    },
+    "milestone": true,
+    "desc": "+20% gathering success, 25% chance resources go straight to your bank"
+   }
+  ],
+  "Woodcutting": [
+   {
+    "level": 5,
+    "name": "Sharp Edge I",
+    "fx": {
+     "speed": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% gathering success"
+   },
+   {
+    "level": 10,
+    "name": "Bountiful Bough I",
+    "fx": {
+     "double": 0.05
+    },
+    "milestone": false,
+    "desc": "5% chance of double resources"
+   },
+   {
+    "level": 15,
+    "name": "Sharp Edge II",
+    "fx": {
+     "speed": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% gathering success"
+   },
+   {
+    "level": 20,
+    "name": "Bountiful Bough II",
+    "fx": {
+     "double": 0.05
+    },
+    "milestone": false,
+    "desc": "5% chance of double resources"
+   },
+   {
+    "level": 25,
+    "name": "Chain Chop",
+    "fx": {
+     "fastGather": 0.4
+    },
+    "milestone": true,
+    "desc": "40% chance your next gather comes a tick sooner"
+   },
+   {
+    "level": 30,
+    "name": "Bountiful Bough III",
+    "fx": {
+     "double": 0.05
+    },
+    "milestone": false,
+    "desc": "5% chance of double resources"
+   },
+   {
+    "level": 35,
+    "name": "Sharp Edge III",
+    "fx": {
+     "speed": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% gathering success"
+   },
+   {
+    "level": 40,
+    "name": "Bountiful Bough IV",
+    "fx": {
+     "double": 0.05
+    },
+    "milestone": false,
+    "desc": "5% chance of double resources"
+   },
+   {
+    "level": 45,
+    "name": "Sharp Edge IV",
+    "fx": {
+     "speed": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% gathering success"
+   },
+   {
+    "level": 50,
+    "name": "Forester's Cart",
+    "fx": {
+     "autoBank": 0.25
+    },
+    "milestone": true,
+    "desc": "25% chance resources go straight to your bank"
+   },
+   {
+    "level": 55,
+    "name": "Sharp Edge V",
+    "fx": {
+     "speed": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% gathering success"
+   },
+   {
+    "level": 60,
+    "name": "Bountiful Bough V",
+    "fx": {
+     "double": 0.05
+    },
+    "milestone": false,
+    "desc": "5% chance of double resources"
+   },
+   {
+    "level": 65,
+    "name": "Sharp Edge VI",
+    "fx": {
+     "speed": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% gathering success"
+   },
+   {
+    "level": 70,
+    "name": "Bountiful Bough VI",
+    "fx": {
+     "double": 0.05
+    },
+    "milestone": false,
+    "desc": "5% chance of double resources"
+   },
+   {
+    "level": 75,
+    "name": "Heartwood",
+    "fx": {
+     "double": 0.4
+    },
+    "milestone": true,
+    "desc": "40% chance of double resources"
+   },
+   {
+    "level": 80,
+    "name": "Bountiful Bough VII",
+    "fx": {
+     "double": 0.05
+    },
+    "milestone": false,
+    "desc": "5% chance of double resources"
+   },
+   {
+    "level": 85,
+    "name": "Sharp Edge VII",
+    "fx": {
+     "speed": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% gathering success"
+   },
+   {
+    "level": 90,
+    "name": "Bountiful Bough VIII",
+    "fx": {
+     "double": 0.05
+    },
+    "milestone": false,
+    "desc": "5% chance of double resources"
+   },
+   {
+    "level": 95,
+    "name": "Sharp Edge VIII",
+    "fx": {
+     "speed": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% gathering success"
+   },
+   {
+    "level": 99,
+    "name": "Woodcutting Mastery",
+    "fx": {
+     "speed": 0.2,
+     "autoBank": 0.25
+    },
+    "milestone": true,
+    "desc": "+20% gathering success, 25% chance resources go straight to your bank"
+   }
+  ],
+  "Fishing": [
+   {
+    "level": 5,
+    "name": "Patient Angler I",
+    "fx": {
+     "speed": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% gathering success"
+   },
+   {
+    "level": 10,
+    "name": "Double Catch I",
+    "fx": {
+     "double": 0.05
+    },
+    "milestone": false,
+    "desc": "5% chance of double resources"
+   },
+   {
+    "level": 15,
+    "name": "Patient Angler II",
+    "fx": {
+     "speed": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% gathering success"
+   },
+   {
+    "level": 20,
+    "name": "Double Catch II",
+    "fx": {
+     "double": 0.05
+    },
+    "milestone": false,
+    "desc": "5% chance of double resources"
+   },
+   {
+    "level": 25,
+    "name": "Barbarian Grip",
+    "fx": {
+     "xpBonus": 0.25,
+     "fastGather": 0.2
+    },
+    "milestone": true,
+    "desc": "+25% XP, 20% chance your next gather comes a tick sooner"
+   },
+   {
+    "level": 30,
+    "name": "Double Catch III",
+    "fx": {
+     "double": 0.05
+    },
+    "milestone": false,
+    "desc": "5% chance of double resources"
+   },
+   {
+    "level": 35,
+    "name": "Patient Angler III",
+    "fx": {
+     "speed": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% gathering success"
+   },
+   {
+    "level": 40,
+    "name": "Double Catch IV",
+    "fx": {
+     "double": 0.05
+    },
+    "milestone": false,
+    "desc": "5% chance of double resources"
+   },
+   {
+    "level": 45,
+    "name": "Patient Angler IV",
+    "fx": {
+     "speed": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% gathering success"
+   },
+   {
+    "level": 50,
+    "name": "Fish Barrel",
+    "fx": {
+     "autoBank": 0.25
+    },
+    "milestone": true,
+    "desc": "25% chance resources go straight to your bank"
+   },
+   {
+    "level": 55,
+    "name": "Patient Angler V",
+    "fx": {
+     "speed": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% gathering success"
+   },
+   {
+    "level": 60,
+    "name": "Double Catch V",
+    "fx": {
+     "double": 0.05
+    },
+    "milestone": false,
+    "desc": "5% chance of double resources"
+   },
+   {
+    "level": 65,
+    "name": "Patient Angler VI",
+    "fx": {
+     "speed": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% gathering success"
+   },
+   {
+    "level": 70,
+    "name": "Double Catch VI",
+    "fx": {
+     "double": 0.05
+    },
+    "milestone": false,
+    "desc": "5% chance of double resources"
+   },
+   {
+    "level": 75,
+    "name": "Double Haul",
+    "fx": {
+     "double": 0.4
+    },
+    "milestone": true,
+    "desc": "40% chance of double resources"
+   },
+   {
+    "level": 80,
+    "name": "Double Catch VII",
+    "fx": {
+     "double": 0.05
+    },
+    "milestone": false,
+    "desc": "5% chance of double resources"
+   },
+   {
+    "level": 85,
+    "name": "Patient Angler VII",
+    "fx": {
+     "speed": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% gathering success"
+   },
+   {
+    "level": 90,
+    "name": "Double Catch VIII",
+    "fx": {
+     "double": 0.05
+    },
+    "milestone": false,
+    "desc": "5% chance of double resources"
+   },
+   {
+    "level": 95,
+    "name": "Patient Angler VIII",
+    "fx": {
+     "speed": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% gathering success"
+   },
+   {
+    "level": 99,
+    "name": "Fishing Mastery",
+    "fx": {
+     "speed": 0.2,
+     "autoBank": 0.25
+    },
+    "milestone": true,
+    "desc": "+20% gathering success, 25% chance resources go straight to your bank"
+   }
+  ],
+  "Smithing": [
+   {
+    "level": 5,
+    "name": "Bar Saver I",
+    "fx": {
+     "saveBar": 0.05
+    },
+    "milestone": false,
+    "desc": "5% chance to save your bars/ore"
+   },
+   {
+    "level": 10,
+    "name": "Smith's Insight I",
+    "fx": {
+     "xpBonus": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% XP"
+   },
+   {
+    "level": 15,
+    "name": "Bar Saver II",
+    "fx": {
+     "saveBar": 0.05
+    },
+    "milestone": false,
+    "desc": "5% chance to save your bars/ore"
+   },
+   {
+    "level": 20,
+    "name": "Smith's Insight II",
+    "fx": {
+     "xpBonus": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% XP"
+   },
+   {
+    "level": 25,
+    "name": "Hot Forge",
+    "fx": {
+     "fastMake": 1
+    },
+    "milestone": true,
+    "desc": "make items 1 tick faster"
+   },
+   {
+    "level": 30,
+    "name": "Smith's Insight III",
+    "fx": {
+     "xpBonus": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% XP"
+   },
+   {
+    "level": 35,
+    "name": "Bar Saver III",
+    "fx": {
+     "saveBar": 0.05
+    },
+    "milestone": false,
+    "desc": "5% chance to save your bars/ore"
+   },
+   {
+    "level": 40,
+    "name": "Smith's Insight IV",
+    "fx": {
+     "xpBonus": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% XP"
+   },
+   {
+    "level": 45,
+    "name": "Bar Saver IV",
+    "fx": {
+     "saveBar": 0.05
+    },
+    "milestone": false,
+    "desc": "5% chance to save your bars/ore"
+   },
+   {
+    "level": 50,
+    "name": "Double Smelt",
+    "fx": {
+     "doubleMake": 0.5
+    },
+    "milestone": true,
+    "desc": "50% chance of a free extra item"
+   },
+   {
+    "level": 55,
+    "name": "Bar Saver V",
+    "fx": {
+     "saveBar": 0.05
+    },
+    "milestone": false,
+    "desc": "5% chance to save your bars/ore"
+   },
+   {
+    "level": 60,
+    "name": "Smith's Insight V",
+    "fx": {
+     "xpBonus": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% XP"
+   },
+   {
+    "level": 65,
+    "name": "Bar Saver VI",
+    "fx": {
+     "saveBar": 0.05
+    },
+    "milestone": false,
+    "desc": "5% chance to save your bars/ore"
+   },
+   {
+    "level": 70,
+    "name": "Smith's Insight VI",
+    "fx": {
+     "xpBonus": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% XP"
+   },
+   {
+    "level": 75,
+    "name": "Master Smith",
+    "fx": {
+     "saveBar": 0.25
+    },
+    "milestone": true,
+    "desc": "25% chance to save your bars/ore"
+   },
+   {
+    "level": 80,
+    "name": "Smith's Insight VII",
+    "fx": {
+     "xpBonus": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% XP"
+   },
+   {
+    "level": 85,
+    "name": "Bar Saver VII",
+    "fx": {
+     "saveBar": 0.05
+    },
+    "milestone": false,
+    "desc": "5% chance to save your bars/ore"
+   },
+   {
+    "level": 90,
+    "name": "Smith's Insight VIII",
+    "fx": {
+     "xpBonus": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% XP"
+   },
+   {
+    "level": 95,
+    "name": "Bar Saver VIII",
+    "fx": {
+     "saveBar": 0.05
+    },
+    "milestone": false,
+    "desc": "5% chance to save your bars/ore"
+   },
+   {
+    "level": 99,
+    "name": "Smithing Mastery",
+    "fx": {
+     "xpBonus": 0.25,
+     "doubleMake": 0.25
+    },
+    "milestone": true,
+    "desc": "+25% XP, 25% chance of a free extra item"
+   }
+  ],
+  "Crafting": [
+   {
+    "level": 5,
+    "name": "Nimble Fingers I",
+    "fx": {
+     "saveMat": 0.05
+    },
+    "milestone": false,
+    "desc": "5% chance to save materials"
+   },
+   {
+    "level": 10,
+    "name": "Artisan's Eye I",
+    "fx": {
+     "xpBonus": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% XP"
+   },
+   {
+    "level": 15,
+    "name": "Nimble Fingers II",
+    "fx": {
+     "saveMat": 0.05
+    },
+    "milestone": false,
+    "desc": "5% chance to save materials"
+   },
+   {
+    "level": 20,
+    "name": "Artisan's Eye II",
+    "fx": {
+     "xpBonus": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% XP"
+   },
+   {
+    "level": 25,
+    "name": "Quick Hands",
+    "fx": {
+     "fastMake": 1
+    },
+    "milestone": true,
+    "desc": "make items 1 tick faster"
+   },
+   {
+    "level": 30,
+    "name": "Artisan's Eye III",
+    "fx": {
+     "xpBonus": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% XP"
+   },
+   {
+    "level": 35,
+    "name": "Nimble Fingers III",
+    "fx": {
+     "saveMat": 0.05
+    },
+    "milestone": false,
+    "desc": "5% chance to save materials"
+   },
+   {
+    "level": 40,
+    "name": "Artisan's Eye IV",
+    "fx": {
+     "xpBonus": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% XP"
+   },
+   {
+    "level": 45,
+    "name": "Nimble Fingers IV",
+    "fx": {
+     "saveMat": 0.05
+    },
+    "milestone": false,
+    "desc": "5% chance to save materials"
+   },
+   {
+    "level": 50,
+    "name": "Masterwork",
+    "fx": {
+     "doubleMake": 0.4
+    },
+    "milestone": true,
+    "desc": "40% chance of a free extra item"
+   },
+   {
+    "level": 55,
+    "name": "Nimble Fingers V",
+    "fx": {
+     "saveMat": 0.05
+    },
+    "milestone": false,
+    "desc": "5% chance to save materials"
+   },
+   {
+    "level": 60,
+    "name": "Artisan's Eye V",
+    "fx": {
+     "xpBonus": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% XP"
+   },
+   {
+    "level": 65,
+    "name": "Nimble Fingers VI",
+    "fx": {
+     "saveMat": 0.05
+    },
+    "milestone": false,
+    "desc": "5% chance to save materials"
+   },
+   {
+    "level": 70,
+    "name": "Artisan's Eye VI",
+    "fx": {
+     "xpBonus": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% XP"
+   },
+   {
+    "level": 75,
+    "name": "Thrifty",
+    "fx": {
+     "saveMat": 0.25
+    },
+    "milestone": true,
+    "desc": "25% chance to save materials"
+   },
+   {
+    "level": 80,
+    "name": "Artisan's Eye VII",
+    "fx": {
+     "xpBonus": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% XP"
+   },
+   {
+    "level": 85,
+    "name": "Nimble Fingers VII",
+    "fx": {
+     "saveMat": 0.05
+    },
+    "milestone": false,
+    "desc": "5% chance to save materials"
+   },
+   {
+    "level": 90,
+    "name": "Artisan's Eye VIII",
+    "fx": {
+     "xpBonus": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% XP"
+   },
+   {
+    "level": 95,
+    "name": "Nimble Fingers VIII",
+    "fx": {
+     "saveMat": 0.05
+    },
+    "milestone": false,
+    "desc": "5% chance to save materials"
+   },
+   {
+    "level": 99,
+    "name": "Crafting Mastery",
+    "fx": {
+     "xpBonus": 0.25,
+     "doubleMake": 0.25
+    },
+    "milestone": true,
+    "desc": "+25% XP, 25% chance of a free extra item"
+   }
+  ],
+  "Cooking": [
+   {
+    "level": 5,
+    "name": "Careful Cook I",
+    "fx": {
+     "burnLess": 0.1
+    },
+    "milestone": false,
+    "desc": "burn 10% less often"
+   },
+   {
+    "level": 10,
+    "name": "Hearty Portions I",
+    "fx": {
+     "healBonus": 0.05
+    },
+    "milestone": false,
+    "desc": "food heals 5% more"
+   },
+   {
+    "level": 15,
+    "name": "Careful Cook II",
+    "fx": {
+     "burnLess": 0.1
+    },
+    "milestone": false,
+    "desc": "burn 10% less often"
+   },
+   {
+    "level": 20,
+    "name": "Hearty Portions II",
+    "fx": {
+     "healBonus": 0.05
+    },
+    "milestone": false,
+    "desc": "food heals 5% more"
+   },
+   {
+    "level": 25,
+    "name": "Double Cook",
+    "fx": {
+     "doubleMake": 0.4
+    },
+    "milestone": true,
+    "desc": "40% chance of a free extra item"
+   },
+   {
+    "level": 30,
+    "name": "Hearty Portions III",
+    "fx": {
+     "healBonus": 0.05
+    },
+    "milestone": false,
+    "desc": "food heals 5% more"
+   },
+   {
+    "level": 35,
+    "name": "Careful Cook III",
+    "fx": {
+     "burnLess": 0.1
+    },
+    "milestone": false,
+    "desc": "burn 10% less often"
+   },
+   {
+    "level": 40,
+    "name": "Hearty Portions IV",
+    "fx": {
+     "healBonus": 0.05
+    },
+    "milestone": false,
+    "desc": "food heals 5% more"
+   },
+   {
+    "level": 45,
+    "name": "Careful Cook IV",
+    "fx": {
+     "burnLess": 0.1
+    },
+    "milestone": false,
+    "desc": "burn 10% less often"
+   },
+   {
+    "level": 50,
+    "name": "Quick Chef",
+    "fx": {
+     "fastMake": 1
+    },
+    "milestone": true,
+    "desc": "make items 1 tick faster"
+   },
+   {
+    "level": 55,
+    "name": "Careful Cook V",
+    "fx": {
+     "burnLess": 0.1
+    },
+    "milestone": false,
+    "desc": "burn 10% less often"
+   },
+   {
+    "level": 60,
+    "name": "Hearty Portions V",
+    "fx": {
+     "healBonus": 0.05
+    },
+    "milestone": false,
+    "desc": "food heals 5% more"
+   },
+   {
+    "level": 65,
+    "name": "Careful Cook VI",
+    "fx": {
+     "burnLess": 0.1
+    },
+    "milestone": false,
+    "desc": "burn 10% less often"
+   },
+   {
+    "level": 70,
+    "name": "Hearty Portions VI",
+    "fx": {
+     "healBonus": 0.05
+    },
+    "milestone": false,
+    "desc": "food heals 5% more"
+   },
+   {
+    "level": 75,
+    "name": "Gourmet",
+    "fx": {
+     "healBonus": 0.5
+    },
+    "milestone": true,
+    "desc": "food heals 50% more"
+   },
+   {
+    "level": 80,
+    "name": "Hearty Portions VII",
+    "fx": {
+     "healBonus": 0.05
+    },
+    "milestone": false,
+    "desc": "food heals 5% more"
+   },
+   {
+    "level": 85,
+    "name": "Careful Cook VII",
+    "fx": {
+     "burnLess": 0.1
+    },
+    "milestone": false,
+    "desc": "burn 10% less often"
+   },
+   {
+    "level": 90,
+    "name": "Hearty Portions VIII",
+    "fx": {
+     "healBonus": 0.05
+    },
+    "milestone": false,
+    "desc": "food heals 5% more"
+   },
+   {
+    "level": 95,
+    "name": "Careful Cook VIII",
+    "fx": {
+     "burnLess": 0.1
+    },
+    "milestone": false,
+    "desc": "burn 10% less often"
+   },
+   {
+    "level": 99,
+    "name": "Cooking Mastery",
+    "fx": {
+     "burnLess": 5
+    },
+    "milestone": true,
+    "desc": "never burn food"
+   }
+  ],
+  "Herblore": [
+   {
+    "level": 5,
+    "name": "Green Fingers I",
+    "fx": {
+     "double": 0.05
+    },
+    "milestone": false,
+    "desc": "5% chance of double resources"
+   },
+   {
+    "level": 10,
+    "name": "Steeped I",
+    "fx": {
+     "potionTime": 0.05
+    },
+    "milestone": false,
+    "desc": "potions last 5% longer"
+   },
+   {
+    "level": 15,
+    "name": "Green Fingers II",
+    "fx": {
+     "double": 0.05
+    },
+    "milestone": false,
+    "desc": "5% chance of double resources"
+   },
+   {
+    "level": 20,
+    "name": "Steeped II",
+    "fx": {
+     "potionTime": 0.05
+    },
+    "milestone": false,
+    "desc": "potions last 5% longer"
+   },
+   {
+    "level": 25,
+    "name": "Quick Picker",
+    "fx": {
+     "fastGather": 0.4
+    },
+    "milestone": true,
+    "desc": "40% chance your next gather comes a tick sooner"
+   },
+   {
+    "level": 30,
+    "name": "Steeped III",
+    "fx": {
+     "potionTime": 0.05
+    },
+    "milestone": false,
+    "desc": "potions last 5% longer"
+   },
+   {
+    "level": 35,
+    "name": "Green Fingers III",
+    "fx": {
+     "double": 0.05
+    },
+    "milestone": false,
+    "desc": "5% chance of double resources"
+   },
+   {
+    "level": 40,
+    "name": "Steeped IV",
+    "fx": {
+     "potionTime": 0.05
+    },
+    "milestone": false,
+    "desc": "potions last 5% longer"
+   },
+   {
+    "level": 45,
+    "name": "Green Fingers IV",
+    "fx": {
+     "double": 0.05
+    },
+    "milestone": false,
+    "desc": "5% chance of double resources"
+   },
+   {
+    "level": 50,
+    "name": "Potion Master",
+    "fx": {
+     "doubleMake": 0.4
+    },
+    "milestone": true,
+    "desc": "40% chance of a free extra item"
+   },
+   {
+    "level": 55,
+    "name": "Green Fingers V",
+    "fx": {
+     "double": 0.05
+    },
+    "milestone": false,
+    "desc": "5% chance of double resources"
+   },
+   {
+    "level": 60,
+    "name": "Steeped V",
+    "fx": {
+     "potionTime": 0.05
+    },
+    "milestone": false,
+    "desc": "potions last 5% longer"
+   },
+   {
+    "level": 65,
+    "name": "Green Fingers VI",
+    "fx": {
+     "double": 0.05
+    },
+    "milestone": false,
+    "desc": "5% chance of double resources"
+   },
+   {
+    "level": 70,
+    "name": "Steeped VI",
+    "fx": {
+     "potionTime": 0.05
+    },
+    "milestone": false,
+    "desc": "potions last 5% longer"
+   },
+   {
+    "level": 75,
+    "name": "Lasting Brews",
+    "fx": {
+     "potionTime": 0.5
+    },
+    "milestone": true,
+    "desc": "potions last 50% longer"
+   },
+   {
+    "level": 80,
+    "name": "Steeped VII",
+    "fx": {
+     "potionTime": 0.05
+    },
+    "milestone": false,
+    "desc": "potions last 5% longer"
+   },
+   {
+    "level": 85,
+    "name": "Green Fingers VII",
+    "fx": {
+     "double": 0.05
+    },
+    "milestone": false,
+    "desc": "5% chance of double resources"
+   },
+   {
+    "level": 90,
+    "name": "Steeped VIII",
+    "fx": {
+     "potionTime": 0.05
+    },
+    "milestone": false,
+    "desc": "potions last 5% longer"
+   },
+   {
+    "level": 95,
+    "name": "Green Fingers VIII",
+    "fx": {
+     "double": 0.05
+    },
+    "milestone": false,
+    "desc": "5% chance of double resources"
+   },
+   {
+    "level": 99,
+    "name": "Herblore Mastery",
+    "fx": {
+     "xpBonus": 0.25,
+     "doubleMake": 0.25
+    },
+    "milestone": true,
+    "desc": "+25% XP, 25% chance of a free extra item"
+   }
+  ],
+  "Fletching": [
+   {
+    "level": 5,
+    "name": "Whittler I",
+    "fx": {
+     "extraArrows": 5
+    },
+    "milestone": false,
+    "desc": "+5 arrows per batch"
+   },
+   {
+    "level": 10,
+    "name": "Careful Cuts I",
+    "fx": {
+     "saveMat": 0.05
+    },
+    "milestone": false,
+    "desc": "5% chance to save materials"
+   },
+   {
+    "level": 15,
+    "name": "Whittler II",
+    "fx": {
+     "extraArrows": 5
+    },
+    "milestone": false,
+    "desc": "+5 arrows per batch"
+   },
+   {
+    "level": 20,
+    "name": "Careful Cuts II",
+    "fx": {
+     "saveMat": 0.05
+    },
+    "milestone": false,
+    "desc": "5% chance to save materials"
+   },
+   {
+    "level": 25,
+    "name": "Quick Knife",
+    "fx": {
+     "fastMake": 1
+    },
+    "milestone": true,
+    "desc": "make items 1 tick faster"
+   },
+   {
+    "level": 30,
+    "name": "Careful Cuts III",
+    "fx": {
+     "saveMat": 0.05
+    },
+    "milestone": false,
+    "desc": "5% chance to save materials"
+   },
+   {
+    "level": 35,
+    "name": "Whittler III",
+    "fx": {
+     "extraArrows": 5
+    },
+    "milestone": false,
+    "desc": "+5 arrows per batch"
+   },
+   {
+    "level": 40,
+    "name": "Careful Cuts IV",
+    "fx": {
+     "saveMat": 0.05
+    },
+    "milestone": false,
+    "desc": "5% chance to save materials"
+   },
+   {
+    "level": 45,
+    "name": "Whittler IV",
+    "fx": {
+     "extraArrows": 5
+    },
+    "milestone": false,
+    "desc": "+5 arrows per batch"
+   },
+   {
+    "level": 50,
+    "name": "Twin Bows",
+    "fx": {
+     "doubleMake": 0.4
+    },
+    "milestone": true,
+    "desc": "40% chance of a free extra item"
+   },
+   {
+    "level": 55,
+    "name": "Whittler V",
+    "fx": {
+     "extraArrows": 5
+    },
+    "milestone": false,
+    "desc": "+5 arrows per batch"
+   },
+   {
+    "level": 60,
+    "name": "Careful Cuts V",
+    "fx": {
+     "saveMat": 0.05
+    },
+    "milestone": false,
+    "desc": "5% chance to save materials"
+   },
+   {
+    "level": 65,
+    "name": "Whittler VI",
+    "fx": {
+     "extraArrows": 5
+    },
+    "milestone": false,
+    "desc": "+5 arrows per batch"
+   },
+   {
+    "level": 70,
+    "name": "Careful Cuts VI",
+    "fx": {
+     "saveMat": 0.05
+    },
+    "milestone": false,
+    "desc": "5% chance to save materials"
+   },
+   {
+    "level": 75,
+    "name": "Arrowsmith",
+    "fx": {
+     "extraArrows": 15
+    },
+    "milestone": true,
+    "desc": "+15 arrows per batch"
+   },
+   {
+    "level": 80,
+    "name": "Careful Cuts VII",
+    "fx": {
+     "saveMat": 0.05
+    },
+    "milestone": false,
+    "desc": "5% chance to save materials"
+   },
+   {
+    "level": 85,
+    "name": "Whittler VII",
+    "fx": {
+     "extraArrows": 5
+    },
+    "milestone": false,
+    "desc": "+5 arrows per batch"
+   },
+   {
+    "level": 90,
+    "name": "Careful Cuts VIII",
+    "fx": {
+     "saveMat": 0.05
+    },
+    "milestone": false,
+    "desc": "5% chance to save materials"
+   },
+   {
+    "level": 95,
+    "name": "Whittler VIII",
+    "fx": {
+     "extraArrows": 5
+    },
+    "milestone": false,
+    "desc": "+5 arrows per batch"
+   },
+   {
+    "level": 99,
+    "name": "Fletching Mastery",
+    "fx": {
+     "xpBonus": 0.25,
+     "doubleMake": 0.25
+    },
+    "milestone": true,
+    "desc": "+25% XP, 25% chance of a free extra item"
+   }
+  ],
+  "Runecrafting": [
+   {
+    "level": 5,
+    "name": "Rune Focus I",
+    "fx": {
+     "rcXp": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% Runecrafting XP"
+   },
+   {
+    "level": 10,
+    "name": "Efficient I",
+    "fx": {
+     "runeDouble": 0.05
+    },
+    "milestone": false,
+    "desc": "5% chance of double runes"
+   },
+   {
+    "level": 15,
+    "name": "Rune Focus II",
+    "fx": {
+     "rcXp": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% Runecrafting XP"
+   },
+   {
+    "level": 20,
+    "name": "Efficient II",
+    "fx": {
+     "runeDouble": 0.05
+    },
+    "milestone": false,
+    "desc": "5% chance of double runes"
+   },
+   {
+    "level": 25,
+    "name": "Better Runes",
+    "fx": {
+     "rcXp": 0.25
+    },
+    "milestone": true,
+    "desc": "+25% Runecrafting XP"
+   },
+   {
+    "level": 30,
+    "name": "Efficient III",
+    "fx": {
+     "runeDouble": 0.05
+    },
+    "milestone": false,
+    "desc": "5% chance of double runes"
+   },
+   {
+    "level": 35,
+    "name": "Rune Focus III",
+    "fx": {
+     "rcXp": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% Runecrafting XP"
+   },
+   {
+    "level": 40,
+    "name": "Efficient IV",
+    "fx": {
+     "runeDouble": 0.05
+    },
+    "milestone": false,
+    "desc": "5% chance of double runes"
+   },
+   {
+    "level": 45,
+    "name": "Rune Focus IV",
+    "fx": {
+     "rcXp": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% Runecrafting XP"
+   },
+   {
+    "level": 50,
+    "name": "Double Runes",
+    "fx": {
+     "runeDouble": 0.5
+    },
+    "milestone": true,
+    "desc": "50% chance of double runes"
+   },
+   {
+    "level": 55,
+    "name": "Rune Focus V",
+    "fx": {
+     "rcXp": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% Runecrafting XP"
+   },
+   {
+    "level": 60,
+    "name": "Efficient V",
+    "fx": {
+     "runeDouble": 0.05
+    },
+    "milestone": false,
+    "desc": "5% chance of double runes"
+   },
+   {
+    "level": 65,
+    "name": "Rune Focus VI",
+    "fx": {
+     "rcXp": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% Runecrafting XP"
+   },
+   {
+    "level": 70,
+    "name": "Efficient VI",
+    "fx": {
+     "runeDouble": 0.05
+    },
+    "milestone": false,
+    "desc": "5% chance of double runes"
+   },
+   {
+    "level": 75,
+    "name": "Master Runecrafter",
+    "fx": {
+     "rcXp": 0.25
+    },
+    "milestone": true,
+    "desc": "+25% Runecrafting XP"
+   },
+   {
+    "level": 80,
+    "name": "Efficient VII",
+    "fx": {
+     "runeDouble": 0.05
+    },
+    "milestone": false,
+    "desc": "5% chance of double runes"
+   },
+   {
+    "level": 85,
+    "name": "Rune Focus VII",
+    "fx": {
+     "rcXp": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% Runecrafting XP"
+   },
+   {
+    "level": 90,
+    "name": "Efficient VIII",
+    "fx": {
+     "runeDouble": 0.05
+    },
+    "milestone": false,
+    "desc": "5% chance of double runes"
+   },
+   {
+    "level": 95,
+    "name": "Rune Focus VIII",
+    "fx": {
+     "rcXp": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% Runecrafting XP"
+   },
+   {
+    "level": 99,
+    "name": "Runecrafting Mastery",
+    "fx": {
+     "runeDouble": 0.5,
+     "rcXp": 0.25
+    },
+    "milestone": true,
+    "desc": "50% chance of double runes, +25% Runecrafting XP"
+   }
+  ]
+ },
+ "perkLevels": [
+  5,
+  10,
+  15,
+  20,
+  25,
+  30,
+  35,
+  40,
+  45,
+  50,
+  55,
+  60,
+  65,
+  70,
+  75,
+  80,
+  85,
+  90,
+  95,
+  99
+ ],
+ "perkCaps": {
+  "double": 0.75,
+  "block": 0.75,
+  "ammoSave": 0.75,
+  "doubleShot": 0.75,
+  "counter": 0.75,
+  "autoBank": 0.75,
+  "fastGather": 0.75,
+  "doubleMake": 0.75,
+  "saveBar": 0.75,
+  "saveMat": 0.75,
+  "crit": 0.5,
+  "rcrit": 0.5,
+  "quick": 0.5,
+  "reflect": 0.5,
+  "dr": 0.6,
+  "acc": 0.6,
+  "racc": 0.6,
+  "speed": 0.6,
+  "abilityCd": 0.6,
+  "drainLess": 0.75,
+  "burnLess": 1,
+  "critMult": 1,
+  "execute": 0.75,
+  "healBonus": 1,
+  "regen": 2,
+  "killHeal": 0.1,
+  "extraArrows": 15,
+  "xpBonus": 1,
+  "buryXp": 1,
+  "potionTime": 1,
+  "ppRegen": 0.3,
+  "maxHp": 100,
+  "maxHit": 60,
+  "rmaxHit": 40,
+  "magicAcc": 0.6,
+  "magicDmg": 0.5,
+  "runeSave": 0.75,
+  "agilityXp": 1,
+  "failLess": 0.75,
+  "thieveXp": 1,
+  "lootChance": 0.5,
+  "rcXp": 1,
+  "runeDouble": 0.5
+ },
+ "milestones": [
+  25,
+  50,
+  75,
+  99
+ ]
+}

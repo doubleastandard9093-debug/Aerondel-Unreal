@@ -12,7 +12,8 @@ public class Gielinor : ModuleRules
 		{
 			"Core", "CoreUObject", "Engine", "InputCore", "EnhancedInput",
 			"UMG", "Slate", "SlateCore", "AIModule", "NavigationSystem",
-			"HeadMountedDisplay", "XRBase", "GameplayTags", "DeveloperSettings"
+			"HeadMountedDisplay", "XRBase", "GameplayTags", "DeveloperSettings",
+			"Json", "JsonUtilities"
 		});
 		// No networking modules: multiplayer is paused.
 	}
