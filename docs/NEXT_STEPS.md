@@ -5,9 +5,9 @@ The C++ now mirrors Gielinor-Lite's `webgpu` branch: rules/formulas (`UGielinorR
 run energy, poison/venom/stun, adrenaline abilities, melee/ranged/magic combat with ammo/runes, procs, block/reflect/riposte, leash,
 bounties, drops, gathering/cooking via rules, activity actors and data-driven quests (requirements, Visit/Xp/Bury steps, QP milestones).
 - [ ] Re-run **Gielinor → Import JSON content** so DataAssets get the new fields (bonuses, prayers, spells, milestones, quest requirements).
-- [ ] Place activity actors in the map: `AAgilityObstacle` (set CourseId + Index; drag the End widget), `AThieveTarget` (TargetId),
+- [ ] Place activity actors in the map: `AAgilityObstacleActor` (set CourseId + Index; drag the End widget), `AThieveTarget` (TargetId),
       `ARuneAltar` (AltarId), `APrayerAltar`, `AShopCounter` (shop id) and `AQuestPlaceVolume` (PlaceId matching quests.json `place`).
-- [ ] Bind `AShopCounter::OnShopOpened` to a shop widget calling `Buy`/`Sell`; implement `AAgilityObstacle::OnCrossed` for the crossing animation.
+- [ ] Bind `AShopCounter::OnShopOpened` to a shop widget calling `Buy`/`Sell`; implement `AAgilityObstacleActor::OnCrossed` for the crossing animation.
 - [ ] Starter mobs placed before the port still use the old HP scale; re-import or multiply their HP by 10.
 - [ ] 22 web quests are flagged `bNeedsStepAuthoring`; author their steps in the Quest DataAssets.
 - [ ] UMG still needed for: prayer book, spellbook/autocast, ability bar, run toggle, shop, bank, quest requirements text.

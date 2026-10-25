@@ -27,20 +27,20 @@ namespace
 }
 
 // ------------------------------------------------------------------ agility
-const FAgilityObstacle* AAgilityObstacle::Obstacle(const UAgilityCourseDef*& OutCourse) const
+const FAgilityObstacle* AAgilityObstacleActor::Obstacle(const UAgilityCourseDef*& OutCourse) const
 {
 	OutCourse = Db() ? Db()->FindAgilityCourse(CourseId) : nullptr;
 	return OutCourse && OutCourse->Obstacles.IsValidIndex(Index) ? &OutCourse->Obstacles[Index] : nullptr;
 }
 
-FText AAgilityObstacle::GetInteractLabel() const
+FText AAgilityObstacleActor::GetInteractLabel() const
 {
 	const UAgilityCourseDef* C = nullptr;
 	const FAgilityObstacle* O = Obstacle(C);
 	return O ? FText::Format(LOCTEXT("Obs", "{0} {1}"), O->Verb, O->DisplayName) : DisplayName;
 }
 
-void AAgilityObstacle::Interact(AActor* InInstigator)
+void AAgilityObstacleActor::Interact(AActor* InInstigator)
 {
 	AGielinorPlayerState* S = PS(InInstigator);
 	const UAgilityCourseDef* C = nullptr;

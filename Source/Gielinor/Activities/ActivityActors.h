@@ -7,7 +7,7 @@ class UAgilityCourseDef; class UThieveTargetDef; class URuneAltarDef; class USho
 
 /** One agility obstacle. Course + Index pick the data; success moves the player to End (lap bonus on the last one). */
 UCLASS()
-class GIELINOR_API AAgilityObstacle : public AInteractableActor
+class GIELINOR_API AAgilityObstacleActor : public AInteractableActor
 {
 	GENERATED_BODY()
 public:
