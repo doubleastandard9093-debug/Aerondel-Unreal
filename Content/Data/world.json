@@ -650,5 +650,295 @@
    "x": 60,
    "z": -201.5
   }
+ },
+ "places": {
+  "airAltar": {
+   "x": -26.0,
+   "z": 34.0,
+   "r": 4.0,
+   "name": "the Air altar south-west of Brightwater"
+  },
+  "mindAltar": {
+   "x": -40.0,
+   "z": -102.0,
+   "r": 4.0,
+   "name": "the Mind altar north-east of Falador"
+  },
+  "waterAltar": {
+   "x": -104.0,
+   "z": 76.0,
+   "r": 4.0,
+   "name": "the Water altar south-west of Port Sarim"
+  },
+  "earthAltar": {
+   "x": 100.0,
+   "z": -66.0,
+   "r": 4.0,
+   "name": "the Earth altar north-west of Varrock"
+  },
+  "fireAltar": {
+   "x": 143.0,
+   "z": -72.0,
+   "r": 4.0,
+   "name": "the Fire altar north-east of Varrock"
+  },
+  "bodyAltar": {
+   "x": -28.0,
+   "z": -64.0,
+   "r": 4.0,
+   "name": "the Body altar between Brightwater and Falador"
+  },
+  "chaosAltar": {
+   "x": -44.0,
+   "z": 100.0,
+   "r": 4.0,
+   "name": "the dark Chaos altar south-east of Port Sarim"
+  },
+  "deathAltar": {
+   "x": 98.0,
+   "z": -126.0,
+   "r": 5.0,
+   "name": "the Death altar deep in the north-eastern wilds"
+  },
+  "bloodAltar": {
+   "x": -128.0,
+   "z": -134.0,
+   "r": 5.0,
+   "name": "the Blood altar in the far north-west"
+  },
+  "essMine": {
+   "x": 132.0,
+   "z": -22.0,
+   "r": 6.0,
+   "name": "the rune essence mine south-east of Varrock"
+  },
+  "bwMine": {
+   "x": 22.0,
+   "z": 20.0,
+   "r": 6.0,
+   "name": "the Brightwater mine south-east of town"
+  },
+  "highMine": {
+   "x": -9.0,
+   "z": -28.0,
+   "r": 4.0,
+   "name": "the high-level mine north of Brightwater"
+  },
+  "tower": {
+   "x": 0.0,
+   "z": 29.0,
+   "r": 5.0,
+   "name": "the wizard tower south of Brightwater"
+  },
+  "lake": {
+   "x": -20.0,
+   "z": 16.0,
+   "r": 10.0,
+   "name": "the shore of Brightwater lake"
+  },
+  "bwCourse": {
+   "x": 22.0,
+   "z": 37.0,
+   "r": 7.0,
+   "name": "the Brightwater agility course"
+  },
+  "vCourse": {
+   "x": 105.0,
+   "z": -20.0,
+   "r": 7.0,
+   "name": "the Varrock agility course"
+  },
+  "psCourse": {
+   "x": -60.0,
+   "z": 71.0,
+   "r": 7.0,
+   "name": "the Port Sarim rigging course"
+  },
+  "fCourse": {
+   "x": -81.0,
+   "z": -60.0,
+   "r": 7.0,
+   "name": "the Falador agility course"
+  },
+  "bandits": {
+   "x": -50.0,
+   "z": 91.0,
+   "r": 8.0,
+   "name": "the bandit camp south-east of Port Sarim"
+  },
+  "mossGiants": {
+   "x": -108.0,
+   "z": 43.0,
+   "r": 8.0,
+   "name": "the Moss Giant woods west of Port Sarim"
+  },
+  "iceWest": {
+   "x": -113.0,
+   "z": 100.0,
+   "r": 8.0,
+   "name": "the frozen hollow south-west of Port Sarim"
+  },
+  "iceEast": {
+   "x": 137.0,
+   "z": -12.0,
+   "r": 8.0,
+   "name": "the icy ridge east of Varrock"
+  },
+  "ogres": {
+   "x": -100.0,
+   "z": -113.0,
+   "r": 9.0,
+   "name": "the ogre hills north-west of Falador"
+  },
+  "demons": {
+   "x": 117.0,
+   "z": -98.0,
+   "r": 9.0,
+   "name": "the demon ruins north of Varrock"
+  },
+  "dragons": {
+   "x": 120.0,
+   "z": -122.0,
+   "r": 10.0,
+   "name": "the dragon lair far north of Varrock"
+  },
+  "scorch": {
+   "x": 134.0,
+   "z": -136.0,
+   "r": 7.0,
+   "name": "Scorchwing's nest at the edge of the world"
+  },
+  "goblinField": {
+   "x": 13.0,
+   "z": -13.0,
+   "r": 6.0,
+   "name": "the goblin camp north-east of Brightwater"
+  },
+  "giants": {
+   "x": -1.0,
+   "z": -31.0,
+   "r": 6.0,
+   "name": "the Hill Giant slopes north of Brightwater"
+  },
+  "blackKnights": {
+   "x": -17.0,
+   "z": -33.0,
+   "r": 5.0,
+   "name": "the Black Knight outpost north of Brightwater"
+  },
+  "darkWood": {
+   "x": -34.0,
+   "z": 6.0,
+   "r": 6.0,
+   "name": "the dark archers\\u2019 wood west of the lake"
+  },
+  "wolfDen": {
+   "x": 38.0,
+   "z": -11.0,
+   "r": 6.0,
+   "name": "the wolf den east of Brightwater"
+  },
+  "graveyard": {
+   "x": -26.0,
+   "z": -28.0,
+   "r": 5.0,
+   "name": "the old graveyard north-west of Brightwater"
+  },
+  "boneyard": {
+   "x": 26.0,
+   "z": -37.0,
+   "r": 5.0,
+   "name": "the skeleton boneyard north-east of Brightwater"
+  },
+  "spiderNest": {
+   "x": -37.0,
+   "z": -20.0,
+   "r": 5.0,
+   "name": "the spider nest north-west of Brightwater"
+  },
+  "magicGrove": {
+   "x": 10.0,
+   "z": -33.0,
+   "r": 5.0,
+   "name": "the magic tree grove north of Brightwater"
+  },
+  "yewGrove": {
+   "x": -31.0,
+   "z": -1.0,
+   "r": 5.0,
+   "name": "the yew grove west of Brightwater"
+  },
+  "mapleWood": {
+   "x": 31.0,
+   "z": 4.0,
+   "r": 5.0,
+   "name": "the maple wood east of Brightwater"
+  },
+  "willowBank": {
+   "x": -98.0,
+   "z": 66.0,
+   "r": 6.0,
+   "name": "the willows west of Port Sarim"
+  },
+  "docks": {
+   "x": -80.0,
+   "z": 72.0,
+   "r": 6.0,
+   "name": "the Port Sarim docks"
+  },
+  "varrockSquare": {
+   "x": 120.0,
+   "z": -40.0,
+   "r": 6.0,
+   "name": "Varrock square"
+  },
+  "faladorSquare": {
+   "x": -60.0,
+   "z": -80.0,
+   "r": 6.0,
+   "name": "Falador square"
+  },
+  "ashfordSquare": {
+   "x": 50.0,
+   "z": -24.0,
+   "r": 6.0,
+   "name": "Ashford square"
+  },
+  "sarimSquare": {
+   "x": -80.0,
+   "z": 60.0,
+   "r": 6.0,
+   "name": "Port Sarim square"
+  },
+  "bwSquare": {
+   "x": 0.0,
+   "z": 0.0,
+   "r": 5.0,
+   "name": "Brightwater town square"
+  },
+  "yewFalador": {
+   "x": -38.0,
+   "z": -88.0,
+   "r": 6.0,
+   "name": "the yew trees east of Falador"
+  },
+  "magicVarrock": {
+   "x": 104.0,
+   "z": -112.0,
+   "r": 5.0,
+   "name": "the magic trees north of Varrock"
+  },
+  "mapleVarrock": {
+   "x": 100.0,
+   "z": -6.0,
+   "r": 6.0,
+   "name": "the maple trees south-west of Varrock"
+  },
+  "grumsh": {
+   "x": -112.0,
+   "z": -124.0,
+   "r": 6.0,
+   "name": "Grumsh's camp beyond the ogre hills"
+  }
  }
 }

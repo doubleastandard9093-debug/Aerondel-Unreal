@@ -41,7 +41,9 @@ w('player', { invSize: ps.INV_SIZE, defaults: ps.DEFAULT_SETTINGS, saveVersion: 
 // World layout (world.js imports three.js; only its exported constants are read).
 try {
   const wd = await I('world');
-  w('world', { worldHalf: wd.WORLD_HALF, spawn: wd.SPAWN, lake: wd.LAKE, towns: wd.TOWNS, paths: wd.PATHS, buildings: wd.BUILDINGS, guilds: wd.GUILDS, landmarks: wd.LANDMARKS, ponds: wd.PONDS, cave: wd.CAVE });
+  let places = {};
+  try { places = (await I('quests2')).PLACES || {}; } catch (e) { console.warn('places skipped :', e.message); }
+  w('world', { worldHalf: wd.WORLD_HALF, spawn: wd.SPAWN, lake: wd.LAKE, towns: wd.TOWNS, paths: wd.PATHS, buildings: wd.BUILDINGS, guilds: wd.GUILDS, landmarks: wd.LANDMARKS, ponds: wd.PONDS, cave: wd.CAVE, places });
 } catch (e) { console.warn('world.json skipped :', e.message); }
 fs.rmSync(tmp, { recursive: true, force: true });
 console.log('exported to', out);
