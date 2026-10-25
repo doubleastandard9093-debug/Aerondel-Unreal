@@ -154,8 +154,10 @@ UItemDef* UGielinorRules::BestTool(const AGielinorPlayerState* PS, EToolType Typ
 
 bool UGielinorRules::OwnsToolType(const AGielinorPlayerState* PS, EToolType Type)
 {
-	if (PS && PS->Stats) for (const UItemDef* I : PS->Stats->Toolbelt) if (I && I->ToolType == Type) return true;
-	return false;
+	if (!PS) return false;
+	if (PS->Stats) for (const UItemDef* I : PS->Stats->Toolbelt) if (I && I->ToolType == Type) return true;
+	for (const FItemStack& S : PS->Inventory->GetSlots()) if (S.Item && S.Item->ToolType == Type) return true;
+	return PS->Equipment->EquippedTool(Type) != nullptr;
 }
 
 float UGielinorRules::SuccessChance(int32 Level, int32 Required) { return FMath::Clamp(0.3f + (Level - Required) * 0.025f, 0.05f, 0.92f); }

@@ -27,15 +27,25 @@ public:
 
 	// IGielinorInteractable: "Attack Goblin (level 2)".
 	virtual FText GetInteractLabel() const override;
-	virtual float GetInteractRange() const override { return 180.f; }
+	virtual float GetInteractRange() const override;
 	virtual bool CanInteract(AActor* InInstigator) const override { return State != EMobState::Dead; }
 	virtual void Interact(AActor* InInstigator) override;
 	virtual void OnToolHit(AActor* InInstigator, EToolType Tool, float Power) override;
 	virtual FVector GetInteractPoint() const override { return GetActorLocation(); }
 
-	/** Player melee hit (desktop auto-attack or VR swing with Power 0..1). Handles xp and aggro. */
+	/** VR swing (Power 0..1) or Blueprint hit: runs a full player attack via the attacker's combat component. */
 	UFUNCTION(BlueprintCallable, Category="Mob") void ReceivePlayerHit(AActor* Attacker, float Power = 1.f);
+	/** Applies already-rolled player damage (aggro, death, kill credit). */
+	void TakePlayerDamage(int32 Damage, AActor* Attacker);
+	/** Weapon venom: Damage every 10 ticks, -2 each time. False if a stronger venom is already on. */
+	bool ApplyVenom(int32 Damage);
+	void Stun(int32 Ticks) { StunTicks = FMath::Max(StunTicks, Ticks); }
 	UFUNCTION(BlueprintPure, Category="Mob") EMobState GetState() const { return State; }
+	UFUNCTION(BlueprintPure, Category="Mob") bool IsDead() const { return State == EMobState::Dead; }
+	UFUNCTION(BlueprintPure, Category="Mob") bool IsStunned() const { return StunTicks > 0; }
+	UFUNCTION(BlueprintPure, Category="Mob") int32 GetHp() const;
+	UFUNCTION(BlueprintPure, Category="Mob") int32 GetMaxHp() const;
+	UFUNCTION(BlueprintPure, Category="Mob") FText GetDisplayName() const;
 
 	virtual void BeginPlay() override;
 	virtual void Tick(float Dt) override;
@@ -46,6 +56,8 @@ private:
 	void SetState(EMobState S);
 	void Respawn();
 	void TryAttack();
+	void GameTick();
+	bool IsLeashed(const AActor* T) const;
 	AActor* FindPlayerInAggro() const;
 	class AAIController* AI() const;
 
@@ -54,5 +66,9 @@ private:
 	FVector Home;
 	float StateTime = 0.f;
 	float AttackCooldown = 0.f;
+	float TickAcc = 0.f;
+	int32 StunTicks = 0;
+	int32 VenomDamage = 0;
+	int32 VenomNext = 0;
 	FTimerHandle RespawnTimer;
 };

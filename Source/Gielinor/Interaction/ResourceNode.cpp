@@ -6,6 +6,9 @@
 #include "Skills/SkillsComponent.h"
 #include "Inventory/InventoryComponent.h"
 #include "Inventory/EquipmentComponent.h"
+#include "Bank/BankComponent.h"
+#include "Core/GielinorEvents.h"
+#include "Rules/GielinorRules.h"
 #include "Components/StaticMeshComponent.h"
 #include "TimerManager.h"
 
@@ -32,7 +35,8 @@ FText AResourceNode::GetInteractLabel() const
 	{
 	case EResourceKind::Tree: return FText::Format(LOCTEXT("Chop", "Chop down {0}"), Definition->DisplayName);
 	case EResourceKind::Rock: return FText::Format(LOCTEXT("Mine", "Mine {0}"), Definition->DisplayName);
-	default: return FText::Format(LOCTEXT("Net", "Net {0}"), Definition->DisplayName);
+	case EResourceKind::HerbPatch: return FText::Format(LOCTEXT("Pick", "Pick {0}"), Definition->DisplayName);
+	default: return FText::Format(LOCTEXT("Fish", "Fish {0}"), Definition->DisplayName);
 	}
 }
 
@@ -40,10 +44,7 @@ UItemDef* AResourceNode::FindTool(AActor* InInstigator) const
 {
 	AGielinorPlayerState* S = PS(InInstigator);
 	if (!S || !Definition || Definition->ToolRequired == EToolType::None) return nullptr;
-	UItemDef* A = S->Equipment->EquippedTool(Definition->ToolRequired);
-	UItemDef* B = S->Inventory->BestTool(Definition->ToolRequired);
-	if (A && B) return A->ToolTier >= B->ToolTier ? A : B;
-	return A ? A : B;
+	return UGielinorRules::BestTool(S, Definition->ToolRequired);
 }
 
 bool AResourceNode::Validate(AActor* InInstigator, UItemDef*& OutTool) const
@@ -51,47 +52,34 @@ bool AResourceNode::Validate(AActor* InInstigator, UItemDef*& OutTool) const
 	AGielinorPlayerState* S = PS(InInstigator);
 	if (!S || !Definition || bDepleted) return false;
 	OutTool = FindTool(InInstigator);
-	if (Definition->ToolRequired != EToolType::None && !OutTool)
-	{
-		Msg(LOCTEXT("NoTool", "You need the right tool for that.")); return false;
-	}
-	if (S->Skills->GetLevel(Definition->Skill) < Definition->LevelRequired)
-	{
-		Msg(FText::Format(LOCTEXT("Lvl", "You need level {0} to do that."), Definition->LevelRequired)); return false;
-	}
-	if (!S->Inventory->CanAdd(Definition->Product))
-	{
-		Msg(LOCTEXT("Full", "Your inventory is too full.")); return false;
-	}
 	return true;
 }
 
 void AResourceNode::Interact(AActor* InInstigator)
 {
-	UItemDef* Tool = nullptr;
-	if (!Validate(InInstigator, Tool)) return;
+	AGielinorPlayerState* S = PS(InInstigator);
+	if (!S || !Definition) return;
+	// Dry run for level / tool / space errors before starting the loop (a failed roll is fine).
+	const FGatherResult R = UGielinorRules::GatherAttempt(S, Definition, -10.f);
+	if (!R.Error.IsEmpty()) { Msg(R.Error); return; }
 	Msg(LOCTEXT("Begin", "You begin gathering..."));
 	StartLoop(InInstigator, Definition->TickSeconds);
 }
 
 bool AResourceNode::Roll(AActor* InInstigator, float Bonus)
 {
-	UItemDef* Tool = nullptr;
-	if (!Validate(InInstigator, Tool)) return false;
 	AGielinorPlayerState* S = PS(InInstigator);
-	const int32 Lvl = S->Skills->GetLevel(Definition->Skill);
-	const float Tier = Tool ? Tool->ToolTier : 1;
-	const float Chance = FMath::Clamp(Definition->BaseSuccess + 0.01f * (Lvl - Definition->LevelRequired) + 0.05f * (Tier - 1) + Bonus, 0.05f, 0.95f);
-	if (FMath::FRand() > Chance) return true; // keep trying
-	S->Inventory->Add(Definition->Product, 1);
-	S->Skills->AddXp(Definition->Skill, Definition->Xp);
-	if (Definition->DepleteChance > 0.f && FMath::FRand() <= Definition->DepleteChance)
-	{
-		SetDepleted(true);
-		GetWorldTimerManager().SetTimer(RespawnTimer, this, &AResourceNode::Respawn, Definition->RespawnSeconds, false);
-		return false;
-	}
-	return S->Inventory->CanAdd(Definition->Product);
+	if (!S || !Definition || bDepleted) return false;
+	const FGatherResult R = UGielinorRules::GatherAttempt(S, Definition, Bonus);
+	if (!R.Error.IsEmpty()) { Msg(R.Error); return false; }
+	if (!R.Item) return true; // missed: keep trying
+	const FName SkillId = Definition->Skill ? Definition->Skill->Id : NAME_None;
+	if (R.bToBank) { S->Bank->Add(R.Item, R.Count, false); Msg(FText::Format(LOCTEXT("ToBank", "Your {0} is sent to the bank."), R.Item->DisplayName)); }
+	else S->Inventory->Add(R.Item, R.Count);
+	if (R.Count > 1) Msg(LOCTEXT("Double", "You get an extra one!"));
+	S->Skills->AddXp(Definition->Skill, R.Xp * UGielinorRules::XpMultiplier(S, SkillId));
+	// Web build: resources never run out (SetDepleted stays for Blueprint use).
+	return true;
 }
 
 bool AResourceNode::OnLoopTick(AActor* InInstigator) { return Roll(InInstigator, 0.f); }
