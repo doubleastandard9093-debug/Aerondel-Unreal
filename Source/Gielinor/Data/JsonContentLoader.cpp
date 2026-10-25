@@ -99,7 +99,7 @@ namespace GielinorJson
 			if (!Pair.Value.IsValid()) continue;
 			if (Pair.Value->Type == EJson::Number)
 			{
-				FString Key = Pair.Key;
+				FString Key = FString(*Pair.Key);
 				// Quest bonuses name skills / monsters: xp.Cooking -> xp.cooking, dmgVs.Giant Spider -> dmgVs.giant_spider.
 				int32 Dot;
 				if (Key.FindChar(TEXT('.'), Dot))
@@ -112,7 +112,7 @@ namespace GielinorJson
 			else if (Pair.Value->Type == EJson::Object)
 			{
 				const FObj Sub = Pair.Value->AsObject();
-				if (Pair.Key == TEXT("poison"))
+				if (FString(*Pair.Key) == TEXT("poison"))
 				{
 					Out.Add(TEXT("poison"), (float)Num(Sub, TEXT("chance")));
 					Out.Add(TEXT("poisonDmg"), (float)Num(Sub, TEXT("dmg")));
@@ -121,7 +121,7 @@ namespace GielinorJson
 				{
 					for (const auto& S : Sub->Values)
 						if (S.Value.IsValid() && S.Value->Type == EJson::Number)
-							Out.Add(FName(*(Pair.Key + TEXT(".") + Id(S.Key).ToString())), (float)S.Value->AsNumber());
+							Out.Add(FName(*(FString(*Pair.Key) + TEXT(".") + Id(FString(*S.Key)).ToString())), (float)S.Value->AsNumber());
 				}
 			}
 		}
@@ -209,7 +209,7 @@ int32 FJsonContentLoader::MergeInto(UGameDatabase* Db, const FString& Dir)
 							Perk.Description = Txt(Str(PO, TEXT("desc")));
 							Perk.bMilestone = Bool(PO, TEXT("milestone"));
 							if (FObj Fx = Obj(PO, TEXT("fx")))
-								for (const auto& F : Fx->Values) if (F.Value.IsValid() && F.Value->Type == EJson::Number) Perk.Effects.Add(FName(*F.Key), (float)F.Value->AsNumber());
+								for (const auto& F : Fx->Values) if (F.Value.IsValid() && F.Value->Type == EJson::Number) Perk.Effects.Add(FName(*FString(*F.Key)), (float)F.Value->AsNumber());
 							S->Perks.Add(Perk);
 						}
 					}
@@ -217,7 +217,7 @@ int32 FJsonContentLoader::MergeInto(UGameDatabase* Db, const FString& Dir)
 			}
 		}
 		if (FObj Caps = Obj(J, TEXT("perkCaps")))
-			for (const auto& C : Caps->Values) if (!Db->PerkCaps.Contains(FName(*C.Key))) Db->PerkCaps.Add(FName(*C.Key), (float)C.Value->AsNumber());
+			for (const auto& C : Caps->Values) if (!Db->PerkCaps.Contains(FName(*FString(*C.Key)))) Db->PerkCaps.Add(FName(*FString(*C.Key)), (float)C.Value->AsNumber());
 	}
 
 	// ---------------- Items ----------------
@@ -232,10 +232,10 @@ int32 FJsonContentLoader::MergeInto(UGameDatabase* Db, const FString& Dir)
 			for (const auto& Pair : Items->Values)
 			{
 				const FObj O = Pair.Value->AsObject();
-				UItemDef* I = Upsert(Db, Db->Items, Id(Pair.Key), bFill, Created);
+				UItemDef* I = Upsert(Db, Db->Items, Id(FString(*Pair.Key)), bFill, Created);
 				if (!bFill) continue;
 				const FString Type = Str(O, TEXT("type"));
-				I->DisplayName = Txt(Pair.Key);
+				I->DisplayName = Txt(FString(*Pair.Key));
 				I->ItemType = FName(*Type);
 				I->Value = (int32)Num(O, TEXT("value"), 1);
 				I->bStackable = true; // every item stacks in Gielinor Lite
@@ -267,11 +267,11 @@ int32 FJsonContentLoader::MergeInto(UGameDatabase* Db, const FString& Dir)
 				I->Rarity = FName(*Str(O, TEXT("rarity")));
 				I->SpecialText = Txt(Str(O, TEXT("special")));
 				if (FObj Req = Obj(O, TEXT("req")))
-					for (const auto& R : Req->Values) I->SkillRequirements.Add(Id(R.Key), (int32)R.Value->AsNumber());
+					for (const auto& R : Req->Values) I->SkillRequirements.Add(Id(FString(*R.Key)), (int32)R.Value->AsNumber());
 				ReadFx(Obj(O, TEXT("eff")), I->Effects);
 				if (Has(O, TEXT("regen"))) I->Effects.Add(TEXT("regen"), (float)Num(O, TEXT("regen")));
-				if (FObj G = Obj(O, TEXT("gather"))) for (const auto& S : G->Values) I->Effects.Add(FName(*(TEXT("gather.") + Id(S.Key).ToString())), (float)S.Value->AsNumber());
-				if (FObj X = Obj(O, TEXT("xp"))) for (const auto& S : X->Values) I->Effects.Add(FName(*(TEXT("xp.") + Id(S.Key).ToString())), (float)S.Value->AsNumber());
+				if (FObj G = Obj(O, TEXT("gather"))) for (const auto& S : G->Values) I->Effects.Add(FName(*(TEXT("gather.") + Id(FString(*S.Key)).ToString())), (float)S.Value->AsNumber());
+				if (FObj X = Obj(O, TEXT("xp"))) for (const auto& S : X->Values) I->Effects.Add(FName(*(TEXT("xp.") + Id(FString(*S.Key)).ToString())), (float)S.Value->AsNumber());
 				if (FObj Buff = Obj(O, TEXT("buff")))
 				{
 					I->BuffTicks = (int32)Num(Buff, TEXT("ticks"));
@@ -281,7 +281,7 @@ int32 FJsonContentLoader::MergeInto(UGameDatabase* Db, const FString& Dir)
 						for (const auto& S : B->Values)
 						{
 							const FArr& FP = S.Value->AsArray();
-							if (FP.Num() >= 2) { I->BuffBoostFlat.Add(Id(S.Key), (int32)FP[0]->AsNumber()); I->BuffBoostPct.Add(Id(S.Key), (float)FP[1]->AsNumber()); }
+							if (FP.Num() >= 2) { I->BuffBoostFlat.Add(Id(FString(*S.Key)), (int32)FP[0]->AsNumber()); I->BuffBoostPct.Add(Id(FString(*S.Key)), (float)FP[1]->AsNumber()); }
 						}
 					}
 				}
@@ -291,10 +291,10 @@ int32 FJsonContentLoader::MergeInto(UGameDatabase* Db, const FString& Dir)
 		{
 			for (const auto& Pair : Sets->Values)
 			{
-				if (Db->ArmourSets.ContainsByPredicate([&](const FArmourSet& S) { return S.Name == FName(*Pair.Key); })) continue;
+				if (Db->ArmourSets.ContainsByPredicate([&](const FArmourSet& S) { return S.Name == FName(*FString(*Pair.Key)); })) continue;
 				const FObj O = Pair.Value->AsObject();
 				FArmourSet Set;
-				Set.Name = FName(*Pair.Key);
+				Set.Name = FName(*FString(*Pair.Key));
 				if (const FArr* P = Arr(O, TEXT("pieces"))) for (const TSharedPtr<FJsonValue>& V : *P) Set.Pieces.Add(SlotFrom(V->AsString()));
 				ReadFx(Obj(O, TEXT("fx")), Set.Effects);
 				Db->ArmourSets.Add(Set);
@@ -350,7 +350,7 @@ int32 FJsonContentLoader::MergeInto(UGameDatabase* Db, const FString& Dir)
 			for (const auto& Pair : Monsters->Values)
 			{
 				const FObj O = Pair.Value->AsObject();
-				UMobDef* M = Upsert(Db, Db->Mobs, Id(Pair.Key), bFill, Created);
+				UMobDef* M = Upsert(Db, Db->Mobs, Id(FString(*Pair.Key)), bFill, Created);
 				if (!bFill) continue;
 				M->DisplayName = Txt(Str(O, TEXT("name")));
 				M->Title = Txt(Str(O, TEXT("title")));
@@ -371,7 +371,7 @@ int32 FJsonContentLoader::MergeInto(UGameDatabase* Db, const FString& Dir)
 				M->BodySize = FVector(60, 170, 60) * Scale;
 				M->bAggressive = M->bBoss || M->CombatLevel >= 20;
 				M->Drops.Reset();
-				ReadDrops(Arr(Loot, *Pair.Key), M->Drops);
+				ReadDrops(Arr(Loot, *FString(*Pair.Key)), M->Drops);
 				if (M->Drops.Num() == 0) if (UItemDef* B = Db->FindItem(TEXT("bones"))) { FDropEntry E; E.Item = B; M->Drops.Add(E); }
 			}
 		}
@@ -387,7 +387,7 @@ int32 FJsonContentLoader::MergeInto(UGameDatabase* Db, const FString& Dir)
 					D.MobId = Id(Str(O, TEXT("mon")));
 					D.Count = (int32)Num(O, TEXT("n"), 5);
 					D.Coins = (int32)Num(O, TEXT("gp"));
-					if (FObj X = Obj(O, TEXT("xp"))) for (const auto& S : X->Values) D.Xp.Add(Id(S.Key), (float)S.Value->AsNumber());
+					if (FObj X = Obj(O, TEXT("xp"))) for (const auto& S : X->Values) D.Xp.Add(Id(FString(*S.Key)), (float)S.Value->AsNumber());
 					D.Ask = Txt(Str(O, TEXT("ask")));
 					D.Giver = Txt(Str(O, TEXT("giver")));
 					D.Where = Txt(Str(O, TEXT("where")));
@@ -407,9 +407,9 @@ int32 FJsonContentLoader::MergeInto(UGameDatabase* Db, const FString& Dir)
 			for (const auto& Pair : G->Values)
 			{
 				const FObj O = Pair.Value->AsObject();
-				UResourceNodeDef* N = Upsert(Db, Db->ResourceNodes, FName(*(FString(Prefix) + Id(Pair.Key).ToString())), bFill, Created);
+				UResourceNodeDef* N = Upsert(Db, Db->ResourceNodes, FName(*(FString(Prefix) + Id(FString(*Pair.Key)).ToString())), bFill, Created);
 				if (!bFill) continue;
-				N->DisplayName = Txt(Kind == EResourceKind::Rock ? Pair.Key + TEXT(" rocks") : Kind == EResourceKind::HerbPatch ? Pair.Key + TEXT(" patch") : Pair.Key);
+				N->DisplayName = Txt(Kind == EResourceKind::Rock ? FString(*Pair.Key) + TEXT(" rocks") : Kind == EResourceKind::HerbPatch ? FString(*Pair.Key) + TEXT(" patch") : FString(*Pair.Key));
 				N->Kind = Kind;
 				N->Skill = Skill(SkillName);
 				N->ToolRequired = Tool;
@@ -432,7 +432,7 @@ int32 FJsonContentLoader::MergeInto(UGameDatabase* Db, const FString& Dir)
 			for (const auto& Pair : F->Values)
 			{
 				const FObj O = Pair.Value->AsObject();
-				UResourceNodeDef* N = Upsert(Db, Db->ResourceNodes, FName(*(TEXT("fish_") + Id(Pair.Key).ToString())), bFill, Created);
+				UResourceNodeDef* N = Upsert(Db, Db->ResourceNodes, FName(*(TEXT("fish_") + Id(FString(*Pair.Key)).ToString())), bFill, Created);
 				if (!bFill) continue;
 				N->DisplayName = Txt(TEXT("Fishing spot (") + Str(O, TEXT("verb")) + TEXT(")"));
 				N->Kind = EResourceKind::FishingSpot;
@@ -483,7 +483,7 @@ int32 FJsonContentLoader::MergeInto(UGameDatabase* Db, const FString& Dir)
 				R->ToolRequired = ToolFrom(Str(O, TEXT("tool")));
 				R->Inputs.Reset();
 				if (FObj In = Obj(O, TEXT("inputs")))
-					for (const auto& P : In->Values) { FItemAmount A; A.Item = Item(P.Key); A.Amount = (int32)P.Value->AsNumber(); if (A.Item) R->Inputs.Add(A); }
+					for (const auto& P : In->Values) { FItemAmount A; A.Item = Item(FString(*P.Key)); A.Amount = (int32)P.Value->AsNumber(); if (A.Item) R->Inputs.Add(A); }
 				R->Output = Item(Str(O, TEXT("output")));
 				R->OutputAmount = 1;
 				if (R->Output && R->Output->ItemType == TEXT("ammo")) R->OutputAmount = 15;
@@ -519,7 +519,7 @@ int32 FJsonContentLoader::MergeInto(UGameDatabase* Db, const FString& Dir)
 			for (const auto& Pair : Npcs->Values)
 			{
 				const FObj O = Pair.Value->AsObject();
-				UNpcDef* N = Upsert(Db, Db->Npcs, FName(*Pair.Key), bFill, Created);
+				UNpcDef* N = Upsert(Db, Db->Npcs, FName(*FString(*Pair.Key)), bFill, Created);
 				if (!bFill) continue;
 				N->DisplayName = Txt(Str(O, TEXT("name")));
 				N->IdleLines = { Txt(Str(O, TEXT("examine"))) };
@@ -563,12 +563,12 @@ int32 FJsonContentLoader::MergeInto(UGameDatabase* Db, const FString& Dir)
 				Q->ThanksLine = Txt(Str(D, TEXT("thanks")));
 				Q->Coins = (int32)Num(D, TEXT("gold"));
 				Q->XpRewards.Reset();
-				if (FObj X = Obj(D, TEXT("xp"))) for (const auto& S : X->Values) { FXpReward R; R.Skill = Skill(S.Key); R.Xp = (float)S.Value->AsNumber(); if (R.Skill) Q->XpRewards.Add(R); }
+				if (FObj X = Obj(D, TEXT("xp"))) for (const auto& S : X->Values) { FXpReward R; R.Skill = Skill(FString(*S.Key)); R.Xp = (float)S.Value->AsNumber(); if (R.Skill) Q->XpRewards.Add(R); }
 				Q->ItemRewards.Reset();
-				if (FObj IR = Obj(D, TEXT("items"))) for (const auto& S : IR->Values) { FItemAmount A; A.Item = Item(S.Key); A.Amount = (int32)S.Value->AsNumber(); if (A.Item) Q->ItemRewards.Add(A); }
+				if (FObj IR = Obj(D, TEXT("items"))) for (const auto& S : IR->Values) { FItemAmount A; A.Item = Item(FString(*S.Key)); A.Amount = (int32)S.Value->AsNumber(); if (A.Item) Q->ItemRewards.Add(A); }
 				if (FObj Req = Obj(D, TEXT("req")))
 				{
-					if (FObj L = Obj(Req, TEXT("lvl"))) for (const auto& S : L->Values) Q->RequiredLevels.Add(Id(S.Key), (int32)S.Value->AsNumber());
+					if (FObj L = Obj(Req, TEXT("lvl"))) for (const auto& S : L->Values) Q->RequiredLevels.Add(Id(FString(*S.Key)), (int32)S.Value->AsNumber());
 					if (const FArr* QL = Arr(Req, TEXT("q"))) for (const TSharedPtr<FJsonValue>& S : *QL) Q->RequiredQuests.Add(FName(*S->AsString()));
 				}
 				Q->Steps.Reset();
@@ -585,7 +585,7 @@ int32 FJsonContentLoader::MergeInto(UGameDatabase* Db, const FString& Dir)
 						{
 							Step.Type = EQuestStepType::Deliver;
 							Step.Npc = Q->Giver;
-							if (FObj Its = Obj(S, TEXT("items"))) for (const auto& P : Its->Values) { FItemAmount A; A.Item = Item(P.Key); A.Amount = (int32)P.Value->AsNumber(); if (A.Item) Step.Items.Add(A); }
+							if (FObj Its = Obj(S, TEXT("items"))) for (const auto& P : Its->Values) { FItemAmount A; A.Item = Item(FString(*P.Key)); A.Amount = (int32)P.Value->AsNumber(); if (A.Item) Step.Items.Add(A); }
 							if (Has(S, TEXT("to"))) if (UNpcDef* To = Db->FindNpc(FName(*Str(S, TEXT("to"))))) Step.Npc = To;
 						}
 						else if (T == TEXT("talk"))
@@ -628,6 +628,7 @@ int32 FJsonContentLoader::MergeInto(UGameDatabase* Db, const FString& Dir)
 					S.AttackBonus = (int32)Num(O, TEXT("att"));
 					S.StrengthBonus = (int32)Num(O, TEXT("str"));
 					S.DefenceBonus = (int32)Num(O, TEXT("def"));
+					S.RangeTiles = (float)Num(O, TEXT("range"));
 					S.SpeedTicks = (int32)Num(O, TEXT("speed"));
 					if (const FArr* X = Arr(O, TEXT("xp"))) for (const TSharedPtr<FJsonValue>& XV : *X) S.XpSkills.Add(Id(XV->AsString()));
 					Out.Add(S);
@@ -648,7 +649,7 @@ int32 FJsonContentLoader::MergeInto(UGameDatabase* Db, const FString& Dir)
 				S->MaxHit = (int32)Num(O, TEXT("maxHit"), 20);
 				S->Xp = (float)Num(O, TEXT("xp"));
 				S->Runes.Reset();
-				if (FObj R = Obj(O, TEXT("runes"))) for (const auto& P : R->Values) { FRuneCost C; C.Rune = Item(P.Key); C.Amount = (int32)P.Value->AsNumber(); if (C.Rune) S->Runes.Add(C); }
+				if (FObj R = Obj(O, TEXT("runes"))) for (const auto& P : R->Values) { FRuneCost C; C.Rune = Item(FString(*P.Key)); C.Amount = (int32)P.Value->AsNumber(); if (C.Rune) S->Runes.Add(C); }
 				const FString N = S->DisplayName.ToString();
 				S->Color = N.StartsWith(TEXT("Fire")) ? FLinearColor(1.f, 0.35f, 0.1f) : N.StartsWith(TEXT("Water")) ? FLinearColor(0.2f, 0.45f, 1.f) : N.StartsWith(TEXT("Earth")) ? FLinearColor(0.5f, 0.35f, 0.15f) : FLinearColor(0.85f, 0.95f, 1.f);
 			}
@@ -702,13 +703,13 @@ int32 FJsonContentLoader::MergeInto(UGameDatabase* Db, const FString& Dir)
 			for (const auto& Pair : Pots->Values)
 			{
 				const FObj O = Pair.Value->AsObject();
-				UPotionDef* P = Upsert(Db, Db->Potions, Id(Pair.Key), bFill, Created);
+				UPotionDef* P = Upsert(Db, Db->Potions, Id(FString(*Pair.Key)), bFill, Created);
 				if (!bFill) continue;
-				P->Item = Item(Pair.Key);
+				P->Item = Item(FString(*Pair.Key));
 				P->Instant = FName(*Str(O, TEXT("instant")));
 				P->ImmuneTicks = (int32)Num(O, TEXT("ticks"));
 				if (FObj B = Obj(O, TEXT("boost")))
-					for (const auto& S : B->Values) { const FObj BO = S.Value->AsObject(); P->BoostFlat.Add(Id(S.Key), (int32)Num(BO, TEXT("flat"))); P->BoostPct.Add(Id(S.Key), (float)Num(BO, TEXT("pct"))); }
+					for (const auto& S : B->Values) { const FObj BO = S.Value->AsObject(); P->BoostFlat.Add(Id(FString(*S.Key)), (int32)Num(BO, TEXT("flat"))); P->BoostPct.Add(Id(FString(*S.Key)), (float)Num(BO, TEXT("pct"))); }
 				ReadFx(Obj(O, TEXT("fx")), P->Fx);
 			}
 		}
@@ -722,7 +723,7 @@ int32 FJsonContentLoader::MergeInto(UGameDatabase* Db, const FString& Dir)
 			for (const auto& Pair : Shops->Values)
 			{
 				const FObj O = Pair.Value->AsObject();
-				UShopDef* S = Upsert(Db, Db->Shops, FName(*Pair.Key), bFill, Created);
+				UShopDef* S = Upsert(Db, Db->Shops, FName(*FString(*Pair.Key)), bFill, Created);
 				if (!bFill) continue;
 				S->DisplayName = Txt(Str(O, TEXT("title")));
 				S->Stock.Reset();
@@ -753,7 +754,7 @@ int32 FJsonContentLoader::MergeInto(UGameDatabase* Db, const FString& Dir)
 			for (const auto& Pair : Courses->Values)
 			{
 				const FObj O = Pair.Value->AsObject();
-				UAgilityCourseDef* C = Upsert(Db, Db->AgilityCourses, FName(*Pair.Key), bFill, Created);
+				UAgilityCourseDef* C = Upsert(Db, Db->AgilityCourses, FName(*FString(*Pair.Key)), bFill, Created);
 				if (!bFill) continue;
 				C->DisplayName = Txt(Str(O, TEXT("name")));
 				C->Level = (int32)Num(O, TEXT("level"), 1);
@@ -781,9 +782,9 @@ int32 FJsonContentLoader::MergeInto(UGameDatabase* Db, const FString& Dir)
 			for (const auto& Pair : T->Values)
 			{
 				const FObj O = Pair.Value->AsObject();
-				UThieveTargetDef* D = Upsert(Db, Db->ThieveTargets, Id(Pair.Key), bFill, Created);
+				UThieveTargetDef* D = Upsert(Db, Db->ThieveTargets, Id(FString(*Pair.Key)), bFill, Created);
 				if (!bFill) continue;
-				D->DisplayName = Txt(Pair.Key);
+				D->DisplayName = Txt(FString(*Pair.Key));
 				D->Level = (int32)Num(O, TEXT("level"), 1);
 				D->Xp = (float)Num(O, TEXT("xp"));
 				D->StunTicks = (int32)Num(O, TEXT("stun"), 5);
@@ -797,9 +798,9 @@ int32 FJsonContentLoader::MergeInto(UGameDatabase* Db, const FString& Dir)
 			for (const auto& Pair : A->Values)
 			{
 				const FObj O = Pair.Value->AsObject();
-				URuneAltarDef* D = Upsert(Db, Db->RuneAltars, Id(Pair.Key), bFill, Created);
+				URuneAltarDef* D = Upsert(Db, Db->RuneAltars, Id(FString(*Pair.Key)), bFill, Created);
 				if (!bFill) continue;
-				D->DisplayName = Txt(Pair.Key + TEXT(" altar"));
+				D->DisplayName = Txt(FString(*Pair.Key) + TEXT(" altar"));
 				D->Rune = Item(Str(O, TEXT("rune")));
 				D->Level = (int32)Num(O, TEXT("level"), 1);
 				D->XpPerEssence = (float)Num(O, TEXT("xp"), 5);
@@ -818,8 +819,8 @@ int32 FJsonContentLoader::MergeInto(UGameDatabase* Db, const FString& Dir)
 			{
 				const FObj O = Pair.Value->AsObject();
 				FTownInfo T;
-				T.Id = Id(Pair.Key);
-				T.DisplayName = Txt(Pair.Key);
+				T.Id = Id(FString(*Pair.Key));
+				T.DisplayName = Txt(FString(*Pair.Key));
 				T.Position = FVector2D(Num(O, TEXT("x")), Num(O, TEXT("z")));
 				Db->Towns.Add(T);
 			}

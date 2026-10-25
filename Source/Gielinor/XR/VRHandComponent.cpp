@@ -140,7 +140,8 @@ void UVRHandComponent::UpdateHandTracking()
 	// UE 5.5+: hand joints come from the XR system's hand-tracking state.
 	if (!GEngine || !GEngine->XRSystem.IsValid()) return;
 	FXRHandTrackingState Data;
-	if (!GEngine->XRSystem->GetHandTrackingState(this, EXRSpaceType::UnrealWorldSpace, Hand, Data) || !Data.bValid) return;
+	GEngine->XRSystem->GetHandTrackingState(this, EXRSpaceType::UnrealWorldSpace, Hand, Data);
+	if (!Data.bValid) return;
 	const int32 Thumb = (int32)EHandKeypoint::ThumbTip, Index = (int32)EHandKeypoint::IndexTip;
 	if (!Data.HandKeyLocations.IsValidIndex(Thumb) || !Data.HandKeyLocations.IsValidIndex(Index)) return;
 	const bool bPinch = (Data.HandKeyLocations[Thumb] - Data.HandKeyLocations[Index]).Size() < PinchCm;
