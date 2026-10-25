@@ -1,16 +1,29 @@
 # Next steps
 
+## WebGPU-parity port (Oct 2026): manual editor steps
+The C++ now mirrors Gielinor-Lite's `webgpu` branch: rules/formulas (`UGielinorRules`), 0.6 s game tick, HP x10, prayer, potions/food boosts,
+run energy, poison/venom/stun, adrenaline abilities, melee/ranged/magic combat with ammo/runes, procs, block/reflect/riposte, leash,
+bounties, drops, gathering/cooking via rules, activity actors and data-driven quests (requirements, Visit/Xp/Bury steps, QP milestones).
+- [ ] Re-run **Gielinor → Import JSON content** so DataAssets get the new fields (bonuses, prayers, spells, milestones, quest requirements).
+- [ ] Place activity actors in the map: `AAgilityObstacle` (set CourseId + Index; drag the End widget), `AThieveTarget` (TargetId),
+      `ARuneAltar` (AltarId), `APrayerAltar`, `AShopCounter` (shop id) and `AQuestPlaceVolume` (PlaceId matching quests.json `place`).
+- [ ] Bind `AShopCounter::OnShopOpened` to a shop widget calling `Buy`/`Sell`; implement `AAgilityObstacle::OnCrossed` for the crossing animation.
+- [ ] Starter mobs placed before the port still use the old HP scale; re-import or multiply their HP by 10.
+- [ ] 22 web quests are flagged `bNeedsStepAuthoring`; author their steps in the Quest DataAssets.
+- [ ] UMG still needed for: prayer book, spellbook/autocast, ability bar, run toggle, shop, bank, quest requirements text.
+- [ ] `UCombatMath` is only kept for the `Gielinor.Skills.XpCurve` test; gameplay uses `UGielinorRules`.
+
 ## 0. First build (do this first)
-- [ ] Build Development Editor and paste any compile errors back for fixes. Likely spots: engine API drift in 5.6, such as hand-tracking calls and Enhanced Input mapping storage.
+- [x] Build Development Editor (laptop build passes: `Result: Succeeded`).
 - [ ] Run **Gielinor → Run All**, then Play and VR Preview.
 - [ ] Run the automation test `Gielinor.Skills.XpCurve`.
-- [ ] Swap `GetMotionControllerData` (deprecated) for `UHeadMountedDisplayFunctionLibrary::GetHandTrackingState` in `UVRHandComponent::UpdateHandTracking`.
+- [x] Swap `GetMotionControllerData` for `GetHandTrackingState` in `UVRHandComponent::UpdateHandTracking`.
 
 ## 1. Make the slice feel like Gielinor
 - [ ] UMG widgets: make `WBP_HUD`, `WBP_Inventory`, `WBP_Skills` and `WBP_QuestLog` inheriting the C++ bases, then set `AGielinorHUD::HudWidgetClass` and `AGielinorVRPawn::WristWidgetClass` in Blueprint subclasses. Add a **bank window** (withdraw/deposit), a **recipe picker** for stations, and **dialogue choices** (accept/decline the quest). These have APIs but no widgets yet.
 - [ ] Doors open automatically when a click-to-move path goes through them.
-- [ ] Shop buy/sell (`UShopDef` + `AShopCounter`, the same pattern as stations).
-- [ ] Firemaking (tinderbox + logs → fire actor → cook on fire), Prayer (bury bones), Ranged/Magic styles.
+- [x] Shop buy/sell logic (`AShopCounter`); widget still needed.
+- [ ] Firemaking fire actor spawn (cooking on fires works). Prayer and Ranged/Magic are done in C++.
 - [ ] Death: keep 3 items plus a gravestone, matching the web build rules.
 - [ ] Eat food from the inventory with a delay (the Canvas fallback can't click slots, so the UMG inventory is needed).
 
