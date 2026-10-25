@@ -41,6 +41,10 @@ public:
 	UPROPERTY(BlueprintReadOnly, Category="Quests") TArray<int32> ClaimedMilestones;
 	/** Gives any newly reached quest-point milestone items. */
 	void CheckMilestones();
+	/** Every quest done, or the legacy flag (kept when new quests are added after earning the cape). */
+	UFUNCTION(BlueprintPure, Category="Quests") bool QuestCapeAllowed() const;
+	UFUNCTION(BlueprintPure, Category="Quests") bool AllQuestsDone() const;
+	UPROPERTY(BlueprintReadOnly, Category="Quests") bool bQuestCapeLegacy = false;
 
 	/** Called by ANpcTalk. Returns true if a quest consumed the conversation (so idle lines are skipped). */
 	bool HandleTalk(UNpcDef* Npc);

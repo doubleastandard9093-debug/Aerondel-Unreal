@@ -26,15 +26,17 @@ AGielinorPlayerState::AGielinorPlayerState()
 void AGielinorPlayerState::BeginPlay()
 {
 	Super::BeginPlay();
+	bool bLoaded = false;
 	if (UGielinorSaveSubsystem* Save = GetGameInstance()->GetSubsystem<UGielinorSaveSubsystem>())
 	{
-		if (!Save->LoadInto(this))
+		bLoaded = Save->LoadInto(this);
+		if (!bLoaded)
 		{
-			Inventory->GiveStarterKit();
 			Stats->ResetRuntime();
+			Inventory->GiveStarterKit();
 		}
 	}
-	Stats->RefreshMaxHp(true);
+	Stats->RefreshMaxHp(!bLoaded);
 	Stats->PrayerPoints = FMath::Min(Stats->PrayerPoints, (float)UGielinorRules::MaxPrayerPoints(this));
 }
 

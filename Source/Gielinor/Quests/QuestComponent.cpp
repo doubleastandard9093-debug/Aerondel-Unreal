@@ -178,6 +178,16 @@ void UQuestComponent::OnXpGained(USkillDef* Skill, float Amount, float, int32)
 	Bump([SkillId](const FQuestStep& S) { return S.Type == EQuestStepType::Xp && S.SkillId == SkillId; }, FMath::CeilToInt(Amount));
 }
 
+bool UQuestComponent::AllQuestsDone() const
+{
+	const UGameDatabase* Db = UGameDatabase::Get();
+	if (!Db || Db->Quests.Num() == 0) return false;
+	for (const UQuestDef* Q : Db->Quests) if (Q && GetState(Q) != EQuestState::Completed) return false;
+	return true;
+}
+
+bool UQuestComponent::QuestCapeAllowed() const { return bQuestCapeLegacy || AllQuestsDone(); }
+
 void UQuestComponent::CheckMilestones()
 {
 	const UGameDatabase* Db = UGameDatabase::Get();
@@ -216,6 +226,11 @@ void UQuestComponent::Complete(FQuestProgress& P)
 		if (Q->Coins > 0) if (const UGameDatabase* Db = UGameDatabase::Get()) S->Inventory->Add(Db->FindItem(TEXT("coins")), Q->Coins, false);
 	}
 	CheckMilestones();
+	if (AllQuestsDone() && !bQuestCapeLegacy)
+	{
+		bQuestCapeLegacy = true;
+		if (const UGameDatabase* Db = UGameDatabase::Get()) if (AGielinorPlayerState* S = PS()) S->Inventory->Add(Db->FindItem(TEXT("quest_point_cape")), 1, false);
+	}
 	Say(Q->Giver, { Q->EndLine });
 	if (UGielinorEvents* Ev = UGielinorEvents::Get(this))
 	{

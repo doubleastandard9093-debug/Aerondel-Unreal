@@ -2,6 +2,8 @@
 #include "Data/ItemDef.h"
 #include "Data/GameDatabase.h"
 #include "Core/GielinorEvents.h"
+#include "Core/GielinorPlayerState.h"
+#include "Core/PlayerStatsComponent.h"
 
 UInventoryComponent::UInventoryComponent() { bWantsInitializeComponent = true; }
 
@@ -102,7 +104,19 @@ void UInventoryComponent::GiveStarterKit()
 {
 	const UGameDatabase* Db = UGameDatabase::Get();
 	if (!Db) return;
-	for (const TCHAR* Id : { TEXT("bronze_axe"), TEXT("bronze_pickaxe"), TEXT("small_fishing_net"), TEXT("hammer"), TEXT("tinderbox"), TEXT("bronze_sword") })
-		if (UItemDef* I = Db->FindItem(Id)) Add(I, 1, false);
+	// Web build: tools go on the toolbelt; the pack gets a sword, a shield, 3 shrimp and 25 coins.
+	if (AGielinorPlayerState* S = Cast<AGielinorPlayerState>(GetOwner()))
+	{
+		if (S->Stats)
+		{
+			for (UItemDef* T : Db->StarterTools) S->Stats->AddTool(T);
+			if (Db->StarterTools.Num() == 0)
+				for (const TCHAR* Id : { TEXT("bronze_axe"), TEXT("bronze_pickaxe"), TEXT("small_fishing_net"), TEXT("hammer"), TEXT("knife"), TEXT("needle"), TEXT("tinderbox") })
+					S->Stats->AddTool(Db->FindItem(Id));
+		}
+	}
+	if (UItemDef* I = Db->FindItem(TEXT("bronze_sword"))) Add(I, 1, false);
+	if (UItemDef* I = Db->FindItem(TEXT("wooden_shield"))) Add(I, 1, false);
+	if (UItemDef* I = Db->FindItem(TEXT("cooked_shrimp"))) Add(I, 3, false);
 	if (UItemDef* Coins = Db->FindItem(TEXT("coins"))) Add(Coins, 25, false);
 }

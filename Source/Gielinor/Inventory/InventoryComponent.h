@@ -17,7 +17,7 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Inventory") int32 Capacity = 28;
 	/** Bank-style: every item stacks regardless of UItemDef::bStackable. */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Inventory") bool bStackEverything = false;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Inventory") bool bStackEverything = true;
 	UPROPERTY(BlueprintAssignable) FOnContainerChanged OnChanged;
 
 	/** Adds as many as fit. Returns how many were NOT added. */
