@@ -19,17 +19,17 @@
 
 namespace
 {
-	const UGameDatabase* Db() { return UGameDatabase::Get(); }
-	USkillDef* Skill(FName Id) { return Db() ? Db()->FindSkill(Id) : nullptr; }
-	UItemDef* Coins() { return Db() ? Db()->FindItem(TEXT("coins")) : nullptr; }
-	void GiveXp(AGielinorPlayerState* S, FName Id, float Xp) { S->Skills->AddXp(Skill(Id), Xp * UGielinorRules::XpMultiplier(S, Id)); }
-	bool Stunned(AGielinorPlayerState* S) { return S->Stats && S->Stats->IsStunned(); }
+	const UGameDatabase* ActDb() { return UGameDatabase::Get(); }
+	USkillDef* ActSkill(FName Id) { return ActDb() ? ActDb()->FindSkill(Id) : nullptr; }
+	UItemDef* ActCoins() { return ActDb() ? ActDb()->FindItem(TEXT("coins")) : nullptr; }
+	void ActGiveXp(AGielinorPlayerState* S, FName Id, float Xp) { S->Skills->AddXp(ActSkill(Id), Xp * UGielinorRules::XpMultiplier(S, Id)); }
+	bool ActStunned(AGielinorPlayerState* S) { return S->Stats && S->Stats->IsStunned(); }
 }
 
 // ------------------------------------------------------------------ agility
 const FAgilityObstacle* AAgilityObstacleActor::Obstacle(const UAgilityCourseDef*& OutCourse) const
 {
-	OutCourse = Db() ? Db()->FindAgilityCourse(CourseId) : nullptr;
+	OutCourse = ActDb() ? ActDb()->FindAgilityCourse(CourseId) : nullptr;
 	return OutCourse && OutCourse->Obstacles.IsValidIndex(Index) ? &OutCourse->Obstacles[Index] : nullptr;
 }
 
@@ -45,7 +45,7 @@ void AAgilityObstacleActor::Interact(AActor* InInstigator)
 	AGielinorPlayerState* S = PS(InInstigator);
 	const UAgilityCourseDef* C = nullptr;
 	const FAgilityObstacle* O = Obstacle(C);
-	if (!S || !O || !S->Stats || Stunned(S)) return;
+	if (!S || !O || !S->Stats || ActStunned(S)) return;
 	const int32 L = S->Skills->GetLevelById(TEXT("agility"));
 	if (L < O->Level) { Msg(FText::Format(LOCTEXT("AgLvl", "You need an Agility level of {0} to use this course."), O->Level)); return; }
 	UPlayerStatsComponent* St = S->Stats;
@@ -55,7 +55,7 @@ void AAgilityObstacleActor::Interact(AActor* InInstigator)
 	{
 		St->AgilityCourse = NAME_None;
 		Msg(FText::Format(LOCTEXT("Slip", "You slip and fall off the {0}."), O->DisplayName));
-		GiveXp(S, TEXT("agility"), FMath::RoundToFloat(O->Xp * 0.25f * XpMult * 10.f) / 10.f);
+		ActGiveXp(S, TEXT("agility"), FMath::RoundToFloat(O->Xp * 0.25f * XpMult * 10.f) / 10.f);
 		St->ApplyPlayerDamage(FMath::Max(1, FMath::FloorToInt(O->FailDamage * (0.5f + FMath::FRand() * 0.5f))), this);
 		OnCrossed(InInstigator, false);
 		return;
@@ -67,23 +67,23 @@ void AAgilityObstacleActor::Interact(AActor* InInstigator)
 	if (Pawn) Pawn->TeleportTo(GetActorTransform().TransformPosition(End), Pawn->GetActorRotation());
 	Msg(FText::Format(LOCTEXT("Cross", "You {0} the {1}."), O->Verb, O->DisplayName));
 	if (LapXp > 0.f) Msg(FText::Format(LOCTEXT("Lap", "Lap complete! You finish the {0} for bonus Agility XP."), C->DisplayName));
-	GiveXp(S, TEXT("agility"), (O->Xp + LapXp) * XpMult);
+	ActGiveXp(S, TEXT("agility"), (O->Xp + LapXp) * XpMult);
 	OnCrossed(InInstigator, true);
 }
 
 // ------------------------------------------------------------------ thieving
 FText AThieveTarget::GetInteractLabel() const
 {
-	const UThieveTargetDef* T = Db() ? Db()->FindThieveTarget(TargetId) : nullptr;
+	const UThieveTargetDef* T = ActDb() ? ActDb()->FindThieveTarget(TargetId) : nullptr;
 	return FText::Format(LOCTEXT("Pick", "Pickpocket {0}"), T ? T->DisplayName : DisplayName);
 }
 
 void AThieveTarget::Interact(AActor* InInstigator)
 {
 	AGielinorPlayerState* S = PS(InInstigator);
-	const UThieveTargetDef* T = Db() ? Db()->FindThieveTarget(TargetId) : nullptr;
+	const UThieveTargetDef* T = ActDb() ? ActDb()->FindThieveTarget(TargetId) : nullptr;
 	if (!S || !T || !S->Stats) return;
-	if (Stunned(S)) { Msg(LOCTEXT("Stunned", "You're stunned!")); return; }
+	if (ActStunned(S)) { Msg(LOCTEXT("Stunned", "You're stunned!")); return; }
 	const int32 L = S->Skills->GetLevelById(TEXT("thieving"));
 	if (L < T->Level) { Msg(FText::Format(LOCTEXT("ThLvl", "You need a Thieving level of {0} to pickpocket that."), T->Level)); return; }
 	const float LootBonus = UGielinorRules::Perk(S, TEXT("thieving"), TEXT("lootChance"));
@@ -100,24 +100,24 @@ void AThieveTarget::Interact(AActor* InInstigator)
 		UItemDef* Got = D.OneOf.Num() ? D.OneOf[FMath::RandHelper(D.OneOf.Num())].Get() : D.Item.Get();
 		if (!Got) continue;
 		int32 Qty = FMath::RandRange(D.Min, D.Max);
-		if (Got == Coins() && FMath::FRand() < LootBonus) Qty *= 2;
+		if (Got == ActCoins() && FMath::FRand() < LootBonus) Qty *= 2;
 		S->Inventory->Add(Got, Qty);
 	}
 	Msg(FText::Format(LOCTEXT("Picked", "You pick the {0}'s pocket."), T->DisplayName));
-	GiveXp(S, TEXT("thieving"), T->Xp * (1.f + UGielinorRules::Perk(S, TEXT("thieving"), TEXT("thieveXp"))));
+	ActGiveXp(S, TEXT("thieving"), T->Xp * (1.f + UGielinorRules::Perk(S, TEXT("thieving"), TEXT("thieveXp"))));
 }
 
 // ------------------------------------------------------------------ runecrafting
 FText ARuneAltar::GetInteractLabel() const
 {
-	const URuneAltarDef* A = Db() ? Db()->FindRuneAltar(AltarId) : nullptr;
+	const URuneAltarDef* A = ActDb() ? ActDb()->FindRuneAltar(AltarId) : nullptr;
 	return FText::Format(LOCTEXT("Craft", "Craft-rune {0}"), A ? A->DisplayName : DisplayName);
 }
 
 void ARuneAltar::Interact(AActor* InInstigator)
 {
 	AGielinorPlayerState* S = PS(InInstigator);
-	const URuneAltarDef* A = Db() ? Db()->FindRuneAltar(AltarId) : nullptr;
+	const URuneAltarDef* A = ActDb() ? ActDb()->FindRuneAltar(AltarId) : nullptr;
 	if (!S || !A || !A->Rune) { Msg(LOCTEXT("Nothing", "Nothing happens.")); return; }
 	const int32 L = S->Skills->GetLevelById(TEXT("runecrafting"));
 	if (L < A->Level) { Msg(FText::Format(LOCTEXT("RcLvl", "You need a Runecrafting level of {0} to craft {1}s."), A->Level, A->Rune->DisplayName)); return; }
@@ -125,7 +125,7 @@ void ARuneAltar::Interact(AActor* InInstigator)
 	for (const TCHAR* K : { TEXT("pure_essence"), TEXT("rune_essence") })
 	{
 		if (A->bPureEssenceOnly && FCString::Strcmp(K, TEXT("rune_essence")) == 0) continue;
-		if (UItemDef* E = Db()->FindItem(K)) { const int32 N = S->Inventory->CountOf(E); if (N > 0) Used += S->Inventory->Remove(E, N); }
+		if (UItemDef* E = ActDb()->FindItem(K)) { const int32 N = S->Inventory->CountOf(E); if (N > 0) Used += S->Inventory->Remove(E, N); }
 	}
 	if (Used == 0)
 	{
@@ -138,7 +138,7 @@ void ARuneAltar::Interact(AActor* InInstigator)
 	if (Dbl > 0.f) for (int32 i = 0; i < Used; ++i) if (FMath::FRand() < Dbl) ++Qty;
 	S->Inventory->Add(A->Rune, Qty);
 	Msg(FText::Format(LOCTEXT("Crafted", "You bind the temple's power into {0} x {1}."), Qty, A->Rune->DisplayName));
-	GiveXp(S, TEXT("runecrafting"), Used * A->XpPerEssence * (1.f + UGielinorRules::Perk(S, TEXT("runecrafting"), TEXT("rcXp"))));
+	ActGiveXp(S, TEXT("runecrafting"), Used * A->XpPerEssence * (1.f + UGielinorRules::Perk(S, TEXT("runecrafting"), TEXT("rcXp"))));
 }
 
 // ------------------------------------------------------------------ prayer altar
@@ -153,7 +153,7 @@ void APrayerAltar::Interact(AActor* InInstigator)
 }
 
 // ------------------------------------------------------------------ shops
-UShopDef* AShopCounter::GetShop() const { return Db() ? Db()->FindShop(ShopId) : nullptr; }
+UShopDef* AShopCounter::GetShop() const { return ActDb() ? ActDb()->FindShop(ShopId) : nullptr; }
 
 FText AShopCounter::GetInteractLabel() const
 {
@@ -173,14 +173,14 @@ TArray<int32> AShopCounter::VisibleStock(AActor* Player) const
 	const UShopDef* Sh = GetShop();
 	AGielinorPlayerState* S = PS(Player);
 	if (!Sh || !S) return Out;
-	const bool bQuestCape = Db() && S->Quests->QuestPoints() >= Db()->TotalQuestPoints();
+	const bool bQuestCape = ActDb() && S->Quests->QuestPoints() >= ActDb()->TotalQuestPoints();
 	for (int32 i = 0; i < Sh->Stock.Num(); ++i)
 	{
 		const FShopStock& E = Sh->Stock[i];
 		if (!E.Item) continue;
 		if (!E.UnlockQuest.IsNone())
 		{
-			const UQuestDef* Q = Db()->FindQuest(E.UnlockQuest);
+			const UQuestDef* Q = ActDb()->FindQuest(E.UnlockQuest);
 			if (!Q || S->Quests->GetState(Q) != EQuestState::Completed) continue;
 		}
 		if (!E.RequiresSkill99.IsNone() && S->Skills->GetLevelById(E.RequiresSkill99) < 99) continue;
@@ -206,7 +206,7 @@ bool AShopCounter::Buy(AActor* Player, int32 StockIndex, int32 Amount)
 	if (!S || !Sh || Amount <= 0 || !VisibleStock(Player).Contains(StockIndex)) return false;
 	UItemDef* It = Sh->Stock[StockIndex].Item;
 	const int32 Each = PriceOf(Player, StockIndex);
-	UItemDef* Gold = Coins();
+	UItemDef* Gold = ActCoins();
 	const int32 Afford = Each > 0 ? S->Inventory->CountOf(Gold) / Each : Amount;
 	const int32 N = FMath::Min(Amount, Afford);
 	if (N <= 0) { Msg(LOCTEXT("Poor", "You don't have enough coins.")); return false; }
@@ -222,7 +222,7 @@ bool AShopCounter::Buy(AActor* Player, int32 StockIndex, int32 Amount)
 bool AShopCounter::Sell(AActor* Player, UItemDef* SoldItem, int32 Amount)
 {
 	AGielinorPlayerState* S = PS(Player);
-	UItemDef* Gold = Coins();
+	UItemDef* Gold = ActCoins();
 	if (!S || !SoldItem || !Gold || SoldItem == Gold || Amount <= 0) return false;
 	const int32 N = S->Inventory->Remove(SoldItem, FMath::Min(Amount, S->Inventory->CountOf(SoldItem)));
 	if (N <= 0) return false;
