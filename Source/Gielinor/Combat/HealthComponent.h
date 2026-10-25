@@ -18,6 +18,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category="Health") void ApplyDamage(int32 Amount, AActor* Source);
 	UFUNCTION(BlueprintCallable, Category="Health") void Heal(int32 Amount);
 	UFUNCTION(BlueprintPure, Category="Health") int32 GetCurrent() const { return Current; }
+	/** Save/load: sets current HP (clamped to 1..Max) without events. */
+	void SetCurrentRaw(int32 Value) { Current = FMath::Clamp(Value, 1, Max); }
 	UFUNCTION(BlueprintPure, Category="Health") int32 GetMax() const { return Max; }
 	UFUNCTION(BlueprintPure, Category="Health") bool IsDead() const { return Current <= 0; }
 

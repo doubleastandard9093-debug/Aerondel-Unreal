@@ -7,6 +7,7 @@
 #include "Bank/BankComponent.h"
 #include "Quests/QuestComponent.h"
 #include "Combat/HealthComponent.h"
+#include "Core/PlayerStatsComponent.h"
 #include "Data/GameDatabase.h"
 #include "Data/ItemDef.h"
 #include "Data/SkillDef.h"
@@ -65,6 +66,19 @@ bool UGielinorSaveSubsystem::Save(AGielinorPlayerState* PS)
 	SaveContainer(PS->Bank, S->Bank);
 	for (const auto& E : PS->Equipment->GetAll()) if (E.Value) { FSavedEquip& D = S->Equipment.AddDefaulted_GetRef(); D.Slot = (uint8)E.Key; D.ItemId = E.Value->Id; }
 	for (const FQuestProgress& Q : PS->Quests->GetAll()) if (Q.Quest) { FSavedQuest& D = S->Quests.AddDefaulted_GetRef(); D.Id = Q.Quest->Id; D.State = (uint8)Q.State; D.Step = Q.Step; D.Counter = Q.Counter; }
+
+	S->Version = UGielinorSaveGame::CurrentVersion;
+	const UPlayerStatsComponent* St = PS->Stats;
+	S->PrayerPoints = St->PrayerPoints;
+	S->ActivePrayers = St->ActivePrayers;
+	for (const FActiveEffect& E : St->Effects) { FSavedEffect& D = S->Effects.AddDefaulted_GetRef(); D.Id = E.Id; D.TicksLeft = E.TicksLeft; D.Boost = E.Boost; D.Fx = E.Fx; }
+	S->PoisonDamage = St->Poison.Damage; S->PoisonNext = St->Poison.Next; S->PoisonImmuneTicks = St->PoisonImmuneTicks;
+	S->RunEnergy = St->RunEnergy; S->bRunning = St->bRunning; S->Adrenaline = St->Adrenaline;
+	for (const UItemDef* T : St->Toolbelt) if (T) S->Toolbelt.Add(T->Id);
+	S->AmmoCount = St->AmmoCount; S->AttackStyle = St->AttackStyle; S->AutocastSpell = St->AutocastSpell; S->bAutoRetaliate = St->bAutoRetaliate;
+	S->AgilityCourse = St->AgilityCourse; S->AgilityNext = St->AgilityNext; S->BountyId = St->BountyId; S->BountyKills = St->BountyKills;
+	S->ClaimedMilestones = PS->Quests->ClaimedMilestones;
+	S->bQuestCapeLegacy = PS->Quests->bQuestCapeLegacy;
 	return UGameplayStatics::SaveGameToSlot(S, SlotName, 0);
 }
 
@@ -81,6 +95,36 @@ bool UGielinorSaveSubsystem::LoadInto(AGielinorPlayerState* PS)
 	for (const FSavedEquip& E : S->Equipment) PS->Equipment->SetRaw((EEquipSlot)E.Slot, Db->FindItem(E.ItemId));
 	for (const FSavedQuest& Q : S->Quests)
 		if (UQuestDef* Definition = Db->FindQuest(Q.Id)) { FQuestProgress& P = PS->Quests->FindOrAdd(Definition); P.State = (EQuestState)Q.State; P.Step = Q.Step; P.Counter = Q.Counter; }
+
+	// ---- v2 fields (v1 saves: defaults + migration) ----
+	UPlayerStatsComponent* St = PS->Stats;
+	St->ResetRuntime();
+	if (S->Version >= 2)
+	{
+		if (S->PrayerPoints >= 0.f) St->PrayerPoints = S->PrayerPoints;
+		St->ActivePrayers = S->ActivePrayers;
+		for (const FSavedEffect& E : S->Effects) { FActiveEffect& D = St->Effects.AddDefaulted_GetRef(); D.Id = E.Id; D.TicksLeft = E.TicksLeft; D.Boost = E.Boost; D.Fx = E.Fx; }
+		St->Poison.Damage = S->PoisonDamage; St->Poison.Next = S->PoisonNext; St->PoisonImmuneTicks = S->PoisonImmuneTicks;
+		St->RunEnergy = S->RunEnergy; St->bRunning = S->bRunning; St->Adrenaline = S->Adrenaline;
+		for (const FName& T : S->Toolbelt) St->AddTool(Db->FindItem(T));
+		St->AmmoCount = S->AmmoCount; St->AttackStyle = S->AttackStyle; St->AutocastSpell = S->AutocastSpell; St->bAutoRetaliate = S->bAutoRetaliate;
+		St->AgilityCourse = S->AgilityCourse; St->AgilityNext = S->AgilityNext; St->BountyId = S->BountyId; St->BountyKills = S->BountyKills;
+		PS->Quests->ClaimedMilestones = S->ClaimedMilestones;
+		PS->Quests->bQuestCapeLegacy = S->bQuestCapeLegacy;
+	}
+	else
+	{
+		// v1 -> v2: starter tools onto the toolbelt, tools in the pack move to the belt, worn ammo counts as 1.
+		for (UItemDef* T : Db->StarterTools) St->AddTool(T);
+		for (const FItemStack& Slot : TArray<FItemStack>(PS->Inventory->GetSlots()))
+			if (Slot.Item && Slot.Item->IsTool() && St->AddTool(Slot.Item)) PS->Inventory->Remove(Slot.Item, Slot.Count);
+		if (PS->Equipment->GetEquipped(EEquipSlot::Ammo)) St->AmmoCount = 1;
+		PS->Quests->bQuestCapeLegacy = PS->Quests->AllQuestsDone();
+	}
+	if (PS->Equipment->GetEquipped(EEquipSlot::Ammo) == nullptr) St->AmmoCount = 0;
+	St->RefreshMaxHp(false);
+	PS->Health->SetCurrentRaw(S->Version >= 2 ? S->Hitpoints : S->Hitpoints * 10); // v1 used the x1 HP scale
+
 	UE_LOG(LogGielinor, Log, TEXT("Loaded save: %d skills, %d inventory slots."), S->Skills.Num(), S->Inventory.Num());
 	return true;
 }
