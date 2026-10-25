@@ -260,6 +260,7 @@ int32 FJsonContentLoader::MergeInto(UGameDatabase* Db, const FString& Dir)
 				I->SetName = FName(*Str(O, TEXT("set")));
 				I->CapeSkill = Has(O, TEXT("capeSkill")) ? Id(Str(O, TEXT("capeSkill"))) : NAME_None;
 				I->bQuestCape = Bool(O, TEXT("questCape"));
+				I->bUntradeable = Bool(O, TEXT("untradeable")) || I->bQuestCape || !I->CapeSkill.IsNone();
 				I->RuneSource = Has(O, TEXT("runeSource")) ? Id(Str(O, TEXT("runeSource"))) : NAME_None;
 				I->CleansInto = Has(O, TEXT("clean")) ? Id(Str(O, TEXT("clean"))) : NAME_None;
 				I->HerbLevel = (int32)Num(O, TEXT("herbLevel"));

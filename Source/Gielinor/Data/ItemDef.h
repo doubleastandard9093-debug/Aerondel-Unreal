@@ -54,6 +54,8 @@ public:
 	/** Skill cape: boosts this skill's perks by 10% while worn. */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Equipment") FName CapeSkill;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Equipment") bool bQuestCape = false;
+	/** Shops won't buy it (quest rewards, capes). */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Item") bool bUntradeable = false;
 	/** Elemental staff: item id of the rune it supplies for free. */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Equipment") FName RuneSource;
 	/**

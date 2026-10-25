@@ -224,6 +224,7 @@ bool AShopCounter::Sell(AActor* Player, UItemDef* SoldItem, int32 Amount)
 	AGielinorPlayerState* S = PS(Player);
 	UItemDef* Gold = ActCoins();
 	if (!S || !SoldItem || !Gold || SoldItem == Gold || Amount <= 0) return false;
+	if (SoldItem->bUntradeable) { if (UGielinorEvents* Ev = UGielinorEvents::Get(this)) Ev->Message(LOCTEXT("NoSell", "The shop won't buy that.")); return false; }
 	const int32 N = S->Inventory->Remove(SoldItem, FMath::Min(Amount, S->Inventory->CountOf(SoldItem)));
 	if (N <= 0) return false;
 	S->Inventory->Add(Gold, N * UGielinorRules::SellPrice(S, SoldItem), false);
