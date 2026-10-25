@@ -35,6 +35,13 @@ public:
 	UFUNCTION(BlueprintPure, Category="Quests") int32 QuestPoints() const;
 	UFUNCTION(BlueprintPure, Category="Quests") const TArray<FQuestProgress>& GetAll() const { return Progress; }
 
+	/** Level and prerequisite-quest checks. OutReason explains what is missing. */
+	UFUNCTION(BlueprintPure, Category="Quests") bool CanStart(const UQuestDef* Quest, FText& OutReason) const;
+	/** Quest-point milestones already rewarded (indices into UGameDatabase::QuestPointMilestones). */
+	UPROPERTY(BlueprintReadOnly, Category="Quests") TArray<int32> ClaimedMilestones;
+	/** Gives any newly reached quest-point milestone items. */
+	void CheckMilestones();
+
 	/** Called by ANpcTalk. Returns true if a quest consumed the conversation (so idle lines are skipped). */
 	bool HandleTalk(UNpcDef* Npc);
 
@@ -43,6 +50,11 @@ public:
 private:
 	UFUNCTION() void OnItemGained(UItemDef* Item, int32 Count);
 	UFUNCTION() void OnMobKilled(UMobDef* Mob);
+	UFUNCTION() void OnPlaceVisited(FName PlaceId);
+	UFUNCTION() void OnBonesBuried(UItemDef* Bones);
+	UFUNCTION() void OnXpGained(USkillDef* Skill, float Amount, float TotalXp, int32 Level);
+	/** Bumps Counter on active steps matching Pred; advances when Amount is reached. */
+	void Bump(TFunctionRef<bool(const FQuestStep&)> Pred, int32 By);
 	void Advance(FQuestProgress& P);
 	void Complete(FQuestProgress& P);
 	void Say(UNpcDef* Npc, const TArray<FText>& Lines);
