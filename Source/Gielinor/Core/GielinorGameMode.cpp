@@ -1,4 +1,5 @@
 #include "Core/GielinorGameMode.h"
+#include "World/GielinorScalability.h"
 #include "Core/GielinorPlayerState.h"
 #include "Core/PlatformModeSubsystem.h"
 #include "Player/GielinorCharacter.h"
@@ -27,4 +28,10 @@ UClass* AGielinorGameMode::GetDefaultPawnClassForController_Implementation(ACont
 		}
 	}
 	return DesktopPawnClass.Get();
+}
+
+void AGielinorGameMode::BeginPlay()
+{
+	Super::BeginPlay();
+	UGielinorScalability::ApplySavedTier(this);
 }

@@ -2,6 +2,10 @@
 #include "GameFramework/GameUserSettings.h"
 #include "Kismet/KismetSystemLibrary.h"
 #include "HAL/IConsoleManager.h"
+#include "Misc/ConfigCacheIni.h"
+
+static const TCHAR* GTierSection = TEXT("Gielinor");
+static const TCHAR* GTierKey = TEXT("GraphicsTier");
 
 static void SetCVar(const TCHAR* Name, int32 V)
 {
@@ -16,6 +20,25 @@ EGielinorTier UGielinorScalability::DefaultTier()
 	return EGielinorTier::Low;
 #endif
 }
+
+EGielinorTier UGielinorScalability::GetSavedTier()
+{
+	int32 V = -1;
+	if (GConfig && GConfig->GetInt(GTierSection, GTierKey, V, GGameUserSettingsIni) && V >= 0 && V <= (int32)EGielinorTier::Ultra) return (EGielinorTier)V;
+	return DefaultTier();
+}
+
+void UGielinorScalability::SetAndSaveTier(const UObject* WorldContext, EGielinorTier Tier)
+{
+	ApplyTier(WorldContext, Tier);
+	if (GConfig)
+	{
+		GConfig->SetInt(GTierSection, GTierKey, (int32)Tier, GGameUserSettingsIni);
+		GConfig->Flush(false, GGameUserSettingsIni);
+	}
+}
+
+void UGielinorScalability::ApplySavedTier(const UObject* WorldContext) { ApplyTier(WorldContext, GetSavedTier()); }
 
 void UGielinorScalability::ApplyTier(const UObject* WorldContext, EGielinorTier Tier)
 {

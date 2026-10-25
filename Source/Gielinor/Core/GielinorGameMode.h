@@ -11,6 +11,8 @@ public:
 	AGielinorGameMode();
 	/** Desktop vs VR pawn is chosen per-player by UPlatformModeSubsystem. */
 	virtual UClass* GetDefaultPawnClassForController_Implementation(AController* InController) override;
+	/** Applies the saved graphics tier (Low by default). */
+	virtual void BeginPlay() override;
 
 	UPROPERTY(EditDefaultsOnly, Category="Gielinor") TSubclassOf<APawn> DesktopPawnClass;
 	UPROPERTY(EditDefaultsOnly, Category="Gielinor") TSubclassOf<APawn> VRPawnClass;

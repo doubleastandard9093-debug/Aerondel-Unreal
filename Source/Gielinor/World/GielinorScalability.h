@@ -16,4 +16,10 @@ public:
 	UFUNCTION(BlueprintCallable, Category="Gielinor|Graphics", meta=(WorldContext="WorldContext")) static void ApplyTier(const UObject* WorldContext, EGielinorTier Tier);
 	/** Low by default on desktop (matches the web build's "start on Low" rule); Quest on Android. */
 	UFUNCTION(BlueprintPure, Category="Gielinor|Graphics") static EGielinorTier DefaultTier();
+	/** Tier stored in GameUserSettings.ini ([Gielinor] GraphicsTier); DefaultTier() (Low) if never set. */
+	UFUNCTION(BlueprintPure, Category="Gielinor|Graphics") static EGielinorTier GetSavedTier();
+	/** Applies the tier and remembers it for next launch. Use this from the settings menu. */
+	UFUNCTION(BlueprintCallable, Category="Gielinor|Graphics", meta=(WorldContext="WorldContext")) static void SetAndSaveTier(const UObject* WorldContext, EGielinorTier Tier);
+	/** Applies GetSavedTier(); called by AGielinorGameMode::BeginPlay. */
+	UFUNCTION(BlueprintCallable, Category="Gielinor|Graphics", meta=(WorldContext="WorldContext")) static void ApplySavedTier(const UObject* WorldContext);
 };
