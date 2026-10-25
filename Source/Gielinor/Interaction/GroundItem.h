@@ -20,5 +20,5 @@ public:
 	virtual void Interact(AActor* InInstigator) override;
 	virtual void BeginPlay() override;
 
-	static AGroundItem* Spawn(UWorld* InWorld, UItemDef* Item, int32 Count, const FVector& Where);
+	static AGroundItem* Spawn(UWorld* InWorld, UItemDef* InItem, int32 InCount, const FVector& Where);
 };
