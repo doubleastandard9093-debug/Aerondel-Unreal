@@ -55,3 +55,14 @@ bounties, drops, gathering/cooking via rules, activity actors and data-driven qu
 
 ## 5. Multiplayer (paused)
 When it resumes: add `GetLifetimeReplicatedProps` with `UPROPERTY(Replicated)` on PlayerState components, turn interaction calls into Server RPCs on the PlayerController, and make mobs server-authoritative (they already run all their logic in one place).
+
+## Web v18 parity port (2026-10-28)
+Ported as C++ game-instance subsystems in Source/Gielinor/Features (logic + save, no UMG yet):
+Companions, Standing, Hearthstead, Errands, Stillwatch, Flow/dodge, Shiftsteeds, Skywing, Stable Codex, Wanderer's Saga.
+
+Still to port from Gielinor-Lite/js: tongue (Silver Tongue), quirks, writs, paths, delves, aim, colossi, charter,
+siege, arena, wilds, tasks, bossmech, cards, sea/sailing; plus XP re-curve, skill synergy, magic kit, economy sinks,
+gear upgrades, notoriety, sailing combat/visuals.
+
+UMG to-do: Bonds/Saga panel (Talk/Finish wheel), House, Errand Ledger, Standing, Stable Codex, Flow/Focus HUD meters.
+World to-do: place Chronicler Corwin, deed sign, roost NPCs; bounty rep hookup. Nothing here has been compiled yet.
