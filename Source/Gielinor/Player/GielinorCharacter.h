@@ -3,7 +3,7 @@
 #include "GameFramework/Character.h"
 #include "GielinorCharacter.generated.h"
 
-class USpringArmComponent; class UCameraComponent; class UPlayerCombatComponent; class UStaticMeshComponent;
+class USpringArmComponent; class UCameraComponent; class UPlayerCombatComponent; class UStaticMeshComponent; class UGielinorGamepadComponent;
 class IGielinorInteractable;
 struct FInputActionValue;
 
@@ -21,6 +21,8 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Camera") TObjectPtr<UCameraComponent> Camera;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Combat") TObjectPtr<UPlayerCombatComponent> Combat;
 	/** Placeholder body until a skeletal mesh is imported. */
+	/** Xbox / XInput controller layout (runtime mapping context above IMC_Desktop). */
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Input") TObjectPtr<UGielinorGamepadComponent> Gamepad;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Body") TObjectPtr<UStaticMeshComponent> PlaceholderBody;
 
 	UPROPERTY(EditAnywhere, Category="Camera") float MinZoom = 250.f;
@@ -30,6 +32,8 @@ public:
 	/** Walk to the target then Interact() (desktop click / gamepad interact). */
 	void QueueInteraction(AActor* Target);
 	void CancelInteraction();
+	/** Positive = zoom out (cm of spring-arm length). */
+	void AddZoom(float Cm) { TargetArm = FMath::Clamp(TargetArm + Cm, MinZoom, MaxZoom); }
 	/** Nearest interactable within Radius in front of the pawn (gamepad "A"). */
 	AActor* FindNearestInteractable(float Radius = 300.f) const;
 

@@ -3,6 +3,7 @@
 #include "Interaction/GielinorInteractable.h"
 #include "Interaction/InteractableActor.h"
 #include "Combat/PlayerCombatComponent.h"
+#include "Player/GielinorGamepadComponent.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
@@ -43,6 +44,7 @@ AGielinorCharacter::AGielinorCharacter()
 	Camera->SetupAttachment(SpringArm, USpringArmComponent::SocketName);
 
 	Combat = CreateDefaultSubobject<UPlayerCombatComponent>(TEXT("Combat"));
+	Gamepad = CreateDefaultSubobject<UGielinorGamepadComponent>(TEXT("Gamepad"));
 
 	PlaceholderBody = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("PlaceholderBody"));
 	PlaceholderBody->SetupAttachment(GetCapsuleComponent());
@@ -60,6 +62,8 @@ void AGielinorCharacter::PawnClientRestart()
 		{
 			Sub->ClearAllMappings();
 			if (UInputMappingContext* IMC = UGielinorInputConfig::Get()->DesktopContext.LoadSynchronous()) Sub->AddMappingContext(IMC, 0);
+			// Gamepad layout sits above the desktop context so its keys consume any old gamepad rows there.
+			if (Gamepad) if (UInputMappingContext* Pad = Gamepad->GetContext()) Sub->AddMappingContext(Pad, 1);
 		}
 }
 
@@ -79,6 +83,7 @@ void AGielinorCharacter::SetupPlayerInputComponent(UInputComponent* Input)
 	}
 	if (UInputAction* A = Cfg->Interact.LoadSynchronous()) EIC->BindAction(A, ETriggerEvent::Started, this, &AGielinorCharacter::OnInteract);
 	if (UInputAction* A = Cfg->Jump.LoadSynchronous()) EIC->BindAction(A, ETriggerEvent::Started, this, &ACharacter::Jump);
+	if (Gamepad) Gamepad->Bind(EIC);
 	// Click is bound by AGielinorPlayerController (needs the cursor).
 }
 

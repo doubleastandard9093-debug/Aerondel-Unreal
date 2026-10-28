@@ -69,6 +69,7 @@ def run():
     dead = lambda: mod(unreal.InputModifierDeadZone, imc, lower_threshold=0.2)
     scale = lambda s: mod(unreal.InputModifierScalar, imc, scalar=unreal.Vector(s, s, s))
     maps = [
+        # Gamepad rows live in C++ (UGielinorGamepadComponent, runtime IMC above this one).
         # WASD -> 2D (X = right, Y = forward)
         mapping(imc, move, "W", swz()),
         mapping(imc, move, "S", swz(), neg()),
@@ -76,21 +77,14 @@ def run():
         mapping(imc, move, "A", neg()),
         mapping(imc, move, "Up", swz()),
         mapping(imc, move, "Down", swz(), neg()),
-        mapping(imc, move, "Gamepad_Left2D", dead()),
         mapping(imc, look, "Mouse2D", scale(0.4)),
-        mapping(imc, look, "Gamepad_Right2D", dead(), scale(2.0)),
         mapping(imc, orbit, "RightMouseButton"),
         mapping(imc, orbit, "MiddleMouseButton"),
         mapping(imc, zoom, "MouseWheelAxis"),
-        mapping(imc, zoom, "Gamepad_RightShoulder"),
-        mapping(imc, zoom, "Gamepad_LeftShoulder", neg()),
         mapping(imc, click, "LeftMouseButton"),
         mapping(imc, interact, "E"),
-        mapping(imc, interact, "Gamepad_FaceButton_Bottom"),
         mapping(imc, jump, "SpaceBar"),
-        mapping(imc, jump, "Gamepad_FaceButton_Top"),
         mapping(imc, inv, "Tab"),
-        mapping(imc, inv, "Gamepad_Special_Right"),
     ]
     write_mappings(imc, maps)
 

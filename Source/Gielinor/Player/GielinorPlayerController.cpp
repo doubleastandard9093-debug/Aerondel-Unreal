@@ -50,6 +50,12 @@ void AGielinorPlayerController::SetupInputComponent()
 void AGielinorPlayerController::PlayerTick(float Dt)
 {
 	Super::PlayerTick(Dt);
+	// Mouse moved after gamepad use: bring the cursor back (desktop pawn only; VR keeps it hidden).
+	if (!bShowMouseCursor && GetPawn<AGielinorCharacter>())
+	{
+		float Mx = 0.f, My = 0.f; GetInputMouseDelta(Mx, My);
+		if (!FMath::IsNearlyZero(Mx) || !FMath::IsNearlyZero(My)) bShowMouseCursor = true;
+	}
 	if (!bShowMouseCursor) { HoverText = FText::GetEmpty(); return; }
 	FHitResult Hit;
 	if (GetHitResultUnderCursor(ECC_Visibility, false, Hit))
