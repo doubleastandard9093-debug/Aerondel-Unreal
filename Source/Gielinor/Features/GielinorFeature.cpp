@@ -97,6 +97,13 @@ void UGielinorFeature::GiveItem(const FString& Item, int32 N) const
 	if (Added < N && PS->Bank) PS->Bank->Add(I, N - Added, false);
 }
 
+void UGielinorFeature::GiveToBank(const FString& Item, int32 N) const
+{
+	AGielinorPlayerState* PS = GetPS(); const UGameDatabase* Db = UGameDatabase::Get();
+	UItemDef* I = Db ? Db->FindItem(Id(Item)) : nullptr;
+	if (PS && PS->Bank && I && N > 0) PS->Bank->Add(I, N, false);
+}
+
 int64 UGielinorFeature::JInt(const FJsonObject& O, const TCHAR* Key, int64 Def) { double V = (double)Def; O.TryGetNumberField(Key, V); return (int64)FMath::FloorToDouble(V); }
 double UGielinorFeature::JNum(const FJsonObject& O, const TCHAR* Key, double Def) { double V = Def; O.TryGetNumberField(Key, V); return V; }
 bool UGielinorFeature::JBool(const FJsonObject& O, const TCHAR* Key) { bool V = false; O.TryGetBoolField(Key, V); return V; }

@@ -60,17 +60,18 @@ int32 UErrandsFeature::CollectFinished()
 		const int32 Lvl = CrewLevel(S->Crew.FindRef(E->Skill));
 		if (R.bOk)
 		{
-			for (const TPair<FString, int32>& It : E->Items) GiveItem(It.Key, FMath::Max(1, FMath::RoundToInt(It.Value * CrewYield(Lvl))));
+			for (const TPair<FString, int32>& It : E->Items) GiveToBank(It.Key, FMath::Max(1, FMath::RoundToInt(It.Value * CrewYield(Lvl))));
 			GiveXp(E->Skill, (float)E->Xp);
 			if (St) St->AddRep(E->Faction, E->Rep);
 		}
+		else GiveXp(E->Skill, E->Xp / 4.f);
 		// Crew XP: a failed errand still teaches a quarter.
 		int32& CX = S->Crew.FindOrAdd(E->Skill);
 		CX += FMath::RoundToInt(E->Xp * (R.bOk ? 1.f : 0.25f));
 		const int32 After = CrewLevel(CX);
 		const FCompanionDef* D = UCompanionsFeature::Def(R.Companion);
 		Say(FString::Printf(TEXT("%s is back from \"%s\": %s%s"), D ? *D->Name : *R.Companion.ToString(), *E->Name,
-			R.bOk ? TEXT("success, the haul is in your bank.") : TEXT("it went badly, they came back empty-handed."),
+			R.bOk ? TEXT("success, the haul is in your bank.") : TEXT("they came back empty-handed, but learned something."),
 			After > Lvl ? *FString::Printf(TEXT(" Crew %s is now %d."), *E->Skill, After) : TEXT("")));
 	}
 	return N;

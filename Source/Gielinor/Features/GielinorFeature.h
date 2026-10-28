@@ -48,6 +48,8 @@ protected:
 	bool TakeItem(const FString& Item, int32 N) const;
 	/** Inventory first, overflow to the bank. */
 	void GiveItem(const FString& Item, int32 N) const;
+	/** Straight to the bank (errands, harvests). */
+	void GiveToBank(const FString& Item, int32 N) const;
 	bool TakeCoins(int32 N) const { return TakeItem(TEXT("Coins"), N); }
 	void GiveCoins(int32 N) const { GiveItem(TEXT("Coins"), N); }
 	template<class T> T* Feature() const { UGameInstance* GI = GetGameInstance(); return GI ? GI->GetSubsystem<T>() : nullptr; }
