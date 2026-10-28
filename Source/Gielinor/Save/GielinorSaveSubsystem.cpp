@@ -16,6 +16,10 @@
 #include "GameFramework/Pawn.h"
 #include "Engine/GameInstance.h"
 #include "Gielinor.h"
+#include "Features/GielinorFeature.h"
+#include "Serialization/JsonReader.h"
+#include "Serialization/JsonWriter.h"
+#include "Serialization/JsonSerializer.h"
 
 void UGielinorSaveSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 {
@@ -79,6 +83,14 @@ bool UGielinorSaveSubsystem::Save(AGielinorPlayerState* PS)
 	S->AgilityCourse = St->AgilityCourse; S->AgilityNext = St->AgilityNext; S->BountyId = St->BountyId; S->BountyKills = St->BountyKills;
 	S->ClaimedMilestones = PS->Quests->ClaimedMilestones;
 	S->bQuestCapeLegacy = PS->Quests->bQuestCapeLegacy;
+	for (UGielinorFeature* F : UGielinorFeature::AllFor(GetGameInstance()))
+	{
+		TSharedRef<FJsonObject> J = MakeShared<FJsonObject>();
+		F->SaveState(*J);
+		FString Text;
+		const TSharedRef<TJsonWriter<>> W = TJsonWriterFactory<>::Create(&Text);
+		if (FJsonSerializer::Serialize(J, W)) S->Features.Add(F->GetSaveKey(), Text);
+	}
 	return UGameplayStatics::SaveGameToSlot(S, SlotName, 0);
 }
 
@@ -124,6 +136,18 @@ bool UGielinorSaveSubsystem::LoadInto(AGielinorPlayerState* PS)
 	if (PS->Equipment->GetEquipped(EEquipSlot::Ammo) == nullptr) St->AmmoCount = 0;
 	St->RefreshMaxHp(false);
 	PS->Health->SetCurrentRaw(S->Version >= 2 ? S->Hitpoints : S->Hitpoints * 10); // v1 used the x1 HP scale
+
+	// ---- v3 feature blocks (older saves: every feature starts fresh) ----
+	for (UGielinorFeature* F : UGielinorFeature::AllFor(GetGameInstance()))
+	{
+		F->ResetState();
+		if (const FString* Text = S->Features.Find(F->GetSaveKey()))
+		{
+			TSharedPtr<FJsonObject> J;
+			const TSharedRef<TJsonReader<>> R = TJsonReaderFactory<>::Create(*Text);
+			if (FJsonSerializer::Deserialize(R, J) && J.IsValid()) F->LoadState(*J);
+		}
+	}
 
 	UE_LOG(LogGielinor, Log, TEXT("Loaded save: %d skills, %d inventory slots."), S->Skills.Num(), S->Inventory.Num());
 	return true;

@@ -15,8 +15,8 @@ class GIELINOR_API UGielinorSaveGame : public USaveGame
 {
 	GENERATED_BODY()
 public:
-	/** 1 = original slice (HP x1). 2 = WebGPU parity (HP x10, stats, toolbelt, quest extras). Missing fields keep defaults. */
-	static constexpr int32 CurrentVersion = 2;
+	/** 1 = original slice (HP x1). 2 = WebGPU parity (HP x10, stats, toolbelt, quest extras). 3 = feature blocks (web v18 systems). Missing fields keep defaults. */
+	static constexpr int32 CurrentVersion = 3;
 	UPROPERTY() int32 Version = 1;
 	UPROPERTY() FVector Location = FVector::ZeroVector;
 	UPROPERTY() int32 Hitpoints = 10;
@@ -47,4 +47,8 @@ public:
 	UPROPERTY() int32 BountyKills = 0;
 	UPROPERTY() TArray<int32> ClaimedMilestones;
 	UPROPERTY() bool bQuestCapeLegacy = false;
+
+	// ---- v3 ----
+	/** One JSON block per UGielinorFeature, keyed by GetSaveKey() (same shape as the web save fields). */
+	UPROPERTY() TMap<FString, FString> Features;
 };

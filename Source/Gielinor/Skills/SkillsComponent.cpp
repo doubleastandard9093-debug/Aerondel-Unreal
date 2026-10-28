@@ -2,6 +2,7 @@
 #include "Data/SkillDef.h"
 #include "Data/GameDatabase.h"
 #include "Core/GielinorEvents.h"
+#include "Features/GielinorFeature.h"
 
 USkillsComponent::USkillsComponent() { bWantsInitializeComponent = true; }
 
@@ -37,6 +38,8 @@ const FSkillProgress* USkillsComponent::Find(const USkillDef* Skill) const
 void USkillsComponent::AddXp(USkillDef* Skill, float Amount)
 {
 	if (!Skill || Amount <= 0.f) return;
+	// Companions, standing, saga calling, quirks, hearth rooms... (web: xpMult in gameplay.js).
+	Amount *= 1.f + FMath::Clamp(UGielinorFeature::TotalXpBonus(this, Skill->Id), 0.f, 1.f);
 	FSkillProgress* P = Find(Skill);
 	if (!P) { FSkillProgress N; N.Skill = Skill; N.Level = Skill->StartLevel; N.Xp = UXpCurve::XpForLevel(Skill->StartLevel); P = &Entries.Add_GetRef(N); }
 	P->Xp = FMath::Min(P->Xp + Amount, 200000000.f);
