@@ -1,4 +1,5 @@
 #include "Rules/GielinorRules.h"
+#include "Features/GielinorFeature.h"
 #include "Core/GielinorPlayerState.h"
 #include "Core/PlayerStatsComponent.h"
 #include "Skills/SkillsComponent.h"
@@ -289,6 +290,7 @@ float UGielinorRules::DamageMult(const AGielinorPlayerState* PS, const UMobDef* 
 	float M = 1.f + QuestFx(PS, TEXT("dmgVs.*")) + GearFx(PS, TEXT("dmgPct")) + SetFx(PS, TEXT("dmgPct"));
 	if (Mob) M += QuestFx(PS, FName(*(TEXT("dmgVs.") + Mob->Id.ToString())));
 	if (MobMaxHp > 0 && MobHp < MobMaxHp * 0.25f && !IsRanged(PS)) M += Perk(PS, TEXT("strength"), TEXT("execute"));
+	M += UGielinorFeature::TotalDamageDealtBonus(PS, Mob);
 	return M;
 }
 

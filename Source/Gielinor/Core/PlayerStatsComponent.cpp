@@ -18,6 +18,8 @@
 #include "GameFramework/GameModeBase.h"
 #include "Engine/World.h"
 #include "TimerManager.h"
+#include "Features/GielinorFeature.h"
+#include "Combat/GielinorMob.h"
 
 #define LOCTEXT_NAMESPACE "GielinorStats"
 
@@ -348,8 +350,12 @@ void UPlayerStatsComponent::ApplyPlayerDamage(int32 Amount, AActor* Source)
 {
 	AGielinorPlayerState* S = PS();
 	if (!S || Amount <= 0 || S->Health->IsDead()) return;
+	const AGielinorMob* Mob = Cast<AGielinorMob>(Source);
+	const float HpFrac = S->Health->GetMax() > 0 ? (float)S->Health->GetCurrent() / S->Health->GetMax() : 1.f;
+	const float Mult = UGielinorFeature::TotalDamageTakenMult(this, Mob ? Mob->Definition.Get() : nullptr, HpFrac);
+	if (!FMath::IsNearlyEqual(Mult, 1.f)) Amount = FMath::Max(1, FMath::RoundToInt(Amount * Mult));
 	S->Health->ApplyDamage(Amount, Source);
-	if (S->Health->IsDead()) HandleDeath();
+	if (S->Health->IsDead()) { HandleDeath(); UGielinorFeature::NotifyPlayerDied(this); }
 }
 
 void UPlayerStatsComponent::HandleDeath()

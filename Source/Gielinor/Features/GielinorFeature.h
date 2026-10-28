@@ -2,10 +2,11 @@
 #include "CoreMinimal.h"
 #include "Subsystems/GameInstanceSubsystem.h"
 #include "Dom/JsonObject.h"
+#include "Engine/GameInstance.h"
 #include "GielinorFeature.generated.h"
 
 class AGielinorPlayerState;
-class UGameInstance;
+class UMobDef;
 
 /**
  * Base for the systems ported from Gielinor-Lite (phases 1-9, mechanics pass, Hearth & Arena, WoW/Outer Worlds/TERA round).
@@ -29,10 +30,21 @@ public:
 	virtual void ResetState() {}
 	/** Extra XP fraction for a skill id (0.05 = +5%). */
 	virtual float XpBonus(FName SkillId) const { return 0.f; }
+	/** Multiplier on damage the player takes (1 = none). HpFrac is the player's hitpoints fraction before the hit. */
+	virtual float DamageTakenMult(const UMobDef* Source, float HpFrac) const { return 1.f; }
+	/** Additive bonus on player damage dealt (0.05 = +5%). */
+	virtual float DamageDealtBonus(const UMobDef* Target) const { return 0.f; }
+	/** Called when the player dies. */
+	virtual void OnPlayerDied() {}
+	/** Called every game tick (0.6 s) by UFeatureTicker. */
+	virtual void OnGameTick() {}
 
 	/** All live features of a game instance. */
 	static TArray<UGielinorFeature*> AllFor(const UGameInstance* GI);
 	static float TotalXpBonus(const UObject* WorldContext, FName SkillId);
+	static float TotalDamageTakenMult(const UObject* WorldContext, const UMobDef* Source, float HpFrac);
+	static float TotalDamageDealtBonus(const UObject* WorldContext, const UMobDef* Target);
+	static void NotifyPlayerDied(const UObject* WorldContext);
 	/** Unix time in ms (the web build uses Date.now()). */
 	static int64 NowMs();
 	/** Web display name -> content id ("Iron bar" -> iron_bar). */

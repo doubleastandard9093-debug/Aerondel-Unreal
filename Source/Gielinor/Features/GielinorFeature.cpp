@@ -47,6 +47,31 @@ float UGielinorFeature::TotalXpBonus(const UObject* WorldContext, FName SkillId)
 	return B;
 }
 
+static const UGameInstance* FeatureGI(const UObject* WorldContext)
+{
+	const UWorld* W = WorldContext ? WorldContext->GetWorld() : nullptr;
+	return W ? W->GetGameInstance() : nullptr;
+}
+
+float UGielinorFeature::TotalDamageTakenMult(const UObject* WorldContext, const UMobDef* Source, float HpFrac)
+{
+	float M = 1.f;
+	if (const UGameInstance* GI = FeatureGI(WorldContext)) for (const UGielinorFeature* F : AllFor(GI)) M *= F->DamageTakenMult(Source, HpFrac);
+	return FMath::Clamp(M, 0.1f, 3.f);
+}
+
+float UGielinorFeature::TotalDamageDealtBonus(const UObject* WorldContext, const UMobDef* Target)
+{
+	float B = 0.f;
+	if (const UGameInstance* GI = FeatureGI(WorldContext)) for (const UGielinorFeature* F : AllFor(GI)) B += F->DamageDealtBonus(Target);
+	return FMath::Clamp(B, -0.5f, 2.f);
+}
+
+void UGielinorFeature::NotifyPlayerDied(const UObject* WorldContext)
+{
+	if (const UGameInstance* GI = FeatureGI(WorldContext)) for (UGielinorFeature* F : AllFor(GI)) F->OnPlayerDied();
+}
+
 int64 UGielinorFeature::NowMs() { return (FDateTime::UtcNow() - FDateTime(1970, 1, 1)).GetTicks() / ETimespan::TicksPerMillisecond; }
 FName UGielinorFeature::Id(const FString& WebName) { return GielinorId::FromName(WebName); }
 
