@@ -45,6 +45,10 @@ private:
 	void GiveXp(const TMap<FName, float>& Xp) const;
 	void Msg(const FText& T) const;
 	bool CastAt(AGielinorMob* Mob, USpellDef* Spell);
+	/** Magic kit: a queued magic ability (bolts, Surge, Storm) rides on this cast. Returns extra damage. */
+	int32 MagicKit(AGielinorMob* Mob, USpellDef* Spell);
+	/** Hexcraft effects: rot, bind, wither, leech. */
+	void ApplyHex(AGielinorMob* Mob, USpellDef* Spell, int32 Dmg);
 	TWeakObjectPtr<AGielinorMob> Target;
 	float Cooldown = 0.f;
 };

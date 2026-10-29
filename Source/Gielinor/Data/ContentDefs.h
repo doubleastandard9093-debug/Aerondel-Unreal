@@ -33,6 +33,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Spell") float Xp = 5.5f;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Spell") TArray<FRuneCost> Runes;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Spell") FLinearColor Color = FLinearColor::White;
+	/** Hexcraft: rot | bind | wither | leech (None for elemental spells). */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Spell") FName Hex;
 	virtual FPrimaryAssetId GetPrimaryAssetId() const override { return FPrimaryAssetId(TEXT("Spell"), GetFName()); }
 };
 
@@ -99,8 +101,14 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Ability") int32 Level = 1;
 	/** any, melee or ranged. */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Ability") FName Style = TEXT("any");
-	/** power, puncture, bash, snipe, volley, fortify, rage, rejuv. */
+	/** power, puncture, bash, snipe, volley, fortify, rage, rejuv; magic kit windb/waterb/earthb/fireb/surge/storm; paths challenge/wall/mend/ward/rend/flurry. */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Ability") FName Special;
+	/** Magic kit: wind | water | earth | fire. */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Ability") FName Element;
+	/** Runes spent when a magic-kit ability rides on a cast. */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Ability") TArray<FRuneCost> Runes;
+	/** Combat Path that grants it (bulwark | mender | striker), else None. */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Ability") FName Path;
 	virtual FPrimaryAssetId GetPrimaryAssetId() const override { return FPrimaryAssetId(TEXT("Ability"), GetFName()); }
 };
 

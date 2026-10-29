@@ -20,6 +20,8 @@
 #include "TimerManager.h"
 #include "Features/GielinorFeature.h"
 #include "Combat/GielinorMob.h"
+#include "Features/PathsFeature.h"
+#include "Engine/GameInstance.h"
 
 #define LOCTEXT_NAMESPACE "GielinorStats"
 
@@ -89,6 +91,7 @@ void UPlayerStatsComponent::GameTickFn()
 	if (H && H->GetCurrent() < H->GetMax() && H->GetCurrent() > 0)
 	{
 		float Rate = 1.f + UGielinorRules::Perk(S, TEXT("hitpoints"), TEXT("regen")) + UGielinorRules::PrayerFx(S, TEXT("regen")) + UGielinorRules::GearFx(S, TEXT("regen"));
+		if (GameTick < WardUntil) Rate += 2.f; // Warding Hymn
 		if (H->GetCurrent() < H->GetMax() * 0.3f) Rate *= 1.f + UGielinorRules::Perk(S, TEXT("hitpoints"), TEXT("lowRegen"));
 		RegenAcc += Rate / 6.f;
 		int32 Heal = 0;
@@ -291,13 +294,21 @@ FText UPlayerStatsComponent::UseAbility(FName AbilityId, bool bHasTarget)
 	const UAbilityDef* A = Db ? Db->FindAbility(AbilityId) : nullptr;
 	if (!S || !A) return LOCTEXT("NoAb", "Unknown ability.");
 	if (S->Skills->GetLevelById(A->Skill) < A->Level) return FText::Format(LOCTEXT("AbLvl", "You need {0} level {1} to use {2}."), FText::FromName(A->Skill), A->Level, A->DisplayName);
+	if (!A->Path.IsNone())
+	{
+		const UGameInstance* GI = GetWorld() ? GetWorld()->GetGameInstance() : nullptr;
+		const UPathsFeature* Paths = GI ? GI->GetSubsystem<UPathsFeature>() : nullptr;
+		if (!Paths || Paths->GetPath() != A->Path) return FText::Format(LOCTEXT("AbPath", "{0} belongs to another Combat Path."), A->DisplayName);
+	}
 	if (CooldownSecondsLeft(AbilityId) > 0.f) return FText::Format(LOCTEXT("AbCd", "{0} is recharging."), A->DisplayName);
 	const bool bRanged = UGielinorRules::IsRanged(S);
 	if (A->Style == TEXT("melee") && bRanged) return FText::Format(LOCTEXT("AbMelee", "{0} needs a melee weapon."), A->DisplayName);
 	if (A->Style == TEXT("ranged") && !bRanged) return FText::Format(LOCTEXT("AbBow", "{0} needs a bow."), A->DisplayName);
 	const float Cost = A->Kind == EAbilityKind::Threshold ? 50.f : A->Kind == EAbilityKind::Ultimate ? 100.f : 0.f;
 	if (Cost > 0.f && Adrenaline + 1e-4f < Cost) return FText::Format(LOCTEXT("AbAdr", "{0} needs {1}% adrenaline."), A->DisplayName, FMath::RoundToInt(Cost));
-	const bool bSelf = A->Special == TEXT("fortify") || A->Special == TEXT("rage") || A->Special == TEXT("rejuv");
+	if (A->Style == TEXT("magic") && AutocastSpell.IsNone()) return FText::Format(LOCTEXT("AbMagic", "{0} rides on a spell: set an autocast spell first."), A->DisplayName);
+	const bool bSelf = A->Special == TEXT("fortify") || A->Special == TEXT("rage") || A->Special == TEXT("rejuv")
+		|| A->Special == TEXT("wall") || A->Special == TEXT("ward") || A->Special == TEXT("mend");
 	if (!bSelf && !bHasTarget) return LOCTEXT("AbTarget", "Attack something first, then use that.");
 	if (Cost > 0.f) Adrenaline -= Cost; else GainAdrenaline(9.f);
 	const int32 Cd = FMath::Max(3, FMath::RoundToInt(A->Cooldown * (1.f - UGielinorRules::Perk(S, TEXT("attack"), TEXT("abilityCd")))));
@@ -306,6 +317,13 @@ FText UPlayerStatsComponent::UseAbility(FName AbilityId, bool bHasTarget)
 	else if (A->Special == TEXT("rejuv"))
 	{
 		S->Health->Heal(FMath::RoundToInt(S->Health->GetMax() * 0.2f));
+		CooldownReady.Add(AbilityId, GameTick + Cd);
+	}
+	else if (A->Special == TEXT("wall")) { WallUntil = GameTick + 7; CooldownReady.Add(AbilityId, GameTick + Cd); }
+	else if (A->Special == TEXT("ward")) { WardUntil = GameTick + 10; CooldownReady.Add(AbilityId, GameTick + Cd); }
+	else if (A->Special == TEXT("mend"))
+	{
+		S->Health->Heal(FMath::RoundToInt(S->Health->GetMax() * 0.12f));
 		CooldownReady.Add(AbilityId, GameTick + Cd);
 	}
 	else { QueuedAbility = AbilityId; QueuedAt = GameTick; }
@@ -354,6 +372,9 @@ void UPlayerStatsComponent::ApplyPlayerDamage(int32 Amount, AActor* Source)
 	const float HpFrac = S->Health->GetMax() > 0 ? (float)S->Health->GetCurrent() / S->Health->GetMax() : 1.f;
 	const float Mult = UGielinorFeature::TotalDamageTakenMult(this, Mob ? Mob->Definition.Get() : nullptr, HpFrac);
 	if (!FMath::IsNearlyEqual(Mult, 1.f)) Amount = FMath::Max(1, FMath::RoundToInt(Amount * Mult));
+	if (Mob && Mob->IsWithered()) Amount = FMath::Max(1, FMath::FloorToInt(Amount * 0.7f));
+	const float Red = FMath::Min(0.8f, (GameTick < WallUntil ? 0.6f : 0.f) + (GameTick < WardUntil ? 0.4f : 0.f));
+	if (Red > 0.f) Amount = FMath::Max(1, FMath::RoundToInt(Amount * (1.f - Red)));
 	S->Health->ApplyDamage(Amount, Source);
 	if (S->Health->IsDead()) { HandleDeath(); UGielinorFeature::NotifyPlayerDied(this); }
 }
@@ -365,7 +386,8 @@ void UPlayerStatsComponent::HandleDeath()
 	Msg(LOCTEXT("Dead", "Oh dear, you are dead! You wake up back in town. You keep all of your items."));
 	ActivePrayers.Reset();
 	QueuedAbility = NAME_None;
-	FortifyUntil = RageUntil = StunUntil = 0;
+	FortifyUntil = RageUntil = StunUntil = WallUntil = WardUntil = 0;
+	SurgeLeft = 0;
 	Poison = FPoisonState();
 	RunEnergy = 100.f;
 	RefreshMaxHp(true);

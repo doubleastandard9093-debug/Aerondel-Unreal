@@ -78,6 +78,11 @@ public:
 	UPROPERTY(BlueprintReadOnly, Category="Stats") int64 StunUntil = 0;
 	UPROPERTY(BlueprintReadOnly, Category="Stats") int64 FortifyUntil = 0;
 	UPROPERTY(BlueprintReadOnly, Category="Stats") int64 RageUntil = 0;
+	/** Bulwark Stalwart Wall (-60%) and Mender Warding Hymn (-40%, heals) windows. */
+	UPROPERTY(BlueprintReadOnly, Category="Stats") int64 WallUntil = 0;
+	UPROPERTY(BlueprintReadOnly, Category="Stats") int64 WardUntil = 0;
+	/** Magic kit Surge: casts left at +50% damage. */
+	UPROPERTY(BlueprintReadOnly, Category="Stats") int32 SurgeLeft = 0;
 	UPROPERTY(BlueprintReadOnly, Category="Stats") FName QueuedAbility;
 	int64 QueuedAt = 0;
 	TMap<FName, int64> CooldownReady;

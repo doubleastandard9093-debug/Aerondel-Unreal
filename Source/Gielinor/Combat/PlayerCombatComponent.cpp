@@ -14,6 +14,7 @@
 #include "Inventory/EquipmentComponent.h"
 #include "Blueprint/AIBlueprintHelperLibrary.h"
 #include "GameFramework/Pawn.h"
+#include "EngineUtils.h"
 
 #define LOCTEXT_NAMESPACE "GielinorCombat"
 
@@ -88,6 +89,11 @@ bool UPlayerCombatComponent::CastAt(AGielinorMob* Mob, USpellDef* Spell)
 		const FName Vs = Def ? FName(*(TEXT("dmgVs.") + Def->Id.ToString())) : NAME_None;
 		Dmg = FMath::FloorToInt(Dmg * (1.f + UGielinorRules::QuestFx(S, Vs) + UGielinorRules::QuestFx(S, TEXT("dmgVs.*")) + UGielinorRules::GearFx(S, TEXT("dmgPct"))));
 	}
+	// Magic kit: Surge, then any queued magic ability riding on this cast.
+	UPlayerStatsComponent* St = S->Stats;
+	if (St->SurgeLeft > 0 && Dmg > 0) { Dmg = FMath::FloorToInt(Dmg * 1.5f); --St->SurgeLeft; }
+	Dmg += MagicKit(Mob, Spell);
+	ApplyHex(Mob, Spell, Dmg);
 	Dmg = FMath::Min(Dmg, Mob->GetHp());
 	TMap<FName, float> Xp;
 	Xp.Add(TEXT("magic"), Spell->Xp * 2.f + Dmg * 0.6f);
@@ -95,6 +101,55 @@ bool UPlayerCombatComponent::CastAt(AGielinorMob* Mob, USpellDef* Spell)
 	GiveXp(Xp);
 	Mob->TakePlayerDamage(Dmg, GetOwner());
 	return true;
+}
+
+int32 UPlayerCombatComponent::MagicKit(AGielinorMob* Mob, USpellDef* Spell)
+{
+	AGielinorPlayerState* S = PS();
+	UPlayerStatsComponent* St = S ? S->Stats : nullptr;
+	const UGameDatabase* Db = UGameDatabase::Get();
+	if (!St || !Db || St->QueuedAbility.IsNone()) return 0;
+	const UAbilityDef* A = Db->FindAbility(St->QueuedAbility);
+	if (!A || A->Style != TEXT("magic")) return 0;
+	const FName Special = St->ConsumeQueuedAbility(); // starts the cooldown
+	for (const FRuneCost& R : A->Runes)
+		if (S->Inventory->CountOf(R.Rune) < R.Amount) { Msg(FText::Format(LOCTEXT("KitRunes", "Not enough runes for {0}."), A->DisplayName)); return 0; }
+	for (const FRuneCost& R : A->Runes) S->Inventory->Remove(R.Rune, R.Amount);
+	Msg(FText::Format(LOCTEXT("Kit", "{0}!"), A->DisplayName));
+	const int32 Mh = UGielinorRules::MagicMaxHit(S, Spell);
+	int32 Extra = 0;
+	if (!A->Element.IsNone())
+	{
+		const float K = A->Element == TEXT("fire") ? 1.1f : A->Element == TEXT("earth") ? 1.f : 0.9f;
+		Extra = FMath::FloorToInt(Mh * (0.4f + FMath::FRand() * 0.5f) * K);
+		if (A->Element == TEXT("earth")) Mob->Wither(8);
+		if (A->Element == TEXT("fire")) Mob->ApplyVenom(FMath::Max(4, FMath::RoundToInt(Mh * 0.08f)));
+	}
+	else if (Special == TEXT("surge")) { St->SurgeLeft = 3; Msg(LOCTEXT("Surge", "Power surges through your spells (+50% for 3 casts).")); }
+	else if (Special == TEXT("storm"))
+	{
+		Extra = FMath::FloorToInt(Mh * (0.8f + FMath::FRand() * 0.7f));
+		const FVector C = Mob->GetActorLocation();
+		TArray<AGielinorMob*> Near;
+		for (TActorIterator<AGielinorMob> It(GetWorld()); It; ++It)
+			if (*It != Mob && !It->IsDead() && It->GetHp() > 0 && FVector::Dist2D(It->GetActorLocation(), C) < 500.f) Near.Add(*It);
+		for (AGielinorMob* M : Near)
+		{
+			const int32 D = FMath::Min(M->GetHp(), FMath::FloorToInt(Mh * (0.5f + FMath::FRand() * 0.5f)));
+			TMap<FName, float> Xp; Xp.Add(TEXT("magic"), D * 0.6f); GiveXp(Xp);
+			M->TakePlayerDamage(D, GetOwner());
+		}
+	}
+	return Extra;
+}
+
+void UPlayerCombatComponent::ApplyHex(AGielinorMob* Mob, USpellDef* Spell, int32 Dmg)
+{
+	if (!Spell || Spell->Hex.IsNone() || !Mob || Mob->IsDead()) return;
+	if (Spell->Hex == TEXT("rot")) { Mob->ApplyVenom(FMath::Max(4, FMath::RoundToInt(Spell->MaxHit * 0.2f))); Msg(FText::Format(LOCTEXT("Rot", "The {0} begins to rot."), Mob->GetDisplayName())); }
+	else if (Spell->Hex == TEXT("bind")) { Mob->Stun(4); Msg(FText::Format(LOCTEXT("Bind", "Roots of bog-rope bind the {0}!"), Mob->GetDisplayName())); }
+	else if (Spell->Hex == TEXT("wither")) { Mob->Wither(33); Msg(FText::Format(LOCTEXT("Wither", "The {0} withers. It hits softer."), Mob->GetDisplayName())); }
+	else if (Spell->Hex == TEXT("leech") && Dmg > 0) if (AGielinorPlayerState* S = PS()) S->Health->Heal(Dmg / 2);
 }
 
 void UPlayerCombatComponent::PlayerAttack(AGielinorMob* Mob, float Power)
@@ -128,6 +183,9 @@ void UPlayerCombatComponent::PlayerAttack(AGielinorMob* Mob, float Power)
 	else if (Special == TEXT("puncture")) { Swings.Add(With(0.1f, 0.f)); Swings.Add(With(0.1f, 0.f)); }
 	else if (Special == TEXT("bash")) Swings.Add(With(0.3f, -0.5f));
 	else if (Special == TEXT("snipe")) Swings.Add(With(0.3f, 1.f));
+	else if (Special == TEXT("rend")) Swings.Add(With(0.f, 0.9f));
+	else if (Special == TEXT("flurry")) for (int32 i = 0; i < 3; ++i) Swings.Add(With(0.f, -0.15f));
+	else if (Special == TEXT("challenge")) Swings.Add(Base);
 	else if (Special == TEXT("volley"))
 	{
 		Swings.Add(With(-0.15f, 0.f));
@@ -163,6 +221,7 @@ void UPlayerCombatComponent::PlayerAttack(AGielinorMob* Mob, float Power)
 		if (bAlive && P.Poison > 0 && Mob->ApplyVenom(P.Poison)) Msg(FText::Format(LOCTEXT("Venom", "You poison the {0}!"), Mob->GetDisplayName()));
 		if (bAlive && P.bStun) { Mob->Stun(5); Msg(FText::Format(LOCTEXT("Stun", "The {0} is stunned!"), Mob->GetDisplayName())); }
 	}
+	if (Special == TEXT("challenge") && !Mob->IsDead()) { Mob->Stun(4); Msg(FText::Format(LOCTEXT("Challenge", "You shove the {0} back on its heels."), Mob->GetDisplayName())); }
 	if (Special == TEXT("bash") && !Mob->IsDead()) { Mob->Stun(5); Msg(FText::Format(LOCTEXT("Stun", "The {0} is stunned!"), Mob->GetDisplayName())); }
 	GiveXp(UGielinorRules::CombatXp(S, Total));
 }

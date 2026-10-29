@@ -651,6 +651,7 @@ int32 FJsonContentLoader::MergeInto(UGameDatabase* Db, const FString& Dir)
 				S->Xp = (float)Num(O, TEXT("xp"));
 				S->Runes.Reset();
 				if (FObj R = Obj(O, TEXT("runes"))) for (const auto& P : R->Values) { FRuneCost C; C.Rune = Item(FString(*P.Key)); C.Amount = (int32)P.Value->AsNumber(); if (C.Rune) S->Runes.Add(C); }
+				S->Hex = O->HasField(TEXT("hex")) ? FName(*Str(O, TEXT("hex"))) : NAME_None;
 				const FString N = S->DisplayName.ToString();
 				S->Color = N.StartsWith(TEXT("Fire")) ? FLinearColor(1.f, 0.35f, 0.1f) : N.StartsWith(TEXT("Water")) ? FLinearColor(0.2f, 0.45f, 1.f) : N.StartsWith(TEXT("Earth")) ? FLinearColor(0.5f, 0.35f, 0.15f) : FLinearColor(0.85f, 0.95f, 1.f);
 			}
@@ -671,6 +672,10 @@ int32 FJsonContentLoader::MergeInto(UGameDatabase* Db, const FString& Dir)
 				A->Level = (int32)Num(O, TEXT("level"), 1);
 				A->Style = FName(*Str(O, TEXT("style")));
 				A->Special = FName(*Str(O, TEXT("id")));
+				A->Element = O->HasField(TEXT("element")) ? FName(*Str(O, TEXT("element"))) : NAME_None;
+				A->Path = O->HasField(TEXT("path")) ? FName(*Str(O, TEXT("path"))) : NAME_None;
+				A->Runes.Reset();
+				if (FObj R = Obj(O, TEXT("runes"))) for (const auto& P : R->Values) { FRuneCost C; C.Rune = Item(FString(*P.Key)); C.Amount = (int32)P.Value->AsNumber(); if (C.Rune) A->Runes.Add(C); }
 			}
 		}
 	}

@@ -40,6 +40,9 @@ public:
 	/** Weapon venom: Damage every 10 ticks, -2 each time. False if a stronger venom is already on. */
 	bool ApplyVenom(int32 Damage);
 	void Stun(int32 Ticks) { StunTicks = FMath::Max(StunTicks, Ticks); }
+	/** Withering Hex / Earth Bolt: this mob hits 30% softer while withered. */
+	void Wither(int32 Ticks) { WitherTicks = FMath::Max(WitherTicks, Ticks); }
+	UFUNCTION(BlueprintPure, Category="Mob") bool IsWithered() const { return WitherTicks > 0; }
 	UFUNCTION(BlueprintPure, Category="Mob") EMobState GetState() const { return State; }
 	UFUNCTION(BlueprintPure, Category="Mob") bool IsDead() const { return State == EMobState::Dead; }
 	UFUNCTION(BlueprintPure, Category="Mob") bool IsStunned() const { return StunTicks > 0; }
@@ -68,6 +71,7 @@ private:
 	float AttackCooldown = 0.f;
 	float TickAcc = 0.f;
 	int32 StunTicks = 0;
+	int32 WitherTicks = 0;
 	int32 VenomDamage = 0;
 	int32 VenomNext = 0;
 	FTimerHandle RespawnTimer;

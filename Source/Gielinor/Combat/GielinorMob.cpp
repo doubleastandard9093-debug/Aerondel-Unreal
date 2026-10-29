@@ -119,6 +119,7 @@ bool AGielinorMob::ApplyVenom(int32 Damage)
 void AGielinorMob::GameTick()
 {
 	if (StunTicks > 0) --StunTicks;
+	if (WitherTicks > 0) --WitherTicks;
 	if (VenomDamage > 0 && --VenomNext <= 0)
 	{
 		VenomNext = UGielinorRules::PoisonEvery;
