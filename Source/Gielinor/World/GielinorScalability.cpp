@@ -76,6 +76,7 @@ static void ApplyCheapPath()
 /** High / Ultra: Lumen GI + reflections, VSM, volumetric fog and clouds, DFAO, contact shadows. */
 static void ApplyRichPath(bool bUltra)
 {
+	SetCVar(TEXT("r.AntiAliasingMethod"), 4); // TSR (not allowed in Scalability.ini)
 	SetCVar(TEXT("r.DynamicGlobalIlluminationMethod"), 1);
 	SetCVar(TEXT("r.ReflectionMethod"), 1);
 	SetCVar(TEXT("r.Lumen.Reflections.Allow"), 1);
