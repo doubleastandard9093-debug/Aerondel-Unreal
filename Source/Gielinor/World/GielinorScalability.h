@@ -7,6 +7,9 @@
 UENUM(BlueprintType)
 enum class EGielinorTier : uint8 { Quest, Low, High, Ultra };
 
+/** Native broadcast after ApplyTier, so world dressing (AGielinorEnvironment, AGielinorHighDetail) can follow a settings change live. */
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnGielinorTierApplied, EGielinorTier);
+
 UCLASS()
 class GIELINOR_API UGielinorScalability : public UBlueprintFunctionLibrary
 {

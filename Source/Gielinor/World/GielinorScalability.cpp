@@ -54,6 +54,44 @@ void UGielinorScalability::SetNaniteOptIn(bool bOn)
 
 void UGielinorScalability::ApplySavedTier(const UObject* WorldContext) { ApplyTier(WorldContext, GetSavedTier()); }
 
+FOnGielinorTierApplied UGielinorScalability::OnTierApplied;
+static EGielinorTier GAppliedTier = EGielinorTier::Low;
+EGielinorTier UGielinorScalability::GetAppliedTier() { return GAppliedTier; }
+
+/** Strict cheap path shared by Quest and Low: no Lumen, no VSM, no volumetrics, no Nanite, nothing that pulls High content. */
+static void ApplyCheapPath()
+{
+	SetCVar(TEXT("r.DynamicGlobalIlluminationMethod"), 0); // no Lumen GI
+	SetCVar(TEXT("r.ReflectionMethod"), 2);                // SSR
+	SetCVar(TEXT("r.Shadow.Virtual.Enable"), 0);
+	SetCVar(TEXT("r.VolumetricFog"), 0);
+	SetCVar(TEXT("r.VolumetricCloud"), 0);
+	SetCVar(TEXT("r.Lumen.HardwareRayTracing"), 0);
+	SetCVar(TEXT("r.DistanceFieldAO"), 0);
+	SetCVar(TEXT("r.ContactShadows"), 0);
+	SetCVar(TEXT("r.SSS.Quality"), 0);
+	SetCVar(TEXT("r.Nanite"), 0);
+}
+
+/** High / Ultra: Lumen GI + reflections, VSM, volumetric fog and clouds, DFAO, contact shadows. */
+static void ApplyRichPath(bool bUltra)
+{
+	SetCVar(TEXT("r.DynamicGlobalIlluminationMethod"), 1);
+	SetCVar(TEXT("r.ReflectionMethod"), 1);
+	SetCVar(TEXT("r.Lumen.Reflections.Allow"), 1);
+	SetCVar(TEXT("r.Lumen.TraceMeshSDFs"), 1);
+	SetCVar(TEXT("r.Shadow.Virtual.Enable"), 1);
+	SetCVar(TEXT("r.VolumetricFog"), 1);
+	SetCVar(TEXT("r.VolumetricFog.GridPixelSize"), bUltra ? 8 : 16);
+	SetCVar(TEXT("r.VolumetricCloud"), 1);
+	SetCVar(TEXT("r.DistanceFieldAO"), 1);
+	SetCVar(TEXT("r.ContactShadows"), 1);
+	SetCVar(TEXT("r.SSS.Quality"), 1);
+	SetCVar(TEXT("r.Lumen.HardwareRayTracing"), 0); // software Lumen: works on DX11/SM5 fallback too
+	// Nanite stays off (crash fix 9b07fa6) unless the player opted in from Settings.
+	SetCVar(TEXT("r.Nanite"), UGielinorScalability::GetNaniteOptIn() ? 1 : 0);
+}
+
 void UGielinorScalability::ApplyTier(const UObject* WorldContext, EGielinorTier Tier)
 {
 #if PLATFORM_ANDROID
@@ -66,26 +104,22 @@ void UGielinorScalability::ApplyTier(const UObject* WorldContext, EGielinorTier 
 	case EGielinorTier::Quest:
 		S->SetOverallScalabilityLevel(0);
 		SetCVar(TEXT("r.ScreenPercentage"), 100);
+		ApplyCheapPath();
 		break;
 	case EGielinorTier::Low:
 		S->SetOverallScalabilityLevel(1);
-		SetCVar(TEXT("r.DynamicGlobalIlluminationMethod"), 0); // no Lumen GI
-		SetCVar(TEXT("r.ReflectionMethod"), 2);                // SSR
-		SetCVar(TEXT("r.Shadow.Virtual.Enable"), 0);
+		ApplyCheapPath();
 		break;
 	case EGielinorTier::High:
 		S->SetOverallScalabilityLevel(2);
-		SetCVar(TEXT("r.DynamicGlobalIlluminationMethod"), 1); // Lumen
-		SetCVar(TEXT("r.ReflectionMethod"), 1);
-		SetCVar(TEXT("r.Shadow.Virtual.Enable"), 1);
+		ApplyRichPath(false);
 		break;
 	case EGielinorTier::Ultra:
-		S->SetOverallScalabilityLevel(4); // Cinematic
-		SetCVar(TEXT("r.DynamicGlobalIlluminationMethod"), 1);
-		SetCVar(TEXT("r.ReflectionMethod"), 1);
-		SetCVar(TEXT("r.Shadow.Virtual.Enable"), 1);
-		SetCVar(TEXT("r.Lumen.HardwareRayTracing"), 1);
+		S->SetOverallScalabilityLevel(3); // Epic (Cinematic is for offline renders)
+		ApplyRichPath(true);
 		break;
 	}
 	S->ApplySettings(false);
+	GAppliedTier = Tier;
+	OnTierApplied.Broadcast(Tier);
 }
