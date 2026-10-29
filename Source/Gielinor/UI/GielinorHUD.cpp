@@ -19,6 +19,9 @@
 #include "Features/TrueAimFeature.h"
 #include "Engine/GameInstance.h"
 #include "EngineUtils.h"
+#include "UI/GielinorPanelWidget.h"
+#include "Activities/ActivityActors.h"
+#include "Features/SailingFeature.h"
 
 void AGielinorHUD::BeginPlay()
 {
@@ -32,7 +35,68 @@ void AGielinorHUD::BeginPlay()
 	{
 		Ev->OnMessage.AddDynamic(this, &AGielinorHUD::OnMsg);
 		Ev->OnDialogue.AddDynamic(this, &AGielinorHUD::OnDlg);
+		Ev->OnServiceRequested.AddDynamic(this, &AGielinorHUD::OnService);
 	}
+	if (UGameInstance* GI = GetGameInstance())
+		if (UTrueAimFeature* Aim = GI->GetSubsystem<UTrueAimFeature>()) { Aim->OnStrike.AddDynamic(this, &AGielinorHUD::OnAimStrike); bAimBound = true; }
+}
+
+static FName PadPanelName(EGielinorPadMenu M)
+{
+	switch (M)
+	{
+	case EGielinorPadMenu::Settings: return TEXT("pad_settings");
+	case EGielinorPadMenu::WorldMap: return TEXT("pad_map");
+	case EGielinorPadMenu::ContextMenu: return TEXT("pad_context");
+	default: return TEXT("pad_inventory");
+	}
+}
+
+void AGielinorHUD::OpenPanel(FName PanelName, AActor* Context)
+{
+	if (!PlayerOwner || PlayerOwner->GetPawn<AGielinorVRPawn>()) return; // VR uses the wrist widget
+	if (!Panel)
+	{
+		Panel = CreateWidget<UGielinorPanelWidget>(PlayerOwner, UGielinorPanelWidget::StaticClass());
+		if (!Panel) return;
+		Panel->OnClosed.BindUObject(this, &AGielinorHUD::ClosePanel);
+	}
+	if (!Panel->IsInViewport()) Panel->AddToViewport(50);
+	Panel->Open(PanelName, Context);
+}
+
+void AGielinorHUD::ClosePanel()
+{
+	if (Panel && Panel->IsInViewport()) Panel->RemoveFromParent();
+	if (bMenuOpen && Widget) Widget->ShowPadMenu(OpenMenu, false);
+	bMenuOpen = false;
+	if (PlayerOwner) { FInputModeGameAndUI Mode; Mode.SetHideCursorDuringCapture(false); PlayerOwner->SetInputMode(Mode); }
+}
+
+void AGielinorHUD::OnService(FName Service, AActor* Source)
+{
+	FString S = Service.ToString();
+	if (S.StartsWith(TEXT("shop:")))
+	{
+		// Shop NPCs stand beside their counter: open the nearest counter that sells that shop.
+		const FName ShopId(*S.Mid(5)); AShopCounter* Best = nullptr; float BestD = 1e12f;
+		for (TActorIterator<AShopCounter> It(GetWorld()); It; ++It)
+			if (It->ShopId == ShopId)
+			{
+				const float D = Source ? FVector::DistSquared(It->GetActorLocation(), Source->GetActorLocation()) : 0.f;
+				if (D < BestD) { BestD = D; Best = *It; }
+			}
+		if (Best) { OpenPanel(TEXT("shop"), Best); return; }
+		S = TEXT("say");
+	}
+	OpenPanel(FName(*S), Source);
+}
+
+void AGielinorHUD::OnAimStrike(EAimShape Shape, FVector Origin, float YawDeg, int32 Hits)
+{
+	FActorSpawnParameters P; P.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+	if (AGielinorAimMarker* M = GetWorld()->SpawnActor<AGielinorAimMarker>(Origin - FVector(0, 0, 85.f), FRotator::ZeroRotator, P))
+		M->Setup((uint8)Shape, YawDeg, Hits);
 }
 
 void AGielinorHUD::BindPad()
@@ -50,9 +114,10 @@ void AGielinorHUD::TogglePadMenu(EGielinorPadMenu Menu)
 	if (bMenuOpen && Widget) Widget->ShowPadMenu(OpenMenu, false);
 	bMenuOpen = !bClose; OpenMenu = Menu;
 	if (bMenuOpen && Widget) Widget->ShowPadMenu(Menu, true);
+	if (bMenuOpen) OpenPanel(PadPanelName(Menu), nullptr); else ClosePanel();
 }
 
-void AGielinorHUD::ClosePadMenu() { if (bMenuOpen && Widget) Widget->ShowPadMenu(OpenMenu, false); bMenuOpen = false; }
+void AGielinorHUD::ClosePadMenu() { ClosePanel(); }
 
 void AGielinorHUD::DrawPadMenu(AGielinorPlayerState* PS)
 {
@@ -131,6 +196,14 @@ void AGielinorHUD::DrawHUD()
 {
 	Super::DrawHUD();
 	BindPad();
+	if (!bAimBound) if (UGameInstance* GI = GetGameInstance()) if (UTrueAimFeature* Aim = GI->GetSubsystem<UTrueAimFeature>()) { Aim->OnStrike.AddDynamic(this, &AGielinorHUD::OnAimStrike); bAimBound = true; }
+	// Sea panel follows the voyage: open on cast-off, close on landfall.
+	if (UGameInstance* GI = GetGameInstance()) if (USailingFeature* Sea = GI->GetSubsystem<USailingFeature>())
+	{
+		const bool bShowing = Panel && Panel->IsInViewport() && Panel->GetPanel() == TEXT("sea");
+		if (Sea->IsAtSea() && !(Panel && Panel->IsInViewport())) OpenPanel(TEXT("sea"), nullptr);
+		else if (!Sea->IsAtSea() && bShowing) ClosePanel();
+	}
 	if (Widget || !Canvas || !PlayerOwner || PlayerOwner->GetPawn<AGielinorVRPawn>()) return;
 	AGielinorPlayerState* PS = PlayerOwner->GetPlayerState<AGielinorPlayerState>();
 	if (!PS) return;
@@ -163,7 +236,7 @@ void AGielinorHUD::DrawHUD()
 		if (Q.Quest && Q.State == EQuestState::InProgress)
 		{ DrawText(FString::Printf(TEXT("[%s] %s"), *Q.Quest->DisplayName.ToString(), *PS->Quests->CurrentStepText(Q.Quest).ToString()), Yellow, 20, Canvas->ClipY - 170, Font); break; }
 
-	if (bMenuOpen) DrawPadMenu(PS);
+	if (bMenuOpen && !Panel) DrawPadMenu(PS); // UMG panel normally covers this
 
 	// Dialogue + chat box.
 	float MY = Canvas->ClipY - 140.f;

@@ -166,6 +166,7 @@ void AShopCounter::Interact(AActor* InInstigator)
 {
 	if (!GetShop()) { Msg(LOCTEXT("Closed", "The shop is closed.")); return; }
 	OnShopOpened.Broadcast(this, InInstigator);
+	if (UGielinorEvents* Ev = UGielinorEvents::Get(this)) Ev->OnServiceRequested.Broadcast(TEXT("shop"), this); // C++ UMG shop panel
 }
 
 TArray<int32> AShopCounter::VisibleStock(AActor* Player) const

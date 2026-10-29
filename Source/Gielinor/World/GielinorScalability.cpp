@@ -38,6 +38,20 @@ void UGielinorScalability::SetAndSaveTier(const UObject* WorldContext, EGielinor
 	}
 }
 
+bool UGielinorScalability::GetNaniteOptIn()
+{
+	bool b = false;
+	if (GConfig) GConfig->GetBool(GTierSection, TEXT("NaniteOptIn"), b, GGameUserSettingsIni);
+	return b;
+}
+
+void UGielinorScalability::SetNaniteOptIn(bool bOn)
+{
+	if (!GConfig) return;
+	GConfig->SetBool(GTierSection, TEXT("NaniteOptIn"), bOn, GGameUserSettingsIni);
+	GConfig->Flush(false, GGameUserSettingsIni);
+}
+
 void UGielinorScalability::ApplySavedTier(const UObject* WorldContext) { ApplyTier(WorldContext, GetSavedTier()); }
 
 void UGielinorScalability::ApplyTier(const UObject* WorldContext, EGielinorTier Tier)

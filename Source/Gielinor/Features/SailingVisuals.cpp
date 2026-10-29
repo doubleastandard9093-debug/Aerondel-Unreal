@@ -1,4 +1,6 @@
 #include "Features/SailingVisuals.h"
+#include "Kismet/GameplayStatics.h"
+#include "GameFramework/Pawn.h"
 #include "Features/SailingFeature.h"
 #include "World/GielinorScalability.h"
 #include "Components/BoxComponent.h"
@@ -128,6 +130,16 @@ void ASailingVisuals::Tick(float Dt)
 	if (!Sea) return;
 	const bool bShow = Sea->IsAtSea() || !Sea->GetMoored().IsNone();
 	const FSeaBoat Ship = Sea->GetShip();
+	// Helm from the pawn's move input (WASD / left stick): sideways = turn, forward = full sail, back = strike sail.
+	if (Sea->IsAtSea())
+		if (APawn* Pawn = UGameplayStatics::GetPlayerPawn(this, 0))
+		{
+			const FVector In = Pawn->GetLastMovementInputVector().GetSafeNormal2D();
+			const float UeYaw = FMath::DegreesToRadians(90.f - FMath::RadiansToDegrees(Ship.Yaw));
+			const FVector Fwd(FMath::Cos(UeYaw), FMath::Sin(UeYaw), 0.f), Right(-Fwd.Y, Fwd.X, 0.f);
+			const float F = FVector::DotProduct(In, Fwd), R = FVector::DotProduct(In, Right);
+			Sea->Helm(FMath::Abs(R) > 0.3f ? R : 0.f, F > 0.5f ? 1.f : F < -0.5f ? 0.f : -1.f);
+		}
 	if (Sea->GetHull() > 0 && Mine.BuiltKind != Sea->GetHull()) BuildShip(Mine, Sea->GetHull(), false);
 	PlaceShip(Mine, Ship.X, Ship.Z, Ship.Yaw, bShow && Sea->GetHull() > 0);
 	// The deck follows your ship while you are at sea; parked far below otherwise.

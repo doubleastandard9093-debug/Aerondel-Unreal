@@ -22,4 +22,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category="Gielinor|Graphics", meta=(WorldContext="WorldContext")) static void SetAndSaveTier(const UObject* WorldContext, EGielinorTier Tier);
 	/** Applies GetSavedTier(); called by AGielinorGameMode::BeginPlay. */
 	UFUNCTION(BlueprintCallable, Category="Gielinor|Graphics", meta=(WorldContext="WorldContext")) static void ApplySavedTier(const UObject* WorldContext);
+	/** Nanite stays OFF by default (crash fix 9b07fa6). High/Ultra players may opt in; takes effect after a restart. */
+	UFUNCTION(BlueprintPure, Category="Gielinor|Graphics") static bool GetNaniteOptIn();
+	UFUNCTION(BlueprintCallable, Category="Gielinor|Graphics") static void SetNaniteOptIn(bool bOn);
 };
