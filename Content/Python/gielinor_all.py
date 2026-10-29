@@ -3,9 +3,10 @@ import importlib
 import create_input_assets
 import generate_starter_data
 import build_starter_town
+import build_high_fidelity
 
 
 def run():
-    for m in (create_input_assets, generate_starter_data, build_starter_town):
+    for m in (create_input_assets, generate_starter_data, build_starter_town, build_high_fidelity):
         importlib.reload(m)
         m.run()
