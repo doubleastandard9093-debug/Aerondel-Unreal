@@ -28,4 +28,8 @@ public:
 	/** Nanite stays OFF by default (crash fix 9b07fa6). High/Ultra players may opt in; takes effect after a restart. */
 	UFUNCTION(BlueprintPure, Category="Gielinor|Graphics") static bool GetNaniteOptIn();
 	UFUNCTION(BlueprintCallable, Category="Gielinor|Graphics") static void SetNaniteOptIn(bool bOn);
+	/** Tier most recently applied by ApplyTier (Low until the first apply). */
+	static EGielinorTier GetAppliedTier();
+	/** Fires after every ApplyTier. Native only (not a UPROPERTY). */
+	static FOnGielinorTierApplied OnTierApplied;
 };

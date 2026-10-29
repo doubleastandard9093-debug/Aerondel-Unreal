@@ -21,7 +21,7 @@ namespace
 	const FVector2D SarimDock(-80.f, 76.f);
 	const FVector2D SeaEntry(-40.f, 870.f);
 	constexpr int32 EnemyMax = 3, CrewCost = 150, CrewMax = 6;
-	constexpr float Range = 26.f, ReloadS = 3.2f, BallSpeed = 38.f;
+	constexpr float CannonRange = 26.f, ReloadS = 3.2f, BallSpeed = 38.f;
 	struct FEnemyKind { const TCHAR* Name; int32 Hp, Guns; float Speed; int32 DmgLo, DmgHi, LootLo, LootHi; };
 	const FEnemyKind Kinds[2] = { { TEXT("Drowned sloop"), 90, 2, 6.5f, 6, 12, 120, 320 }, { TEXT("Drowned brig"), 160, 3, 5.8f, 8, 16, 300, 700 } };
 	struct FOfficer { const TCHAR* Id; const TCHAR* Trait; };
@@ -252,7 +252,7 @@ void USailingFeature::Fire(bool bPort)
 	float& R = bPort ? ReloadPort : ReloadStar;
 	if (R > 0.f) { Say(FString::Printf(TEXT("The %s guns are still reloading."), bPort ? TEXT("port") : TEXT("starboard"))); return; }
 	R = ReloadS * FMath::Max(0.45f, 1.f - 0.08f * Crew);
-	const float Rng = Range * (Officer(TEXT("lookout")) ? 1.25f : 1.f), K = Officer(TEXT("gunnery")) ? 1.3f : 1.f;
+	const float Rng = CannonRange * (Officer(TEXT("lookout")) ? 1.25f : 1.f), K = Officer(TEXT("gunnery")) ? 1.3f : 1.f;
 	const float Sg = bPort ? 1.f : -1.f, Sx = FMath::Cos(Ship.Yaw) * Sg, Sz = -FMath::Sin(Ship.Yaw) * Sg;
 	const float Fx = FMath::Sin(Ship.Yaw), Fz = FMath::Cos(Ship.Yaw);
 	for (int32 i = 0; i < HullDef(Hull).Guns; ++i)
@@ -342,7 +342,7 @@ void USailingFeature::Tick(float Dt)
 		const FEnemyKind& K = Kinds[E.Kind];
 		MoveBoat(E, Dt, D > 18.f ? K.Speed : K.Speed * 0.5f, D > 18.f ? ToYou : ToYou + PI / 2.f);
 		E.Reload -= Dt;
-		if (D < Range && E.Reload <= 0.f)
+		if (D < CannonRange && E.Reload <= 0.f)
 		{
 			E.Reload = 4.f + FMath::FRand() * 2.f;
 			for (int32 g = 0; g < K.Guns; ++g)
@@ -350,7 +350,7 @@ void USailingFeature::Tick(float Dt)
 				FCannonball* B = NewBall(); if (!B) break;
 				const float Sp = BallSpeed * 0.85f, Sc = FMath::FRandRange(-0.09f, 0.09f);
 				B->Pos = FVector(E.X, 1.2f, E.Z); B->Vel = FVector((Dx / D + Sc) * Sp, 3.f, (Dz / D - Sc) * Sp);
-				B->Left = Range / Sp; B->bMine = false; B->Dmg = FMath::RandRange(K.DmgLo, K.DmgHi);
+				B->Left = CannonRange / Sp; B->bMine = false; B->Dmg = FMath::RandRange(K.DmgLo, K.DmgHi);
 			}
 		}
 		if (D > 140.f) Enemies.RemoveAt(i);
@@ -395,7 +395,7 @@ bool USailingFeature::DigHere()
 {
 	bool bSpade = CountItem(TEXT("Spade")) > 0; // pack, or the toolbelt (web hasTool)
 	if (const AGielinorPlayerState* PS = GetPS())
-		if (PS->Stats) for (const UItemDef* T : PS->Stats->Toolbelt) bSpade |= T && T->ToolType == EToolType::Spade;
+		if (PS->Stats) for (const UItemDef* Tool : PS->Stats->Toolbelt) bSpade |= Tool && Tool->ToolType == EToolType::Spade;
 	if (!bSpade) { Say(TEXT("You need a Spade. The Gullrest Chandlery sells them.")); return false; }
 	FVector2D P; if (!PlayerWebPos(P)) return false;
 	const int32 Idx = Charts.IndexOfByPredicate([&P](const FTreasureChart& C) { return FVector2D::Distance(P, FVector2D(C.X, C.Z)) < 3.f; });

@@ -79,10 +79,10 @@ void USiegeFeature::StartMech(FName Kind)
 	using namespace SiegeData;
 	if (Kind == FName(TEXT("adds")))
 	{
-		int32 N = 0;
+		int32 Spawned = 0;
 		for (int32 i = 0; i < Adds; ++i)
-			if (Alive() < HostileCap) if (AGielinorMob* M = SpawnTunedMob(AddType, Center + FVector2D(-6 + i * 12, -2), AddType, 420, 38, 32, 28, 40)) { Hostiles.Add(M); ++N; }
-		Say(FString::Printf(TEXT("%d Ashen raiders rush in!"), N));
+			if (Alive() < HostileCap) if (AGielinorMob* M = SpawnTunedMob(AddType, Center + FVector2D(-6 + i * 12, -2), AddType, 420, 38, 32, 28, 40)) { Hostiles.Add(M); ++Spawned; }
+		Say(FString::Printf(TEXT("%d Ashen raiders rush in!"), Spawned));
 		return;
 	}
 	FVector2D P; if (!PlayerWebPos(P)) return;

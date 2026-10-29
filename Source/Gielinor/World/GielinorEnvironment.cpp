@@ -44,7 +44,7 @@ void AGielinorEnvironment::Apply(EGielinorTier Tier)
 		{
 			Sun->SetAtmosphereSunLight(true);
 			Sun->bEnableLightShaftBloom = bRich;
-			Sun->SetCastCloudShadows(bRich);
+			Sun->bCastCloudShadows = bRich;
 			Sun->SetDynamicShadowDistanceMovableLight(bRich ? 12000.f : 6000.f);
 			Sun->SetDynamicShadowCascades(bRich ? 4 : 2);
 			Sun->MarkRenderStateDirty();

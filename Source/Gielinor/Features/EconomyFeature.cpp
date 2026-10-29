@@ -120,7 +120,7 @@ void UEconomyFeature::LoadState(const FJsonObject& In)
 {
 	ResetState();
 	if (TSharedPtr<FJsonObject> S = JObj(In, TEXT("shopState")))
-		for (const auto& P : S->Values) { const double N = P.Value->AsNumber(); if (P.Key.Contains(TEXT(":")) && N > 0) Bought.Add(P.Key, FMath::Min(9999.0, N)); }
+		for (const auto& P : S->Values) { const double N = P.Value->AsNumber(); const FString K(*P.Key); if (K.Contains(TEXT(":")) && N > 0) Bought.Add(K, FMath::Min(9999.0, N)); }
 	if (TSharedPtr<FJsonObject> W = JObj(In, TEXT("wear")))
 		for (const auto& P : W->Values) { const double N = P.Value->AsNumber(); if (N > 0) Wear.Add(FName(*P.Key), FMath::Min(100.0, N)); }
 }
