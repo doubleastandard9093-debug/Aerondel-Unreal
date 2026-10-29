@@ -65,18 +65,33 @@ Content/Data was re-exported from Lite v18 (Tools/export_webgpu_data.mjs).
 
 **Nothing has been compiled.** First job: build in UE 5.8.4, fix compile errors, run the save round-trip test.
 
-Simplifications vs web (revisit):
-- Challenge = hit + Stun(4) (no taunt/attack delay); element weakness multiplier skipped.
-- Sailing: no Sound geometry yet, the pawn uses MOVE_Flying at sea; officers only help as the active companion.
-- Treasure dig gives coins only (no uncut gem items in data); Spade checked in inventory, not toolbelt.
-- Hexer rune brewing (Mama Sorrel: Bog/Bone runes) not ported.
-- Shop restock looks up caps per shop each tick.
-- True Aim: 2D shape math from actor yaw (no camera aim); dodge-cancel just stops the montage.
-- Pad menus: Canvas fallback panels (inventory/settings/world map/nearby list); real UMG must implement ShowPadMenu.
+Fixed since (2026-10-29): Challenge taunt + attack delay, element weakness (x1.3), uncut gems from treasure digs, Spade
+in the toolbelt, True Aim from the camera, Hexer brewing (Mama Sorrel), Sound water + islands + docks, procedural ships /
+cannonballs / deck (ASailingVisuals), 21 JSON feature NPCs (service, home position, tint) placed by build_world_blockout.
+Gear upgrades and notoriety: not in Lite v18 (only ship hull upgrades, already ported), so nothing to port.
 
-UMG to-do: Bonds/Saga wheel, House, Errand Ledger, Standing, Stable Codex, Flow/Focus meters, ship/shipwright/sea HUD,
-card table, pad menus (ShowPadMenu + SetUserFocus), True Aim ground marker (OnStrike; Low = decal only).
-World to-do: re-run build_world_blockout (now adds Wellmere, siege fort, Wilds banners, Port Sarim dock, Brineholt tables);
-create NpcDefs for Brannoch, Ysmay, Warcaptain Hesk, Shipwright Halvard and the card dealers and swap the marker posts for
-NpcTalk; place Chronicler Corwin, deed sign and roost NPCs; ship/cannonball meshes (Low tier must keep to Low assets).
-Multiplayer stays offline.
+UI: every feature panel is C++ UMG (UI/GielinorPanels + UGielinorPanelWidget, no Blueprint needed): pad menus
+(inventory, settings, world map, nearby), settings (tier, Nanite opt-in, True Aim, sensitivity, invert, rumble),
+companions, saga, hearth, shipwright, sea helm (WASD/stick steers, broadsides, sails), card tables, shops, and every NPC
+service. NPCs open panels via UGielinorEvents::OnServiceRequested. True Aim strikes flash AGielinorAimMarker.
+
+Graphics (High/Ultra only; Low/Quest keep the strict cheap path and never load High content):
+- UGielinorScalability: Lumen GI + reflections (software), VSM, volumetric fog + clouds, DFAO, contact shadows;
+  Ultra = Epic scalability + finer volumetrics. Low/Quest explicitly turn all of that off.
+- AGielinorEnvironment: tunes the level's sun / sky / skylight / fog / unbound post volume per tier, live; adds
+  volumetric clouds (engine cloud material) only on High+.
+- AGielinorHighDetail: swaps M_Tint surfaces to M_TintHigh (procedural variation, animated water) and scatters grass,
+  flowers and pebbles around the player; reverts on Low. Run Content/Python/build_high_fidelity.py once
+  (gielinor_all does it); /Game/Gielinor/Materials/High is always cooked.
+- Nanite stays off (crash fix 9b07fa6). Settings has an opt-in on High+ that sets r.Nanite=1, but r.Nanite.ProjectEnabled
+  is still False and no mesh has Nanite data, so the opt-in does nothing until someone enables both and tests on weak GPUs.
+
+Remaining simplifications:
+- Nothing compiled yet; build in UE 5.8.4 and fix errors first.
+- Panels are functional, not styled (default button style, no icons). The Bonds dialogue wheel, Errand Ledger, Standing,
+  Stable Codex and Flow/Focus meters still use messages or the generic panels.
+- Arena panel shows the ladder and token shop but cannot start a duel; duels are still started from the world.
+- Character/building fidelity on High comes from materials only: no new meshes, skeletal characters or LODs.
+- Water is the tinted plane plus an animated shimmer; no waves, no displacement, no UE Water plugin.
+- Shop restock looks up caps per shop each tick; officers only help as the active companion.
+- Multiplayer stays offline.
