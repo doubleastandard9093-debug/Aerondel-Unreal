@@ -21,6 +21,7 @@
 #include "Features/GielinorFeature.h"
 #include "Combat/GielinorMob.h"
 #include "Features/PathsFeature.h"
+#include "Features/EconomyFeature.h"
 #include "Engine/GameInstance.h"
 
 #define LOCTEXT_NAMESPACE "GielinorStats"
@@ -376,6 +377,7 @@ void UPlayerStatsComponent::ApplyPlayerDamage(int32 Amount, AActor* Source)
 	const float Red = FMath::Min(0.8f, (GameTick < WallUntil ? 0.6f : 0.f) + (GameTick < WardUntil ? 0.4f : 0.f));
 	if (Red > 0.f) Amount = FMath::Max(1, FMath::RoundToInt(Amount * (1.f - Red)));
 	S->Health->ApplyDamage(Amount, Source);
+	if (UEconomyFeature* Econ = UEconomyFeature::Get(this)) Econ->OnPlayerHit();
 	if (S->Health->IsDead()) { HandleDeath(); UGielinorFeature::NotifyPlayerDied(this); }
 }
 

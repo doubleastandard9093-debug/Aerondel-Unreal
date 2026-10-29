@@ -1,4 +1,5 @@
 #include "Activities/ActivityActors.h"
+#include "Features/EconomyFeature.h"
 #include "Core/GielinorPlayerState.h"
 #include "Core/PlayerStatsComponent.h"
 #include "Core/GielinorEvents.h"
@@ -196,7 +197,11 @@ int32 AShopCounter::PriceOf(AActor* Player, int32 StockIndex) const
 	if (!Sh || !Sh->Stock.IsValidIndex(StockIndex)) return 0;
 	const FShopStock& E = Sh->Stock[StockIndex];
 	const int32 Base = E.Price > 0 ? E.Price : (E.Item ? FMath::Max(1, E.Item->Value) : 1);
-	return UGielinorRules::BuyPrice(PS(Player), Base);
+	const int32 P = UGielinorRules::BuyPrice(PS(Player), Base);
+	// Economy: the price climbs as the line sells out, never under 115% of what the shop pays back.
+	if (const UEconomyFeature* Econ = UEconomyFeature::Get(this))
+		return Econ->UnitPrice(ShopId, E, P, E.Item ? UGielinorRules::SellPrice(PS(Player), E.Item) : 0);
+	return P;
 }
 
 bool AShopCounter::Buy(AActor* Player, int32 StockIndex, int32 Amount)
@@ -205,13 +210,28 @@ bool AShopCounter::Buy(AActor* Player, int32 StockIndex, int32 Amount)
 	const UShopDef* Sh = GetShop();
 	if (!S || !Sh || Amount <= 0 || !VisibleStock(Player).Contains(StockIndex)) return false;
 	UItemDef* It = Sh->Stock[StockIndex].Item;
-	const int32 Each = PriceOf(Player, StockIndex);
 	UItemDef* Gold = ActCoins();
-	const int32 Afford = Each > 0 ? S->Inventory->CountOf(Gold) / Each : Amount;
-	const int32 N = FMath::Min(Amount, Afford);
+	UEconomyFeature* Econ = UEconomyFeature::Get(this);
+	const FShopStock& Line = Sh->Stock[StockIndex];
+	const int32 Base = Line.Price > 0 ? Line.Price : (It ? FMath::Max(1, It->Value) : 1);
+	if (Econ && Econ->StockLeft(ShopId, Line, Base) <= 0) { Msg(LOCTEXT("SoldOut", "That's sold out. Check back in a couple of minutes.")); return false; }
+	// Unit by unit: each one bought nudges the next price up.
+	int32 N = 0, Cost = 0, Coins = S->Inventory->CountOf(Gold);
+	while (N < Amount)
+	{
+		if (Econ && Econ->StockLeft(ShopId, Line, Base) <= 0) break;
+		const int32 Each = PriceOf(Player, StockIndex);
+		if (Cost + Each > Coins) break;
+		Cost += Each; ++N;
+		if (Econ) Econ->NoteBought(ShopId, It, 1);
+	}
 	if (N <= 0) { Msg(LOCTEXT("Poor", "You don't have enough coins.")); return false; }
-	if (!S->Inventory->CanAdd(It, N)) { Msg(LOCTEXT("NoRoom", "You don't have enough inventory space.")); return false; }
-	S->Inventory->Remove(Gold, N * Each);
+	if (!S->Inventory->CanAdd(It, N))
+	{
+		if (Econ) Econ->NoteBought(ShopId, It, -N);
+		Msg(LOCTEXT("NoRoom", "You don't have enough inventory space.")); return false;
+	}
+	S->Inventory->Remove(Gold, Cost);
 	if (It->ToolType != EToolType::None && S->Stats && S->Stats->AddTool(It))
 		Msg(FText::Format(LOCTEXT("ToolBelt", "The {0} goes on your toolbelt."), It->DisplayName));
 	else

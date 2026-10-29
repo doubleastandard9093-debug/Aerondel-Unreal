@@ -1,5 +1,6 @@
 #include "Rules/GielinorRules.h"
 #include "Features/GielinorFeature.h"
+#include "Features/EconomyFeature.h"
 #include "Core/GielinorPlayerState.h"
 #include "Core/PlayerStatsComponent.h"
 #include "Skills/SkillsComponent.h"
@@ -145,9 +146,18 @@ FItemBonuses UGielinorRules::EquipmentBonuses(const AGielinorPlayerState* PS)
 	for (const auto& P : PS->Equipment->GetAll())
 	{
 		if (!P.Value) continue;
-		B += P.Value->Bonuses;
+		FItemBonuses I = P.Value->Bonuses;
 		// Legacy starter-content fields.
-		B.Attack += P.Value->AttackBonus; B.Strength += P.Value->StrengthBonus; B.Defence += P.Value->DefenceBonus;
+		I.Attack += P.Value->AttackBonus; I.Strength += P.Value->StrengthBonus; I.Defence += P.Value->DefenceBonus;
+		// Economy: fully worn top-tier gear keeps 70% of its bonuses.
+		const UEconomyFeature* Econ = UEconomyFeature::Get(PS);
+		const float Wm = Econ ? Econ->WearMult(P.Value) : 1.f;
+		if (Wm < 1.f)
+		{
+			auto Sc = [Wm](int32& V) { V = FMath::RoundToInt(V * Wm); };
+			Sc(I.Attack); Sc(I.Strength); Sc(I.RangedAttack); Sc(I.RangedStrength); Sc(I.Defence); Sc(I.RangedDefence); Sc(I.Prayer); Sc(I.Magic);
+		}
+		B += I;
 	}
 	return B;
 }
