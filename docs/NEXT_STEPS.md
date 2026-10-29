@@ -57,12 +57,26 @@ bounties, drops, gathering/cooking via rules, activity actors and data-driven qu
 When it resumes: add `GetLifetimeReplicatedProps` with `UPROPERTY(Replicated)` on PlayerState components, turn interaction calls into Server RPCs on the PlayerController, and make mobs server-authoritative (they already run all their logic in one place).
 
 ## Web v18 parity port (2026-10-28)
-Ported as C++ game-instance subsystems in Source/Gielinor/Features (logic + save, no UMG yet):
-Companions, Standing, Hearthstead, Errands, Stillwatch, Flow/dodge, Shiftsteeds, Skywing, Stable Codex, Wanderer's Saga.
+All v18 systems now exist as C++ game-instance subsystems in Source/Gielinor/Features (logic + JSON save blocks):
+Companions, Standing, Hearthstead, Errands, Stillwatch, Flow/dodge, Shiftsteeds, Skywing, Stable Codex, Saga, Silver Tongue,
+Quirks, Writs, Arena, Paths, Hunt tasks, Delves, Charter, Siege, Wilds, Colossi, Boss mechanics, Sailing, Cards, Economy,
+True Aim; plus XP re-curve (save v4), skill synergy, magic kit (Hexcraft/elements/path abilities), gamepad + pad menus.
+Content/Data was re-exported from Lite v18 (Tools/export_webgpu_data.mjs).
 
-Still to port from Gielinor-Lite/js: tongue (Silver Tongue), quirks, writs, paths, delves, aim, colossi, charter,
-siege, arena, wilds, tasks, bossmech, cards, sea/sailing; plus XP re-curve, skill synergy, magic kit, economy sinks,
-gear upgrades, notoriety, sailing combat/visuals.
+**Nothing has been compiled.** First job: build in UE 5.8.4, fix compile errors, run the save round-trip test.
 
-UMG to-do: Bonds/Saga panel (Talk/Finish wheel), House, Errand Ledger, Standing, Stable Codex, Flow/Focus HUD meters.
-World to-do: place Chronicler Corwin, deed sign, roost NPCs; bounty rep hookup. Nothing here has been compiled yet.
+Simplifications vs web (revisit):
+- Challenge = hit + Stun(4) (no taunt/attack delay); element weakness multiplier skipped.
+- Sailing: no Sound geometry yet, the pawn uses MOVE_Flying at sea; officers only help as the active companion.
+- Treasure dig gives coins only (no uncut gem items in data); Spade checked in inventory, not toolbelt.
+- Hexer rune brewing (Mama Sorrel: Bog/Bone runes) not ported.
+- Shop restock looks up caps per shop each tick.
+- True Aim: 2D shape math from actor yaw (no camera aim); dodge-cancel just stops the montage.
+- Pad menus: Canvas fallback panels (inventory/settings/world map/nearby list); real UMG must implement ShowPadMenu.
+
+UMG to-do: Bonds/Saga wheel, House, Errand Ledger, Standing, Stable Codex, Flow/Focus meters, ship/shipwright/sea HUD,
+card table, pad menus (ShowPadMenu + SetUserFocus), True Aim ground marker (OnStrike; Low = decal only).
+World to-do: re-run build_world_blockout (now adds Wellmere, siege fort, Wilds banners, Port Sarim dock, Brineholt tables);
+create NpcDefs for Brannoch, Ysmay, Warcaptain Hesk, Shipwright Halvard and the card dealers and swap the marker posts for
+NpcTalk; place Chronicler Corwin, deed sign and roost NPCs; ship/cannonball meshes (Low tier must keep to Low assets).
+Multiplayer stays offline.
