@@ -16,6 +16,10 @@ import build_starter_town as bst
 from build_starter_town import V, box, label, actors, levels, CUBE, CYL, CONE
 
 MAP = ROOT + "/Maps/World"
+FEATURE_NPCS = [("Brannoch", 38, 88), ("Ysmay", 42, 92), ("Warcaptain Hesk", -1000, -620),
+                ("Shipwright Halvard", -80, 76), ("Tide Dealer", 78, 1028), ("Anchor Dealer", 82, 1028)]
+FEATURE_SITES = [("wellmere", 40, 90, 12), ("siege_fort", -1000, -640, 16), ("wilds", 122, -122, 20),
+                 ("port_sarim_dock", -80, 76, 8), ("brineholt", 80, 1030, 14)]
 STATION = {"range": "RANGE", "furnace": "FURNACE", "anvil": "ANVIL", "fire": "FIRE"}
 
 
@@ -56,7 +60,7 @@ def run():
         unreal.log_error("[Gielinor] Could not create " + MAP)
         return
     half = float(w.get("worldHalf", 300))
-    with unreal.ScopedSlowTask(7, "Gielinor: world blockout") as task:
+    with unreal.ScopedSlowTask(8, "Gielinor: world blockout") as task:
         task.make_dialog(True)
 
         task.enter_progress_frame(1, "Ground and lighting")
@@ -121,6 +125,28 @@ def run():
             box("Cave entrance", "Cave", (e["x"], 2, e["z"]), (6, 4, 2), stone)
             box("Cave floor", "Cave", (cave["x"], -0.04, cave["z"]), (cave["r"] * 2, 0.1, cave["r"] * 2), stone, shape=CYL)
             place_volume("Cave", cave["x"], cave["z"], cave["r"] * 2)
+
+        # Feature sites from the v18 port (C++ features own the logic; these are greybox anchors + place volumes).
+        # Their NPCs (Brannoch, Ysmay, Warcaptain Hesk, Shipwright Halvard, card dealers) have no NpcDef yet, so
+        # they are tinted marker posts tagged "Interactable" for the pad context menu; swap for NpcTalk once defined.
+        post = mat("FeatureNpc", (0.75, 0.55, 0.3))
+        for name, x, z in FEATURE_NPCS:
+            a = box("Npc_" + name.replace(" ", "_"), "FeatureSites/NPCs", (x, 0.9, z), (0.6, 1.8, 0.6), post, shape=CYL)
+            a.set_editor_property("tags", [unreal.Name("Interactable")])
+        for pid, x, z, r in FEATURE_SITES:
+            place_volume(pid, x, z, r * 2)
+        fort = mat("FortStone", (0.4, 0.38, 0.36))
+        for i in range(16):  # siege fort palisade ring, radius 16
+            a = i * math.tau / 16
+            box("Fort_Wall_%02d" % i, "FeatureSites/Siege", (-1000 + 16 * math.cos(a), 2, -640 + 16 * math.sin(a)), (6.4, 4, 1), fort,
+                yaw=math.degrees(a) + 90)
+        banner = mat("WildsBanner", (0.6, 0.1, 0.1))
+        for i, (dx, dz) in enumerate(((-6, -6), (6, -6), (-6, 6), (6, 6))):
+            box("Wilds_Banner_%d" % i, "FeatureSites/Wilds", (122 + dx, 2.5, -122 + dz), (0.2, 5, 1.2), banner)
+        felt = mat("CardFelt", (0.1, 0.4, 0.2))
+        for i in range(2):
+            box("Card_Table_%d" % i, "FeatureSites/Brineholt", (80 + i * 4 - 2, 0.45, 1030), (2, 0.9, 1.2), felt)
+        box("Port_Sarim_Dock", "FeatureSites/Docks", (-80, 0.2, 80), (6, 0.4, 14), mat("Planks", (0.45, 0.32, 0.2)))
 
         task.enter_progress_frame(1, "Save")
         levels.save_current_level()
