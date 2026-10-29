@@ -105,10 +105,12 @@ void UGielinorScalability::ApplyTier(const UObject* WorldContext, EGielinorTier 
 		S->SetOverallScalabilityLevel(0);
 		SetCVar(TEXT("r.ScreenPercentage"), 100);
 		ApplyCheapPath();
+		SetCVar(TEXT("r.AntiAliasingMethod"), 1); // FXAA (not allowed in Scalability.ini)
 		break;
 	case EGielinorTier::Low:
 		S->SetOverallScalabilityLevel(1);
 		ApplyCheapPath();
+		SetCVar(TEXT("r.AntiAliasingMethod"), 4); // TSR
 		break;
 	case EGielinorTier::High:
 		S->SetOverallScalabilityLevel(2);
