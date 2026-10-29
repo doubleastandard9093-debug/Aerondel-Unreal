@@ -3,6 +3,15 @@
 #include "Core/GielinorPlayerState.h"
 #include "Core/GielinorEvents.h"
 #include "Quests/QuestComponent.h"
+#include "Data/GameDatabase.h"
+
+void ANpcTalk::BeginPlay()
+{
+	Super::BeginPlay();
+	if (!Definition && !NpcId.IsNone())
+		if (const UGameDatabase* Db = UGameDatabase::Get()) Definition = Db->FindNpc(NpcId);
+	if (Definition) DisplayName = Definition->DisplayName;
+}
 
 void ANpcTalk::OnConstruction(const FTransform& Xf)
 {
@@ -26,6 +35,11 @@ void ANpcTalk::Interact(AActor* InInstigator)
 	}
 	AGielinorPlayerState* S = PS(InInstigator);
 	if (S && S->Quests->HandleTalk(Definition)) return;
+	if (!Definition->Service.IsNone())
+		if (UGielinorEvents* Ev = UGielinorEvents::Get(this))
+		{
+			if (Ev->OnServiceRequested.IsBound()) { Ev->OnServiceRequested.Broadcast(Definition->Service, this); return; }
+		}
 	if (Definition->IdleLines.Num() > 0)
 		if (UGielinorEvents* Ev = UGielinorEvents::Get(this))
 			Ev->OnDialogue.Broadcast(Definition->DisplayName, { Definition->IdleLines[LineIndex++ % Definition->IdleLines.Num()] });

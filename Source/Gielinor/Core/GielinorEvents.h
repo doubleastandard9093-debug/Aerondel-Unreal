@@ -14,6 +14,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnQuestChanged, UQuestDef*, Quest);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnBonesBuried, UItemDef*, Bones);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnPlaceVisited, FName, PlaceId);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnGameMessage, const FText&, Message);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnServiceRequested, FName, Service, AActor*, Source);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnDialogue, const FText&, Speaker, const TArray<FText>&, Lines);
 
 /**
@@ -35,6 +36,8 @@ public:
 	UPROPERTY(BlueprintAssignable) FOnQuestChanged OnQuestChanged;
 	UPROPERTY(BlueprintAssignable) FOnGameMessage OnMessage;
 	UPROPERTY(BlueprintAssignable) FOnDialogue OnDialogue;
+	/** A feature NPC / sign was used: the HUD opens that service's panel (UGielinorPanels). */
+	UPROPERTY(BlueprintAssignable) FOnServiceRequested OnServiceRequested;
 
 	UFUNCTION(BlueprintCallable, Category="Gielinor") void Message(const FText& Text) { OnMessage.Broadcast(Text); }
 

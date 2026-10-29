@@ -525,6 +525,10 @@ int32 FJsonContentLoader::MergeInto(UGameDatabase* Db, const FString& Dir)
 				if (!bFill) continue;
 				N->DisplayName = Txt(Str(O, TEXT("name")));
 				N->IdleLines = { Txt(Str(O, TEXT("examine"))) };
+				N->Service = Has(O, TEXT("service")) ? FName(*Str(O, TEXT("service"))) : NAME_None;
+				N->bHasHome = Has(O, TEXT("x"));
+				if (N->bHasHome) N->Home = FVector2D(Num(O, TEXT("x")), Num(O, TEXT("z")));
+				if (Has(O, TEXT("tint"))) N->Tint = FLinearColor(FColor::FromHex(Str(O, TEXT("tint"))));
 			}
 		}
 		if (const FArr* Milestones = Arr(J, TEXT("qpMilestones")); Milestones && Db->QuestPointMilestones.Num() == 0)

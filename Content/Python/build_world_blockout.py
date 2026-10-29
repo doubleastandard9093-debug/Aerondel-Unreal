@@ -16,8 +16,6 @@ import build_starter_town as bst
 from build_starter_town import V, box, label, actors, levels, CUBE, CYL, CONE
 
 MAP = ROOT + "/Maps/World"
-FEATURE_NPCS = [("Brannoch", 38, 88), ("Ysmay", 42, 92), ("Warcaptain Hesk", -1000, -620),
-                ("Shipwright Halvard", -80, 76), ("Tide Dealer", 78, 1028), ("Anchor Dealer", 82, 1028)]
 FEATURE_SITES = [("wellmere", 40, 90, 12), ("siege_fort", -1000, -640, 16), ("wilds", 122, -122, 20),
                  ("port_sarim_dock", -80, 76, 8), ("brineholt", 80, 1030, 14)]
 STATION = {"range": "RANGE", "furnace": "FURNACE", "anvil": "ANVIL", "fire": "FIRE"}
@@ -127,12 +125,29 @@ def run():
             place_volume("Cave", cave["x"], cave["z"], cave["r"] * 2)
 
         # Feature sites from the v18 port (C++ features own the logic; these are greybox anchors + place volumes).
-        # Their NPCs (Brannoch, Ysmay, Warcaptain Hesk, Shipwright Halvard, card dealers) have no NpcDef yet, so
-        # they are tinted marker posts tagged "Interactable" for the pad context menu; swap for NpcTalk once defined.
-        post = mat("FeatureNpc", (0.75, 0.55, 0.3))
-        for name, x, z in FEATURE_NPCS:
-            a = box("Npc_" + name.replace(" ", "_"), "FeatureSites/NPCs", (x, 0.9, z), (0.6, 1.8, 0.6), post, shape=CYL)
-            a.set_editor_property("tags", [unreal.Name("Interactable")])
+        # Feature NPCs: quests.json "npcs" entries with a service and a home spot (web world.js SARIM/ISLE lists).
+        quests_path = os.path.join(unreal.Paths.project_content_dir(), "Data", "quests.json")
+        with open(quests_path, "r", encoding="utf-8") as f:
+            npcs = json.load(f).get("npcs", {})
+        counter = mat("Counter", (0.45, 0.32, 0.2))
+        for nid, n in npcs.items():
+            if "x" not in n:
+                continue
+            # JSON-only NpcDefs: the actor resolves npc_id at BeginPlay (no Npc_ asset needed).
+            a = actors.spawn_actor_from_class(unreal.NpcTalk, V(n["x"], 0, n["z"]))
+            a.set_editor_property("npc_id", unreal.Name(nid))
+            a.set_editor_property("display_name", n["name"])
+            t = n.get("tint", "#a08060").lstrip("#")
+            rgb = tuple(int(t[i:i + 2], 16) / 255.0 for i in (0, 2, 4))
+            bst.set_mesh(a.get_editor_property("mesh"), CYL, (0.55, 0.55, 1.75), mat("Npc_" + nid, rgb), rel=(0, 0, 87.5))
+            a.set_editor_property("range", 220.0)
+            label(a, n["name"], "FeatureSites/NPCs")
+            svc = n.get("service", "")
+            shop = svc[5:] if svc.startswith("shop:") else ("hexer" if svc == "hexer" else None)
+            if shop:  # trade happens at a counter beside them
+                c = bst.interactable(unreal.ShopCounter, n["name"] + " stall", "FeatureSites/Shops", (n["x"] + 1.5, 0.5, n["z"]),
+                                     CUBE, (1.2, 1.0, 0.7), counter)
+                c.set_editor_property("shop_id", unreal.Name(shop))
         for pid, x, z, r in FEATURE_SITES:
             place_volume(pid, x, z, r * 2)
         fort = mat("FortStone", (0.4, 0.38, 0.36))
@@ -146,6 +161,17 @@ def run():
         felt = mat("CardFelt", (0.1, 0.4, 0.2))
         for i in range(2):
             box("Card_Table_%d" % i, "FeatureSites/Brineholt", (80 + i * 4 - 2, 0.45, 1030), (2, 0.9, 1.2), felt)
+        # Sarim Sound (z > 760): open water, the three islands with docks. Ships, cannonballs and the deck are runtime
+        # (ASailingVisuals); the sea surface is visual only (no collision) - the deck carries you.
+        sea = mat("SeaWater", (0.08, 0.25, 0.38), 0.05)
+        box("Sarim_Sound", "Sea", (0, -0.3, 980), (900, 0.05, 460), sea, collide=False)
+        sand = mat("Sand", (0.76, 0.68, 0.48), 0.95)
+        for iid, ix, iz, ir, dx, dz in (("Gullrest", -70, 960, 26, -70, 932), ("Brineholt", 80, 1030, 24, 54, 1030), ("Wreckers_Reef", 10, 1120, 22, 10, 1096)):
+            box("Isle_" + iid, "Sea/Islands", (ix, -0.5, iz), (ir * 2, 1.2, ir * 2), sand, shape=CYL)
+            yaw = math.degrees(math.atan2(dz - iz, dx - ix))
+            box("Dock_" + iid, "Sea/Islands", ((ix + dx) / 2 + (dx - ix) * 0.25, 0.15, (iz + dz) / 2 + (dz - iz) * 0.25), (12, 0.3, 3),
+                mat("Planks", (0.45, 0.32, 0.2)), yaw=yaw)
+            place_volume(iid.lower(), ix, iz, ir * 2)
         box("Port_Sarim_Dock", "FeatureSites/Docks", (-80, 0.2, 80), (6, 0.4, 14), mat("Planks", (0.45, 0.32, 0.2)))
 
         task.enter_progress_frame(1, "Save")
