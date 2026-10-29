@@ -15,6 +15,8 @@
 #include "Blueprint/AIBlueprintHelperLibrary.h"
 #include "GameFramework/Pawn.h"
 #include "EngineUtils.h"
+#include "Features/TrueAimFeature.h"
+#include "Engine/GameInstance.h"
 
 #define LOCTEXT_NAMESPACE "GielinorCombat"
 
@@ -61,6 +63,18 @@ FText UPlayerCombatComponent::UseAbility(FName AbilityId)
 	AGielinorPlayerState* S = PS();
 	if (!S || !S->Stats) return FText::GetEmpty();
 	AGielinorMob* Mob = Target.Get();
+	// True Aim: attack abilities fire as a shape where you face instead of riding on the next swing.
+	UGameInstance* GI = GetWorld() ? GetWorld()->GetGameInstance() : nullptr;
+	UTrueAimFeature* Aim = GI ? GI->GetSubsystem<UTrueAimFeature>() : nullptr;
+	const UGameDatabase* Db = UGameDatabase::Get();
+	const UAbilityDef* Def = Db ? Db->FindAbility(AbilityId) : nullptr;
+	if (Aim && Aim->IsOn() && Def && Def->Style != TEXT("magic"))
+	{
+		const FText AimErr = S->Stats->UseAbility(AbilityId, true);
+		if (!AimErr.IsEmpty()) { Msg(AimErr); return AimErr; }
+		if (S->Stats->QueuedAbility == AbilityId) { S->Stats->ConsumeQueuedAbility(); Aim->Strike(AbilityId); }
+		return FText::GetEmpty();
+	}
 	const FText Err = S->Stats->UseAbility(AbilityId, Mob && !Mob->IsDead());
 	if (!Err.IsEmpty()) Msg(Err);
 	else if (Mob && S->Stats->QueuedAbility == AbilityId && Cooldown > UGielinorRules::TickSeconds) Cooldown = UGielinorRules::TickSeconds;

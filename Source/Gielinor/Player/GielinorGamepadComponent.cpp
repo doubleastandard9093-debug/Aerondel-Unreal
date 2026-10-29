@@ -1,4 +1,5 @@
 #include "Player/GielinorGamepadComponent.h"
+#include "Features/TrueAimFeature.h"
 #include "Player/GielinorCharacter.h"
 #include "Combat/PlayerCombatComponent.h"
 #include "Combat/GielinorMob.h"
@@ -205,10 +206,10 @@ void UGielinorGamepadComponent::OnRTStart(const FInputActionValue&)
 {
 	if (!bLBHeld) return;
 	MarkPad();
-	bTrueAim = !bTrueAim;
+	UGameInstance* GI = GetWorld() ? GetWorld()->GetGameInstance() : nullptr;
+	if (UTrueAimFeature* Aim = GI ? GI->GetSubsystem<UTrueAimFeature>() : nullptr) bTrueAim = Aim->Toggle(); // saved, logs the hint
+	else bTrueAim = !bTrueAim;
 	OnTrueAimToggled.Broadcast(bTrueAim);
-	if (UGielinorEvents* Ev = UGielinorEvents::Get(this))
-		Ev->Message(bTrueAim ? NSLOCTEXT("Gielinor", "TrueAimOn", "True Aim on.") : NSLOCTEXT("Gielinor", "TrueAimOff", "True Aim off."));
 }
 
 void UGielinorGamepadComponent::OnA(const FInputActionValue&)
@@ -240,6 +241,7 @@ void UGielinorGamepadComponent::OnB(const FInputActionValue&)
 	UGameInstance* GI = GetWorld() ? GetWorld()->GetGameInstance() : nullptr;
 	UFlowFeature* Flow = GI ? GI->GetSubsystem<UFlowFeature>() : nullptr;
 	if (!C || !Flow || !Flow->TryDodge()) return;
+	if (UTrueAimFeature* Aim = GI->GetSubsystem<UTrueAimFeature>()) if (Aim->TryCancel()) C->StopAnimMontage(); // dodge-cancel an aimed strike
 	FVector Dir = C->GetLastMovementInputVector().GetSafeNormal2D();
 	if (Dir.IsNearlyZero()) Dir = C->GetActorForwardVector().GetSafeNormal2D();
 	// ~0.25 s roll covering DodgeDistCm.
