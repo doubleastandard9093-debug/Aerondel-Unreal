@@ -16,7 +16,7 @@ class GIELINOR_API UGielinorSaveGame : public USaveGame
 	GENERATED_BODY()
 public:
 	/** 1 = original slice (HP x1). 2 = WebGPU parity (HP x10, stats, toolbelt, quest extras). 3 = feature blocks (web v18 systems). Missing fields keep defaults. */
-	static constexpr int32 CurrentVersion = 3;
+	static constexpr int32 CurrentVersion = 4; // v4: XP re-curve (older XP converted on load)
 	UPROPERTY() int32 Version = 1;
 	UPROPERTY() FVector Location = FVector::ZeroVector;
 	UPROPERTY() int32 Hitpoints = 10;

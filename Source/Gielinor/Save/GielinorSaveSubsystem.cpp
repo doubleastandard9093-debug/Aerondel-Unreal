@@ -100,7 +100,7 @@ bool UGielinorSaveSubsystem::LoadInto(AGielinorPlayerState* PS)
 	if (!PS || !Db || !UGameplayStatics::DoesSaveGameExist(SlotName, 0)) return false;
 	UGielinorSaveGame* S = Cast<UGielinorSaveGame>(UGameplayStatics::LoadGameFromSlot(SlotName, 0));
 	if (!S) return false;
-	for (const FSavedSkill& K : S->Skills) PS->Skills->SetXpRaw(K.Id, K.Xp);
+	for (const FSavedSkill& K : S->Skills) PS->Skills->SetXpRaw(K.Id, S->Version >= 4 ? K.Xp : UXpCurve::ConvertXpV1(K.Xp)); // v4 re-curve
 	LoadContainer(PS->Inventory, S->Inventory, Db);
 	LoadContainer(PS->Bank, S->Bank, Db);
 	PS->Equipment->ClearAll();

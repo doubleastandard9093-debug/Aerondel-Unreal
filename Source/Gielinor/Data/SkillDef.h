@@ -35,8 +35,9 @@ public:
 };
 
 /**
- * Gielinor Lite XP curve (same as the web/WebGPU build so saves and balance match):
- * xp(L) = sum_{l=1}^{L-1} floor(50*l + 2*l^1.6). L2 = 52, L10 = 2,514, L99 = 359,720.
+ * Gielinor Lite v13 XP curve (same as the web build): OSRS-shaped, scaled to 30%.
+ * xp(L) = floor(sum_{l=1}^{L-1} floor(l + 300*2^(l/7)) / 4 * 0.3). L2 = 24, L10 = 346, L99 = 3,910,329.
+ * Saves older than v4 used the old curve (L99 = 359,720) and are converted level-for-level by ConvertXpV1.
  */
 UCLASS()
 class GIELINOR_API UXpCurve : public UBlueprintFunctionLibrary
@@ -44,8 +45,12 @@ class GIELINOR_API UXpCurve : public UBlueprintFunctionLibrary
 	GENERATED_BODY()
 public:
 	static constexpr int32 MaxTableLevel = 120;
+	static constexpr double XpScale = 0.3;
 	UFUNCTION(BlueprintPure, Category="Gielinor|Skills") static int32 XpForLevel(int32 Level);
 	UFUNCTION(BlueprintPure, Category="Gielinor|Skills") static int32 LevelForXp(float Xp, int32 MaxLevel = 99);
+	/** Old-curve XP -> new-curve XP, keeping the level and the fraction through it. Above 99: extra XP x10. */
+	UFUNCTION(BlueprintPure, Category="Gielinor|Skills") static float ConvertXpV1(float Xp);
 private:
 	static const TArray<int32>& Table();
+	static const TArray<int32>& TableV1();
 };
