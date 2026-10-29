@@ -30,20 +30,54 @@ namespace
 }
 
 // ---------------------------------------------------------------- bonus sources
+namespace SynergyData
+{
+	// Web skills.js SYNERGY: [from, to, key, per 10 levels of "from"]. "combat" is a pseudo-skill read by combat code.
+	struct FS { const TCHAR* From; const TCHAR* To; const TCHAR* Key; float Per; };
+	static const FS All[] = {
+		{ TEXT("mining"), TEXT("smithing"), TEXT("saveBar"), 0.002f }, { TEXT("fishing"), TEXT("cooking"), TEXT("burnLess"), 0.01f }, { TEXT("woodcutting"), TEXT("fletching"), TEXT("saveMat"), 0.004f },
+		{ TEXT("herblore"), TEXT("hitpoints"), TEXT("healBonus"), 0.005f }, { TEXT("cooking"), TEXT("hitpoints"), TEXT("regen"), 0.01f }, { TEXT("prayer"), TEXT("magic"), TEXT("runeSave"), 0.004f },
+		{ TEXT("runecrafting"), TEXT("magic"), TEXT("magicDmg"), 0.003f }, { TEXT("thieving"), TEXT("ranged"), TEXT("ammoSave"), 0.004f }, { TEXT("fletching"), TEXT("ranged"), TEXT("racc"), 0.002f },
+		{ TEXT("smithing"), TEXT("defence"), TEXT("dr"), 0.002f }, { TEXT("agility"), TEXT("attack"), TEXT("quick"), 0.003f }, { TEXT("strength"), TEXT("mining"), TEXT("speed"), 0.003f },
+		{ TEXT("strength"), TEXT("woodcutting"), TEXT("speed"), 0.003f }, { TEXT("crafting"), TEXT("runecrafting"), TEXT("runeDouble"), 0.003f }, { TEXT("magic"), TEXT("runecrafting"), TEXT("rcXp"), 0.004f },
+		{ TEXT("attack"), TEXT("thieving"), TEXT("thieveXp"), 0.004f }, { TEXT("agility"), TEXT("combat"), TEXT("dodgeMs"), 12.f }, { TEXT("thieving"), TEXT("combat"), TEXT("rareDrop"), 0.02f },
+		{ TEXT("prayer"), TEXT("combat"), TEXT("magicAdren"), 0.04f }, { TEXT("defence"), TEXT("agility"), TEXT("failLess"), 0.004f }, { TEXT("hitpoints"), TEXT("prayer"), TEXT("drainLess"), 0.004f } };
+}
+
+float UGielinorRules::Synergy(const AGielinorPlayerState* PS, FName SkillId, FName Key)
+{
+	float V = 0.f;
+	for (const SynergyData::FS& E : SynergyData::All)
+		if (SkillId == FName(E.To) && Key == FName(E.Key)) V += (Lvl(PS, FName(E.From)) / 10) * E.Per;
+	return V;
+}
+
+TArray<FString> UGielinorRules::SynergyLines(const AGielinorPlayerState* PS, FName SkillId)
+{
+	TArray<FString> Out;
+	for (const SynergyData::FS& E : SynergyData::All)
+		if (SkillId == FName(E.From) || SkillId == FName(E.To))
+			Out.Add(FString::Printf(TEXT("%s -> %s: %s +%g (+%g per 10 %s levels)"), E.From, E.To, E.Key, (Lvl(PS, FName(E.From)) / 10) * E.Per, E.Per, E.From));
+	return Out;
+}
+
 float UGielinorRules::Perk(const AGielinorPlayerState* PS, FName SkillId, FName Key)
 {
 	const UGameDatabase* D = Db();
 	const USkillDef* S = D ? D->FindSkill(SkillId) : nullptr;
-	if (!S) return 0.f;
-	const int32 L = Lvl(PS, SkillId);
 	float V = 0.f;
-	for (const FSkillPerk& P : S->Perks)
+	if (S)
 	{
-		if (P.Level > L) break;
-		if (const float* F = P.Effects.Find(Key)) V += *F;
+		const int32 L = Lvl(PS, SkillId);
+		for (const FSkillPerk& P : S->Perks)
+		{
+			if (P.Level > L) break;
+			if (const float* F = P.Effects.Find(Key)) V += *F;
+		}
+		if (const UItemDef* Cape = Worn(PS, EEquipSlot::Cape)) if (Cape->CapeSkill == SkillId) V *= 1.1f;
 	}
-	if (const UItemDef* Cape = Worn(PS, EEquipSlot::Cape)) if (Cape->CapeSkill == SkillId) V *= 1.1f;
-	const float Cap = D->GetPerkCap(Key);
+	V += Synergy(PS, SkillId, Key); // web: synergy is added after boosts, before the cap
+	const float Cap = D ? D->GetPerkCap(Key) : -1.f;
 	return Cap >= 0.f ? FMath::Min(Cap, V) : V;
 }
 

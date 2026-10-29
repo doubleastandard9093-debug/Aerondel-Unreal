@@ -54,6 +54,10 @@ class GIELINOR_API UGielinorRules : public UBlueprintFunctionLibrary
 public:
 	// ---- Bonus sources ----
 	/** Sum of a skill's perk effect up to the player's level, x1.1 with that skill's cape, capped by PERK_CAPS. */
+	/** Skill synergy web: every 10 levels in one skill adds a small passive to a related skill (added inside Perk). */
+	UFUNCTION(BlueprintPure, Category="Gielinor|Rules") static float Synergy(const AGielinorPlayerState* PS, FName SkillId, FName Key);
+	/** Text lines for the skill guide: links into and out of SkillId. */
+	UFUNCTION(BlueprintPure, Category="Gielinor|Rules") static TArray<FString> SynergyLines(const AGielinorPlayerState* PS, FName SkillId);
 	UFUNCTION(BlueprintPure, Category="Gielinor|Rules") static float Perk(const AGielinorPlayerState* PS, FName SkillId, FName Key);
 	/** Permanent quest bonuses plus quest-point milestones. */
 	UFUNCTION(BlueprintPure, Category="Gielinor|Rules") static float QuestFx(const AGielinorPlayerState* PS, FName Key);
