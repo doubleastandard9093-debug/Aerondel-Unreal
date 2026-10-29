@@ -181,6 +181,26 @@
    "desc": "+10% gathering success and XP"
   },
   {
+   "id": "protectm",
+   "name": "Protect from Magic",
+   "level": 37,
+   "icon": "🔮",
+   "drain": 0.5,
+   "group": "protect",
+   "fx": {},
+   "desc": "Bosses: take 60% less damage while they use magic"
+  },
+  {
+   "id": "protectr",
+   "name": "Protect from Missiles",
+   "level": 40,
+   "icon": "🏹",
+   "drain": 0.5,
+   "group": "protect",
+   "fx": {},
+   "desc": "Bosses: take 60% less damage while they use ranged"
+  },
+  {
    "id": "protect",
    "name": "Protect from Melee",
    "level": 43,
