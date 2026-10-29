@@ -224,6 +224,20 @@
    "color": 1710626,
    "scale": 1.15
   },
+  "Duellist": {
+   "name": "Duellist",
+   "level": 30,
+   "hp": 300,
+   "maxHit": 30,
+   "att": 25,
+   "def": 25,
+   "speed": 4,
+   "color": 6957610,
+   "scale": 1,
+   "skin": 13146740,
+   "arena": true,
+   "respawn": 1000000000000
+  },
   "Ashen raider": {
    "name": "Ashen raider",
    "level": 40,
@@ -233,11 +247,174 @@
    "def": 28,
    "speed": 4,
    "color": 3815994,
-   "scale": 1.0,
-   "skin": 12094052
+   "scale": 1,
+   "skin": 12094052,
+   "wilds": true,
+   "respawn": 1000000000000
+  },
+  "Drowned Deckhand": {
+   "name": "Drowned Deckhand",
+   "level": 24,
+   "hp": 240,
+   "maxHit": 26,
+   "att": 20,
+   "def": 16,
+   "speed": 4,
+   "color": 3824218,
+   "scale": 1,
+   "skin": 8038552,
+   "undead": true,
+   "drowned": true
+  },
+  "Drowned Gunner": {
+   "name": "Drowned Gunner",
+   "level": 34,
+   "hp": 320,
+   "maxHit": 34,
+   "att": 28,
+   "def": 20,
+   "speed": 5,
+   "color": 4864554,
+   "scale": 1.05,
+   "skin": 6986378,
+   "ranged": true,
+   "range": 6,
+   "undead": true,
+   "drowned": true
+  },
+  "Captain Saltgrave": {
+   "name": "Captain Saltgrave",
+   "title": "Captain Saltgrave of the Drowned Crew",
+   "level": 72,
+   "hp": 1500,
+   "maxHit": 64,
+   "att": 56,
+   "def": 48,
+   "speed": 4,
+   "color": 2759226,
+   "scale": 1.35,
+   "skin": 5933690,
+   "boss": true,
+   "respawn": 180000,
+   "undead": true,
+   "drowned": true
   }
  },
  "loot": {
+  "Drowned Deckhand": [
+   {
+    "item": "Bones",
+    "chance": 1
+   },
+   {
+    "item": "Coins",
+    "chance": 0.6,
+    "qty": [
+     10,
+     45
+    ]
+   },
+   {
+    "item": "Lead shot",
+    "chance": 0.2,
+    "qty": [
+     3,
+     10
+    ]
+   },
+   {
+    "item": "Treasure chart",
+    "chance": 0.06
+   },
+   {
+    "item": "Iron cutlass",
+    "chance": 0.04
+   },
+   {
+    "item": "Raw swordfish",
+    "chance": 0.1
+   }
+  ],
+  "Drowned Gunner": [
+   {
+    "item": "Bones",
+    "chance": 1
+   },
+   {
+    "item": "Coins",
+    "chance": 0.6,
+    "qty": [
+     20,
+     70
+    ]
+   },
+   {
+    "item": "Lead shot",
+    "chance": 0.4,
+    "qty": [
+     5,
+     15
+    ]
+   },
+   {
+    "item": "Treasure chart",
+    "chance": 0.09
+   },
+   {
+    "item": "Iron flintlock",
+    "chance": 0.03
+   },
+   {
+    "item": "Silver shot",
+    "chance": 0.1,
+    "qty": [
+     2,
+     6
+    ]
+   }
+  ],
+  "Captain Saltgrave": [
+   {
+    "item": "Big bones",
+    "chance": 1
+   },
+   {
+    "item": "Coins",
+    "chance": 1,
+    "qty": [
+     400,
+     1200
+    ]
+   },
+   {
+    "item": "Treasure chart",
+    "chance": 0.5
+   },
+   {
+    "item": "Silver shot",
+    "chance": 0.5,
+    "qty": [
+     10,
+     25
+    ]
+   },
+   {
+    "item": "Bone rune",
+    "chance": 0.4,
+    "qty": [
+     10,
+     30
+    ]
+   },
+   {
+    "item": "Saltgrave's tricorn",
+    "chance": 0.05
+   },
+   {
+    "item": "Tidecaller cutlass",
+    "chance": 0.025
+   }
+  ],
   "Wolf": [
    {
     "item": "Bones",

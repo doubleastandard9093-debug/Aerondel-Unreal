@@ -6,10 +6,11 @@
   "showDpad": false,
   "autoLoot": false,
   "shadows": null,
-  "gfx": null,
+  "gfx": "low",
+  "gfxV": 2,
   "autocast": null,
   "chatFilter": "all",
   "chatCollapsed": false
  },
- "saveVersion": 8
+ "saveVersion": 18
 }

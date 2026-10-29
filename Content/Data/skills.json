@@ -3380,7 +3380,10 @@
   "thieveXp": 1,
   "lootChance": 0.5,
   "rcXp": 1,
-  "runeDouble": 0.5
+  "runeDouble": 0.5,
+  "dodgeMs": 120,
+  "rareDrop": 0.25,
+  "magicAdren": 0.4
  },
  "milestones": [
   25,

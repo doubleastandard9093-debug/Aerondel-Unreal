@@ -982,6 +982,101 @@
     }
    ]
   },
+  "chandlery": {
+   "title": "Gullrest Chandlery",
+   "stock": [
+    {
+     "item": "Bronze cutlass",
+     "price": 50
+    },
+    {
+     "item": "Iron cutlass",
+     "price": 160
+    },
+    {
+     "item": "Steel cutlass",
+     "price": 420
+    },
+    {
+     "item": "Mithril cutlass",
+     "price": 1100
+    },
+    {
+     "item": "Iron flintlock",
+     "price": 300
+    },
+    {
+     "item": "Steel flintlock",
+     "price": 800
+    },
+    {
+     "item": "Lead shot",
+     "price": 6
+    },
+    {
+     "item": "Silver shot",
+     "price": 24
+    },
+    {
+     "item": "Spade",
+     "price": 8
+    },
+    {
+     "item": "Cooked swordfish",
+     "price": 75
+    }
+   ]
+  },
+  "armsBrine": {
+   "title": "Brineholt Gunsmith",
+   "stock": [
+    {
+     "item": "Adamant cutlass",
+     "price": 2600
+    },
+    {
+     "item": "Rune cutlass",
+     "price": 7000
+    },
+    {
+     "item": "Mithril flintlock",
+     "price": 2000
+    },
+    {
+     "item": "Adamant flintlock",
+     "price": 5200
+    },
+    {
+     "item": "Lead shot",
+     "price": 6
+    },
+    {
+     "item": "Silver shot",
+     "price": 22
+    }
+   ]
+  },
+  "hexer": {
+   "title": "Mama Sorrel's Hex Shop",
+   "stock": [
+    {
+     "item": "Bog rune",
+     "price": 22
+    },
+    {
+     "item": "Bone rune",
+     "price": 40
+    },
+    {
+     "item": "Hexwood staff",
+     "price": 900
+    },
+    {
+     "item": "Mind rune",
+     "price": 4
+    }
+   ]
+  },
   "magic0": {
    "title": "Mizgog's Magic Supplies",
    "stock": [
@@ -1146,6 +1241,193 @@
     {
      "item": "Mystic robe bottom",
      "price": 10500
+    }
+   ]
+  },
+  "ashford": {
+   "title": "Ashford Store",
+   "stock": [
+    {
+     "item": "Bronze sword",
+     "price": 40
+    },
+    {
+     "item": "Wooden shield",
+     "price": 25
+    },
+    {
+     "item": "Leather body",
+     "price": 60
+    },
+    {
+     "item": "Cooked shrimp",
+     "price": 8
+    },
+    {
+     "item": "Cooked trout",
+     "price": 20
+    },
+    {
+     "item": "Shortbow",
+     "price": 50
+    },
+    {
+     "item": "Bronze arrows",
+     "price": 2
+    },
+    {
+     "item": "Feather",
+     "price": 2
+    },
+    {
+     "item": "Flax",
+     "price": 4
+    },
+    {
+     "item": "Cooked lobster",
+     "price": 80,
+     "unlock": "cook"
+    },
+    {
+     "item": "Oak shortbow",
+     "price": 120,
+     "unlock": "hides"
+    },
+    {
+     "item": "Red cape",
+     "price": 20
+    },
+    {
+     "item": "Blue cape",
+     "price": 20
+    },
+    {
+     "item": "Amulet of accuracy",
+     "price": 200
+    },
+    {
+     "item": "Holy symbol",
+     "price": 300
+    },
+    {
+     "item": "Amulet of defence",
+     "price": 500
+    },
+    {
+     "item": "Amulet of strength",
+     "price": 900
+    },
+    {
+     "item": "Miner's ring",
+     "price": 900
+    },
+    {
+     "item": "Forester's ring",
+     "price": 900
+    },
+    {
+     "item": "Angler's ring",
+     "price": 900
+    },
+    {
+     "item": "Ring of regeneration",
+     "price": 2000,
+     "unlock": "fallen"
+    },
+    {
+     "item": "Quest point cape",
+     "price": 99,
+     "unlock": "all"
+    },
+    {
+     "item": "Attack cape",
+     "price": 99000,
+     "skill99": "Attack"
+    },
+    {
+     "item": "Strength cape",
+     "price": 99000,
+     "skill99": "Strength"
+    },
+    {
+     "item": "Defence cape",
+     "price": 99000,
+     "skill99": "Defence"
+    },
+    {
+     "item": "Hitpoints cape",
+     "price": 99000,
+     "skill99": "Hitpoints"
+    },
+    {
+     "item": "Ranged cape",
+     "price": 99000,
+     "skill99": "Ranged"
+    },
+    {
+     "item": "Magic cape",
+     "price": 99000,
+     "skill99": "Magic"
+    },
+    {
+     "item": "Prayer cape",
+     "price": 99000,
+     "skill99": "Prayer"
+    },
+    {
+     "item": "Agility cape",
+     "price": 99000,
+     "skill99": "Agility"
+    },
+    {
+     "item": "Thieving cape",
+     "price": 99000,
+     "skill99": "Thieving"
+    },
+    {
+     "item": "Mining cape",
+     "price": 99000,
+     "skill99": "Mining"
+    },
+    {
+     "item": "Woodcutting cape",
+     "price": 99000,
+     "skill99": "Woodcutting"
+    },
+    {
+     "item": "Fishing cape",
+     "price": 99000,
+     "skill99": "Fishing"
+    },
+    {
+     "item": "Smithing cape",
+     "price": 99000,
+     "skill99": "Smithing"
+    },
+    {
+     "item": "Crafting cape",
+     "price": 99000,
+     "skill99": "Crafting"
+    },
+    {
+     "item": "Cooking cape",
+     "price": 99000,
+     "skill99": "Cooking"
+    },
+    {
+     "item": "Fletching cape",
+     "price": 99000,
+     "skill99": "Fletching"
+    },
+    {
+     "item": "Herblore cape",
+     "price": 99000,
+     "skill99": "Herblore"
+    },
+    {
+     "item": "Runecrafting cape",
+     "price": 99000,
+     "skill99": "Runecrafting"
     }
    ]
   }

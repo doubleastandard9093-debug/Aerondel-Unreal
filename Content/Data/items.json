@@ -1191,6 +1191,151 @@
     "Ranged": 50
    }
   },
+  "Bronze cutlass": {
+   "value": 40,
+   "type": "weapon",
+   "cutlass": true,
+   "atk": 5,
+   "str": 3,
+   "speed": 3,
+   "tier": 0,
+   "metal": "Bronze",
+   "req": {
+    "Attack": 1
+   }
+  },
+  "Iron cutlass": {
+   "value": 130,
+   "type": "weapon",
+   "cutlass": true,
+   "atk": 8,
+   "str": 5,
+   "speed": 3,
+   "tier": 1,
+   "metal": "Iron",
+   "req": {
+    "Attack": 10
+   }
+  },
+  "Steel cutlass": {
+   "value": 340,
+   "type": "weapon",
+   "cutlass": true,
+   "atk": 13,
+   "str": 9,
+   "speed": 3,
+   "tier": 2,
+   "metal": "Steel",
+   "req": {
+    "Attack": 20
+   }
+  },
+  "Mithril cutlass": {
+   "value": 900,
+   "type": "weapon",
+   "cutlass": true,
+   "atk": 18,
+   "str": 13,
+   "speed": 3,
+   "tier": 3,
+   "metal": "Mithril",
+   "req": {
+    "Attack": 30
+   }
+  },
+  "Adamant cutlass": {
+   "value": 2100,
+   "type": "weapon",
+   "cutlass": true,
+   "atk": 25,
+   "str": 19,
+   "speed": 3,
+   "tier": 4,
+   "metal": "Adamant",
+   "req": {
+    "Attack": 40
+   }
+  },
+  "Rune cutlass": {
+   "value": 5600,
+   "type": "weapon",
+   "cutlass": true,
+   "atk": 34,
+   "str": 28,
+   "speed": 3,
+   "tier": 5,
+   "metal": "Rune",
+   "req": {
+    "Attack": 50
+   }
+  },
+  "Iron flintlock": {
+   "value": 240,
+   "type": "weapon",
+   "pistol": true,
+   "ranged": 24,
+   "speed": 7,
+   "tier": 1,
+   "metal": "Iron",
+   "req": {
+    "Ranged": 10
+   }
+  },
+  "Steel flintlock": {
+   "value": 640,
+   "type": "weapon",
+   "pistol": true,
+   "ranged": 34,
+   "speed": 7,
+   "tier": 2,
+   "metal": "Steel",
+   "req": {
+    "Ranged": 20
+   }
+  },
+  "Mithril flintlock": {
+   "value": 1600,
+   "type": "weapon",
+   "pistol": true,
+   "ranged": 46,
+   "speed": 7,
+   "tier": 3,
+   "metal": "Mithril",
+   "req": {
+    "Ranged": 30
+   }
+  },
+  "Adamant flintlock": {
+   "value": 4200,
+   "type": "weapon",
+   "pistol": true,
+   "ranged": 60,
+   "speed": 7,
+   "tier": 4,
+   "metal": "Adamant",
+   "req": {
+    "Ranged": 40
+   }
+  },
+  "Lead shot": {
+   "value": 5,
+   "type": "ammo",
+   "count": 10,
+   "rstr": 22,
+   "shot": true
+  },
+  "Silver shot": {
+   "value": 20,
+   "type": "ammo",
+   "count": 10,
+   "rstr": 30,
+   "shot": true,
+   "vsUndead": 0.25
+  },
+  "Treasure chart": {
+   "value": 0,
+   "type": "chart"
+  },
   "Leather cowl": {
    "value": 8,
    "type": "head",
@@ -1598,6 +1743,14 @@
    "value": 400,
    "type": "rune"
   },
+  "Bog rune": {
+   "value": 20,
+   "type": "rune"
+  },
+  "Bone rune": {
+   "value": 35,
+   "type": "rune"
+  },
   "Staff": {
    "value": 15,
    "type": "weapon",
@@ -1641,6 +1794,18 @@
    "mag": 10,
    "speed": 5,
    "runeSource": "Fire rune"
+  },
+  "Hexwood staff": {
+   "value": 900,
+   "type": "weapon",
+   "atk": 5,
+   "str": 3,
+   "mag": 14,
+   "speed": 5,
+   "req": {
+    "Magic": 20
+   },
+   "hexBoost": 0.15
   },
   "Mystic staff": {
    "value": 8000,
@@ -2039,6 +2204,40 @@
     "Attack": 30
    }
   },
+  "Saltgrave's tricorn": {
+   "value": 12000,
+   "unique": true,
+   "type": "head",
+   "def": 8,
+   "rdef": 10,
+   "ranged": 6,
+   "mag": 4,
+   "rarity": "epic",
+   "eff": {
+    "dmgPct": 0.04
+   },
+   "special": "+4% damage with every style",
+   "req": {
+    "Defence": 40
+   }
+  },
+  "Tidecaller cutlass": {
+   "value": 15000,
+   "unique": true,
+   "type": "weapon",
+   "cutlass": true,
+   "atk": 40,
+   "str": 36,
+   "speed": 3,
+   "rarity": "epic",
+   "eff": {
+    "lifesteal": 0.08
+   },
+   "special": "A Drowned blade: heals 8% of damage dealt",
+   "req": {
+    "Attack": 50
+   }
+  },
   "Vampyric blade": {
    "value": 9000,
    "unique": true,
@@ -2142,6 +2341,51 @@
     "crit": 0.05
    },
    "special": "+5% critical hit chance"
+  },
+  "Hunter's ring": {
+   "value": 200,
+   "unique": true,
+   "type": "ring",
+   "atk": 5,
+   "ranged": 5,
+   "rarity": "uncommon",
+   "special": "Bought with Hunt points"
+  },
+  "Duellist's cape": {
+   "value": 400,
+   "unique": true,
+   "type": "cape",
+   "atk": 4,
+   "def": 4,
+   "rarity": "uncommon",
+   "special": "Bought with arena tokens"
+  },
+  "Victor's band": {
+   "value": 800,
+   "unique": true,
+   "type": "ring",
+   "str": 6,
+   "rarity": "rare",
+   "special": "Proving Grounds ladder top 3"
+  },
+  "Reefward amulet": {
+   "value": 300,
+   "unique": true,
+   "type": "neck",
+   "def": 6,
+   "rdef": 6,
+   "rarity": "rare",
+   "special": "+8% damage against the Drowned Crew"
+  },
+  "Saltgrave's signet": {
+   "value": 500,
+   "unique": true,
+   "type": "ring",
+   "atk": 6,
+   "str": 6,
+   "ranged": 6,
+   "rarity": "rare",
+   "special": "Drowned Crew Exalted reward"
   },
   "Ring of recoil": {
    "value": 1500,
@@ -2301,6 +2545,12 @@
    "value": 1,
    "type": "tool",
    "tool": "tinderbox",
+   "tier": 0
+  },
+  "Spade": {
+   "value": 6,
+   "type": "tool",
+   "tool": "spade",
    "tier": 0
   }
  },
@@ -2483,6 +2733,11 @@
    "id": "tinderbox",
    "name": "Tinderbox",
    "icon": "🔥"
+  },
+  {
+   "id": "spade",
+   "name": "Spade",
+   "icon": "🪏"
   }
  ],
  "healScale": 10
