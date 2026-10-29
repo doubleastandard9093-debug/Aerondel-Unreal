@@ -1,6 +1,9 @@
 #include "Features/SailingFeature.h"
 #include "Features/CompanionsFeature.h"
 #include "Features/StandingFeature.h"
+#include "Core/GielinorPlayerState.h"
+#include "Core/PlayerStatsComponent.h"
+#include "Data/ItemDef.h"
 #include "World/GielinorScalability.h"
 #include "GameFramework/Character.h"
 #include "GameFramework/CharacterMovementComponent.h"
@@ -378,7 +381,10 @@ bool USailingFeature::ReadChart()
 
 bool USailingFeature::DigHere()
 {
-	if (CountItem(TEXT("Spade")) <= 0) { Say(TEXT("You need a Spade. The Gullrest Chandlery sells them.")); return false; }
+	bool bSpade = CountItem(TEXT("Spade")) > 0; // pack, or the toolbelt (web hasTool)
+	if (const AGielinorPlayerState* PS = GetPS())
+		if (PS->Stats) for (const UItemDef* T : PS->Stats->Toolbelt) bSpade |= T && T->ToolType == EToolType::Spade;
+	if (!bSpade) { Say(TEXT("You need a Spade. The Gullrest Chandlery sells them.")); return false; }
 	FVector2D P; if (!PlayerWebPos(P)) return false;
 	const int32 Idx = Charts.IndexOfByPredicate([&P](const FTreasureChart& C) { return FVector2D::Distance(P, FVector2D(C.X, C.Z)) < 3.f; });
 	if (Idx == INDEX_NONE) { Say(Charts.Num() ? TEXT("Nothing here. The X must be somewhere else.") : TEXT("You dig a hole, but find nothing. Treasure charts show where to dig.")); return false; }
@@ -386,10 +392,12 @@ bool USailingFeature::DigHere()
 	static const int32 Base[4] = { 0, 400, 1100, 2600 };
 	const int32 G = Base[Tier] + FMath::RandRange(0, 400 * Tier - 1);
 	GiveCoins(G);
-	// The web rolls an uncut gem here only when that item exists; none are defined yet, so coins only.
+	static const TCHAR* Gems[4] = { TEXT("Uncut sapphire"), TEXT("Uncut emerald"), TEXT("Uncut ruby"), TEXT("Uncut diamond") };
+	const TCHAR* Gem = Gems[FMath::Min(3, FMath::RandRange(0, Tier))];
+	GiveItem(Gem, 1);
 	if (Tier >= 2 && FMath::FRand() < 0.5f) GiveItem(TEXT("Silver shot"), 15);
 	if (Tier == 3 && FMath::FRand() < 0.08f) GiveItem(TEXT("Saltgrave's tricorn"), 1);
 	GiveXp(TEXT("Crafting"), 40.f * Tier);
-	Say(FString::Printf(TEXT("You dig up a buried chest: %d coins!"), G));
+	Say(FString::Printf(TEXT("You dig up a buried chest: %d coins and an %s!"), G, *FString(Gem).ToLower()));
 	return true;
 }

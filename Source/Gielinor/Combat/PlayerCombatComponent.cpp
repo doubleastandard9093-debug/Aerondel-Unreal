@@ -102,6 +102,7 @@ bool UPlayerCombatComponent::CastAt(AGielinorMob* Mob, USpellDef* Spell)
 		Dmg = 1 + FMath::FloorToInt(FMath::FRand() * UGielinorRules::MagicMaxHit(S, Spell));
 		const FName Vs = Def ? FName(*(TEXT("dmgVs.") + Def->Id.ToString())) : NAME_None;
 		Dmg = FMath::FloorToInt(Dmg * (1.f + UGielinorRules::QuestFx(S, Vs) + UGielinorRules::QuestFx(S, TEXT("dmgVs.*")) + UGielinorRules::GearFx(S, TEXT("dmgPct"))));
+		if (UGielinorRules::WeakTo(Def, UGielinorRules::SpellElement(Spell))) Dmg = FMath::FloorToInt(Dmg * UGielinorRules::WeakMult);
 	}
 	// Magic kit: Surge, then any queued magic ability riding on this cast.
 	UPlayerStatsComponent* St = S->Stats;
@@ -136,6 +137,11 @@ int32 UPlayerCombatComponent::MagicKit(AGielinorMob* Mob, USpellDef* Spell)
 	{
 		const float K = A->Element == TEXT("fire") ? 1.1f : A->Element == TEXT("earth") ? 1.f : 0.9f;
 		Extra = FMath::FloorToInt(Mh * (0.4f + FMath::FRand() * 0.5f) * K);
+		if (UGielinorRules::WeakTo(Mob->Definition, A->Element))
+		{
+			Extra = FMath::FloorToInt(Extra * UGielinorRules::WeakMult);
+			Msg(FText::Format(LOCTEXT("Weak", "The {0} is weak to {1}!"), Mob->GetDisplayName(), FText::FromName(A->Element)));
+		}
 		if (A->Element == TEXT("earth")) Mob->Wither(8);
 		if (A->Element == TEXT("fire")) Mob->ApplyVenom(FMath::Max(4, FMath::RoundToInt(Mh * 0.08f)));
 	}
@@ -235,7 +241,7 @@ void UPlayerCombatComponent::PlayerAttack(AGielinorMob* Mob, float Power)
 		if (bAlive && P.Poison > 0 && Mob->ApplyVenom(P.Poison)) Msg(FText::Format(LOCTEXT("Venom", "You poison the {0}!"), Mob->GetDisplayName()));
 		if (bAlive && P.bStun) { Mob->Stun(5); Msg(FText::Format(LOCTEXT("Stun", "The {0} is stunned!"), Mob->GetDisplayName())); }
 	}
-	if (Special == TEXT("challenge") && !Mob->IsDead()) { Mob->Stun(4); Msg(FText::Format(LOCTEXT("Challenge", "You shove the {0} back on its heels."), Mob->GetDisplayName())); }
+	if (Special == TEXT("challenge") && !Mob->IsDead()) { Mob->Challenge(4, 10); Msg(FText::Format(LOCTEXT("Challenge", "You shove the {0} back on its heels; it only has eyes for you."), Mob->GetDisplayName())); }
 	if (Special == TEXT("bash") && !Mob->IsDead()) { Mob->Stun(5); Msg(FText::Format(LOCTEXT("Stun", "The {0} is stunned!"), Mob->GetDisplayName())); }
 	GiveXp(UGielinorRules::CombatXp(S, Total));
 }

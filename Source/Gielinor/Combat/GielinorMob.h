@@ -40,6 +40,9 @@ public:
 	/** Weapon venom: Damage every 10 ticks, -2 each time. False if a stronger venom is already on. */
 	bool ApplyVenom(int32 Damage);
 	void Stun(int32 Ticks) { StunTicks = FMath::Max(StunTicks, Ticks); }
+	/** Bulwark Challenge (web main.js): next attack pushed back DelayTicks, taunted (locked on the player, no leash) for TauntTicks. */
+	void Challenge(int32 DelayTicks, int32 TauntTicks);
+	UFUNCTION(BlueprintPure, Category="Mob") bool IsTaunted() const { return TauntTicks > 0; }
 	/** Withering Hex / Earth Bolt: this mob hits 30% softer while withered. */
 	void Wither(int32 Ticks) { WitherTicks = FMath::Max(WitherTicks, Ticks); }
 	UFUNCTION(BlueprintPure, Category="Mob") bool IsWithered() const { return WitherTicks > 0; }
@@ -72,6 +75,7 @@ private:
 	float TickAcc = 0.f;
 	int32 StunTicks = 0;
 	int32 WitherTicks = 0;
+	int32 TauntTicks = 0;
 	int32 VenomDamage = 0;
 	int32 VenomNext = 0;
 	FTimerHandle RespawnTimer;

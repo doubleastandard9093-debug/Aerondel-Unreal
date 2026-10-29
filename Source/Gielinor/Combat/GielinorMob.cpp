@@ -120,6 +120,7 @@ void AGielinorMob::GameTick()
 {
 	if (StunTicks > 0) --StunTicks;
 	if (WitherTicks > 0) --WitherTicks;
+	if (TauntTicks > 0) --TauntTicks;
 	if (VenomDamage > 0 && --VenomNext <= 0)
 	{
 		VenomNext = UGielinorRules::PoisonEvery;
@@ -189,10 +190,17 @@ void AGielinorMob::Tick(float Dt)
 	}
 }
 
+void AGielinorMob::Challenge(int32 DelayTicks, int32 InTauntTicks)
+{
+	AttackCooldown = FMath::Max(AttackCooldown, 0.f) + DelayTicks * UGielinorRules::TickSeconds;
+	TauntTicks = FMath::Max(TauntTicks, InTauntTicks);
+}
+
 bool AGielinorMob::IsLeashed(const AActor* T) const
 {
 	const AGielinorPlayerState* PS = AGielinorPlayerState::FromActor(T);
 	if (PS && PS->Health && PS->Health->IsDead()) return true;
+	if (TauntTicks > 0) return false; // a challenged foe will not break off
 	// Web build: give up beyond 13 tiles from the player or 16 tiles from spawn.
 	return FVector::Dist2D(T->GetActorLocation(), GetActorLocation()) > 13.f * UGielinorRules::TileCm
 		|| FVector::Dist2D(GetActorLocation(), Home) > FMath::Max(16.f * UGielinorRules::TileCm, Definition ? Definition->LeashRadius : 0.f);

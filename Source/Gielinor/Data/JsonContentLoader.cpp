@@ -139,6 +139,7 @@ namespace GielinorJson
 		if (S == TEXT("knife")) return EToolType::Knife;
 		if (S == TEXT("needle")) return EToolType::Needle;
 		if (S == TEXT("tinderbox")) return EToolType::Tinderbox;
+		if (S == TEXT("spade")) return EToolType::Spade;
 		return EToolType::None;
 	}
 

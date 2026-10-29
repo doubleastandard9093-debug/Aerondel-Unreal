@@ -432,6 +432,29 @@ USpellDef* UGielinorRules::BestSpell(const AGielinorPlayerState* PS)
 	return Best;
 }
 
+bool UGielinorRules::WeakTo(const UMobDef* Mob, FName Element)
+{
+	if (!Mob || Element.IsNone()) return false;
+	static const TMap<FString, FName> W = {
+		{ TEXT("Wolf"), TEXT("fire") }, { TEXT("Zombie"), TEXT("fire") }, { TEXT("Skeleton"), TEXT("earth") }, { TEXT("Giant Spider"), TEXT("fire") },
+		{ TEXT("Bandit"), TEXT("wind") }, { TEXT("Moss Giant"), TEXT("fire") }, { TEXT("Ogre"), TEXT("water") }, { TEXT("Ice Giant"), TEXT("fire") },
+		{ TEXT("Green Dragon"), TEXT("water") }, { TEXT("Lesser Demon"), TEXT("water") }, { TEXT("Grumsh"), TEXT("earth") }, { TEXT("Scorchwing"), TEXT("water") },
+		{ TEXT("Dark Archer"), TEXT("wind") }, { TEXT("Goblin"), TEXT("wind") }, { TEXT("Cow"), TEXT("earth") }, { TEXT("Guard"), TEXT("earth") },
+		{ TEXT("Hill Giant"), TEXT("water") }, { TEXT("Black Knight"), TEXT("earth") }, { TEXT("Drowned Deckhand"), TEXT("fire") },
+		{ TEXT("Drowned Gunner"), TEXT("earth") }, { TEXT("Captain Saltgrave"), TEXT("fire") } };
+	const FName* E = W.Find(Mob->DisplayName.ToString());
+	return E && *E == Element;
+}
+
+FName UGielinorRules::SpellElement(const USpellDef* Spell)
+{
+	if (!Spell) return NAME_None;
+	const FString Id = Spell->Id.ToString();
+	for (const TCHAR* E : { TEXT("wind"), TEXT("water"), TEXT("earth"), TEXT("fire") })
+		if (Id.StartsWith(FString(E) + TEXT("_"))) return FName(E);
+	return NAME_None;
+}
+
 int32 UGielinorRules::MagicMaxHit(const AGielinorPlayerState* PS, const USpellDef* Spell)
 {
 	if (!Spell) return 0;

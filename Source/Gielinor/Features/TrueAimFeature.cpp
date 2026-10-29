@@ -9,6 +9,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "EngineUtils.h"
 #include "Engine/World.h"
+#include "GameFramework/Controller.h"
 #include "Dom/JsonObject.h"
 
 void UTrueAimFeature::SaveState(FJsonObject& Out) const
@@ -74,7 +75,10 @@ int32 UTrueAimFeature::Strike(FName AbilityId)
 	const FVector P = Pawn->GetActorLocation();
 	const float Ox = P.X / 100.f, Oz = P.Y / 100.f;
 	// UE yaw 0 faces +X (web +x); web yaw 0 faces +z (UE +Y): web yaw = 90 deg - UE yaw.
-	const float UeYaw = Pawn->GetActorRotation().Yaw;
+	// Aim with the camera (control rotation), web aim.js uses the camera heading; fall back to the pawn's facing.
+	const AController* Ctl = Pawn->GetController();
+	const float UeYaw = Ctl ? Ctl->GetControlRotation().Yaw : Pawn->GetActorRotation().Yaw;
+	if (Ctl) Pawn->SetActorRotation(FRotator(0.f, UeYaw, 0.f)); // turn to face the strike
 	const float Yaw = FMath::DegreesToRadians(90.f - UeYaw);
 	TArray<AGielinorMob*> Hits;
 	for (TActorIterator<AGielinorMob> It(GetWorld()); It; ++It)

@@ -9,7 +9,7 @@ class UMobDef;
 
 UENUM(BlueprintType)
 // New values are only ever appended (saves and assets store the numeric value).
-enum class EToolType : uint8 { None, Axe, Pickaxe, FishingNet, Hammer, Tinderbox, FishingRod, LobsterPot, Harpoon, Knife, Needle };
+enum class EToolType : uint8 { None, Axe, Pickaxe, FishingNet, Hammer, Tinderbox, FishingRod, LobsterPot, Harpoon, Knife, Needle, Spade };
 
 UENUM(BlueprintType)
 enum class EEquipSlot : uint8 { None, Head, Body, Legs, Weapon, Shield, Hands, Feet, Cape, Neck, Ring, Ammo };
