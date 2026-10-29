@@ -60,8 +60,8 @@ struct FSeaIsland
 /** Sails of Sarim: the Sarim Sound south of the world (z > 760), its three islands, your ship (Sloop / Brigantine / Galleon,
  *  built and upgraded by Halvard the Shipwright on the Port Sarim dock), deckhands (-8% reload each, max 6), sworn-companion
  *  officers (surgeon / lookout / gunnery / helm, only while they travel with you), Drowned Crew ships with broadside cannon
- *  fights, and Treasure charts dug up with a Spade. Simulated per frame here in web metres; a Blueprint draws the ship, the
- *  enemy ships and the cannonball pool from GetShip / GetEnemies / GetBalls (Low tier: hull mesh only, no sails cloth, no wake). */
+ *  fights, and Treasure charts dug up with a Spade. Simulated per frame here in web metres; ASailingVisuals (spawned on demand)
+ *  draws the ship, the enemy ships and the cannonball pool from GetShip / GetEnemies / GetBalls (Low tier: hull mesh only, no sails cloth, no wake). */
 UCLASS()
 class GIELINOR_API USailingFeature : public UGielinorFeature, public FTickableGameObject
 {
@@ -128,6 +128,8 @@ private:
 	void HomeToSarim(const FString& Msg);
 	void PlacePawn(float X, float Z, float Y, float Yaw) const;
 	FCannonball* NewBall();
+	void EnsureVisuals();
+	TWeakObjectPtr<class ASailingVisuals> Visuals;
 
 	// Saved
 	int32 Hull = 0, HullHp = 0, Crew = 0, Sunk = 0, Sank = 0, Drowned = 0, Dug = 0, CardsWon = 0, CardsLost = 0;

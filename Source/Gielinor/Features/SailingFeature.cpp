@@ -1,6 +1,7 @@
 #include "Features/SailingFeature.h"
 #include "Features/CompanionsFeature.h"
 #include "Features/StandingFeature.h"
+#include "Features/SailingVisuals.h"
 #include "Core/GielinorPlayerState.h"
 #include "Core/PlayerStatsComponent.h"
 #include "Data/ItemDef.h"
@@ -168,6 +169,15 @@ FString USailingFeature::ToggleOfficer(FName Id)
 
 // ---------------- Sailing ----------------
 
+void USailingFeature::EnsureVisuals()
+{
+	if (Visuals.IsValid()) return;
+	UWorld* W = GetGameInstance() ? GetGameInstance()->GetWorld() : nullptr;
+	if (!W) return;
+	FActorSpawnParameters P; P.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+	Visuals = W->SpawnActor<ASailingVisuals>(ASailingVisuals::StaticClass(), FTransform::Identity, P);
+}
+
 void USailingFeature::PlacePawn(float X, float Z, float Y, float Yaw) const
 {
 	APawn* P = UGameplayStatics::GetPlayerPawn(this, 0);
@@ -175,8 +185,8 @@ void USailingFeature::PlacePawn(float X, float Z, float Y, float Yaw) const
 	if (ACharacter* Ch = Cast<ACharacter>(P))
 		if (UCharacterMovementComponent* M = Ch->GetCharacterMovement())
 		{
-			const EMovementMode Want = bAtSea ? MOVE_Flying : MOVE_Walking; // no sea floor collision under the deck
-			if (M->MovementMode != Want) M->SetMovementMode(Want);
+			// ASailingVisuals carries a walkable deck box under you at sea, so stay in Walking.
+			if (M->MovementMode != MOVE_Walking) M->SetMovementMode(MOVE_Walking);
 			if (bAtSea) M->Velocity = FVector::ZeroVector;
 		}
 	P->SetActorLocation(WebToWorld(X, Z, Y), false, nullptr, ETeleportType::TeleportPhysics);
@@ -301,6 +311,7 @@ void USailingFeature::Tick(float Dt)
 {
 	Dt = FMath::Min(Dt, 0.1f);
 	T += Dt;
+	EnsureVisuals();
 	if (!bAtSea) return;
 	const FHullDef& H = HullDef(Hull);
 	float TurnTo = Ship.Yaw;
@@ -318,7 +329,7 @@ void USailingFeature::Tick(float Dt)
 		if (const FSeaIsland* I = IslandAt(Ship.X + FMath::Sin(Ship.Yaw) * 8.f, Ship.Z + FMath::Cos(Ship.Yaw) * 8.f, 6.f))
 			if (I->bPort || I->Id == FName(TEXT("reef"))) { GoAshore(*I); return; }
 	}
-	PlacePawn(Ship.X - FMath::Sin(Ship.Yaw) * 1.6f, Ship.Z - FMath::Cos(Ship.Yaw) * 1.6f, 1.85f, Ship.Yaw);
+	PlacePawn(Ship.X - FMath::Sin(Ship.Yaw) * 1.6f, Ship.Z - FMath::Cos(Ship.Yaw) * 1.6f, ASailingVisuals::DeckTopCm / 100.f + 0.95f, Ship.Yaw); // capsule centre on the deck
 	if (Ship.Z < SeaEntry.Y - 25.f) { HomeToSarim(TEXT("You sail back into Port Sarim harbour.")); return; }
 	ReloadPort = FMath::Max(0.f, ReloadPort - Dt); ReloadStar = FMath::Max(0.f, ReloadStar - Dt);
 	if (Officer(TEXT("surgeon"))) { RepairT += Dt; if (RepairT >= 2.f) { RepairT = 0.f; if (HullHp < H.Hp) Ship.Hp = ++HullHp; } }
@@ -375,6 +386,7 @@ bool USailingFeature::ReadChart()
 	FTreasureChart C; C.Island = I.Id; C.X = I.X + ChartSpots[Ii][Sp][0] * I.R; C.Z = I.Z + ChartSpots[Ii][Sp][1] * I.R;
 	C.Tier = I.Id == FName(TEXT("reef")) ? 3 : FMath::FRand() < 0.3f ? 2 : 1;
 	Charts.Add(C);
+	EnsureVisuals();
 	Say(FString::Printf(TEXT("The chart shows an X on %s. It's marked on your map."), *I.Name));
 	return true;
 }
