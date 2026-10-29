@@ -14,6 +14,14 @@
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/PlayerController.h"
 #include "Misc/DateTime.h"
+#include "GameFramework/Pawn.h"
+#include "Combat/HealthComponent.h"
+#include "Core/PlayerStatsComponent.h"
+#include "Features/FlowFeature.h"
+#include "Combat/GielinorMob.h"
+#include "Data/MobDef.h"
+#include "UObject/Package.h"
+#include "CollisionQueryParams.h"
 
 namespace GielinorFeatureRegistry { static TArray<TWeakObjectPtr<UGielinorFeature>> All; }
 
@@ -81,6 +89,57 @@ AGielinorPlayerState* UGielinorFeature::GetPS() const
 	UWorld* W = GI ? GI->GetWorld() : nullptr;
 	APlayerController* PC = W ? UGameplayStatics::GetPlayerController(W, 0) : nullptr;
 	return PC ? PC->GetPlayerState<AGielinorPlayerState>() : nullptr;
+}
+
+bool UGielinorFeature::PlayerWebPos(FVector2D& Out) const
+{
+	const AGielinorPlayerState* PS = GetPS(); const APawn* P = PS ? PS->GetPawn() : nullptr;
+	if (!P) return false;
+	const FVector L = P->GetActorLocation(); Out = FVector2D(L.X / 100.0, L.Y / 100.0); return true;
+}
+
+int32 UGielinorFeature::HurtPlayer(float Raw, const FString& Why) const
+{
+	AGielinorPlayerState* PS = GetPS();
+	if (!PS || !PS->Health || !PS->Stats || PS->Health->IsDead() || Raw <= 0.f) return 0;
+	if (const UFlowFeature* F = Feature<UFlowFeature>()) if (F->IsDodging()) { Say(FString::Printf(TEXT("You roll clear of %s."), *Why.ToLower())); return 0; }
+	const int32 Before = PS->Health->GetCurrent();
+	PS->Stats->ApplyPlayerDamage(FMath::Max(1, FMath::RoundToInt(Raw)), nullptr); // feature damage mults + death handling
+	const int32 D = Before - PS->Health->GetCurrent();
+	if (D > 0) Say(FString::Printf(TEXT("%s hits you for %d."), *Why, D));
+	return D;
+}
+
+static FVector GroundAt(UWorld* W, FVector2D WebPos, float Lift)
+{
+	const FVector Top = UGielinorFeature::WebToWorld(WebPos.X, WebPos.Y, 200.0), Bottom = UGielinorFeature::WebToWorld(WebPos.X, WebPos.Y, -200.0);
+	FHitResult Hit;
+	if (W && W->LineTraceSingleByChannel(Hit, Top, Bottom, ECC_Visibility)) return Hit.ImpactPoint + FVector(0, 0, Lift);
+	return UGielinorFeature::WebToWorld(WebPos.X, WebPos.Y) + FVector(0, 0, Lift);
+}
+
+AGielinorMob* UGielinorFeature::SpawnTunedMob(const FString& Base, FVector2D WebPos, const FString& Name, int32 Hp, int32 MaxHit, int32 Att, int32 Def, int32 Level, float Scale, bool bBoss) const
+{
+	UGameInstance* GI = GetGameInstance(); UWorld* W = GI ? GI->GetWorld() : nullptr;
+	const UGameDatabase* Db = UGameDatabase::Get();
+	UMobDef* BaseDef = Db ? Db->FindMob(Id(Base)) : nullptr;
+	if (!W || !BaseDef) { UE_LOG(LogTemp, Warning, TEXT("[Gielinor] SpawnTunedMob: no world or mob '%s'"), *Base); return nullptr; }
+	UMobDef* D = DuplicateObject<UMobDef>(BaseDef, GetTransientPackage());
+	D->DisplayName = FText::FromString(Name); D->Hitpoints = Hp; D->MaxHit = MaxHit; D->AttackLevel = Att; D->DefenceLevel = Def; D->CombatLevel = Level;
+	D->bAggressive = true; D->AggroRadius = FMath::Max(D->AggroRadius, 1200.f); D->RespawnSeconds = 1.0e6f; D->Drops.Reset(); D->bBoss = bBoss;
+	D->BodySize *= Scale;
+	const FTransform Xf(FRotator::ZeroRotator, GroundAt(W, WebPos, D->BodySize.Z * 0.5f + 10.f));
+	AGielinorMob* M = W->SpawnActorDeferred<AGielinorMob>(AGielinorMob::StaticClass(), Xf, nullptr, nullptr, ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn);
+	if (!M) return nullptr;
+	M->Definition = D;
+	M->FinishSpawning(Xf);
+	return M;
+}
+
+void UGielinorFeature::TeleportPlayer(FVector2D WebPos) const
+{
+	const AGielinorPlayerState* PS = GetPS(); APawn* P = PS ? PS->GetPawn() : nullptr;
+	if (P) P->TeleportTo(GroundAt(P->GetWorld(), WebPos, 100.f), P->GetActorRotation());
 }
 
 void UGielinorFeature::Say(const FString& Msg) const

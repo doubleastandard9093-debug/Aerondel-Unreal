@@ -7,6 +7,7 @@
 
 class AGielinorPlayerState;
 class UMobDef;
+class AGielinorMob;
 
 /**
  * Base for the systems ported from Gielinor-Lite (phases 1-9, mechanics pass, Hearth & Arena, WoW/Outer Worlds/TERA round).
@@ -49,6 +50,8 @@ public:
 	static int64 NowMs();
 	/** Web display name -> content id ("Iron bar" -> iron_bar). */
 	static FName Id(const FString& WebName);
+	/** Web metres (x, z) -> UE cm, same mapping as the blockout scripts (V()). */
+	UFUNCTION(BlueprintPure, Category="Gielinor|Features") static FVector WebToWorld(double X, double Z, double Y = 0.0) { return FVector(X * 100.0, Z * 100.0, Y * 100.0); }
 
 protected:
 	AGielinorPlayerState* GetPS() const;
@@ -64,6 +67,15 @@ protected:
 	void GiveToBank(const FString& Item, int32 N) const;
 	bool TakeCoins(int32 N) const { return TakeItem(TEXT("Coins"), N); }
 	void GiveCoins(int32 N) const { GiveItem(TEXT("Coins"), N); }
+	/** Player position in web metres (x east, z = UE Y). False when there is no pawn. */
+	bool PlayerWebPos(FVector2D& Out) const;
+	/** Raw damage to the player from a mechanic: skipped while dodge-rolling, scaled by every feature's DamageTakenMult. Returns damage dealt. */
+	int32 HurtPlayer(float Raw, const FString& Why) const;
+	/** Spawns a one-off mob from a base type with its own stats (bosses, raiders, colossi). The copy never respawns, carries no
+	 *  table drops (the feature pays out) and is aggressive. Scale multiplies the body size. Ground found by a downward trace. */
+	AGielinorMob* SpawnTunedMob(const FString& Base, FVector2D WebPos, const FString& Name, int32 Hp, int32 MaxHit, int32 Att, int32 Def, int32 Level, float Scale = 1.f, bool bBoss = false) const;
+	/** Moves the player pawn to a web position (instance entry/exit). */
+	void TeleportPlayer(FVector2D WebPos) const;
 	template<class T> T* Feature() const { UGameInstance* GI = GetGameInstance(); return GI ? GI->GetSubsystem<T>() : nullptr; }
 
 	// JSON helpers (missing keys keep defaults, like the web normalize* functions).

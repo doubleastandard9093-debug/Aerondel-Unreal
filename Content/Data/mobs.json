@@ -223,6 +223,18 @@
    "speed": 4,
    "color": 1710626,
    "scale": 1.15
+  },
+  "Ashen raider": {
+   "name": "Ashen raider",
+   "level": 40,
+   "hp": 420,
+   "maxHit": 38,
+   "att": 32,
+   "def": 28,
+   "speed": 4,
+   "color": 3815994,
+   "scale": 1.0,
+   "skin": 12094052
   }
  },
  "loot": {
