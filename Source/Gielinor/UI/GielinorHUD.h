@@ -3,6 +3,8 @@
 #include "GameFramework/HUD.h"
 #include "GielinorHUD.generated.h"
 
+#include "Player/GielinorGamepadComponent.h"
+
 class UGielinorHudWidget;
 
 /**
@@ -18,7 +20,15 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category="Gielinor") TSubclassOf<UGielinorHudWidget> HudWidgetClass;
 	virtual void BeginPlay() override;
 	virtual void DrawHUD() override;
+	/** Opens (or, if already open, closes) a pad menu; mouse/keyboard can call it too. */
+	UFUNCTION(BlueprintCallable, Category="Gielinor") void TogglePadMenu(EGielinorPadMenu Menu);
+	UFUNCTION(BlueprintCallable, Category="Gielinor") void ClosePadMenu();
+	UFUNCTION(BlueprintPure, Category="Gielinor") bool IsPadMenuOpen() const { return bMenuOpen; }
 private:
+	void BindPad();
+	void DrawPadMenu(class AGielinorPlayerState* PS);
+	TWeakObjectPtr<UGielinorGamepadComponent> BoundPad;
+	bool bMenuOpen = false; EGielinorPadMenu OpenMenu = EGielinorPadMenu::Inventory;
 	UFUNCTION() void OnMsg(const FText& T);
 	UFUNCTION() void OnDlg(const FText& Speaker, const TArray<FText>& Lines);
 	UPROPERTY() TObjectPtr<UGielinorHudWidget> Widget;

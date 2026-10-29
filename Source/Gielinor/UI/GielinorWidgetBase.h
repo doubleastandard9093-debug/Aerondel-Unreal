@@ -1,5 +1,6 @@
 #pragma once
 #include "CoreMinimal.h"
+#include "Player/GielinorGamepadComponent.h"
 #include "Blueprint/UserWidget.h"
 #include "GielinorWidgetBase.generated.h"
 
@@ -32,6 +33,8 @@ public:
 	UFUNCTION(BlueprintPure, Category="Gielinor") FText GetHoverText() const;
 	UFUNCTION(BlueprintPure, Category="Gielinor") float GetHealthPercent() const;
 	UFUNCTION(BlueprintPure, Category="Gielinor") const TArray<FText>& GetRecentMessages() const { return Messages; }
+	/** Gamepad menu buttons (Y context, View map, Start inventory / hold settings). bOpen false = close it. */
+	UFUNCTION(BlueprintImplementableEvent, Category="Gielinor") void ShowPadMenu(EGielinorPadMenu Menu, bool bOpen);
 	UFUNCTION(BlueprintImplementableEvent, Category="Gielinor") void ShowDialogue(const FText& Speaker, const TArray<FText>& Lines);
 protected:
 	virtual void BindSources() override;

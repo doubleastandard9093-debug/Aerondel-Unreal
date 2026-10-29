@@ -16,6 +16,9 @@
 #include "Engine/World.h"
 #include "Engine/Font.h"
 #include "XR/GielinorVRPawn.h"
+#include "Features/TrueAimFeature.h"
+#include "Engine/GameInstance.h"
+#include "EngineUtils.h"
 
 void AGielinorHUD::BeginPlay()
 {
@@ -32,6 +35,91 @@ void AGielinorHUD::BeginPlay()
 	}
 }
 
+void AGielinorHUD::BindPad()
+{
+	APawn* P = PlayerOwner ? PlayerOwner->GetPawn() : nullptr;
+	UGielinorGamepadComponent* Pad = P ? P->FindComponentByClass<UGielinorGamepadComponent>() : nullptr;
+	if (!Pad || Pad == BoundPad.Get()) return; // pawn swaps (VR / respawn) rebind lazily
+	Pad->OnMenuRequested.AddUniqueDynamic(this, &AGielinorHUD::TogglePadMenu);
+	BoundPad = Pad;
+}
+
+void AGielinorHUD::TogglePadMenu(EGielinorPadMenu Menu)
+{
+	const bool bClose = bMenuOpen && OpenMenu == Menu;
+	if (bMenuOpen && Widget) Widget->ShowPadMenu(OpenMenu, false);
+	bMenuOpen = !bClose; OpenMenu = Menu;
+	if (bMenuOpen && Widget) Widget->ShowPadMenu(Menu, true);
+}
+
+void AGielinorHUD::ClosePadMenu() { if (bMenuOpen && Widget) Widget->ShowPadMenu(OpenMenu, false); bMenuOpen = false; }
+
+void AGielinorHUD::DrawPadMenu(AGielinorPlayerState* PS)
+{
+	UFont* Font = GEngine->GetSmallFont();
+	const float W = 420.f, H = 360.f, X0 = (Canvas->ClipX - W) * 0.5f, Y0 = (Canvas->ClipY - H) * 0.5f;
+	DrawRect(FLinearColor(0.f, 0.f, 0.f, 0.75f), X0, Y0, W, H);
+	const FLinearColor Gold(1.f, 0.85f, 0.35f), White = FLinearColor::White;
+	float Y = Y0 + 12.f; const float X = X0 + 16.f;
+	auto Line = [&](const FString& S, const FLinearColor& C) { if (Y < Y0 + H - 30.f) { DrawText(S, C, X, Y, Font); Y += 17.f; } };
+	APawn* P = PlayerOwner->GetPawn();
+	const FVector L = P ? P->GetActorLocation() : FVector::ZeroVector;
+	switch (OpenMenu)
+	{
+	case EGielinorPadMenu::Inventory:
+	{
+		Line(TEXT("Inventory"), Gold);
+		const TArray<FItemStack>& Slots = PS->Inventory->GetSlots(); int32 Used = 0;
+		for (int32 i = 0; i < Slots.Num(); ++i) if (!Slots[i].IsEmpty()) { ++Used; Line(FString::Printf(TEXT("%2d  %s x%d"), i + 1, *Slots[i].Item->DisplayName.ToString(), Slots[i].Count), White); }
+		Line(FString::Printf(TEXT("%d / %d slots"), Used, Slots.Num()), Gold);
+		break;
+	}
+	case EGielinorPadMenu::Settings:
+	{
+		Line(TEXT("Settings"), Gold);
+		UGameInstance* GI = GetGameInstance();
+		const UTrueAimFeature* Aim = GI ? GI->GetSubsystem<UTrueAimFeature>() : nullptr;
+		Line(FString::Printf(TEXT("True Aim: %s   (LB + RT to toggle)"), Aim && Aim->IsOn() ? TEXT("on") : TEXT("off")), White);
+		if (Aim) Line(FString::Printf(TEXT("Aimed strikes %d, dodge-cancels %d, window %d ms"), Aim->GetStrikes(), Aim->GetCancels(), Aim->CancelWindowMs()), White);
+		Line(TEXT("Graphics tier, audio and bindings: Project Settings / BP settings widget."), White);
+		break;
+	}
+	case EGielinorPadMenu::WorldMap:
+	{
+		Line(FString::Printf(TEXT("World map - you are at (%.0f, %.0f)"), L.X / 100.f, L.Y / 100.f), Gold);
+		struct FPlace { const TCHAR* Name; float X, Z; };
+		static const FPlace Places[] = { { TEXT("Lumbridge"), 0, 0 }, { TEXT("Wellmere"), 40, 90 }, { TEXT("Port Sarim docks"), -80, 76 },
+			{ TEXT("The Wilds"), 122, -122 }, { TEXT("Siege fort"), -1000, -640 }, { TEXT("Brineholt"), 80, 1030 } };
+		for (const FPlace& Pl : Places)
+		{
+			const float Dx = Pl.X - L.X / 100.f, Dz = Pl.Z - L.Y / 100.f;
+			static const TCHAR* Dirs[8] = { TEXT("E"), TEXT("NE"), TEXT("N"), TEXT("NW"), TEXT("W"), TEXT("SW"), TEXT("S"), TEXT("SE") };
+			const int32 Oct = ((int32)FMath::RoundToInt(FMath::Atan2(Dz, Dx) / (PI / 4.f)) + 8) % 8;
+			Line(FString::Printf(TEXT("%-18s %5.0f m %s"), Pl.Name, FMath::Sqrt(Dx * Dx + Dz * Dz), Dirs[Oct]), White);
+		}
+		break;
+	}
+	case EGielinorPadMenu::ContextMenu:
+	{
+		Line(TEXT("Nearby"), Gold);
+		const AGielinorPlayerController* PC = Cast<AGielinorPlayerController>(PlayerOwner);
+		if (PC && !PC->GetHoverText().IsEmpty()) Line(FString::Printf(TEXT("Target: %s  (A to use)"), *PC->GetHoverText().ToString()), White);
+		int32 N = 0;
+		for (TActorIterator<AActor> It(GetWorld()); It && N < 10; ++It)
+		{
+			if (*It == P || It->IsHidden() || !It->GetRootComponent() || It->ActorHasTag(TEXT("NoContext"))) continue;
+			if (!It->ActorHasTag(TEXT("Interactable")) && !It->IsA<APawn>()) continue;
+			const float D = FVector::Dist2D(It->GetActorLocation(), L) / 100.f;
+			if (D > 6.f) continue;
+			Line(FString::Printf(TEXT("%s  %.1f m"), *It->GetActorNameOrLabel(), D), White); ++N;
+		}
+		if (!N) Line(TEXT("Nothing within reach."), White);
+		break;
+	}
+	}
+	DrawText(TEXT("Press the same button again to close"), Gold, X, Y0 + H - 22.f, Font);
+}
+
 void AGielinorHUD::OnMsg(const FText& T) { Messages.Add(T); if (Messages.Num() > 6) Messages.RemoveAt(0); }
 
 void AGielinorHUD::OnDlg(const FText& Speaker, const TArray<FText>& Lines)
@@ -42,6 +130,7 @@ void AGielinorHUD::OnDlg(const FText& Speaker, const TArray<FText>& Lines)
 void AGielinorHUD::DrawHUD()
 {
 	Super::DrawHUD();
+	BindPad();
 	if (Widget || !Canvas || !PlayerOwner || PlayerOwner->GetPawn<AGielinorVRPawn>()) return;
 	AGielinorPlayerState* PS = PlayerOwner->GetPlayerState<AGielinorPlayerState>();
 	if (!PS) return;
@@ -73,6 +162,8 @@ void AGielinorHUD::DrawHUD()
 	for (const FQuestProgress& Q : PS->Quests->GetAll())
 		if (Q.Quest && Q.State == EQuestState::InProgress)
 		{ DrawText(FString::Printf(TEXT("[%s] %s"), *Q.Quest->DisplayName.ToString(), *PS->Quests->CurrentStepText(Q.Quest).ToString()), Yellow, 20, Canvas->ClipY - 170, Font); break; }
+
+	if (bMenuOpen) DrawPadMenu(PS);
 
 	// Dialogue + chat box.
 	float MY = Canvas->ClipY - 140.f;
