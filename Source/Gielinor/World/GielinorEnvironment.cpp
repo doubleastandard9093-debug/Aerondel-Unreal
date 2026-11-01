@@ -47,6 +47,9 @@ void AGielinorEnvironment::Apply(EGielinorTier Tier)
 			Sun->bCastCloudShadows = bRich;
 			Sun->SetDynamicShadowDistanceMovableLight(bRich ? 12000.f : 6000.f);
 			Sun->SetDynamicShadowCascades(bRich ? 4 : 2);
+			// Wider sun disc = softer shadow penumbra; on Low this hides shadow-map stair-steps around round props.
+			Sun->LightSourceAngle = bRich ? 0.8f : 1.2f;
+			Sun->CascadeDistributionExponent = bRich ? 3.f : 2.4f; // more near-cascade texels = smoother close shadows
 			Sun->MarkRenderStateDirty();
 		}
 		if (USkyLightComponent* Sky = It->FindComponentByClass<USkyLightComponent>())
@@ -72,8 +75,8 @@ void AGielinorEnvironment::Apply(EGielinorTier Tier)
 		if (!It->bUnbound) continue;
 		FPostProcessSettings& P = It->Settings;
 		P.bOverride_BloomIntensity = true;            P.BloomIntensity = bRich ? 0.8f : 0.4f;
-		P.bOverride_AmbientOcclusionIntensity = true; P.AmbientOcclusionIntensity = bRich ? 0.6f : 0.35f;
-		P.bOverride_AmbientOcclusionRadius = true;    P.AmbientOcclusionRadius = bRich ? 120.f : 60.f;
+		P.bOverride_AmbientOcclusionIntensity = true; P.AmbientOcclusionIntensity = bRich ? 0.6f : 0.5f; // Low: soft SSAO makes greybox read round
+		P.bOverride_AmbientOcclusionRadius = true;    P.AmbientOcclusionRadius = bRich ? 120.f : 85.f;
 		P.bOverride_VignetteIntensity = true;         P.VignetteIntensity = bRich ? 0.3f : 0.f;
 		P.bOverride_ColorSaturation = true;           P.ColorSaturation = bRich ? FVector4(1.06f, 1.06f, 1.06f, 1.f) : FVector4(1, 1, 1, 1);
 		P.bOverride_ColorContrast = true;             P.ColorContrast = bRich ? FVector4(1.04f, 1.04f, 1.04f, 1.f) : FVector4(1, 1, 1, 1);

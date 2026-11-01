@@ -111,14 +111,19 @@ void UGielinorScalability::ApplyTier(const UObject* WorldContext, EGielinorTier 
 	case EGielinorTier::Low:
 		S->SetOverallScalabilityLevel(1);
 		ApplyCheapPath();
-		SetCVar(TEXT("r.AntiAliasingMethod"), 4); // TSR
+		SetCVar(TEXT("r.AntiAliasingMethod"), 4); // TSR: smoothest edges on round props
+		// Render at 75% and let TSR upscale: smooth edges on the i3/UHD without the full-res cost.
+		SetCVar(TEXT("r.ScreenPercentage"), 75);
+		SetCVar(TEXT("r.MaxAnisotropy"), 4); // also set by TextureQuality@1; repeated so a custom ini can't drop it
 		break;
 	case EGielinorTier::High:
 		S->SetOverallScalabilityLevel(2);
+		SetCVar(TEXT("r.ScreenPercentage"), 100);
 		ApplyRichPath(false);
 		break;
 	case EGielinorTier::Ultra:
 		S->SetOverallScalabilityLevel(3); // Epic (Cinematic is for offline renders)
+		SetCVar(TEXT("r.ScreenPercentage"), 100);
 		ApplyRichPath(true);
 		break;
 	}
