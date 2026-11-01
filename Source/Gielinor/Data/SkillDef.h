@@ -35,7 +35,7 @@ public:
 };
 
 /**
- * Gielinor Lite v13 XP curve (same as the web build): OSRS-shaped, scaled to 30%.
+ * Gielinor Lite v13 XP curve (same as the web build): classic-shaped, scaled to 30%.
  * xp(L) = floor(sum_{l=1}^{L-1} floor(l + 300*2^(l/7)) / 4 * 0.3). L2 = 24, L10 = 346, L99 = 3,910,329.
  * Saves older than v4 used the old curve (L99 = 359,720) and are converted level-for-level by ConvertXpV1.
  */

@@ -1,8 +1,10 @@
 # Gielinor (Unreal Engine 5)
 
-A RuneScape-style **single-player** open-world RPG, built **VR-ready from day one** with OpenXR.
+*Aerondel* — a classic tick-based **single-player** open-world RPG, built **VR-ready from day one** with OpenXR.
 This is the Unreal sister of the Unity scaffold ([Gielinor-Unity](https://github.com/doubleastandard9093-debug/Gielinor-Unity)).
-It has the same design, the same starter content (Larkhaven, Granny Hilda, Granny's Pie) and the same RuneScape XP curve.
+It has the same design, the same starter content (Larkhaven, Granny Hilda, Granny's Pie) and the same classic XP curve.
+
+The in-game world is called **Aerondel**; every town, NPC, monster, item, skill, spell and prayer uses original names (old saves are converted, see `Data/TownRenames.h` and `Data/ContentRenames.h`). "Gielinor" remains only as the repo/module/C++ identifier name.
 
 > **Status: scaffold, never compiled.** It was written without the Unreal Editor available. The C++ passed static checks
 > (see *Verification* below), but your first build is the real test. Paste any compile errors back and they'll be fixed.
@@ -19,7 +21,7 @@ It has the same design, the same starter content (Larkhaven, Granny Hilda, Grann
 | Desktop | `AGielinorCharacter` (spring-arm orbit, WASD/gamepad, click-to-move on the NavMesh, click-to-interact/attack) and `AGielinorPlayerController` |
 | VR | `AGielinorVRPawn` (OpenXR: HMD camera, grip/aim controllers, teleport arc projected onto the NavMesh, smooth locomotion, snap/smooth turn, vignette, wrist UMG, laser), `UVRHandComponent` (grab/poke, context tool, velocity swing, hand-tracking pinch), `UVRInteractionBridge` |
 | Mode switch | `UPlatformModeSubsystem` detects an HMD and possesses the matching pawn live, keeping state (`-vr` / `-novr` override) |
-| Combat | `UCombatMath` (OSRS-style accuracy/max hit), `AGielinorMob` (code state machine: Idle/Wander/Chase/Attack/Return/Dead, drops, respawn), `UPlayerCombatComponent` (auto-attack + VR swing cooldown) |
+| Combat | `UCombatMath` (classic accuracy/max hit), `AGielinorMob` (code state machine: Idle/Wander/Chase/Attack/Return/Dead, drops, respawn), `UPlayerCombatComponent` (auto-attack + VR swing cooldown) |
 | UI | `UGielinorWidgetBase` → HUD / Inventory / Skills / QuestLog C++ bases for UMG; `AGielinorHUD` Canvas fallback so it's playable before any widget exists |
 | Save | `UGielinorSaveGame` + `UGielinorSaveSubsystem` (autosave every 60 s and on quit, content referenced by stable ids) |
 | Graphics | `UGielinorScalability` tiers Quest / Low / High / Ultra; desktop Lumen + Nanite + VSM + TSR; Quest mobile forward + MSAA 4x + multiview + Vulkan + foveation |

@@ -2,7 +2,7 @@
 	"FileVersion": 3,
 	"EngineAssociation": "{6402E67B-485F-732F-1836-B7B32DC4382F}",
 	"Category": "",
-	"Description": "Gielinor - RuneScape-style single-player open-world RPG, VR-ready (OpenXR).",
+	"Description": "Aerondel - classic tick-based single-player open-world RPG, VR-ready (OpenXR).",
 	"Modules": [
 		{
 			"Name": "Gielinor",

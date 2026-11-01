@@ -3,7 +3,7 @@
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "CombatMath.generated.h"
 
-/** OSRS-style melee maths (same formulas as the Unity Combat.cs and the web build). */
+/** Classic tick-based melee maths (same formulas as the Unity Combat.cs and the web build). */
 UCLASS()
 class GIELINOR_API UCombatMath : public UBlueprintFunctionLibrary
 {
