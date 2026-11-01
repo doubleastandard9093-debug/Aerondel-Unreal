@@ -11,6 +11,8 @@
 #include "Data/ItemDef.h"
 #include "Data/SkillDef.h"
 #include "Data/QuestDef.h"
+#include "Data/GameDatabase.h"
+#include "Data/ContentDefs.h"
 #include "Engine/Canvas.h"
 #include "Engine/Engine.h"
 #include "Engine/World.h"
@@ -153,15 +155,17 @@ void AGielinorHUD::DrawPadMenu(AGielinorPlayerState* PS)
 	{
 		Line(FString::Printf(TEXT("World map - you are at (%.0f, %.0f)"), L.X / 100.f, L.Y / 100.f), Gold);
 		struct FPlace { const TCHAR* Name; float X, Z; };
-		static const FPlace Places[] = { { TEXT("Larkhaven"), 0, 0 }, { TEXT("Thistlewell"), 40, 90 }, { TEXT("Saltreach docks"), -80, 76 },
-			{ TEXT("The Wilds"), 122, -122 }, { TEXT("Siege fort"), -1000, -640 }, { TEXT("Brineholt"), 80, 1030 } };
-		for (const FPlace& Pl : Places)
+		static const FPlace Sites[] = { { TEXT("Saltreach docks"), -80, 76 }, { TEXT("The Wilds"), 122, -122 }, { TEXT("Siege fort"), -1000, -640 }, { TEXT("Brineholt"), 80, 1030 } };
+		static const TCHAR* Dirs[8] = { TEXT("E"), TEXT("NE"), TEXT("N"), TEXT("NW"), TEXT("W"), TEXT("SW"), TEXT("S"), TEXT("SE") };
+		auto MapLine = [&](const FString& Name, double PX, double PZ)
 		{
-			const float Dx = Pl.X - L.X / 100.f, Dz = Pl.Z - L.Y / 100.f;
-			static const TCHAR* Dirs[8] = { TEXT("E"), TEXT("NE"), TEXT("N"), TEXT("NW"), TEXT("W"), TEXT("SW"), TEXT("S"), TEXT("SE") };
+			const float Dx = (float)PX - L.X / 100.f, Dz = (float)PZ - L.Y / 100.f;
 			const int32 Oct = ((int32)FMath::RoundToInt(FMath::Atan2(Dz, Dx) / (PI / 4.f)) + 8) % 8;
-			Line(FString::Printf(TEXT("%-18s %5.0f m %s"), Pl.Name, FMath::Sqrt(Dx * Dx + Dz * Dz), Dirs[Oct]), White);
-		}
+			Line(FString::Printf(TEXT("%-18s %5.0f m %s"), *Name, FMath::Sqrt(Dx * Dx + Dz * Dz), Dirs[Oct]), White);
+		};
+		if (const UGameDatabase* Db = UGameDatabase::Get())
+			for (const FTownInfo& Town : Db->Towns) MapLine(Town.DisplayName.ToString(), Town.Position.X, Town.Position.Y); // towns from world.json
+		for (const FPlace& Pl : Sites) MapLine(Pl.Name, Pl.X, Pl.Z);
 		break;
 	}
 	case EGielinorPadMenu::ContextMenu:

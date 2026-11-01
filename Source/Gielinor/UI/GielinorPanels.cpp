@@ -27,6 +27,8 @@
 #include "Data/ItemDef.h"
 #include "Data/NpcDef.h"
 #include "Data/ContentDefs.h"
+#include "Data/GameDatabase.h"
+#include "Features/GielinorFeature.h"
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/Pawn.h"
 #include "Engine/GameInstance.h"
@@ -109,8 +111,8 @@ void FGielinorPanels::Build(UWorld* W, FName Panel, AActor* Ctx, FGPanelModel& M
 		const FVector L = Pawn ? Pawn->GetActorLocation() : FVector::ZeroVector;
 		M.Title = FString::Printf(TEXT("World map - you are at (%.0f, %.0f)"), L.X / 100.f, L.Y / 100.f);
 		struct FPlace { const TCHAR* Name; float X, Z; };
-		static const FPlace Places[] = { { TEXT("Larkhaven"), 0, 0 }, { TEXT("Emberfold"), 50, -24 }, { TEXT("Saltreach"), -80, 60 }, { TEXT("Highcrest"), 120, -40 },
-			{ TEXT("Whitecairn"), -60, -80 }, { TEXT("Thistlewell"), 40, 90 }, { TEXT("The Wilds"), 122, -122 }, { TEXT("Gullrest"), -70, 960 }, { TEXT("Brineholt"), 80, 1030 }, { TEXT("Wreckers' Reef"), 10, 1120 } };
+		// Towns come from world.json (Db->Towns); the sea/feature sites are not towns.
+		static const FPlace Sites[] = { { TEXT("The Wilds"), 122, -122 }, { TEXT("Gullrest"), -70, 960 }, { TEXT("Brineholt"), 80, 1030 }, { TEXT("Wreckers' Reef"), 10, 1120 } };
 		static const TCHAR* Dirs[8] = { TEXT("E"), TEXT("SE"), TEXT("S"), TEXT("SW"), TEXT("W"), TEXT("NW"), TEXT("N"), TEXT("NE") }; // web z grows south
 		auto Line = [&](const FString& N, float X, float Z)
 		{
@@ -118,7 +120,10 @@ void FGielinorPanels::Build(UWorld* W, FName Panel, AActor* Ctx, FGPanelModel& M
 			const int32 Oct = (FMath::RoundToInt(FMath::Atan2(Dz, Dx) / (PI / 4.f)) + 8) % 8;
 			M.Lines.Add(FString::Printf(TEXT("%s - %.0f m %s"), *N, FMath::Sqrt(Dx * Dx + Dz * Dz), Dirs[Oct]));
 		};
-		for (const FPlace& Pl : Places) Line(Pl.Name, Pl.X, Pl.Z);
+		if (const UGameDatabase* Db = UGameDatabase::Get())
+			for (const FTownInfo& Town : Db->Towns) Line(Town.DisplayName.ToString(), (float)Town.Position.X, (float)Town.Position.Y);
+		for (const FPlace& Pl : Sites) Line(Pl.Name, Pl.X, Pl.Z);
+		M.Lines.Add(TEXT("Waystones in every town square carry you to any other town."));
 		if (USailingFeature* Sea = Sub<USailingFeature>(W)) for (const FTreasureChart& C : Sea->GetCharts()) Line(TEXT("Treasure X"), C.X, C.Z);
 		Close(M); return;
 	}
@@ -383,6 +388,39 @@ void FGielinorPanels::Build(UWorld* W, FName Panel, AActor* Ctx, FGPanelModel& M
 		M.Title = NpcName;
 		M.Lines.Add(TEXT("Your ship is tied up at the dock. Reboard it to sail on."));
 		if (USailingFeature* S = Sub<USailingFeature>(W)) if (!S->GetMoored().IsNone()) Act(M, TEXT("Reboard your ship"), [S] { S->Reboard(); }, true);
+		Close(M); return;
+	}
+	if (P == TEXT("travel"))
+	{
+		// Town waystone (NPC service "travel"): free fast travel to any other town's waystone.
+		const UGameDatabase* Db = UGameDatabase::Get();
+		const FTownInfo* Here = nullptr; float HereD = 1e12f;
+		const FVector At = Ctx ? Ctx->GetActorLocation() : (Pawn ? Pawn->GetActorLocation() : FVector::ZeroVector);
+		if (Db)
+			for (const FTownInfo& Town : Db->Towns)
+			{
+				const float D = (float)FVector2D::DistSquared(Town.Position, FVector2D(At.X / 100.0, At.Y / 100.0));
+				if (D < HereD) { HereD = D; Here = &Town; }
+			}
+		M.Title = Here ? FString::Printf(TEXT("%s Waystone"), *Here->DisplayName.ToString()) : TEXT("Waystone");
+		if (Here && !Here->Blurb.IsEmpty()) M.Lines.Add(Here->Blurb.ToString());
+		M.Lines.Add(TEXT("Touch the stone and name a town."));
+		if (Db && Pawn)
+		{
+			const TWeakObjectPtr<APawn> WP = Pawn;
+			for (const FTownInfo& Town : Db->Towns)
+			{
+				if (&Town == Here) continue;
+				const FVector2D Dest = Town.TravelPoint;
+				const FString Name = Town.DisplayName.ToString();
+				Act(M, FString::Printf(TEXT("Travel to %s"), *Name), [WP, Dest]
+				{
+					APawn* Pw = WP.Get();
+					if (!Pw) return;
+					Pw->TeleportTo(UGielinorFeature::WebToWorld(Dest.X, Dest.Y + 2.0, 1.2), Pw->GetActorRotation());
+				}, true);
+			}
+		}
 		Close(M); return;
 	}
 	if (P == TEXT("shop"))

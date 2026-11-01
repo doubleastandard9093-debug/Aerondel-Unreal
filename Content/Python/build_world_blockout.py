@@ -60,7 +60,10 @@ def text3d(name, folder, x, y, z, text, size=60.0, yaw=0.0, rgb=(255, 236, 180))
         except Exception:
             c.set_editor_property("text", unreal.Text(text))
         c.set_editor_property("world_size", size)
-        c.set_editor_property("horizontal_alignment", unreal.HorizTextAligment.EHTA_CENTER)
+        try:
+            c.set_editor_property("horizontal_alignment", unreal.HorizTextAligment.EHTA_CENTER)
+        except Exception:
+            pass  # left-aligned is fine
         c.set_editor_property("text_render_color", unreal.Color(r=rgb[0], g=rgb[1], b=rgb[2], a=255))
         c.set_collision_profile_name("NoCollision")
         label(a, "%s_%d" % (name, i), folder)
@@ -176,7 +179,7 @@ def run():
             box("Landmark_" + lm["n"], "Landmarks", (lm["x"], 2, lm["z"]), (1.2, 4, 1.2), stone)
             place_volume(lm["n"], lm["x"], lm["z"], 16)
         for town, t in w.get("towns", {}).items():
-            place_volume(town, t["x"], t["z"], 40)
+            place_volume(town, t["x"], t["z"], 40, t.get("banner", town))  # "You arrive at Royal City of Highcrest."
         # Quest visit targets (quests.json "place" ids -> world.json "places", exported from the web PLACES table).
         for pid, p in w.get("places", {}).items():
             place_volume(pid, p["x"], p["z"], p["r"] * 2, p.get("name"))

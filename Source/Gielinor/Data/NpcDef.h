@@ -13,7 +13,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Npc") FLinearColor Tint = FLinearColor::White;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Npc") TArray<FText> IdleLines;
 	/** Feature NPCs (v18 port): what talking opens - shipwright, hexer, saga, roost, hearth, charter, siege, tasks, arena, quirks,
-	 *  writs, delves, paths, harbour, tides, crown, say, or shop:<ShopId>. None = plain quest/idle NPC. */
+	 *  writs, delves, paths, harbour, tides, crown, travel (town waystone), say, or shop:<ShopId>. None = plain quest/idle NPC. */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Npc") FName Service;
 	/** Where the world blockout stands them, web metres (x, z). */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Npc") FVector2D Home = FVector2D::ZeroVector;
