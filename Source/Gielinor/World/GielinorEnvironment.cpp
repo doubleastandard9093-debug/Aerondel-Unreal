@@ -50,12 +50,15 @@ void AGielinorEnvironment::Apply(EGielinorTier Tier)
 			// Wider sun disc = softer shadow penumbra; on Low this hides shadow-map stair-steps around round props.
 			Sun->LightSourceAngle = bRich ? 0.8f : 1.2f;
 			Sun->CascadeDistributionExponent = bRich ? 3.f : 2.4f; // more near-cascade texels = smoother close shadows
+			// High/Ultra: screen-space contact shadows ground props and characters (off on Low: r.ContactShadows=0 anyway).
+			Sun->ContactShadowLength = bRich ? (bUltra ? 0.08f : 0.05f) : 0.f;
 			Sun->MarkRenderStateDirty();
 		}
 		if (USkyLightComponent* Sky = It->FindComponentByClass<USkyLightComponent>())
 		{
 			Sky->bRealTimeCapture = bRich; // real-time sky capture follows the atmosphere + clouds
 			Sky->SetCastShadows(true);
+			Sky->bLowerHemisphereIsBlack = false; // ground bounce tint instead of black undersides on round props
 			Sky->RecaptureSky();
 		}
 		if (UExponentialHeightFogComponent* Fog = It->FindComponentByClass<UExponentialHeightFogComponent>())
@@ -65,6 +68,9 @@ void AGielinorEnvironment::Apply(EGielinorTier Tier)
 			Fog->SetVolumetricFogExtinctionScale(bUltra ? 1.2f : 1.f);
 			Fog->SetFogDensity(bRich ? 0.012f : 0.01f);
 			Fog->SetFogHeightFalloff(bRich ? 0.15f : 0.2f);
+			// Cool, slightly blue distance haze on High/Ultra for aerial depth; volumetric fog picks up sun shafts.
+			Fog->SetFogInscatteringColor(bRich ? FLinearColor(0.42f, 0.52f, 0.66f) : FLinearColor(0.45f, 0.53f, 0.62f));
+			Fog->SetVolumetricFogDistance(bUltra ? 9000.f : 6000.f);
 		}
 		if (USkyAtmosphereComponent* Atmo = It->FindComponentByClass<USkyAtmosphereComponent>())
 			Atmo->SetAerialPespectiveViewDistanceScale(bRich ? 1.f : 0.6f);
@@ -81,6 +87,16 @@ void AGielinorEnvironment::Apply(EGielinorTier Tier)
 		P.bOverride_ColorSaturation = true;           P.ColorSaturation = bRich ? FVector4(1.06f, 1.06f, 1.06f, 1.f) : FVector4(1, 1, 1, 1);
 		P.bOverride_ColorContrast = true;             P.ColorContrast = bRich ? FVector4(1.04f, 1.04f, 1.04f, 1.f) : FVector4(1, 1, 1, 1);
 		P.bOverride_FilmToe = true;                   P.FilmToe = bRich ? 0.6f : 0.55f;
+		P.bOverride_AmbientOcclusionQuality = true;   P.AmbientOcclusionQuality = bRich ? (bUltra ? 100.f : 75.f) : 40.f;
+		P.bOverride_AutoExposureMethod = true;        P.AutoExposureMethod = bRich ? EAutoExposureMethod::AEM_Histogram : EAutoExposureMethod::AEM_Basic;
+		P.bOverride_AutoExposureSpeedUp = true;       P.AutoExposureSpeedUp = 2.f;   // eyes adjust walking into/out of houses and caves
+		P.bOverride_AutoExposureSpeedDown = true;     P.AutoExposureSpeedDown = 1.f;
+		P.bOverride_BloomThreshold = true;            P.BloomThreshold = -1.f;
+		P.bOverride_SceneFringeIntensity = true;      P.SceneFringeIntensity = 0.f;  // no chromatic fringe on any tier
+		P.bOverride_ColorGamma = true;                P.ColorGamma = FVector4(1, 1, 1, 1);
+		P.bOverride_WhiteTemp = true;                 P.WhiteTemp = bRich ? 6300.f : 6500.f; // touch warmer daylight on High/Ultra
+		P.bOverride_LumenSkylightLeaking = true;      P.LumenSkylightLeaking = bRich ? 0.05f : 0.f; // interiors never go pitch black
+		P.bOverride_LumenMaxTraceDistance = true;     P.LumenMaxTraceDistance = bUltra ? 20000.f : 10000.f;
 		P.bOverride_LensFlareIntensity = true;        P.LensFlareIntensity = bRich ? 0.15f : 0.f;
 		P.bOverride_DynamicGlobalIlluminationMethod = true;
 		P.DynamicGlobalIlluminationMethod = bRich ? EDynamicGlobalIlluminationMethod::Lumen : EDynamicGlobalIlluminationMethod::None;
