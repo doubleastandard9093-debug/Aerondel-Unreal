@@ -149,6 +149,7 @@ bool UGielinorSaveSubsystem::LoadInto(AGielinorPlayerState* PS)
 		{
 			FString Migrated = S->Version >= 5 ? *Text : GielinorTowns::MigrateText(*Text); // v5: town renames
 			if (!bV6) Migrated = GielinorContent::MigrateText(Migrated); // v6: content renames
+			if (S->Version < 7) Migrated = GielinorContent::MigrateNpcText(Migrated); // v7: NPC renames
 			TSharedPtr<FJsonObject> J;
 			const TSharedRef<TJsonReader<>> R = TJsonReaderFactory<>::Create(Migrated);
 			if (FJsonSerializer::Deserialize(R, J) && J.IsValid()) F->LoadState(*J);

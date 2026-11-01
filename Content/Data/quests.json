@@ -1174,8 +1174,8 @@
      }
     },
     "intro": [
-     "Wizard Mizgog says he'll review my book if a real spellcaster vouches for it.",
-     "Go to the tower, speak to Mizgog, then prove yourself by casting spells in battle."
+     "Wizard Mardoc says he'll review my book if a real spellcaster vouches for it.",
+     "Go to the tower, speak to Mardoc, then prove yourself by casting spells in battle."
     ],
     "steps": [
      {
@@ -1210,7 +1210,7 @@
       "xp.Magic": 0.02
      }
     },
-    "end": "Mizgog loved it! He sent this staff for you.",
+    "end": "Mardoc loved it! He sent this staff for you.",
     "thanks": "My book is on the tower's shelf now!"
    },
    "start": "Talk to Tamsin the Scholar on the south road near the wizard tower.",
@@ -2297,8 +2297,8 @@
     "diff": "Novice",
     "points": 1,
     "intro": [
-     "A crate of goods went missing between the docks and Gerrant's shop.",
-     "Check the docks, ask Shopkeeper Gerrant, and replace the cargo: 5 Logs and 3 Iron ore."
+     "A crate of goods went missing between the docks and Garrow's shop.",
+     "Check the docks, ask Shopkeeper Garrow, and replace the cargo: 5 Logs and 3 Iron ore."
     ],
     "steps": [
      {
@@ -3317,7 +3317,7 @@
     "diff": "Novice",
     "points": 1,
     "intro": [
-     "I wish to ask Juliet to a picnic, but I'm too shy! Gwenna knows her.",
+     "I wish to ask Juniper to a picnic, but I'm too shy! Gwenna knows her.",
      "Please ask Gwenna to pass on my letter, then bring me 2 Cooked salmon for the picnic."
     ],
     "steps": [
@@ -3326,7 +3326,7 @@
       "npc": "gertrude",
       "where": "in north-west Highcrest",
       "say": [
-       "A letter for Juliet? How sweet! I'll pass it on.",
+       "A letter for Juniper? How sweet! I'll pass it on.",
        "Tell Rowan she said yes. She always says yes."
       ]
      },
@@ -3386,7 +3386,7 @@
      }
     },
     "intro": [
-     "A Ironveil Knight insulted Juliet! I challenged him, but... I can't fight.",
+     "A Ironveil Knight insulted Juniper! I challenged him, but... I can't fight.",
      "Defeat 2 Ironveil Knights north of Larkhaven in my name, and bring me an Iron platebody so I look the part."
     ],
     "steps": [
@@ -3413,8 +3413,8 @@
       "dmgVs.Ironveil Knight": 0.03
      }
     },
-    "end": "Juliet thinks I'm a hero! Our secret, yes?",
-    "thanks": "Juliet loves the armour."
+    "end": "Juniper thinks I'm a hero! Our secret, yes?",
+    "thanks": "Juniper loves the armour."
    },
    "start": "Talk to Rowan in Highcrest square.",
    "rewards": [
@@ -3937,7 +3937,7 @@
     "end": "You'd make a fine guard. Thank you.",
     "thanks": "The palace is well protected."
    },
-   "start": "Talk to Captain Rovin at the south gate of Highcrest.",
+   "start": "Talk to Captain Roderic at the south gate of Highcrest.",
    "rewards": [
     "4000 Defence XP",
     "2000 Smithing XP"
@@ -4013,7 +4013,7 @@
     "end": "Highcrest owes you its life. Take this wyrmscale shield.",
     "thanks": "Not a dragon in the sky."
    },
-   "start": "Talk to Captain Rovin at the south gate of Highcrest.",
+   "start": "Talk to Captain Roderic at the south gate of Highcrest.",
    "rewards": [
     "20000 Attack XP",
     "20000 Defence XP",
@@ -4135,7 +4135,7 @@
     "end": "You've got the knack. Take some leather.",
     "thanks": "Best apprentice I've had."
    },
-   "start": "Talk to Ellis the Tanner in the south-east of Highcrest.",
+   "start": "Talk to Ellard the Tanner in the south-east of Highcrest.",
    "rewards": [
     "1500 Crafting XP",
     "5 x Soft leather"
@@ -6771,7 +6771,7 @@
     "points": 1,
     "intro": [
      "I've got three letters and only two legs!",
-     "Deliver one to Granny Hilda in Larkhaven, one to Shopkeeper Gerrant in Saltreach and one to Orrin in Highcrest."
+     "Deliver one to Granny Hilda in Larkhaven, one to Shopkeeper Garrow in Saltreach and one to Orrin in Highcrest."
     ],
     "steps": [
      {
@@ -6848,7 +6848,7 @@
      }
     },
     "intro": [
-     "Express parcels! Brisa in Whitecairn and Horvik in Highcrest, as fast as you can.",
+     "Express parcels! Brisa in Whitecairn and Halvard in Highcrest, as fast as you can.",
      "And keep your legs in shape: earn 2000 Agility XP."
     ],
     "steps": [
@@ -7591,7 +7591,7 @@
    ]
   },
   "rovin": {
-   "name": "Captain Rovin",
+   "name": "Captain Roderic",
    "examine": "Captain of the Highcrest palace guard.",
    "x": 125.9,
    "z": -43.4,
@@ -7613,7 +7613,7 @@
    ]
   },
   "ellis": {
-   "name": "Ellis the Tanner",
+   "name": "Ellard the Tanner",
    "examine": "His hands are stained brown from tanning.",
    "x": 116.2,
    "z": -35.1,

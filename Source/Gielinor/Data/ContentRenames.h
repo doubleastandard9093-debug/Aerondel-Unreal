@@ -7,6 +7,7 @@
  * Ids are lower_snake_case of the display name (GielinorId::FromName), so one display-name table drives:
  *   - MigrateId:   old content id -> new id (token-wise, so "grimy_guam_leaf" and "herb_guam_leaf" both convert)
  *   - MigrateText: old display names / ids inside saved feature JSON -> new ones
+ * NPC display names (save v7) are replaced case-sensitively in text only; NPC ids (e.g. "rovin") stay as they are.
  * Unknown ids and text pass through unchanged. Town renames (v5) live in Data/TownRenames.h.
  */
 namespace GielinorContent
@@ -165,6 +166,44 @@ namespace GielinorContent
 			{ TEXT("rock_runite"), TEXT("rock_cobalt") },
 		};
 		return TArrayView<const FRename>(R, UE_ARRAY_COUNT(R));
+	}
+
+	/** NPC display names (v7, matches Gielinor-Lite js/renames.js). Text only, whole words, case-sensitive: NPC ids are unchanged. */
+	inline TArrayView<const FRename> NpcNames()
+	{
+		static const FRename R[] = {
+			{ TEXT("Juliet"), TEXT("Juniper") },
+			{ TEXT("Mizgog"), TEXT("Mardoc") },
+			{ TEXT("Horvik"), TEXT("Halvard") },
+			{ TEXT("Gerrant"), TEXT("Garrow") },
+			{ TEXT("Ellis"), TEXT("Ellard") },
+			{ TEXT("Rovin"), TEXT("Roderic") },
+		};
+		return TArrayView<const FRename>(R, UE_ARRAY_COUNT(R));
+	}
+
+	/** Replace whole-word occurrences of Old (not inside a longer word). */
+	inline void ReplaceWord(FString& Out, const TCHAR* Old, const TCHAR* New)
+	{
+		const int32 OldLen = FCString::Strlen(Old);
+		int32 From = 0;
+		while (true)
+		{
+			const int32 At = Out.Find(Old, ESearchCase::CaseSensitive, ESearchDir::FromStart, From);
+			if (At == INDEX_NONE) return;
+			const bool bLeft = At == 0 || !FChar::IsAlpha(Out[At - 1]);
+			const bool bRight = At + OldLen >= Out.Len() || !FChar::IsAlpha(Out[At + OldLen]);
+			if (bLeft && bRight) { Out = Out.Left(At) + New + Out.Mid(At + OldLen); From = At + FCString::Strlen(New); }
+			else From = At + 1;
+		}
+	}
+
+	/** v7: NPC display names inside saved text. */
+	inline FString MigrateNpcText(const FString& Text)
+	{
+		FString Out = Text;
+		for (const FRename& E : NpcNames()) ReplaceWord(Out, E.OldName, E.NewName);
+		return Out;
 	}
 
 	inline FString ToId(const TCHAR* Name)
