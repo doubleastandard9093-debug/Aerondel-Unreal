@@ -7,6 +7,7 @@
 #include "Data/ResourceNodeDef.h"
 #include "Data/ContentDefs.h"
 #include "Data/JsonContentLoader.h"
+#include "Data/TownRenames.h"
 #include "Gielinor.h"
 #include "UObject/Package.h"
 
@@ -26,7 +27,11 @@ USpellDef* UGameDatabase::FindSpell(FName Id) const { return FindById(Spells, Id
 UPrayerDef* UGameDatabase::FindPrayer(FName Id) const { return FindById(Prayers, Id); }
 UAbilityDef* UGameDatabase::FindAbility(FName Id) const { return FindById(Abilities, Id); }
 UShopDef* UGameDatabase::FindShop(FName Id) const { return FindById(Shops, Id); }
-UAgilityCourseDef* UGameDatabase::FindAgilityCourse(FName Id) const { return FindById(AgilityCourses, Id); }
+UAgilityCourseDef* UGameDatabase::FindAgilityCourse(FName Id) const
+{
+	if (UAgilityCourseDef* C = FindById(AgilityCourses, Id)) return C;
+	return FindById(AgilityCourses, GielinorTowns::MigrateId(Id)); // pre-rename course ids (old saves, hand-placed actors)
+}
 UThieveTargetDef* UGameDatabase::FindThieveTarget(FName Id) const { return FindById(ThieveTargets, Id); }
 URuneAltarDef* UGameDatabase::FindRuneAltar(FName Id) const { return FindById(RuneAltars, Id); }
 UResourceNodeDef* UGameDatabase::FindResourceNode(FName Id) const { return FindById(ResourceNodes, Id); }

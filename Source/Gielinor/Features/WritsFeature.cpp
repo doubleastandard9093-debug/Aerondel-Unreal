@@ -34,7 +34,7 @@ void UWritsFeature::Initialize(FSubsystemCollectionBase& Collection)
 void UWritsFeature::OnGameTick()
 {
 	++PlayTicks;
-	if (++Ticks % 100 == 5 && MaybeRoll(false) == TEXT("daily")) Say(TEXT("New Daily Writs are up on Writkeeper Maelis's board in Brightwater."));
+	if (++Ticks % 100 == 5 && MaybeRoll(false) == TEXT("daily")) Say(TEXT("New Daily Writs are up on Writkeeper Maelis's board in Larkhaven."));
 }
 
 FString UWritsFeature::MaybeRoll(bool bForce)

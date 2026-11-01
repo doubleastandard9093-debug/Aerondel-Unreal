@@ -12,32 +12,32 @@ namespace SagaData
 	struct FFx { const TCHAR* Label; const TCHAR* Flag; int32 Gold; const TCHAR* RepFac; int32 Rep; const TCHAR* XpSkill; int32 Xp; const TCHAR* Say; };
 	struct FChapter { const TCHAR* Title; int32 Total; int32 Qp; const TCHAR* Intro; bool bKill; const TCHAR* Target; int32 N; const TCHAR* Obj; const TCHAR* Done; bool bCompanionTest; int32 VarroHelp; bool bFinale; FFx Wheel[3]; };
 	static const FChapter Ch[] = {
-		{ TEXT("The Ember Letter"), 0, 0, TEXT("A letter came for you, sealed with an ember. It is from Aldric, the one who taught you to hold a blade. \"If you read this, I am gone. Something stirs under Falador. Find your calling, and follow the road I left.\""),
-			true, TEXT("Goblin"), 5, TEXT("Drive off 5 Goblins troubling the Brightwater farms"), TEXT("One of the goblins you beat is caught alive, clutching a scrap of Aldric's cloak."), false, 0, false,
+		{ TEXT("The Ember Letter"), 0, 0, TEXT("A letter came for you, sealed with an ember. It is from Aldric, the one who taught you to hold a blade. \"If you read this, I am gone. Something stirs under Whitecairn. Find your calling, and follow the road I left.\""),
+			true, TEXT("Goblin"), 5, TEXT("Drive off 5 Goblins troubling the Larkhaven farms"), TEXT("One of the goblins you beat is caught alive, clutching a scrap of Aldric's cloak."), false, 0, false,
 			{ { TEXT("Let it go. It's only scared."), TEXT("mercy"), 0, nullptr, 0, nullptr, 0, TEXT("It bows and scurries off. Somewhere, someone will remember that.") },
 			  { TEXT("Hand it to the Watch."), nullptr, 0, TEXT("watch"), 40, nullptr, 0, TEXT("The Watch thanks you. The goblin will face a fair hearing.") },
 			  { TEXT("Tell me where you found that cloak."), TEXT("clue"), 100, nullptr, 0, nullptr, 0, TEXT("It squeaks out \"ash town\" and a purse of stolen coin.") } } },
-		{ TEXT("Ashes at Ashford"), 50, 2, TEXT("Aldric passed through Ashford before it burned. The refugees there are sleeping in the cold."),
+		{ TEXT("Ashes at Emberfold"), 50, 2, TEXT("Aldric passed through Emberfold before it burned. The refugees there are sleeping in the cold."),
 			false, TEXT("Cowhide"), 5, TEXT("Bring 5 Cowhide for the refugees' tents"), TEXT("The refugees stare at the hides. Their elder asks what you want for them."), false, 0, false,
 			{ { TEXT("Nothing. Keep warm."), TEXT("ashfordFriend"), 0, nullptr, 0, nullptr, 0, TEXT("Word spreads. Merchants everywhere give you 5% off from now on.") },
 			  { TEXT("Rebuild the wall, and stand your own watch."), nullptr, 0, TEXT("watch"), 60, nullptr, 0, TEXT("They raise a palisade that same night.") },
 			  { TEXT("Coin, and anything you know about Aldric."), nullptr, 400, nullptr, 0, nullptr, 0, TEXT("They pay, and mention a bandit called Varro who robbed him.") } } },
 		{ TEXT("The Bandit Road"), 80, 5, TEXT("Varro's bandits hold the road west. Aldric's satchel is with them."),
-			true, TEXT("Bandit"), 6, TEXT("Break Varro's gang: defeat 6 Bandits"), TEXT("Varro kneels in the dirt and hands back Aldric's satchel. Inside: a map of the Port Sarim docks."), false, 0, false,
+			true, TEXT("Bandit"), 6, TEXT("Break Varro's gang: defeat 6 Bandits"), TEXT("Varro kneels in the dirt and hands back Aldric's satchel. Inside: a map of the Saltreach docks."), false, 0, false,
 			{ { TEXT("Go, and do better."), TEXT("varro"), 0, nullptr, 0, nullptr, 0, TEXT("\"I owe you my life,\" Varro says. \"I won't forget it.\"") },
 			  { TEXT("You'll answer to the Watch."), nullptr, 0, TEXT("watch"), 80, nullptr, 0, TEXT("Captain Brann locks him up with a nod of respect for you.") },
 			  { TEXT("Work for me now."), TEXT("varro"), 200, nullptr, 0, nullptr, 0, TEXT("Varro grins and tosses you his share of the loot. \"Boss.\"") } } },
-		{ TEXT("Salt and Smoke"), 110, 8, TEXT("The map leads to a wreck off Port Sarim, where the drowned dead walk the hold."),
+		{ TEXT("Salt and Smoke"), 110, 8, TEXT("The map leads to a wreck off Saltreach, where the drowned dead walk the hold."),
 			true, TEXT("Skeleton"), 8, TEXT("Clear 8 Skeletons from the wreck-haunted shore"), TEXT("Among the bones is Aldric's journal. The Mariners want it for their records, but it names their harbour master as a smuggler."), true, 0, false,
 			{ { TEXT("Give them the journal. Let them judge their own."), nullptr, 0, TEXT("mariners"), 60, nullptr, 0, TEXT("The harbour master is quietly replaced.") },
 			  { TEXT("Arrest the harbour master. Now."), nullptr, 300, TEXT("mariners"), 30, nullptr, 0, TEXT("The docks go quiet as he is led away.") },
 			  { TEXT("Sell the page to the harbour master."), TEXT("smuggler"), 600, nullptr, 0, nullptr, 0, TEXT("He pays well, and owes you one.") } } },
-		{ TEXT("The Lantern Archive"), 140, 12, TEXT("Aldric's journal speaks of an archive under Varrock, sealed with rune-light."),
-			false, TEXT("Rune essence"), 20, TEXT("Bring 20 Rune essence to wake the archive seals"), TEXT("The seals open. Aldric's last page: he went into the Black Knights' keep near Falador and never came out."), false, 5, false,
+		{ TEXT("The Lantern Archive"), 140, 12, TEXT("Aldric's journal speaks of an archive under Highcrest, sealed with rune-light."),
+			false, TEXT("Rune essence"), 20, TEXT("Bring 20 Rune essence to wake the archive seals"), TEXT("The seals open. Aldric's last page: he went into the Black Knights' keep near Whitecairn and never came out."), false, 5, false,
 			{ { TEXT("Share the archive with the Circle."), nullptr, 0, TEXT("circle"), 80, nullptr, 0, TEXT("The Arcane Circle names you a friend of the archive.") },
 			  { TEXT("Seal it again. Some things should stay buried."), nullptr, 0, TEXT("lantern"), 60, nullptr, 0, TEXT("The White Lantern approves.") },
 			  { TEXT("Copy the best spells for yourself."), nullptr, 0, nullptr, 0, TEXT("Magic"), 1500, TEXT("Your mind fills with old patterns.") } } },
-		{ TEXT("Aldric's Ember"), 180, 16, TEXT("Falador. The keep of the Black Knights. Whatever happened to Aldric is inside."),
+		{ TEXT("Aldric's Ember"), 180, 16, TEXT("Whitecairn. The keep of the Black Knights. Whatever happened to Aldric is inside."),
 			true, TEXT("Black Knight"), 5, TEXT("Fight through 5 Black Knights to reach Aldric"), TEXT("Aldric is alive, chained and thin. He smiles. \"You came. Now: who did you become?\""), false, 0, true,
 			{ { nullptr, nullptr, 0, nullptr, 0, nullptr, 0, nullptr }, { nullptr, nullptr, 0, nullptr, 0, nullptr, 0, nullptr }, { nullptr, nullptr, 0, nullptr, 0, nullptr, 0, nullptr } } } };
 	struct FCalling { const TCHAR* Id; const TCHAR* Name; const TCHAR* Skills[3]; };
@@ -142,7 +142,7 @@ FString USagaFeature::Finish(EWheelTone Tone)
 		FString Out;
 		if (HasFlag(TEXT("mercy"))) Out += TEXT("The goblin you once let go slips through the bars and picks Aldric's lock. ");
 		if (HasFlag(TEXT("varro"))) Out += TEXT("Varro is there too, holding the door. \"I said I owed you.\" ");
-		if (HasFlag(TEXT("ashfordFriend"))) Out += TEXT("Ashford sends blankets and bread for the road home. ");
+		if (HasFlag(TEXT("ashfordFriend"))) Out += TEXT("Emberfold sends blankets and bread for the road home. ");
 		Out += SagaData::EndSay[(int32)T];
 		Say(FString::Printf(TEXT("The Wanderer's Saga is complete. You are now known as %s."), *Title));
 		return Out;

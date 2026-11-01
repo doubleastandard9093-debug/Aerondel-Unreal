@@ -39,7 +39,7 @@ struct FCardTable
 	UPROPERTY(BlueprintReadOnly) FString Msg;
 };
 
-/** Brineholt card tables at the Salted Lantern (Sails of Sarim), played for coins only. Twenty-One Tides: blackjack-style,
+/** Brineholt card tables at the Salted Lantern (Sails of Saltreach), played for coins only. Twenty-One Tides: blackjack-style,
  *  house stands on 17, twenty-one on the deal pays 3:2, Double on two cards. Crown & Anchor: five-card draw against the house,
  *  hold then draw once; the house keeps pairs or better (all five on a straight or better), else its top two; a full house or
  *  better pays double. Bets 10-500. Wins and losses are tallied on the vessel save (USailingFeature). */

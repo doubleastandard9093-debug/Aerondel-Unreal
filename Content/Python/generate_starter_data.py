@@ -1,7 +1,7 @@
 """
 Gielinor > Generate Starter Data
 Creates/updates the data assets for the starter slice (same content as the Unity scaffold's
-StarterDataGenerator.cs, names ported from the web build: Brightwater, Granny Hilda, Granny's Pie)
+StarterDataGenerator.cs, names ported from the web build: Larkhaven, Granny Hilda, Granny's Pie)
 and the GameDatabase. Idempotent: rerun after editing values here.
 """
 import unreal
@@ -186,7 +186,7 @@ def run():
 
         task.enter_progress_frame(1, "NPCs + mobs")
         npc("hilda", "Granny Hilda", (0.55, 0.35, 0.55), "Mind the stove, dearie.", "The cows are just past the trees.")
-        npc("osric", "Osric the Banker", (0.25, 0.3, 0.5), "Welcome to the Bank of Brightwater.", "Your items are safe with us.")
+        npc("osric", "Osric the Banker", (0.25, 0.3, 0.5), "Welcome to the Bank of Larkhaven.", "Your items are safe with us.")
         npc("doric", "Brena the Smith", (0.4, 0.3, 0.25), "Copper and tin make bronze. Smelt them at the furnace.", "Bring a hammer to the anvil.")
         mob("cow", "Cow", 2, 8, 1, False, (0.9, 0.88, 0.82), (0.9, 1.1, 1.7),
             drop("raw_beef", 1, 1, 1.0), drop("cowhide", 1, 1, 1.0), drop("bones", 1, 1, 1.0))

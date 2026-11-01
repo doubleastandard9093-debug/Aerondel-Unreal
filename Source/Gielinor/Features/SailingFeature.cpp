@@ -196,13 +196,13 @@ void USailingFeature::PlacePawn(float X, float Z, float Y, float Yaw) const
 
 bool USailingFeature::SetSail()
 {
-	if (!Hull) { Say(TEXT("You have no ship. The Shipwright on the Port Sarim dock can build you one.")); return false; }
+	if (!Hull) { Say(TEXT("You have no ship. The Shipwright on the Saltreach dock can build you one.")); return false; }
 	if (HullHp <= 0) HullHp = FMath::CeilToInt(HullDef(Hull).Hp * 0.5f);
 	Ship = FSeaBoat(); Ship.Name = HullDef(Hull).Name; Ship.X = SeaEntry.X; Ship.Z = SeaEntry.Y; Ship.Kind = Hull; Ship.Guns = HullDef(Hull).Guns;
 	Ship.Hp = HullHp; Ship.MaxHp = HullDef(Hull).Hp;
 	bAtSea = true; Moored = NAME_None; Throttle = 0.f; bHasTarget = false; NextSpawn = T + 6.f; Enemies.Reset(); Balls.Reset();
 	PlacePawn(Ship.X, Ship.Z, 1.f, Ship.Yaw);
-	Say(FString::Printf(TEXT("You cast off in your %s into the Sarim Sound. Steer with the stick or tap the sea; fire broadsides port and starboard."), HullDef(Hull).Name));
+	Say(FString::Printf(TEXT("You cast off in your %s into the Saltreach Sound. Steer with the stick or tap the sea; fire broadsides port and starboard."), HullDef(Hull).Name));
 	return true;
 }
 
@@ -295,7 +295,7 @@ void USailingFeature::SinkEnemy(int32 Index)
 void USailingFeature::HitShip(int32 Dmg)
 {
 	HullHp = FMath::Max(0, HullHp - Dmg); Ship.Hp = HullHp;
-	if (HullHp <= 0) { ++Sunk; HomeToSarim(TEXT("Your ship goes down! You wash ashore on the Port Sarim docks. The Shipwright can patch her up.")); }
+	if (HullHp <= 0) { ++Sunk; HomeToSarim(TEXT("Your ship goes down! You wash ashore on the Saltreach docks. The Shipwright can patch her up.")); }
 }
 
 bool USailingFeature::MoveBoat(FSeaBoat& B, float Dt, float Speed, float TurnTo) const
@@ -330,7 +330,7 @@ void USailingFeature::Tick(float Dt)
 			if (I->bPort || I->Id == FName(TEXT("reef"))) { GoAshore(*I); return; }
 	}
 	PlacePawn(Ship.X - FMath::Sin(Ship.Yaw) * 1.6f, Ship.Z - FMath::Cos(Ship.Yaw) * 1.6f, ASailingVisuals::DeckTopCm / 100.f + 0.95f, Ship.Yaw); // capsule centre on the deck
-	if (Ship.Z < SeaEntry.Y - 25.f) { HomeToSarim(TEXT("You sail back into Port Sarim harbour.")); return; }
+	if (Ship.Z < SeaEntry.Y - 25.f) { HomeToSarim(TEXT("You sail back into Saltreach harbour.")); return; }
 	ReloadPort = FMath::Max(0.f, ReloadPort - Dt); ReloadStar = FMath::Max(0.f, ReloadStar - Dt);
 	if (Officer(TEXT("surgeon"))) { RepairT += Dt; if (RepairT >= 2.f) { RepairT = 0.f; if (HullHp < H.Hp) Ship.Hp = ++HullHp; } }
 	// Drowned Crew: close in, turn broadside, fire.

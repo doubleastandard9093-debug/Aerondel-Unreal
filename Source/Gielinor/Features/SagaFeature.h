@@ -7,7 +7,7 @@
 class UMobDef;
 
 /** The Wanderer's Saga (Phase 3): Chronicler Corwin's six-chapter story. Pick a calling (+5% XP in its skills), clear each
- *  chapter's objective (kills or items), answer on the choice wheel; flags come back later (mercy, Varro, Ashford discount),
+ *  chapter's objective (kills or items), answer on the choice wheel; flags come back later (mercy, Varro, Emberfold discount),
  *  chapter 4 tests your follower's bond, and the finale title follows your most-picked tone. */
 UCLASS()
 class GIELINOR_API USagaFeature : public UGielinorFeature

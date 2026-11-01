@@ -109,8 +109,8 @@ void FGielinorPanels::Build(UWorld* W, FName Panel, AActor* Ctx, FGPanelModel& M
 		const FVector L = Pawn ? Pawn->GetActorLocation() : FVector::ZeroVector;
 		M.Title = FString::Printf(TEXT("World map - you are at (%.0f, %.0f)"), L.X / 100.f, L.Y / 100.f);
 		struct FPlace { const TCHAR* Name; float X, Z; };
-		static const FPlace Places[] = { { TEXT("Brightwater"), 0, 0 }, { TEXT("Ashford"), 50, -24 }, { TEXT("Port Sarim"), -80, 60 }, { TEXT("Varrock"), 120, -40 },
-			{ TEXT("Falador"), -60, -80 }, { TEXT("Wellmere"), 40, 90 }, { TEXT("The Wilds"), 122, -122 }, { TEXT("Gullrest"), -70, 960 }, { TEXT("Brineholt"), 80, 1030 }, { TEXT("Wreckers' Reef"), 10, 1120 } };
+		static const FPlace Places[] = { { TEXT("Larkhaven"), 0, 0 }, { TEXT("Emberfold"), 50, -24 }, { TEXT("Saltreach"), -80, 60 }, { TEXT("Highcrest"), 120, -40 },
+			{ TEXT("Whitecairn"), -60, -80 }, { TEXT("Thistlewell"), 40, 90 }, { TEXT("The Wilds"), 122, -122 }, { TEXT("Gullrest"), -70, 960 }, { TEXT("Brineholt"), 80, 1030 }, { TEXT("Wreckers' Reef"), 10, 1120 } };
 		static const TCHAR* Dirs[8] = { TEXT("E"), TEXT("SE"), TEXT("S"), TEXT("SW"), TEXT("W"), TEXT("NW"), TEXT("N"), TEXT("NE") }; // web z grows south
 		auto Line = [&](const FString& N, float X, float Z)
 		{
@@ -185,7 +185,7 @@ void FGielinorPanels::Build(UWorld* W, FName Panel, AActor* Ctx, FGPanelModel& M
 		UHearthFeature* H = Sub<UHearthFeature>(W);
 		M.Title = TEXT("Hearthstead");
 		if (!H) { Close(M); return; }
-		if (!H->HasDeed()) { M.Lines.Add(TEXT("A plot behind Brightwater: 25,000 coins.")); Act(M, TEXT("Buy the deed (25,000 coins)"), [H] { H->BuyDeed(); }); Close(M); return; }
+		if (!H->HasDeed()) { M.Lines.Add(TEXT("A plot behind Larkhaven: 25,000 coins.")); Act(M, TEXT("Buy the deed (25,000 coins)"), [H] { H->BuyDeed(); }); Close(M); return; }
 		struct FR { const TCHAR* Id; const TCHAR* Name; };
 		static const FR Rooms[] = { { TEXT("workshop"), TEXT("Workshop (15k, 20 Oak logs, 10 Iron bars)") }, { TEXT("garden"), TEXT("Herb garden (10k, 20 Logs)") },
 			{ TEXT("trophy"), TEXT("Trophy hall (30k, 10 Steel bars)") }, { TEXT("quarters"), TEXT("Companion quarters (20k, 30 Oak logs)") } };

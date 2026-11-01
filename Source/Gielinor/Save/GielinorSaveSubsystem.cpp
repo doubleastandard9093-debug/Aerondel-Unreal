@@ -12,6 +12,7 @@
 #include "Data/ItemDef.h"
 #include "Data/SkillDef.h"
 #include "Data/QuestDef.h"
+#include "Data/TownRenames.h"
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/Pawn.h"
 #include "Engine/GameInstance.h"
@@ -120,7 +121,7 @@ bool UGielinorSaveSubsystem::LoadInto(AGielinorPlayerState* PS)
 		St->RunEnergy = S->RunEnergy; St->bRunning = S->bRunning; St->Adrenaline = S->Adrenaline;
 		for (const FName& T : S->Toolbelt) St->AddTool(Db->FindItem(T));
 		St->AmmoCount = S->AmmoCount; St->AttackStyle = S->AttackStyle; St->AutocastSpell = S->AutocastSpell; St->bAutoRetaliate = S->bAutoRetaliate;
-		St->AgilityCourse = S->AgilityCourse; St->AgilityNext = S->AgilityNext; St->BountyId = S->BountyId; St->BountyKills = S->BountyKills;
+		St->AgilityCourse = S->Version >= 5 ? S->AgilityCourse : GielinorTowns::MigrateId(S->AgilityCourse); St->AgilityNext = S->AgilityNext; St->BountyId = S->BountyId; St->BountyKills = S->BountyKills;
 		PS->Quests->ClaimedMilestones = S->ClaimedMilestones;
 		PS->Quests->bQuestCapeLegacy = S->bQuestCapeLegacy;
 	}
@@ -143,8 +144,9 @@ bool UGielinorSaveSubsystem::LoadInto(AGielinorPlayerState* PS)
 		F->ResetState();
 		if (const FString* Text = S->Features.Find(F->GetSaveKey()))
 		{
+			const FString Migrated = S->Version >= 5 ? *Text : GielinorTowns::MigrateText(*Text); // v5: town renames
 			TSharedPtr<FJsonObject> J;
-			const TSharedRef<TJsonReader<>> R = TJsonReaderFactory<>::Create(*Text);
+			const TSharedRef<TJsonReader<>> R = TJsonReaderFactory<>::Create(Migrated);
 			if (FJsonSerializer::Deserialize(R, J) && J.IsValid()) F->LoadState(*J);
 		}
 	}

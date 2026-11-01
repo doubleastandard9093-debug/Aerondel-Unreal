@@ -1,6 +1,6 @@
 """
 Gielinor > Build Starter Town
-Greybox of Brightwater from basic shapes (same layout as the Unity StarterTownBuilder, metres -> cm):
+Greybox of Larkhaven from basic shapes (same layout as the Unity StarterTownBuilder, metres -> cm):
 bank, smithy (furnace + anvil) and general store (range) with interiors, solid walls and door-only gaps
 with hinged doors; trees, oaks, copper/tin/iron rocks, a pond with a fishing spot, NPCs, cows, goblins,
 NavMeshBoundsVolume, sun/sky/skylight/fog, PlayerStart. Saved to /Game/Gielinor/Maps/StarterTown.
@@ -213,7 +213,7 @@ def run():
         unreal.log_error("[Gielinor] Could not create " + MAP)
         return
 
-    with unreal.ScopedSlowTask(6, "Gielinor: building Brightwater") as task:
+    with unreal.ScopedSlowTask(6, "Gielinor: building Larkhaven") as task:
         task.make_dialog(True)
         task.enter_progress_frame(1, "Environment")
         environment()

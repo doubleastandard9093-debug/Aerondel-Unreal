@@ -153,7 +153,7 @@ void AGielinorHUD::DrawPadMenu(AGielinorPlayerState* PS)
 	{
 		Line(FString::Printf(TEXT("World map - you are at (%.0f, %.0f)"), L.X / 100.f, L.Y / 100.f), Gold);
 		struct FPlace { const TCHAR* Name; float X, Z; };
-		static const FPlace Places[] = { { TEXT("Lumbridge"), 0, 0 }, { TEXT("Wellmere"), 40, 90 }, { TEXT("Port Sarim docks"), -80, 76 },
+		static const FPlace Places[] = { { TEXT("Larkhaven"), 0, 0 }, { TEXT("Thistlewell"), 40, 90 }, { TEXT("Saltreach docks"), -80, 76 },
 			{ TEXT("The Wilds"), 122, -122 }, { TEXT("Siege fort"), -1000, -640 }, { TEXT("Brineholt"), 80, 1030 } };
 		for (const FPlace& Pl : Places)
 		{

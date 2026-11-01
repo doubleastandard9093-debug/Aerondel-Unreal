@@ -19,11 +19,11 @@ namespace TongueData
 		{ TEXT("aldo_giant"), ETongueCheck::Intimidate, 40, TEXT("Tell Aldo the giant is worth more than he offers") },
 		{ TEXT("mara_silk"), ETongueCheck::Lie, 35, TEXT("Say the spiders took your last pair of gloves") },
 		{ TEXT("grell_hound"), ETongueCheck::Persuade, 40, TEXT("Promise Grell you will look after the hound") },
-		{ TEXT("red_grog"), ETongueCheck::Intimidate, 35, TEXT("Stare down Redbeard over the price of grog") },
+		{ TEXT("red_grog"), ETongueCheck::Intimidate, 35, TEXT("Stare down Saltbeard over the price of grog") },
 		{ TEXT("red_crew"), ETongueCheck::Lie, 50, TEXT("Pretend to be a navy recruiter to rattle the press gang") },
-		{ TEXT("wydin_spice"), ETongueCheck::Persuade, 40, TEXT("Win a merchant's discount from Wydin") },
+		{ TEXT("wydin_spice"), ETongueCheck::Persuade, 40, TEXT("Win a merchant's discount from Wendric") },
 		{ TEXT("brice_customs"), ETongueCheck::Lie, 55, TEXT("Bluff the customs ledger in your favour") },
-		{ TEXT("thurgo_steel"), ETongueCheck::Persuade, 50, TEXT("Flatter Thurgo's smithing until he adds a bar") },
+		{ TEXT("thurgo_steel"), ETongueCheck::Persuade, 50, TEXT("Flatter Durgan's smithing until he adds a bar") },
 		{ TEXT("velma_brew"), ETongueCheck::Intimidate, 55, TEXT("Refuse to drink anything until she pays first") } };
 	static const TCHAR* Skill(ETongueCheck K) { return K == ETongueCheck::Persuade ? TEXT("Prayer") : K == ETongueCheck::Lie ? TEXT("Thieving") : TEXT("Strength"); }
 	static EWheelTone Tone(ETongueCheck K) { return K == ETongueCheck::Persuade ? EWheelTone::Kind : K == ETongueCheck::Lie ? EWheelTone::Cunning : EWheelTone::Firm; }

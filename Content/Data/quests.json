@@ -2,7 +2,7 @@
  "quests": [
   {
    "id": "cook",
-   "name": "Cook's Assistant",
+   "name": "A Cake for the Lark Fair",
    "giver": "cook",
    "points": 1,
    "start": "Talk to the Cook in the cookhouse, south-west of the town square.",
@@ -18,7 +18,7 @@
      "burnLess": 0.05
     }
    },
-   "town": "Brightwater",
+   "town": "Larkhaven",
    "diff": "Novice"
   },
   {
@@ -39,15 +39,15 @@
      "ppRegen": 0.02
     }
    },
-   "town": "Brightwater",
+   "town": "Larkhaven",
    "diff": "Novice"
   },
   {
    "id": "doric",
-   "name": "Doric's Quest",
+   "name": "Bruna's Ore Order",
    "giver": "doric",
    "points": 1,
-   "start": "Talk to Doric at the smithy, south-east of the town square.",
+   "start": "Talk to Bruna at the smithy, south-east of the town square.",
    "rewards": [
     "400 Mining XP",
     "180 coins",
@@ -60,7 +60,7 @@
      "xp.Smithing": 0.05
     }
    },
-   "town": "Brightwater",
+   "town": "Larkhaven",
    "diff": "Novice"
   },
   {
@@ -82,7 +82,7 @@
      "maxHp": 20
     }
    },
-   "town": "Brightwater",
+   "town": "Larkhaven",
    "diff": "Intermediate"
   },
   {
@@ -104,7 +104,7 @@
      "shopDiscount": 0.05
     }
    },
-   "town": "Brightwater",
+   "town": "Larkhaven",
    "diff": "Novice"
   },
   {
@@ -112,7 +112,7 @@
    "name": "Tools of the Trade",
    "giver": "bob",
    "points": 1,
-   "start": "Talk to Bob at Bob's Brilliant Tools, north-east of the square.",
+   "start": "Talk to Tobin at Tobin's Trusty Tools, north-east of the square.",
    "rewards": [
     "300 Smithing XP",
     "300 Woodcutting XP",
@@ -124,7 +124,7 @@
      "gather": 0.03
     }
    },
-   "town": "Brightwater",
+   "town": "Larkhaven",
    "diff": "Novice"
   },
   {
@@ -145,7 +145,7 @@
      "xp.Fletching": 0.05
     }
    },
-   "town": "Brightwater",
+   "town": "Larkhaven",
    "diff": "Novice"
   },
   {
@@ -165,7 +165,7 @@
      "dmgVs.Dark Archer": 0.1
     }
    },
-   "town": "Brightwater",
+   "town": "Larkhaven",
    "diff": "Novice"
   },
   {
@@ -173,7 +173,7 @@
    "name": "Knight's Honour",
    "giver": "knight",
    "points": 2,
-   "start": "Talk to Sir Vyvin on the north road, past the church.",
+   "start": "Talk to Sir Calder on the north road, past the church.",
    "rewards": [
     "1000 Defence XP",
     "500 Attack XP",
@@ -187,7 +187,7 @@
      "dmgVs.Black Knight": 0.1
     }
    },
-   "town": "Brightwater",
+   "town": "Larkhaven",
    "diff": "Intermediate"
   },
   {
@@ -207,15 +207,15 @@
      "xp.Fishing": 0.05
     }
    },
-   "town": "Brightwater",
+   "town": "Larkhaven",
    "diff": "Novice"
   },
   {
    "id": "ashford_help",
-   "name": "Ashford's Plea",
+   "name": "Emberfold's Plea",
    "giver": "mayor",
    "points": 1,
-   "start": "Talk to Mayor Aldric in Ashford, far to the east.",
+   "start": "Talk to Mayor Aldric in Emberfold, far to the east.",
    "rewards": [
     "2000 XP in any skill",
     "1000 coins",
@@ -227,7 +227,7 @@
      "xp.*": 0.03
     }
    },
-   "town": "Ashford",
+   "town": "Emberfold",
    "diff": "Novice"
   },
   {
@@ -235,7 +235,7 @@
    "name": "Guard Duty",
    "giver": "guard2",
    "points": 1,
-   "start": "Talk to Guard Captain Ryn in Ashford.",
+   "start": "Talk to Guard Captain Ryn in Emberfold.",
    "rewards": [
     "2500 Attack XP",
     "2500 Strength XP",
@@ -247,7 +247,7 @@
      "dmgVs.Goblin": 0.05
     }
    },
-   "town": "Ashford",
+   "town": "Emberfold",
    "diff": "Novice"
   },
   {
@@ -255,7 +255,7 @@
    "name": "Herb Gathering",
    "giver": "herbalist",
    "points": 1,
-   "start": "Talk to Herbalist Wren near Ashford.",
+   "start": "Talk to Herbalist Wren near Emberfold.",
    "rewards": [
     "1800 Crafting XP",
     "800 coins",
@@ -267,7 +267,7 @@
      "xp.Crafting": 0.05
     }
    },
-   "town": "Ashford",
+   "town": "Emberfold",
    "diff": "Novice"
   },
   {
@@ -275,7 +275,7 @@
    "name": "Torin's Order",
    "giver": "smith2",
    "points": 1,
-   "start": "Talk to Smith Torin in Ashford Smithy.",
+   "start": "Talk to Smith Torin in Emberfold Smithy.",
    "rewards": [
     "2000 Smithing XP",
     "1200 coins",
@@ -287,7 +287,7 @@
      "xp.Smithing": 0.05
     }
    },
-   "town": "Ashford",
+   "town": "Emberfold",
    "diff": "Novice"
   },
   {
@@ -295,7 +295,7 @@
    "name": "Eastern Feast",
    "giver": "cook2",
    "points": 1,
-   "start": "Talk to Chef Bran in Ashford.",
+   "start": "Talk to Chef Bran in Emberfold.",
    "rewards": [
     "1500 Cooking XP",
     "600 coins",
@@ -307,7 +307,7 @@
      "xp.Cooking": 0.05
     }
    },
-   "town": "Ashford",
+   "town": "Emberfold",
    "diff": "Novice"
   },
   {
@@ -315,7 +315,7 @@
    "name": "Scout's Report",
    "giver": "ranger2",
    "points": 1,
-   "start": "Talk to Scout Vey near Ashford.",
+   "start": "Talk to Scout Vey near Emberfold.",
    "rewards": [
     "2200 Ranged XP",
     "900 coins",
@@ -327,7 +327,7 @@
      "rmaxHit": 2
     }
    },
-   "town": "Ashford",
+   "town": "Emberfold",
    "diff": "Novice"
   },
   {
@@ -347,7 +347,7 @@
      "gather": 0.03
     }
    },
-   "town": "Ashford",
+   "town": "Emberfold",
    "diff": "Novice"
   },
   {
@@ -355,7 +355,7 @@
    "name": "Rest for the East",
    "giver": "priest2",
    "points": 1,
-   "start": "Talk to Sister Lira in Ashford.",
+   "start": "Talk to Sister Lira in Emberfold.",
    "rewards": [
     "1500 Prayer XP",
     "500 coins",
@@ -367,7 +367,7 @@
      "drainLess": 0.03
     }
    },
-   "town": "Ashford",
+   "town": "Emberfold",
    "diff": "Novice"
   },
   {
@@ -375,7 +375,7 @@
    "name": "Supply the Store",
    "giver": "merchant2",
    "points": 1,
-   "start": "Talk to Trader Mira in Ashford Store.",
+   "start": "Talk to Trader Mira in Emberfold Store.",
    "rewards": [
     "1200 Fletching XP",
     "1500 coins",
@@ -387,7 +387,7 @@
      "sellBonus": 0.05
     }
    },
-   "town": "Ashford",
+   "town": "Emberfold",
    "diff": "Novice"
   },
   {
@@ -395,7 +395,7 @@
    "name": "Eastern Honour",
    "giver": "knight2",
    "points": 2,
-   "start": "Talk to Sir Elric near Ashford.",
+   "start": "Talk to Sir Elric near Emberfold.",
    "rewards": [
     "3000 Defence XP",
     "2000 Attack XP",
@@ -407,7 +407,7 @@
      "dr": 0.02
     }
    },
-   "town": "Ashford",
+   "town": "Emberfold",
    "diff": "Intermediate"
   },
   {
@@ -415,7 +415,7 @@
    "name": "Tess's Catch",
    "giver": "angler",
    "points": 1,
-   "start": "Talk to Angler Tess near Ashford.",
+   "start": "Talk to Angler Tess near Emberfold.",
    "rewards": [
     "1600 Fishing XP",
     "600 coins",
@@ -427,7 +427,7 @@
      "xp.Fishing": 0.05
     }
    },
-   "town": "Ashford",
+   "town": "Emberfold",
    "diff": "Novice"
   },
   {
@@ -435,7 +435,7 @@
    "name": "Olan's Timber",
    "giver": "carpenter",
    "points": 1,
-   "start": "Talk to Carpenter Olan in Ashford.",
+   "start": "Talk to Carpenter Olan in Emberfold.",
    "rewards": [
     "1400 Woodcutting XP",
     "500 coins",
@@ -447,20 +447,20 @@
      "gather": 0.03
     }
    },
-   "town": "Ashford",
+   "town": "Emberfold",
    "diff": "Novice"
   },
   {
    "id": "hilda_pie",
    "name": "Granny's Pie",
    "giver": "hilda",
-   "town": "Brightwater",
+   "town": "Larkhaven",
    "diff": "Novice",
    "points": 1,
    "data": {
     "id": "hilda_pie",
     "name": "Granny's Pie",
-    "town": "Brightwater",
+    "town": "Larkhaven",
     "giver": "hilda",
     "where": "by her cottage west of the town square",
     "diff": "Novice",
@@ -512,13 +512,13 @@
    "id": "hilda_knit",
    "name": "Wool for Winter",
    "giver": "hilda",
-   "town": "Brightwater",
+   "town": "Larkhaven",
    "diff": "Novice",
    "points": 1,
    "data": {
     "id": "hilda_knit",
     "name": "Wool for Winter",
-    "town": "Brightwater",
+    "town": "Larkhaven",
     "giver": "hilda",
     "where": "by her cottage west of the town square",
     "diff": "Novice",
@@ -585,13 +585,13 @@
    "id": "pip_pockets",
    "name": "Pip's Pockets",
    "giver": "pip",
-   "town": "Brightwater",
+   "town": "Larkhaven",
    "diff": "Novice",
    "points": 1,
    "data": {
     "id": "pip_pockets",
     "name": "Pip's Pockets",
-    "town": "Brightwater",
+    "town": "Larkhaven",
     "giver": "pip",
     "where": "east of the town square",
     "diff": "Novice",
@@ -643,13 +643,13 @@
    "id": "pip_docks",
    "name": "Light Fingers",
    "giver": "pip",
-   "town": "Brightwater",
+   "town": "Larkhaven",
    "diff": "Intermediate",
    "points": 1,
    "data": {
     "id": "pip_docks",
     "name": "Light Fingers",
-    "town": "Brightwater",
+    "town": "Larkhaven",
     "giver": "pip",
     "where": "east of the town square",
     "diff": "Intermediate",
@@ -663,7 +663,7 @@
      }
     },
     "intro": [
-     "Word is the sailors in Port Sarim carry foreign coin.",
+     "Word is the sailors in Saltreach carry foreign coin.",
      "Go west to the docks, ask a sailor about the 'night tide', and practise your craft on the way."
     ],
     "steps": [
@@ -674,7 +674,7 @@
      {
       "t": "talk",
       "npc": "sailor",
-      "where": "at the Port Sarim docks",
+      "where": "at the Saltreach docks",
       "say": [
        "The night tide? Hah. Pip sent you, didn't he?",
        "Tell that rascal the ship sails without him. Here, keep your hands off my purse."
@@ -720,13 +720,13 @@
    "id": "osric_graves",
    "name": "Unquiet Graves",
    "giver": "osric",
-   "town": "Brightwater",
+   "town": "Larkhaven",
    "diff": "Novice",
    "points": 1,
    "data": {
     "id": "osric_graves",
     "name": "Unquiet Graves",
-    "town": "Brightwater",
+    "town": "Larkhaven",
     "giver": "osric",
     "where": "north-west of the town square",
     "diff": "Novice",
@@ -779,13 +779,13 @@
    "id": "osric_bones",
    "name": "Rattling Bones",
    "giver": "osric",
-   "town": "Brightwater",
+   "town": "Larkhaven",
    "diff": "Intermediate",
    "points": 1,
    "data": {
     "id": "osric_bones",
     "name": "Rattling Bones",
-    "town": "Brightwater",
+    "town": "Larkhaven",
     "giver": "osric",
     "where": "north-west of the town square",
     "diff": "Intermediate",
@@ -852,19 +852,19 @@
    "id": "lena_lamps",
    "name": "Lamplighter",
    "giver": "lena",
-   "town": "Brightwater",
+   "town": "Larkhaven",
    "diff": "Novice",
    "points": 1,
    "data": {
     "id": "lena_lamps",
     "name": "Lamplighter",
-    "town": "Brightwater",
+    "town": "Larkhaven",
     "giver": "lena",
     "where": "east of the town square",
     "diff": "Novice",
     "points": 1,
     "intro": [
-     "Brightwater's lamps burn wood all night, and my woodpile is empty.",
+     "Larkhaven's lamps burn wood all night, and my woodpile is empty.",
      "Bring me 10 Logs and 5 Oak logs?"
     ],
     "steps": [
@@ -886,7 +886,7 @@
       "xp.Woodcutting": 0.02
      }
     },
-    "end": "Brightwater will shine tonight! Thank you.",
+    "end": "Larkhaven will shine tonight! Thank you.",
     "thanks": "Every lamp is lit."
    },
    "start": "Talk to Lena the Lamplighter east of the town square.",
@@ -905,13 +905,13 @@
    "id": "lena_dark",
    "name": "Into the Dark Wood",
    "giver": "lena",
-   "town": "Brightwater",
+   "town": "Larkhaven",
    "diff": "Intermediate",
    "points": 1,
    "data": {
     "id": "lena_dark",
     "name": "Into the Dark Wood",
-    "town": "Brightwater",
+    "town": "Larkhaven",
     "giver": "lena",
     "where": "east of the town square",
     "diff": "Intermediate",
@@ -972,13 +972,13 @@
    "id": "bram_brew",
    "name": "Brewer's Errand",
    "giver": "bram",
-   "town": "Brightwater",
+   "town": "Larkhaven",
    "diff": "Novice",
    "points": 1,
    "data": {
     "id": "bram_brew",
     "name": "Brewer's Errand",
-    "town": "Brightwater",
+    "town": "Larkhaven",
     "giver": "bram",
     "where": "west of the town square",
     "diff": "Novice",
@@ -1027,13 +1027,13 @@
    "id": "bram_tonic",
    "name": "Bram's Tonic",
    "giver": "bram",
-   "town": "Brightwater",
+   "town": "Larkhaven",
    "diff": "Intermediate",
    "points": 1,
    "data": {
     "id": "bram_tonic",
     "name": "Bram's Tonic",
-    "town": "Brightwater",
+    "town": "Larkhaven",
     "giver": "bram",
     "where": "west of the town square",
     "diff": "Intermediate",
@@ -1088,20 +1088,20 @@
    "id": "tamsin_runes",
    "name": "Runic Studies",
    "giver": "tamsin",
-   "town": "Brightwater",
+   "town": "Larkhaven",
    "diff": "Novice",
    "points": 1,
    "data": {
     "id": "tamsin_runes",
     "name": "Runic Studies",
-    "town": "Brightwater",
+    "town": "Larkhaven",
     "giver": "tamsin",
     "where": "on the south road near the wizard tower",
     "diff": "Novice",
     "points": 1,
     "intro": [
      "I'm writing a book on runes, but I've never seen one being made!",
-     "Visit the Air altar south-west of town, craft some runes there and bring me 10 Air runes. Rune essence comes from Aubury in Varrock or the essence mine."
+     "Visit the Air altar south-west of town, craft some runes there and bring me 10 Air runes. Rune essence comes from Orrin in Highcrest or the essence mine."
     ],
     "steps": [
      {
@@ -1154,13 +1154,13 @@
    "id": "tamsin_tower",
    "name": "The Wizard's Student",
    "giver": "tamsin",
-   "town": "Brightwater",
+   "town": "Larkhaven",
    "diff": "Intermediate",
    "points": 1,
    "data": {
     "id": "tamsin_tower",
     "name": "The Wizard's Student",
-    "town": "Brightwater",
+    "town": "Larkhaven",
     "giver": "tamsin",
     "where": "on the south road near the wizard tower",
     "diff": "Intermediate",
@@ -1229,13 +1229,13 @@
    "id": "aldo_tales",
    "name": "An Old Soldier",
    "giver": "aldo",
-   "town": "Brightwater",
+   "town": "Larkhaven",
    "diff": "Novice",
    "points": 1,
    "data": {
     "id": "aldo_tales",
     "name": "An Old Soldier",
-    "town": "Brightwater",
+    "town": "Larkhaven",
     "giver": "aldo",
     "where": "south-east of the town square",
     "diff": "Novice",
@@ -1287,13 +1287,13 @@
    "id": "aldo_giant",
    "name": "Giant Slayer",
    "giver": "aldo",
-   "town": "Brightwater",
+   "town": "Larkhaven",
    "diff": "Experienced",
    "points": 2,
    "data": {
     "id": "aldo_giant",
     "name": "Giant Slayer",
-    "town": "Brightwater",
+    "town": "Larkhaven",
     "giver": "aldo",
     "where": "south-east of the town square",
     "diff": "Experienced",
@@ -1362,13 +1362,13 @@
    "id": "aldo_outpost",
    "name": "The Black Outpost",
    "giver": "aldo",
-   "town": "Brightwater",
+   "town": "Larkhaven",
    "diff": "Experienced",
    "points": 2,
    "data": {
     "id": "aldo_outpost",
     "name": "The Black Outpost",
-    "town": "Brightwater",
+    "town": "Larkhaven",
     "giver": "aldo",
     "where": "south-east of the town square",
     "diff": "Experienced",
@@ -1382,7 +1382,7 @@
      }
     },
     "intro": [
-     "The Black Knights have built an outpost north of town. Sir Vyvin's too proud to ask for help.",
+     "The Black Knights have built an outpost north of town. Sir Calder's too proud to ask for help.",
      "Scout it, defeat 5 knights and bring a Steel platebody for the town militia."
     ],
     "steps": [
@@ -1437,13 +1437,13 @@
    "id": "mara_silk",
    "name": "Spider Silk",
    "giver": "mara",
-   "town": "Brightwater",
+   "town": "Larkhaven",
    "diff": "Intermediate",
    "points": 1,
    "data": {
     "id": "mara_silk",
     "name": "Spider Silk",
-    "town": "Brightwater",
+    "town": "Larkhaven",
     "giver": "mara",
     "where": "north-west of the square",
     "diff": "Intermediate",
@@ -1491,7 +1491,7 @@
      }
     },
     "end": "Silk and leather! I'll make the finest cloaks in the land.",
-    "thanks": "My cloaks sell all the way to Varrock."
+    "thanks": "My cloaks sell all the way to Highcrest."
    },
    "start": "Talk to Mara the Weaver north-west of the square.",
    "rewards": [
@@ -1510,13 +1510,13 @@
    "id": "dell_rooftop",
    "name": "Rooftop Runner",
    "giver": "dell",
-   "town": "Brightwater",
+   "town": "Larkhaven",
    "diff": "Novice",
    "points": 1,
    "data": {
     "id": "dell_rooftop",
     "name": "Rooftop Runner",
-    "town": "Brightwater",
+    "town": "Larkhaven",
     "giver": "dell",
     "where": "at the agility course south-east of town",
     "diff": "Novice",
@@ -1568,13 +1568,13 @@
    "id": "dell_wall",
    "name": "Over the Wall",
    "giver": "dell",
-   "town": "Brightwater",
+   "town": "Larkhaven",
    "diff": "Intermediate",
    "points": 1,
    "data": {
     "id": "dell_wall",
     "name": "Over the Wall",
-    "town": "Brightwater",
+    "town": "Larkhaven",
     "giver": "dell",
     "where": "at the agility course south-east of town",
     "diff": "Intermediate",
@@ -1588,8 +1588,8 @@
      }
     },
     "intro": [
-     "My old rival runs the course in Varrock. Go see it, and train until you're better than his students.",
-     "Visit the Varrock course and earn 2500 Agility XP anywhere."
+     "My old rival runs the course in Highcrest. Go see it, and train until you're better than his students.",
+     "Visit the Highcrest course and earn 2500 Agility XP anywhere."
     ],
     "steps": [
      {
@@ -1616,7 +1616,7 @@
      }
     },
     "end": "Better than his whole class! Ha! Take these.",
-    "thanks": "Brightwater's fastest, that's you."
+    "thanks": "Larkhaven's fastest, that's you."
    },
    "start": "Talk to Coach Dell at the agility course south-east of town.",
    "rewards": [
@@ -1642,7 +1642,7 @@
     "name": "The Hermit's Hound",
     "town": "Wilds",
     "giver": "grell",
-    "where": "in the wilds north-west of Brightwater",
+    "where": "in the wilds north-west of Larkhaven",
     "diff": "Intermediate",
     "points": 1,
     "intro": [
@@ -1676,7 +1676,7 @@
     "end": "A pup came sniffing for the beef already! Thank you, friend.",
     "thanks": "Little Biscuit says woof."
    },
-   "start": "Talk to Hermit Grell in the wilds north-west of Brightwater.",
+   "start": "Talk to Hermit Grell in the wilds north-west of Larkhaven.",
    "rewards": [
     "3000 Hitpoints XP",
     "2000 Strength XP",
@@ -1701,7 +1701,7 @@
     "name": "Grell's Ward",
     "town": "Wilds",
     "giver": "grell",
-    "where": "in the wilds north-west of Brightwater",
+    "where": "in the wilds north-west of Larkhaven",
     "diff": "Experienced",
     "points": 2,
     "req": {
@@ -1746,7 +1746,7 @@
     "end": "I can feel the ward holding. Take these potions.",
     "thanks": "Biscuit and I sleep soundly now."
    },
-   "start": "Talk to Hermit Grell in the wilds north-west of Brightwater.",
+   "start": "Talk to Hermit Grell in the wilds north-west of Larkhaven.",
    "rewards": [
     "9000 Prayer XP",
     "3 x Prayer potion"
@@ -1762,15 +1762,15 @@
    "id": "red_grog",
    "name": "Pirate's Grog",
    "giver": "redbeard",
-   "town": "Port Sarim",
+   "town": "Saltreach",
    "diff": "Novice",
    "points": 1,
    "data": {
     "id": "red_grog",
     "name": "Pirate's Grog",
-    "town": "Port Sarim",
+    "town": "Saltreach",
     "giver": "redbeard",
-    "where": "on the Port Sarim docks",
+    "where": "on the Saltreach docks",
     "diff": "Novice",
     "points": 1,
     "intro": [
@@ -1799,7 +1799,7 @@
     "end": "Har har! A feast fit for buccaneers.",
     "thanks": "The crew sings yer name, matey."
    },
-   "start": "Talk to Captain Redbeard on the Port Sarim docks.",
+   "start": "Talk to Captain Saltbeard on the Saltreach docks.",
    "rewards": [
     "1200 Cooking XP",
     "500 coins"
@@ -1815,15 +1815,15 @@
    "id": "red_map",
    "name": "Treasure of the Tides",
    "giver": "redbeard",
-   "town": "Port Sarim",
+   "town": "Saltreach",
    "diff": "Intermediate",
    "points": 1,
    "data": {
     "id": "red_map",
     "name": "Treasure of the Tides",
-    "town": "Port Sarim",
+    "town": "Saltreach",
     "giver": "redbeard",
-    "where": "on the Port Sarim docks",
+    "where": "on the Saltreach docks",
     "diff": "Intermediate",
     "points": 1,
     "req": {
@@ -1844,7 +1844,7 @@
       "npc": "sailor",
       "where": "by the docks",
       "say": [
-       "A map? Aye, I nicked it. Don't tell Redbeard!",
+       "A map? Aye, I nicked it. Don't tell Saltbeard!",
        "I sold it on, but I remember: the X is under the willows west of town."
       ]
      },
@@ -1882,7 +1882,7 @@
     "end": "Me treasure! And ye didn't even keep it. Take me old cutlass, ye've earned it.",
     "thanks": "Ye'd make a fine pirate."
    },
-   "start": "Talk to Captain Redbeard on the Port Sarim docks.",
+   "start": "Talk to Captain Saltbeard on the Saltreach docks.",
    "rewards": [
     "3000 Thieving XP",
     "2000 Woodcutting XP",
@@ -1900,15 +1900,15 @@
    "id": "red_crew",
    "name": "Press Gang",
    "giver": "redbeard",
-   "town": "Port Sarim",
+   "town": "Saltreach",
    "diff": "Experienced",
    "points": 2,
    "data": {
     "id": "red_crew",
     "name": "Press Gang",
-    "town": "Port Sarim",
+    "town": "Saltreach",
     "giver": "redbeard",
-    "where": "on the Port Sarim docks",
+    "where": "on the Saltreach docks",
     "diff": "Experienced",
     "points": 2,
     "req": {
@@ -1955,7 +1955,7 @@
     "end": "That'll teach 'em! Me crew is armed and ready.",
     "thanks": "The wagons roll safe now."
    },
-   "start": "Talk to Captain Redbeard on the Port Sarim docks.",
+   "start": "Talk to Captain Saltbeard on the Saltreach docks.",
    "rewards": [
     "9000 Attack XP",
     "6000 Strength XP",
@@ -1973,15 +1973,15 @@
    "id": "wydin_stock",
    "name": "Grocer's Stock",
    "giver": "wydin",
-   "town": "Port Sarim",
+   "town": "Saltreach",
    "diff": "Novice",
    "points": 1,
    "data": {
     "id": "wydin_stock",
     "name": "Grocer's Stock",
-    "town": "Port Sarim",
+    "town": "Saltreach",
     "giver": "wydin",
-    "where": "at his stall in Port Sarim",
+    "where": "at his stall in Saltreach",
     "diff": "Novice",
     "points": 1,
     "intro": [
@@ -2010,7 +2010,7 @@
     "end": "Fresh as the sea breeze. Thank you!",
     "thanks": "Business is booming."
    },
-   "start": "Talk to Wydin the Grocer at his stall in Port Sarim.",
+   "start": "Talk to Wendric the Grocer at his stall in Saltreach.",
    "rewards": [
     "1200 Fishing XP",
     "400 coins"
@@ -2026,15 +2026,15 @@
    "id": "wydin_spice",
    "name": "Exotic Spices",
    "giver": "wydin",
-   "town": "Port Sarim",
+   "town": "Saltreach",
    "diff": "Intermediate",
    "points": 1,
    "data": {
     "id": "wydin_spice",
     "name": "Exotic Spices",
-    "town": "Port Sarim",
+    "town": "Saltreach",
     "giver": "wydin",
-    "where": "at his stall in Port Sarim",
+    "where": "at his stall in Saltreach",
     "diff": "Intermediate",
     "points": 1,
     "req": {
@@ -2073,7 +2073,7 @@
     "end": "What an aroma! Take these potions, they're good for long voyages.",
     "thanks": "My spiced fish is famous now."
    },
-   "start": "Talk to Wydin the Grocer at his stall in Port Sarim.",
+   "start": "Talk to Wendric the Grocer at his stall in Saltreach.",
    "rewards": [
     "3000 Herblore XP",
     "3 x Energy potion"
@@ -2089,15 +2089,15 @@
    "id": "gerda_nets",
    "name": "Mending Nets",
    "giver": "gerda",
-   "town": "Port Sarim",
+   "town": "Saltreach",
    "diff": "Novice",
    "points": 1,
    "data": {
     "id": "gerda_nets",
     "name": "Mending Nets",
-    "town": "Port Sarim",
+    "town": "Saltreach",
     "giver": "gerda",
-    "where": "by the nets on the Port Sarim waterfront",
+    "where": "by the nets on the Saltreach waterfront",
     "diff": "Novice",
     "points": 1,
     "intro": [
@@ -2132,7 +2132,7 @@
     "end": "Good as new, and you've the hands of a fisher. Off with you!",
     "thanks": "Not a hole in them."
    },
-   "start": "Talk to Net-mender Gerda by the nets on the Port Sarim waterfront.",
+   "start": "Talk to Net-mender Gerda by the nets on the Saltreach waterfront.",
    "rewards": [
     "1000 Crafting XP",
     "1000 Fishing XP",
@@ -2149,15 +2149,15 @@
    "id": "gerda_deep",
    "name": "Deep Water",
    "giver": "gerda",
-   "town": "Port Sarim",
+   "town": "Saltreach",
    "diff": "Intermediate",
    "points": 1,
    "data": {
     "id": "gerda_deep",
     "name": "Deep Water",
-    "town": "Port Sarim",
+    "town": "Saltreach",
     "giver": "gerda",
-    "where": "by the nets on the Port Sarim waterfront",
+    "where": "by the nets on the Saltreach waterfront",
     "diff": "Intermediate",
     "points": 1,
     "req": {
@@ -2196,7 +2196,7 @@
     "end": "Beauties! This ring was my mother's. It'll bring you luck.",
     "thanks": "The harbour is fed."
    },
-   "start": "Talk to Net-mender Gerda by the nets on the Port Sarim waterfront.",
+   "start": "Talk to Net-mender Gerda by the nets on the Saltreach waterfront.",
    "rewards": [
     "5000 Fishing XP",
     "Angler's ring"
@@ -2212,15 +2212,15 @@
    "id": "gerda_shark",
    "name": "The Big One",
    "giver": "gerda",
-   "town": "Port Sarim",
+   "town": "Saltreach",
    "diff": "Master",
    "points": 3,
    "data": {
     "id": "gerda_shark",
     "name": "The Big One",
-    "town": "Port Sarim",
+    "town": "Saltreach",
     "giver": "gerda",
-    "where": "by the nets on the Port Sarim waterfront",
+    "where": "by the nets on the Saltreach waterfront",
     "diff": "Master",
     "points": 3,
     "req": {
@@ -2267,7 +2267,7 @@
     "end": "At last! The port will talk of this for years. Take some shark for the road.",
     "thanks": "I can retire happy."
    },
-   "start": "Talk to Net-mender Gerda by the nets on the Port Sarim waterfront.",
+   "start": "Talk to Net-mender Gerda by the nets on the Saltreach waterfront.",
    "rewards": [
     "20000 Fishing XP",
     "12000 Cooking XP",
@@ -2285,15 +2285,15 @@
    "id": "brice_cargo",
    "name": "Lost Cargo",
    "giver": "brice",
-   "town": "Port Sarim",
+   "town": "Saltreach",
    "diff": "Novice",
    "points": 1,
    "data": {
     "id": "brice_cargo",
     "name": "Lost Cargo",
-    "town": "Port Sarim",
+    "town": "Saltreach",
     "giver": "brice",
-    "where": "at the Port Sarim harbour office",
+    "where": "at the Saltreach harbour office",
     "diff": "Novice",
     "points": 1,
     "intro": [
@@ -2308,7 +2308,7 @@
      {
       "t": "talk",
       "npc": "gerrant",
-      "where": "in his shop in Port Sarim",
+      "where": "in his shop in Saltreach",
       "say": [
        "Brice's crate? It fell off the dock, I saw it sink!",
        "Logs and iron ore, it was. Replace it and he'll never know."
@@ -2336,7 +2336,7 @@
     "end": "All present and correct. The paperwork is happy.",
     "thanks": "The ledgers balance."
    },
-   "start": "Talk to Harbourmaster Brice at the Port Sarim harbour office.",
+   "start": "Talk to Harbourmaster Brice at the Saltreach harbour office.",
    "rewards": [
     "1000 Strength XP",
     "800 Mining XP",
@@ -2353,15 +2353,15 @@
    "id": "brice_ropes",
    "name": "Learning the Ropes",
    "giver": "brice",
-   "town": "Port Sarim",
+   "town": "Saltreach",
    "diff": "Intermediate",
    "points": 1,
    "data": {
     "id": "brice_ropes",
     "name": "Learning the Ropes",
-    "town": "Port Sarim",
+    "town": "Saltreach",
     "giver": "brice",
-    "where": "at the Port Sarim harbour office",
+    "where": "at the Saltreach harbour office",
     "diff": "Intermediate",
     "points": 1,
     "req": {
@@ -2401,7 +2401,7 @@
     "end": "The lads say you climb like a cat. Good work.",
     "thanks": "The rigging's never been tidier."
    },
-   "start": "Talk to Harbourmaster Brice at the Port Sarim harbour office.",
+   "start": "Talk to Harbourmaster Brice at the Saltreach harbour office.",
    "rewards": [
     "5000 Agility XP",
     "1500 coins"
@@ -2417,15 +2417,15 @@
    "id": "brice_customs",
    "name": "Customs and Excise",
    "giver": "brice",
-   "town": "Port Sarim",
+   "town": "Saltreach",
    "diff": "Experienced",
    "points": 2,
    "data": {
     "id": "brice_customs",
     "name": "Customs and Excise",
-    "town": "Port Sarim",
+    "town": "Saltreach",
     "giver": "brice",
-    "where": "at the Port Sarim harbour office",
+    "where": "at the Saltreach harbour office",
     "diff": "Experienced",
     "points": 2,
     "req": {
@@ -2438,7 +2438,7 @@
     },
     "intro": [
      "Someone is smuggling chaos runes through my harbour.",
-     "Lift a few purses for evidence, ask Betty what she knows, then find where the runes are made."
+     "Lift a few purses for evidence, ask Odessa what she knows, then find where the runes are made."
     ],
     "steps": [
      {
@@ -2450,7 +2450,7 @@
      {
       "t": "talk",
       "npc": "betty",
-      "where": "in her magic shop in Port Sarim",
+      "where": "in her magic shop in Saltreach",
       "say": [
        "Chaos runes? Not from my shop, dear.",
        "They're made at the dark altar south-east of town, past the bandits. Be careful."
@@ -2478,7 +2478,7 @@
     "end": "The Chaos altar! I'll post guards. Keep these confiscated runes.",
     "thanks": "Smuggling is down to nothing."
    },
-   "start": "Talk to Harbourmaster Brice at the Port Sarim harbour office.",
+   "start": "Talk to Harbourmaster Brice at the Saltreach harbour office.",
    "rewards": [
     "10000 Thieving XP",
     "5000 Magic XP",
@@ -2494,17 +2494,17 @@
   },
   {
    "id": "thurgo_pie",
-   "name": "Thurgo's Lunch",
+   "name": "Durgan's Lunch",
    "giver": "thurgo",
-   "town": "Port Sarim",
+   "town": "Saltreach",
    "diff": "Novice",
    "points": 1,
    "data": {
     "id": "thurgo_pie",
-    "name": "Thurgo's Lunch",
-    "town": "Port Sarim",
+    "name": "Durgan's Lunch",
+    "town": "Saltreach",
     "giver": "thurgo",
-    "where": "on the west side of Port Sarim",
+    "where": "on the west side of Saltreach",
     "diff": "Novice",
     "points": 1,
     "intro": [
@@ -2534,7 +2534,7 @@
     "end": "Mmm! Here, iron bars. Fair trade.",
     "thanks": "Belly's full, hammer's swinging."
    },
-   "start": "Talk to Thurgo on the west side of Port Sarim.",
+   "start": "Talk to Durgan on the west side of Saltreach.",
    "rewards": [
     "1200 Smithing XP",
     "5 x Iron bar"
@@ -2548,17 +2548,17 @@
   },
   {
    "id": "thurgo_steel",
-   "name": "Imcando Steel",
+   "name": "Deepforge Steel",
    "giver": "thurgo",
-   "town": "Port Sarim",
+   "town": "Saltreach",
    "diff": "Intermediate",
    "points": 1,
    "data": {
     "id": "thurgo_steel",
-    "name": "Imcando Steel",
-    "town": "Port Sarim",
+    "name": "Deepforge Steel",
+    "town": "Saltreach",
     "giver": "thurgo",
-    "where": "on the west side of Port Sarim",
+    "where": "on the west side of Saltreach",
     "diff": "Intermediate",
     "points": 1,
     "req": {
@@ -2603,7 +2603,7 @@
     "end": "Not bad for a non-dwarf! Have some mithril.",
     "thanks": "You hammer like a dwarf now."
    },
-   "start": "Talk to Thurgo on the west side of Port Sarim.",
+   "start": "Talk to Durgan on the west side of Saltreach.",
    "rewards": [
     "5000 Smithing XP",
     "5 x Mithril bar"
@@ -2619,15 +2619,15 @@
    "id": "thurgo_rune",
    "name": "A Runite Blade",
    "giver": "thurgo",
-   "town": "Port Sarim",
+   "town": "Saltreach",
    "diff": "Master",
    "points": 3,
    "data": {
     "id": "thurgo_rune",
     "name": "A Runite Blade",
-    "town": "Port Sarim",
+    "town": "Saltreach",
     "giver": "thurgo",
-    "where": "on the west side of Port Sarim",
+    "where": "on the west side of Saltreach",
     "diff": "Master",
     "points": 3,
     "req": {
@@ -2669,7 +2669,7 @@
     "end": "Perfect. Take the first one. I'll make another for me.",
     "thanks": "My finest work, in your hands."
    },
-   "start": "Talk to Thurgo on the west side of Port Sarim.",
+   "start": "Talk to Durgan on the west side of Saltreach.",
    "rewards": [
     "25000 Smithing XP",
     "15000 Mining XP",
@@ -2687,15 +2687,15 @@
    "id": "mabel_water",
    "name": "Water for Mabel",
    "giver": "mabel",
-   "town": "Port Sarim",
+   "town": "Saltreach",
    "diff": "Novice",
    "points": 1,
    "data": {
     "id": "mabel_water",
     "name": "Water for Mabel",
-    "town": "Port Sarim",
+    "town": "Saltreach",
     "giver": "mabel",
-    "where": "on the east side of Port Sarim",
+    "where": "on the east side of Saltreach",
     "diff": "Novice",
     "points": 1,
     "req": {
@@ -2739,7 +2739,7 @@
     "end": "Lovely! My roses will bloom like never before.",
     "thanks": "Come and see my roses some time."
    },
-   "start": "Talk to Old Mabel on the east side of Port Sarim.",
+   "start": "Talk to Old Mabel on the east side of Saltreach.",
    "rewards": [
     "2000 Runecrafting XP",
     "500 Magic XP",
@@ -2756,19 +2756,19 @@
    "id": "kenn_ship",
    "name": "Cabin Boy Blues",
    "giver": "kenn",
-   "town": "Port Sarim",
+   "town": "Saltreach",
    "diff": "Novice",
    "points": 1,
    "data": {
     "id": "kenn_ship",
     "name": "Cabin Boy Blues",
-    "town": "Port Sarim",
+    "town": "Saltreach",
     "giver": "kenn",
-    "where": "in Port Sarim square",
+    "where": "in Saltreach square",
     "diff": "Novice",
     "points": 1,
     "intro": [
-     "I overslept and Captain Redbeard's ship left without me. Then it came back, and now I'm too scared to face him!",
+     "I overslept and Captain Saltbeard's ship left without me. Then it came back, and now I'm too scared to face him!",
      "Could you speak to him for me? And maybe bring me a Bronze sword so I look brave."
     ],
     "steps": [
@@ -2802,7 +2802,7 @@
     "end": "Forgiven! And a sword! I'll be a pirate yet!",
     "thanks": "Swabbing the deck isn't so bad."
    },
-   "start": "Talk to Kennith in Port Sarim square.",
+   "start": "Talk to Kennith in Saltreach square.",
    "rewards": [
     "800 Attack XP",
     "800 Defence XP",
@@ -2819,15 +2819,15 @@
    "id": "velma_brew",
    "name": "Witch's Brew",
    "giver": "velma",
-   "town": "Port Sarim",
+   "town": "Saltreach",
    "diff": "Intermediate",
    "points": 1,
    "data": {
     "id": "velma_brew",
     "name": "Witch's Brew",
-    "town": "Port Sarim",
+    "town": "Saltreach",
     "giver": "velma",
-    "where": "at the west edge of Port Sarim",
+    "where": "at the west edge of Saltreach",
     "diff": "Intermediate",
     "points": 1,
     "req": {
@@ -2873,7 +2873,7 @@
     "end": "Bubble, bubble! The brew is perfect. Wear this hat, it suits you.",
     "thanks": "The brew is still bubbling."
    },
-   "start": "Talk to Velma the Witch at the west edge of Port Sarim.",
+   "start": "Talk to Velma the Witch at the west edge of Saltreach.",
    "rewards": [
     "4000 Herblore XP",
     "4000 Magic XP",
@@ -2890,15 +2890,15 @@
    "id": "velma_frost",
    "name": "Frozen Heart",
    "giver": "velma",
-   "town": "Port Sarim",
+   "town": "Saltreach",
    "diff": "Experienced",
    "points": 2,
    "data": {
     "id": "velma_frost",
     "name": "Frozen Heart",
-    "town": "Port Sarim",
+    "town": "Saltreach",
     "giver": "velma",
-    "where": "at the west edge of Port Sarim",
+    "where": "at the west edge of Saltreach",
     "diff": "Experienced",
     "points": 2,
     "req": {
@@ -2947,7 +2947,7 @@
     "end": "I can feel the cold in you. Take this staff, it never runs dry.",
     "thanks": "My cauldron stays frosty."
    },
-   "start": "Talk to Velma the Witch at the west edge of Port Sarim.",
+   "start": "Talk to Velma the Witch at the west edge of Saltreach.",
    "rewards": [
     "10000 Magic XP",
     "Staff of water",
@@ -2973,7 +2973,7 @@
     "name": "Mossy Menace",
     "town": "Wilds",
     "giver": "sorrel",
-    "where": "in the woods west of Port Sarim",
+    "where": "in the woods west of Saltreach",
     "diff": "Intermediate",
     "points": 1,
     "req": {
@@ -3010,7 +3010,7 @@
     "end": "The woods breathe easier. Thank you.",
     "thanks": "The saplings are growing again."
    },
-   "start": "Talk to Ranger Sorrel in the woods west of Port Sarim.",
+   "start": "Talk to Ranger Sorrel in the woods west of Saltreach.",
    "rewards": [
     "5000 Strength XP",
     "2000 Prayer XP",
@@ -3035,7 +3035,7 @@
     "name": "Highway Robbery",
     "town": "Wilds",
     "giver": "sorrel",
-    "where": "in the woods west of Port Sarim",
+    "where": "in the woods west of Saltreach",
     "diff": "Experienced",
     "points": 2,
     "req": {
@@ -3078,7 +3078,7 @@
     "end": "The road is safe. Take my spare bow.",
     "thanks": "Travellers sing your praises."
    },
-   "start": "Talk to Ranger Sorrel in the woods west of Port Sarim.",
+   "start": "Talk to Ranger Sorrel in the woods west of Saltreach.",
    "rewards": [
     "9000 Ranged XP",
     "Maple shortbow",
@@ -3096,28 +3096,28 @@
    "id": "reldo_tome",
    "name": "The Lost Tome",
    "giver": "reldo",
-   "town": "Varrock",
+   "town": "Highcrest",
    "diff": "Novice",
    "points": 1,
    "data": {
     "id": "reldo_tome",
     "name": "The Lost Tome",
-    "town": "Varrock",
+    "town": "Highcrest",
     "giver": "reldo",
-    "where": "in Varrock, west of the square",
+    "where": "in Highcrest, west of the square",
     "diff": "Novice",
     "points": 1,
     "intro": [
-     "A book on the Earth altar has gone missing from my library. Aubury borrowed it, I think.",
-     "Ask Aubury, check the altar north-west of the palace, and bring me 20 Feathers so I can make quills to rewrite it."
+     "A book on the Earth altar has gone missing from my library. Orrin borrowed it, I think.",
+     "Ask Orrin, check the altar north-west of the palace, and bring me 20 Feathers so I can make quills to rewrite it."
     ],
     "steps": [
      {
       "t": "talk",
       "npc": "aubury",
-      "where": "in his rune shop in Varrock",
+      "where": "in his rune shop in Highcrest",
       "say": [
-       "Reldo's book? I'm afraid I spilled tea on it.",
+       "Ansel's book? I'm afraid I spilled tea on it.",
        "Everything it said is carved on the Earth altar anyway. Go and look."
       ]
      },
@@ -3146,7 +3146,7 @@
     "end": "I'll have it rewritten by Saturday. Thank you!",
     "thanks": "The tome is back on the shelf."
    },
-   "start": "Talk to Reldo the Librarian in Varrock, west of the square.",
+   "start": "Talk to Ansel the Librarian in Highcrest, west of the square.",
    "rewards": [
     "1000 Magic XP",
     "800 Crafting XP",
@@ -3161,17 +3161,17 @@
   },
   {
    "id": "reldo_history",
-   "name": "Varrock's History",
+   "name": "Highcrest's History",
    "giver": "reldo",
-   "town": "Varrock",
+   "town": "Highcrest",
    "diff": "Intermediate",
    "points": 1,
    "data": {
     "id": "reldo_history",
-    "name": "Varrock's History",
-    "town": "Varrock",
+    "name": "Highcrest's History",
+    "town": "Highcrest",
     "giver": "reldo",
-    "where": "in Varrock, west of the square",
+    "where": "in Highcrest, west of the square",
     "diff": "Intermediate",
     "points": 1,
     "req": {
@@ -3183,8 +3183,8 @@
      }
     },
     "intro": [
-     "Varrock was built near two great altars and a mine of pure magic.",
-     "Visit the essence mine and the Fire altar, then ask the Hero in Falador what he knows of the dragons."
+     "Highcrest was built near two great altars and a mine of pure magic.",
+     "Visit the essence mine and the Fire altar, then ask the Hero in Whitecairn what he knows of the dragons."
     ],
     "steps": [
      {
@@ -3198,10 +3198,10 @@
      {
       "t": "talk",
       "npc": "hero",
-      "where": "in Falador",
+      "where": "in Whitecairn",
       "say": [
-       "Reldo wants dragon lore? Tell him the green dragons came after the altars were built.",
-       "Their lair is far north of Varrock. Only a fool goes there unprepared."
+       "Ansel wants dragon lore? Tell him the green dragons came after the altars were built.",
+       "Their lair is far north of Highcrest. Only a fool goes there unprepared."
       ]
      }
     ],
@@ -3216,9 +3216,9 @@
      }
     },
     "end": "Fascinating! Another chapter for my history.",
-    "thanks": "My history of Varrock grows."
+    "thanks": "My history of Highcrest grows."
    },
-   "start": "Talk to Reldo the Librarian in Varrock, west of the square.",
+   "start": "Talk to Ansel the Librarian in Highcrest, west of the square.",
    "rewards": [
     "3000 Runecrafting XP",
     "3000 Magic XP"
@@ -3234,15 +3234,15 @@
    "id": "reldo_demon",
    "name": "Demon Lore",
    "giver": "reldo",
-   "town": "Varrock",
+   "town": "Highcrest",
    "diff": "Experienced",
    "points": 2,
    "data": {
     "id": "reldo_demon",
     "name": "Demon Lore",
-    "town": "Varrock",
+    "town": "Highcrest",
     "giver": "reldo",
-    "where": "in Varrock, west of the square",
+    "where": "in Highcrest, west of the square",
     "diff": "Experienced",
     "points": 2,
     "req": {
@@ -3289,7 +3289,7 @@
     "end": "Banished! Take this hat, it belonged to a wizard who wasn't so lucky.",
     "thanks": "The ruins are quiet."
    },
-   "start": "Talk to Reldo the Librarian in Varrock, west of the square.",
+   "start": "Talk to Ansel the Librarian in Highcrest, west of the square.",
    "rewards": [
     "12000 Magic XP",
     "Mystic hat"
@@ -3303,31 +3303,31 @@
   },
   {
    "id": "romeo_letter",
-   "name": "Romeo's Letter",
+   "name": "Rowan's Letter",
    "giver": "romeo",
-   "town": "Varrock",
+   "town": "Highcrest",
    "diff": "Novice",
    "points": 1,
    "data": {
     "id": "romeo_letter",
-    "name": "Romeo's Letter",
-    "town": "Varrock",
+    "name": "Rowan's Letter",
+    "town": "Highcrest",
     "giver": "romeo",
-    "where": "in Varrock square",
+    "where": "in Highcrest square",
     "diff": "Novice",
     "points": 1,
     "intro": [
-     "I wish to ask Juliet to a picnic, but I'm too shy! Gertrude knows her.",
-     "Please ask Gertrude to pass on my letter, then bring me 2 Cooked salmon for the picnic."
+     "I wish to ask Juliet to a picnic, but I'm too shy! Gwenna knows her.",
+     "Please ask Gwenna to pass on my letter, then bring me 2 Cooked salmon for the picnic."
     ],
     "steps": [
      {
       "t": "talk",
       "npc": "gertrude",
-      "where": "in north-west Varrock",
+      "where": "in north-west Highcrest",
       "say": [
        "A letter for Juliet? How sweet! I'll pass it on.",
-       "Tell Romeo she said yes. She always says yes."
+       "Tell Rowan she said yes. She always says yes."
       ]
      },
      {
@@ -3350,7 +3350,7 @@
     "end": "She said yes! Oh, joyous day!",
     "thanks": "The picnic was perfect."
    },
-   "start": "Talk to Romeo in Varrock square.",
+   "start": "Talk to Rowan in Highcrest square.",
    "rewards": [
     "1000 Cooking XP",
     "400 coins"
@@ -3366,15 +3366,15 @@
    "id": "romeo_duel",
    "name": "A Duel of Hearts",
    "giver": "romeo",
-   "town": "Varrock",
+   "town": "Highcrest",
    "diff": "Intermediate",
    "points": 1,
    "data": {
     "id": "romeo_duel",
     "name": "A Duel of Hearts",
-    "town": "Varrock",
+    "town": "Highcrest",
     "giver": "romeo",
-    "where": "in Varrock square",
+    "where": "in Highcrest square",
     "diff": "Intermediate",
     "points": 1,
     "req": {
@@ -3387,7 +3387,7 @@
     },
     "intro": [
      "A Black Knight insulted Juliet! I challenged him, but... I can't fight.",
-     "Defeat 2 Black Knights north of Brightwater in my name, and bring me an Iron platebody so I look the part."
+     "Defeat 2 Black Knights north of Larkhaven in my name, and bring me an Iron platebody so I look the part."
     ],
     "steps": [
      {
@@ -3416,7 +3416,7 @@
     "end": "Juliet thinks I'm a hero! Our secret, yes?",
     "thanks": "Juliet loves the armour."
    },
-   "start": "Talk to Romeo in Varrock square.",
+   "start": "Talk to Rowan in Highcrest square.",
    "rewards": [
     "3000 Attack XP",
     "3000 Defence XP",
@@ -3433,15 +3433,15 @@
    "id": "baraek_furs",
    "name": "Fur Trade",
    "giver": "baraek",
-   "town": "Varrock",
+   "town": "Highcrest",
    "diff": "Novice",
    "points": 1,
    "data": {
     "id": "baraek_furs",
     "name": "Fur Trade",
-    "town": "Varrock",
+    "town": "Highcrest",
     "giver": "baraek",
-    "where": "on the east side of Varrock",
+    "where": "on the east side of Highcrest",
     "diff": "Novice",
     "points": 1,
     "intro": [
@@ -3469,7 +3469,7 @@
     "end": "A fair trade. Come back if you find more.",
     "thanks": "Business is good."
    },
-   "start": "Talk to Baraek on the east side of Varrock.",
+   "start": "Talk to Barrick on the east side of Highcrest.",
    "rewards": [
     "1200 Crafting XP",
     "600 coins"
@@ -3485,15 +3485,15 @@
    "id": "baraek_hard",
    "name": "Hard Bargain",
    "giver": "baraek",
-   "town": "Varrock",
+   "town": "Highcrest",
    "diff": "Intermediate",
    "points": 1,
    "data": {
     "id": "baraek_hard",
     "name": "Hard Bargain",
-    "town": "Varrock",
+    "town": "Highcrest",
     "giver": "baraek",
-    "where": "on the east side of Varrock",
+    "where": "on the east side of Highcrest",
     "diff": "Intermediate",
     "points": 1,
     "req": {
@@ -3530,7 +3530,7 @@
     "end": "Fine work. I'll give you a discount from now on.",
     "thanks": "The guards love it."
    },
-   "start": "Talk to Baraek on the east side of Varrock.",
+   "start": "Talk to Barrick on the east side of Highcrest.",
    "rewards": [
     "4000 Crafting XP",
     "2000 coins"
@@ -3546,15 +3546,15 @@
    "id": "zaff_staff",
    "name": "Staff Shortage",
    "giver": "zaff",
-   "town": "Varrock",
+   "town": "Highcrest",
    "diff": "Novice",
    "points": 1,
    "data": {
     "id": "zaff_staff",
     "name": "Staff Shortage",
-    "town": "Varrock",
+    "town": "Highcrest",
     "giver": "zaff",
-    "where": "on the west side of Varrock",
+    "where": "on the west side of Highcrest",
     "diff": "Novice",
     "points": 1,
     "intro": [
@@ -3590,7 +3590,7 @@
     "end": "A natural! Have one of my plain staves.",
     "thanks": "The staves are selling well."
    },
-   "start": "Talk to Zaff on the west side of Varrock.",
+   "start": "Talk to Zevin on the west side of Highcrest.",
    "rewards": [
     "1500 Magic XP",
     "Staff"
@@ -3606,15 +3606,15 @@
    "id": "zaff_elements",
    "name": "Elemental Staves",
    "giver": "zaff",
-   "town": "Varrock",
+   "town": "Highcrest",
    "diff": "Intermediate",
    "points": 1,
    "data": {
     "id": "zaff_elements",
     "name": "Elemental Staves",
-    "town": "Varrock",
+    "town": "Highcrest",
     "giver": "zaff",
-    "where": "on the west side of Varrock",
+    "where": "on the west side of Highcrest",
     "diff": "Intermediate",
     "points": 1,
     "req": {
@@ -3659,7 +3659,7 @@
     "end": "Perfect! Your very own staff of fire.",
     "thanks": "My elemental staves are the talk of the city."
    },
-   "start": "Talk to Zaff on the west side of Varrock.",
+   "start": "Talk to Zevin on the west side of Highcrest.",
    "rewards": [
     "4000 Runecrafting XP",
     "3000 Magic XP",
@@ -3676,15 +3676,15 @@
    "id": "zaff_mystic",
    "name": "Mystic Arts",
    "giver": "zaff",
-   "town": "Varrock",
+   "town": "Highcrest",
    "diff": "Master",
    "points": 3,
    "data": {
     "id": "zaff_mystic",
     "name": "Mystic Arts",
-    "town": "Varrock",
+    "town": "Highcrest",
     "giver": "zaff",
-    "where": "on the west side of Varrock",
+    "where": "on the west side of Highcrest",
     "diff": "Master",
     "points": 3,
     "req": {
@@ -3735,7 +3735,7 @@
     "end": "The finest staff I have ever made. It is yours.",
     "thanks": "Wield it well."
    },
-   "start": "Talk to Zaff on the west side of Varrock.",
+   "start": "Talk to Zevin on the west side of Highcrest.",
    "rewards": [
     "25000 Magic XP",
     "15000 Runecrafting XP",
@@ -3753,15 +3753,15 @@
    "id": "charlie_change",
    "name": "Spare Change",
    "giver": "charlie",
-   "town": "Varrock",
+   "town": "Highcrest",
    "diff": "Novice",
    "points": 1,
    "data": {
     "id": "charlie_change",
     "name": "Spare Change",
-    "town": "Varrock",
+    "town": "Highcrest",
     "giver": "charlie",
-    "where": "in the north of Varrock",
+    "where": "in the north of Highcrest",
     "diff": "Novice",
     "points": 1,
     "intro": [
@@ -3795,7 +3795,7 @@
     "end": "You're a good sort. Here's what I've saved.",
     "thanks": "Bless you."
    },
-   "start": "Talk to Charlie the Tramp in the north of Varrock.",
+   "start": "Talk to Cobb the Wanderer in the north of Highcrest.",
    "rewards": [
     "1200 Thieving XP",
     "200 coins"
@@ -3809,17 +3809,17 @@
   },
   {
    "id": "charlie_gang",
-   "name": "The Phoenix Gang",
+   "name": "The Cinder Gang",
    "giver": "charlie",
-   "town": "Varrock",
+   "town": "Highcrest",
    "diff": "Intermediate",
    "points": 1,
    "data": {
     "id": "charlie_gang",
-    "name": "The Phoenix Gang",
-    "town": "Varrock",
+    "name": "The Cinder Gang",
+    "town": "Highcrest",
     "giver": "charlie",
-    "where": "in the north of Varrock",
+    "where": "in the north of Highcrest",
     "diff": "Intermediate",
     "points": 1,
     "req": {
@@ -3831,14 +3831,14 @@
      }
     },
     "intro": [
-     "The Phoenix Gang wants a new member. Want in?",
-     "Distract a Varrock Guard with a chat, prove your skill, then meet the gang in the maples south-west of town."
+     "The Cinder Gang wants a new member. Want in?",
+     "Distract a Highcrest Guard with a chat, prove your skill, then meet the gang in the maples south-west of town."
     ],
     "steps": [
      {
       "t": "talk",
       "npc": "vguard",
-      "where": "at the Varrock gates",
+      "where": "at the Highcrest gates",
       "say": [
        "Hm? Directions? The palace is that way, citizen.",
        "Wait, where did my lunch go?"
@@ -3852,7 +3852,7 @@
      },
      {
       "t": "visit",
-      "place": "mapleVarrock"
+      "place": "mapleHighcrest"
      }
     ],
     "xp": {
@@ -3869,9 +3869,9 @@
      }
     },
     "end": "Welcome to the gang! Here's your cut.",
-    "thanks": "The Phoenix rises."
+    "thanks": "The Cinder Gang is finished."
    },
-   "start": "Talk to Charlie the Tramp in the north of Varrock.",
+   "start": "Talk to Cobb the Wanderer in the north of Highcrest.",
    "rewards": [
     "5000 Thieving XP",
     "3000 coins",
@@ -3888,15 +3888,15 @@
    "id": "rovin_guard",
    "name": "Palace Guard",
    "giver": "rovin",
-   "town": "Varrock",
+   "town": "Highcrest",
    "diff": "Intermediate",
    "points": 1,
    "data": {
     "id": "rovin_guard",
     "name": "Palace Guard",
-    "town": "Varrock",
+    "town": "Highcrest",
     "giver": "rovin",
-    "where": "at the south gate of Varrock",
+    "where": "at the south gate of Highcrest",
     "diff": "Intermediate",
     "points": 1,
     "req": {
@@ -3937,7 +3937,7 @@
     "end": "You'd make a fine guard. Thank you.",
     "thanks": "The palace is well protected."
    },
-   "start": "Talk to Captain Rovin at the south gate of Varrock.",
+   "start": "Talk to Captain Rovin at the south gate of Highcrest.",
    "rewards": [
     "4000 Defence XP",
     "2000 Smithing XP"
@@ -3953,15 +3953,15 @@
    "id": "rovin_dragons",
    "name": "Dragon Watch",
    "giver": "rovin",
-   "town": "Varrock",
+   "town": "Highcrest",
    "diff": "Master",
    "points": 3,
    "data": {
     "id": "rovin_dragons",
     "name": "Dragon Watch",
-    "town": "Varrock",
+    "town": "Highcrest",
     "giver": "rovin",
-    "where": "at the south gate of Varrock",
+    "where": "at the south gate of Highcrest",
     "diff": "Master",
     "points": 3,
     "req": {
@@ -4010,10 +4010,10 @@
       "maxHp": 10
      }
     },
-    "end": "Varrock owes you its life. Take this wyrmscale shield.",
+    "end": "Highcrest owes you its life. Take this wyrmscale shield.",
     "thanks": "Not a dragon in the sky."
    },
-   "start": "Talk to Captain Rovin at the south gate of Varrock.",
+   "start": "Talk to Captain Rovin at the south gate of Highcrest.",
    "rewards": [
     "20000 Attack XP",
     "20000 Defence XP",
@@ -4031,17 +4031,17 @@
   },
   {
    "id": "gertrude_cat",
-   "name": "Gertrude's Cat",
+   "name": "Gwenna's Cat",
    "giver": "gertrude",
-   "town": "Varrock",
+   "town": "Highcrest",
    "diff": "Novice",
    "points": 1,
    "data": {
     "id": "gertrude_cat",
-    "name": "Gertrude's Cat",
-    "town": "Varrock",
+    "name": "Gwenna's Cat",
+    "town": "Highcrest",
     "giver": "gertrude",
-    "where": "in the north-west of Varrock",
+    "where": "in the north-west of Highcrest",
     "diff": "Novice",
     "points": 1,
     "intro": [
@@ -4051,7 +4051,7 @@
     "steps": [
      {
       "t": "visit",
-      "place": "mapleVarrock"
+      "place": "mapleHighcrest"
      },
      {
       "t": "bring",
@@ -4074,7 +4074,7 @@
     "end": "Fluffs! She came running for the shrimp. Thank you!",
     "thanks": "Fluffs sends a purr."
    },
-   "start": "Talk to Gertrude in the north-west of Varrock.",
+   "start": "Talk to Gwenna in the north-west of Highcrest.",
    "rewards": [
     "800 Cooking XP",
     "600 Agility XP",
@@ -4091,15 +4091,15 @@
    "id": "ellis_tan",
    "name": "Tanner's Apprentice",
    "giver": "ellis",
-   "town": "Varrock",
+   "town": "Highcrest",
    "diff": "Novice",
    "points": 1,
    "data": {
     "id": "ellis_tan",
     "name": "Tanner's Apprentice",
-    "town": "Varrock",
+    "town": "Highcrest",
     "giver": "ellis",
-    "where": "in the south-east of Varrock",
+    "where": "in the south-east of Highcrest",
     "diff": "Novice",
     "points": 1,
     "intro": [
@@ -4135,7 +4135,7 @@
     "end": "You've got the knack. Take some leather.",
     "thanks": "Best apprentice I've had."
    },
-   "start": "Talk to Ellis the Tanner in the south-east of Varrock.",
+   "start": "Talk to Ellis the Tanner in the south-east of Highcrest.",
    "rewards": [
     "1500 Crafting XP",
     "5 x Soft leather"
@@ -4149,17 +4149,17 @@
   },
   {
    "id": "vorn_remedy",
-   "name": "Varrock Remedies",
+   "name": "Highcrest Remedies",
    "giver": "vorn",
-   "town": "Varrock",
+   "town": "Highcrest",
    "diff": "Intermediate",
    "points": 1,
    "data": {
     "id": "vorn_remedy",
-    "name": "Varrock Remedies",
-    "town": "Varrock",
+    "name": "Highcrest Remedies",
+    "town": "Highcrest",
     "giver": "vorn",
-    "where": "in the north-west of Varrock",
+    "where": "in the north-west of Highcrest",
     "diff": "Intermediate",
     "points": 1,
     "req": {
@@ -4195,7 +4195,7 @@
     "end": "Excellent brewing! Have one of my super restores.",
     "thanks": "The palace is well stocked."
    },
-   "start": "Talk to Apothecary Vorn in the north-west of Varrock.",
+   "start": "Talk to Apothecary Vorn in the north-west of Highcrest.",
    "rewards": [
     "5000 Herblore XP",
     "Super restore"
@@ -4211,15 +4211,15 @@
    "id": "vorn_frost",
    "name": "Frostbite Cure",
    "giver": "vorn",
-   "town": "Varrock",
+   "town": "Highcrest",
    "diff": "Experienced",
    "points": 2,
    "data": {
     "id": "vorn_frost",
     "name": "Frostbite Cure",
-    "town": "Varrock",
+    "town": "Highcrest",
     "giver": "vorn",
-    "where": "in the north-west of Varrock",
+    "where": "in the north-west of Highcrest",
     "diff": "Experienced",
     "points": 2,
     "req": {
@@ -4264,10 +4264,10 @@
       "dmgVs.Ice Giant": 0.03
      }
     },
-    "end": "The cure works! Varrock is warm again.",
+    "end": "The cure works! Highcrest is warm again.",
     "thanks": "Not a case of frostbite since."
    },
-   "start": "Talk to Apothecary Vorn in the north-west of Varrock.",
+   "start": "Talk to Apothecary Vorn in the north-west of Highcrest.",
    "rewards": [
     "10000 Herblore XP",
     "5000 Hitpoints XP",
@@ -4293,7 +4293,7 @@
     "name": "Slayer's Challenge",
     "town": "Wilds",
     "giver": "vannaka",
-    "where": "on the road north of Varrock",
+    "where": "on the road north of Highcrest",
     "diff": "Experienced",
     "points": 2,
     "req": {
@@ -4333,7 +4333,7 @@
     "end": "Not bad. Not bad at all.",
     "thanks": "Keep slaying."
    },
-   "start": "Talk to Slayer Master Vannaka on the road north of Varrock.",
+   "start": "Talk to Huntsmaster Dravik on the road north of Highcrest.",
    "rewards": [
     "10000 Attack XP",
     "10000 Strength XP",
@@ -4359,7 +4359,7 @@
     "name": "Scorchwing",
     "town": "Wilds",
     "giver": "vannaka",
-    "where": "on the road north of Varrock",
+    "where": "on the road north of Highcrest",
     "diff": "Master",
     "points": 3,
     "req": {
@@ -4411,7 +4411,7 @@
     "end": "You did it. You actually did it. Take my cape. You've earned it more than I have.",
     "thanks": "A true slayer."
    },
-   "start": "Talk to Slayer Master Vannaka on the road north of Varrock.",
+   "start": "Talk to Huntsmaster Dravik on the road north of Highcrest.",
    "rewards": [
     "30000 Attack XP",
     "30000 Strength XP",
@@ -4429,17 +4429,17 @@
   },
   {
    "id": "squire_sword",
-   "name": "The Knight's Sword",
+   "name": "A Blade Reforged",
    "giver": "squire",
-   "town": "Falador",
+   "town": "Whitecairn",
    "diff": "Intermediate",
    "points": 1,
    "data": {
     "id": "squire_sword",
-    "name": "The Knight's Sword",
-    "town": "Falador",
+    "name": "A Blade Reforged",
+    "town": "Whitecairn",
     "giver": "squire",
-    "where": "by the castle in Falador",
+    "where": "by the castle in Whitecairn",
     "diff": "Intermediate",
     "points": 1,
     "req": {
@@ -4448,16 +4448,16 @@
      }
     },
     "intro": [
-     "I lost Sir Vyvin's sword! He'll have my head!",
-     "Reldo in Varrock may know how it was made. Ask him, then bring me 3 Steel bars and an Iron sword so I can have a copy forged."
+     "I lost Sir Calder's sword! He'll have my head!",
+     "Ansel in Highcrest may know how it was made. Ask him, then bring me 3 Steel bars and an Iron sword so I can have a copy forged."
     ],
     "steps": [
      {
       "t": "talk",
       "npc": "reldo",
-      "where": "in the Varrock library",
+      "where": "in the Highcrest library",
       "say": [
-       "Sir Vyvin's sword? A simple steel blade with an iron core.",
+       "Sir Calder's sword? A simple steel blade with an iron core.",
        "Any good smith could copy it with steel bars and an iron sword."
       ]
      },
@@ -4480,10 +4480,10 @@
       "xp.Smithing": 0.01
      }
     },
-    "end": "Saved! Sir Vyvin will never know.",
-    "thanks": "Shh! Not a word to Sir Vyvin."
+    "end": "Saved! Sir Calder will never know.",
+    "thanks": "Shh! Not a word to Sir Calder."
    },
-   "start": "Talk to The Squire by the castle in Falador.",
+   "start": "Talk to The Squire by the castle in Whitecairn.",
    "rewards": [
     "4000 Smithing XP",
     "2000 Attack XP",
@@ -4500,15 +4500,15 @@
    "id": "squire_honour",
    "name": "Squire's Honour",
    "giver": "squire",
-   "town": "Falador",
+   "town": "Whitecairn",
    "diff": "Experienced",
    "points": 2,
    "data": {
     "id": "squire_honour",
     "name": "Squire's Honour",
-    "town": "Falador",
+    "town": "Whitecairn",
     "giver": "squire",
-    "where": "by the castle in Falador",
+    "where": "by the castle in Whitecairn",
     "diff": "Experienced",
     "points": 2,
     "req": {
@@ -4547,10 +4547,10 @@
       "dr": 0.005
      }
     },
-    "end": "Sir Amik says I'm ready! Thank you!",
+    "end": "Sir Aldous says I'm ready! Thank you!",
     "thanks": "Sir Squire, at your service!"
    },
-   "start": "Talk to The Squire by the castle in Falador.",
+   "start": "Talk to The Squire by the castle in Whitecairn.",
    "rewards": [
     "8000 Defence XP",
     "3000 Attack XP",
@@ -4565,17 +4565,17 @@
   },
   {
    "id": "amik_fortress",
-   "name": "Black Knights' Fortress",
+   "name": "Siege of the Black Keep",
    "giver": "amik",
-   "town": "Falador",
+   "town": "Whitecairn",
    "diff": "Experienced",
    "points": 2,
    "data": {
     "id": "amik_fortress",
-    "name": "Black Knights' Fortress",
-    "town": "Falador",
+    "name": "Siege of the Black Keep",
+    "town": "Whitecairn",
     "giver": "amik",
-    "where": "in the White Knights’ castle, south of Falador square",
+    "where": "in the Lantern Keep, south of Whitecairn square",
     "diff": "Experienced",
     "points": 2,
     "req": {
@@ -4585,8 +4585,8 @@
      }
     },
     "intro": [
-     "The Black Knights plan an attack on Falador. I need a spy.",
-     "Sharpen your stealth, scout their outpost north of Brightwater, and thin their ranks by 4. Then report to my squire."
+     "The Black Knights plan an attack on Whitecairn. I need a spy.",
+     "Sharpen your stealth, scout their outpost north of Larkhaven, and thin their ranks by 4. Then report to my squire."
     ],
     "steps": [
      {
@@ -4607,10 +4607,10 @@
      {
       "t": "talk",
       "npc": "squire",
-      "where": "by the castle in Falador",
+      "where": "by the castle in Whitecairn",
       "say": [
        "You're back! What did you see?",
-       "I'll write it all down for Sir Amik. Go and tell him yourself!"
+       "I'll write it all down for Sir Aldous. Go and tell him yourself!"
       ]
      }
     ],
@@ -4626,10 +4626,10 @@
       "maxHp": 5
      }
     },
-    "end": "Their plans are ruined. Falador thanks you.",
-    "thanks": "The White Knights salute you."
+    "end": "Their plans are ruined. Whitecairn thanks you.",
+    "thanks": "The Lantern Knights salute you."
    },
-   "start": "Talk to Sir Amik Varze in the White Knights’ castle, south of Falador square.",
+   "start": "Talk to Sir Aldous Penhale in the Lantern Keep, south of Whitecairn square.",
    "rewards": [
     "8000 Attack XP",
     "5000 Strength XP",
@@ -4645,17 +4645,17 @@
   },
   {
    "id": "amik_grail",
-   "name": "The Holy Grail",
+   "name": "The Lantern Chalice",
    "giver": "amik",
-   "town": "Falador",
+   "town": "Whitecairn",
    "diff": "Master",
    "points": 3,
    "data": {
     "id": "amik_grail",
-    "name": "The Holy Grail",
-    "town": "Falador",
+    "name": "The Lantern Chalice",
+    "town": "Whitecairn",
     "giver": "amik",
-    "where": "in the White Knights’ castle, south of Falador square",
+    "where": "in the Lantern Keep, south of Whitecairn square",
     "diff": "Master",
     "points": 3,
     "req": {
@@ -4675,9 +4675,9 @@
      {
       "t": "talk",
       "npc": "sabreen",
-      "where": "in south-east Falador",
+      "where": "in south-east Whitecairn",
       "say": [
-       "The Grail quest? May Saradomin guide you.",
+       "The Chalice quest? May the Dawnmother guide you.",
        "Bless your path at the Mind altar and honour the dead."
       ]
      },
@@ -4707,10 +4707,10 @@
       "maxHp": 10
      }
     },
-    "end": "The Grail! You are the greatest knight Falador has known.",
+    "end": "The Chalice! You are the greatest knight Whitecairn has known.",
     "thanks": "Your name is carved in the castle hall."
    },
-   "start": "Talk to Sir Amik Varze in the White Knights’ castle, south of Falador square.",
+   "start": "Talk to Sir Aldous Penhale in the Lantern Keep, south of Whitecairn square.",
    "rewards": [
     "25000 Prayer XP",
     "15000 Defence XP",
@@ -4728,15 +4728,15 @@
    "id": "sabreen_heal",
    "name": "Healing Hands",
    "giver": "sabreen",
-   "town": "Falador",
+   "town": "Whitecairn",
    "diff": "Novice",
    "points": 1,
    "data": {
     "id": "sabreen_heal",
     "name": "Healing Hands",
-    "town": "Falador",
+    "town": "Whitecairn",
     "giver": "sabreen",
-    "where": "in the south-east of Falador",
+    "where": "in the south-east of Whitecairn",
     "diff": "Novice",
     "points": 1,
     "intro": [
@@ -4768,7 +4768,7 @@
     "end": "Bless you, child.",
     "thanks": "The sick are recovering."
    },
-   "start": "Talk to Sister Sabreen in the south-east of Falador.",
+   "start": "Talk to Sister Sabreen in the south-east of Whitecairn.",
    "rewards": [
     "1200 Prayer XP",
     "800 Hitpoints XP"
@@ -4782,17 +4782,17 @@
   },
   {
    "id": "sabreen_relic",
-   "name": "Saradomin's Relic",
+   "name": "The Dawnmother's Relic",
    "giver": "sabreen",
-   "town": "Falador",
+   "town": "Whitecairn",
    "diff": "Intermediate",
    "points": 1,
    "data": {
     "id": "sabreen_relic",
-    "name": "Saradomin's Relic",
-    "town": "Falador",
+    "name": "The Dawnmother's Relic",
+    "town": "Whitecairn",
     "giver": "sabreen",
-    "where": "in the south-east of Falador",
+    "where": "in the south-east of Whitecairn",
     "diff": "Intermediate",
     "points": 1,
     "req": {
@@ -4836,10 +4836,10 @@
       "drainLess": 0.02
      }
     },
-    "end": "The relic is safe. Saradomin smiles on you.",
+    "end": "The relic is safe. The Dawnmother smiles on you.",
     "thanks": "The relic glows on the altar."
    },
-   "start": "Talk to Sister Sabreen in the south-east of Falador.",
+   "start": "Talk to Sister Sabreen in the south-east of Whitecairn.",
    "rewards": [
     "5000 Prayer XP",
     "2 x Prayer potion"
@@ -4855,19 +4855,19 @@
    "id": "boot_pick",
    "name": "Boot's Lost Pick",
    "giver": "boot",
-   "town": "Falador",
+   "town": "Whitecairn",
    "diff": "Novice",
    "points": 1,
    "data": {
     "id": "boot_pick",
     "name": "Boot's Lost Pick",
-    "town": "Falador",
+    "town": "Whitecairn",
     "giver": "boot",
-    "where": "in the north-west of Falador",
+    "where": "in the north-west of Whitecairn",
     "diff": "Novice",
     "points": 1,
     "intro": [
-     "I left my pick in the Brightwater mine and now someone's using it!",
+     "I left my pick in the Larkhaven mine and now someone's using it!",
      "Go and look, and bring me 5 Iron ore and 5 Coal while you're there."
     ],
     "steps": [
@@ -4896,7 +4896,7 @@
     "end": "Ore! Who needs a pick anyway?",
     "thanks": "I bought a new pick."
    },
-   "start": "Talk to Boot the Dwarf in the north-west of Falador.",
+   "start": "Talk to Boot the Dwarf in the north-west of Whitecairn.",
    "rewards": [
     "1500 Mining XP",
     "400 coins"
@@ -4912,15 +4912,15 @@
    "id": "boot_delve",
    "name": "Deep Delving",
    "giver": "boot",
-   "town": "Falador",
+   "town": "Whitecairn",
    "diff": "Experienced",
    "points": 2,
    "data": {
     "id": "boot_delve",
     "name": "Deep Delving",
-    "town": "Falador",
+    "town": "Whitecairn",
     "giver": "boot",
-    "where": "in the north-west of Falador",
+    "where": "in the north-west of Whitecairn",
     "diff": "Experienced",
     "points": 2,
     "req": {
@@ -4961,7 +4961,7 @@
     "end": "A true miner! Take my ring.",
     "thanks": "You dig like a dwarf."
    },
-   "start": "Talk to Boot the Dwarf in the north-west of Falador.",
+   "start": "Talk to Boot the Dwarf in the north-west of Whitecairn.",
    "rewards": [
     "9000 Mining XP",
     "3000 Smithing XP",
@@ -4979,15 +4979,15 @@
    "id": "sarah_harvest",
    "name": "Sarah's Harvest",
    "giver": "sarah",
-   "town": "Falador",
+   "town": "Whitecairn",
    "diff": "Novice",
    "points": 1,
    "data": {
     "id": "sarah_harvest",
     "name": "Sarah's Harvest",
-    "town": "Falador",
+    "town": "Whitecairn",
     "giver": "sarah",
-    "where": "in the north-east of Falador",
+    "where": "in the north-east of Whitecairn",
     "diff": "Novice",
     "points": 1,
     "intro": [
@@ -5017,7 +5017,7 @@
     "end": "The harvest is in! Thank you.",
     "thanks": "The barns are full."
    },
-   "start": "Talk to Farmer Sarah in the north-east of Falador.",
+   "start": "Talk to Farmer Sarah in the north-east of Whitecairn.",
    "rewards": [
     "800 Crafting XP",
     "800 Herblore XP",
@@ -5034,15 +5034,15 @@
    "id": "sarah_wolves",
    "name": "Wolves at the Gate",
    "giver": "sarah",
-   "town": "Falador",
+   "town": "Whitecairn",
    "diff": "Intermediate",
    "points": 1,
    "data": {
     "id": "sarah_wolves",
     "name": "Wolves at the Gate",
-    "town": "Falador",
+    "town": "Whitecairn",
     "giver": "sarah",
-    "where": "in the north-east of Falador",
+    "where": "in the north-east of Whitecairn",
     "diff": "Intermediate",
     "points": 1,
     "req": {
@@ -5054,7 +5054,7 @@
      }
     },
     "intro": [
-     "Wolves come down from the hills between here and Brightwater and kill my cows.",
+     "Wolves come down from the hills between here and Larkhaven and kill my cows.",
      "Kill 6 wolves, and bring me 5 Cowhide to replace my losses."
     ],
     "steps": [
@@ -5084,7 +5084,7 @@
     "end": "No howling last night! Thank you.",
     "thanks": "The cows are safe."
    },
-   "start": "Talk to Farmer Sarah in the north-east of Falador.",
+   "start": "Talk to Farmer Sarah in the north-east of Whitecairn.",
    "rewards": [
     "3000 Attack XP",
     "3000 Strength XP",
@@ -5099,17 +5099,17 @@
   },
   {
    "id": "wayne_rush",
-   "name": "Wayne's Rush Order",
+   "name": "Wendel's Rush Order",
    "giver": "wayne",
-   "town": "Falador",
+   "town": "Whitecairn",
    "diff": "Intermediate",
    "points": 1,
    "data": {
     "id": "wayne_rush",
-    "name": "Wayne's Rush Order",
-    "town": "Falador",
+    "name": "Wendel's Rush Order",
+    "town": "Whitecairn",
     "giver": "wayne",
-    "where": "on the west side of Falador",
+    "where": "on the west side of Whitecairn",
     "diff": "Intermediate",
     "points": 1,
     "req": {
@@ -5118,7 +5118,7 @@
      }
     },
     "intro": [
-     "The White Knights want new armour by Friday!",
+     "The Lantern Knights want new armour by Friday!",
      "Smith me 2 Steel platelegs and 2 Steel full helms."
     ],
     "steps": [
@@ -5143,7 +5143,7 @@
     "end": "Just in time! Here's your pay.",
     "thanks": "The knights look splendid."
    },
-   "start": "Talk to Wayne the Armourer on the west side of Falador.",
+   "start": "Talk to Wendel the Armourer on the west side of Whitecairn.",
    "rewards": [
     "5000 Smithing XP",
     "2000 coins"
@@ -5159,15 +5159,15 @@
    "id": "wayne_adamant",
    "name": "Adamant Order",
    "giver": "wayne",
-   "town": "Falador",
+   "town": "Whitecairn",
    "diff": "Experienced",
    "points": 2,
    "data": {
     "id": "wayne_adamant",
     "name": "Adamant Order",
-    "town": "Falador",
+    "town": "Whitecairn",
     "giver": "wayne",
-    "where": "on the west side of Falador",
+    "where": "on the west side of Whitecairn",
     "diff": "Experienced",
     "points": 2,
     "req": {
@@ -5179,7 +5179,7 @@
      }
     },
     "intro": [
-     "Sir Amik wants adamant. I can't work it. Can you?",
+     "Sir Aldous wants adamant. I can't work it. Can you?",
      "Bring me an Adamant platebody and Adamant platelegs."
     ],
     "steps": [
@@ -5203,9 +5203,9 @@
      }
     },
     "end": "Magnificent. You're a better smith than me.",
-    "thanks": "Sir Amik is delighted."
+    "thanks": "Sir Aldous is delighted."
    },
-   "start": "Talk to Wayne the Armourer on the west side of Falador.",
+   "start": "Talk to Wendel the Armourer on the west side of Whitecairn.",
    "rewards": [
     "12000 Smithing XP",
     "6000 coins"
@@ -5220,17 +5220,17 @@
   },
   {
    "id": "pete_party",
-   "name": "Party Pete's Bash",
+   "name": "Merry Mott's Bash",
    "giver": "pete",
-   "town": "Falador",
+   "town": "Whitecairn",
    "diff": "Novice",
    "points": 1,
    "data": {
     "id": "pete_party",
-    "name": "Party Pete's Bash",
-    "town": "Falador",
+    "name": "Merry Mott's Bash",
+    "town": "Whitecairn",
     "giver": "pete",
-    "where": "north of Falador square",
+    "where": "north of Whitecairn square",
     "diff": "Novice",
     "points": 1,
     "intro": [
@@ -5259,7 +5259,7 @@
     "end": "Let's party! Woo!",
     "thanks": "Best party ever!"
    },
-   "start": "Talk to Party Pete north of Falador square.",
+   "start": "Talk to Merry Mott north of Whitecairn square.",
    "rewards": [
     "1000 Cooking XP",
     "500 coins"
@@ -5275,15 +5275,15 @@
    "id": "pete_dance",
    "name": "Dance Off",
    "giver": "pete",
-   "town": "Falador",
+   "town": "Whitecairn",
    "diff": "Intermediate",
    "points": 1,
    "data": {
     "id": "pete_dance",
     "name": "Dance Off",
-    "town": "Falador",
+    "town": "Whitecairn",
     "giver": "pete",
-    "where": "north of Falador square",
+    "where": "north of Whitecairn square",
     "diff": "Intermediate",
     "points": 1,
     "req": {
@@ -5296,7 +5296,7 @@
     },
     "intro": [
      "The dance-off is coming and I need a champion with fast feet.",
-     "Train on the Falador course north-west of town until you earn 3000 Agility XP."
+     "Train on the Whitecairn course north-west of town until you earn 3000 Agility XP."
     ],
     "steps": [
      {
@@ -5323,7 +5323,7 @@
     "end": "You won! The crowd went wild!",
     "thanks": "Champion of the dance floor."
    },
-   "start": "Talk to Party Pete north of Falador square.",
+   "start": "Talk to Merry Mott north of Whitecairn square.",
    "rewards": [
     "6000 Agility XP",
     "1000 coins"
@@ -5339,28 +5339,28 @@
    "id": "kaylee_orders",
    "name": "Last Orders",
    "giver": "kaylee",
-   "town": "Falador",
+   "town": "Whitecairn",
    "diff": "Novice",
    "points": 1,
    "data": {
     "id": "kaylee_orders",
     "name": "Last Orders",
-    "town": "Falador",
+    "town": "Whitecairn",
     "giver": "kaylee",
-    "where": "at the Rising Sun inn in Falador",
+    "where": "at the Gilded Hearth inn in Whitecairn",
     "diff": "Novice",
     "points": 1,
     "intro": [
-     "Everyone wants Bram's Guam Ale from Brightwater, and I don't know the recipe.",
-     "Ask Bram the Brewer in Brightwater, then bring me 2 clean Harralander for my own twist."
+     "Everyone wants Bram's Guam Ale from Larkhaven, and I don't know the recipe.",
+     "Ask Bram the Brewer in Larkhaven, then bring me 2 clean Harralander for my own twist."
     ],
     "steps": [
      {
       "t": "talk",
       "npc": "bram",
-      "where": "west of Brightwater square",
+      "where": "west of Larkhaven square",
       "say": [
-       "Kaylee wants my recipe? Ha! Guam leaf and a wink.",
+       "Fenna wants my recipe? Ha! Guam leaf and a wink.",
        "Tell her Harralander works too, if she's brave."
       ]
      },
@@ -5385,7 +5385,7 @@
     "end": "Harralander Ale! The regulars will love it.",
     "thanks": "First drink's on the house."
    },
-   "start": "Talk to Kaylee the Barmaid at the Rising Sun inn in Falador.",
+   "start": "Talk to Fenna the Barmaid at the Gilded Hearth inn in Whitecairn.",
    "rewards": [
     "1200 Herblore XP",
     "600 Cooking XP",
@@ -5402,15 +5402,15 @@
    "id": "elwyn_bows",
    "name": "The Bowyer's Apprentice",
    "giver": "elwyn",
-   "town": "Falador",
+   "town": "Whitecairn",
    "diff": "Intermediate",
    "points": 1,
    "data": {
     "id": "elwyn_bows",
     "name": "The Bowyer's Apprentice",
-    "town": "Falador",
+    "town": "Whitecairn",
     "giver": "elwyn",
-    "where": "in the south-west of Falador",
+    "where": "in the south-west of Whitecairn",
     "diff": "Intermediate",
     "points": 1,
     "req": {
@@ -5444,7 +5444,7 @@
     "end": "Fine work. You're hired!",
     "thanks": "My best apprentice."
    },
-   "start": "Talk to Elwyn the Bowyer in the south-west of Falador.",
+   "start": "Talk to Elwyn the Bowyer in the south-west of Whitecairn.",
    "rewards": [
     "5000 Fletching XP",
     "1500 coins"
@@ -5460,15 +5460,15 @@
    "id": "elwyn_yew",
    "name": "Yew Bows",
    "giver": "elwyn",
-   "town": "Falador",
+   "town": "Whitecairn",
    "diff": "Experienced",
    "points": 2,
    "data": {
     "id": "elwyn_yew",
     "name": "Yew Bows",
-    "town": "Falador",
+    "town": "Whitecairn",
     "giver": "elwyn",
-    "where": "in the south-west of Falador",
+    "where": "in the south-west of Whitecairn",
     "diff": "Experienced",
     "points": 2,
     "req": {
@@ -5481,13 +5481,13 @@
      }
     },
     "intro": [
-     "The yews east of Falador make the best bows.",
+     "The yews east of Whitecairn make the best bows.",
      "Visit the yew trees and bring me 10 Yew logs and 2 Yew shortbows."
     ],
     "steps": [
      {
       "t": "visit",
-      "place": "yewFalador"
+      "place": "yewWhitecairn"
      },
      {
       "t": "bring",
@@ -5514,7 +5514,7 @@
     "end": "Beautiful bows. Take these rune arrows.",
     "thanks": "The knights' archers love them."
    },
-   "start": "Talk to Elwyn the Bowyer in the south-west of Falador.",
+   "start": "Talk to Elwyn the Bowyer in the south-west of Whitecairn.",
    "rewards": [
     "10000 Fletching XP",
     "6000 Woodcutting XP",
@@ -5532,15 +5532,15 @@
    "id": "elwyn_magic",
    "name": "Magic in the Wood",
    "giver": "elwyn",
-   "town": "Falador",
+   "town": "Whitecairn",
    "diff": "Master",
    "points": 3,
    "data": {
     "id": "elwyn_magic",
     "name": "Magic in the Wood",
-    "town": "Falador",
+    "town": "Whitecairn",
     "giver": "elwyn",
-    "where": "in the south-west of Falador",
+    "where": "in the south-west of Whitecairn",
     "diff": "Master",
     "points": 3,
     "req": {
@@ -5554,12 +5554,12 @@
     },
     "intro": [
      "Only one bow is better than yew: magic.",
-     "Visit the magic trees north of Varrock and bring me 10 Magic logs and a Magic shortbow."
+     "Visit the magic trees north of Highcrest and bring me 10 Magic logs and a Magic shortbow."
     ],
     "steps": [
      {
       "t": "visit",
-      "place": "magicVarrock"
+      "place": "magicHighcrest"
      },
      {
       "t": "bring",
@@ -5586,7 +5586,7 @@
     "end": "A masterpiece. Take my dark bow; you've surpassed me.",
     "thanks": "The master becomes the student."
    },
-   "start": "Talk to Elwyn the Bowyer in the south-west of Falador.",
+   "start": "Talk to Elwyn the Bowyer in the south-west of Whitecairn.",
    "rewards": [
     "20000 Fletching XP",
     "15000 Woodcutting XP",
@@ -5612,7 +5612,7 @@
     "name": "Ogre Trouble",
     "town": "Wilds",
     "giver": "oswin",
-    "where": "in the wilds north-west of Falador",
+    "where": "in the wilds north-west of Whitecairn",
     "diff": "Experienced",
     "points": 2,
     "req": {
@@ -5621,7 +5621,7 @@
      }
     },
     "intro": [
-     "I was banished from Falador, but I still protect it.",
+     "I was banished from Whitecairn, but I still protect it.",
      "The ogres in the hills grow bold. Go there, kill 5 and bury 5 of their bones."
     ],
     "steps": [
@@ -5650,10 +5650,10 @@
       "dmgVs.Ogre": 0.05
      }
     },
-    "end": "Good. Falador sleeps safer, though it doesn't know why.",
+    "end": "Good. Whitecairn sleeps safer, though it doesn't know why.",
     "thanks": "The hills are quieter."
    },
-   "start": "Talk to Oswin the Exile in the wilds north-west of Falador.",
+   "start": "Talk to Oswin the Exile in the wilds north-west of Whitecairn.",
    "rewards": [
     "10000 Strength XP",
     "3000 Prayer XP",
@@ -5678,7 +5678,7 @@
     "name": "The Ogre Warlord",
     "town": "Wilds",
     "giver": "oswin",
-    "where": "in the wilds north-west of Falador",
+    "where": "in the wilds north-west of Whitecairn",
     "diff": "Master",
     "points": 3,
     "req": {
@@ -5727,7 +5727,7 @@
     "end": "Grumsh is dead. Maybe now I can go home. Take my hammer.",
     "thanks": "Thank you, friend."
    },
-   "start": "Talk to Oswin the Exile in the wilds north-west of Falador.",
+   "start": "Talk to Oswin the Exile in the wilds north-west of Whitecairn.",
    "rewards": [
     "25000 Strength XP",
     "15000 Attack XP",
@@ -5744,17 +5744,17 @@
   },
   {
    "id": "hazel_stew",
-   "name": "Ashford Stew",
+   "name": "Emberfold Stew",
    "giver": "hazel",
-   "town": "Ashford",
+   "town": "Emberfold",
    "diff": "Novice",
    "points": 1,
    "data": {
     "id": "hazel_stew",
-    "name": "Ashford Stew",
-    "town": "Ashford",
+    "name": "Emberfold Stew",
+    "town": "Emberfold",
     "giver": "hazel",
-    "where": "at the Ashford inn",
+    "where": "at the Emberfold inn",
     "diff": "Novice",
     "points": 1,
     "intro": [
@@ -5783,7 +5783,7 @@
     "end": "The stew is bubbling! Have a bowl on me.",
     "thanks": "The stew is the best in years."
    },
-   "start": "Talk to Innkeeper Hazel at the Ashford inn.",
+   "start": "Talk to Innkeeper Hazel at the Emberfold inn.",
    "rewards": [
     "1000 Cooking XP",
     "300 coins"
@@ -5799,15 +5799,15 @@
    "id": "hazel_house",
    "name": "Full House",
    "giver": "hazel",
-   "town": "Ashford",
+   "town": "Emberfold",
    "diff": "Intermediate",
    "points": 1,
    "data": {
     "id": "hazel_house",
     "name": "Full House",
-    "town": "Ashford",
+    "town": "Emberfold",
     "giver": "hazel",
-    "where": "at the Ashford inn",
+    "where": "at the Emberfold inn",
     "diff": "Intermediate",
     "points": 1,
     "req": {
@@ -5844,7 +5844,7 @@
     "end": "Every guest is fed and happy!",
     "thanks": "The caravan left a glowing review."
    },
-   "start": "Talk to Innkeeper Hazel at the Ashford inn.",
+   "start": "Talk to Innkeeper Hazel at the Emberfold inn.",
    "rewards": [
     "4000 Cooking XP",
     "1200 coins"
@@ -5860,15 +5860,15 @@
    "id": "tomas_toys",
    "name": "Toy Soldiers",
    "giver": "tomas",
-   "town": "Ashford",
+   "town": "Emberfold",
    "diff": "Novice",
    "points": 1,
    "data": {
     "id": "tomas_toys",
     "name": "Toy Soldiers",
-    "town": "Ashford",
+    "town": "Emberfold",
     "giver": "tomas",
-    "where": "in Ashford, north of the square",
+    "where": "in Emberfold, north of the square",
     "diff": "Novice",
     "points": 1,
     "intro": [
@@ -5898,7 +5898,7 @@
     "end": "The children will love these!",
     "thanks": "The fair was a delight."
    },
-   "start": "Talk to Tomas the Toymaker in Ashford, north of the square.",
+   "start": "Talk to Tomas the Toymaker in Emberfold, north of the square.",
    "rewards": [
     "800 Smithing XP",
     "800 Crafting XP",
@@ -5915,15 +5915,15 @@
    "id": "tomas_bows",
    "name": "Kites and Bows",
    "giver": "tomas",
-   "town": "Ashford",
+   "town": "Emberfold",
    "diff": "Intermediate",
    "points": 1,
    "data": {
     "id": "tomas_bows",
     "name": "Kites and Bows",
-    "town": "Ashford",
+    "town": "Emberfold",
     "giver": "tomas",
-    "where": "in Ashford, north of the square",
+    "where": "in Emberfold, north of the square",
     "diff": "Intermediate",
     "points": 1,
     "req": {
@@ -5959,9 +5959,9 @@
      }
     },
     "end": "Perfect! I'll teach them to aim at targets, not each other.",
-    "thanks": "Ashford has a junior archery club now."
+    "thanks": "Emberfold has a junior archery club now."
    },
-   "start": "Talk to Tomas the Toymaker in Ashford, north of the square.",
+   "start": "Talk to Tomas the Toymaker in Emberfold, north of the square.",
    "rewards": [
     "3500 Fletching XP",
     "800 coins"
@@ -5977,20 +5977,20 @@
    "id": "iris_vision",
    "name": "The Seer's Vision",
    "giver": "iris",
-   "town": "Ashford",
+   "town": "Emberfold",
    "diff": "Novice",
    "points": 1,
    "data": {
     "id": "iris_vision",
     "name": "The Seer's Vision",
-    "town": "Ashford",
+    "town": "Emberfold",
     "giver": "iris",
-    "where": "in the north of Ashford",
+    "where": "in the north of Emberfold",
     "diff": "Novice",
     "points": 1,
     "intro": [
      "I see... trees that shimmer, and still water.",
-     "Go to the magic tree grove north of Brightwater, then to the lake, and tell me what you saw."
+     "Go to the magic tree grove north of Larkhaven, then to the lake, and tell me what you saw."
     ],
     "steps": [
      {
@@ -6016,7 +6016,7 @@
     "end": "Just as I foresaw. Your future is bright.",
     "thanks": "I see great things for you."
    },
-   "start": "Talk to Iris the Seer in the north of Ashford.",
+   "start": "Talk to Iris the Seer in the north of Emberfold.",
    "rewards": [
     "800 Magic XP",
     "400 Agility XP",
@@ -6033,15 +6033,15 @@
    "id": "iris_omen",
    "name": "Dark Omens",
    "giver": "iris",
-   "town": "Ashford",
+   "town": "Emberfold",
    "diff": "Intermediate",
    "points": 1,
    "data": {
     "id": "iris_omen",
     "name": "Dark Omens",
-    "town": "Ashford",
+    "town": "Emberfold",
     "giver": "iris",
-    "where": "in the north of Ashford",
+    "where": "in the north of Emberfold",
     "diff": "Intermediate",
     "points": 1,
     "req": {
@@ -6088,7 +6088,7 @@
     "end": "The omen has passed. Thank you.",
     "thanks": "My visions are peaceful now."
    },
-   "start": "Talk to Iris the Seer in the north of Ashford.",
+   "start": "Talk to Iris the Seer in the north of Emberfold.",
    "rewards": [
     "5000 Magic XP",
     "100 x Earth rune"
@@ -6104,15 +6104,15 @@
    "id": "iris_mind",
    "name": "Mind over Matter",
    "giver": "iris",
-   "town": "Ashford",
+   "town": "Emberfold",
    "diff": "Experienced",
    "points": 2,
    "data": {
     "id": "iris_mind",
     "name": "Mind over Matter",
-    "town": "Ashford",
+    "town": "Emberfold",
     "giver": "iris",
-    "where": "in the north of Ashford",
+    "where": "in the north of Emberfold",
     "diff": "Experienced",
     "points": 2,
     "req": {
@@ -6155,7 +6155,7 @@
     "end": "I can see the whole realm! Thank you.",
     "thanks": "I see you coming before you arrive."
    },
-   "start": "Talk to Iris the Seer in the north of Ashford.",
+   "start": "Talk to Iris the Seer in the north of Emberfold.",
    "rewards": [
     "8000 Runecrafting XP",
     "6000 Magic XP"
@@ -6172,15 +6172,15 @@
    "id": "bertram_debt",
    "name": "Unpaid Debts",
    "giver": "bertram",
-   "town": "Ashford",
+   "town": "Emberfold",
    "diff": "Novice",
    "points": 1,
    "data": {
     "id": "bertram_debt",
     "name": "Unpaid Debts",
-    "town": "Ashford",
+    "town": "Emberfold",
     "giver": "bertram",
-    "where": "on the east side of Ashford",
+    "where": "on the east side of Emberfold",
     "diff": "Novice",
     "points": 1,
     "intro": [
@@ -6191,7 +6191,7 @@
      {
       "t": "talk",
       "npc": "merchant2",
-      "where": "at the Ashford store",
+      "where": "at the Emberfold store",
       "say": [
        "Bertram sent you? Ugh. Fine.",
        "Tell him I'll pay in iron. I don't have any, so you'll have to bring some."
@@ -6218,7 +6218,7 @@
     "end": "Debt settled. Here's your commission.",
     "thanks": "Pleasure doing business."
    },
-   "start": "Talk to Bertram on the east side of Ashford.",
+   "start": "Talk to Bertram on the east side of Emberfold.",
    "rewards": [
     "600 Smithing XP",
     "500 Thieving XP",
@@ -6235,15 +6235,15 @@
    "id": "bertram_vault",
    "name": "The Vault Job",
    "giver": "bertram",
-   "town": "Ashford",
+   "town": "Emberfold",
    "diff": "Experienced",
    "points": 2,
    "data": {
     "id": "bertram_vault",
     "name": "The Vault Job",
-    "town": "Ashford",
+    "town": "Emberfold",
     "giver": "bertram",
-    "where": "on the east side of Ashford",
+    "where": "on the east side of Emberfold",
     "diff": "Experienced",
     "points": 2,
     "req": {
@@ -6275,7 +6275,7 @@
      {
       "t": "talk",
       "npc": "gruff",
-      "where": "south-east of Ashford square",
+      "where": "south-east of Emberfold square",
       "say": [
        "Bertram's vault? I'll post my best guard.",
        "Tell him not to worry."
@@ -6296,7 +6296,7 @@
     "end": "Now I know their tricks. My vault is safe!",
     "thanks": "Not a coin missing."
    },
-   "start": "Talk to Bertram on the east side of Ashford.",
+   "start": "Talk to Bertram on the east side of Emberfold.",
    "rewards": [
     "12000 Thieving XP",
     "6000 Agility XP",
@@ -6313,15 +6313,15 @@
    "id": "fen_arrows",
    "name": "Fen's Arrows",
    "giver": "fen",
-   "town": "Ashford",
+   "town": "Emberfold",
    "diff": "Novice",
    "points": 1,
    "data": {
     "id": "fen_arrows",
     "name": "Fen's Arrows",
-    "town": "Ashford",
+    "town": "Emberfold",
     "giver": "fen",
-    "where": "on the west side of Ashford",
+    "where": "on the west side of Emberfold",
     "diff": "Novice",
     "points": 1,
     "intro": [
@@ -6350,7 +6350,7 @@
     "end": "The militia thanks you!",
     "thanks": "Quivers are full."
    },
-   "start": "Talk to Fen the Fletcher on the west side of Ashford.",
+   "start": "Talk to Fen the Fletcher on the west side of Emberfold.",
    "rewards": [
     "1200 Fletching XP",
     "400 coins"
@@ -6366,15 +6366,15 @@
    "id": "fen_hunt",
    "name": "The Great Hunt",
    "giver": "fen",
-   "town": "Ashford",
+   "town": "Emberfold",
    "diff": "Intermediate",
    "points": 1,
    "data": {
     "id": "fen_hunt",
     "name": "The Great Hunt",
-    "town": "Ashford",
+    "town": "Emberfold",
     "giver": "fen",
-    "where": "on the west side of Ashford",
+    "where": "on the west side of Emberfold",
     "diff": "Intermediate",
     "points": 1,
     "req": {
@@ -6421,7 +6421,7 @@
     "end": "A fine hunt! You're a real ranger.",
     "thanks": "The pack keeps its distance."
    },
-   "start": "Talk to Fen the Fletcher on the west side of Ashford.",
+   "start": "Talk to Fen the Fletcher on the west side of Emberfold.",
    "rewards": [
     "5000 Ranged XP",
     "Oak shortbow"
@@ -6437,15 +6437,15 @@
    "id": "magda_herbs",
    "name": "Midwife's Herbs",
    "giver": "magda",
-   "town": "Ashford",
+   "town": "Emberfold",
    "diff": "Novice",
    "points": 1,
    "data": {
     "id": "magda_herbs",
     "name": "Midwife's Herbs",
-    "town": "Ashford",
+    "town": "Emberfold",
     "giver": "magda",
-    "where": "in the south of Ashford",
+    "where": "in the south of Emberfold",
     "diff": "Novice",
     "points": 1,
     "intro": [
@@ -6480,7 +6480,7 @@
     "end": "Bless you. Three babies were born last night!",
     "thanks": "The babies are thriving."
    },
-   "start": "Talk to Magda the Midwife in the south of Ashford.",
+   "start": "Talk to Magda the Midwife in the south of Emberfold.",
    "rewards": [
     "1200 Herblore XP",
     "300 coins"
@@ -6496,15 +6496,15 @@
    "id": "magda_fever",
    "name": "The Fever",
    "giver": "magda",
-   "town": "Ashford",
+   "town": "Emberfold",
    "diff": "Intermediate",
    "points": 1,
    "data": {
     "id": "magda_fever",
     "name": "The Fever",
-    "town": "Ashford",
+    "town": "Emberfold",
     "giver": "magda",
-    "where": "in the south of Ashford",
+    "where": "in the south of Emberfold",
     "diff": "Intermediate",
     "points": 1,
     "req": {
@@ -6516,7 +6516,7 @@
      }
     },
     "intro": [
-     "A fever is spreading through Ashford.",
+     "A fever is spreading through Emberfold.",
      "Brew me 3 Antipoison and 1 Strength potion."
     ],
     "steps": [
@@ -6541,9 +6541,9 @@
      }
     },
     "end": "The fever is breaking! You've saved lives.",
-    "thanks": "Ashford is healthy again."
+    "thanks": "Emberfold is healthy again."
    },
-   "start": "Talk to Magda the Midwife in the south of Ashford.",
+   "start": "Talk to Magda the Midwife in the south of Emberfold.",
    "rewards": [
     "4000 Herblore XP",
     "2 x Combat potion"
@@ -6559,15 +6559,15 @@
    "id": "gruff_training",
    "name": "Basic Training",
    "giver": "gruff",
-   "town": "Ashford",
+   "town": "Emberfold",
    "diff": "Novice",
    "points": 1,
    "data": {
     "id": "gruff_training",
     "name": "Basic Training",
-    "town": "Ashford",
+    "town": "Emberfold",
     "giver": "gruff",
-    "where": "on the south-east edge of Ashford",
+    "where": "on the south-east edge of Emberfold",
     "diff": "Novice",
     "points": 1,
     "intro": [
@@ -6601,7 +6601,7 @@
     "end": "Not bad, recruit. Not bad.",
     "thanks": "At ease."
    },
-   "start": "Talk to Sergeant Gruff on the south-east edge of Ashford.",
+   "start": "Talk to Sergeant Gruff on the south-east edge of Emberfold.",
    "rewards": [
     "1500 Defence XP",
     "800 Hitpoints XP",
@@ -6618,15 +6618,15 @@
    "id": "gruff_patrol",
    "name": "Night Patrol",
    "giver": "gruff",
-   "town": "Ashford",
+   "town": "Emberfold",
    "diff": "Intermediate",
    "points": 1,
    "data": {
     "id": "gruff_patrol",
     "name": "Night Patrol",
-    "town": "Ashford",
+    "town": "Emberfold",
     "giver": "gruff",
-    "where": "on the south-east edge of Ashford",
+    "where": "on the south-east edge of Emberfold",
     "diff": "Intermediate",
     "points": 1,
     "req": {
@@ -6673,9 +6673,9 @@
      }
     },
     "end": "Patrol complete. You'd make a fine sergeant.",
-    "thanks": "Ashford sleeps sound."
+    "thanks": "Emberfold sleeps sound."
    },
-   "start": "Talk to Sergeant Gruff on the south-east edge of Ashford.",
+   "start": "Talk to Sergeant Gruff on the south-east edge of Emberfold.",
    "rewards": [
     "3000 Attack XP",
     "3000 Defence XP",
@@ -6692,15 +6692,15 @@
    "id": "nim_lesson",
    "name": "A Thief's Lesson",
    "giver": "nim",
-   "town": "Ashford",
+   "town": "Emberfold",
    "diff": "Intermediate",
    "points": 1,
    "data": {
     "id": "nim_lesson",
     "name": "A Thief's Lesson",
-    "town": "Ashford",
+    "town": "Emberfold",
     "giver": "nim",
-    "where": "in the shadows west of Ashford",
+    "where": "in the shadows west of Emberfold",
     "diff": "Intermediate",
     "points": 1,
     "req": {
@@ -6710,7 +6710,7 @@
     },
     "intro": [
      "Psst. I hear you've got light fingers. Prove it.",
-     "Earn 2000 Thieving XP, then tell Pip in Brightwater that Nim says hello."
+     "Earn 2000 Thieving XP, then tell Pip in Larkhaven that Nim says hello."
     ],
     "steps": [
      {
@@ -6722,7 +6722,7 @@
      {
       "t": "talk",
       "npc": "pip",
-      "where": "east of Brightwater square",
+      "where": "east of Larkhaven square",
       "say": [
        "Nim? That old shadow? Tell 'em I said hello back.",
        "And that I still have their lucky coin."
@@ -6742,7 +6742,7 @@
     "end": "Pip still has my coin? Ha! Here, your cut.",
     "thanks": "Stay in the shadows."
    },
-   "start": "Talk to Nim in the shadows west of Ashford.",
+   "start": "Talk to Nim in the shadows west of Emberfold.",
    "rewards": [
     "4000 Thieving XP",
     "1000 coins"
@@ -6758,26 +6758,26 @@
    "id": "otto_post",
    "name": "Special Delivery",
    "giver": "otto",
-   "town": "Ashford",
+   "town": "Emberfold",
    "diff": "Novice",
    "points": 1,
    "data": {
     "id": "otto_post",
     "name": "Special Delivery",
-    "town": "Ashford",
+    "town": "Emberfold",
     "giver": "otto",
-    "where": "at the north edge of Ashford",
+    "where": "at the north edge of Emberfold",
     "diff": "Novice",
     "points": 1,
     "intro": [
      "I've got three letters and only two legs!",
-     "Deliver one to Granny Hilda in Brightwater, one to Shopkeeper Gerrant in Port Sarim and one to Aubury in Varrock."
+     "Deliver one to Granny Hilda in Larkhaven, one to Shopkeeper Gerrant in Saltreach and one to Orrin in Highcrest."
     ],
     "steps": [
      {
       "t": "talk",
       "npc": "hilda",
-      "where": "in Brightwater",
+      "where": "in Larkhaven",
       "say": [
        "A letter from my sister! How lovely, thank you dear."
       ]
@@ -6785,7 +6785,7 @@
      {
       "t": "talk",
       "npc": "gerrant",
-      "where": "in Port Sarim",
+      "where": "in Saltreach",
       "say": [
        "An order form! Excellent, thank you."
       ]
@@ -6793,7 +6793,7 @@
      {
       "t": "talk",
       "npc": "aubury",
-      "where": "in Varrock",
+      "where": "in Highcrest",
       "say": [
        "Ah, my essence delivery note. Much obliged."
       ]
@@ -6812,7 +6812,7 @@
     "end": "All three delivered? You're faster than me!",
     "thanks": "Want a job as a courier?"
    },
-   "start": "Talk to Otto the Courier at the north edge of Ashford.",
+   "start": "Talk to Otto the Courier at the north edge of Emberfold.",
    "rewards": [
     "1500 Agility XP",
     "1000 coins"
@@ -6828,15 +6828,15 @@
    "id": "otto_express",
    "name": "Express Post",
    "giver": "otto",
-   "town": "Ashford",
+   "town": "Emberfold",
    "diff": "Intermediate",
    "points": 1,
    "data": {
     "id": "otto_express",
     "name": "Express Post",
-    "town": "Ashford",
+    "town": "Emberfold",
     "giver": "otto",
-    "where": "at the north edge of Ashford",
+    "where": "at the north edge of Emberfold",
     "diff": "Intermediate",
     "points": 1,
     "req": {
@@ -6848,14 +6848,14 @@
      }
     },
     "intro": [
-     "Express parcels! Cassie in Falador and Horvik in Varrock, as fast as you can.",
+     "Express parcels! Brisa in Whitecairn and Horvik in Highcrest, as fast as you can.",
      "And keep your legs in shape: earn 2000 Agility XP."
     ],
     "steps": [
      {
       "t": "talk",
       "npc": "cassie",
-      "where": "at her armour shop in Falador",
+      "where": "at her armour shop in Whitecairn",
       "say": [
        "My new shield straps! Thank you."
       ]
@@ -6863,7 +6863,7 @@
      {
       "t": "talk",
       "npc": "horvik",
-      "where": "at his weapon shop in Varrock",
+      "where": "at his weapon shop in Highcrest",
       "say": [
        "Whetstones, finally. Cheers."
       ]
@@ -6888,7 +6888,7 @@
     "end": "Record time! You're the best courier in the realm.",
     "thanks": "Express post, express pay."
    },
-   "start": "Talk to Otto the Courier at the north edge of Ashford.",
+   "start": "Talk to Otto the Courier at the north edge of Emberfold.",
    "rewards": [
     "5000 Agility XP",
     "2500 coins"
@@ -6912,12 +6912,12 @@
     "name": "Mapping the Realm",
     "town": "Wilds",
     "giver": "ada",
-    "where": "on the road between Ashford and Varrock",
+    "where": "on the road between Emberfold and Highcrest",
     "diff": "Intermediate",
     "points": 1,
     "intro": [
      "I'm drawing a map of the whole realm, but my feet are tired.",
-     "Visit every town square for me: Brightwater, Port Sarim, Varrock, Falador and Ashford."
+     "Visit every town square for me: Larkhaven, Saltreach, Highcrest, Whitecairn and Emberfold."
     ],
     "steps": [
      {
@@ -6926,19 +6926,19 @@
      },
      {
       "t": "visit",
-      "place": "sarimSquare"
+      "place": "saltreachSquare"
      },
      {
       "t": "visit",
-      "place": "varrockSquare"
+      "place": "highcrestSquare"
      },
      {
       "t": "visit",
-      "place": "faladorSquare"
+      "place": "whitecairnSquare"
      },
      {
       "t": "visit",
-      "place": "ashfordSquare"
+      "place": "emberfoldSquare"
      }
     ],
     "xp": {
@@ -6954,7 +6954,7 @@
     "end": "My map is complete! Thank you, traveller.",
     "thanks": "Your name is on my map."
    },
-   "start": "Talk to Ada the Cartographer on the road between Ashford and Varrock.",
+   "start": "Talk to Ada the Cartographer on the road between Emberfold and Highcrest.",
    "rewards": [
     "4000 Agility XP",
     "3000 coins"
@@ -6978,7 +6978,7 @@
     "name": "Rune Pilgrim",
     "town": "Wilds",
     "giver": "ada",
-    "where": "on the road between Ashford and Varrock",
+    "where": "on the road between Emberfold and Highcrest",
     "diff": "Master",
     "points": 3,
     "req": {
@@ -7046,7 +7046,7 @@
     "end": "Every altar mapped! You truly are a pilgrim of the runes.",
     "thanks": "The map is finished, thanks to you."
    },
-   "start": "Talk to Ada the Cartographer on the road between Ashford and Varrock.",
+   "start": "Talk to Ada the Cartographer on the road between Emberfold and Highcrest.",
    "rewards": [
     "30000 Runecrafting XP",
     "10000 Magic XP",
@@ -7064,26 +7064,26 @@
  "npcs": {
   "cook": {
    "name": "Cook",
-   "examine": "The head cook of Brightwater."
+   "examine": "The head cook of Larkhaven."
   },
   "priest": {
    "name": "Father Elric",
-   "examine": "A kindly priest of Saradomin."
+   "examine": "A kindly priest of the Dawnmother."
   },
   "doric": {
-   "name": "Doric",
+   "name": "Bruna",
    "examine": "A dwarven smith with strong arms."
   },
   "captain": {
    "name": "Captain Rhea",
-   "examine": "Captain of the Brightwater guard."
+   "examine": "Captain of the Larkhaven guard."
   },
   "farmer": {
    "name": "Farmer Gil",
    "examine": "He smells faintly of cow."
   },
   "bob": {
-   "name": "Bob",
+   "name": "Tobin",
    "examine": "An expert on axes, pickaxes and other tools."
   },
   "ranger": {
@@ -7091,7 +7091,7 @@
    "examine": "A sharp-eyed ranger of the western woods."
   },
   "knight": {
-   "name": "Sir Vyvin",
+   "name": "Sir Calder",
    "examine": "A knight in shining armour."
   },
   "merchant": {
@@ -7108,15 +7108,15 @@
   },
   "mayor": {
    "name": "Mayor Aldric",
-   "examine": "Mayor of Ashford, worried about the eastern farms."
+   "examine": "Mayor of Emberfold, worried about the eastern farms."
   },
   "merchant2": {
    "name": "Trader Mira",
-   "examine": "A shrewd trader from Ashford."
+   "examine": "A shrewd trader from Emberfold."
   },
   "smith2": {
    "name": "Smith Torin",
-   "examine": "Ashford's blacksmith, always short of ore."
+   "examine": "Emberfold's blacksmith, always short of ore."
   },
   "farmer2": {
    "name": "Farmer Elara",
@@ -7124,19 +7124,19 @@
   },
   "guard2": {
    "name": "Guard Captain Ryn",
-   "examine": "Keeps the peace in Ashford."
+   "examine": "Keeps the peace in Emberfold."
   },
   "priest2": {
    "name": "Sister Lira",
-   "examine": "A priestess of Saradomin in Ashford."
+   "examine": "A priestess of the Dawnmother in Emberfold."
   },
   "ranger2": {
    "name": "Scout Vey",
-   "examine": "Scouts the woods east of Ashford."
+   "examine": "Scouts the woods east of Emberfold."
   },
   "cook2": {
    "name": "Chef Bran",
-   "examine": "Cooks for the Ashford inn."
+   "examine": "Cooks for the Emberfold inn."
   },
   "miner": {
    "name": "Miner Kael",
@@ -7148,7 +7148,7 @@
   },
   "knight2": {
    "name": "Sir Elric",
-   "examine": "A knight stationed near Ashford."
+   "examine": "A knight stationed near Emberfold."
   },
   "herbalist": {
    "name": "Herbalist Wren",
@@ -7156,7 +7156,7 @@
   },
   "carpenter": {
    "name": "Carpenter Olan",
-   "examine": "Builds and repairs in Ashford."
+   "examine": "Builds and repairs in Emberfold."
   },
   "hilda": {
    "name": "Granny Hilda",
@@ -7176,7 +7176,7 @@
   },
   "lena": {
    "name": "Lena the Lamplighter",
-   "examine": "She keeps Brightwater’s lamps burning."
+   "examine": "She keeps Larkhaven’s lamps burning."
   },
   "bram": {
    "name": "Bram the Brewer",
@@ -7192,19 +7192,19 @@
   },
   "dell": {
    "name": "Coach Dell",
-   "examine": "Brightwater’s agility coach. Fit as a fiddle."
+   "examine": "Larkhaven’s agility coach. Fit as a fiddle."
   },
   "grell": {
    "name": "Hermit Grell",
    "examine": "He has lived alone in the wilds for years."
   },
   "redbeard": {
-   "name": "Captain Redbeard",
+   "name": "Captain Saltbeard",
    "examine": "A pirate captain with a magnificent beard."
   },
   "wydin": {
-   "name": "Wydin the Grocer",
-   "examine": "Port Sarim’s food merchant."
+   "name": "Wendric the Grocer",
+   "examine": "Saltreach’s food merchant."
   },
   "gerda": {
    "name": "Net-mender Gerda",
@@ -7215,7 +7215,7 @@
    "examine": "Nothing enters or leaves the harbour without his say."
   },
   "thurgo": {
-   "name": "Thurgo",
+   "name": "Durgan",
    "examine": "A dwarf smith who loves pie."
   },
   "mabel": {
@@ -7235,31 +7235,31 @@
    "examine": "She guards the western woods."
   },
   "reldo": {
-   "name": "Reldo the Librarian",
-   "examine": "Varrock’s librarian. He knows a little about everything."
+   "name": "Ansel the Librarian",
+   "examine": "Highcrest’s librarian. He knows a little about everything."
   },
   "romeo": {
-   "name": "Romeo",
+   "name": "Rowan",
    "examine": "A lovesick young man."
   },
   "baraek": {
-   "name": "Baraek",
+   "name": "Barrick",
    "examine": "A fur trader with a keen eye for a bargain."
   },
   "zaff": {
-   "name": "Zaff",
+   "name": "Zevin",
    "examine": "He makes and sells staves."
   },
   "charlie": {
-   "name": "Charlie the Tramp",
-   "examine": "He knows the streets of Varrock better than anyone."
+   "name": "Cobb the Wanderer",
+   "examine": "He knows the streets of Highcrest better than anyone."
   },
   "rovin": {
    "name": "Captain Rovin",
-   "examine": "Captain of the Varrock palace guard."
+   "examine": "Captain of the Highcrest palace guard."
   },
   "gertrude": {
-   "name": "Gertrude",
+   "name": "Gwenna",
    "examine": "She is looking for her cat."
   },
   "ellis": {
@@ -7268,15 +7268,15 @@
   },
   "vorn": {
    "name": "Apothecary Vorn",
-   "examine": "Varrock’s potion maker."
+   "examine": "Highcrest’s potion maker."
   },
   "vannaka": {
-   "name": "Slayer Master Vannaka",
+   "name": "Huntsmaster Dravik",
    "examine": "A grizzled monster hunter."
   },
   "amik": {
-   "name": "Sir Amik Varze",
-   "examine": "Leader of the White Knights."
+   "name": "Sir Aldous Penhale",
+   "examine": "Leader of the Lantern Knights."
   },
   "squire": {
    "name": "The Squire",
@@ -7284,7 +7284,7 @@
   },
   "sabreen": {
    "name": "Sister Sabreen",
-   "examine": "A healer of the Saradomin church."
+   "examine": "A healer of the Dawnmother church."
   },
   "boot": {
    "name": "Boot the Dwarf",
@@ -7292,31 +7292,31 @@
   },
   "sarah": {
    "name": "Farmer Sarah",
-   "examine": "She farms the fields east of Falador."
+   "examine": "She farms the fields east of Whitecairn."
   },
   "wayne": {
-   "name": "Wayne the Armourer",
-   "examine": "He makes the White Knights’ armour."
+   "name": "Wendel the Armourer",
+   "examine": "He makes the Lantern Knights’ armour."
   },
   "pete": {
-   "name": "Party Pete",
+   "name": "Merry Mott",
    "examine": "He loves a party."
   },
   "kaylee": {
-   "name": "Kaylee the Barmaid",
-   "examine": "She runs the Rising Sun inn."
+   "name": "Fenna the Barmaid",
+   "examine": "She runs the Gilded Hearth inn."
   },
   "elwyn": {
    "name": "Elwyn the Bowyer",
-   "examine": "He makes the finest bows in Falador."
+   "examine": "He makes the finest bows in Whitecairn."
   },
   "oswin": {
    "name": "Oswin the Exile",
-   "examine": "A knight who was cast out of Falador."
+   "examine": "A knight who was cast out of Whitecairn."
   },
   "hazel": {
    "name": "Innkeeper Hazel",
-   "examine": "She runs the Ashford inn."
+   "examine": "She runs the Emberfold inn."
   },
   "tomas": {
    "name": "Tomas the Toymaker",
@@ -7332,15 +7332,15 @@
   },
   "fen": {
    "name": "Fen the Fletcher",
-   "examine": "He makes arrows for the Ashford guard."
+   "examine": "He makes arrows for the Emberfold guard."
   },
   "magda": {
    "name": "Magda the Midwife",
-   "examine": "She has delivered half the babies in Ashford."
+   "examine": "She has delivered half the babies in Emberfold."
   },
   "gruff": {
    "name": "Sergeant Gruff",
-   "examine": "He trains the Ashford militia."
+   "examine": "He trains the Emberfold militia."
   },
   "nim": {
    "name": "Nim",
@@ -7372,7 +7372,7 @@
   },
   "deedwarden": {
    "name": "Deedwarden Oswin",
-   "examine": "He sells Hearthstead deeds behind Brightwater.",
+   "examine": "He sells Hearthstead deeds behind Larkhaven.",
    "service": "hearth",
    "x": -14,
    "z": 20,
@@ -7412,7 +7412,7 @@
   },
   "brannoch": {
    "name": "Factor Brannoch",
-   "examine": "The Charter Company factor in Wellmere.",
+   "examine": "The Charter Company factor in Thistlewell.",
    "service": "charter",
    "x": 37,
    "z": 84,
@@ -7420,7 +7420,7 @@
   },
   "ysmay": {
    "name": "Elder Ysmay",
-   "examine": "She speaks for the Wellmere commons.",
+   "examine": "She speaks for the Thistlewell commons.",
    "service": "charter",
    "x": 44,
    "z": 98,
@@ -7532,11 +7532,11 @@
   }
  },
  "towns": [
-  "Brightwater",
-  "Ashford",
-  "Port Sarim",
-  "Varrock",
-  "Falador",
+  "Larkhaven",
+  "Emberfold",
+  "Saltreach",
+  "Highcrest",
+  "Whitecairn",
   "Wilds"
  ],
  "qpMilestones": [

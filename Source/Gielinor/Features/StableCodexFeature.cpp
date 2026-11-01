@@ -6,7 +6,7 @@ static const TCHAR* GLookSlots[] = { TEXT("head"), TEXT("body"), TEXT("legs"), T
 
 const TArray<FString>& UStableCodexFeature::Roosts()
 {
-	static const TArray<FString> R = { TEXT("Brightwater"), TEXT("Ashford"), TEXT("Port Sarim"), TEXT("Varrock"), TEXT("Falador") };
+	static const TArray<FString> R = { TEXT("Larkhaven"), TEXT("Emberfold"), TEXT("Saltreach"), TEXT("Highcrest"), TEXT("Whitecairn") };
 	return R;
 }
 
@@ -19,13 +19,13 @@ TArray<FCodexMount> UStableCodexFeature::GetMounts() const
 	Add(TEXT("stag"), TEXT("Fernback Stag"), TEXT("steed"), TEXT("Agility 10"), St && St->Owns(TEXT("stag")));
 	Add(TEXT("boar"), TEXT("Ironbristle Boar"), TEXT("steed"), TEXT("Agility 30"), St && St->Owns(TEXT("boar")));
 	Add(TEXT("skywing"), TEXT("Skywing"), TEXT("flyer"), TEXT("Agility 70 and Exalted with a faction"), Sk && Sk->IsUnlocked());
-	Add(TEXT("skyrook"), TEXT("Skyrook"), TEXT("flyer"), TEXT("Visit Roostmaster Hale at Brightwater"), bSkyrook);
+	Add(TEXT("skyrook"), TEXT("Skyrook"), TEXT("flyer"), TEXT("Visit Roostmaster Hale at Larkhaven"), bSkyrook);
 	return Out;
 }
 
 bool UStableCodexFeature::StartFlight(const FString& Roost)
 {
-	if (!bSkyrook) { Say(TEXT("Visit Roostmaster Hale at Brightwater to ride the Skyrooks.")); return false; }
+	if (!bSkyrook) { Say(TEXT("Visit Roostmaster Hale at Larkhaven to ride the Skyrooks.")); return false; }
 	if (!Roosts().Contains(Roost)) return false;
 	++Flights; return true;
 }

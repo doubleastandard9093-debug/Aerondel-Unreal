@@ -2,17 +2,18 @@
 #include "Core/GielinorPlayerState.h"
 #include "Quests/QuestComponent.h"
 #include "Data/QuestDef.h"
+#include "Data/TownRenames.h"
 
 const TArray<FFactionDef>& UStandingFeature::Factions()
 {
 	static TArray<FFactionDef> D;
 	if (D.Num()) return D;
 	auto Add = [](FName Id, const TCHAR* Name, TArray<FString> Towns, TArray<FString> Skills) { FFactionDef& F = D.AddDefaulted_GetRef(); F.Id = Id; F.Name = Name; F.Towns = MoveTemp(Towns); F.Skills = MoveTemp(Skills); };
-	Add(TEXT("watch"), TEXT("Brightwater Watch"), { TEXT("Brightwater"), TEXT("Ashford"), TEXT("Wilds") }, { TEXT("Attack"), TEXT("Defence"), TEXT("Strength"), TEXT("Hitpoints") });
-	Add(TEXT("mariners"), TEXT("Sarim Mariners"), { TEXT("Port Sarim") }, { TEXT("Fishing"), TEXT("Cooking"), TEXT("Ranged") });
-	Add(TEXT("circle"), TEXT("Varrock Arcane Circle"), { TEXT("Varrock") }, { TEXT("Magic"), TEXT("Runecrafting"), TEXT("Herblore") });
+	Add(TEXT("watch"), TEXT("Larkhaven Watch"), { TEXT("Larkhaven"), TEXT("Emberfold"), TEXT("Wilds") }, { TEXT("Attack"), TEXT("Defence"), TEXT("Strength"), TEXT("Hitpoints") });
+	Add(TEXT("mariners"), TEXT("Saltreach Mariners"), { TEXT("Saltreach") }, { TEXT("Fishing"), TEXT("Cooking"), TEXT("Ranged") });
+	Add(TEXT("circle"), TEXT("Highcrest Arcane Circle"), { TEXT("Highcrest") }, { TEXT("Magic"), TEXT("Runecrafting"), TEXT("Herblore") });
 	Add(TEXT("drowned"), TEXT("Drowned Crew"), {}, { TEXT("Agility"), TEXT("Thieving") });
-	Add(TEXT("lantern"), TEXT("Order of the White Lantern"), { TEXT("Falador") }, { TEXT("Prayer"), TEXT("Smithing"), TEXT("Mining") });
+	Add(TEXT("lantern"), TEXT("Order of the White Lantern"), { TEXT("Whitecairn") }, { TEXT("Prayer"), TEXT("Smithing"), TEXT("Mining") });
 	return D;
 }
 
@@ -68,8 +69,9 @@ int32 UStandingFeature::ClaimTierRewards()
 	return Paid;
 }
 
-FName UStandingFeature::FactionForTown(const FString& Town) const
+FName UStandingFeature::FactionForTown(const FString& InTown) const
 {
+	const FString Town = GielinorTowns::MigrateName(InTown); // pre-rename names still resolve
 	for (const FFactionDef& F : Factions()) for (const FString& T : F.Towns) if (T.Equals(Town, ESearchCase::IgnoreCase)) return F.Id;
 	return NAME_None;
 }

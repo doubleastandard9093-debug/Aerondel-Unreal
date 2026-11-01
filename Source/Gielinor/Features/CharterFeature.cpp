@@ -41,8 +41,8 @@ bool UCharterFeature::Resolve(FName NewSide)
 			C->AddBond(D->Id, N);
 			Say(FString::Printf(TEXT("%s %s (%+d Bond)."), *D->Name, N > 0 ? TEXT("approves") : TEXT("disapproves"), N));
 		}
-	Say(NewSide == Betray ? FString::Printf(TEXT("You sell the spring deeds to both sides and pocket %d coins. Wellmere empties."), BetrayCoins)
-		: FString::Printf(TEXT("Wellmere's spring goes to %s. The hamlet will remember."), NewSide == Charter ? TEXT("the Charter") : NewSide == Commons ? TEXT("the Commons") : TEXT("both sides")));
+	Say(NewSide == Betray ? FString::Printf(TEXT("You sell the spring deeds to both sides and pocket %d coins. Thistlewell empties."), BetrayCoins)
+		: FString::Printf(TEXT("Thistlewell's spring goes to %s. The hamlet will remember."), NewSide == Charter ? TEXT("the Charter") : NewSide == Commons ? TEXT("the Commons") : TEXT("both sides")));
 	OnResolved.Broadcast(Side);
 	return true;
 }
@@ -83,9 +83,9 @@ FString UCharterFeature::Greeting(FName NpcId) const
 	const bool bCharterNpc = NpcId != FName(TEXT("ysmay"));
 	if (Side == Betray) return TEXT("...");
 	if (!Side.IsNone())
-		return bCharterNpc ? FString(TEXT("Brannoch, factor. ")) + (Side == Deal ? TEXT("The Accord holds. Trade is good for everyone.") : TEXT("The Charter runs Wellmere now. Our guards keep the spring."))
+		return bCharterNpc ? FString(TEXT("Brannoch, factor. ")) + (Side == Deal ? TEXT("The Accord holds. Trade is good for everyone.") : TEXT("The Charter runs Thistlewell now. Our guards keep the spring."))
 			: FString(TEXT("Ysmay, elder. ")) + (Side == Deal ? TEXT("The Accord holds. The spring is shared.") : TEXT("The Commons keep the spring for all who work."));
-	return bCharterNpc ? TEXT("Brannoch, factor of the Wellmere Charter. That spring was bought fair. The Commons squat on it and call it theirs. Help me keep order and the Watch will hear of it.")
+	return bCharterNpc ? TEXT("Brannoch, factor of the Thistlewell Charter. That spring was bought fair. The Commons squat on it and call it theirs. Help me keep order and the Watch will hear of it.")
 		: TEXT("Ysmay, elder of the Commons. We dug that spring with our own hands. The Charter wants to sell our water back to us. Stand with us.");
 }
 

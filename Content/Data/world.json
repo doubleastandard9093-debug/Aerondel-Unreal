@@ -10,23 +10,23 @@
   "r": 7
  },
  "towns": {
-  "Brightwater": {
+  "Larkhaven": {
    "x": 0,
    "z": 0
   },
-  "Ashford": {
+  "Emberfold": {
    "x": 50,
    "z": -24
   },
-  "Port Sarim": {
+  "Saltreach": {
    "x": -80,
    "z": 60
   },
-  "Varrock": {
+  "Highcrest": {
    "x": 120,
    "z": -40
   },
-  "Falador": {
+  "Whitecairn": {
    "x": -60,
    "z": -80
   }
@@ -203,7 +203,7 @@
    6,
    10130568,
    6957610,
-   "Bank of Brightwater",
+   "Bank of Larkhaven",
    "Your money is safe here."
   ],
   [
@@ -223,7 +223,7 @@
    4,
    12098154,
    9062954,
-   "Bob's Brilliant Tools",
+   "Tobin's Trusty Tools",
    "Axes, pickaxes and fishing gear."
   ],
   [
@@ -233,7 +233,7 @@
    7,
    14209216,
    4868698,
-   "Church of Saradomin",
+   "Chapel of the Dawnmother",
    "A peaceful place of worship."
   ],
   [
@@ -243,7 +243,7 @@
    4,
    6969930,
    3815994,
-   "Doric's Smithy",
+   "Bruna's Smithy",
    "You can hear hammering inside."
   ],
   [
@@ -303,7 +303,7 @@
    6,
    9075306,
    5913130,
-   "Ashford Bank",
+   "Emberfold Bank",
    "A smaller bank serving the eastern farms."
   ],
   [
@@ -313,7 +313,7 @@
    5,
    12101752,
    4872762,
-   "Ashford Store",
+   "Emberfold Store",
    "Local goods and supplies."
   ],
   [
@@ -323,7 +323,7 @@
    4,
    6969930,
    3815994,
-   "Ashford Smithy",
+   "Emberfold Smithy",
    "Hammering rings from the forge."
   ],
   [
@@ -333,7 +333,7 @@
    3,
    13680800,
    8010282,
-   "Ashford House",
+   "Emberfold House",
    "A farmhouse."
   ],
   [
@@ -343,7 +343,7 @@
    3,
    12628112,
    5917242,
-   "Ashford House",
+   "Emberfold House",
    "Another cottage."
   ],
   [
@@ -353,7 +353,7 @@
    5,
    13153418,
    3824266,
-   "Port Sarim General Store",
+   "Saltreach General Store",
    "Supplies for sailors and travellers."
   ],
   [
@@ -363,7 +363,7 @@
    5,
    8022682,
    3811946,
-   "Betty's Magic Emporium",
+   "Odessa's Magic Emporium",
    "Runes, staffs and robes. Smells of incense."
   ],
   [
@@ -373,7 +373,7 @@
    4,
    13680800,
    8010282,
-   "Port Sarim House",
+   "Saltreach House",
    "A fisherman's cottage."
   ],
   [
@@ -383,7 +383,7 @@
    4,
    9071178,
    4864554,
-   "The Rusty Anchor",
+   "The Barnacle Rest",
    "A noisy sailors' tavern."
   ],
   [
@@ -393,8 +393,8 @@
    7,
    10130568,
    5921386,
-   "Varrock Palace",
-   "Home of King Roald."
+   "Highcrest Palace",
+   "Home of King Aldermar."
   ],
   [
    110,
@@ -403,7 +403,7 @@
    5,
    6969930,
    3815994,
-   "Varrock Weaponsmith",
+   "Highcrest Weaponsmith",
    "Swords and bows line the walls."
   ],
   [
@@ -413,7 +413,7 @@
    5,
    13153418,
    9058858,
-   "Varrock General Store",
+   "Highcrest General Store",
    "All sorts of odds and ends."
   ],
   [
@@ -423,8 +423,8 @@
    4,
    8022682,
    3811946,
-   "Aubury's Rune Shop",
-   "Aubury sells runes and knows the way to the essence mine."
+   "Orrin's Rune Shop",
+   "Orrin sells runes and knows the way to the essence mine."
   ],
   [
    110,
@@ -433,7 +433,7 @@
    4,
    13680800,
    5917242,
-   "Varrock House",
+   "Highcrest House",
    "A townhouse."
   ],
   [
@@ -443,8 +443,8 @@
    7,
    15262940,
    4872826,
-   "White Knights' Castle",
-   "The White Knights guard Falador."
+   "Lantern Keep",
+   "The Lantern Knights guard Whitecairn."
   ],
   [
    -70,
@@ -453,8 +453,8 @@
    5,
    14210252,
    5921386,
-   "Falador Armoury",
-   "Cassie sells shields and plate armour."
+   "Whitecairn Armoury",
+   "Brisa sells shields and plate armour."
   ],
   [
    -50,
@@ -463,8 +463,8 @@
    4,
    14209216,
    6957610,
-   "Falador Inn",
-   "The Rising Sun inn."
+   "Whitecairn Inn",
+   "The Gilded Hearth inn."
   ],
   [
    -70,
@@ -473,7 +473,7 @@
    4,
    14736592,
    4872826,
-   "Falador House",
+   "Whitecairn House",
    "A white stone house."
   ],
   [
@@ -483,7 +483,7 @@
    4,
    14736592,
    3824186,
-   "Falador House",
+   "Whitecairn House",
    "A white stone house."
   ],
   [
@@ -656,43 +656,43 @@
    "x": -26,
    "z": 34,
    "r": 4,
-   "name": "the Air altar south-west of Brightwater"
+   "name": "the Air altar south-west of Larkhaven"
   },
   "mindAltar": {
    "x": -40,
    "z": -102,
    "r": 4,
-   "name": "the Mind altar north-east of Falador"
+   "name": "the Mind altar north-east of Whitecairn"
   },
   "waterAltar": {
    "x": -104,
    "z": 76,
    "r": 4,
-   "name": "the Water altar south-west of Port Sarim"
+   "name": "the Water altar south-west of Saltreach"
   },
   "earthAltar": {
    "x": 100,
    "z": -66,
    "r": 4,
-   "name": "the Earth altar north-west of Varrock"
+   "name": "the Earth altar north-west of Highcrest"
   },
   "fireAltar": {
    "x": 143,
    "z": -72,
    "r": 4,
-   "name": "the Fire altar north-east of Varrock"
+   "name": "the Fire altar north-east of Highcrest"
   },
   "bodyAltar": {
    "x": -28,
    "z": -64,
    "r": 4,
-   "name": "the Body altar between Brightwater and Falador"
+   "name": "the Body altar between Larkhaven and Whitecairn"
   },
   "chaosAltar": {
    "x": -44,
    "z": 100,
    "r": 4,
-   "name": "the dark Chaos altar south-east of Port Sarim"
+   "name": "the dark Chaos altar south-east of Saltreach"
   },
   "deathAltar": {
    "x": 98,
@@ -710,97 +710,97 @@
    "x": 132,
    "z": -22,
    "r": 6,
-   "name": "the rune essence mine south-east of Varrock"
+   "name": "the rune essence mine south-east of Highcrest"
   },
   "bwMine": {
    "x": 22,
    "z": 20,
    "r": 6,
-   "name": "the Brightwater mine south-east of town"
+   "name": "the Larkhaven mine south-east of town"
   },
   "highMine": {
    "x": -9,
    "z": -28,
    "r": 4,
-   "name": "the high-level mine north of Brightwater"
+   "name": "the high-level mine north of Larkhaven"
   },
   "tower": {
    "x": 0,
    "z": 29,
    "r": 5,
-   "name": "the wizard tower south of Brightwater"
+   "name": "the wizard tower south of Larkhaven"
   },
   "lake": {
    "x": -20,
    "z": 16,
    "r": 10,
-   "name": "the shore of Brightwater lake"
+   "name": "the shore of Larkhaven lake"
   },
   "bwCourse": {
    "x": 22,
    "z": 37,
    "r": 7,
-   "name": "the Brightwater agility course"
+   "name": "the Larkhaven agility course"
   },
   "vCourse": {
    "x": 105,
    "z": -20,
    "r": 7,
-   "name": "the Varrock agility course"
+   "name": "the Highcrest agility course"
   },
   "psCourse": {
    "x": -60,
    "z": 71,
    "r": 7,
-   "name": "the Port Sarim rigging course"
+   "name": "the Saltreach rigging course"
   },
   "fCourse": {
    "x": -81,
    "z": -60,
    "r": 7,
-   "name": "the Falador agility course"
+   "name": "the Whitecairn agility course"
   },
   "bandits": {
    "x": -50,
    "z": 91,
    "r": 8,
-   "name": "the bandit camp south-east of Port Sarim"
+   "name": "the bandit camp south-east of Saltreach"
   },
   "mossGiants": {
    "x": -108,
    "z": 43,
    "r": 8,
-   "name": "the Moss Giant woods west of Port Sarim"
+   "name": "the Moss Giant woods west of Saltreach"
   },
   "iceWest": {
    "x": -113,
    "z": 100,
    "r": 8,
-   "name": "the frozen hollow south-west of Port Sarim"
+   "name": "the frozen hollow south-west of Saltreach"
   },
   "iceEast": {
    "x": 137,
    "z": -12,
    "r": 8,
-   "name": "the icy ridge east of Varrock"
+   "name": "the icy ridge east of Highcrest"
   },
   "ogres": {
    "x": -100,
    "z": -113,
    "r": 9,
-   "name": "the ogre hills north-west of Falador"
+   "name": "the ogre hills north-west of Whitecairn"
   },
   "demons": {
    "x": 117,
    "z": -98,
    "r": 9,
-   "name": "the demon ruins north of Varrock"
+   "name": "the demon ruins north of Highcrest"
   },
   "dragons": {
    "x": 120,
    "z": -122,
    "r": 10,
-   "name": "the dragon lair far north of Varrock"
+   "name": "the dragon lair far north of Highcrest"
   },
   "scorch": {
    "x": 134,
@@ -812,19 +812,19 @@
    "x": 13,
    "z": -13,
    "r": 6,
-   "name": "the goblin camp north-east of Brightwater"
+   "name": "the goblin camp north-east of Larkhaven"
   },
   "giants": {
    "x": -1,
    "z": -31,
    "r": 6,
-   "name": "the Hill Giant slopes north of Brightwater"
+   "name": "the Hill Giant slopes north of Larkhaven"
   },
   "blackKnights": {
    "x": -17,
    "z": -33,
    "r": 5,
-   "name": "the Black Knight outpost north of Brightwater"
+   "name": "the Black Knight outpost north of Larkhaven"
   },
   "darkWood": {
    "x": -34,
@@ -836,103 +836,103 @@
    "x": 38,
    "z": -11,
    "r": 6,
-   "name": "the wolf den east of Brightwater"
+   "name": "the wolf den east of Larkhaven"
   },
   "graveyard": {
    "x": -26,
    "z": -28,
    "r": 5,
-   "name": "the old graveyard north-west of Brightwater"
+   "name": "the old graveyard north-west of Larkhaven"
   },
   "boneyard": {
    "x": 26,
    "z": -37,
    "r": 5,
-   "name": "the skeleton boneyard north-east of Brightwater"
+   "name": "the skeleton boneyard north-east of Larkhaven"
   },
   "spiderNest": {
    "x": -37,
    "z": -20,
    "r": 5,
-   "name": "the spider nest north-west of Brightwater"
+   "name": "the spider nest north-west of Larkhaven"
   },
   "magicGrove": {
    "x": 10,
    "z": -33,
    "r": 5,
-   "name": "the magic tree grove north of Brightwater"
+   "name": "the magic tree grove north of Larkhaven"
   },
   "yewGrove": {
    "x": -31,
    "z": -1,
    "r": 5,
-   "name": "the yew grove west of Brightwater"
+   "name": "the yew grove west of Larkhaven"
   },
   "mapleWood": {
    "x": 31,
    "z": 4,
    "r": 5,
-   "name": "the maple wood east of Brightwater"
+   "name": "the maple wood east of Larkhaven"
   },
   "willowBank": {
    "x": -98,
    "z": 66,
    "r": 6,
-   "name": "the willows west of Port Sarim"
+   "name": "the willows west of Saltreach"
   },
   "docks": {
    "x": -80,
    "z": 72,
    "r": 6,
-   "name": "the Port Sarim docks"
+   "name": "the Saltreach docks"
   },
-  "varrockSquare": {
+  "highcrestSquare": {
    "x": 120,
    "z": -40,
    "r": 6,
-   "name": "Varrock square"
+   "name": "Highcrest square"
   },
-  "faladorSquare": {
+  "whitecairnSquare": {
    "x": -60,
    "z": -80,
    "r": 6,
-   "name": "Falador square"
+   "name": "Whitecairn square"
   },
-  "ashfordSquare": {
+  "emberfoldSquare": {
    "x": 50,
    "z": -24,
    "r": 6,
-   "name": "Ashford square"
+   "name": "Emberfold square"
   },
-  "sarimSquare": {
+  "saltreachSquare": {
    "x": -80,
    "z": 60,
    "r": 6,
-   "name": "Port Sarim square"
+   "name": "Saltreach square"
   },
   "bwSquare": {
    "x": 0,
    "z": 0,
    "r": 5,
-   "name": "Brightwater town square"
+   "name": "Larkhaven town square"
   },
-  "yewFalador": {
+  "yewWhitecairn": {
    "x": -38,
    "z": -88,
    "r": 6,
-   "name": "the yew trees east of Falador"
+   "name": "the yew trees east of Whitecairn"
   },
-  "magicVarrock": {
+  "magicHighcrest": {
    "x": 104,
    "z": -112,
    "r": 5,
-   "name": "the magic trees north of Varrock"
+   "name": "the magic trees north of Highcrest"
   },
-  "mapleVarrock": {
+  "mapleHighcrest": {
    "x": 100,
    "z": -6,
    "r": 6,
-   "name": "the maple trees south-west of Varrock"
+   "name": "the maple trees south-west of Highcrest"
   },
   "grumsh": {
    "x": -112,

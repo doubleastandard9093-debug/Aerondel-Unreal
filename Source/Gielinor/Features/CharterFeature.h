@@ -3,7 +3,7 @@
 #include "Features/GielinorFeature.h"
 #include "CharterFeature.generated.h"
 
-/** One stall line in Wellmere (what is sold depends on the outcome). */
+/** One stall line in Thistlewell (what is sold depends on the outcome). */
 USTRUCT(BlueprintType)
 struct FCharterStall
 {
@@ -15,7 +15,7 @@ struct FCharterStall
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnCharterResolved, FName, Side);
 
-/** Charter vs Commons: the frontier hamlet of Wellmere. The Wellmere Charter (merchants, factor Brannoch) and the Commons
+/** Charter vs Commons: the frontier hamlet of Thistlewell. The Thistlewell Charter (merchants, factor Brannoch) and the Commons
  *  (elder Ysmay) both claim the same spring. Side with one, broker the Spring Accord (Persuade 40) or betray both (Lie 30).
  *  Permanent: it changes who lives there (level listens on OnResolved / IsNpcPresent), the stall and companion bond. */
 UCLASS()

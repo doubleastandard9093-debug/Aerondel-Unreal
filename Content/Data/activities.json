@@ -1,7 +1,7 @@
 {
  "agilityCourses": {
-  "brightwater": {
-   "name": "Brightwater Agility Course",
+  "larkhaven": {
+   "name": "Larkhaven Agility Course",
    "level": 1,
    "lapXp": 39,
    "obstacles": [
@@ -39,8 +39,8 @@
     }
    ]
   },
-  "varrock": {
-   "name": "Varrock Agility Course",
+  "highcrest": {
+   "name": "Highcrest Agility Course",
    "level": 30,
    "lapXp": 125,
    "obstacles": [
@@ -78,8 +78,8 @@
     }
    ]
   },
-  "portsarim": {
-   "name": "Port Sarim Docks Course",
+  "saltreach": {
+   "name": "Saltreach Docks Course",
    "level": 45,
    "lapXp": 190,
    "obstacles": [
@@ -117,8 +117,8 @@
     }
    ]
   },
-  "falador": {
-   "name": "Falador Agility Course",
+  "whitecairn": {
+   "name": "Whitecairn Agility Course",
    "level": 60,
    "lapXp": 300,
    "obstacles": [
@@ -166,207 +166,207 @@
   }
  },
  "agilityObstacles": {
-  "brightwater:0": {
+  "larkhaven:0": {
    "name": "Log balance",
    "verb": "Walk-across",
    "kind": "log",
    "level": 1,
    "xp": 7.5,
    "failDmg": 10,
-   "id": "brightwater:0",
-   "course": "brightwater",
+   "id": "larkhaven:0",
+   "course": "larkhaven",
    "index": 0,
    "last": false
   },
-  "brightwater:1": {
+  "larkhaven:1": {
    "name": "Obstacle net",
    "verb": "Climb-over",
    "kind": "net",
    "level": 1,
    "xp": 7.5,
    "failDmg": 10,
-   "id": "brightwater:1",
-   "course": "brightwater",
+   "id": "larkhaven:1",
+   "course": "larkhaven",
    "index": 1,
    "last": false
   },
-  "brightwater:2": {
+  "larkhaven:2": {
    "name": "Balancing rope",
    "verb": "Walk-on",
    "kind": "rope",
    "level": 1,
    "xp": 7.5,
    "failDmg": 10,
-   "id": "brightwater:2",
-   "course": "brightwater",
+   "id": "larkhaven:2",
+   "course": "larkhaven",
    "index": 2,
    "last": false
   },
-  "brightwater:3": {
+  "larkhaven:3": {
    "name": "Obstacle pipe",
    "verb": "Squeeze-through",
    "kind": "pipe",
    "level": 1,
    "xp": 7.5,
    "failDmg": 10,
-   "id": "brightwater:3",
-   "course": "brightwater",
+   "id": "larkhaven:3",
+   "course": "larkhaven",
    "index": 3,
    "last": true
   },
-  "varrock:0": {
+  "highcrest:0": {
    "name": "Rough wall",
    "verb": "Climb",
    "kind": "wall",
    "level": 30,
    "xp": 12,
    "failDmg": 20,
-   "id": "varrock:0",
-   "course": "varrock",
+   "id": "highcrest:0",
+   "course": "highcrest",
    "index": 0,
    "last": false
   },
-  "varrock:1": {
+  "highcrest:1": {
    "name": "Clothes line",
    "verb": "Cross",
    "kind": "rope",
    "level": 30,
    "xp": 21,
    "failDmg": 30,
-   "id": "varrock:1",
-   "course": "varrock",
+   "id": "highcrest:1",
+   "course": "highcrest",
    "index": 1,
    "last": false
   },
-  "varrock:2": {
+  "highcrest:2": {
    "name": "Gap",
    "verb": "Leap",
    "kind": "gap",
    "level": 30,
    "xp": 17,
    "failDmg": 30,
-   "id": "varrock:2",
-   "course": "varrock",
+   "id": "highcrest:2",
+   "course": "highcrest",
    "index": 2,
    "last": false
   },
-  "varrock:3": {
+  "highcrest:3": {
    "name": "Wall ledge",
    "verb": "Balance",
    "kind": "log",
    "level": 30,
    "xp": 25,
    "failDmg": 30,
-   "id": "varrock:3",
-   "course": "varrock",
+   "id": "highcrest:3",
+   "course": "highcrest",
    "index": 3,
    "last": true
   },
-  "portsarim:0": {
+  "saltreach:0": {
    "name": "Rigging net",
    "verb": "Climb-over",
    "kind": "net",
    "level": 45,
    "xp": 30,
    "failDmg": 40,
-   "id": "portsarim:0",
-   "course": "portsarim",
+   "id": "saltreach:0",
+   "course": "saltreach",
    "index": 0,
    "last": false
   },
-  "portsarim:1": {
+  "saltreach:1": {
    "name": "Mast rope",
    "verb": "Swing-on",
    "kind": "rope",
    "level": 45,
    "xp": 35,
    "failDmg": 40,
-   "id": "portsarim:1",
-   "course": "portsarim",
+   "id": "saltreach:1",
+   "course": "saltreach",
    "index": 1,
    "last": false
   },
-  "portsarim:2": {
+  "saltreach:2": {
    "name": "Crate stack",
    "verb": "Climb",
    "kind": "wall",
    "level": 45,
    "xp": 30,
    "failDmg": 40,
-   "id": "portsarim:2",
-   "course": "portsarim",
+   "id": "saltreach:2",
+   "course": "saltreach",
    "index": 2,
    "last": false
   },
-  "portsarim:3": {
+  "saltreach:3": {
    "name": "Pier gap",
    "verb": "Jump",
    "kind": "gap",
    "level": 45,
    "xp": 40,
    "failDmg": 50,
-   "id": "portsarim:3",
-   "course": "portsarim",
+   "id": "saltreach:3",
+   "course": "saltreach",
    "index": 3,
    "last": true
   },
-  "falador:0": {
+  "whitecairn:0": {
    "name": "Rough wall",
    "verb": "Climb",
    "kind": "wall",
    "level": 60,
    "xp": 45,
    "failDmg": 50,
-   "id": "falador:0",
-   "course": "falador",
+   "id": "whitecairn:0",
+   "course": "whitecairn",
    "index": 0,
    "last": false
   },
-  "falador:1": {
+  "whitecairn:1": {
    "name": "Tightrope",
    "verb": "Cross",
    "kind": "rope",
    "level": 60,
    "xp": 50,
    "failDmg": 60,
-   "id": "falador:1",
-   "course": "falador",
+   "id": "whitecairn:1",
+   "course": "whitecairn",
    "index": 1,
    "last": false
   },
-  "falador:2": {
+  "whitecairn:2": {
    "name": "Hand holds",
    "verb": "Cross",
    "kind": "net",
    "level": 60,
    "xp": 55,
    "failDmg": 60,
-   "id": "falador:2",
-   "course": "falador",
+   "id": "whitecairn:2",
+   "course": "whitecairn",
    "index": 2,
    "last": false
   },
-  "falador:3": {
+  "whitecairn:3": {
    "name": "Gap",
    "verb": "Jump",
    "kind": "gap",
    "level": 60,
    "xp": 50,
    "failDmg": 60,
-   "id": "falador:3",
-   "course": "falador",
+   "id": "whitecairn:3",
+   "course": "whitecairn",
    "index": 3,
    "last": false
   },
-  "falador:4": {
+  "whitecairn:4": {
    "name": "Ledge",
    "verb": "Balance",
    "kind": "log",
    "level": 60,
    "xp": 60,
    "failDmg": 60,
-   "id": "falador:4",
-   "course": "falador",
+   "id": "whitecairn:4",
+   "course": "whitecairn",
    "index": 4,
    "last": true
   }

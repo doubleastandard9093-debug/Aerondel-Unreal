@@ -35,7 +35,7 @@ bool UHearthFeature::BuyDeed()
 {
 	if (bDeed) return false;
 	if (!TakeCoins(DeedCost)) { Say(TEXT("A Hearthstead deed costs 25,000 coins.")); return false; }
-	bDeed = true; Say(TEXT("You own a Hearthstead plot behind Brightwater.")); return true;
+	bDeed = true; Say(TEXT("You own a Hearthstead plot behind Larkhaven.")); return true;
 }
 
 bool UHearthFeature::BuildRoom(FName Room)

@@ -22,7 +22,7 @@ void UTasksFeature::Initialize(FSubsystemCollectionBase& Collection)
 
 FString UTasksFeature::CurrentLabel() const
 {
-	if (CurMob.IsNone()) return TEXT("No task. Visit Huntmaster Corvane in Port Sarim.");
+	if (CurMob.IsNone()) return TEXT("No task. Visit Huntmaster Corvane in Saltreach.");
 	const UGameDatabase* Db = UGameDatabase::Get(); const UMobDef* M = Db ? Db->FindMob(CurMob) : nullptr;
 	return FString::Printf(TEXT("%d %s (%d/%d)"), CurN, M ? *M->DisplayName.ToString() : *CurMob.ToString(), CurGot, CurN);
 }

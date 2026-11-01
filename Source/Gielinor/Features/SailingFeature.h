@@ -57,8 +57,8 @@ struct FSeaIsland
 	UPROPERTY(BlueprintReadOnly) FVector2D Dock = FVector2D::ZeroVector;
 };
 
-/** Sails of Sarim: the Sarim Sound south of the world (z > 760), its three islands, your ship (Sloop / Brigantine / Galleon,
- *  built and upgraded by Halvard the Shipwright on the Port Sarim dock), deckhands (-8% reload each, max 6), sworn-companion
+/** Sails of Saltreach: the Saltreach Sound south of the world (z > 760), its three islands, your ship (Sloop / Brigantine / Galleon,
+ *  built and upgraded by Halvard the Shipwright on the Saltreach dock), deckhands (-8% reload each, max 6), sworn-companion
  *  officers (surgeon / lookout / gunnery / helm, only while they travel with you), Drowned Crew ships with broadside cannon
  *  fights, and Treasure charts dug up with a Spade. Simulated per frame here in web metres; ASailingVisuals (spawned on demand)
  *  draws the ship, the enemy ships and the cannonball pool from GetShip / GetEnemies / GetBalls (Low tier: hull mesh only, no sails cloth, no wake). */
@@ -81,7 +81,7 @@ public:
 
 	static const TArray<FSeaIsland>& Islands();
 
-	// ---- Shipwright (Halvard, Port Sarim dock) ----
+	// ---- Shipwright (Halvard, Saltreach dock) ----
 	UFUNCTION(BlueprintCallable, Category="Gielinor|Sailing") FString BuildOrUpgrade();
 	UFUNCTION(BlueprintCallable, Category="Gielinor|Sailing") FString PatchHull();
 	UFUNCTION(BlueprintCallable, Category="Gielinor|Sailing") FString HireDeckhand();

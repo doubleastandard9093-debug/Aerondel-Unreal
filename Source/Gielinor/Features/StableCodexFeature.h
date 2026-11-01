@@ -28,7 +28,7 @@ public:
 
 	static const TArray<FString>& Roosts();
 	UFUNCTION(BlueprintPure, Category="Gielinor|Codex") TArray<FCodexMount> GetMounts() const;
-	/** Roostmaster Hale at Brightwater. */
+	/** Roostmaster Hale at Larkhaven. */
 	UFUNCTION(BlueprintCallable, Category="Gielinor|Codex") void LearnSkyrook() { bSkyrook = true; }
 	/** Validates a flight; the pawn plays the arc (FlightSeconds) and lands at the roost. */
 	UFUNCTION(BlueprintCallable, Category="Gielinor|Codex") bool StartFlight(const FString& Roost);

@@ -188,7 +188,7 @@
    ]
   },
   "tools": {
-   "title": "Bob's Brilliant Tools",
+   "title": "Tobin's Trusty Tools",
    "stock": [
     {
      "item": "Bronze axe",
@@ -335,7 +335,7 @@
    ]
   },
   "herb2": {
-   "title": "Nessa's Herb Stall (Falador)",
+   "title": "Nessa's Herb Stall (Whitecairn)",
    "stock": [
     {
      "item": "Vial of water",
@@ -401,7 +401,7 @@
    ]
   },
   "armour": {
-   "title": "Falador Armoury",
+   "title": "Whitecairn Armoury",
    "stock": [
     {
      "item": "Mithril full helm",
@@ -474,7 +474,7 @@
    ]
   },
   "weapons": {
-   "title": "Varrock Weaponsmith",
+   "title": "Highcrest Weaponsmith",
    "stock": [
     {
      "item": "Steel sword",
@@ -543,7 +543,7 @@
    ]
   },
   "general2": {
-   "title": "Port Sarim General Store",
+   "title": "Saltreach General Store",
    "stock": [
     {
      "item": "Bronze sword",
@@ -730,7 +730,7 @@
    ]
   },
   "general3": {
-   "title": "Varrock General Store",
+   "title": "Highcrest General Store",
    "stock": [
     {
      "item": "Bronze sword",
@@ -917,7 +917,7 @@
    ]
   },
   "apothecary": {
-   "title": "Brightwater Apothecary",
+   "title": "Larkhaven Apothecary",
    "stock": [
     {
      "item": "Vial of water",
@@ -1119,7 +1119,7 @@
    ]
   },
   "magic": {
-   "title": "Betty's Magic Emporium",
+   "title": "Odessa's Magic Emporium",
    "stock": [
     {
      "item": "Air rune",
@@ -1184,7 +1184,7 @@
    ]
   },
   "runes": {
-   "title": "Aubury's Rune Shop",
+   "title": "Orrin's Rune Shop",
    "stock": [
     {
      "item": "Air rune",
@@ -1245,7 +1245,7 @@
    ]
   },
   "ashford": {
-   "title": "Ashford Store",
+   "title": "Emberfold Store",
    "stock": [
     {
      "item": "Bronze sword",

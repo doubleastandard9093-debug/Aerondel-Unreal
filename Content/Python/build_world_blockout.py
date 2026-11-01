@@ -161,7 +161,7 @@ def run():
         felt = mat("CardFelt", (0.1, 0.4, 0.2))
         for i in range(2):
             box("Card_Table_%d" % i, "FeatureSites/Brineholt", (80 + i * 4 - 2, 0.45, 1030), (2, 0.9, 1.2), felt)
-        # Sarim Sound (z > 760): open water, the three islands with docks. Ships, cannonballs and the deck are runtime
+        # Saltreach Sound (z > 760): open water, the three islands with docks. Ships, cannonballs and the deck are runtime
         # (ASailingVisuals); the sea surface is visual only (no collision) - the deck carries you.
         sea = mat("SeaWater", (0.08, 0.25, 0.38), 0.05)
         box("Sarim_Sound", "Sea", (0, -0.3, 980), (900, 0.05, 460), sea, collide=False)

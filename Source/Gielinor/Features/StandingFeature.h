@@ -14,7 +14,7 @@ struct FFactionDef
 };
 
 /** Standing: reputation with five factions. Tiers Unknown..Exalted give +1% XP per tier in the faction's skills;
- *  Quartermaster Odile (Falador) pays a one-time reward per tier reached. Quest rep (+40 per finished town quest) is derived. */
+ *  Quartermaster Odile (Whitecairn) pays a one-time reward per tier reached. Quest rep (+40 per finished town quest) is derived. */
 UCLASS()
 class GIELINOR_API UStandingFeature : public UGielinorFeature
 {
@@ -42,7 +42,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category="Gielinor|Standing") bool AddRep(FName Faction, int32 N);
 	/** Quartermaster: claim every unclaimed tier reward (by best tier). Returns how many were paid. */
 	UFUNCTION(BlueprintCallable, Category="Gielinor|Standing") int32 ClaimTierRewards();
-	/** Faction for a town name ("Port Sarim" -> mariners), or None. */
+	/** Faction for a town name ("Saltreach" -> mariners), or None. */
 	UFUNCTION(BlueprintPure, Category="Gielinor|Standing") FName FactionForTown(const FString& Town) const;
 
 private:

@@ -2,7 +2,7 @@
 
 A RuneScape-style **single-player** open-world RPG, built **VR-ready from day one** with OpenXR.
 This is the Unreal sister of the Unity scaffold ([Gielinor-Unity](https://github.com/doubleastandard9093-debug/Gielinor-Unity)).
-It has the same design, the same starter content (Brightwater, Granny Hilda, Granny's Pie) and the same RuneScape XP curve.
+It has the same design, the same starter content (Larkhaven, Granny Hilda, Granny's Pie) and the same RuneScape XP curve.
 
 > **Status: scaffold, never compiled.** It was written without the Unreal Editor available. The C++ passed static checks
 > (see *Verification* below), but your first build is the real test. Paste any compile errors back and they'll be fixed.

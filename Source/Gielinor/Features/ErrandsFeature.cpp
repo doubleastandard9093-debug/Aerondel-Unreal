@@ -20,7 +20,7 @@ const TArray<FErrandDef>& UErrandsFeature::Defs()
 	Add(TEXT("e_oak"), TEXT("Fell oaks for the shipwrights"), 60, TEXT("Woodcutting"), 400, { { TEXT("Oak logs"), 20 } }, TEXT("mariners"), 25);
 	Add(TEXT("e_herbs"), TEXT("Forage herbs in the wilds"), 90, TEXT("Herblore"), 500, { { TEXT("Grimy guam leaf"), 10 } }, TEXT("circle"), 30);
 	Add(TEXT("e_runes"), TEXT("Ferry essence to the Circle"), 120, TEXT("Runecrafting"), 650, { { TEXT("Rune essence"), 60 } }, TEXT("circle"), 40);
-	Add(TEXT("e_bars"), TEXT("Work the Falador forges"), 240, TEXT("Smithing"), 1400, { { TEXT("Iron bar"), 12 }, { TEXT("Steel bar"), 4 } }, TEXT("lantern"), 70);
+	Add(TEXT("e_bars"), TEXT("Work the Whitecairn forges"), 240, TEXT("Smithing"), 1400, { { TEXT("Iron bar"), 12 }, { TEXT("Steel bar"), 4 } }, TEXT("lantern"), 70);
 	Add(TEXT("e_patrol"), TEXT("Ride the long border patrol"), 480, TEXT("Defence"), 2600, { { TEXT("Bones"), 30 } }, TEXT("watch"), 120);
 	return D;
 }
