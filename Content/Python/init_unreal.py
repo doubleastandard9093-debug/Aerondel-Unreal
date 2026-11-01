@@ -8,11 +8,13 @@ ENTRIES = [
      "import create_input_assets, importlib; importlib.reload(create_input_assets); create_input_assets.run()"),
     ("GenerateStarterData", "2. Generate Starter Data", "Skills, items, nodes, recipes, NPCs, mobs, Granny's Pie, GameDatabase",
      "import generate_starter_data, importlib; importlib.reload(generate_starter_data); generate_starter_data.run()"),
+    ("BuildSmoothShapes", "2b. Build Smooth Shapes", "Rounder cylinder/sphere/cone + bevelled cube (smooth normals, LODs) used by the builders",
+     "import build_smooth_shapes, importlib; importlib.reload(build_smooth_shapes); build_smooth_shapes.run()"),
     ("BuildStarterTown", "3. Build Starter Town", "Larkhaven greybox level -> /Game/Gielinor/Maps/StarterTown",
      "import build_starter_town, importlib; importlib.reload(build_starter_town); build_starter_town.run()"),
     ("BuildWorldBlockout", "4. Build World Blockout", "Whole web world greybox from Content/Data/world.json -> /Game/Gielinor/Maps/World",
      "import build_world_blockout, importlib; importlib.reload(build_world_blockout); build_world_blockout.run()"),
-    ("RunAll", "Run All (1-3)", "Everything above, in order",
+    ("RunAll", "Run All (1-3 + smooth shapes)", "Everything above, in order",
      "import gielinor_all, importlib; importlib.reload(gielinor_all); gielinor_all.run()"),
 ]
 

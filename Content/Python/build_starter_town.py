@@ -25,10 +25,26 @@ PLANE = "/Engine/BasicShapes/Plane.Plane"
 _meshes = {}
 
 
-def mesh(path):
-    if path not in _meshes:
-        _meshes[path] = unreal.load_asset(path)
-    return _meshes[path]
+BEVEL_MAX = 8.0     # bevelled cube only up to 8 m (scaled bevel stays a few cm, never a rounded slab)
+
+
+def mesh(path, smooth=True):
+    """Engine BasicShape, or its rounder /Game/Gielinor/Meshes/Smooth twin when build_smooth_shapes has run."""
+    key = (path, smooth)
+    if key not in _meshes:
+        sp = None
+        if smooth:
+            try:
+                import build_smooth_shapes
+                sp = build_smooth_shapes.smooth_path(path)
+            except Exception:
+                sp = None
+        _meshes[key] = unreal.load_asset(sp or path)
+    return _meshes[key]
+
+
+def _smooth_ok(shape, dims):
+    return shape != CUBE or max(abs(v) for v in dims) <= BEVEL_MAX
 
 
 def V(x, y, z):
@@ -50,7 +66,7 @@ def box(name, folder, center, size, material, shape=CUBE, yaw=0.0, collide=True)
     """center/size in metres (Unity axes). Basic shapes are 100 cm, centred (cylinder/sphere/cone too)."""
     a = actors.spawn_actor_from_class(unreal.StaticMeshActor, V(*center), unreal.Rotator(0, 0, yaw))
     c = a.static_mesh_component
-    c.set_static_mesh(mesh(shape))
+    c.set_static_mesh(mesh(shape, _smooth_ok(shape, size)))
     c.set_world_scale3d(unreal.Vector(size[0], size[2], size[1]))
     c.set_material(0, material)
     if not collide:
@@ -59,7 +75,7 @@ def box(name, folder, center, size, material, shape=CUBE, yaw=0.0, collide=True)
 
 
 def set_mesh(comp, shape, scale, material, rel=(0, 0, 0)):
-    comp.set_static_mesh(mesh(shape))
+    comp.set_static_mesh(mesh(shape, _smooth_ok(shape, scale)))
     comp.set_relative_scale3d(unreal.Vector(*scale))
     comp.set_relative_location(unreal.Vector(*rel), False, False)
     comp.set_material(0, material)
