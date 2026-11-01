@@ -40,7 +40,7 @@ class GIELINOR_API ARuneAltar : public AInteractableActor
 {
 	GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Runecrafting") FName AltarId;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Glyphcraft") FName AltarId;
 	virtual FText GetInteractLabel() const override;
 	virtual void Interact(AActor* InInstigator) override;
 };

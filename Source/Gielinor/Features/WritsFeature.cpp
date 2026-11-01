@@ -10,11 +10,11 @@ namespace WritData
 {
 	struct FS { bool bKill; const TCHAR* Target; int32 N; };
 	static const TCHAR* Factions[] = { TEXT("watch"), TEXT("mariners"), TEXT("circle"), TEXT("lantern") };
-	static const FS Watch[] = { { true, TEXT("Goblin"), 12 }, { true, TEXT("Bandit"), 6 }, { true, TEXT("Hill Giant"), 4 }, { true, TEXT("Wolf"), 8 }, { false, TEXT("Defence"), 40 }, { true, TEXT("Black Knight"), 3 } };
+	static const FS Watch[] = { { true, TEXT("Goblin"), 12 }, { true, TEXT("Bandit"), 6 }, { true, TEXT("Crag Giant"), 4 }, { true, TEXT("Wolf"), 8 }, { false, TEXT("Defence"), 40 }, { true, TEXT("Ironveil Knight"), 3 } };
 	static const FS Mariners[] = { { false, TEXT("Fishing"), 25 }, { false, TEXT("Cooking"), 25 }, { true, TEXT("Drowned Deckhand"), 5 }, { false, TEXT("Ranged"), 40 }, { true, TEXT("Drowned Gunner"), 3 } };
-	static const FS Circle[] = { { false, TEXT("Magic"), 40 }, { false, TEXT("Runecrafting"), 20 }, { false, TEXT("Herblore"), 15 }, { true, TEXT("Skeleton"), 6 }, { true, TEXT("Zombie"), 8 } };
-	static const FS Lantern[] = { { false, TEXT("Prayer"), 15 }, { false, TEXT("Smithing"), 25 }, { false, TEXT("Mining"), 30 }, { true, TEXT("Moss Giant"), 4 }, { true, TEXT("Giant Spider"), 6 } };
-	static const FS WeeklyPool[] = { { true, TEXT("Grumsh"), 1 }, { true, TEXT("Captain Saltgrave"), 1 }, { true, TEXT("Lesser Demon"), 5 }, { true, TEXT("Ogre"), 10 } };
+	static const FS Circle[] = { { false, TEXT("Magic"), 40 }, { false, TEXT("Glyphcraft"), 20 }, { false, TEXT("Herbalism"), 15 }, { true, TEXT("Skeleton"), 6 }, { true, TEXT("Zombie"), 8 } };
+	static const FS Lantern[] = { { false, TEXT("Prayer"), 15 }, { false, TEXT("Smithing"), 25 }, { false, TEXT("Mining"), 30 }, { true, TEXT("Bog Giant"), 4 }, { true, TEXT("Giant Spider"), 6 } };
+	static const FS WeeklyPool[] = { { true, TEXT("Grumsh"), 1 }, { true, TEXT("Captain Saltgrave"), 1 }, { true, TEXT("Cinder Fiend"), 5 }, { true, TEXT("Ogre"), 10 } };
 	static constexpr int64 DayMs = 86400000;
 	static uint32 Hash(int64 A, int64 B)
 	{

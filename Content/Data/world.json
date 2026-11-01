@@ -816,15 +816,15 @@
      4
     ],
     [
-     "Mithril",
+     "Bluesteel",
      2
     ],
     [
-     "Adamantite",
+     "Verdite",
      2
     ],
     [
-     "Runite",
+     "Cobalt",
      1
     ]
    ],
@@ -944,7 +944,7 @@
    "x": -40,
    "z": -102,
    "r": 4,
-   "name": "the Mind altar north-east of Whitecairn"
+   "name": "the Thought altar north-east of Whitecairn"
   },
   "waterAltar": {
    "x": -104,
@@ -968,31 +968,31 @@
    "x": -28,
    "z": -64,
    "r": 4,
-   "name": "the Body altar between Larkhaven and Whitecairn"
+   "name": "the Vital altar between Larkhaven and Whitecairn"
   },
   "chaosAltar": {
    "x": -44,
    "z": 100,
    "r": 4,
-   "name": "the dark Chaos altar south-east of Saltreach"
+   "name": "the dark Havoc altar south-east of Saltreach"
   },
   "deathAltar": {
    "x": 98,
    "z": -126,
    "r": 5,
-   "name": "the Death altar deep in the north-eastern wilds"
+   "name": "the Grave altar deep in the north-eastern wilds"
   },
   "bloodAltar": {
    "x": -128,
    "z": -134,
    "r": 5,
-   "name": "the Blood altar in the far north-west"
+   "name": "the Crimson altar in the far north-west"
   },
   "essMine": {
    "x": 132,
    "z": -22,
    "r": 6,
-   "name": "the rune essence mine south-east of Highcrest"
+   "name": "the glyph essence mine south-east of Highcrest"
   },
   "bwMine": {
    "x": 22,
@@ -1052,7 +1052,7 @@
    "x": -108,
    "z": 43,
    "r": 8,
-   "name": "the Moss Giant woods west of Saltreach"
+   "name": "the Bog Giant woods west of Saltreach"
   },
   "iceWest": {
    "x": -113,
@@ -1100,13 +1100,13 @@
    "x": -1,
    "z": -31,
    "r": 6,
-   "name": "the Hill Giant slopes north of Larkhaven"
+   "name": "the Crag Giant slopes north of Larkhaven"
   },
   "blackKnights": {
    "x": -17,
    "z": -33,
    "r": 5,
-   "name": "the Black Knight outpost north of Larkhaven"
+   "name": "the Ironveil Knight outpost north of Larkhaven"
   },
   "darkWood": {
    "x": -34,

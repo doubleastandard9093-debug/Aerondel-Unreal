@@ -88,7 +88,7 @@ void UPlayerStatsComponent::GameTickFn()
 	++GameTick;
 	bool bDirty = false;
 	UHealthComponent* H = S->Health;
-	// Hitpoint regen: 1 HP per 6 ticks, faster with perks / Rapid Heal / gear.
+	// Hitpoint regen: 1 HP per 6 ticks, faster with perks / Swift Mending / gear.
 	if (H && H->GetCurrent() < H->GetMax() && H->GetCurrent() > 0)
 	{
 		float Rate = 1.f + UGielinorRules::Perk(S, TEXT("hitpoints"), TEXT("regen")) + UGielinorRules::PrayerFx(S, TEXT("regen")) + UGielinorRules::GearFx(S, TEXT("regen"));
@@ -264,13 +264,13 @@ bool UPlayerStatsComponent::CleanHerb(int32 InventorySlot)
 	if (!Item || Item->CleansInto.IsNone() || !Db) return false;
 	UItemDef* Clean = Db->FindItem(Item->CleansInto);
 	if (!Clean) return false;
-	if (S->Skills->GetLevelById(TEXT("herblore")) < Item->HerbLevel)
+	if (S->Skills->GetLevelById(TEXT("herbalism")) < Item->HerbLevel)
 	{
-		Msg(FText::Format(LOCTEXT("HerbLvl", "You need a Herblore level of {0} to clean this herb."), Item->HerbLevel)); return false;
+		Msg(FText::Format(LOCTEXT("HerbLvl", "You need a Herbalism level of {0} to clean this herb."), Item->HerbLevel)); return false;
 	}
 	S->Inventory->RemoveFromSlot(InventorySlot, 1);
 	S->Inventory->Add(Clean, 1);
-	S->Skills->AddXp(Db->FindSkill(TEXT("herblore")), FMath::Max(1.f, Item->HerbLevel * 0.25f + 2.5f) * UGielinorRules::XpMultiplier(S, TEXT("herblore")));
+	S->Skills->AddXp(Db->FindSkill(TEXT("herbalism")), FMath::Max(1.f, Item->HerbLevel * 0.25f + 2.5f) * UGielinorRules::XpMultiplier(S, TEXT("herbalism")));
 	return true;
 }
 

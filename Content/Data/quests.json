@@ -29,7 +29,7 @@
    "start": "Talk to Father Elric outside the church, north of the town square.",
    "rewards": [
     "250 Prayer XP",
-    "Unlocks the Protect from Melee prayer (Prayer 43)",
+    "Unlocks the Ward against Melee prayer (Prayer 43)",
     "2 Cooked trout"
    ],
    "bonus": {
@@ -51,7 +51,7 @@
    "rewards": [
     "400 Mining XP",
     "180 coins",
-    "Mithril and adamant tools sold at the Tool Shop"
+    "Bluesteel and verdite tools sold at the Tool Shop"
    ],
    "bonus": {
     "desc": "+5% Mining and Smithing XP",
@@ -75,10 +75,10 @@
     "Steel sword"
    ],
    "bonus": {
-    "desc": "+10% damage against goblins and hill giants, +20 max hitpoints",
+    "desc": "+10% damage against goblins and crag giants, +20 max hitpoints",
     "fx": {
      "dmgVs.Goblin": 0.1,
-     "dmgVs.Hill Giant": 0.1,
+     "dmgVs.Crag Giant": 0.1,
      "maxHp": 20
     }
    },
@@ -177,14 +177,14 @@
    "rewards": [
     "1000 Defence XP",
     "500 Attack XP",
-    "Amulet of glory"
+    "Amulet of renown"
    ],
    "bonus": {
-    "desc": "Take 3% less damage, +30 max hitpoints, +10% damage against black knights",
+    "desc": "Take 3% less damage, +30 max hitpoints, +10% damage against ironveil knights",
     "fx": {
      "dr": 0.03,
      "maxHp": 30,
-     "dmgVs.Black Knight": 0.1
+     "dmgVs.Ironveil Knight": 0.1
     }
    },
    "town": "Larkhaven",
@@ -279,7 +279,7 @@
    "rewards": [
     "2000 Smithing XP",
     "1200 coins",
-    "Mithril bar"
+    "Bluesteel bar"
    ],
    "bonus": {
     "desc": "+5% Smithing XP",
@@ -339,7 +339,7 @@
    "rewards": [
     "1800 Mining XP",
     "700 coins",
-    "Adamant pickaxe"
+    "Verdite pickaxe"
    ],
    "bonus": {
     "desc": "+3% mining success",
@@ -399,7 +399,7 @@
    "rewards": [
     "3000 Defence XP",
     "2000 Attack XP",
-    "Amulet of glory"
+    "Amulet of renown"
    ],
    "bonus": {
     "desc": "Take 2% less damage",
@@ -692,7 +692,7 @@
     },
     "gold": 1000,
     "items": {
-     "Ring of recoil": 1
+     "Ring of rebuke": 1
     },
     "bonus": {
      "desc": "+3% Thieving XP",
@@ -707,7 +707,7 @@
    "rewards": [
     "4000 Thieving XP",
     "1000 coins",
-    "Ring of recoil"
+    "Ring of rebuke"
    ],
    "bonus": {
     "desc": "+3% Thieving XP",
@@ -984,20 +984,20 @@
     "diff": "Novice",
     "points": 1,
     "intro": [
-     "My new ale needs a herbal kick! Guam leaf, to be precise.",
-     "Bring me 2 clean Guam leaf and 3 Vials of water. Pick herbs in the patches north of the square and fill vials at the well."
+     "My new ale needs a herbal kick! Greenwort, to be precise.",
+     "Bring me 2 clean Greenwort and 3 Vials of water. Pick herbs in the patches north of the square and fill vials at the well."
     ],
     "steps": [
      {
       "t": "bring",
       "items": {
-       "Guam leaf": 2,
+       "Greenwort": 2,
        "Vial of water": 3
       }
      }
     ],
     "xp": {
-     "Herblore": 1500
+     "Herbalism": 1500
     },
     "items": {
      "Attack potion": 2
@@ -1008,12 +1008,12 @@
       "potionTime": 0.05
      }
     },
-    "end": "Perfect! My Guam Ale will be famous. Have a couple of my... other brews.",
-    "thanks": "The Guam Ale is selling by the barrel!"
+    "end": "Perfect! My Greenwort Ale will be famous. Have a couple of my... other brews.",
+    "thanks": "The Greenwort Ale is selling by the barrel!"
    },
    "start": "Talk to Bram the Brewer west of the town square.",
    "rewards": [
-    "1500 Herblore XP",
+    "1500 Herbalism XP",
     "2 x Attack potion"
    ],
    "bonus": {
@@ -1043,12 +1043,12 @@
       "bram_brew"
      ],
      "lvl": {
-      "Herblore": 5
+      "Herbalism": 5
      }
     },
     "intro": [
      "Customers keep falling ill from bad water. I want to sell a tonic.",
-     "Brew me 2 Attack potions and 1 Antipoison in the Herblore tab."
+     "Brew me 2 Attack potions and 1 Antipoison in the Herbalism tab."
     ],
     "steps": [
      {
@@ -1060,13 +1060,13 @@
      }
     ],
     "xp": {
-     "Herblore": 4000
+     "Herbalism": 4000
     },
     "gold": 900,
     "bonus": {
-     "desc": "+2% Herblore XP",
+     "desc": "+2% Herbalism XP",
      "fx": {
-      "xp.Herblore": 0.02
+      "xp.Herbalism": 0.02
      }
     },
     "end": "Bottled courage and a cure! You're a fine apothecary.",
@@ -1074,13 +1074,13 @@
    },
    "start": "Talk to Bram the Brewer west of the town square.",
    "rewards": [
-    "4000 Herblore XP",
+    "4000 Herbalism XP",
     "900 coins"
    ],
    "bonus": {
-    "desc": "+2% Herblore XP",
+    "desc": "+2% Herbalism XP",
     "fx": {
-     "xp.Herblore": 0.02
+     "xp.Herbalism": 0.02
     }
    }
   },
@@ -1101,7 +1101,7 @@
     "points": 1,
     "intro": [
      "I'm writing a book on runes, but I've never seen one being made!",
-     "Visit the Air altar south-west of town, craft some runes there and bring me 10 Air runes. Rune essence comes from Orrin in Highcrest or the essence mine."
+     "Visit the Air altar south-west of town, craft some runes there and bring me 10 Air runes. Glyph essence comes from Orrin in Highcrest or the essence mine."
     ],
     "steps": [
      {
@@ -1110,9 +1110,9 @@
      },
      {
       "t": "xp",
-      "skill": "Runecrafting",
+      "skill": "Glyphcraft",
       "n": 50,
-      "hint": "Use Craft-rune at an altar with Rune essence."
+      "hint": "Use Craft-rune at an altar with Glyph essence."
      },
      {
       "t": "bring",
@@ -1122,31 +1122,31 @@
      }
     ],
     "xp": {
-     "Runecrafting": 2000,
+     "Glyphcraft": 2000,
      "Magic": 1000
     },
     "items": {
-     "Mind rune": 50
+     "Thought rune": 50
     },
     "bonus": {
-     "desc": "+2% Runecrafting XP",
+     "desc": "+2% Glyphcraft XP",
      "fx": {
-      "xp.Runecrafting": 0.02
+      "xp.Glyphcraft": 0.02
      }
     },
-    "end": "Chapter three is finished! Take these mind runes for your trouble.",
+    "end": "Chapter three is finished! Take these thought runes for your trouble.",
     "thanks": "My book is nearly done, thanks to you."
    },
    "start": "Talk to Tamsin the Scholar on the south road near the wizard tower.",
    "rewards": [
-    "2000 Runecrafting XP",
+    "2000 Glyphcraft XP",
     "1000 Magic XP",
-    "50 x Mind rune"
+    "50 x Thought rune"
    ],
    "bonus": {
-    "desc": "+2% Runecrafting XP",
+    "desc": "+2% Glyphcraft XP",
     "fx": {
-     "xp.Runecrafting": 0.02
+     "xp.Glyphcraft": 0.02
     }
    }
   },
@@ -1307,8 +1307,8 @@
      }
     },
     "intro": [
-     "The hill giants took my knee forty years ago. Time for revenge, by proxy.",
-     "Slay 5 hill giants north of town and bring me 3 Big bones as proof."
+     "The crag giants took my knee forty years ago. Time for revenge, by proxy.",
+     "Slay 5 crag giants north of town and bring me 3 Big bones as proof."
     ],
     "steps": [
      {
@@ -1317,7 +1317,7 @@
      },
      {
       "t": "kill",
-      "mon": "Hill Giant",
+      "mon": "Crag Giant",
       "n": 5
      },
      {
@@ -1332,12 +1332,12 @@
      "Strength": 8000
     },
     "items": {
-     "Granite maul": 1
+     "Basalt maul": 1
     },
     "bonus": {
-     "desc": "+5% damage against hill giants and +10 max hitpoints",
+     "desc": "+5% damage against crag giants and +10 max hitpoints",
      "fx": {
-      "dmgVs.Hill Giant": 0.05,
+      "dmgVs.Crag Giant": 0.05,
       "maxHp": 10
      }
     },
@@ -1348,12 +1348,12 @@
    "rewards": [
     "8000 Attack XP",
     "8000 Strength XP",
-    "Granite maul"
+    "Basalt maul"
    ],
    "bonus": {
-    "desc": "+5% damage against hill giants and +10 max hitpoints",
+    "desc": "+5% damage against crag giants and +10 max hitpoints",
     "fx": {
-     "dmgVs.Hill Giant": 0.05,
+     "dmgVs.Crag Giant": 0.05,
      "maxHp": 10
     }
    }
@@ -1382,7 +1382,7 @@
      }
     },
     "intro": [
-     "The Black Knights have built an outpost north of town. Sir Calder's too proud to ask for help.",
+     "The Ironveil Knights have built an outpost north of town. Sir Calder's too proud to ask for help.",
      "Scout it, defeat 5 knights and bring a Steel platebody for the town militia."
     ],
     "steps": [
@@ -1392,7 +1392,7 @@
      },
      {
       "t": "kill",
-      "mon": "Black Knight",
+      "mon": "Ironveil Knight",
       "n": 5
      },
      {
@@ -1410,10 +1410,10 @@
      "Amulet of defence": 1
     },
     "bonus": {
-     "desc": "Take 1% less damage, +5% damage against black knights",
+     "desc": "Take 1% less damage, +5% damage against ironveil knights",
      "fx": {
       "dr": 0.01,
-      "dmgVs.Black Knight": 0.05
+      "dmgVs.Ironveil Knight": 0.05
      }
     },
     "end": "The militia will wear that with pride. This amulet kept me alive once.",
@@ -1426,10 +1426,10 @@
     "Amulet of defence"
    ],
    "bonus": {
-    "desc": "Take 1% less damage, +5% damage against black knights",
+    "desc": "Take 1% less damage, +5% damage against ironveil knights",
     "fx": {
      "dr": 0.01,
-     "dmgVs.Black Knight": 0.05
+     "dmgVs.Ironveil Knight": 0.05
     }
    }
   },
@@ -1714,7 +1714,7 @@
     },
     "intro": [
      "The dead walk near my hut too. I need a holy ward.",
-     "Pray at the Body altar to the north-west, put down 5 zombies, then bury 10 bones to bless the ground."
+     "Pray at the Vital altar to the north-west, put down 5 zombies, then bury 10 bones to bless the ground."
     ],
     "steps": [
      {
@@ -2042,24 +2042,24 @@
       "wydin_stock"
      ],
      "lvl": {
-      "Herblore": 10
+      "Herbalism": 10
      }
     },
     "intro": [
      "Sailors want spiced food. The best spices are herbs, if you know how to clean them.",
-     "Bring me 3 clean Marrentill and 2 clean Tarromin."
+     "Bring me 3 clean Marshmint and 2 clean Tallowroot."
     ],
     "steps": [
      {
       "t": "bring",
       "items": {
-       "Marrentill": 3,
-       "Tarromin": 2
+       "Marshmint": 3,
+       "Tallowroot": 2
       }
      }
     ],
     "xp": {
-     "Herblore": 3000
+     "Herbalism": 3000
     },
     "items": {
      "Energy potion": 3
@@ -2075,7 +2075,7 @@
    },
    "start": "Talk to Wendric the Grocer at his stall in Saltreach.",
    "rewards": [
-    "3000 Herblore XP",
+    "3000 Herbalism XP",
     "3 x Energy potion"
    ],
    "bonus": {
@@ -2437,7 +2437,7 @@
      }
     },
     "intro": [
-     "Someone is smuggling chaos runes through my harbour.",
+     "Someone is smuggling havoc runes through my harbour.",
      "Lift a few purses for evidence, ask Odessa what she knows, then find where the runes are made."
     ],
     "steps": [
@@ -2452,7 +2452,7 @@
       "npc": "betty",
       "where": "in her magic shop in Saltreach",
       "say": [
-       "Chaos runes? Not from my shop, dear.",
+       "Havoc runes? Not from my shop, dear.",
        "They're made at the dark altar south-east of town, past the bandits. Be careful."
       ]
      },
@@ -2466,7 +2466,7 @@
      "Magic": 5000
     },
     "items": {
-     "Chaos rune": 100
+     "Havoc rune": 100
     },
     "bonus": {
      "desc": "+2% Thieving XP and shops pay you 2% more",
@@ -2475,14 +2475,14 @@
       "sellBonus": 0.02
      }
     },
-    "end": "The Chaos altar! I'll post guards. Keep these confiscated runes.",
+    "end": "The Havoc altar! I'll post guards. Keep these confiscated runes.",
     "thanks": "Smuggling is down to nothing."
    },
    "start": "Talk to Harbourmaster Brice at the Saltreach harbour office.",
    "rewards": [
     "10000 Thieving XP",
     "5000 Magic XP",
-    "100 x Chaos rune"
+    "100 x Havoc rune"
    ],
    "bonus": {
     "desc": "+2% Thieving XP and shops pay you 2% more",
@@ -2592,7 +2592,7 @@
      "Smithing": 5000
     },
     "items": {
-     "Mithril bar": 5
+     "Bluesteel bar": 5
     },
     "bonus": {
      "desc": "+2% Smithing XP",
@@ -2600,13 +2600,13 @@
       "xp.Smithing": 0.02
      }
     },
-    "end": "Not bad for a non-dwarf! Have some mithril.",
+    "end": "Not bad for a non-dwarf! Have some bluesteel.",
     "thanks": "You hammer like a dwarf now."
    },
    "start": "Talk to Durgan on the west side of Saltreach.",
    "rewards": [
     "5000 Smithing XP",
-    "5 x Mithril bar"
+    "5 x Bluesteel bar"
    ],
    "bonus": {
     "desc": "+2% Smithing XP",
@@ -2617,14 +2617,14 @@
   },
   {
    "id": "thurgo_rune",
-   "name": "A Runite Blade",
+   "name": "A Cobalt Blade",
    "giver": "thurgo",
    "town": "Saltreach",
    "diff": "Master",
    "points": 3,
    "data": {
     "id": "thurgo_rune",
-    "name": "A Runite Blade",
+    "name": "A Cobalt Blade",
     "town": "Saltreach",
     "giver": "thurgo",
     "where": "on the west side of Saltreach",
@@ -2640,15 +2640,15 @@
      }
     },
     "intro": [
-     "Before I die I want to forge one perfect runite blade.",
-     "Bring me 4 Runite ore and 3 Rune bars."
+     "Before I die I want to forge one perfect cobalt blade.",
+     "Bring me 4 Cobalt ore and 3 Cobalt bars."
     ],
     "steps": [
      {
       "t": "bring",
       "items": {
-       "Runite ore": 4,
-       "Rune bar": 3
+       "Cobalt ore": 4,
+       "Cobalt bar": 3
       }
      }
     ],
@@ -2657,7 +2657,7 @@
      "Mining": 15000
     },
     "items": {
-     "Rune sword": 1
+     "Cobalt sword": 1
     },
     "bonus": {
      "desc": "+3% Smithing XP and +1% success when gathering",
@@ -2673,7 +2673,7 @@
    "rewards": [
     "25000 Smithing XP",
     "15000 Mining XP",
-    "Rune sword"
+    "Cobalt sword"
    ],
    "bonus": {
     "desc": "+3% Smithing XP and +1% success when gathering",
@@ -2700,7 +2700,7 @@
     "points": 1,
     "req": {
      "lvl": {
-      "Runecrafting": 5
+      "Glyphcraft": 5
      }
     },
     "intro": [
@@ -2714,9 +2714,9 @@
      },
      {
       "t": "xp",
-      "skill": "Runecrafting",
+      "skill": "Glyphcraft",
       "n": 50,
-      "hint": "Craft runes at the Water altar (needs Runecrafting 5)."
+      "hint": "Craft runes at the Water altar (needs Glyphcraft 5)."
      },
      {
       "t": "bring",
@@ -2726,14 +2726,14 @@
      }
     ],
     "xp": {
-     "Runecrafting": 2000,
+     "Glyphcraft": 2000,
      "Magic": 500
     },
     "gold": 500,
     "bonus": {
-     "desc": "+2% Runecrafting XP",
+     "desc": "+2% Glyphcraft XP",
      "fx": {
-      "xp.Runecrafting": 0.02
+      "xp.Glyphcraft": 0.02
      }
     },
     "end": "Lovely! My roses will bloom like never before.",
@@ -2741,14 +2741,14 @@
    },
    "start": "Talk to Old Mabel on the east side of Saltreach.",
    "rewards": [
-    "2000 Runecrafting XP",
+    "2000 Glyphcraft XP",
     "500 Magic XP",
     "500 coins"
    ],
    "bonus": {
-    "desc": "+2% Runecrafting XP",
+    "desc": "+2% Glyphcraft XP",
     "fx": {
-     "xp.Runecrafting": 0.02
+     "xp.Glyphcraft": 0.02
     }
    }
   },
@@ -2832,13 +2832,13 @@
     "points": 1,
     "req": {
      "lvl": {
-      "Herblore": 20,
+      "Herbalism": 20,
       "Magic": 20
      }
     },
     "intro": [
      "My brew needs moss from a living giant. Giants don't like that.",
-     "Visit the Moss Giant woods west of town, defeat 3, and bring me 2 Strength potions to steady my hand."
+     "Visit the Bog Giant woods west of town, defeat 3, and bring me 2 Strength potions to steady my hand."
     ],
     "steps": [
      {
@@ -2847,7 +2847,7 @@
      },
      {
       "t": "kill",
-      "mon": "Moss Giant",
+      "mon": "Bog Giant",
       "n": 3
      },
      {
@@ -2858,16 +2858,16 @@
      }
     ],
     "xp": {
-     "Herblore": 4000,
+     "Herbalism": 4000,
      "Magic": 4000
     },
     "items": {
      "Wizard hat": 1
     },
     "bonus": {
-     "desc": "+2% Herblore XP",
+     "desc": "+2% Herbalism XP",
      "fx": {
-      "xp.Herblore": 0.02
+      "xp.Herbalism": 0.02
      }
     },
     "end": "Bubble, bubble! The brew is perfect. Wear this hat, it suits you.",
@@ -2875,14 +2875,14 @@
    },
    "start": "Talk to Velma the Witch at the west edge of Saltreach.",
    "rewards": [
-    "4000 Herblore XP",
+    "4000 Herbalism XP",
     "4000 Magic XP",
     "Wizard hat"
    ],
    "bonus": {
-    "desc": "+2% Herblore XP",
+    "desc": "+2% Herbalism XP",
     "fx": {
-     "xp.Herblore": 0.02
+     "xp.Herbalism": 0.02
     }
    }
   },
@@ -2982,13 +2982,13 @@
      }
     },
     "intro": [
-     "Moss giants are trampling my woods.",
+     "Bog giants are trampling my woods.",
      "Defeat 4 of them and bury 4 of their bones to keep the forest spirits happy."
     ],
     "steps": [
      {
       "t": "kill",
-      "mon": "Moss Giant",
+      "mon": "Bog Giant",
       "n": 4
      },
      {
@@ -3002,9 +3002,9 @@
     },
     "gold": 800,
     "bonus": {
-     "desc": "+5% damage against moss giants",
+     "desc": "+5% damage against bog giants",
      "fx": {
-      "dmgVs.Moss Giant": 0.05
+      "dmgVs.Bog Giant": 0.05
      }
     },
     "end": "The woods breathe easier. Thank you.",
@@ -3017,9 +3017,9 @@
     "800 coins"
    ],
    "bonus": {
-    "desc": "+5% damage against moss giants",
+    "desc": "+5% damage against bog giants",
     "fx": {
-     "dmgVs.Moss Giant": 0.05
+     "dmgVs.Bog Giant": 0.05
     }
    }
   },
@@ -3048,7 +3048,7 @@
     },
     "intro": [
      "Bandits ambush travellers on the south road and worship at that dark altar.",
-     "Shoot down 8 bandits, then scout the Chaos altar."
+     "Shoot down 8 bandits, then scout the Havoc altar."
     ],
     "steps": [
      {
@@ -3179,7 +3179,7 @@
       "reldo_tome"
      ],
      "lvl": {
-      "Runecrafting": 14
+      "Glyphcraft": 14
      }
     },
     "intro": [
@@ -3206,13 +3206,13 @@
      }
     ],
     "xp": {
-     "Runecrafting": 3000,
+     "Glyphcraft": 3000,
      "Magic": 3000
     },
     "bonus": {
-     "desc": "+2% Runecrafting XP",
+     "desc": "+2% Glyphcraft XP",
      "fx": {
-      "xp.Runecrafting": 0.02
+      "xp.Glyphcraft": 0.02
      }
     },
     "end": "Fascinating! Another chapter for my history.",
@@ -3220,13 +3220,13 @@
    },
    "start": "Talk to Ansel the Librarian in Highcrest, west of the square.",
    "rewards": [
-    "3000 Runecrafting XP",
+    "3000 Glyphcraft XP",
     "3000 Magic XP"
    ],
    "bonus": {
-    "desc": "+2% Runecrafting XP",
+    "desc": "+2% Glyphcraft XP",
     "fx": {
-     "xp.Runecrafting": 0.02
+     "xp.Glyphcraft": 0.02
     }
    }
   },
@@ -3254,7 +3254,7 @@
      }
     },
     "intro": [
-     "Lesser demons have taken the ruins north of the city. My books say magic hurts them most.",
+     "Cinder fiends have taken the ruins north of the city. My books say magic hurts them most.",
      "Go to the ruins, banish 3 demons and earn 4000 Magic XP."
     ],
     "steps": [
@@ -3264,7 +3264,7 @@
      },
      {
       "t": "kill",
-      "mon": "Lesser Demon",
+      "mon": "Cinder Fiend",
       "n": 3
      },
      {
@@ -3278,12 +3278,12 @@
      "Magic": 12000
     },
     "items": {
-     "Mystic hat": 1
+     "Starweave hat": 1
     },
     "bonus": {
-     "desc": "+5% damage against lesser demons",
+     "desc": "+5% damage against cinder fiends",
      "fx": {
-      "dmgVs.Lesser Demon": 0.05
+      "dmgVs.Cinder Fiend": 0.05
      }
     },
     "end": "Banished! Take this hat, it belonged to a wizard who wasn't so lucky.",
@@ -3292,12 +3292,12 @@
    "start": "Talk to Ansel the Librarian in Highcrest, west of the square.",
    "rewards": [
     "12000 Magic XP",
-    "Mystic hat"
+    "Starweave hat"
    ],
    "bonus": {
-    "desc": "+5% damage against lesser demons",
+    "desc": "+5% damage against cinder fiends",
     "fx": {
-     "dmgVs.Lesser Demon": 0.05
+     "dmgVs.Cinder Fiend": 0.05
     }
    }
   },
@@ -3386,13 +3386,13 @@
      }
     },
     "intro": [
-     "A Black Knight insulted Juliet! I challenged him, but... I can't fight.",
-     "Defeat 2 Black Knights north of Larkhaven in my name, and bring me an Iron platebody so I look the part."
+     "A Ironveil Knight insulted Juliet! I challenged him, but... I can't fight.",
+     "Defeat 2 Ironveil Knights north of Larkhaven in my name, and bring me an Iron platebody so I look the part."
     ],
     "steps": [
      {
       "t": "kill",
-      "mon": "Black Knight",
+      "mon": "Ironveil Knight",
       "n": 2
      },
      {
@@ -3408,9 +3408,9 @@
     },
     "gold": 1000,
     "bonus": {
-     "desc": "+3% damage against black knights",
+     "desc": "+3% damage against ironveil knights",
      "fx": {
-      "dmgVs.Black Knight": 0.03
+      "dmgVs.Ironveil Knight": 0.03
      }
     },
     "end": "Juliet thinks I'm a hero! Our secret, yes?",
@@ -3423,9 +3423,9 @@
     "1000 coins"
    ],
    "bonus": {
-    "desc": "+3% damage against black knights",
+    "desc": "+3% damage against ironveil knights",
     "fx": {
-     "dmgVs.Black Knight": 0.03
+     "dmgVs.Ironveil Knight": 0.03
     }
    }
   },
@@ -3622,7 +3622,7 @@
       "zaff_staff"
      ],
      "lvl": {
-      "Runecrafting": 14,
+      "Glyphcraft": 14,
       "Magic": 30
      }
     },
@@ -3644,16 +3644,16 @@
      }
     ],
     "xp": {
-     "Runecrafting": 4000,
+     "Glyphcraft": 4000,
      "Magic": 3000
     },
     "items": {
      "Staff of fire": 1
     },
     "bonus": {
-     "desc": "+2% Runecrafting XP",
+     "desc": "+2% Glyphcraft XP",
      "fx": {
-      "xp.Runecrafting": 0.02
+      "xp.Glyphcraft": 0.02
      }
     },
     "end": "Perfect! Your very own staff of fire.",
@@ -3661,27 +3661,27 @@
    },
    "start": "Talk to Zevin on the west side of Highcrest.",
    "rewards": [
-    "4000 Runecrafting XP",
+    "4000 Glyphcraft XP",
     "3000 Magic XP",
     "Staff of fire"
    ],
    "bonus": {
-    "desc": "+2% Runecrafting XP",
+    "desc": "+2% Glyphcraft XP",
     "fx": {
-     "xp.Runecrafting": 0.02
+     "xp.Glyphcraft": 0.02
     }
    }
   },
   {
-   "id": "zaff_mystic",
-   "name": "Mystic Arts",
+   "id": "zaff_starweave",
+   "name": "Starweave Arts",
    "giver": "zaff",
    "town": "Highcrest",
    "diff": "Master",
    "points": 3,
    "data": {
-    "id": "zaff_mystic",
-    "name": "Mystic Arts",
+    "id": "zaff_starweave",
+    "name": "Starweave Arts",
     "town": "Highcrest",
     "giver": "zaff",
     "where": "on the west side of Highcrest",
@@ -3693,12 +3693,12 @@
      ],
      "lvl": {
       "Magic": 75,
-      "Runecrafting": 65
+      "Glyphcraft": 65
      }
     },
     "intro": [
-     "A mystic staff needs the power of death itself.",
-     "Go to the Death altar deep in the wilds, earn 5000 Runecrafting XP and bring me 100 Death runes."
+     "A starweave staff needs the power of death itself.",
+     "Go to the Grave altar deep in the wilds, earn 5000 Glyphcraft XP and bring me 100 Grave runes."
     ],
     "steps": [
      {
@@ -3707,29 +3707,29 @@
      },
      {
       "t": "xp",
-      "skill": "Runecrafting",
+      "skill": "Glyphcraft",
       "n": 5000,
       "hint": "Craft runes at any altar."
      },
      {
       "t": "bring",
       "items": {
-       "Death rune": 100
+       "Grave rune": 100
       }
      }
     ],
     "xp": {
      "Magic": 25000,
-     "Runecrafting": 15000
+     "Glyphcraft": 15000
     },
     "items": {
-     "Mystic staff": 1
+     "Starweave staff": 1
     },
     "bonus": {
-     "desc": "+3% Magic XP and +2% Runecrafting XP",
+     "desc": "+3% Magic XP and +2% Glyphcraft XP",
      "fx": {
       "xp.Magic": 0.03,
-      "xp.Runecrafting": 0.02
+      "xp.Glyphcraft": 0.02
      }
     },
     "end": "The finest staff I have ever made. It is yours.",
@@ -3738,14 +3738,14 @@
    "start": "Talk to Zevin on the west side of Highcrest.",
    "rewards": [
     "25000 Magic XP",
-    "15000 Runecrafting XP",
-    "Mystic staff"
+    "15000 Glyphcraft XP",
+    "Starweave staff"
    ],
    "bonus": {
-    "desc": "+3% Magic XP and +2% Runecrafting XP",
+    "desc": "+3% Magic XP and +2% Glyphcraft XP",
     "fx": {
      "xp.Magic": 0.03,
-     "xp.Runecrafting": 0.02
+     "xp.Glyphcraft": 0.02
     }
    }
   },
@@ -4164,7 +4164,7 @@
     "points": 1,
     "req": {
      "lvl": {
-      "Herblore": 30
+      "Herbalism": 30
      }
     },
     "intro": [
@@ -4181,7 +4181,7 @@
      }
     ],
     "xp": {
-     "Herblore": 5000
+     "Herbalism": 5000
     },
     "items": {
      "Super restore": 1
@@ -4197,7 +4197,7 @@
    },
    "start": "Talk to Apothecary Vorn in the north-west of Highcrest.",
    "rewards": [
-    "5000 Herblore XP",
+    "5000 Herbalism XP",
     "Super restore"
    ],
    "bonus": {
@@ -4227,7 +4227,7 @@
       "vorn_remedy"
      ],
      "lvl": {
-      "Herblore": 45
+      "Herbalism": 45
      }
     },
     "intro": [
@@ -4253,14 +4253,14 @@
      }
     ],
     "xp": {
-     "Herblore": 10000,
+     "Herbalism": 10000,
      "Hitpoints": 5000
     },
     "gold": 3000,
     "bonus": {
-     "desc": "+2% Herblore XP and +3% damage against ice giants",
+     "desc": "+2% Herbalism XP and +3% damage against ice giants",
      "fx": {
-      "xp.Herblore": 0.02,
+      "xp.Herbalism": 0.02,
       "dmgVs.Ice Giant": 0.03
      }
     },
@@ -4269,28 +4269,28 @@
    },
    "start": "Talk to Apothecary Vorn in the north-west of Highcrest.",
    "rewards": [
-    "10000 Herblore XP",
+    "10000 Herbalism XP",
     "5000 Hitpoints XP",
     "3000 coins"
    ],
    "bonus": {
-    "desc": "+2% Herblore XP and +3% damage against ice giants",
+    "desc": "+2% Herbalism XP and +3% damage against ice giants",
     "fx": {
-     "xp.Herblore": 0.02,
+     "xp.Herbalism": 0.02,
      "dmgVs.Ice Giant": 0.03
     }
    }
   },
   {
    "id": "vannaka_slayer",
-   "name": "Slayer's Challenge",
+   "name": "Hunter's Challenge",
    "giver": "vannaka",
    "town": "Wilds",
    "diff": "Experienced",
    "points": 2,
    "data": {
     "id": "vannaka_slayer",
-    "name": "Slayer's Challenge",
+    "name": "Hunter's Challenge",
     "town": "Wilds",
     "giver": "vannaka",
     "where": "on the road north of Highcrest",
@@ -4304,12 +4304,12 @@
     },
     "intro": [
      "So you want to be a slayer? Prove it.",
-     "Kill 4 lesser demons in the ruins and 3 ice giants on the ridge."
+     "Kill 4 cinder fiends in the ruins and 3 ice giants on the ridge."
     ],
     "steps": [
      {
       "t": "kill",
-      "mon": "Lesser Demon",
+      "mon": "Cinder Fiend",
       "n": 4
      },
      {
@@ -4324,9 +4324,9 @@
     },
     "gold": 4000,
     "bonus": {
-     "desc": "+3% damage against lesser demons and +5 max hitpoints",
+     "desc": "+3% damage against cinder fiends and +5 max hitpoints",
      "fx": {
-      "dmgVs.Lesser Demon": 0.03,
+      "dmgVs.Cinder Fiend": 0.03,
       "maxHp": 5
      }
     },
@@ -4340,9 +4340,9 @@
     "4000 coins"
    ],
    "bonus": {
-    "desc": "+3% damage against lesser demons and +5 max hitpoints",
+    "desc": "+3% damage against cinder fiends and +5 max hitpoints",
     "fx": {
-     "dmgVs.Lesser Demon": 0.03,
+     "dmgVs.Cinder Fiend": 0.03,
      "maxHp": 5
     }
    }
@@ -4398,7 +4398,7 @@
      "Defence": 20000
     },
     "items": {
-     "Obsidian cape": 1
+     "Cinderglass cape": 1
     },
     "bonus": {
      "desc": "+5% damage against Scorchwing, take 1% less damage and +10 max hitpoints",
@@ -4416,7 +4416,7 @@
     "30000 Attack XP",
     "30000 Strength XP",
     "20000 Defence XP",
-    "Obsidian cape"
+    "Cinderglass cape"
    ],
    "bonus": {
     "desc": "+5% damage against Scorchwing, take 1% less damage and +10 max hitpoints",
@@ -4521,18 +4521,18 @@
     },
     "intro": [
      "I want to become a knight, but I need someone to show me how it's done.",
-     "Defeat 6 Black Knights and bring me a Mithril full helm to wear at my knighting."
+     "Defeat 6 Ironveil Knights and bring me a Bluesteel full helm to wear at my knighting."
     ],
     "steps": [
      {
       "t": "kill",
-      "mon": "Black Knight",
+      "mon": "Ironveil Knight",
       "n": 6
      },
      {
       "t": "bring",
       "items": {
-       "Mithril full helm": 1
+       "Bluesteel full helm": 1
       }
      }
     ],
@@ -4585,7 +4585,7 @@
      }
     },
     "intro": [
-     "The Black Knights plan an attack on Whitecairn. I need a spy.",
+     "The Ironveil Knights plan an attack on Whitecairn. I need a spy.",
      "Sharpen your stealth, scout their outpost north of Larkhaven, and thin their ranks by 4. Then report to my squire."
     ],
     "steps": [
@@ -4601,7 +4601,7 @@
      },
      {
       "t": "kill",
-      "mon": "Black Knight",
+      "mon": "Ironveil Knight",
       "n": 4
      },
      {
@@ -4620,9 +4620,9 @@
     },
     "gold": 5000,
     "bonus": {
-     "desc": "+3% damage against black knights and +5 max hitpoints",
+     "desc": "+3% damage against ironveil knights and +5 max hitpoints",
      "fx": {
-      "dmgVs.Black Knight": 0.03,
+      "dmgVs.Ironveil Knight": 0.03,
       "maxHp": 5
      }
     },
@@ -4636,9 +4636,9 @@
     "5000 coins"
    ],
    "bonus": {
-    "desc": "+3% damage against black knights and +5 max hitpoints",
+    "desc": "+3% damage against ironveil knights and +5 max hitpoints",
     "fx": {
-     "dmgVs.Black Knight": 0.03,
+     "dmgVs.Ironveil Knight": 0.03,
      "maxHp": 5
     }
    }
@@ -4669,7 +4669,7 @@
     },
     "intro": [
      "Legends tell of a holy grail guarded by the ogre warlord Grumsh.",
-     "Seek Sister Sabreen's blessing, pray at the Mind altar, bury 20 bones, and defeat Grumsh."
+     "Seek Sister Sabreen's blessing, pray at the Thought altar, bury 20 bones, and defeat Grumsh."
     ],
     "steps": [
      {
@@ -4678,7 +4678,7 @@
       "where": "in south-east Whitecairn",
       "say": [
        "The Chalice quest? May the Dawnmother guide you.",
-       "Bless your path at the Mind altar and honour the dead."
+       "Bless your path at the Thought altar and honour the dead."
       ]
      },
      {
@@ -4804,7 +4804,7 @@
      }
     },
     "intro": [
-     "A relic was lost near the Body altar, and zombies guard it now.",
+     "A relic was lost near the Vital altar, and zombies guard it now.",
      "Go to the altar, put down 4 zombies and bring me 5 Big bones to bless the relic."
     ],
     "steps": [
@@ -4933,14 +4933,14 @@
     },
     "intro": [
      "Dwarves measure a miner by the hardest ore they can dig.",
-     "Bring me 10 Mithril ore and 5 Adamantite ore."
+     "Bring me 10 Bluesteel ore and 5 Verdite ore."
     ],
     "steps": [
      {
       "t": "bring",
       "items": {
-       "Mithril ore": 10,
-       "Adamantite ore": 5
+       "Bluesteel ore": 10,
+       "Verdite ore": 5
       }
      }
     ],
@@ -4992,26 +4992,26 @@
     "points": 1,
     "intro": [
      "The harvest is late and my hands are full.",
-     "Bring me 10 Flax and 3 Grimy guam leaf from the herb patches."
+     "Bring me 10 Flax and 3 Grimy greenwort from the herb patches."
     ],
     "steps": [
      {
       "t": "bring",
       "items": {
        "Flax": 10,
-       "Grimy guam leaf": 3
+       "Grimy greenwort": 3
       }
      }
     ],
     "xp": {
      "Crafting": 800,
-     "Herblore": 800
+     "Herbalism": 800
     },
     "gold": 300,
     "bonus": {
-     "desc": "+1% Herblore XP",
+     "desc": "+1% Herbalism XP",
      "fx": {
-      "xp.Herblore": 0.01
+      "xp.Herbalism": 0.01
      }
     },
     "end": "The harvest is in! Thank you.",
@@ -5020,13 +5020,13 @@
    "start": "Talk to Farmer Sarah in the north-east of Whitecairn.",
    "rewards": [
     "800 Crafting XP",
-    "800 Herblore XP",
+    "800 Herbalism XP",
     "300 coins"
    ],
    "bonus": {
-    "desc": "+1% Herblore XP",
+    "desc": "+1% Herbalism XP",
     "fx": {
-     "xp.Herblore": 0.01
+     "xp.Herbalism": 0.01
     }
    }
   },
@@ -5156,15 +5156,15 @@
    }
   },
   {
-   "id": "wayne_adamant",
-   "name": "Adamant Order",
+   "id": "wayne_verdite",
+   "name": "Verdite Order",
    "giver": "wayne",
    "town": "Whitecairn",
    "diff": "Experienced",
    "points": 2,
    "data": {
-    "id": "wayne_adamant",
-    "name": "Adamant Order",
+    "id": "wayne_verdite",
+    "name": "Verdite Order",
     "town": "Whitecairn",
     "giver": "wayne",
     "where": "on the west side of Whitecairn",
@@ -5179,15 +5179,15 @@
      }
     },
     "intro": [
-     "Sir Aldous wants adamant. I can't work it. Can you?",
-     "Bring me an Adamant platebody and Adamant platelegs."
+     "Sir Aldous wants verdite. I can't work it. Can you?",
+     "Bring me an Verdite platebody and Verdite platelegs."
     ],
     "steps": [
      {
       "t": "bring",
       "items": {
-       "Adamant platebody": 1,
-       "Adamant platelegs": 1
+       "Verdite platebody": 1,
+       "Verdite platelegs": 1
       }
      }
     ],
@@ -5351,8 +5351,8 @@
     "diff": "Novice",
     "points": 1,
     "intro": [
-     "Everyone wants Bram's Guam Ale from Larkhaven, and I don't know the recipe.",
-     "Ask Bram the Brewer in Larkhaven, then bring me 2 clean Harralander for my own twist."
+     "Everyone wants Bram's Greenwort Ale from Larkhaven, and I don't know the recipe.",
+     "Ask Bram the Brewer in Larkhaven, then bring me 2 clean Harrowbloom for my own twist."
     ],
     "steps": [
      {
@@ -5360,19 +5360,19 @@
       "npc": "bram",
       "where": "west of Larkhaven square",
       "say": [
-       "Fenna wants my recipe? Ha! Guam leaf and a wink.",
-       "Tell her Harralander works too, if she's brave."
+       "Fenna wants my recipe? Ha! Greenwort and a wink.",
+       "Tell her Harrowbloom works too, if she's brave."
       ]
      },
      {
       "t": "bring",
       "items": {
-       "Harralander": 2
+       "Harrowbloom": 2
       }
      }
     ],
     "xp": {
-     "Herblore": 1200,
+     "Herbalism": 1200,
      "Cooking": 600
     },
     "gold": 400,
@@ -5382,12 +5382,12 @@
       "potionTime": 0.03
      }
     },
-    "end": "Harralander Ale! The regulars will love it.",
+    "end": "Harrowbloom Ale! The regulars will love it.",
     "thanks": "First drink's on the house."
    },
    "start": "Talk to Fenna the Barmaid at the Gilded Hearth inn in Whitecairn.",
    "rewards": [
-    "1200 Herblore XP",
+    "1200 Herbalism XP",
     "600 Cooking XP",
     "400 coins"
    ],
@@ -5502,7 +5502,7 @@
      "Woodcutting": 6000
     },
     "items": {
-     "Rune arrows": 200
+     "Cobalt arrows": 200
     },
     "bonus": {
      "desc": "+1 ranged max hit and +2% Fletching XP",
@@ -5511,14 +5511,14 @@
       "xp.Fletching": 0.02
      }
     },
-    "end": "Beautiful bows. Take these rune arrows.",
+    "end": "Beautiful bows. Take these cobalt arrows.",
     "thanks": "The knights' archers love them."
    },
    "start": "Talk to Elwyn the Bowyer in the south-west of Whitecairn.",
    "rewards": [
     "10000 Fletching XP",
     "6000 Woodcutting XP",
-    "200 x Rune arrows"
+    "200 x Cobalt arrows"
    ],
    "bonus": {
     "desc": "+1 ranged max hit and +2% Fletching XP",
@@ -5574,7 +5574,7 @@
      "Woodcutting": 15000
     },
     "items": {
-     "Dark bow": 1
+     "Dusk bow": 1
     },
     "bonus": {
      "desc": "+2 ranged max hit and +1% success when gathering",
@@ -5583,14 +5583,14 @@
       "gather": 0.01
      }
     },
-    "end": "A masterpiece. Take my dark bow; you've surpassed me.",
+    "end": "A masterpiece. Take my dusk bow; you've surpassed me.",
     "thanks": "The master becomes the student."
    },
    "start": "Talk to Elwyn the Bowyer in the south-west of Whitecairn.",
    "rewards": [
     "20000 Fletching XP",
     "15000 Woodcutting XP",
-    "Dark bow"
+    "Dusk bow"
    ],
    "bonus": {
     "desc": "+2 ranged max hit and +1% success when gathering",
@@ -5692,7 +5692,7 @@
     },
     "intro": [
      "Grumsh, the ogre warlord, is the reason I was exiled. I failed to kill him.",
-     "Find his camp, defeat him, then visit the Blood altar beyond it to cleanse yourself."
+     "Find his camp, defeat him, then visit the Crimson altar beyond it to cleanse yourself."
     ],
     "steps": [
      {
@@ -6120,13 +6120,13 @@
       "iris_omen"
      ],
      "lvl": {
-      "Runecrafting": 35,
+      "Glyphcraft": 35,
       "Magic": 45
      }
     },
     "intro": [
      "To see further I need the power of the mind, and of chaos.",
-     "Visit the Mind altar, then bring me 200 Mind runes and 50 Chaos runes."
+     "Visit the Thought altar, then bring me 200 Thought runes and 50 Havoc runes."
     ],
     "steps": [
      {
@@ -6136,20 +6136,20 @@
      {
       "t": "bring",
       "items": {
-       "Mind rune": 200,
-       "Chaos rune": 50
+       "Thought rune": 200,
+       "Havoc rune": 50
       }
      }
     ],
     "xp": {
-     "Runecrafting": 8000,
+     "Glyphcraft": 8000,
      "Magic": 6000
     },
     "bonus": {
-     "desc": "+2% Magic XP and +1% Runecrafting XP",
+     "desc": "+2% Magic XP and +1% Glyphcraft XP",
      "fx": {
       "xp.Magic": 0.02,
-      "xp.Runecrafting": 0.01
+      "xp.Glyphcraft": 0.01
      }
     },
     "end": "I can see the whole realm! Thank you.",
@@ -6157,14 +6157,14 @@
    },
    "start": "Talk to Iris the Seer in the north of Emberfold.",
    "rewards": [
-    "8000 Runecrafting XP",
+    "8000 Glyphcraft XP",
     "6000 Magic XP"
    ],
    "bonus": {
-    "desc": "+2% Magic XP and +1% Runecrafting XP",
+    "desc": "+2% Magic XP and +1% Glyphcraft XP",
     "fx": {
      "xp.Magic": 0.02,
-     "xp.Runecrafting": 0.01
+     "xp.Glyphcraft": 0.01
     }
    }
   },
@@ -6450,25 +6450,25 @@
     "points": 1,
     "intro": [
      "Babies come at all hours, and I'm out of herbs!",
-     "Bring me 3 clean Guam leaf and 2 clean Marrentill, and learn to brew a little."
+     "Bring me 3 clean Greenwort and 2 clean Marshmint, and learn to brew a little."
     ],
     "steps": [
      {
       "t": "bring",
       "items": {
-       "Guam leaf": 3,
-       "Marrentill": 2
+       "Greenwort": 3,
+       "Marshmint": 2
       }
      },
      {
       "t": "xp",
-      "skill": "Herblore",
+      "skill": "Herbalism",
       "n": 100,
       "hint": "Clean herbs or brew potions."
      }
     ],
     "xp": {
-     "Herblore": 1200
+     "Herbalism": 1200
     },
     "gold": 300,
     "bonus": {
@@ -6482,7 +6482,7 @@
    },
    "start": "Talk to Magda the Midwife in the south of Emberfold.",
    "rewards": [
-    "1200 Herblore XP",
+    "1200 Herbalism XP",
     "300 coins"
    ],
    "bonus": {
@@ -6512,7 +6512,7 @@
       "magda_herbs"
      ],
      "lvl": {
-      "Herblore": 20
+      "Herbalism": 20
      }
     },
     "intro": [
@@ -6529,15 +6529,15 @@
      }
     ],
     "xp": {
-     "Herblore": 4000
+     "Herbalism": 4000
     },
     "items": {
      "Combat potion": 2
     },
     "bonus": {
-     "desc": "+2% Herblore XP",
+     "desc": "+2% Herbalism XP",
      "fx": {
-      "xp.Herblore": 0.02
+      "xp.Herbalism": 0.02
      }
     },
     "end": "The fever is breaking! You've saved lives.",
@@ -6545,13 +6545,13 @@
    },
    "start": "Talk to Magda the Midwife in the south of Emberfold.",
    "rewards": [
-    "4000 Herblore XP",
+    "4000 Herbalism XP",
     "2 x Combat potion"
    ],
    "bonus": {
-    "desc": "+2% Herblore XP",
+    "desc": "+2% Herbalism XP",
     "fx": {
-     "xp.Herblore": 0.02
+     "xp.Herbalism": 0.02
     }
    }
   },
@@ -6986,7 +6986,7 @@
       "ada_map"
      ],
      "lvl": {
-      "Runecrafting": 77
+      "Glyphcraft": 77
      }
     },
     "intro": [
@@ -7032,14 +7032,14 @@
      }
     ],
     "xp": {
-     "Runecrafting": 30000,
+     "Glyphcraft": 30000,
      "Magic": 10000
     },
     "gold": 10000,
     "bonus": {
-     "desc": "+3% Runecrafting XP and +1% XP in every skill",
+     "desc": "+3% Glyphcraft XP and +1% XP in every skill",
      "fx": {
-      "xp.Runecrafting": 0.03,
+      "xp.Glyphcraft": 0.03,
       "xp.*": 0.01
      }
     },
@@ -7048,14 +7048,14 @@
    },
    "start": "Talk to Ada the Cartographer on the road between Emberfold and Highcrest.",
    "rewards": [
-    "30000 Runecrafting XP",
+    "30000 Glyphcraft XP",
     "10000 Magic XP",
     "10000 coins"
    ],
    "bonus": {
-    "desc": "+3% Runecrafting XP and +1% XP in every skill",
+    "desc": "+3% Glyphcraft XP and +1% XP in every skill",
     "fx": {
-     "xp.Runecrafting": 0.03,
+     "xp.Glyphcraft": 0.03,
      "xp.*": 0.01
     }
    }

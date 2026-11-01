@@ -70,7 +70,7 @@ float UHearthFeature::XpBonus(FName SkillId) const
 {
 	if (HasRoom(TEXT("workshop")) && (SkillId == Id(TEXT("Smithing")) || SkillId == Id(TEXT("Crafting")) || SkillId == Id(TEXT("Fletching"))))
 		return 0.05f + (HasFurniture(TEXT("bench")) ? 0.02f : 0.f) + (HasFurniture(TEXT("anvil")) ? 0.02f : 0.f);
-	if (HasRoom(TEXT("garden")) && SkillId == Id(TEXT("Herblore"))) return 0.05f;
+	if (HasRoom(TEXT("garden")) && SkillId == Id(TEXT("Herbalism"))) return 0.05f;
 	return 0.f;
 }
 
@@ -88,7 +88,7 @@ int32 UHearthFeature::TakeHarvest()
 	if (!HasRoom(TEXT("garden")) || Now - HarvestAt < HarvestMs) return 0;
 	HarvestAt = Now;
 	const int32 N = 4 + (HasFurniture(TEXT("planter")) ? 2 : 0) + (HasFurniture(TEXT("trough")) ? 2 : 0);
-	GiveItem(TEXT("Grimy guam leaf"), N);
+	GiveItem(TEXT("Grimy greenwort"), N);
 	return N;
 }
 

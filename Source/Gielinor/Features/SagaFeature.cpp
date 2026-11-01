@@ -33,17 +33,17 @@ namespace SagaData
 			  { TEXT("Arrest the harbour master. Now."), nullptr, 300, TEXT("mariners"), 30, nullptr, 0, TEXT("The docks go quiet as he is led away.") },
 			  { TEXT("Sell the page to the harbour master."), TEXT("smuggler"), 600, nullptr, 0, nullptr, 0, TEXT("He pays well, and owes you one.") } } },
 		{ TEXT("The Lantern Archive"), 140, 12, TEXT("Aldric's journal speaks of an archive under Highcrest, sealed with rune-light."),
-			false, TEXT("Rune essence"), 20, TEXT("Bring 20 Rune essence to wake the archive seals"), TEXT("The seals open. Aldric's last page: he went into the Black Knights' keep near Whitecairn and never came out."), false, 5, false,
+			false, TEXT("Glyph essence"), 20, TEXT("Bring 20 Glyph essence to wake the archive seals"), TEXT("The seals open. Aldric's last page: he went into the Ironveil Knights' keep near Whitecairn and never came out."), false, 5, false,
 			{ { TEXT("Share the archive with the Circle."), nullptr, 0, TEXT("circle"), 80, nullptr, 0, TEXT("The Arcane Circle names you a friend of the archive.") },
 			  { TEXT("Seal it again. Some things should stay buried."), nullptr, 0, TEXT("lantern"), 60, nullptr, 0, TEXT("The White Lantern approves.") },
 			  { TEXT("Copy the best spells for yourself."), nullptr, 0, nullptr, 0, TEXT("Magic"), 1500, TEXT("Your mind fills with old patterns.") } } },
-		{ TEXT("Aldric's Ember"), 180, 16, TEXT("Whitecairn. The keep of the Black Knights. Whatever happened to Aldric is inside."),
-			true, TEXT("Black Knight"), 5, TEXT("Fight through 5 Black Knights to reach Aldric"), TEXT("Aldric is alive, chained and thin. He smiles. \"You came. Now: who did you become?\""), false, 0, true,
+		{ TEXT("Aldric's Ember"), 180, 16, TEXT("Whitecairn. The keep of the Ironveil Knights. Whatever happened to Aldric is inside."),
+			true, TEXT("Ironveil Knight"), 5, TEXT("Fight through 5 Ironveil Knights to reach Aldric"), TEXT("Aldric is alive, chained and thin. He smiles. \"You came. Now: who did you become?\""), false, 0, true,
 			{ { nullptr, nullptr, 0, nullptr, 0, nullptr, 0, nullptr }, { nullptr, nullptr, 0, nullptr, 0, nullptr, 0, nullptr }, { nullptr, nullptr, 0, nullptr, 0, nullptr, 0, nullptr } } } };
 	struct FCalling { const TCHAR* Id; const TCHAR* Name; const TCHAR* Skills[3]; };
 	static const FCalling Callings[] = {
 		{ TEXT("warden"), TEXT("Warden"), { TEXT("Attack"), TEXT("Strength"), TEXT("Defence") } },
-		{ TEXT("arcanist"), TEXT("Arcanist"), { TEXT("Magic"), TEXT("Runecrafting"), nullptr } },
+		{ TEXT("arcanist"), TEXT("Arcanist"), { TEXT("Magic"), TEXT("Glyphcraft"), nullptr } },
 		{ TEXT("ranger"), TEXT("Ranger"), { TEXT("Ranged"), TEXT("Agility"), nullptr } } };
 	static const FCalling* FindCalling(FName Id) { for (const FCalling& C : Callings) if (Id == FName(C.Id)) return &C; return nullptr; }
 	static const TCHAR* EndTitle[] = { TEXT("the Hearthbound"), TEXT("the Unbroken"), TEXT("the Silver-Tongued") };

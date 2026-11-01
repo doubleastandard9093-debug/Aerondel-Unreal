@@ -424,7 +424,7 @@
      "chance": 0.2
     },
     {
-     "item": "Grimy guam leaf",
+     "item": "Grimy greenwort",
      "qty": [
       1,
       1
@@ -508,7 +508,7 @@
      ]
     },
     {
-     "item": "Chaos rune",
+     "item": "Havoc rune",
      "qty": [
       1,
       2
@@ -531,7 +531,7 @@
      ]
     },
     {
-     "item": "Chaos rune",
+     "item": "Havoc rune",
      "qty": [
       2,
       2
@@ -554,7 +554,7 @@
      ]
     },
     {
-     "item": "Death rune",
+     "item": "Grave rune",
      "qty": [
       2,
       2
@@ -562,7 +562,7 @@
      "chance": 0.25
     },
     {
-     "item": "Blood rune",
+     "item": "Crimson rune",
      "qty": [
       1,
       1
@@ -570,7 +570,7 @@
      "chance": 0.15
     },
     {
-     "item": "Amulet of glory",
+     "item": "Amulet of renown",
      "qty": [
       1,
       1
@@ -588,8 +588,8 @@
    "multi": 11,
    "pure": false
   },
-  "Mind": {
-   "rune": "Mind rune",
+  "Thought": {
+   "rune": "Thought rune",
    "level": 2,
    "xp": 5.5,
    "multi": 14,
@@ -616,29 +616,29 @@
    "multi": 35,
    "pure": false
   },
-  "Body": {
-   "rune": "Body rune",
+  "Vital": {
+   "rune": "Vital rune",
    "level": 20,
    "xp": 7.5,
    "multi": 46,
    "pure": false
   },
-  "Chaos": {
-   "rune": "Chaos rune",
+  "Havoc": {
+   "rune": "Havoc rune",
    "level": 35,
    "xp": 8.5,
    "multi": 74,
    "pure": true
   },
-  "Death": {
-   "rune": "Death rune",
+  "Grave": {
+   "rune": "Grave rune",
    "level": 65,
    "xp": 10,
    "multi": 0,
    "pure": true
   },
-  "Blood": {
-   "rune": "Blood rune",
+  "Crimson": {
+   "rune": "Crimson rune",
    "level": 77,
    "xp": 10.5,
    "multi": 0,

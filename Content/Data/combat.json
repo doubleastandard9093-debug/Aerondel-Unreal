@@ -77,71 +77,71 @@
  ],
  "spells": [
   {
-   "id": "wind_strike",
-   "name": "Wind Strike",
+   "id": "wind_dart",
+   "name": "Wind Dart",
    "level": 1,
    "maxHit": 20,
    "xp": 5.5,
    "icon": "💨",
    "runes": {
     "Air rune": 1,
-    "Mind rune": 1
+    "Thought rune": 1
    }
   },
   {
-   "id": "water_strike",
-   "name": "Water Strike",
+   "id": "water_dart",
+   "name": "Water Dart",
    "level": 5,
    "maxHit": 40,
    "xp": 7.5,
    "icon": "💧",
    "runes": {
     "Air rune": 1,
-    "Mind rune": 1,
+    "Thought rune": 1,
     "Water rune": 1
    }
   },
   {
-   "id": "earth_strike",
-   "name": "Earth Strike",
+   "id": "earth_dart",
+   "name": "Earth Dart",
    "level": 9,
    "maxHit": 60,
    "xp": 9.5,
    "icon": "🪨",
    "runes": {
     "Air rune": 1,
-    "Mind rune": 1,
+    "Thought rune": 1,
     "Earth rune": 2
    }
   },
   {
-   "id": "fire_strike",
-   "name": "Fire Strike",
+   "id": "fire_dart",
+   "name": "Fire Dart",
    "level": 13,
    "maxHit": 80,
    "xp": 11.5,
    "icon": "🔥",
    "runes": {
     "Air rune": 2,
-    "Mind rune": 1,
+    "Thought rune": 1,
     "Fire rune": 3
    }
   },
   {
-   "id": "wind_bolt",
-   "name": "Wind Bolt",
+   "id": "wind_lance",
+   "name": "Wind Lance",
    "level": 17,
    "maxHit": 90,
    "xp": 13.5,
    "icon": "💨",
    "runes": {
     "Air rune": 2,
-    "Chaos rune": 1
+    "Havoc rune": 1
    }
   },
   {
-   "id": "water_bolt",
-   "name": "Water Bolt",
+   "id": "water_lance",
+   "name": "Water Lance",
    "level": 23,
    "maxHit": 100,
    "xp": 16.5,
@@ -149,12 +149,12 @@
    "runes": {
     "Air rune": 2,
     "Water rune": 2,
-    "Chaos rune": 1
+    "Havoc rune": 1
    }
   },
   {
-   "id": "earth_bolt",
-   "name": "Earth Bolt",
+   "id": "earth_lance",
+   "name": "Earth Lance",
    "level": 29,
    "maxHit": 110,
    "xp": 19.5,
@@ -162,12 +162,12 @@
    "runes": {
     "Air rune": 2,
     "Earth rune": 3,
-    "Chaos rune": 1
+    "Havoc rune": 1
    }
   },
   {
-   "id": "fire_bolt",
-   "name": "Fire Bolt",
+   "id": "fire_lance",
+   "name": "Fire Lance",
    "level": 35,
    "maxHit": 120,
    "xp": 22.5,
@@ -175,24 +175,24 @@
    "runes": {
     "Air rune": 3,
     "Fire rune": 4,
-    "Chaos rune": 1
+    "Havoc rune": 1
    }
   },
   {
-   "id": "wind_blast",
-   "name": "Wind Blast",
+   "id": "wind_burst",
+   "name": "Wind Burst",
    "level": 41,
    "maxHit": 130,
    "xp": 25.5,
    "icon": "💨",
    "runes": {
     "Air rune": 3,
-    "Death rune": 1
+    "Grave rune": 1
    }
   },
   {
-   "id": "water_blast",
-   "name": "Water Blast",
+   "id": "water_burst",
+   "name": "Water Burst",
    "level": 47,
    "maxHit": 140,
    "xp": 28.5,
@@ -200,12 +200,12 @@
    "runes": {
     "Air rune": 3,
     "Water rune": 3,
-    "Death rune": 1
+    "Grave rune": 1
    }
   },
   {
-   "id": "earth_blast",
-   "name": "Earth Blast",
+   "id": "earth_burst",
+   "name": "Earth Burst",
    "level": 53,
    "maxHit": 150,
    "xp": 31.5,
@@ -213,12 +213,12 @@
    "runes": {
     "Air rune": 3,
     "Earth rune": 4,
-    "Death rune": 1
+    "Grave rune": 1
    }
   },
   {
-   "id": "fire_blast",
-   "name": "Fire Blast",
+   "id": "fire_burst",
+   "name": "Fire Burst",
    "level": 59,
    "maxHit": 160,
    "xp": 34.5,
@@ -226,24 +226,24 @@
    "runes": {
     "Air rune": 4,
     "Fire rune": 5,
-    "Death rune": 1
+    "Grave rune": 1
    }
   },
   {
-   "id": "wind_wave",
-   "name": "Wind Wave",
+   "id": "wind_torrent",
+   "name": "Wind Torrent",
    "level": 62,
    "maxHit": 170,
    "xp": 36,
    "icon": "💨",
    "runes": {
     "Air rune": 5,
-    "Blood rune": 1
+    "Crimson rune": 1
    }
   },
   {
-   "id": "water_wave",
-   "name": "Water Wave",
+   "id": "water_torrent",
+   "name": "Water Torrent",
    "level": 65,
    "maxHit": 180,
    "xp": 37.5,
@@ -251,12 +251,12 @@
    "runes": {
     "Air rune": 5,
     "Water rune": 7,
-    "Blood rune": 1
+    "Crimson rune": 1
    }
   },
   {
-   "id": "earth_wave",
-   "name": "Earth Wave",
+   "id": "earth_torrent",
+   "name": "Earth Torrent",
    "level": 70,
    "maxHit": 190,
    "xp": 40,
@@ -264,12 +264,12 @@
    "runes": {
     "Air rune": 5,
     "Earth rune": 7,
-    "Blood rune": 1
+    "Crimson rune": 1
    }
   },
   {
-   "id": "fire_wave",
-   "name": "Fire Wave",
+   "id": "fire_torrent",
+   "name": "Fire Torrent",
    "level": 75,
    "maxHit": 200,
    "xp": 42.5,
@@ -277,7 +277,7 @@
    "runes": {
     "Air rune": 5,
     "Fire rune": 7,
-    "Blood rune": 1
+    "Crimson rune": 1
    }
   },
   {
@@ -291,7 +291,7 @@
    "school": "Hexcraft",
    "runes": {
     "Bog rune": 1,
-    "Mind rune": 1
+    "Thought rune": 1
    },
    "about": "rots the target for 4 extra hits over time"
   },
@@ -336,7 +336,7 @@
    "school": "Hexcraft",
    "runes": {
     "Bone rune": 3,
-    "Blood rune": 1
+    "Crimson rune": 1
    },
    "about": "half the damage dealt heals you"
   }
@@ -423,7 +423,7 @@
   {
    "id": "windb",
    "tier": "basic",
-   "name": "Wind Bolt",
+   "name": "Wind Lance",
    "icon": "💨",
    "skill": "Magic",
    "level": 5,
@@ -433,12 +433,12 @@
    "runes": {
     "Air rune": 4
    },
-   "desc": "A second wind blast on top of your spell. Uses 4 Air runes."
+   "desc": "A second wind burst on top of your spell. Uses 4 Air runes."
   },
   {
    "id": "waterb",
    "tier": "basic",
-   "name": "Water Bolt",
+   "name": "Water Lance",
    "icon": "💧",
    "skill": "Magic",
    "level": 15,
@@ -447,14 +447,14 @@
    "element": "water",
    "runes": {
     "Water rune": 3,
-    "Chaos rune": 1
+    "Havoc rune": 1
    },
-   "desc": "A heavy water bolt. Uses 3 Water and 1 Chaos rune."
+   "desc": "A heavy water lance. Uses 3 Water and 1 Havoc rune."
   },
   {
    "id": "earthb",
    "tier": "basic",
-   "name": "Earth Bolt",
+   "name": "Earth Lance",
    "icon": "🪨",
    "skill": "Magic",
    "level": 25,
@@ -463,14 +463,14 @@
    "element": "earth",
    "runes": {
     "Earth rune": 3,
-    "Chaos rune": 1
+    "Havoc rune": 1
    },
-   "desc": "A crushing earth bolt that slows the target. Uses 3 Earth and 1 Chaos rune."
+   "desc": "A crushing earth lance that slows the target. Uses 3 Earth and 1 Havoc rune."
   },
   {
    "id": "fireb",
    "tier": "basic",
-   "name": "Fire Bolt",
+   "name": "Fire Lance",
    "icon": "🔥",
    "skill": "Magic",
    "level": 35,
@@ -479,9 +479,9 @@
    "element": "fire",
    "runes": {
     "Fire rune": 4,
-    "Chaos rune": 1
+    "Havoc rune": 1
    },
-   "desc": "A searing fire bolt that burns. Uses 4 Fire and 1 Chaos rune."
+   "desc": "A searing fire lance that burns. Uses 4 Fire and 1 Havoc rune."
   },
   {
    "id": "surge",
@@ -493,9 +493,9 @@
    "cd": 45,
    "style": "magic",
    "runes": {
-    "Chaos rune": 3
+    "Havoc rune": 3
    },
-   "desc": "Your next 3 casts deal +50% damage. Uses 3 Chaos runes."
+   "desc": "Your next 3 casts deal +50% damage. Uses 3 Havoc runes."
   },
   {
    "id": "storm",
@@ -508,9 +508,9 @@
    "style": "magic",
    "runes": {
     "Air rune": 8,
-    "Death rune": 2
+    "Grave rune": 2
    },
-   "desc": "Lightning strikes your target and every foe near it. Uses 8 Air and 2 Death runes."
+   "desc": "Lightning strikes your target and every foe near it. Uses 8 Air and 2 Grave runes."
   },
   {
    "id": "challenge",

@@ -108,7 +108,7 @@ void AThieveTarget::Interact(AActor* InInstigator)
 	ActGiveXp(S, TEXT("thieving"), T->Xp * (1.f + UGielinorRules::Perk(S, TEXT("thieving"), TEXT("thieveXp"))));
 }
 
-// ------------------------------------------------------------------ runecrafting
+// ------------------------------------------------------------------ glyphcraft
 FText ARuneAltar::GetInteractLabel() const
 {
 	const URuneAltarDef* A = ActDb() ? ActDb()->FindRuneAltar(AltarId) : nullptr;
@@ -120,26 +120,26 @@ void ARuneAltar::Interact(AActor* InInstigator)
 	AGielinorPlayerState* S = PS(InInstigator);
 	const URuneAltarDef* A = ActDb() ? ActDb()->FindRuneAltar(AltarId) : nullptr;
 	if (!S || !A || !A->Rune) { Msg(LOCTEXT("Nothing", "Nothing happens.")); return; }
-	const int32 L = S->Skills->GetLevelById(TEXT("runecrafting"));
-	if (L < A->Level) { Msg(FText::Format(LOCTEXT("RcLvl", "You need a Runecrafting level of {0} to craft {1}s."), A->Level, A->Rune->DisplayName)); return; }
+	const int32 L = S->Skills->GetLevelById(TEXT("glyphcraft"));
+	if (L < A->Level) { Msg(FText::Format(LOCTEXT("RcLvl", "You need a Glyphcraft level of {0} to craft {1}s."), A->Level, A->Rune->DisplayName)); return; }
 	int32 Used = 0;
-	for (const TCHAR* K : { TEXT("pure_essence"), TEXT("rune_essence") })
+	for (const TCHAR* K : { TEXT("clear_essence"), TEXT("glyph_essence") })
 	{
-		if (A->bPureEssenceOnly && FCString::Strcmp(K, TEXT("rune_essence")) == 0) continue;
+		if (A->bPureEssenceOnly && FCString::Strcmp(K, TEXT("glyph_essence")) == 0) continue;
 		if (UItemDef* E = ActDb()->FindItem(K)) { const int32 N = S->Inventory->CountOf(E); if (N > 0) Used += S->Inventory->Remove(E, N); }
 	}
 	if (Used == 0)
 	{
-		Msg(A->bPureEssenceOnly ? LOCTEXT("NeedPure", "You need pure essence to craft these runes. Mine it at Mining 30 in the essence mine.")
-		                        : LOCTEXT("NeedEss", "You don't have any rune essence. Buy some from a magic shop or mine it."));
+		Msg(A->bPureEssenceOnly ? LOCTEXT("NeedPure", "You need clear essence to craft these runes. Mine it at Mining 30 in the essence mine.")
+		                        : LOCTEXT("NeedEss", "You don't have any glyph essence. Buy some from a magic shop or mine it."));
 		return;
 	}
 	int32 Qty = Used * UGielinorRules::RunesPerEssence(A, L);
-	const float Dbl = UGielinorRules::Perk(S, TEXT("runecrafting"), TEXT("runeDouble"));
+	const float Dbl = UGielinorRules::Perk(S, TEXT("glyphcraft"), TEXT("runeDouble"));
 	if (Dbl > 0.f) for (int32 i = 0; i < Used; ++i) if (FMath::FRand() < Dbl) ++Qty;
 	S->Inventory->Add(A->Rune, Qty);
 	Msg(FText::Format(LOCTEXT("Crafted", "You bind the temple's power into {0} x {1}."), Qty, A->Rune->DisplayName));
-	ActGiveXp(S, TEXT("runecrafting"), Used * A->XpPerEssence * (1.f + UGielinorRules::Perk(S, TEXT("runecrafting"), TEXT("rcXp"))));
+	ActGiveXp(S, TEXT("glyphcraft"), Used * A->XpPerEssence * (1.f + UGielinorRules::Perk(S, TEXT("glyphcraft"), TEXT("rcXp"))));
 }
 
 // ------------------------------------------------------------------ prayer altar

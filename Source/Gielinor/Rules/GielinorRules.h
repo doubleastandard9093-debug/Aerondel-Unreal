@@ -111,7 +111,7 @@ public:
 	/** Web gameplay.js WEAKNESS: spells/kit hits of the mob's weak element deal x1.3. */
 	static constexpr float WeakMult = 1.3f;
 	UFUNCTION(BlueprintPure, Category="Gielinor|Rules") static bool WeakTo(const UMobDef* Mob, FName Element);
-	/** wind/water/earth/fire from a spell id prefix ("fire_bolt" -> fire), else None. */
+	/** wind/water/earth/fire from a spell id prefix ("fire_lance" -> fire), else None. */
 	UFUNCTION(BlueprintPure, Category="Gielinor|Rules") static FName SpellElement(const USpellDef* Spell);
 	UFUNCTION(BlueprintPure, Category="Gielinor|Rules") static int32 MagicMaxHit(const AGielinorPlayerState* PS, const USpellDef* Spell);
 	UFUNCTION(BlueprintPure, Category="Gielinor|Rules") static float MagicAccuracy(const AGielinorPlayerState* PS, const UMobDef* Mob);

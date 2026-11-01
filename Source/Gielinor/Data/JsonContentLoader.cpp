@@ -428,7 +428,7 @@ int32 FJsonContentLoader::MergeInto(UGameDatabase* Db, const FString& Dir)
 		};
 		Simple(TEXT("trees"), TEXT("tree_"), EResourceKind::Tree, TEXT("Woodcutting"), EToolType::Axe);
 		Simple(TEXT("rocks"), TEXT("rock_"), EResourceKind::Rock, TEXT("Mining"), EToolType::Pickaxe);
-		Simple(TEXT("herbPatches"), TEXT("herb_"), EResourceKind::HerbPatch, TEXT("Herblore"), EToolType::None);
+		Simple(TEXT("herbPatches"), TEXT("herb_"), EResourceKind::HerbPatch, TEXT("Herbalism"), EToolType::None);
 		if (FObj F = Obj(J, TEXT("fishSpots")))
 		{
 			for (const auto& Pair : F->Values)
@@ -762,7 +762,7 @@ int32 FJsonContentLoader::MergeInto(UGameDatabase* Db, const FString& Dir)
 		}
 	}
 
-	// ---------------- Agility, thieving, runecrafting ----------------
+	// ---------------- Agility, thieving, glyphcraft ----------------
 	if (FObj J = LoadFile(Dir, TEXT("activities.json")))
 	{
 		if (FObj Courses = Obj(J, TEXT("agilityCourses")))

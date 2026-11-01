@@ -16,8 +16,8 @@
   "Crafting",
   "Cooking",
   "Fletching",
-  "Herblore",
-  "Runecrafting"
+  "Herbalism",
+  "Glyphcraft"
  ],
  "perks": {
   "Attack": [
@@ -2765,7 +2765,7 @@
     "desc": "never burn food"
    }
   ],
-  "Herblore": [
+  "Herbalism": [
    {
     "level": 5,
     "name": "Green Fingers I",
@@ -2939,7 +2939,7 @@
    },
    {
     "level": 99,
-    "name": "Herblore Mastery",
+    "name": "Herbalism Mastery",
     "fx": {
      "xpBonus": 0.25,
      "doubleMake": 0.25
@@ -3131,7 +3131,7 @@
     "desc": "+25% XP, 25% chance of a free extra item"
    }
   ],
-  "Runecrafting": [
+  "Glyphcraft": [
    {
     "level": 5,
     "name": "Rune Focus I",
@@ -3139,7 +3139,7 @@
      "rcXp": 0.05
     },
     "milestone": false,
-    "desc": "+5% Runecrafting XP"
+    "desc": "+5% Glyphcraft XP"
    },
    {
     "level": 10,
@@ -3157,7 +3157,7 @@
      "rcXp": 0.05
     },
     "milestone": false,
-    "desc": "+5% Runecrafting XP"
+    "desc": "+5% Glyphcraft XP"
    },
    {
     "level": 20,
@@ -3175,7 +3175,7 @@
      "rcXp": 0.25
     },
     "milestone": true,
-    "desc": "+25% Runecrafting XP"
+    "desc": "+25% Glyphcraft XP"
    },
    {
     "level": 30,
@@ -3193,7 +3193,7 @@
      "rcXp": 0.05
     },
     "milestone": false,
-    "desc": "+5% Runecrafting XP"
+    "desc": "+5% Glyphcraft XP"
    },
    {
     "level": 40,
@@ -3211,7 +3211,7 @@
      "rcXp": 0.05
     },
     "milestone": false,
-    "desc": "+5% Runecrafting XP"
+    "desc": "+5% Glyphcraft XP"
    },
    {
     "level": 50,
@@ -3229,7 +3229,7 @@
      "rcXp": 0.05
     },
     "milestone": false,
-    "desc": "+5% Runecrafting XP"
+    "desc": "+5% Glyphcraft XP"
    },
    {
     "level": 60,
@@ -3247,7 +3247,7 @@
      "rcXp": 0.05
     },
     "milestone": false,
-    "desc": "+5% Runecrafting XP"
+    "desc": "+5% Glyphcraft XP"
    },
    {
     "level": 70,
@@ -3260,12 +3260,12 @@
    },
    {
     "level": 75,
-    "name": "Master Runecrafter",
+    "name": "Master Glyphcrafter",
     "fx": {
      "rcXp": 0.25
     },
     "milestone": true,
-    "desc": "+25% Runecrafting XP"
+    "desc": "+25% Glyphcraft XP"
    },
    {
     "level": 80,
@@ -3283,7 +3283,7 @@
      "rcXp": 0.05
     },
     "milestone": false,
-    "desc": "+5% Runecrafting XP"
+    "desc": "+5% Glyphcraft XP"
    },
    {
     "level": 90,
@@ -3301,17 +3301,17 @@
      "rcXp": 0.05
     },
     "milestone": false,
-    "desc": "+5% Runecrafting XP"
+    "desc": "+5% Glyphcraft XP"
    },
    {
     "level": 99,
-    "name": "Runecrafting Mastery",
+    "name": "Glyphcraft Mastery",
     "fx": {
      "runeDouble": 0.5,
      "rcXp": 0.25
     },
     "milestone": true,
-    "desc": "50% chance of double runes, +25% Runecrafting XP"
+    "desc": "50% chance of double runes, +25% Glyphcraft XP"
    }
   ]
  },

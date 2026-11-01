@@ -52,9 +52,9 @@ void UQuirksFeature::Decline() { if (!Offered.IsEmpty()) { Declined.AddUnique(Of
 FString UQuirksFeature::Remedy(const FString& QuirkId)
 {
 	if (!Held.Contains(QuirkId)) return TEXT("You don't have that quirk.");
-	if (SkillLevel(TEXT("Herblore")) < 30) return TEXT("Ysolde's remedy needs Herblore 30.");
-	if (CountItem(TEXT("Grimy guam leaf")) < 5 || CountItem(TEXT("Coins")) < 2000) return TEXT("The remedy needs 5 Grimy guam leaf and 2000 coins.");
-	TakeItem(TEXT("Grimy guam leaf"), 5); TakeCoins(2000); GiveXp(TEXT("Herblore"), 400.f);
+	if (SkillLevel(TEXT("Herbalism")) < 30) return TEXT("Ysolde's remedy needs Herbalism 30.");
+	if (CountItem(TEXT("Grimy greenwort")) < 5 || CountItem(TEXT("Coins")) < 2000) return TEXT("The remedy needs 5 Grimy greenwort and 2000 coins.");
+	TakeItem(TEXT("Grimy greenwort"), 5); TakeCoins(2000); GiveXp(TEXT("Herbalism"), 400.f);
 	Held.Remove(QuirkId); Declined.AddUnique(QuirkId); ++Removed;
 	return TEXT("The remedy works. The quirk fades.");
 }

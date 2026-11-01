@@ -43,7 +43,7 @@ public:
 	/** Bulwark Challenge (web main.js): next attack pushed back DelayTicks, taunted (locked on the player, no leash) for TauntTicks. */
 	void Challenge(int32 DelayTicks, int32 TauntTicks);
 	UFUNCTION(BlueprintPure, Category="Mob") bool IsTaunted() const { return TauntTicks > 0; }
-	/** Withering Hex / Earth Bolt: this mob hits 30% softer while withered. */
+	/** Withering Hex / Earth Lance: this mob hits 30% softer while withered. */
 	void Wither(int32 Ticks) { WitherTicks = FMath::Max(WitherTicks, Ticks); }
 	UFUNCTION(BlueprintPure, Category="Mob") bool IsWithered() const { return WitherTicks > 0; }
 	UFUNCTION(BlueprintPure, Category="Mob") EMobState GetState() const { return State; }

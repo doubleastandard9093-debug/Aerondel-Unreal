@@ -18,7 +18,7 @@ UENUM(BlueprintType)
 enum class EResourceKind : uint8 { Tree, Rock, FishingSpot, HerbPatch };
 
 UENUM(BlueprintType)
-/** Hand = made from the inventory anywhere (Herblore, Fletching, most Crafting). Fire = a lit fire (cooks like a Range). */
+/** Hand = made from the inventory anywhere (Herbalism, Fletching, most Crafting). Fire = a lit fire (cooks like a Range). */
 enum class EStationType : uint8 { Furnace, Anvil, Range, Hand, Fire };
 
 UENUM(BlueprintType)

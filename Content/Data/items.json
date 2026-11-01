@@ -16,19 +16,19 @@
    "value": 12,
    "type": "resource"
   },
-  "Mithril ore": {
+  "Bluesteel ore": {
    "value": 40,
    "type": "resource"
   },
-  "Adamantite ore": {
+  "Verdite ore": {
    "value": 90,
    "type": "resource"
   },
-  "Runite ore": {
+  "Cobalt ore": {
    "value": 300,
    "type": "resource"
   },
-  "Dragon ore": {
+  "Emberite ore": {
    "value": 800,
    "type": "resource"
   },
@@ -477,15 +477,15 @@
    "tier": 2,
    "metal": "Steel"
   },
-  "Mithril bar": {
+  "Bluesteel bar": {
    "value": 120,
    "type": "processed"
   },
-  "Mithril sword": {
+  "Bluesteel sword": {
    "value": 300,
    "type": "weapon",
    "tier": 3,
-   "metal": "Mithril",
+   "metal": "Bluesteel",
    "atk": 20,
    "str": 15,
    "speed": 4,
@@ -493,95 +493,95 @@
     "Attack": 30
    }
   },
-  "Mithril full helm": {
+  "Bluesteel full helm": {
    "value": 240,
    "type": "head",
    "tier": 3,
-   "metal": "Mithril",
+   "metal": "Bluesteel",
    "def": 11,
    "rdef": 9,
-   "set": "Mithril",
+   "set": "Bluesteel",
    "req": {
     "Defence": 30
    }
   },
-  "Mithril shield": {
+  "Bluesteel shield": {
    "value": 400,
    "type": "shield",
    "tier": 3,
-   "metal": "Mithril",
+   "metal": "Bluesteel",
    "def": 22,
    "rdef": 18,
-   "set": "Mithril",
+   "set": "Bluesteel",
    "req": {
     "Defence": 30
    }
   },
-  "Mithril platelegs": {
+  "Bluesteel platelegs": {
    "value": 600,
    "type": "legs",
    "tier": 3,
-   "metal": "Mithril",
+   "metal": "Bluesteel",
    "def": 21,
    "rdef": 17,
-   "set": "Mithril",
+   "set": "Bluesteel",
    "req": {
     "Defence": 30
    },
    "ranged": -2
   },
-  "Mithril platebody": {
+  "Bluesteel platebody": {
    "value": 1200,
    "type": "body",
    "tier": 3,
-   "metal": "Mithril",
+   "metal": "Bluesteel",
    "def": 28,
    "rdef": 22,
-   "set": "Mithril",
+   "set": "Bluesteel",
    "req": {
     "Defence": 30
    },
    "ranged": -4
   },
-  "Mithril axe": {
+  "Bluesteel axe": {
    "value": 200,
    "type": "tool",
    "tool": "axe",
    "tier": 3,
-   "metal": "Mithril",
+   "metal": "Bluesteel",
    "toolTier": 3,
    "req": {
     "Woodcutting": 21
    }
   },
-  "Mithril pickaxe": {
+  "Bluesteel pickaxe": {
    "value": 280,
    "type": "tool",
    "tool": "pickaxe",
    "tier": 3,
-   "metal": "Mithril",
+   "metal": "Bluesteel",
    "toolTier": 3,
    "req": {
     "Mining": 21
    }
   },
-  "Mithril arrows": {
+  "Bluesteel arrows": {
    "value": 8,
    "type": "ammo",
    "count": 15,
    "rstr": 15,
    "tier": 3,
-   "metal": "Mithril"
+   "metal": "Bluesteel"
   },
-  "Adamant bar": {
+  "Verdite bar": {
    "value": 300,
    "type": "processed"
   },
-  "Adamant sword": {
+  "Verdite sword": {
    "value": 750,
    "type": "weapon",
    "tier": 4,
-   "metal": "Adamant",
+   "metal": "Verdite",
    "atk": 28,
    "str": 22,
    "speed": 4,
@@ -589,95 +589,95 @@
     "Attack": 40
    }
   },
-  "Adamant full helm": {
+  "Verdite full helm": {
    "value": 600,
    "type": "head",
    "tier": 4,
-   "metal": "Adamant",
+   "metal": "Verdite",
    "def": 15,
    "rdef": 12,
-   "set": "Adamant",
+   "set": "Verdite",
    "req": {
     "Defence": 40
    }
   },
-  "Adamant shield": {
+  "Verdite shield": {
    "value": 1000,
    "type": "shield",
    "tier": 4,
-   "metal": "Adamant",
+   "metal": "Verdite",
    "def": 30,
    "rdef": 24,
-   "set": "Adamant",
+   "set": "Verdite",
    "req": {
     "Defence": 40
    }
   },
-  "Adamant platelegs": {
+  "Verdite platelegs": {
    "value": 1500,
    "type": "legs",
    "tier": 4,
-   "metal": "Adamant",
+   "metal": "Verdite",
    "def": 29,
    "rdef": 23,
-   "set": "Adamant",
+   "set": "Verdite",
    "req": {
     "Defence": 40
    },
    "ranged": -2
   },
-  "Adamant platebody": {
+  "Verdite platebody": {
    "value": 3000,
    "type": "body",
    "tier": 4,
-   "metal": "Adamant",
+   "metal": "Verdite",
    "def": 38,
    "rdef": 30,
-   "set": "Adamant",
+   "set": "Verdite",
    "req": {
     "Defence": 40
    },
    "ranged": -5
   },
-  "Adamant axe": {
+  "Verdite axe": {
    "value": 500,
    "type": "tool",
    "tool": "axe",
    "tier": 4,
-   "metal": "Adamant",
+   "metal": "Verdite",
    "toolTier": 4,
    "req": {
     "Woodcutting": 31
    }
   },
-  "Adamant pickaxe": {
+  "Verdite pickaxe": {
    "value": 700,
    "type": "tool",
    "tool": "pickaxe",
    "tier": 4,
-   "metal": "Adamant",
+   "metal": "Verdite",
    "toolTier": 4,
    "req": {
     "Mining": 31
    }
   },
-  "Adamant arrows": {
+  "Verdite arrows": {
    "value": 16,
    "type": "ammo",
    "count": 15,
    "rstr": 22,
    "tier": 4,
-   "metal": "Adamant"
+   "metal": "Verdite"
   },
-  "Rune bar": {
+  "Cobalt bar": {
    "value": 900,
    "type": "processed"
   },
-  "Rune sword": {
+  "Cobalt sword": {
    "value": 1950,
    "type": "weapon",
    "tier": 5,
-   "metal": "Rune",
+   "metal": "Cobalt",
    "atk": 38,
    "str": 32,
    "speed": 4,
@@ -685,95 +685,95 @@
     "Attack": 50
    }
   },
-  "Rune full helm": {
+  "Cobalt full helm": {
    "value": 1560,
    "type": "head",
    "tier": 5,
-   "metal": "Rune",
+   "metal": "Cobalt",
    "def": 21,
    "rdef": 17,
-   "set": "Rune",
+   "set": "Cobalt",
    "req": {
     "Defence": 50
    }
   },
-  "Rune shield": {
+  "Cobalt shield": {
    "value": 2600,
    "type": "shield",
    "tier": 5,
-   "metal": "Rune",
+   "metal": "Cobalt",
    "def": 42,
    "rdef": 34,
-   "set": "Rune",
+   "set": "Cobalt",
    "req": {
     "Defence": 50
    }
   },
-  "Rune platelegs": {
+  "Cobalt platelegs": {
    "value": 3900,
    "type": "legs",
    "tier": 5,
-   "metal": "Rune",
+   "metal": "Cobalt",
    "def": 40,
    "rdef": 32,
-   "set": "Rune",
+   "set": "Cobalt",
    "req": {
     "Defence": 50
    },
    "ranged": -3
   },
-  "Rune platebody": {
+  "Cobalt platebody": {
    "value": 7800,
    "type": "body",
    "tier": 5,
-   "metal": "Rune",
+   "metal": "Cobalt",
    "def": 52,
    "rdef": 42,
-   "set": "Rune",
+   "set": "Cobalt",
    "req": {
     "Defence": 50
    },
    "ranged": -6
   },
-  "Rune axe": {
+  "Cobalt axe": {
    "value": 1300,
    "type": "tool",
    "tool": "axe",
    "tier": 5,
-   "metal": "Rune",
+   "metal": "Cobalt",
    "toolTier": 5,
    "req": {
     "Woodcutting": 41
    }
   },
-  "Rune pickaxe": {
+  "Cobalt pickaxe": {
    "value": 1820,
    "type": "tool",
    "tool": "pickaxe",
    "tier": 5,
-   "metal": "Rune",
+   "metal": "Cobalt",
    "toolTier": 5,
    "req": {
     "Mining": 41
    }
   },
-  "Rune arrows": {
+  "Cobalt arrows": {
    "value": 40,
    "type": "ammo",
    "count": 15,
    "rstr": 32,
    "tier": 5,
-   "metal": "Rune"
+   "metal": "Cobalt"
   },
-  "Dragon bar": {
+  "Emberite bar": {
    "value": 2500,
    "type": "processed"
   },
-  "Dragon sword": {
+  "Emberite sword": {
    "value": 5250,
    "type": "weapon",
    "tier": 6,
-   "metal": "Dragon",
+   "metal": "Emberite",
    "atk": 52,
    "str": 48,
    "speed": 4,
@@ -781,85 +781,85 @@
     "Attack": 60
    }
   },
-  "Dragon full helm": {
+  "Emberite full helm": {
    "value": 4200,
    "type": "head",
    "tier": 6,
-   "metal": "Dragon",
+   "metal": "Emberite",
    "def": 30,
    "rdef": 24,
-   "set": "Dragon",
+   "set": "Emberite",
    "req": {
     "Defence": 60
    }
   },
-  "Dragon shield": {
+  "Emberite shield": {
    "value": 7000,
    "type": "shield",
    "tier": 6,
-   "metal": "Dragon",
+   "metal": "Emberite",
    "def": 58,
    "rdef": 46,
-   "set": "Dragon",
+   "set": "Emberite",
    "req": {
     "Defence": 60
    }
   },
-  "Dragon platelegs": {
+  "Emberite platelegs": {
    "value": 10500,
    "type": "legs",
    "tier": 6,
-   "metal": "Dragon",
+   "metal": "Emberite",
    "def": 55,
    "rdef": 44,
-   "set": "Dragon",
+   "set": "Emberite",
    "req": {
     "Defence": 60
    },
    "ranged": -3
   },
-  "Dragon platebody": {
+  "Emberite platebody": {
    "value": 21000,
    "type": "body",
    "tier": 6,
-   "metal": "Dragon",
+   "metal": "Emberite",
    "def": 72,
    "rdef": 58,
-   "set": "Dragon",
+   "set": "Emberite",
    "req": {
     "Defence": 60
    },
    "ranged": -7
   },
-  "Dragon axe": {
+  "Emberite axe": {
    "value": 3500,
    "type": "tool",
    "tool": "axe",
    "tier": 6,
-   "metal": "Dragon",
+   "metal": "Emberite",
    "toolTier": 6,
    "req": {
     "Woodcutting": 61
    }
   },
-  "Dragon pickaxe": {
+  "Emberite pickaxe": {
    "value": 4900,
    "type": "tool",
    "tool": "pickaxe",
    "tier": 6,
-   "metal": "Dragon",
+   "metal": "Emberite",
    "toolTier": 6,
    "req": {
     "Mining": 61
    }
   },
-  "Dragon arrows": {
+  "Emberite arrows": {
    "value": 100,
    "type": "ammo",
    "count": 15,
    "rstr": 45,
    "tier": 6,
-   "metal": "Dragon"
+   "metal": "Emberite"
   },
   "Shortbow": {
    "value": 20,
@@ -1056,26 +1056,26 @@
     "Ranged": 20
    }
   },
-  "Mithril crossbow": {
+  "Bluesteel crossbow": {
    "value": 320,
    "type": "weapon",
    "ranged": 30,
    "speed": 5,
    "tier": 3,
-   "metal": "Mithril",
+   "metal": "Bluesteel",
    "req": {
     "Ranged": 30
    }
   },
-  "Mithril bolts": {
+  "Bluesteel bolts": {
    "value": 10,
    "type": "ammo",
    "count": 10,
    "rstr": 17,
    "tier": 3,
-   "metal": "Mithril"
+   "metal": "Bluesteel"
   },
-  "Mithril thrown dagger": {
+  "Bluesteel thrown dagger": {
    "value": 150,
    "type": "weapon",
    "thrown": true,
@@ -1083,12 +1083,12 @@
    "rstr": 11,
    "speed": 3,
    "tier": 3,
-   "metal": "Mithril",
+   "metal": "Bluesteel",
    "req": {
     "Ranged": 30
    }
   },
-  "Mithril throwing axe": {
+  "Bluesteel throwing axe": {
    "value": 200,
    "type": "weapon",
    "thrown": true,
@@ -1096,31 +1096,31 @@
    "rstr": 14,
    "speed": 4,
    "tier": 3,
-   "metal": "Mithril",
+   "metal": "Bluesteel",
    "req": {
     "Ranged": 30
    }
   },
-  "Adamant crossbow": {
+  "Verdite crossbow": {
    "value": 800,
    "type": "weapon",
    "ranged": 40,
    "speed": 5,
    "tier": 4,
-   "metal": "Adamant",
+   "metal": "Verdite",
    "req": {
     "Ranged": 40
    }
   },
-  "Adamant bolts": {
+  "Verdite bolts": {
    "value": 20,
    "type": "ammo",
    "count": 10,
    "rstr": 24,
    "tier": 4,
-   "metal": "Adamant"
+   "metal": "Verdite"
   },
-  "Adamant thrown dagger": {
+  "Verdite thrown dagger": {
    "value": 380,
    "type": "weapon",
    "thrown": true,
@@ -1128,12 +1128,12 @@
    "rstr": 16,
    "speed": 3,
    "tier": 4,
-   "metal": "Adamant",
+   "metal": "Verdite",
    "req": {
     "Ranged": 40
    }
   },
-  "Adamant throwing axe": {
+  "Verdite throwing axe": {
    "value": 500,
    "type": "weapon",
    "thrown": true,
@@ -1141,31 +1141,31 @@
    "rstr": 20,
    "speed": 4,
    "tier": 4,
-   "metal": "Adamant",
+   "metal": "Verdite",
    "req": {
     "Ranged": 40
    }
   },
-  "Rune crossbow": {
+  "Cobalt crossbow": {
    "value": 2200,
    "type": "weapon",
    "ranged": 52,
    "speed": 5,
    "tier": 5,
-   "metal": "Rune",
+   "metal": "Cobalt",
    "req": {
     "Ranged": 50
    }
   },
-  "Rune bolts": {
+  "Cobalt bolts": {
    "value": 50,
    "type": "ammo",
    "count": 10,
    "rstr": 35,
    "tier": 5,
-   "metal": "Rune"
+   "metal": "Cobalt"
   },
-  "Rune thrown dagger": {
+  "Cobalt thrown dagger": {
    "value": 1000,
    "type": "weapon",
    "thrown": true,
@@ -1173,12 +1173,12 @@
    "rstr": 24,
    "speed": 3,
    "tier": 5,
-   "metal": "Rune",
+   "metal": "Cobalt",
    "req": {
     "Ranged": 50
    }
   },
-  "Rune throwing axe": {
+  "Cobalt throwing axe": {
    "value": 1300,
    "type": "weapon",
    "thrown": true,
@@ -1186,7 +1186,7 @@
    "rstr": 30,
    "speed": 4,
    "tier": 5,
-   "metal": "Rune",
+   "metal": "Cobalt",
    "req": {
     "Ranged": 50
    }
@@ -1230,7 +1230,7 @@
     "Attack": 20
    }
   },
-  "Mithril cutlass": {
+  "Bluesteel cutlass": {
    "value": 900,
    "type": "weapon",
    "cutlass": true,
@@ -1238,12 +1238,12 @@
    "str": 13,
    "speed": 3,
    "tier": 3,
-   "metal": "Mithril",
+   "metal": "Bluesteel",
    "req": {
     "Attack": 30
    }
   },
-  "Adamant cutlass": {
+  "Verdite cutlass": {
    "value": 2100,
    "type": "weapon",
    "cutlass": true,
@@ -1251,12 +1251,12 @@
    "str": 19,
    "speed": 3,
    "tier": 4,
-   "metal": "Adamant",
+   "metal": "Verdite",
    "req": {
     "Attack": 40
    }
   },
-  "Rune cutlass": {
+  "Cobalt cutlass": {
    "value": 5600,
    "type": "weapon",
    "cutlass": true,
@@ -1264,7 +1264,7 @@
    "str": 28,
    "speed": 3,
    "tier": 5,
-   "metal": "Rune",
+   "metal": "Cobalt",
    "req": {
     "Attack": 50
    }
@@ -1293,26 +1293,26 @@
     "Ranged": 20
    }
   },
-  "Mithril flintlock": {
+  "Bluesteel flintlock": {
    "value": 1600,
    "type": "weapon",
    "pistol": true,
    "ranged": 46,
    "speed": 7,
    "tier": 3,
-   "metal": "Mithril",
+   "metal": "Bluesteel",
    "req": {
     "Ranged": 30
    }
   },
-  "Adamant flintlock": {
+  "Verdite flintlock": {
    "value": 4200,
    "type": "weapon",
    "pistol": true,
    "ranged": 60,
    "speed": 7,
    "tier": 4,
-   "metal": "Adamant",
+   "metal": "Verdite",
    "req": {
     "Ranged": 40
    }
@@ -1420,7 +1420,7 @@
    "type": "neck",
    "prayer": 8
   },
-  "Amulet of glory": {
+  "Amulet of renown": {
    "value": 3000,
    "type": "neck",
    "atk": 10,
@@ -1677,33 +1677,33 @@
     "Fletching": 99
    }
   },
-  "Herblore cape": {
+  "Herbalism cape": {
    "value": 9900,
    "type": "cape",
    "def": 4,
    "rdef": 4,
    "prayer": 2,
-   "capeSkill": "Herblore",
+   "capeSkill": "Herbalism",
    "req": {
-    "Herblore": 99
+    "Herbalism": 99
    }
   },
-  "Runecrafting cape": {
+  "Glyphcraft cape": {
    "value": 9900,
    "type": "cape",
    "def": 4,
    "rdef": 4,
    "prayer": 2,
-   "capeSkill": "Runecrafting",
+   "capeSkill": "Glyphcraft",
    "req": {
-    "Runecrafting": 99
+    "Glyphcraft": 99
    }
   },
-  "Rune essence": {
+  "Glyph essence": {
    "value": 4,
    "type": "resource"
   },
-  "Pure essence": {
+  "Clear essence": {
    "value": 6,
    "type": "resource"
   },
@@ -1711,7 +1711,7 @@
    "value": 4,
    "type": "rune"
   },
-  "Mind rune": {
+  "Thought rune": {
    "value": 3,
    "type": "rune"
   },
@@ -1727,19 +1727,19 @@
    "value": 4,
    "type": "rune"
   },
-  "Body rune": {
+  "Vital rune": {
    "value": 3,
    "type": "rune"
   },
-  "Chaos rune": {
+  "Havoc rune": {
    "value": 90,
    "type": "rune"
   },
-  "Death rune": {
+  "Grave rune": {
    "value": 180,
    "type": "rune"
   },
-  "Blood rune": {
+  "Crimson rune": {
    "value": 400,
    "type": "rune"
   },
@@ -1807,7 +1807,7 @@
    },
    "hexBoost": 0.15
   },
-  "Mystic staff": {
+  "Starweave staff": {
    "value": 8000,
    "type": "weapon",
    "atk": 8,
@@ -1828,7 +1828,7 @@
    "type": "body",
    "mag": 3
   },
-  "Mystic hat": {
+  "Starweave hat": {
    "value": 3000,
    "type": "head",
    "mag": 4,
@@ -1837,7 +1837,7 @@
     "Magic": 40
    }
   },
-  "Mystic robe top": {
+  "Starweave robe top": {
    "value": 12000,
    "type": "body",
    "mag": 20,
@@ -1846,7 +1846,7 @@
     "Magic": 40
    }
   },
-  "Mystic robe bottom": {
+  "Starweave robe bottom": {
    "value": 9000,
    "type": "legs",
    "mag": 15,
@@ -1934,59 +1934,59 @@
     }
    }
   },
-  "Guam leaf": {
+  "Greenwort": {
    "value": 3,
    "type": "herb",
    "herbLevel": 1
   },
-  "Grimy guam leaf": {
+  "Grimy greenwort": {
    "value": 2,
    "type": "grimy",
-   "clean": "Guam leaf",
+   "clean": "Greenwort",
    "herbLevel": 1
   },
-  "Marrentill": {
+  "Marshmint": {
    "value": 5,
    "type": "herb",
    "herbLevel": 5
   },
-  "Grimy marrentill": {
+  "Grimy marshmint": {
    "value": 4,
    "type": "grimy",
-   "clean": "Marrentill",
+   "clean": "Marshmint",
    "herbLevel": 5
   },
-  "Tarromin": {
+  "Tallowroot": {
    "value": 8,
    "type": "herb",
    "herbLevel": 11
   },
-  "Grimy tarromin": {
+  "Grimy tallowroot": {
    "value": 6,
    "type": "grimy",
-   "clean": "Tarromin",
+   "clean": "Tallowroot",
    "herbLevel": 11
   },
-  "Harralander": {
+  "Harrowbloom": {
    "value": 15,
    "type": "herb",
    "herbLevel": 20
   },
-  "Grimy harralander": {
+  "Grimy harrowbloom": {
    "value": 12,
    "type": "grimy",
-   "clean": "Harralander",
+   "clean": "Harrowbloom",
    "herbLevel": 20
   },
-  "Ranarr weed": {
+  "Ravenweed": {
    "value": 40,
    "type": "herb",
    "herbLevel": 25
   },
-  "Grimy ranarr weed": {
+  "Grimy ravenweed": {
    "value": 32,
    "type": "grimy",
-   "clean": "Ranarr weed",
+   "clean": "Ravenweed",
    "herbLevel": 25
   },
   "Toadflax": {
@@ -2000,37 +2000,37 @@
    "clean": "Toadflax",
    "herbLevel": 30
   },
-  "Irit leaf": {
+  "Ironleaf": {
    "value": 30,
    "type": "herb",
    "herbLevel": 40
   },
-  "Grimy irit leaf": {
+  "Grimy ironleaf": {
    "value": 24,
    "type": "grimy",
-   "clean": "Irit leaf",
+   "clean": "Ironleaf",
    "herbLevel": 40
   },
-  "Avantoe": {
+  "Amberleaf": {
    "value": 45,
    "type": "herb",
    "herbLevel": 48
   },
-  "Grimy avantoe": {
+  "Grimy amberleaf": {
    "value": 36,
    "type": "grimy",
-   "clean": "Avantoe",
+   "clean": "Amberleaf",
    "herbLevel": 48
   },
-  "Kwuarm": {
+  "Knotroot": {
    "value": 55,
    "type": "herb",
    "herbLevel": 54
   },
-  "Grimy kwuarm": {
+  "Grimy knotroot": {
    "value": 44,
    "type": "grimy",
-   "clean": "Kwuarm",
+   "clean": "Knotroot",
    "herbLevel": 54
   },
   "Snapdragon": {
@@ -2044,37 +2044,37 @@
    "clean": "Snapdragon",
    "herbLevel": 59
   },
-  "Cadantine": {
+  "Cindervine": {
    "value": 70,
    "type": "herb",
    "herbLevel": 65
   },
-  "Grimy cadantine": {
+  "Grimy cindervine": {
    "value": 56,
    "type": "grimy",
-   "clean": "Cadantine",
+   "clean": "Cindervine",
    "herbLevel": 65
   },
-  "Dwarf weed": {
+  "Stoneweed": {
    "value": 60,
    "type": "herb",
    "herbLevel": 70
   },
-  "Grimy dwarf weed": {
+  "Grimy stoneweed": {
    "value": 48,
    "type": "grimy",
-   "clean": "Dwarf weed",
+   "clean": "Stoneweed",
    "herbLevel": 70
   },
-  "Torstol": {
+  "Thornstalk": {
    "value": 120,
    "type": "herb",
    "herbLevel": 75
   },
-  "Grimy torstol": {
+  "Grimy thornstalk": {
    "value": 96,
    "type": "grimy",
-   "clean": "Torstol",
+   "clean": "Thornstalk",
    "herbLevel": 75
   },
   "Eye of newt": {
@@ -2085,7 +2085,7 @@
    "value": 15,
    "type": "secondary"
   },
-  "Limpwurt root": {
+  "Bitterroot": {
    "value": 10,
    "type": "secondary"
   },
@@ -2097,7 +2097,7 @@
    "value": 20,
    "type": "secondary"
   },
-  "Snape grass": {
+  "Marsh reed": {
    "value": 15,
    "type": "secondary"
   },
@@ -2109,7 +2109,7 @@
    "value": 25,
    "type": "secondary"
   },
-  "Wine of zamorak": {
+  "Wine of the pyre": {
    "value": 40,
    "type": "secondary"
   },
@@ -2254,7 +2254,7 @@
     "Attack": 40
    }
   },
-  "Granite maul": {
+  "Basalt maul": {
    "value": 12000,
    "unique": true,
    "type": "weapon",
@@ -2271,7 +2271,7 @@
     "Strength": 50
    }
   },
-  "Dragon dagger": {
+  "Emberite dagger": {
    "value": 18000,
    "unique": true,
    "type": "weapon",
@@ -2287,7 +2287,7 @@
     "Attack": 60
    }
   },
-  "Dragon longsword": {
+  "Emberite longsword": {
    "value": 60000,
    "unique": true,
    "type": "weapon",
@@ -2303,7 +2303,7 @@
     "Attack": 60
    }
   },
-  "Dark bow": {
+  "Dusk bow": {
    "value": 80000,
    "unique": true,
    "type": "weapon",
@@ -2318,7 +2318,7 @@
     "Ranged": 60
    }
   },
-  "Obsidian cape": {
+  "Cinderglass cape": {
    "value": 15000,
    "unique": true,
    "type": "cape",
@@ -2331,7 +2331,7 @@
    },
    "special": "+5% damage dealt"
   },
-  "Berserker ring": {
+  "Ring of fury": {
    "value": 40000,
    "unique": true,
    "type": "ring",
@@ -2387,7 +2387,7 @@
    "rarity": "rare",
    "special": "Drowned Crew Exalted reward"
   },
-  "Ring of recoil": {
+  "Ring of rebuke": {
    "value": 1500,
    "unique": true,
    "type": "ring",
@@ -2574,10 +2574,10 @@
   "Bronze",
   "Iron",
   "Steel",
-  "Mithril",
-  "Adamant",
-  "Rune",
-  "Dragon"
+  "Bluesteel",
+  "Verdite",
+  "Cobalt",
+  "Emberite"
  ],
  "sets": {
   "Leather": {
@@ -2627,7 +2627,7 @@
     "acc": 0.03
    }
   },
-  "Mithril": {
+  "Bluesteel": {
    "pieces": [
     "head",
     "body",
@@ -2639,7 +2639,7 @@
     "acc": 0.03
    }
   },
-  "Adamant": {
+  "Verdite": {
    "pieces": [
     "head",
     "body",
@@ -2651,7 +2651,7 @@
     "acc": 0.03
    }
   },
-  "Rune": {
+  "Cobalt": {
    "pieces": [
     "head",
     "body",
@@ -2663,7 +2663,7 @@
     "acc": 0.03
    }
   },
-  "Dragon": {
+  "Emberite": {
    "pieces": [
     "head",
     "body",

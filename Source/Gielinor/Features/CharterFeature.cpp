@@ -12,8 +12,8 @@ namespace CharterData
 	static const int32 Approval[3][4] = { { -1, 3, 3, -5 }, { 3, -1, 1, -3 }, { 1, -1, 2, 3 } };
 	static int32 SideIdx(FName S) { return S == Charter ? 0 : S == Commons ? 1 : S == Deal ? 2 : 3; }
 	struct FL { const TCHAR* Item; int32 N; int32 Cost; };
-	static const FL CharterStall[] = { { TEXT("Steel bar"), 5, 450 }, { TEXT("Rune bar"), 1, 2400 }, { TEXT("Coal"), 20, 300 } };
-	static const FL CommonsStall[] = { { TEXT("Grimy ranarr"), 3, 600 }, { TEXT("Bread"), 10, 120 }, { TEXT("Feather"), 50, 150 } };
+	static const FL CharterStall[] = { { TEXT("Steel bar"), 5, 450 }, { TEXT("Cobalt bar"), 1, 2400 }, { TEXT("Coal"), 20, 300 } };
+	static const FL CommonsStall[] = { { TEXT("Grimy ravenweed"), 3, 600 }, { TEXT("Bread"), 10, 120 }, { TEXT("Feather"), 50, 150 } };
 	static const FL DealStall[] = { { TEXT("Steel bar"), 5, 500 }, { TEXT("Bread"), 10, 130 }, { TEXT("Coal"), 20, 320 } };
 	static constexpr int32 SideRep = 80, DealRep = 40, BetrayCoins = 5000;
 }

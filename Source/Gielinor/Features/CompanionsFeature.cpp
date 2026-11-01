@@ -19,7 +19,7 @@ const TArray<FCompanionDef>& UCompanionsFeature::Defs()
 	Y.RecruitItem = TEXT("Bronze arrows"); Y.RecruitCount = 25; Y.ReqSkill = TEXT("Ranged"); Y.ReqLevel = 10; Y.Ask = TEXT("My quiver is empty. Bring me 25 bronze arrows and show me you can shoot, and I'll watch your back.");
 	FCompanionDef& B = Add(TEXT("brannoc"), TEXT("Brannoc Ironbeard"), TEXT("Dwarf smith"), { TEXT("Smithing"), TEXT("Mining") }, EWheelTone::Firm, { TEXT(" bar"), TEXT(" ore"), TEXT("Coal") }, TEXT("melee"), FVector2D(-54, -70));
 	B.RecruitItem = TEXT("Iron bar"); B.RecruitCount = 3; B.ReqSkill = TEXT("Smithing"); B.ReqLevel = 15; B.Ask = TEXT("You want a dwarf at your side? Prove you know the forge. Three iron bars, smelted by your own hand.");
-	FCompanionDef& M = Add(TEXT("mirelle"), TEXT("Mirelle the Hedge-mage"), TEXT("Hedge-mage"), { TEXT("Magic"), TEXT("Herblore") }, EWheelTone::Cunning, { TEXT(" rune"), TEXT("Grimy "), TEXT("leaf"), TEXT("Marrentill"), TEXT("Tarromin") }, TEXT("magic"), FVector2D(-74, 54));
+	FCompanionDef& M = Add(TEXT("mirelle"), TEXT("Mirelle the Hedge-mage"), TEXT("Hedge-mage"), { TEXT("Magic"), TEXT("Herbalism") }, EWheelTone::Cunning, { TEXT(" rune"), TEXT("Grimy "), TEXT("leaf"), TEXT("Marshmint"), TEXT("Tallowroot") }, TEXT("magic"), FVector2D(-74, 54));
 	M.RecruitItem = TEXT("Air rune"); M.RecruitCount = 30; M.ReqSkill = TEXT("Magic"); M.ReqLevel = 10; M.Ask = TEXT("The sea air ate my rune pouch. Thirty air runes and a little magic of your own, and I'll travel with you.");
 	return D;
 }

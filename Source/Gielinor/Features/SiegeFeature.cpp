@@ -16,14 +16,14 @@ namespace SiegeData
 	struct FB { const TCHAR* Id; const TCHAR* Name; const TCHAR* Base; float Scale; int32 Hp, MaxHit, Att, Def; bool bFire, bStack, bAdds; };
 	static const FB Bosses[] = {
 		{ TEXT("gorrak"), TEXT("Gorrak Gatebreaker"), TEXT("Ogre"), 1.8f, 2600, 60, 60, 50, true, false, false },
-		{ TEXT("matron"), TEXT("The Cinder Matron"), TEXT("Lesser Demon"), 1.6f, 2800, 64, 64, 54, true, false, true },
+		{ TEXT("matron"), TEXT("The Cinder Matron"), TEXT("Cinder Fiend"), 1.6f, 2800, 64, 64, 54, true, false, true },
 		{ TEXT("ironjaw"), TEXT("Ironjaw"), TEXT("Ice Giant"), 1.8f, 3000, 66, 66, 58, true, true, false },
-		{ TEXT("warchief"), TEXT("Warchief Vaskarr"), TEXT("Black Knight"), 1.7f, 3600, 72, 72, 62, true, true, true } };
+		{ TEXT("warchief"), TEXT("Warchief Vaskarr"), TEXT("Ironveil Knight"), 1.7f, 3600, 72, 72, 62, true, true, true } };
 	static constexpr int32 N = UE_ARRAY_COUNT(Bosses);
 	// Mechanics: every 8 ticks, 3-tick warning. Fire r3 = 30% max HP. Stack r3.2 = 40% split across the party inside.
 	static constexpr int32 Every = 8, Warn = 3, Adds = 2; static constexpr float FireR = 3.f, FireDmg = 0.3f, StackR = 3.2f, StackDmg = 0.4f;
 	static const TCHAR* AddType = TEXT("Ashen raider");
-	static const TCHAR* Loot[N][2] = { { TEXT("Rune full helm"), TEXT("Rune shield") }, { TEXT("Rune platelegs"), nullptr }, { TEXT("Rune platebody"), nullptr }, { TEXT("Dragon ore"), TEXT("Rune bar") } };
+	static const TCHAR* Loot[N][2] = { { TEXT("Cobalt full helm"), TEXT("Cobalt shield") }, { TEXT("Cobalt platelegs"), nullptr }, { TEXT("Cobalt platebody"), nullptr }, { TEXT("Emberite ore"), TEXT("Cobalt bar") } };
 	static bool Valid(const FString& Id) { for (const FB& B : Bosses) if (Id == B.Id) return true; return false; }
 }
 

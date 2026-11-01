@@ -8,6 +8,7 @@
 #include "Data/ContentDefs.h"
 #include "Data/JsonContentLoader.h"
 #include "Data/TownRenames.h"
+#include "Data/ContentRenames.h"
 #include "Gielinor.h"
 #include "UObject/Package.h"
 
@@ -18,14 +19,23 @@ static T* FindById(const TArray<TObjectPtr<T>>& Arr, FName Id)
 	return nullptr;
 }
 
-UItemDef* UGameDatabase::FindItem(FName Id) const { return FindById(Items, Id); }
-USkillDef* UGameDatabase::FindSkill(FName Id) const { return FindById(Skills, Id); }
+/** Exact id first, then the pre-v6 renamed id (old saves, hand-placed actors, authored assets). */
+template<typename T>
+static T* FindByIdMigrated(const TArray<TObjectPtr<T>>& Arr, FName Id)
+{
+	if (T* E = FindById(Arr, Id)) return E;
+	const FName New = GielinorContent::MigrateId(Id);
+	return New != Id ? FindById(Arr, New) : nullptr;
+}
+
+UItemDef* UGameDatabase::FindItem(FName Id) const { return FindByIdMigrated(Items, Id); }
+USkillDef* UGameDatabase::FindSkill(FName Id) const { return FindByIdMigrated(Skills, Id); }
 UQuestDef* UGameDatabase::FindQuest(FName Id) const { return FindById(Quests, Id); }
-UMobDef* UGameDatabase::FindMob(FName Id) const { return FindById(Mobs, Id); }
+UMobDef* UGameDatabase::FindMob(FName Id) const { return FindByIdMigrated(Mobs, Id); }
 UNpcDef* UGameDatabase::FindNpc(FName Id) const { return FindById(Npcs, Id); }
-USpellDef* UGameDatabase::FindSpell(FName Id) const { return FindById(Spells, Id); }
-UPrayerDef* UGameDatabase::FindPrayer(FName Id) const { return FindById(Prayers, Id); }
-UAbilityDef* UGameDatabase::FindAbility(FName Id) const { return FindById(Abilities, Id); }
+USpellDef* UGameDatabase::FindSpell(FName Id) const { return FindByIdMigrated(Spells, Id); }
+UPrayerDef* UGameDatabase::FindPrayer(FName Id) const { return FindByIdMigrated(Prayers, Id); }
+UAbilityDef* UGameDatabase::FindAbility(FName Id) const { return FindByIdMigrated(Abilities, Id); }
 UShopDef* UGameDatabase::FindShop(FName Id) const { return FindById(Shops, Id); }
 UAgilityCourseDef* UGameDatabase::FindAgilityCourse(FName Id) const
 {
@@ -33,8 +43,8 @@ UAgilityCourseDef* UGameDatabase::FindAgilityCourse(FName Id) const
 	return FindById(AgilityCourses, GielinorTowns::MigrateId(Id)); // pre-rename course ids (old saves, hand-placed actors)
 }
 UThieveTargetDef* UGameDatabase::FindThieveTarget(FName Id) const { return FindById(ThieveTargets, Id); }
-URuneAltarDef* UGameDatabase::FindRuneAltar(FName Id) const { return FindById(RuneAltars, Id); }
-UResourceNodeDef* UGameDatabase::FindResourceNode(FName Id) const { return FindById(ResourceNodes, Id); }
+URuneAltarDef* UGameDatabase::FindRuneAltar(FName Id) const { return FindByIdMigrated(RuneAltars, Id); }
+UResourceNodeDef* UGameDatabase::FindResourceNode(FName Id) const { return FindByIdMigrated(ResourceNodes, Id); }
 
 UPotionDef* UGameDatabase::FindPotionForItem(const UItemDef* Item) const
 {

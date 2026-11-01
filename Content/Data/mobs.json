@@ -64,8 +64,8 @@
    "scale": 1,
    "skin": 13146740
   },
-  "Moss Giant": {
-   "name": "Moss Giant",
+  "Bog Giant": {
+   "name": "Bog Giant",
    "level": 42,
    "hp": 450,
    "maxHit": 40,
@@ -112,8 +112,8 @@
    "scale": 1.6,
    "shape": "dragon"
   },
-  "Lesser Demon": {
-   "name": "Lesser Demon",
+  "Cinder Fiend": {
+   "name": "Cinder Fiend",
    "level": 82,
    "hp": 790,
    "maxHit": 80,
@@ -202,8 +202,8 @@
    "color": 3816042,
    "scale": 1.1
   },
-  "Hill Giant": {
-   "name": "Hill Giant",
+  "Crag Giant": {
+   "name": "Crag Giant",
    "level": 28,
    "hp": 350,
    "maxHit": 36,
@@ -213,8 +213,8 @@
    "color": 9075290,
    "scale": 1.8
   },
-  "Black Knight": {
-   "name": "Black Knight",
+  "Ironveil Knight": {
+   "name": "Ironveil Knight",
    "level": 33,
    "hp": 420,
    "maxHit": 42,
@@ -430,9 +430,9 @@
    },
    {
     "herbs": [
-     "Guam leaf",
-     "Marrentill",
-     "Tarromin"
+     "Greenwort",
+     "Marshmint",
+     "Tallowroot"
     ],
     "chance": 0.2
    },
@@ -472,9 +472,9 @@
    },
    {
     "herbs": [
-     "Guam leaf",
-     "Marrentill",
-     "Tarromin"
+     "Greenwort",
+     "Marshmint",
+     "Tallowroot"
     ],
     "chance": 0.25
    },
@@ -501,7 +501,7 @@
     ]
    },
    {
-    "item": "Snape grass",
+    "item": "Marsh reed",
     "chance": 0.15
    },
    {
@@ -514,10 +514,10 @@
    },
    {
     "herbs": [
-     "Guam leaf",
-     "Marrentill",
-     "Tarromin",
-     "Harralander"
+     "Greenwort",
+     "Marshmint",
+     "Tallowroot",
+     "Harrowbloom"
     ],
     "chance": 0.25
    },
@@ -557,11 +557,11 @@
    },
    {
     "herbs": [
-     "Guam leaf",
-     "Marrentill",
-     "Tarromin",
-     "Harralander",
-     "Ranarr weed"
+     "Greenwort",
+     "Marshmint",
+     "Tallowroot",
+     "Harrowbloom",
+     "Ravenweed"
     ],
     "chance": 0.25
    },
@@ -593,15 +593,15 @@
    },
    {
     "herbs": [
-     "Harralander",
-     "Ranarr weed",
+     "Harrowbloom",
+     "Ravenweed",
      "Toadflax",
-     "Irit leaf"
+     "Ironleaf"
     ],
     "chance": 0.2
    },
    {
-    "item": "Wine of zamorak",
+    "item": "Wine of the pyre",
     "chance": 0.03
    },
    {
@@ -613,7 +613,7 @@
     ]
    },
    {
-    "item": "Ring of recoil",
+    "item": "Ring of rebuke",
     "chance": 0.016666666666666666
    },
    {
@@ -621,7 +621,7 @@
     "chance": 0.0025
    },
    {
-    "item": "Chaos rune",
+    "item": "Havoc rune",
     "chance": 0.15,
     "qty": [
      2,
@@ -629,7 +629,7 @@
     ]
    }
   ],
-  "Moss Giant": [
+  "Bog Giant": [
    {
     "item": "Big bones",
     "chance": 1
@@ -643,28 +643,28 @@
     ]
    },
    {
-    "item": "Limpwurt root",
+    "item": "Bitterroot",
     "chance": 0.25
    },
    {
-    "item": "Snape grass",
+    "item": "Marsh reed",
     "chance": 0.2
    },
    {
     "herbs": [
-     "Harralander",
-     "Ranarr weed",
+     "Harrowbloom",
+     "Ravenweed",
      "Toadflax",
-     "Irit leaf"
+     "Ironleaf"
     ],
     "chance": 0.35
    },
    {
-    "item": "Mithril ore",
+    "item": "Bluesteel ore",
     "chance": 0.08
    },
    {
-    "item": "Mithril sword",
+    "item": "Bluesteel sword",
     "chance": 0.02
    },
    {
@@ -676,7 +676,7 @@
     ]
    },
    {
-    "item": "Chaos rune",
+    "item": "Havoc rune",
     "chance": 0.12,
     "qty": [
      3,
@@ -698,7 +698,7 @@
     ]
    },
    {
-    "item": "Limpwurt root",
+    "item": "Bitterroot",
     "chance": 0.25
    },
    {
@@ -707,21 +707,21 @@
    },
    {
     "herbs": [
-     "Harralander",
-     "Ranarr weed",
+     "Harrowbloom",
+     "Ravenweed",
      "Toadflax",
-     "Irit leaf",
-     "Avantoe",
-     "Kwuarm"
+     "Ironleaf",
+     "Amberleaf",
+     "Knotroot"
     ],
     "chance": 0.35
    },
    {
-    "item": "Adamantite ore",
+    "item": "Verdite ore",
     "chance": 0.05
    },
    {
-    "item": "Granite maul",
+    "item": "Basalt maul",
     "chance": 0.0125
    }
   ],
@@ -748,22 +748,22 @@
    },
    {
     "herbs": [
-     "Harralander",
-     "Ranarr weed",
+     "Harrowbloom",
+     "Ravenweed",
      "Toadflax",
-     "Irit leaf",
-     "Avantoe",
-     "Kwuarm",
+     "Ironleaf",
+     "Amberleaf",
+     "Knotroot",
      "Snapdragon"
     ],
     "chance": 0.35
    },
    {
-    "item": "Adamant platelegs",
+    "item": "Verdite platelegs",
     "chance": 0.02
    },
    {
-    "item": "Berserker ring",
+    "item": "Ring of fury",
     "chance": 0.005
    },
    {
@@ -775,7 +775,7 @@
     ]
    },
    {
-    "item": "Death rune",
+    "item": "Grave rune",
     "chance": 0.08,
     "qty": [
      2,
@@ -801,30 +801,30 @@
     "chance": 0.4
    },
    {
-    "item": "Dragon ore",
+    "item": "Emberite ore",
     "chance": 0.08
    },
    {
-    "item": "Dragon sword",
+    "item": "Emberite sword",
     "chance": 0.015
    },
    {
-    "item": "Dragon platelegs",
+    "item": "Emberite platelegs",
     "chance": 0.008
    },
    {
     "herbs": [
-     "Avantoe",
-     "Kwuarm",
+     "Amberleaf",
+     "Knotroot",
      "Snapdragon",
-     "Cadantine",
-     "Dwarf weed",
-     "Torstol"
+     "Cindervine",
+     "Stoneweed",
+     "Thornstalk"
     ],
     "chance": 0.3
    },
    {
-    "item": "Rune arrows",
+    "item": "Cobalt arrows",
     "chance": 0.1,
     "qty": [
      5,
@@ -832,15 +832,15 @@
     ]
    },
    {
-    "item": "Dragon dagger",
+    "item": "Emberite dagger",
     "chance": 0.025
    },
    {
-    "item": "Dragon longsword",
+    "item": "Emberite longsword",
     "chance": 0.008333333333333333
    },
    {
-    "item": "Blood rune",
+    "item": "Crimson rune",
     "chance": 0.08,
     "qty": [
      2,
@@ -848,7 +848,7 @@
     ]
    }
   ],
-  "Lesser Demon": [
+  "Cinder Fiend": [
    {
     "item": "Big bones",
     "chance": 1
@@ -862,30 +862,30 @@
     ]
    },
    {
-    "item": "Wine of zamorak",
+    "item": "Wine of the pyre",
     "chance": 0.3
    },
    {
     "herbs": [
-     "Avantoe",
-     "Kwuarm",
+     "Amberleaf",
+     "Knotroot",
      "Snapdragon",
-     "Cadantine",
-     "Dwarf weed",
-     "Torstol"
+     "Cindervine",
+     "Stoneweed",
+     "Thornstalk"
     ],
     "chance": 0.35
    },
    {
-    "item": "Rune full helm",
+    "item": "Cobalt full helm",
     "chance": 0.02
    },
    {
-    "item": "Obsidian cape",
+    "item": "Cinderglass cape",
     "chance": 0.01
    },
    {
-    "item": "Dark bow",
+    "item": "Dusk bow",
     "chance": 0.008333333333333333
    },
    {
@@ -897,7 +897,7 @@
     ]
    },
    {
-    "item": "Death rune",
+    "item": "Grave rune",
     "chance": 0.12,
     "qty": [
      3,
@@ -905,7 +905,7 @@
     ]
    },
    {
-    "item": "Blood rune",
+    "item": "Crimson rune",
     "chance": 0.05,
     "qty": [
      1,
@@ -932,17 +932,17 @@
    },
    {
     "herbs": [
-     "Avantoe",
-     "Kwuarm",
+     "Amberleaf",
+     "Knotroot",
      "Snapdragon",
-     "Cadantine",
-     "Dwarf weed",
-     "Torstol"
+     "Cindervine",
+     "Stoneweed",
+     "Thornstalk"
     ],
     "chance": 1
    },
    {
-    "item": "Limpwurt root",
+    "item": "Bitterroot",
     "chance": 1,
     "qty": [
      3,
@@ -950,19 +950,19 @@
     ]
    },
    {
-    "item": "Granite maul",
+    "item": "Basalt maul",
     "chance": 0.125
    },
    {
-    "item": "Berserker ring",
+    "item": "Ring of fury",
     "chance": 0.16666666666666666
    },
    {
-    "item": "Obsidian cape",
+    "item": "Cinderglass cape",
     "chance": 0.1
    },
    {
-    "item": "Rune platelegs",
+    "item": "Cobalt platelegs",
     "chance": 0.1
    }
   ],
@@ -976,19 +976,19 @@
     ]
    },
    {
-    "item": "Dragon ore",
+    "item": "Emberite ore",
     "chance": 0.25
    },
    {
-    "item": "Dragon sword",
+    "item": "Emberite sword",
     "chance": 0.06
    },
    {
-    "item": "Dragon full helm",
+    "item": "Emberite full helm",
     "chance": 0.03
    },
    {
-    "item": "Dragon platebody",
+    "item": "Emberite platebody",
     "chance": 0.02
    },
    {
@@ -1009,8 +1009,8 @@
    },
    {
     "herbs": [
-     "Torstol",
-     "Dwarf weed",
+     "Thornstalk",
+     "Stoneweed",
      "Snapdragon"
     ],
     "chance": 1
@@ -1032,19 +1032,19 @@
     "chance": 0.2
    },
    {
-    "item": "Dragon longsword",
+    "item": "Emberite longsword",
     "chance": 0.16666666666666666
    },
    {
-    "item": "Dark bow",
+    "item": "Dusk bow",
     "chance": 0.06666666666666667
    }
   ],
   "Goblin": [
    {
     "herbs": [
-     "Guam leaf",
-     "Marrentill"
+     "Greenwort",
+     "Marshmint"
     ],
     "chance": 0.1
    },
@@ -1105,7 +1105,7 @@
     ]
    },
    {
-    "item": "Mind rune",
+    "item": "Thought rune",
     "chance": 0.08,
     "qty": [
      2,
@@ -1120,7 +1120,7 @@
    },
    {
     "herbs": [
-     "Guam leaf"
+     "Greenwort"
     ],
     "chance": 0.05
    },
@@ -1191,24 +1191,24 @@
     "chance": 0.03
    }
   ],
-  "Hill Giant": [
+  "Crag Giant": [
    {
     "item": "Big bones",
     "chance": 1
    },
    {
-    "item": "Limpwurt root",
+    "item": "Bitterroot",
     "chance": 0.2
    },
    {
     "herbs": [
-     "Guam leaf",
-     "Marrentill",
-     "Tarromin",
-     "Harralander",
-     "Ranarr weed",
+     "Greenwort",
+     "Marshmint",
+     "Tallowroot",
+     "Harrowbloom",
+     "Ravenweed",
      "Toadflax",
-     "Irit leaf"
+     "Ironleaf"
     ],
     "chance": 0.2
    },
@@ -1249,7 +1249,7 @@
     "chance": 0.03
    },
    {
-    "item": "Mithril ore",
+    "item": "Bluesteel ore",
     "chance": 0.05
    },
    {
@@ -1261,22 +1261,22 @@
     "chance": 0.01
    }
   ],
-  "Black Knight": [
+  "Ironveil Knight": [
    {
     "item": "Bones",
     "chance": 1
    },
    {
     "herbs": [
-     "Harralander",
-     "Ranarr weed",
+     "Harrowbloom",
+     "Ravenweed",
      "Toadflax",
-     "Irit leaf"
+     "Ironleaf"
     ],
     "chance": 0.2
    },
    {
-    "item": "Wine of zamorak",
+    "item": "Wine of the pyre",
     "chance": 0.05
    },
    {
@@ -1296,7 +1296,7 @@
     ]
    },
    {
-    "item": "Mithril bar",
+    "item": "Bluesteel bar",
     "chance": 0.05
    },
    {
@@ -1304,11 +1304,11 @@
     "chance": 0.04
    },
    {
-    "item": "Mithril sword",
+    "item": "Bluesteel sword",
     "chance": 0.02
    },
    {
-    "item": "Adamantite ore",
+    "item": "Verdite ore",
     "chance": 0.02
    },
    {
@@ -1324,7 +1324,7 @@
     "chance": 0.01
    },
    {
-    "item": "Amulet of glory",
+    "item": "Amulet of renown",
     "chance": 0.005
    }
   ],
@@ -1335,10 +1335,10 @@
    },
    {
     "herbs": [
-     "Guam leaf",
-     "Marrentill",
-     "Tarromin",
-     "Harralander"
+     "Greenwort",
+     "Marshmint",
+     "Tallowroot",
+     "Harrowbloom"
     ],
     "chance": 0.15
    },
@@ -1387,7 +1387,7 @@
     "chance": 0.01
    },
    {
-    "item": "Chaos rune",
+    "item": "Havoc rune",
     "chance": 0.1,
     "qty": [
      1,
@@ -1405,8 +1405,8 @@
   "Steel axe",
   "Steel full helm",
   "Steel pickaxe",
-  "Mithril sword",
-  "Adamantite ore",
+  "Bluesteel sword",
+  "Verdite ore",
   "Steel platelegs",
   "Amulet of accuracy",
   "Holy symbol",
@@ -1415,7 +1415,7 @@
   "Warrior ring",
   "Amulet of defence",
   "Ring of regeneration",
-  "Amulet of glory",
+  "Amulet of renown",
   "Hard leather body",
   "Oak shortbow",
   "Archer ring"

@@ -13,6 +13,7 @@
 #include "Data/SkillDef.h"
 #include "Data/QuestDef.h"
 #include "Data/TownRenames.h"
+#include "Data/ContentRenames.h"
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/Pawn.h"
 #include "Engine/GameInstance.h"
@@ -101,7 +102,9 @@ bool UGielinorSaveSubsystem::LoadInto(AGielinorPlayerState* PS)
 	if (!PS || !Db || !UGameplayStatics::DoesSaveGameExist(SlotName, 0)) return false;
 	UGielinorSaveGame* S = Cast<UGielinorSaveGame>(UGameplayStatics::LoadGameFromSlot(SlotName, 0));
 	if (!S) return false;
-	for (const FSavedSkill& K : S->Skills) PS->Skills->SetXpRaw(K.Id, S->Version >= 4 ? K.Xp : UXpCurve::ConvertXpV1(K.Xp)); // v4 re-curve
+	const bool bV6 = S->Version >= 6; // v6: content renames (Data/ContentRenames.h)
+	auto Mig = [bV6](FName Id) { return bV6 ? Id : GielinorContent::MigrateId(Id); };
+	for (const FSavedSkill& K : S->Skills) PS->Skills->SetXpRaw(Mig(K.Id), S->Version >= 4 ? K.Xp : UXpCurve::ConvertXpV1(K.Xp)); // v4 re-curve
 	LoadContainer(PS->Inventory, S->Inventory, Db);
 	LoadContainer(PS->Bank, S->Bank, Db);
 	PS->Equipment->ClearAll();
@@ -115,12 +118,12 @@ bool UGielinorSaveSubsystem::LoadInto(AGielinorPlayerState* PS)
 	if (S->Version >= 2)
 	{
 		if (S->PrayerPoints >= 0.f) St->PrayerPoints = S->PrayerPoints;
-		St->ActivePrayers = S->ActivePrayers;
-		for (const FSavedEffect& E : S->Effects) { FActiveEffect& D = St->Effects.AddDefaulted_GetRef(); D.Id = E.Id; D.TicksLeft = E.TicksLeft; D.Boost = E.Boost; D.Fx = E.Fx; }
+		St->ActivePrayers.Reset(); for (const FName& P : S->ActivePrayers) St->ActivePrayers.Add(Mig(P));
+		for (const FSavedEffect& E : S->Effects) { FActiveEffect& D = St->Effects.AddDefaulted_GetRef(); D.Id = Mig(E.Id); D.TicksLeft = E.TicksLeft; for (const TPair<FName, int32>& B : E.Boost) D.Boost.Add(Mig(B.Key), B.Value); D.Fx = E.Fx; }
 		St->Poison.Damage = S->PoisonDamage; St->Poison.Next = S->PoisonNext; St->PoisonImmuneTicks = S->PoisonImmuneTicks;
 		St->RunEnergy = S->RunEnergy; St->bRunning = S->bRunning; St->Adrenaline = S->Adrenaline;
 		for (const FName& T : S->Toolbelt) St->AddTool(Db->FindItem(T));
-		St->AmmoCount = S->AmmoCount; St->AttackStyle = S->AttackStyle; St->AutocastSpell = S->AutocastSpell; St->bAutoRetaliate = S->bAutoRetaliate;
+		St->AmmoCount = S->AmmoCount; St->AttackStyle = S->AttackStyle; St->AutocastSpell = Mig(S->AutocastSpell); St->bAutoRetaliate = S->bAutoRetaliate;
 		St->AgilityCourse = S->Version >= 5 ? S->AgilityCourse : GielinorTowns::MigrateId(S->AgilityCourse); St->AgilityNext = S->AgilityNext; St->BountyId = S->BountyId; St->BountyKills = S->BountyKills;
 		PS->Quests->ClaimedMilestones = S->ClaimedMilestones;
 		PS->Quests->bQuestCapeLegacy = S->bQuestCapeLegacy;
@@ -144,7 +147,8 @@ bool UGielinorSaveSubsystem::LoadInto(AGielinorPlayerState* PS)
 		F->ResetState();
 		if (const FString* Text = S->Features.Find(F->GetSaveKey()))
 		{
-			const FString Migrated = S->Version >= 5 ? *Text : GielinorTowns::MigrateText(*Text); // v5: town renames
+			FString Migrated = S->Version >= 5 ? *Text : GielinorTowns::MigrateText(*Text); // v5: town renames
+			if (!bV6) Migrated = GielinorContent::MigrateText(Migrated); // v6: content renames
 			TSharedPtr<FJsonObject> J;
 			const TSharedRef<TJsonReader<>> R = TJsonReaderFactory<>::Create(Migrated);
 			if (FJsonSerializer::Deserialize(R, J) && J.IsValid()) F->LoadState(*J);

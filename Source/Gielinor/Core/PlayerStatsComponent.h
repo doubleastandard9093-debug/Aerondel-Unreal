@@ -101,7 +101,7 @@ public:
 	/** Eat food or drink a potion from a backpack slot. Returns true if something was consumed. */
 	UFUNCTION(BlueprintCallable, Category="Stats") bool Consume(int32 InventorySlot);
 	UFUNCTION(BlueprintCallable, Category="Stats") bool BuryBones(int32 InventorySlot);
-	/** Clean a grimy herb (Herblore level check). */
+	/** Clean a grimy herb (Herbalism level check). */
 	UFUNCTION(BlueprintCallable, Category="Stats") bool CleanHerb(int32 InventorySlot);
 	/** Moves a tool into the toolbelt (from a backpack slot). */
 	UFUNCTION(BlueprintCallable, Category="Stats") bool AddTool(UItemDef* Tool);

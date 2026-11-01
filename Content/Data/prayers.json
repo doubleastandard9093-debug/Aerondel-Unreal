@@ -2,7 +2,7 @@
  "prayers": [
   {
    "id": "thick",
-   "name": "Thick Skin",
+   "name": "Hardened Hide",
    "level": 1,
    "icon": "🛡️",
    "drain": 0.17,
@@ -14,7 +14,7 @@
   },
   {
    "id": "burst",
-   "name": "Burst of Strength",
+   "name": "Surge of Might",
    "level": 4,
    "icon": "💪",
    "drain": 0.17,
@@ -26,7 +26,7 @@
   },
   {
    "id": "clarity",
-   "name": "Clarity of Thought",
+   "name": "Clear Mind",
    "level": 7,
    "icon": "🎯",
    "drain": 0.17,
@@ -38,7 +38,7 @@
   },
   {
    "id": "sharp",
-   "name": "Sharp Eye",
+   "name": "Keen Sight",
    "level": 8,
    "icon": "👁️",
    "drain": 0.17,
@@ -50,7 +50,7 @@
   },
   {
    "id": "rock",
-   "name": "Rock Skin",
+   "name": "Stone Hide",
    "level": 10,
    "icon": "🪨",
    "drain": 0.33,
@@ -62,7 +62,7 @@
   },
   {
    "id": "superhuman",
-   "name": "Superhuman Strength",
+   "name": "Titan's Might",
    "level": 13,
    "icon": "🦾",
    "drain": 0.33,
@@ -74,7 +74,7 @@
   },
   {
    "id": "reflexes",
-   "name": "Improved Reflexes",
+   "name": "Quickened Wits",
    "level": 16,
    "icon": "⚡",
    "drain": 0.33,
@@ -86,7 +86,7 @@
   },
   {
    "id": "hawk",
-   "name": "Hawk Eye",
+   "name": "Falcon Sight",
    "level": 19,
    "icon": "🦅",
    "drain": 0.33,
@@ -98,7 +98,7 @@
   },
   {
    "id": "rapidheal",
-   "name": "Rapid Heal",
+   "name": "Swift Mending",
    "level": 22,
    "icon": "💗",
    "drain": 0.12,
@@ -122,7 +122,7 @@
   },
   {
    "id": "steel",
-   "name": "Steel Skin",
+   "name": "Iron Hide",
    "level": 28,
    "icon": "⛓️",
    "drain": 0.5,
@@ -134,7 +134,7 @@
   },
   {
    "id": "ultimate",
-   "name": "Ultimate Strength",
+   "name": "Colossus Might",
    "level": 31,
    "icon": "🔥",
    "drain": 0.5,
@@ -146,7 +146,7 @@
   },
   {
    "id": "incredible",
-   "name": "Incredible Reflexes",
+   "name": "Lightning Wits",
    "level": 34,
    "icon": "🌟",
    "drain": 0.5,
@@ -158,7 +158,7 @@
   },
   {
    "id": "eagle",
-   "name": "Eagle Eye",
+   "name": "Raptor Sight",
    "level": 37,
    "icon": "🏹",
    "drain": 0.5,
@@ -182,7 +182,7 @@
   },
   {
    "id": "protectm",
-   "name": "Protect from Magic",
+   "name": "Ward against Magic",
    "level": 37,
    "icon": "🔮",
    "drain": 0.5,
@@ -192,7 +192,7 @@
   },
   {
    "id": "protectr",
-   "name": "Protect from Missiles",
+   "name": "Ward against Missiles",
    "level": 40,
    "icon": "🏹",
    "drain": 0.5,
@@ -202,7 +202,7 @@
   },
   {
    "id": "protect",
-   "name": "Protect from Melee",
+   "name": "Ward against Melee",
    "level": 43,
    "icon": "⚔️",
    "drain": 0.5,

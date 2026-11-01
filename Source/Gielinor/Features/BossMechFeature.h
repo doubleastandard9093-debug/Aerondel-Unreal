@@ -23,7 +23,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnBossStyle, AGielinorMob*, Boss, 
 
 /** Boss mechanics for data bosses (UMobDef::bBoss, not the one-off siege/colossus copies) while they fight you:
  *  telegraphed ground slams every 9 ticks (3-tick warning, r 3.2 m, 30% max HP; roll out or through),
- *  style switches every 14 ticks that call for Protect from Melee / Missiles / Magic (60% less damage from that boss),
+ *  style switches every 14 ticks that call for Ward against Melee / Missiles / Magic (60% less damage from that boss),
  *  and an enrage under 30% HP (hits x1.3, slams every 6 ticks and 25% bigger, switches every 10). */
 UCLASS()
 class GIELINOR_API UBossMechFeature : public UGielinorFeature

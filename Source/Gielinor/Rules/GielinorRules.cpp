@@ -37,10 +37,10 @@ namespace SynergyData
 	struct FS { const TCHAR* From; const TCHAR* To; const TCHAR* Key; float Per; };
 	static const FS All[] = {
 		{ TEXT("mining"), TEXT("smithing"), TEXT("saveBar"), 0.002f }, { TEXT("fishing"), TEXT("cooking"), TEXT("burnLess"), 0.01f }, { TEXT("woodcutting"), TEXT("fletching"), TEXT("saveMat"), 0.004f },
-		{ TEXT("herblore"), TEXT("hitpoints"), TEXT("healBonus"), 0.005f }, { TEXT("cooking"), TEXT("hitpoints"), TEXT("regen"), 0.01f }, { TEXT("prayer"), TEXT("magic"), TEXT("runeSave"), 0.004f },
-		{ TEXT("runecrafting"), TEXT("magic"), TEXT("magicDmg"), 0.003f }, { TEXT("thieving"), TEXT("ranged"), TEXT("ammoSave"), 0.004f }, { TEXT("fletching"), TEXT("ranged"), TEXT("racc"), 0.002f },
+		{ TEXT("herbalism"), TEXT("hitpoints"), TEXT("healBonus"), 0.005f }, { TEXT("cooking"), TEXT("hitpoints"), TEXT("regen"), 0.01f }, { TEXT("prayer"), TEXT("magic"), TEXT("runeSave"), 0.004f },
+		{ TEXT("glyphcraft"), TEXT("magic"), TEXT("magicDmg"), 0.003f }, { TEXT("thieving"), TEXT("ranged"), TEXT("ammoSave"), 0.004f }, { TEXT("fletching"), TEXT("ranged"), TEXT("racc"), 0.002f },
 		{ TEXT("smithing"), TEXT("defence"), TEXT("dr"), 0.002f }, { TEXT("agility"), TEXT("attack"), TEXT("quick"), 0.003f }, { TEXT("strength"), TEXT("mining"), TEXT("speed"), 0.003f },
-		{ TEXT("strength"), TEXT("woodcutting"), TEXT("speed"), 0.003f }, { TEXT("crafting"), TEXT("runecrafting"), TEXT("runeDouble"), 0.003f }, { TEXT("magic"), TEXT("runecrafting"), TEXT("rcXp"), 0.004f },
+		{ TEXT("strength"), TEXT("woodcutting"), TEXT("speed"), 0.003f }, { TEXT("crafting"), TEXT("glyphcraft"), TEXT("runeDouble"), 0.003f }, { TEXT("magic"), TEXT("glyphcraft"), TEXT("rcXp"), 0.004f },
 		{ TEXT("attack"), TEXT("thieving"), TEXT("thieveXp"), 0.004f }, { TEXT("agility"), TEXT("combat"), TEXT("dodgeMs"), 12.f }, { TEXT("thieving"), TEXT("combat"), TEXT("rareDrop"), 0.02f },
 		{ TEXT("prayer"), TEXT("combat"), TEXT("magicAdren"), 0.04f }, { TEXT("defence"), TEXT("agility"), TEXT("failLess"), 0.004f }, { TEXT("hitpoints"), TEXT("prayer"), TEXT("drainLess"), 0.004f } };
 }
@@ -437,10 +437,10 @@ bool UGielinorRules::WeakTo(const UMobDef* Mob, FName Element)
 	if (!Mob || Element.IsNone()) return false;
 	static const TMap<FString, FName> W = {
 		{ TEXT("Wolf"), TEXT("fire") }, { TEXT("Zombie"), TEXT("fire") }, { TEXT("Skeleton"), TEXT("earth") }, { TEXT("Giant Spider"), TEXT("fire") },
-		{ TEXT("Bandit"), TEXT("wind") }, { TEXT("Moss Giant"), TEXT("fire") }, { TEXT("Ogre"), TEXT("water") }, { TEXT("Ice Giant"), TEXT("fire") },
-		{ TEXT("Green Dragon"), TEXT("water") }, { TEXT("Lesser Demon"), TEXT("water") }, { TEXT("Grumsh"), TEXT("earth") }, { TEXT("Scorchwing"), TEXT("water") },
+		{ TEXT("Bandit"), TEXT("wind") }, { TEXT("Bog Giant"), TEXT("fire") }, { TEXT("Ogre"), TEXT("water") }, { TEXT("Ice Giant"), TEXT("fire") },
+		{ TEXT("Green Dragon"), TEXT("water") }, { TEXT("Cinder Fiend"), TEXT("water") }, { TEXT("Grumsh"), TEXT("earth") }, { TEXT("Scorchwing"), TEXT("water") },
 		{ TEXT("Dark Archer"), TEXT("wind") }, { TEXT("Goblin"), TEXT("wind") }, { TEXT("Cow"), TEXT("earth") }, { TEXT("Guard"), TEXT("earth") },
-		{ TEXT("Hill Giant"), TEXT("water") }, { TEXT("Black Knight"), TEXT("earth") }, { TEXT("Drowned Deckhand"), TEXT("fire") },
+		{ TEXT("Crag Giant"), TEXT("water") }, { TEXT("Ironveil Knight"), TEXT("earth") }, { TEXT("Drowned Deckhand"), TEXT("fire") },
 		{ TEXT("Drowned Gunner"), TEXT("earth") }, { TEXT("Captain Saltgrave"), TEXT("fire") } };
 	const FName* E = W.Find(Mob->DisplayName.ToString());
 	return E && *E == Element;
@@ -507,7 +507,7 @@ float UGielinorRules::BuryXp(const AGielinorPlayerState* PS, const UItemDef* Bon
 
 int32 UGielinorRules::PotionTicks(const AGielinorPlayerState* PS, int32 BaseTicks)
 {
-	const float More = Perk(PS, TEXT("herblore"), TEXT("potionTime")) + QuestFx(PS, TEXT("potionTime")) + GearFx(PS, TEXT("potionTime"));
+	const float More = Perk(PS, TEXT("herbalism"), TEXT("potionTime")) + QuestFx(PS, TEXT("potionTime")) + GearFx(PS, TEXT("potionTime"));
 	return FMath::RoundToInt(BaseTicks * (1.f + More));
 }
 

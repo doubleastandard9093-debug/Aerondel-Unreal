@@ -11,7 +11,7 @@ const TArray<FFactionDef>& UStandingFeature::Factions()
 	auto Add = [](FName Id, const TCHAR* Name, TArray<FString> Towns, TArray<FString> Skills) { FFactionDef& F = D.AddDefaulted_GetRef(); F.Id = Id; F.Name = Name; F.Towns = MoveTemp(Towns); F.Skills = MoveTemp(Skills); };
 	Add(TEXT("watch"), TEXT("Larkhaven Watch"), { TEXT("Larkhaven"), TEXT("Emberfold"), TEXT("Wilds") }, { TEXT("Attack"), TEXT("Defence"), TEXT("Strength"), TEXT("Hitpoints") });
 	Add(TEXT("mariners"), TEXT("Saltreach Mariners"), { TEXT("Saltreach") }, { TEXT("Fishing"), TEXT("Cooking"), TEXT("Ranged") });
-	Add(TEXT("circle"), TEXT("Highcrest Arcane Circle"), { TEXT("Highcrest") }, { TEXT("Magic"), TEXT("Runecrafting"), TEXT("Herblore") });
+	Add(TEXT("circle"), TEXT("Highcrest Arcane Circle"), { TEXT("Highcrest") }, { TEXT("Magic"), TEXT("Glyphcraft"), TEXT("Herbalism") });
 	Add(TEXT("drowned"), TEXT("Drowned Crew"), {}, { TEXT("Agility"), TEXT("Thieving") });
 	Add(TEXT("lantern"), TEXT("Order of the White Lantern"), { TEXT("Whitecairn") }, { TEXT("Prayer"), TEXT("Smithing"), TEXT("Mining") });
 	return D;
@@ -57,7 +57,7 @@ bool UStandingFeature::AddRep(FName Faction, int32 N)
 int32 UStandingFeature::ClaimTierRewards()
 {
 	struct FReward { int32 Gold; const TCHAR* Item; int32 Qty; };
-	static const FReward R[] = { { 0, nullptr, 0 }, { 250, nullptr, 0 }, { 600, TEXT("Steel bar"), 5 }, { 1200, TEXT("Pure essence"), 50 }, { 3000, TEXT("Iron bar"), 20 } };
+	static const FReward R[] = { { 0, nullptr, 0 }, { 250, nullptr, 0 }, { 600, TEXT("Steel bar"), 5 }, { 1200, TEXT("Clear essence"), 50 }, { 3000, TEXT("Iron bar"), 20 } };
 	int32 Paid = 0;
 	for (int32 T = ClaimedTier + 1; T <= BestTier(); ++T)
 	{

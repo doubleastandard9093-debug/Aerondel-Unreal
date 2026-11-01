@@ -277,8 +277,8 @@ void FGielinorPanels::Build(UWorld* W, FName Panel, AActor* Ctx, FGPanelModel& M
 		auto Say = [W](const FString& R) { if (UGielinorEvents* Ev = UGielinorEvents::Get(W)) Ev->OnDialogue.Broadcast(FText::FromString(TEXT("Mama Sorrel")), { FText::FromString(R) }); };
 		if (H)
 		{
-			Act(M, TEXT("Brew Bog runes (Rune essence + grimy herbs)"), [H, Say] { Say(H->BrewBog()); });
-			Act(M, TEXT("Brew Bone runes (Rune essence + Bones)"), [H, Say] { Say(H->BrewBone()); });
+			Act(M, TEXT("Brew Bog runes (Glyph essence + grimy herbs)"), [H, Say] { Say(H->BrewBog()); });
+			Act(M, TEXT("Brew Bone runes (Glyph essence + Bones)"), [H, Say] { Say(H->BrewBone()); });
 		}
 		Close(M); return;
 	}

@@ -6,7 +6,7 @@
 class UMobDef;
 
 /** Scars and Quirks: counters notice how you play (fire hits, fleeing, deaths, melee kills) and offer a quirk:
- *  a downside paired with a boon. Accept or decline; hold at most 3; Ysolde's remedy (Herblore 30) removes one. */
+ *  a downside paired with a boon. Accept or decline; hold at most 3; Ysolde's remedy (Herbalism 30) removes one. */
 UCLASS()
 class GIELINOR_API UQuirksFeature : public UGielinorFeature
 {
@@ -28,7 +28,7 @@ public:
 	UFUNCTION(BlueprintPure, Category="Gielinor|Quirks") FString GetOffered() const { return Offered; }
 	UFUNCTION(BlueprintCallable, Category="Gielinor|Quirks") bool Accept();
 	UFUNCTION(BlueprintCallable, Category="Gielinor|Quirks") void Decline();
-	/** Ysolde's remedy: Herblore 30, 2000 coins, 5 grimy guam. */
+	/** Ysolde's remedy: Herbalism 30, 2000 coins, 5 grimy greenwort. */
 	UFUNCTION(BlueprintCallable, Category="Gielinor|Quirks") FString Remedy(const FString& QuirkId);
 	UFUNCTION(BlueprintPure, Category="Gielinor|Quirks") bool Has(const FString& QuirkId) const { return Held.Contains(QuirkId); }
 	UFUNCTION(BlueprintPure, Category="Gielinor|Quirks") TArray<FString> GetHeld() const { return Held; }

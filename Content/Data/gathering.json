@@ -68,37 +68,37 @@
    "item": "Coal",
    "respawn": 20000
   },
-  "Mithril": {
+  "Bluesteel": {
    "level": 55,
    "xp": 80,
-   "item": "Mithril ore",
+   "item": "Bluesteel ore",
    "respawn": 30000
   },
-  "Adamantite": {
+  "Verdite": {
    "level": 70,
    "xp": 95,
-   "item": "Adamantite ore",
+   "item": "Verdite ore",
    "respawn": 50000
   },
-  "Runite": {
+  "Cobalt": {
    "level": 85,
    "xp": 125,
-   "item": "Runite ore",
+   "item": "Cobalt ore",
    "respawn": 90000
   },
-  "Dragon": {
+  "Emberite": {
    "level": 95,
    "xp": 180,
-   "item": "Dragon ore",
+   "item": "Emberite ore",
    "respawn": 120000
   },
   "Essence": {
    "level": 1,
    "xp": 5,
-   "item": "Rune essence",
+   "item": "Glyph essence",
    "respawn": 1000,
    "pureAt": 30,
-   "pure": "Pure essence"
+   "pure": "Clear essence"
   }
  },
  "fishSpots": {
@@ -173,70 +173,70 @@
   }
  },
  "herbPatches": {
-  "Guam leaf": {
+  "Greenwort": {
    "level": 1,
    "xp": 7.5,
-   "item": "Grimy guam leaf"
+   "item": "Grimy greenwort"
   },
-  "Marrentill": {
+  "Marshmint": {
    "level": 5,
    "xp": 11.4,
-   "item": "Grimy marrentill"
+   "item": "Grimy marshmint"
   },
-  "Tarromin": {
+  "Tallowroot": {
    "level": 11,
    "xp": 15,
-   "item": "Grimy tarromin"
+   "item": "Grimy tallowroot"
   },
-  "Harralander": {
+  "Harrowbloom": {
    "level": 20,
    "xp": 18.9,
-   "item": "Grimy harralander"
+   "item": "Grimy harrowbloom"
   },
-  "Ranarr weed": {
+  "Ravenweed": {
    "level": 25,
    "xp": 22.5,
-   "item": "Grimy ranarr weed"
+   "item": "Grimy ravenweed"
   },
   "Toadflax": {
    "level": 30,
    "xp": 24,
    "item": "Grimy toadflax"
   },
-  "Irit leaf": {
+  "Ironleaf": {
    "level": 40,
    "xp": 26.4,
-   "item": "Grimy irit leaf"
+   "item": "Grimy ironleaf"
   },
-  "Avantoe": {
+  "Amberleaf": {
    "level": 48,
    "xp": 30,
-   "item": "Grimy avantoe"
+   "item": "Grimy amberleaf"
   },
-  "Kwuarm": {
+  "Knotroot": {
    "level": 54,
    "xp": 33.9,
-   "item": "Grimy kwuarm"
+   "item": "Grimy knotroot"
   },
   "Snapdragon": {
    "level": 59,
    "xp": 35.4,
    "item": "Grimy snapdragon"
   },
-  "Cadantine": {
+  "Cindervine": {
    "level": 65,
    "xp": 37.5,
-   "item": "Grimy cadantine"
+   "item": "Grimy cindervine"
   },
-  "Dwarf weed": {
+  "Stoneweed": {
    "level": 70,
    "xp": 41.4,
-   "item": "Grimy dwarf weed"
+   "item": "Grimy stoneweed"
   },
-  "Torstol": {
+  "Thornstalk": {
    "level": 75,
    "xp": 45,
-   "item": "Grimy torstol"
+   "item": "Grimy thornstalk"
   }
  }
 }

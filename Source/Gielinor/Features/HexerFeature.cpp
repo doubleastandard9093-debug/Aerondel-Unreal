@@ -19,17 +19,17 @@ TArray<FString> UHexerFeature::GrimyHerbsHeld() const
 
 FString UHexerFeature::Brew(bool bBone)
 {
-	const int32 Ess = CountItem(TEXT("Rune essence")) + CountItem(TEXT("Pure essence"));
+	const int32 Ess = CountItem(TEXT("Glyph essence")) + CountItem(TEXT("Clear essence"));
 	const TArray<FString> Herbs = GrimyHerbsHeld();
 	int32 Src = 0;
 	if (bBone) Src = CountItem(TEXT("Bones"));
 	else for (const FString& H : Herbs) Src += CountItem(H);
 	const int32 N = FMath::Min3(Ess, Src, 10);
-	if (N <= 0) return bBone ? TEXT("Bring me Bones and Rune essence, child.") : TEXT("Bring me grimy herbs from the bog and Rune essence.");
+	if (N <= 0) return bBone ? TEXT("Bring me Bones and Glyph essence, child.") : TEXT("Bring me grimy herbs from the bog and Glyph essence.");
 	int32 HerbIdx = 0;
 	for (int32 K = 0; K < N; ++K)
 	{
-		if (!TakeItem(TEXT("Rune essence"), 1)) TakeItem(TEXT("Pure essence"), 1);
+		if (!TakeItem(TEXT("Glyph essence"), 1)) TakeItem(TEXT("Clear essence"), 1);
 		if (bBone) TakeItem(TEXT("Bones"), 1);
 		else
 		{
@@ -40,7 +40,7 @@ FString UHexerFeature::Brew(bool bBone)
 	const TCHAR* Rune = bBone ? TEXT("Bone rune") : TEXT("Bog rune");
 	const float Xp = bBone ? 9.f : 6.f;
 	GiveItem(Rune, N * 3);
-	GiveXp(TEXT("Runecrafting"), N * Xp);
+	GiveXp(TEXT("Glyphcraft"), N * Xp);
 	GiveXp(TEXT("Magic"), N * Xp * 0.5f);
 	return FString::Printf(TEXT("There: %d %ss. Hexes take from the bog and the grave; mind what you curse."), N * 3, Rune);
 }

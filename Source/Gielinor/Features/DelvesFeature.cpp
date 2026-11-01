@@ -9,7 +9,7 @@ namespace DelveData
 	struct FG { const TCHAR* Mob; int32 N; };
 	struct FD { const TCHAR* Id; const TCHAR* Name; int32 Level; FG Rooms[3][2]; int32 Coins; int32 Xp; };
 	static const FD All[] = {
-		{ TEXT("sewers"), TEXT("The Undercroft Sewers"), 20, { { { TEXT("Zombie"), 4 }, { nullptr, 0 } }, { { TEXT("Giant Spider"), 3 }, { TEXT("Zombie"), 2 } }, { { TEXT("Skeleton"), 5 }, { TEXT("Moss Giant"), 1 } } }, 600, 2500 },
+		{ TEXT("sewers"), TEXT("The Undercroft Sewers"), 20, { { { TEXT("Zombie"), 4 }, { nullptr, 0 } }, { { TEXT("Giant Spider"), 3 }, { TEXT("Zombie"), 2 } }, { { TEXT("Skeleton"), 5 }, { TEXT("Bog Giant"), 1 } } }, 600, 2500 },
 		{ TEXT("keep"), TEXT("The Drowned Keep"), 35, { { { TEXT("Drowned Deckhand"), 5 }, { nullptr, 0 } }, { { TEXT("Drowned Gunner"), 3 }, { TEXT("Drowned Deckhand"), 3 } }, { { TEXT("Drowned Gunner"), 4 }, { TEXT("Ogre"), 2 } } }, 1400, 6000 } };
 	static const FD* Find(FName Id) { for (const FD& D : All) if (Id == FName(D.Id)) return &D; return nullptr; }
 }

@@ -50,7 +50,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Prayer") int32 Level = 1;
 	/** Prayer points drained per 0.6 s tick, divided by (1 + prayer bonus / 30). Points are x10 (max = Prayer level * 10). */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Prayer") float DrainPerTick = 0.17f;
-	/** Quest id that must be complete to use it (Protect from Melee: fallen). */
+	/** Quest id that must be complete to use it (Ward against Melee: fallen). */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Prayer") FName RequiredQuest;
 	/** def, str, att, rng, heal, hands, gather, protect. One per group; rng also clashes with att and str. */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Prayer") FName Group;
@@ -185,21 +185,21 @@ public:
 	virtual FPrimaryAssetId GetPrimaryAssetId() const override { return FPrimaryAssetId(TEXT("ThieveTarget"), GetFName()); }
 };
 
-/** Runecrafting altar. Crafts all essence at once. Runes per essence = 1 + floor(level / MultiplierEvery). */
+/** Glyphcraft altar. Crafts all essence at once. Runes per essence = 1 + floor(level / MultiplierEvery). */
 UCLASS(BlueprintType)
 class GIELINOR_API URuneAltarDef : public UPrimaryDataAsset
 {
 	GENERATED_BODY()
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Runecrafting") FName Id;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Runecrafting") FText DisplayName;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Runecrafting") TObjectPtr<UItemDef> Rune = nullptr;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Runecrafting") int32 Level = 1;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Runecrafting") float XpPerEssence = 5.f;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Glyphcraft") FName Id;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Glyphcraft") FText DisplayName;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Glyphcraft") TObjectPtr<UItemDef> Rune = nullptr;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Glyphcraft") int32 Level = 1;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Glyphcraft") float XpPerEssence = 5.f;
 	/** 0 = always one rune per essence. */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Runecrafting") int32 MultiplierEvery = 11;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Runecrafting") bool bPureEssenceOnly = false;
-	UFUNCTION(BlueprintPure, Category="Runecrafting") int32 RunesPerEssence(int32 InLevel) const { return MultiplierEvery > 0 ? 1 + InLevel / MultiplierEvery : 1; }
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Glyphcraft") int32 MultiplierEvery = 11;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Glyphcraft") bool bPureEssenceOnly = false;
+	UFUNCTION(BlueprintPure, Category="Glyphcraft") int32 RunesPerEssence(int32 InLevel) const { return MultiplierEvery > 0 ? 1 + InLevel / MultiplierEvery : 1; }
 	virtual FPrimaryAssetId GetPrimaryAssetId() const override { return FPrimaryAssetId(TEXT("RuneAltar"), GetFName()); }
 };
 

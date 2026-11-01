@@ -176,14 +176,14 @@
      "skill99": "Fletching"
     },
     {
-     "item": "Herblore cape",
+     "item": "Herbalism cape",
      "price": 99000,
-     "skill99": "Herblore"
+     "skill99": "Herbalism"
     },
     {
-     "item": "Runecrafting cape",
+     "item": "Glyphcraft cape",
      "price": 99000,
-     "skill99": "Runecrafting"
+     "skill99": "Glyphcraft"
     }
    ]
   },
@@ -215,22 +215,22 @@
      "price": 250
     },
     {
-     "item": "Mithril axe",
+     "item": "Bluesteel axe",
      "price": 520,
      "unlock": "doric"
     },
     {
-     "item": "Mithril pickaxe",
+     "item": "Bluesteel pickaxe",
      "price": 650,
      "unlock": "doric"
     },
     {
-     "item": "Adamant axe",
+     "item": "Verdite axe",
      "price": 1280,
      "unlock": "doric"
     },
     {
-     "item": "Adamant pickaxe",
+     "item": "Verdite pickaxe",
      "price": 1600,
      "unlock": "doric"
     },
@@ -292,7 +292,7 @@
      "price": 18
     },
     {
-     "item": "Limpwurt root",
+     "item": "Bitterroot",
      "price": 30
     },
     {
@@ -300,19 +300,19 @@
      "price": 45
     },
     {
-     "item": "Snape grass",
+     "item": "Marsh reed",
      "price": 40
     },
     {
-     "item": "Grimy guam leaf",
+     "item": "Grimy greenwort",
      "price": 12
     },
     {
-     "item": "Grimy marrentill",
+     "item": "Grimy marshmint",
      "price": 18
     },
     {
-     "item": "Grimy tarromin",
+     "item": "Grimy tallowroot",
      "price": 25
     },
     {
@@ -358,7 +358,7 @@
      "price": 18
     },
     {
-     "item": "Limpwurt root",
+     "item": "Bitterroot",
      "price": 30
     },
     {
@@ -366,19 +366,19 @@
      "price": 45
     },
     {
-     "item": "Snape grass",
+     "item": "Marsh reed",
      "price": 40
     },
     {
-     "item": "Grimy guam leaf",
+     "item": "Grimy greenwort",
      "price": 12
     },
     {
-     "item": "Grimy marrentill",
+     "item": "Grimy marshmint",
      "price": 18
     },
     {
-     "item": "Grimy tarromin",
+     "item": "Grimy tallowroot",
      "price": 25
     },
     {
@@ -404,51 +404,51 @@
    "title": "Whitecairn Armoury",
    "stock": [
     {
-     "item": "Mithril full helm",
+     "item": "Bluesteel full helm",
      "price": 384
     },
     {
-     "item": "Mithril platebody",
+     "item": "Bluesteel platebody",
      "price": 1920
     },
     {
-     "item": "Mithril platelegs",
+     "item": "Bluesteel platelegs",
      "price": 960
     },
     {
-     "item": "Mithril shield",
+     "item": "Bluesteel shield",
      "price": 640
     },
     {
-     "item": "Adamant full helm",
+     "item": "Verdite full helm",
      "price": 960
     },
     {
-     "item": "Adamant platebody",
+     "item": "Verdite platebody",
      "price": 4800
     },
     {
-     "item": "Adamant platelegs",
+     "item": "Verdite platelegs",
      "price": 2400
     },
     {
-     "item": "Adamant shield",
+     "item": "Verdite shield",
      "price": 1600
     },
     {
-     "item": "Rune full helm",
+     "item": "Cobalt full helm",
      "price": 2496
     },
     {
-     "item": "Rune platebody",
+     "item": "Cobalt platebody",
      "price": 12480
     },
     {
-     "item": "Rune platelegs",
+     "item": "Cobalt platelegs",
      "price": 6240
     },
     {
-     "item": "Rune shield",
+     "item": "Cobalt shield",
      "price": 4160
     },
     {
@@ -468,7 +468,7 @@
      "price": 480
     },
     {
-     "item": "Ring of recoil",
+     "item": "Ring of rebuke",
      "price": 3000
     }
    ]
@@ -481,15 +481,15 @@
      "price": 192
     },
     {
-     "item": "Mithril sword",
+     "item": "Bluesteel sword",
      "price": 480
     },
     {
-     "item": "Adamant sword",
+     "item": "Verdite sword",
      "price": 1200
     },
     {
-     "item": "Rune sword",
+     "item": "Cobalt sword",
      "price": 3120
     },
     {
@@ -517,15 +517,15 @@
      "price": 6
     },
     {
-     "item": "Mithril arrows",
+     "item": "Bluesteel arrows",
      "price": 13
     },
     {
-     "item": "Adamant arrows",
+     "item": "Verdite arrows",
      "price": 26
     },
     {
-     "item": "Rune arrows",
+     "item": "Cobalt arrows",
      "price": 64
     },
     {
@@ -718,14 +718,14 @@
      "skill99": "Fletching"
     },
     {
-     "item": "Herblore cape",
+     "item": "Herbalism cape",
      "price": 99000,
-     "skill99": "Herblore"
+     "skill99": "Herbalism"
     },
     {
-     "item": "Runecrafting cape",
+     "item": "Glyphcraft cape",
      "price": 99000,
-     "skill99": "Runecrafting"
+     "skill99": "Glyphcraft"
     }
    ]
   },
@@ -905,14 +905,14 @@
      "skill99": "Fletching"
     },
     {
-     "item": "Herblore cape",
+     "item": "Herbalism cape",
      "price": 99000,
-     "skill99": "Herblore"
+     "skill99": "Herbalism"
     },
     {
-     "item": "Runecrafting cape",
+     "item": "Glyphcraft cape",
      "price": 99000,
-     "skill99": "Runecrafting"
+     "skill99": "Glyphcraft"
     }
    ]
   },
@@ -940,7 +940,7 @@
      "price": 18
     },
     {
-     "item": "Limpwurt root",
+     "item": "Bitterroot",
      "price": 30
     },
     {
@@ -948,19 +948,19 @@
      "price": 45
     },
     {
-     "item": "Snape grass",
+     "item": "Marsh reed",
      "price": 40
     },
     {
-     "item": "Grimy guam leaf",
+     "item": "Grimy greenwort",
      "price": 12
     },
     {
-     "item": "Grimy marrentill",
+     "item": "Grimy marshmint",
      "price": 18
     },
     {
-     "item": "Grimy tarromin",
+     "item": "Grimy tallowroot",
      "price": 25
     },
     {
@@ -998,7 +998,7 @@
      "price": 420
     },
     {
-     "item": "Mithril cutlass",
+     "item": "Bluesteel cutlass",
      "price": 1100
     },
     {
@@ -1031,19 +1031,19 @@
    "title": "Brineholt Gunsmith",
    "stock": [
     {
-     "item": "Adamant cutlass",
+     "item": "Verdite cutlass",
      "price": 2600
     },
     {
-     "item": "Rune cutlass",
+     "item": "Cobalt cutlass",
      "price": 7000
     },
     {
-     "item": "Mithril flintlock",
+     "item": "Bluesteel flintlock",
      "price": 2000
     },
     {
-     "item": "Adamant flintlock",
+     "item": "Verdite flintlock",
      "price": 5200
     },
     {
@@ -1072,7 +1072,7 @@
      "price": 900
     },
     {
-     "item": "Mind rune",
+     "item": "Thought rune",
      "price": 4
     }
    ]
@@ -1085,7 +1085,7 @@
      "price": 6
     },
     {
-     "item": "Mind rune",
+     "item": "Thought rune",
      "price": 4
     },
     {
@@ -1101,7 +1101,7 @@
      "price": 6
     },
     {
-     "item": "Rune essence",
+     "item": "Glyph essence",
      "price": 8
     },
     {
@@ -1126,7 +1126,7 @@
      "price": 6
     },
     {
-     "item": "Mind rune",
+     "item": "Thought rune",
      "price": 4
     },
     {
@@ -1142,15 +1142,15 @@
      "price": 6
     },
     {
-     "item": "Body rune",
+     "item": "Vital rune",
      "price": 4
     },
     {
-     "item": "Chaos rune",
+     "item": "Havoc rune",
      "price": 126
     },
     {
-     "item": "Rune essence",
+     "item": "Glyph essence",
      "price": 8
     },
     {
@@ -1191,7 +1191,7 @@
      "price": 6
     },
     {
-     "item": "Mind rune",
+     "item": "Thought rune",
      "price": 4
     },
     {
@@ -1207,39 +1207,39 @@
      "price": 6
     },
     {
-     "item": "Body rune",
+     "item": "Vital rune",
      "price": 4
     },
     {
-     "item": "Chaos rune",
+     "item": "Havoc rune",
      "price": 126
     },
     {
-     "item": "Death rune",
+     "item": "Grave rune",
      "price": 252
     },
     {
-     "item": "Rune essence",
+     "item": "Glyph essence",
      "price": 8
     },
     {
-     "item": "Pure essence",
+     "item": "Clear essence",
      "price": 14
     },
     {
-     "item": "Mystic staff",
+     "item": "Starweave staff",
      "price": 9000
     },
     {
-     "item": "Mystic hat",
+     "item": "Starweave hat",
      "price": 3500
     },
     {
-     "item": "Mystic robe top",
+     "item": "Starweave robe top",
      "price": 14000
     },
     {
-     "item": "Mystic robe bottom",
+     "item": "Starweave robe bottom",
      "price": 10500
     }
    ]
@@ -1420,14 +1420,14 @@
      "skill99": "Fletching"
     },
     {
-     "item": "Herblore cape",
+     "item": "Herbalism cape",
      "price": 99000,
-     "skill99": "Herblore"
+     "skill99": "Herbalism"
     },
     {
-     "item": "Runecrafting cape",
+     "item": "Glyphcraft cape",
      "price": 99000,
-     "skill99": "Runecrafting"
+     "skill99": "Glyphcraft"
     }
    ]
   }
@@ -1606,14 +1606,14 @@
    "skill99": "Fletching"
   },
   {
-   "item": "Herblore cape",
+   "item": "Herbalism cape",
    "price": 99000,
-   "skill99": "Herblore"
+   "skill99": "Herbalism"
   },
   {
-   "item": "Runecrafting cape",
+   "item": "Glyphcraft cape",
    "price": 99000,
-   "skill99": "Runecrafting"
+   "skill99": "Glyphcraft"
   }
  ],
  "tools": [
@@ -1642,22 +1642,22 @@
    "price": 250
   },
   {
-   "item": "Mithril axe",
+   "item": "Bluesteel axe",
    "price": 520,
    "unlock": "doric"
   },
   {
-   "item": "Mithril pickaxe",
+   "item": "Bluesteel pickaxe",
    "price": 650,
    "unlock": "doric"
   },
   {
-   "item": "Adamant axe",
+   "item": "Verdite axe",
    "price": 1280,
    "unlock": "doric"
   },
   {
-   "item": "Adamant pickaxe",
+   "item": "Verdite pickaxe",
    "price": 1600,
    "unlock": "doric"
   },
@@ -1716,7 +1716,7 @@
    "price": 18
   },
   {
-   "item": "Limpwurt root",
+   "item": "Bitterroot",
    "price": 30
   },
   {
@@ -1724,19 +1724,19 @@
    "price": 45
   },
   {
-   "item": "Snape grass",
+   "item": "Marsh reed",
    "price": 40
   },
   {
-   "item": "Grimy guam leaf",
+   "item": "Grimy greenwort",
    "price": 12
   },
   {
-   "item": "Grimy marrentill",
+   "item": "Grimy marshmint",
    "price": 18
   },
   {
-   "item": "Grimy tarromin",
+   "item": "Grimy tallowroot",
    "price": 25
   },
   {
@@ -1759,51 +1759,51 @@
  ],
  "armour": [
   {
-   "item": "Mithril full helm",
+   "item": "Bluesteel full helm",
    "price": 384
   },
   {
-   "item": "Mithril platebody",
+   "item": "Bluesteel platebody",
    "price": 1920
   },
   {
-   "item": "Mithril platelegs",
+   "item": "Bluesteel platelegs",
    "price": 960
   },
   {
-   "item": "Mithril shield",
+   "item": "Bluesteel shield",
    "price": 640
   },
   {
-   "item": "Adamant full helm",
+   "item": "Verdite full helm",
    "price": 960
   },
   {
-   "item": "Adamant platebody",
+   "item": "Verdite platebody",
    "price": 4800
   },
   {
-   "item": "Adamant platelegs",
+   "item": "Verdite platelegs",
    "price": 2400
   },
   {
-   "item": "Adamant shield",
+   "item": "Verdite shield",
    "price": 1600
   },
   {
-   "item": "Rune full helm",
+   "item": "Cobalt full helm",
    "price": 2496
   },
   {
-   "item": "Rune platebody",
+   "item": "Cobalt platebody",
    "price": 12480
   },
   {
-   "item": "Rune platelegs",
+   "item": "Cobalt platelegs",
    "price": 6240
   },
   {
-   "item": "Rune shield",
+   "item": "Cobalt shield",
    "price": 4160
   },
   {
@@ -1823,7 +1823,7 @@
    "price": 480
   },
   {
-   "item": "Ring of recoil",
+   "item": "Ring of rebuke",
    "price": 3000
   }
  ],
@@ -1833,15 +1833,15 @@
    "price": 192
   },
   {
-   "item": "Mithril sword",
+   "item": "Bluesteel sword",
    "price": 480
   },
   {
-   "item": "Adamant sword",
+   "item": "Verdite sword",
    "price": 1200
   },
   {
-   "item": "Rune sword",
+   "item": "Cobalt sword",
    "price": 3120
   },
   {
@@ -1869,15 +1869,15 @@
    "price": 6
   },
   {
-   "item": "Mithril arrows",
+   "item": "Bluesteel arrows",
    "price": 13
   },
   {
-   "item": "Adamant arrows",
+   "item": "Verdite arrows",
    "price": 26
   },
   {
-   "item": "Rune arrows",
+   "item": "Cobalt arrows",
    "price": 64
   },
   {
@@ -1899,7 +1899,7 @@
    "price": 6
   },
   {
-   "item": "Mind rune",
+   "item": "Thought rune",
    "price": 4
   },
   {
@@ -1915,15 +1915,15 @@
    "price": 6
   },
   {
-   "item": "Body rune",
+   "item": "Vital rune",
    "price": 4
   },
   {
-   "item": "Chaos rune",
+   "item": "Havoc rune",
    "price": 126
   },
   {
-   "item": "Rune essence",
+   "item": "Glyph essence",
    "price": 8
   },
   {
@@ -1961,7 +1961,7 @@
    "price": 6
   },
   {
-   "item": "Mind rune",
+   "item": "Thought rune",
    "price": 4
   },
   {
@@ -1977,7 +1977,7 @@
    "price": 6
   },
   {
-   "item": "Rune essence",
+   "item": "Glyph essence",
    "price": 8
   },
   {
@@ -1999,7 +1999,7 @@
    "price": 6
   },
   {
-   "item": "Mind rune",
+   "item": "Thought rune",
    "price": 4
   },
   {
@@ -2015,39 +2015,39 @@
    "price": 6
   },
   {
-   "item": "Body rune",
+   "item": "Vital rune",
    "price": 4
   },
   {
-   "item": "Chaos rune",
+   "item": "Havoc rune",
    "price": 126
   },
   {
-   "item": "Death rune",
+   "item": "Grave rune",
    "price": 252
   },
   {
-   "item": "Rune essence",
+   "item": "Glyph essence",
    "price": 8
   },
   {
-   "item": "Pure essence",
+   "item": "Clear essence",
    "price": 14
   },
   {
-   "item": "Mystic staff",
+   "item": "Starweave staff",
    "price": 9000
   },
   {
-   "item": "Mystic hat",
+   "item": "Starweave hat",
    "price": 3500
   },
   {
-   "item": "Mystic robe top",
+   "item": "Starweave robe top",
    "price": 14000
   },
   {
-   "item": "Mystic robe bottom",
+   "item": "Starweave robe bottom",
    "price": 10500
   }
  ]

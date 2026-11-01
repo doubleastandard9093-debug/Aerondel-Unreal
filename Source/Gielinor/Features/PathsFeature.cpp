@@ -14,7 +14,7 @@ namespace PathData
 		{ { TEXT("Precision"), 0, 0, .06f, 0, 0 }, { TEXT("Brutality"), 0, .05f, 0, 0, 0 }, { TEXT("Bulwark Stance"), .05f, 0, 0, 0, 0 } },
 		{ { TEXT("Field Medic"), 0, 0, 0, .8f, 0 }, { TEXT("Vampiric"), 0, 0, 0, 0, .06f }, { TEXT("Sharpshooter"), 0, 0, .07f, 0, 0 } },
 		{ { TEXT("Juggernaut"), .06f, 0, 0, 0, 0 }, { TEXT("Executioner"), 0, .06f, 0, 0, 0 }, { TEXT("Lifeblood"), 0, 0, 0, 1.f, 0 } },
-		{ { TEXT("Hawk Eye"), 0, 0, .08f, 0, 0 }, { TEXT("Unbroken"), .06f, 0, 0, 0, 0 }, { TEXT("Reaver"), 0, .07f, 0, 0, .03f } },
+		{ { TEXT("Falcon Sight"), 0, 0, .08f, 0, 0 }, { TEXT("Unbroken"), .06f, 0, 0, 0, 0 }, { TEXT("Reaver"), 0, .07f, 0, 0, .03f } },
 		{ { TEXT("Avatar of War"), 0, .1f, 0, 0, 0 }, { TEXT("Living Fortress"), .1f, 0, 0, 0, 0 }, { TEXT("Font of Life"), 0, 0, 0, 1.5f, .05f } } };
 	static bool Valid(FName P) { return P == FName(TEXT("bulwark")) || P == FName(TEXT("mender")) || P == FName(TEXT("striker")); }
 }

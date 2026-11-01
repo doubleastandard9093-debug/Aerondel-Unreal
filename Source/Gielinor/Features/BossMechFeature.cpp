@@ -45,7 +45,7 @@ void UBossMechFeature::OnGameTick()
 			S->Style = N; S->NextSwitch = Tick + SwitchEvery - (S->bEnraged ? 4 : 0);
 			OnStyleChanged.Broadcast(M, N);
 			Say(FString::Printf(TEXT("%s switches to %s! Pray %s."), *Name, N == EBossStyle::Melee ? TEXT("melee") : N == EBossStyle::Ranged ? TEXT("ranged") : TEXT("magic"),
-				N == EBossStyle::Melee ? TEXT("Protect from Melee") : N == EBossStyle::Ranged ? TEXT("Protect from Missiles") : TEXT("Protect from Magic")));
+				N == EBossStyle::Melee ? TEXT("Ward against Melee") : N == EBossStyle::Ranged ? TEXT("Ward against Missiles") : TEXT("Ward against Magic")));
 		}
 		FVector2D P;
 		if (!TeleBoss.IsValid() && Tick >= S->NextSlam && PlayerWebPos(P))
@@ -75,7 +75,7 @@ float UBossMechFeature::DamageTakenMult(const UMobDef* Source, float HpFrac) con
 		if (!M || M->Definition != Source) continue;
 		const AGielinorPlayerState* PS = GetPS();
 		const bool bRight = PS && PS->Stats && PS->Stats->IsPrayerActive(PrayerFor(P.Value.Style));
-		// ReduceIncoming already applied the generic Protect from Melee (40%); swap it for the boss rule.
+		// ReduceIncoming already applied the generic Ward against Melee (40%); swap it for the boss rule.
 		const float Generic = FMath::Clamp(UGielinorRules::PrayerFx(PS, TEXT("protect")), 0.f, 0.9f);
 		const float Want = bRight ? 1.f - ProtectBoss : 1.f;
 		return Want / (1.f - Generic) * (P.Value.bEnraged ? EnrageHit : 1.f);
