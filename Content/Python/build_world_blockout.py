@@ -3,7 +3,7 @@ Gielinor > Build World Blockout
 Greybox of the whole web-build world from Content/Data/world.json (same file the JSON importer reads):
 ground, lake/ponds, paths, every town building (wall + roof colours from the data), guilds with their
 stations and bank chest, landmark markers, the cave, an AQuestPlaceVolume per town/landmark/guild
-(PlaceId = its name) plus one per quest place in world.json "places" (PlaceId = quest place id), NavMeshBoundsVolume, lighting and a PlayerStart at world.spawn.
+(PlaceId = its name), per-town banners/signposts/bank chests/waystones, plus one per quest place in world.json "places" (PlaceId = quest place id), NavMeshBoundsVolume, lighting and a PlayerStart at world.spawn.
 Web units are metres with x east, z south-ish; mapped the same way as build_starter_town (V()).
 Saved to /Game/Gielinor/Maps/World. Data-driven: edit world.json and re-run.
 """
@@ -48,6 +48,69 @@ def house(name, x, z, w, d, wall, roof, folder):
     h = 3.5
     box(name + "_Walls", folder, (x, h / 2, z), (w, h, d), hex_mat(wall))
     box(name + "_Roof", folder, (x, h + 0.9, z), (w * 0.85, 1.8, d * 0.85), hex_mat(roof), shape=CONE)
+
+
+def text3d(name, folder, x, y, z, text, size=60.0, yaw=0.0, rgb=(255, 236, 180)):
+    """World-space label (TextRenderActor): cheap on every graphics tier, two-sided by spawning a back-to-back pair."""
+    for i, yy in enumerate((yaw, yaw + 180.0)):
+        a = actors.spawn_actor_from_class(unreal.TextRenderActor, V(x, y, z), unreal.Rotator(0, 0, yy))
+        c = a.get_editor_property("text_render")
+        try:
+            c.set_text(unreal.Text(text))
+        except Exception:
+            c.set_editor_property("text", unreal.Text(text))
+        c.set_editor_property("world_size", size)
+        c.set_editor_property("horizontal_alignment", unreal.HorizTextAligment.EHTA_CENTER)
+        c.set_editor_property("text_render_color", unreal.Color(r=rgb[0], g=rgb[1], b=rgb[2], a=255))
+        c.set_collision_profile_name("NoCollision")
+        label(a, "%s_%d" % (name, i), folder)
+
+
+def bearing(dx, dz):
+    """Compass word for a web-space offset (web z grows south)."""
+    names = ("east", "south-east", "south", "south-west", "west", "north-west", "north", "north-east")
+    return names[int(round(math.atan2(dz, dx) / (math.pi / 4))) % 8]
+
+
+def build_towns(w):
+    """Per town (world.json towns): gate banner with name + motto, a signpost with one arm per other town,
+    a bank chest at the bank's door, and a stone plinth under the waystone (the waystone itself is an NPC, service travel)."""
+    towns = w.get("towns", {})
+    post = mat("SignPost", (0.35, 0.24, 0.14))
+    plank = mat("SignPlank", (0.62, 0.48, 0.3))
+    cloth = mat("BannerCloth", (0.45, 0.12, 0.12))
+    chest = mat("Chest", (0.5, 0.3, 0.15))
+    plinth = mat("WaystonePlinth", (0.5, 0.52, 0.56))
+    for name, t in towns.items():
+        f = "Towns/" + name
+        x, z = t["x"], t["z"]
+        # Gate banner on the main approach, 14 m south of the square (or north for towns on the south coast).
+        gz = z + 14 if name != "Saltreach" else z - 14
+        for side in (-1, 1):
+            box("%s_GatePost_%d" % (name, side), f, (x + side * 3.2, 2.5, gz), (0.4, 5, 0.4), post)
+        box(name + "_GateBeam", f, (x, 5.1, gz), (7.0, 0.35, 0.35), post)
+        box(name + "_GateCloth", f, (x, 4.3, gz), (6.0, 1.4, 0.08), cloth, collide=False)
+        text3d(name + "_Banner", f, x, 4.55, gz, t.get("banner", name), 70.0, 90.0)
+        if t.get("motto"):
+            text3d(name + "_Motto", f, x, 3.85, gz, t["motto"], 34.0, 90.0, (230, 230, 230))
+        # Signpost in the square: one arm per other town, pointing at it, with distance.
+        sx, sz = x + 2.5, z + 2.5
+        box(name + "_SignPost", f, (sx, 1.6, sz), (0.25, 3.2, 0.25), post)
+        for i, (other, o) in enumerate((k, v) for k, v in towns.items() if k != name):
+            dx, dz = o["x"] - x, o["z"] - z
+            yaw = math.degrees(math.atan2(dz, dx))
+            h = 2.9 - i * 0.38
+            ax, az = sx + math.cos(math.radians(yaw)) * 0.9, sz + math.sin(math.radians(yaw)) * 0.9
+            box("%s_Sign_%s" % (name, other), f, (ax, h, az), (1.8, 0.3, 0.06), plank, yaw=yaw, collide=False)
+            text3d("%s_SignText_%s" % (name, other), f, ax, h - 0.1, az, "%s %dm" % (other, round(math.hypot(dx, dz))), 16.0, yaw + 90.0, (40, 25, 10))
+        # Town square volume (quest/visit + "You enter X" toast) already placed from towns; add bank chest + plinth.
+        bank = t.get("bank")
+        if bank:
+            bx, bz = bank["at"]
+            bst.interactable(unreal.BankChest, name + " bank chest", f, (bx + 1.2, 0.45, bz), CUBE, (1.2, 0.9, 0.8), chest)
+        tp = t.get("travel")
+        if tp:
+            box(name + "_WaystonePlinth", f, (tp[0], 0.12, tp[1]), (2.2, 0.24, 2.2), plinth, shape=CYL)
 
 
 def run():
@@ -139,9 +202,12 @@ def run():
             a.set_editor_property("display_name", n["name"])
             t = n.get("tint", "#a08060").lstrip("#")
             rgb = tuple(int(t[i:i + 2], 16) / 255.0 for i in (0, 2, 4))
-            bst.set_mesh(a.get_editor_property("mesh"), CYL, (0.55, 0.55, 1.75), mat("Npc_" + nid, rgb), rel=(0, 0, 87.5))
+            if nid.startswith("waystone_"):  # carved standing stone instead of a person
+                bst.set_mesh(a.get_editor_property("mesh"), CUBE, (0.7, 0.5, 2.2), mat("Npc_" + nid, rgb), rel=(0, 0, 110.0))
+            else:
+                bst.set_mesh(a.get_editor_property("mesh"), CYL, (0.55, 0.55, 1.75), mat("Npc_" + nid, rgb), rel=(0, 0, 87.5))
             a.set_editor_property("range", 220.0)
-            label(a, n["name"], "FeatureSites/NPCs")
+            label(a, n["name"], ("Towns/" + n["town"] + "/NPCs") if n.get("town") else "FeatureSites/NPCs")
             svc = n.get("service", "")
             shop = svc[5:] if svc.startswith("shop:") else ("hexer" if svc == "hexer" else None)
             if shop:  # trade happens at a counter beside them
@@ -173,6 +239,8 @@ def run():
                 mat("Planks", (0.45, 0.32, 0.2)), yaw=yaw)
             place_volume(iid.lower(), ix, iz, ir * 2)
         box("Port_Sarim_Dock", "FeatureSites/Docks", (-80, 0.2, 80), (6, 0.4, 14), mat("Planks", (0.45, 0.32, 0.2)))
+
+        build_towns(w)  # banners, signposts, bank chests, waystone plinths
 
         task.enter_progress_frame(1, "Save")
         levels.save_current_level()

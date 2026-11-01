@@ -7064,295 +7064,806 @@
  "npcs": {
   "cook": {
    "name": "Cook",
-   "examine": "The head cook of Larkhaven."
+   "examine": "The head cook of Larkhaven.",
+   "x": -4.4,
+   "z": 3.5,
+   "town": "Larkhaven",
+   "lines": [
+    "The head cook of Larkhaven.",
+    "Welcome to Larkhaven. The larks on the lake wake us before the bells do."
+   ]
   },
   "priest": {
    "name": "Father Elric",
-   "examine": "A kindly priest of the Dawnmother."
+   "examine": "A kindly priest of the Dawnmother.",
+   "x": 2.8,
+   "z": 4.5,
+   "town": "Larkhaven",
+   "lines": [
+    "A kindly priest of the Dawnmother.",
+    "If you get lost, follow any road back to the square. They all lead here."
+   ]
   },
   "doric": {
    "name": "Bruna",
-   "examine": "A dwarven smith with strong arms."
+   "examine": "A dwarven smith with strong arms.",
+   "x": 0.3,
+   "z": 5.6,
+   "town": "Larkhaven",
+   "lines": [
+    "A dwarven smith with strong arms.",
+    "Welcome to Larkhaven. The larks on the lake wake us before the bells do."
+   ]
   },
   "captain": {
    "name": "Captain Rhea",
-   "examine": "Captain of the Larkhaven guard."
+   "examine": "Captain of the Larkhaven guard.",
+   "x": -4.2,
+   "z": -3.7,
+   "town": "Larkhaven",
+   "lines": [
+    "Captain of the Larkhaven guard.",
+    "Welcome to Larkhaven. The larks on the lake wake us before the bells do."
+   ]
   },
   "farmer": {
    "name": "Farmer Gil",
-   "examine": "He smells faintly of cow."
+   "examine": "He smells faintly of cow.",
+   "x": 6.3,
+   "z": 2.4,
+   "town": "Larkhaven",
+   "lines": [
+    "He smells faintly of cow.",
+    "Welcome to Larkhaven. The larks on the lake wake us before the bells do."
+   ]
   },
   "bob": {
    "name": "Tobin",
-   "examine": "An expert on axes, pickaxes and other tools."
+   "examine": "An expert on axes, pickaxes and other tools.",
+   "x": -5.7,
+   "z": 1.3,
+   "town": "Larkhaven",
+   "lines": [
+    "An expert on axes, pickaxes and other tools.",
+    "The Watch keeps the goblins off the farms, mostly."
+   ]
   },
   "ranger": {
    "name": "Ranger Wyn",
-   "examine": "A sharp-eyed ranger of the western woods."
+   "examine": "A sharp-eyed ranger of the western woods.",
+   "x": -0.5,
+   "z": -5.0,
+   "town": "Larkhaven",
+   "lines": [
+    "A sharp-eyed ranger of the western woods.",
+    "Welcome to Larkhaven. The larks on the lake wake us before the bells do."
+   ]
   },
   "knight": {
    "name": "Sir Calder",
-   "examine": "A knight in shining armour."
+   "examine": "A knight in shining armour.",
+   "x": 6.8,
+   "z": -0.7,
+   "town": "Larkhaven",
+   "lines": [
+    "A knight in shining armour.",
+    "Welcome to Larkhaven. The larks on the lake wake us before the bells do."
+   ]
   },
   "merchant": {
    "name": "Merchant",
-   "examine": "A trader of general goods."
+   "examine": "A trader of general goods.",
+   "x": 2.6,
+   "z": -4.2,
+   "town": "Larkhaven",
+   "lines": [
+    "A trader of general goods.",
+    "The Watch keeps the goblins off the farms, mostly."
+   ]
   },
   "banker": {
    "name": "Banker",
-   "examine": "Good with money."
+   "examine": "Good with money.",
+   "x": 5.1,
+   "z": -4.0,
+   "town": "Larkhaven",
+   "lines": [
+    "Good with money.",
+    "If you get lost, follow any road back to the square. They all lead here."
+   ]
   },
   "fisherman": {
    "name": "Fisherman Fred",
-   "examine": "An old fisherman who knows the lake well."
+   "examine": "An old fisherman who knows the lake well.",
+   "x": -2.1,
+   "z": 5.8,
+   "town": "Larkhaven",
+   "lines": [
+    "An old fisherman who knows the lake well.",
+    "The Watch keeps the goblins off the farms, mostly."
+   ]
   },
   "mayor": {
    "name": "Mayor Aldric",
-   "examine": "Mayor of Emberfold, worried about the eastern farms."
+   "examine": "Mayor of Emberfold, worried about the eastern farms.",
+   "x": 52.4,
+   "z": -30.3,
+   "town": "Emberfold",
+   "lines": [
+    "Mayor of Emberfold, worried about the eastern farms.",
+    "We rebuilt Emberfold board by board after the fire. Mind the fresh paint."
+   ]
   },
   "merchant2": {
    "name": "Trader Mira",
-   "examine": "A shrewd trader from Emberfold."
+   "examine": "A shrewd trader from Emberfold.",
+   "x": 55.8,
+   "z": -27.6,
+   "town": "Emberfold",
+   "lines": [
+    "A shrewd trader from Emberfold.",
+    "The east fields feed half the realm, so the Watch rides through often."
+   ]
   },
   "smith2": {
    "name": "Smith Torin",
-   "examine": "Emberfold's blacksmith, always short of ore."
+   "examine": "Emberfold's blacksmith, always short of ore.",
+   "x": 46.4,
+   "z": -29.4,
+   "town": "Emberfold",
+   "lines": [
+    "Emberfold's blacksmith, always short of ore.",
+    "The Cinder Cup pours the best cider east of the lake."
+   ]
   },
   "farmer2": {
    "name": "Farmer Elara",
-   "examine": "Tends the eastern fields."
+   "examine": "Tends the eastern fields.",
+   "x": 56.7,
+   "z": -25.2,
+   "town": "Emberfold",
+   "lines": [
+    "Tends the eastern fields.",
+    "The Cinder Cup pours the best cider east of the lake."
+   ]
   },
   "guard2": {
    "name": "Guard Captain Ryn",
-   "examine": "Keeps the peace in Emberfold."
+   "examine": "Keeps the peace in Emberfold.",
+   "x": 55.5,
+   "z": -22.9,
+   "town": "Emberfold",
+   "lines": [
+    "Keeps the peace in Emberfold.",
+    "The Cinder Cup pours the best cider east of the lake."
+   ]
   },
   "priest2": {
    "name": "Sister Lira",
-   "examine": "A priestess of the Dawnmother in Emberfold."
+   "examine": "A priestess of the Dawnmother in Emberfold.",
+   "x": 43.8,
+   "z": -25.9,
+   "town": "Emberfold",
+   "lines": [
+    "A priestess of the Dawnmother in Emberfold.",
+    "The Cinder Cup pours the best cider east of the lake."
+   ]
   },
   "ranger2": {
    "name": "Scout Vey",
-   "examine": "Scouts the woods east of Emberfold."
+   "examine": "Scouts the woods east of Emberfold.",
+   "x": 48.9,
+   "z": -29.8,
+   "town": "Emberfold",
+   "lines": [
+    "Scouts the woods east of Emberfold.",
+    "The east fields feed half the realm, so the Watch rides through often."
+   ]
   },
   "cook2": {
    "name": "Chef Bran",
-   "examine": "Cooks for the Emberfold inn."
+   "examine": "Cooks for the Emberfold inn.",
+   "x": 51.4,
+   "z": -18.0,
+   "town": "Emberfold",
+   "lines": [
+    "Cooks for the Emberfold inn.",
+    "The Cinder Cup pours the best cider east of the lake."
+   ]
   },
   "miner": {
    "name": "Miner Kael",
-   "examine": "Works the eastern mines."
+   "examine": "Works the eastern mines.",
+   "x": 53.3,
+   "z": -27.7,
+   "town": "Emberfold",
+   "lines": [
+    "Works the eastern mines.",
+    "We rebuilt Emberfold board by board after the fire. Mind the fresh paint."
+   ]
   },
   "angler": {
    "name": "Angler Tess",
-   "examine": "Fishes the eastern streams."
+   "examine": "Fishes the eastern streams.",
+   "x": 49.3,
+   "z": -19.0,
+   "town": "Emberfold",
+   "lines": [
+    "Fishes the eastern streams.",
+    "The Cinder Cup pours the best cider east of the lake."
+   ]
   },
   "knight2": {
    "name": "Sir Elric",
-   "examine": "A knight stationed near Emberfold."
+   "examine": "A knight stationed near Emberfold.",
+   "x": 46.5,
+   "z": -18.9,
+   "town": "Emberfold",
+   "lines": [
+    "A knight stationed near Emberfold.",
+    "The east fields feed half the realm, so the Watch rides through often."
+   ]
   },
   "herbalist": {
    "name": "Herbalist Wren",
-   "examine": "Gathers herbs in the east."
+   "examine": "Gathers herbs in the east.",
+   "x": 43.7,
+   "z": -21.5,
+   "town": "Emberfold",
+   "lines": [
+    "Gathers herbs in the east.",
+    "The Cinder Cup pours the best cider east of the lake."
+   ]
   },
   "carpenter": {
    "name": "Carpenter Olan",
-   "examine": "Builds and repairs in Emberfold."
+   "examine": "Builds and repairs in Emberfold.",
+   "x": 46.8,
+   "z": -16.4,
+   "town": "Emberfold",
+   "lines": [
+    "Builds and repairs in Emberfold.",
+    "The Cinder Cup pours the best cider east of the lake."
+   ]
   },
   "hilda": {
    "name": "Granny Hilda",
-   "examine": "A sweet old lady with flour on her sleeves."
+   "examine": "A sweet old lady with flour on her sleeves.",
+   "x": -5.4,
+   "z": -1.6,
+   "town": "Larkhaven",
+   "lines": [
+    "A sweet old lady with flour on her sleeves.",
+    "The Watch keeps the goblins off the farms, mostly."
+   ]
   },
   "mara": {
    "name": "Mara the Weaver",
-   "examine": "Her fingers never stop moving."
+   "examine": "Her fingers never stop moving.",
+   "x": 0.1,
+   "z": -7.7,
+   "town": "Larkhaven",
+   "lines": [
+    "Her fingers never stop moving.",
+    "If you get lost, follow any road back to the square. They all lead here."
+   ]
   },
   "pip": {
    "name": "Pip",
-   "examine": "A scruffy street urchin. Watch your coin purse."
+   "examine": "A scruffy street urchin. Watch your coin purse.",
+   "x": -3.0,
+   "z": -5.8,
+   "town": "Larkhaven",
+   "lines": [
+    "A scruffy street urchin. Watch your coin purse.",
+    "Welcome to Larkhaven. The larks on the lake wake us before the bells do."
+   ]
   },
   "osric": {
    "name": "Osric the Gravedigger",
-   "examine": "He smells of fresh earth."
+   "examine": "He smells of fresh earth.",
+   "x": 3.5,
+   "z": -6.5,
+   "town": "Larkhaven",
+   "lines": [
+    "He smells of fresh earth.",
+    "If you get lost, follow any road back to the square. They all lead here."
+   ]
   },
   "lena": {
    "name": "Lena the Lamplighter",
-   "examine": "She keeps Larkhaven’s lamps burning."
+   "examine": "She keeps Larkhaven’s lamps burning.",
+   "x": 0.9,
+   "z": 8.3,
+   "town": "Larkhaven",
+   "lines": [
+    "She keeps Larkhaven’s lamps burning.",
+    "Welcome to Larkhaven. The larks on the lake wake us before the bells do."
+   ]
   },
   "bram": {
    "name": "Bram the Brewer",
-   "examine": "A jolly man with a barrel-shaped belly."
+   "examine": "A jolly man with a barrel-shaped belly.",
+   "x": -6.0,
+   "z": -5.8,
+   "town": "Larkhaven",
+   "lines": [
+    "A jolly man with a barrel-shaped belly.",
+    "The Watch keeps the goblins off the farms, mostly."
+   ]
   },
   "tamsin": {
    "name": "Tamsin the Scholar",
-   "examine": "She is never seen without a book."
+   "examine": "She is never seen without a book.",
+   "x": 6.7,
+   "z": -5.8,
+   "town": "Larkhaven",
+   "lines": [
+    "She is never seen without a book.",
+    "If you get lost, follow any road back to the square. They all lead here."
+   ]
   },
   "aldo": {
    "name": "Old Aldo",
-   "examine": "A retired soldier with many scars."
+   "examine": "A retired soldier with many scars.",
+   "x": 5.9,
+   "z": 5.4,
+   "town": "Larkhaven",
+   "lines": [
+    "A retired soldier with many scars.",
+    "Welcome to Larkhaven. The larks on the lake wake us before the bells do."
+   ]
   },
   "dell": {
    "name": "Coach Dell",
-   "examine": "Larkhaven’s agility coach. Fit as a fiddle."
+   "examine": "Larkhaven’s agility coach. Fit as a fiddle.",
+   "x": -4.7,
+   "z": 6.5,
+   "town": "Larkhaven",
+   "lines": [
+    "Larkhaven’s agility coach. Fit as a fiddle.",
+    "Welcome to Larkhaven. The larks on the lake wake us before the bells do."
+   ]
   },
   "grell": {
    "name": "Hermit Grell",
-   "examine": "He has lived alone in the wilds for years."
+   "examine": "He has lived alone in the wilds for years.",
+   "x": 128.0,
+   "z": -109.5,
+   "town": "Wilds",
+   "lines": [
+    "He has lived alone in the wilds for years.",
+    "Keep your blade drawn out here."
+   ]
   },
   "redbeard": {
    "name": "Captain Saltbeard",
-   "examine": "A pirate captain with a magnificent beard."
+   "examine": "A pirate captain with a magnificent beard.",
+   "x": -77.0,
+   "z": 65.1,
+   "town": "Saltreach",
+   "lines": [
+    "A pirate captain with a magnificent beard.",
+    "Keep your coin close near the Barnacle Rest."
+   ]
   },
   "wydin": {
    "name": "Wendric the Grocer",
-   "examine": "Saltreach’s food merchant."
+   "examine": "Saltreach’s food merchant.",
+   "x": -85.9,
+   "z": 62.0,
+   "town": "Saltreach",
+   "lines": [
+    "Saltreach’s food merchant.",
+    "Keep your coin close near the Barnacle Rest."
+   ]
   },
   "gerda": {
    "name": "Net-mender Gerda",
-   "examine": "Her nets have caught more fish than anyone alive."
+   "examine": "Her nets have caught more fish than anyone alive.",
+   "x": -74.1,
+   "z": 58.0,
+   "town": "Saltreach",
+   "lines": [
+    "Her nets have caught more fish than anyone alive.",
+    "Keep your coin close near the Barnacle Rest."
+   ]
   },
   "brice": {
    "name": "Harbourmaster Brice",
-   "examine": "Nothing enters or leaves the harbour without his say."
+   "examine": "Nothing enters or leaves the harbour without his say.",
+   "x": -83.0,
+   "z": 55.6,
+   "town": "Saltreach",
+   "lines": [
+    "Nothing enters or leaves the harbour without his say.",
+    "Keep your coin close near the Barnacle Rest."
+   ]
   },
   "thurgo": {
    "name": "Durgan",
-   "examine": "A dwarf smith who loves pie."
+   "examine": "A dwarf smith who loves pie.",
+   "x": -80.5,
+   "z": 53.5,
+   "town": "Saltreach",
+   "lines": [
+    "A dwarf smith who loves pie.",
+    "Keep your coin close near the Barnacle Rest."
+   ]
   },
   "mabel": {
    "name": "Old Mabel",
-   "examine": "She claims to remember the Water altar being built."
+   "examine": "She claims to remember the Water altar being built.",
+   "x": -77.9,
+   "z": 55.5,
+   "town": "Saltreach",
+   "lines": [
+    "She claims to remember the Water altar being built.",
+    "Ships for the Saltreach Sound leave from the south dock. Talk to the Shipwright."
+   ]
   },
   "kenn": {
    "name": "Kennith",
-   "examine": "A cabin boy who missed his ship."
+   "examine": "A cabin boy who missed his ship.",
+   "x": -73.5,
+   "z": 60.2,
+   "town": "Saltreach",
+   "lines": [
+    "A cabin boy who missed his ship.",
+    "Keep your coin close near the Barnacle Rest."
+   ]
   },
   "velma": {
    "name": "Velma the Witch",
-   "examine": "She smells of herbs and something stranger."
+   "examine": "She smells of herbs and something stranger.",
+   "x": -75.7,
+   "z": 62.5,
+   "town": "Saltreach",
+   "lines": [
+    "She smells of herbs and something stranger.",
+    "Smell that? Salt, tar and fish. That's Saltreach."
+   ]
   },
   "sorrel": {
    "name": "Ranger Sorrel",
-   "examine": "She guards the western woods."
+   "examine": "She guards the western woods.",
+   "x": 128.3,
+   "z": -105.3,
+   "town": "Wilds",
+   "lines": [
+    "She guards the western woods.",
+    "The wilds don't care who you are."
+   ]
   },
   "reldo": {
    "name": "Ansel the Librarian",
-   "examine": "Highcrest’s librarian. He knows a little about everything."
+   "examine": "Highcrest’s librarian. He knows a little about everything.",
+   "x": 118.8,
+   "z": -34.5,
+   "town": "Highcrest",
+   "lines": [
+    "Highcrest’s librarian. He knows a little about everything.",
+    "Highcrest has stood on this crest for nine hundred years."
+   ]
   },
   "romeo": {
    "name": "Rowan",
-   "examine": "A lovesick young man."
+   "examine": "A lovesick young man.",
+   "x": 123.9,
+   "z": -35.2,
+   "town": "Highcrest",
+   "lines": [
+    "A lovesick young man.",
+    "Highcrest has stood on this crest for nine hundred years."
+   ]
   },
   "baraek": {
    "name": "Barrick",
-   "examine": "A fur trader with a keen eye for a bargain."
+   "examine": "A fur trader with a keen eye for a bargain.",
+   "x": 123.3,
+   "z": -45.9,
+   "town": "Highcrest",
+   "lines": [
+    "A fur trader with a keen eye for a bargain.",
+    "King Aldermar holds court in the palace to the north."
+   ]
   },
   "zaff": {
    "name": "Zevin",
-   "examine": "He makes and sells staves."
+   "examine": "He makes and sells staves.",
+   "x": 121.4,
+   "z": -34.0,
+   "town": "Highcrest",
+   "lines": [
+    "He makes and sells staves.",
+    "King Aldermar holds court in the palace to the north."
+   ]
   },
   "charlie": {
    "name": "Cobb the Wanderer",
-   "examine": "He knows the streets of Highcrest better than anyone."
+   "examine": "He knows the streets of Highcrest better than anyone.",
+   "x": 113.8,
+   "z": -40.3,
+   "town": "Highcrest",
+   "lines": [
+    "He knows the streets of Highcrest better than anyone.",
+    "Highcrest has stood on this crest for nine hundred years."
+   ]
   },
   "rovin": {
    "name": "Captain Rovin",
-   "examine": "Captain of the Highcrest palace guard."
+   "examine": "Captain of the Highcrest palace guard.",
+   "x": 125.9,
+   "z": -43.4,
+   "town": "Highcrest",
+   "lines": [
+    "Captain of the Highcrest palace guard.",
+    "Highcrest has stood on this crest for nine hundred years."
+   ]
   },
   "gertrude": {
    "name": "Gwenna",
-   "examine": "She is looking for her cat."
+   "examine": "She is looking for her cat.",
+   "x": 114.7,
+   "z": -42.6,
+   "town": "Highcrest",
+   "lines": [
+    "She is looking for her cat.",
+    "King Aldermar holds court in the palace to the north."
+   ]
   },
   "ellis": {
    "name": "Ellis the Tanner",
-   "examine": "His hands are stained brown from tanning."
+   "examine": "His hands are stained brown from tanning.",
+   "x": 116.2,
+   "z": -35.1,
+   "town": "Highcrest",
+   "lines": [
+    "His hands are stained brown from tanning.",
+    "King Aldermar holds court in the palace to the north."
+   ]
   },
   "vorn": {
    "name": "Apothecary Vorn",
-   "examine": "Highcrest’s potion maker."
+   "examine": "Highcrest’s potion maker.",
+   "x": 125.2,
+   "z": -40.7,
+   "town": "Highcrest",
+   "lines": [
+    "Highcrest’s potion maker.",
+    "The Arcane Circle meets in the tower rooms above the rune shop."
+   ]
   },
   "vannaka": {
    "name": "Huntsmaster Dravik",
-   "examine": "A grizzled monster hunter."
+   "examine": "A grizzled monster hunter.",
+   "x": 120.1,
+   "z": -101.5,
+   "town": "Wilds",
+   "lines": [
+    "A grizzled monster hunter.",
+    "Keep your blade drawn out here."
+   ]
   },
   "amik": {
    "name": "Sir Aldous Penhale",
-   "examine": "Leader of the Lantern Knights."
+   "examine": "Leader of the Lantern Knights.",
+   "x": -60.6,
+   "z": -74.4,
+   "town": "Whitecairn",
+   "lines": [
+    "Leader of the Lantern Knights.",
+    "The White Lantern burns in the keep every night. That is our promise."
+   ]
   },
   "squire": {
    "name": "The Squire",
-   "examine": "A nervous young squire."
+   "examine": "A nervous young squire.",
+   "x": -54.6,
+   "z": -83.0,
+   "town": "Whitecairn",
+   "lines": [
+    "A nervous young squire.",
+    "Whitecairn stone is so white it hurts your eyes at noon."
+   ]
   },
   "sabreen": {
    "name": "Sister Sabreen",
-   "examine": "A healer of the Dawnmother church."
+   "examine": "A healer of the Dawnmother church.",
+   "x": -55.0,
+   "z": -79.7,
+   "town": "Whitecairn",
+   "lines": [
+    "A healer of the Dawnmother church.",
+    "Whitecairn stone is so white it hurts your eyes at noon."
+   ]
   },
   "boot": {
    "name": "Boot the Dwarf",
-   "examine": "A dwarf with very muddy boots."
+   "examine": "A dwarf with very muddy boots.",
+   "x": -62.7,
+   "z": -84.2,
+   "town": "Whitecairn",
+   "lines": [
+    "A dwarf with very muddy boots.",
+    "The White Lantern burns in the keep every night. That is our promise."
+   ]
   },
   "sarah": {
    "name": "Farmer Sarah",
-   "examine": "She farms the fields east of Whitecairn."
+   "examine": "She farms the fields east of Whitecairn.",
+   "x": -58.9,
+   "z": -84.9,
+   "town": "Whitecairn",
+   "lines": [
+    "She farms the fields east of Whitecairn.",
+    "Whitecairn stone is so white it hurts your eyes at noon."
+   ]
   },
   "wayne": {
    "name": "Wendel the Armourer",
-   "examine": "He makes the Lantern Knights’ armour."
+   "examine": "He makes the Lantern Knights’ armour.",
+   "x": -56.4,
+   "z": -75.3,
+   "town": "Whitecairn",
+   "lines": [
+    "He makes the Lantern Knights’ armour.",
+    "Squires polish the bank floor as penance. It shows."
+   ]
   },
   "pete": {
    "name": "Merry Mott",
-   "examine": "He loves a party."
+   "examine": "He loves a party.",
+   "x": -62.8,
+   "z": -74.5,
+   "town": "Whitecairn",
+   "lines": [
+    "He loves a party.",
+    "The White Lantern burns in the keep every night. That is our promise."
+   ]
   },
   "kaylee": {
    "name": "Fenna the Barmaid",
-   "examine": "She runs the Gilded Hearth inn."
+   "examine": "She runs the Gilded Hearth inn.",
+   "x": -66.2,
+   "z": -81.8,
+   "town": "Whitecairn",
+   "lines": [
+    "She runs the Gilded Hearth inn.",
+    "Whitecairn stone is so white it hurts your eyes at noon."
+   ]
   },
   "elwyn": {
    "name": "Elwyn the Bowyer",
-   "examine": "He makes the finest bows in Whitecairn."
+   "examine": "He makes the finest bows in Whitecairn.",
+   "x": -58.2,
+   "z": -73.4,
+   "town": "Whitecairn",
+   "lines": [
+    "He makes the finest bows in Whitecairn.",
+    "The White Lantern burns in the keep every night. That is our promise."
+   ]
   },
   "oswin": {
    "name": "Oswin the Exile",
-   "examine": "A knight who was cast out of Whitecairn."
+   "examine": "A knight who was cast out of Whitecairn.",
+   "x": 126.1,
+   "z": -103.4,
+   "town": "Wilds",
+   "lines": [
+    "A knight who was cast out of Whitecairn.",
+    "Few folk come this far north. Fewer go home."
+   ]
   },
   "hazel": {
    "name": "Innkeeper Hazel",
-   "examine": "She runs the Emberfold inn."
+   "examine": "She runs the Emberfold inn.",
+   "x": 41.7,
+   "z": -24.1,
+   "town": "Emberfold",
+   "lines": [
+    "She runs the Emberfold inn.",
+    "The east fields feed half the realm, so the Watch rides through often."
+   ]
   },
   "tomas": {
    "name": "Tomas the Toymaker",
-   "examine": "He makes toys for the village children."
+   "examine": "He makes toys for the village children.",
+   "x": 49.6,
+   "z": -15.7,
+   "town": "Emberfold",
+   "lines": [
+    "He makes toys for the village children.",
+    "We rebuilt Emberfold board by board after the fire. Mind the fresh paint."
+   ]
   },
   "iris": {
    "name": "Iris the Seer",
-   "examine": "Her eyes seem to look straight through you."
+   "examine": "Her eyes seem to look straight through you.",
+   "x": 44.2,
+   "z": -18.9,
+   "town": "Emberfold",
+   "lines": [
+    "Her eyes seem to look straight through you.",
+    "The east fields feed half the realm, so the Watch rides through often."
+   ]
   },
   "bertram": {
    "name": "Bertram",
-   "examine": "A moneylender. Everyone owes him something."
+   "examine": "A moneylender. Everyone owes him something.",
+   "x": 49.6,
+   "z": -32.3,
+   "town": "Emberfold",
+   "lines": [
+    "A moneylender. Everyone owes him something.",
+    "We rebuilt Emberfold board by board after the fire. Mind the fresh paint."
+   ]
   },
   "fen": {
    "name": "Fen the Fletcher",
-   "examine": "He makes arrows for the Emberfold guard."
+   "examine": "He makes arrows for the Emberfold guard.",
+   "x": 47.0,
+   "z": -31.7,
+   "town": "Emberfold",
+   "lines": [
+    "He makes arrows for the Emberfold guard.",
+    "We rebuilt Emberfold board by board after the fire. Mind the fresh paint."
+   ]
   },
   "magda": {
    "name": "Magda the Midwife",
-   "examine": "She has delivered half the babies in Emberfold."
+   "examine": "She has delivered half the babies in Emberfold.",
+   "x": 54.9,
+   "z": -29.9,
+   "town": "Emberfold",
+   "lines": [
+    "She has delivered half the babies in Emberfold.",
+    "The east fields feed half the realm, so the Watch rides through often."
+   ]
   },
   "gruff": {
    "name": "Sergeant Gruff",
-   "examine": "He trains the Emberfold militia."
+   "examine": "He trains the Emberfold militia.",
+   "x": 44.2,
+   "z": -28.1,
+   "town": "Emberfold",
+   "lines": [
+    "He trains the Emberfold militia.",
+    "The Cinder Cup pours the best cider east of the lake."
+   ]
   },
   "nim": {
    "name": "Nim",
-   "examine": "A shadowy figure. Your pockets feel lighter already."
+   "examine": "A shadowy figure. Your pockets feel lighter already.",
+   "x": 57.2,
+   "z": -30.2,
+   "town": "Emberfold",
+   "lines": [
+    "A shadowy figure. Your pockets feel lighter already.",
+    "The east fields feed half the realm, so the Watch rides through often."
+   ]
   },
   "otto": {
    "name": "Otto the Courier",
-   "examine": "He delivers letters all over the realm."
+   "examine": "He delivers letters all over the realm.",
+   "x": 41.4,
+   "z": -20.7,
+   "town": "Emberfold",
+   "lines": [
+    "He delivers letters all over the realm.",
+    "We rebuilt Emberfold board by board after the fire. Mind the fresh paint."
+   ]
   },
   "ada": {
    "name": "Ada the Cartographer",
-   "examine": "She is mapping the whole realm."
+   "examine": "She is mapping the whole realm.",
+   "x": 121.4,
+   "z": -114.8,
+   "town": "Wilds",
+   "lines": [
+    "She is mapping the whole realm.",
+    "Keep your blade drawn out here."
+   ]
   },
   "shipwright": {
    "name": "Shipwright Halvard",
@@ -7529,6 +8040,369 @@
    "x": 82.4,
    "z": 1022.8,
    "tint": "#3a3a3a"
+  },
+  "banker_larkhaven": {
+   "name": "Banker Pellow",
+   "examine": "Keeps the vault of Larkhaven.",
+   "service": "say",
+   "x": -11.2,
+   "z": 2.6,
+   "tint": "#3f4f80",
+   "town": "Larkhaven",
+   "lines": [
+    "Welcome to the bank of Larkhaven. Use the chest beside me to open your account.",
+    "Every bank in the realm shares one vault. Deposit here, withdraw anywhere."
+   ]
+  },
+  "keeper_larkhaven_shop": {
+   "name": "Larkhaven Shopkeeper",
+   "examine": "Runs General Store.",
+   "service": "shop:shop",
+   "x": 10.0,
+   "z": 4.6,
+   "tint": "#8a6a3a",
+   "town": "Larkhaven",
+   "lines": [
+    "Welcome to General Store!",
+    "Have a look at the counter. Fair prices, mostly."
+   ]
+  },
+  "keeper_larkhaven_tools": {
+   "name": "Tobin",
+   "examine": "Runs Tobin's Trusty Tools.",
+   "service": "shop:tools",
+   "x": 3.4,
+   "z": -6.4,
+   "tint": "#8a6a3a",
+   "town": "Larkhaven",
+   "lines": [
+    "Welcome to Tobin's Trusty Tools!",
+    "Have a look at the counter. Fair prices, mostly."
+   ]
+  },
+  "waystone_larkhaven": {
+   "name": "Larkhaven Waystone",
+   "examine": "A carved standing stone. Touch it to travel to another town's waystone.",
+   "service": "travel",
+   "x": 3,
+   "z": 4,
+   "tint": "#7fa8c8",
+   "town": "Larkhaven",
+   "lines": [
+    "The waystone hums: Larkhaven.",
+    "A friendly market town on the lake, home of the Larkhaven Watch."
+   ]
+  },
+  "crier_larkhaven": {
+   "name": "Larkhaven Town Crier",
+   "examine": "Shouts the news of Larkhaven.",
+   "service": "say",
+   "x": -1.7,
+   "z": 8.1,
+   "tint": "#b04040",
+   "town": "Larkhaven",
+   "lines": [
+    "Hear ye! Welcome to Larkhaven. Where every road begins!",
+    "A friendly market town on the lake, home of the Larkhaven Watch.",
+    "Welcome to Larkhaven. The larks on the lake wake us before the bells do.",
+    "If you get lost, follow any road back to the square. They all lead here."
+   ]
+  },
+  "banker_emberfold": {
+   "name": "Banker Hollis",
+   "examine": "Keeps the vault of Emberfold.",
+   "service": "say",
+   "x": 46.4,
+   "z": -20.4,
+   "tint": "#3f4f80",
+   "town": "Emberfold",
+   "lines": [
+    "Welcome to the bank of Emberfold. Use the chest beside me to open your account.",
+    "Every bank in the realm shares one vault. Deposit here, withdraw anywhere."
+   ]
+  },
+  "keeper_emberfold_ashford": {
+   "name": "Trader Mira",
+   "examine": "Runs Emberfold Store.",
+   "service": "shop:ashford",
+   "x": 53.4,
+   "z": -13.9,
+   "tint": "#8a6a3a",
+   "town": "Emberfold",
+   "lines": [
+    "Welcome to Emberfold Store!",
+    "Have a look at the counter. Fair prices, mostly."
+   ]
+  },
+  "waystone_emberfold": {
+   "name": "Emberfold Waystone",
+   "examine": "A carved standing stone. Touch it to travel to another town's waystone.",
+   "service": "travel",
+   "x": 50,
+   "z": -19,
+   "tint": "#7fa8c8",
+   "town": "Emberfold",
+   "lines": [
+    "The waystone hums: Emberfold.",
+    "A farming village east of Larkhaven, rebuilt after the great fire."
+   ]
+  },
+  "crier_emberfold": {
+   "name": "Emberfold Town Crier",
+   "examine": "Shouts the news of Emberfold.",
+   "service": "say",
+   "x": 54.2,
+   "z": -32.2,
+   "tint": "#b04040",
+   "town": "Emberfold",
+   "lines": [
+    "Hear ye! Welcome to Emberfold. Rebuilt from the ashes!",
+    "A farming village east of Larkhaven, rebuilt after the great fire.",
+    "We rebuilt Emberfold board by board after the fire. Mind the fresh paint.",
+    "The east fields feed half the realm, so the Watch rides through often."
+   ]
+  },
+  "banker_saltreach": {
+   "name": "Banker Quayle",
+   "examine": "Keeps the vault of Saltreach.",
+   "service": "say",
+   "x": -95.6,
+   "z": 64.1,
+   "tint": "#3f4f80",
+   "town": "Saltreach",
+   "lines": [
+    "Welcome to the bank of Saltreach. Use the chest beside me to open your account.",
+    "Every bank in the realm shares one vault. Deposit here, withdraw anywhere."
+   ]
+  },
+  "keeper_saltreach_general2": {
+   "name": "Shopkeeper Marrow",
+   "examine": "Runs Saltreach General Store.",
+   "service": "shop:general2",
+   "x": -89.6,
+   "z": 58.1,
+   "tint": "#8a6a3a",
+   "town": "Saltreach",
+   "lines": [
+    "Welcome to Saltreach General Store!",
+    "Have a look at the counter. Fair prices, mostly."
+   ]
+  },
+  "keeper_saltreach_magic": {
+   "name": "Odessa",
+   "examine": "Runs Odessa's Magic Emporium.",
+   "service": "shop:magic",
+   "x": -73.6,
+   "z": 58.1,
+   "tint": "#8a6a3a",
+   "town": "Saltreach",
+   "lines": [
+    "Welcome to Odessa's Magic Emporium!",
+    "Have a look at the counter. Fair prices, mostly."
+   ]
+  },
+  "waystone_saltreach": {
+   "name": "Saltreach Waystone",
+   "examine": "A carved standing stone. Touch it to travel to another town's waystone.",
+   "service": "travel",
+   "x": -80,
+   "z": 63,
+   "tint": "#7fa8c8",
+   "town": "Saltreach",
+   "lines": [
+    "The waystone hums: Saltreach.",
+    "A salt-crusted harbour town; ships leave here for the Saltreach Sound."
+   ]
+  },
+  "crier_saltreach": {
+   "name": "Saltreach Town Crier",
+   "examine": "Shouts the news of Saltreach.",
+   "service": "say",
+   "x": -75.8,
+   "z": 56.3,
+   "tint": "#b04040",
+   "town": "Saltreach",
+   "lines": [
+    "Hear ye! Welcome to Port of Saltreach. Fair winds, full nets!",
+    "A salt-crusted harbour town; ships leave here for the Saltreach Sound.",
+    "Smell that? Salt, tar and fish. That's Saltreach.",
+    "Ships for the Saltreach Sound leave from the south dock. Talk to the Shipwright."
+   ]
+  },
+  "banker_highcrest": {
+   "name": "Royal Banker Ambrose",
+   "examine": "Keeps the vault of Highcrest.",
+   "service": "say",
+   "x": 100.4,
+   "z": -35.4,
+   "tint": "#3f4f80",
+   "town": "Highcrest",
+   "lines": [
+    "Welcome to the bank of Highcrest. Use the chest beside me to open your account.",
+    "Every bank in the realm shares one vault. Deposit here, withdraw anywhere."
+   ]
+  },
+  "keeper_highcrest_general3": {
+   "name": "Shopkeeper Lark",
+   "examine": "Runs Highcrest General Store.",
+   "service": "shop:general3",
+   "x": 128.4,
+   "z": -39.9,
+   "tint": "#8a6a3a",
+   "town": "Highcrest",
+   "lines": [
+    "Welcome to Highcrest General Store!",
+    "Have a look at the counter. Fair prices, mostly."
+   ]
+  },
+  "keeper_highcrest_weapons": {
+   "name": "Weaponsmith Garrick",
+   "examine": "Runs Highcrest Weaponsmith.",
+   "service": "shop:weapons",
+   "x": 108.4,
+   "z": -39.9,
+   "tint": "#8a6a3a",
+   "town": "Highcrest",
+   "lines": [
+    "Welcome to Highcrest Weaponsmith!",
+    "Have a look at the counter. Fair prices, mostly."
+   ]
+  },
+  "keeper_highcrest_runes": {
+   "name": "Orrin",
+   "examine": "Runs Orrin's Rune Shop.",
+   "service": "shop:runes",
+   "x": 128.4,
+   "z": -29.4,
+   "tint": "#8a6a3a",
+   "town": "Highcrest",
+   "lines": [
+    "Welcome to Orrin's Rune Shop!",
+    "Have a look at the counter. Fair prices, mostly."
+   ]
+  },
+  "waystone_highcrest": {
+   "name": "Highcrest Waystone",
+   "examine": "A carved standing stone. Touch it to travel to another town's waystone.",
+   "service": "travel",
+   "x": 120,
+   "z": -36,
+   "tint": "#7fa8c8",
+   "town": "Highcrest",
+   "lines": [
+    "The waystone hums: Highcrest.",
+    "The walled royal city of King Aldermar, seat of the Arcane Circle."
+   ]
+  },
+  "crier_highcrest": {
+   "name": "Highcrest Town Crier",
+   "examine": "Shouts the news of Highcrest.",
+   "service": "say",
+   "x": 125.2,
+   "z": -37.2,
+   "tint": "#b04040",
+   "town": "Highcrest",
+   "lines": [
+    "Hear ye! Welcome to Royal City of Highcrest. Crown, Circle and Craft!",
+    "The walled royal city of King Aldermar, seat of the Arcane Circle.",
+    "Highcrest has stood on this crest for nine hundred years.",
+    "The Arcane Circle meets in the tower rooms above the rune shop."
+   ]
+  },
+  "banker_whitecairn": {
+   "name": "Banker Isolde",
+   "examine": "Keeps the vault of Whitecairn.",
+   "service": "say",
+   "x": -45.6,
+   "z": -71.9,
+   "tint": "#3f4f80",
+   "town": "Whitecairn",
+   "lines": [
+    "Welcome to the bank of Whitecairn. Use the chest beside me to open your account.",
+    "Every bank in the realm shares one vault. Deposit here, withdraw anywhere."
+   ]
+  },
+  "keeper_whitecairn_shop": {
+   "name": "Whitecairn Shopkeeper",
+   "examine": "Runs Whitecairn General Store.",
+   "service": "shop:shop",
+   "x": -73.6,
+   "z": -58.4,
+   "tint": "#8a6a3a",
+   "town": "Whitecairn",
+   "lines": [
+    "Welcome to Whitecairn General Store!",
+    "Have a look at the counter. Fair prices, mostly."
+   ]
+  },
+  "keeper_whitecairn_armour": {
+   "name": "Brisa",
+   "examine": "Runs Whitecairn Armoury.",
+   "service": "shop:armour",
+   "x": -71.6,
+   "z": -79.9,
+   "tint": "#8a6a3a",
+   "town": "Whitecairn",
+   "lines": [
+    "Welcome to Whitecairn Armoury!",
+    "Have a look at the counter. Fair prices, mostly."
+   ]
+  },
+  "waystone_whitecairn": {
+   "name": "Whitecairn Waystone",
+   "examine": "A carved standing stone. Touch it to travel to another town's waystone.",
+   "service": "travel",
+   "x": -60,
+   "z": -76,
+   "tint": "#7fa8c8",
+   "town": "Whitecairn",
+   "lines": [
+    "The waystone hums: Whitecairn.",
+    "A city of white stone guarded by the Knights of the White Lantern."
+   ]
+  },
+  "crier_whitecairn": {
+   "name": "Whitecairn Town Crier",
+   "examine": "Shouts the news of Whitecairn.",
+   "service": "say",
+   "x": -64.4,
+   "z": -76.6,
+   "tint": "#b04040",
+   "town": "Whitecairn",
+   "lines": [
+    "Hear ye! Welcome to Whitecairn. The lantern never sleeps!",
+    "A city of white stone guarded by the Knights of the White Lantern.",
+    "The White Lantern burns in the keep every night. That is our promise.",
+    "Whitecairn stone is so white it hurts your eyes at noon."
+   ]
+  },
+  "waystone_thistlewell": {
+   "name": "Thistlewell Waystone",
+   "examine": "A carved standing stone. Touch it to travel to another town's waystone.",
+   "service": "travel",
+   "x": 40,
+   "z": 94,
+   "tint": "#7fa8c8",
+   "town": "Thistlewell",
+   "lines": [
+    "The waystone hums: Thistlewell.",
+    "A frontier hamlet built around a contested spring."
+   ]
+  },
+  "crier_thistlewell": {
+   "name": "Thistlewell Town Crier",
+   "examine": "Shouts the news of Thistlewell.",
+   "service": "say",
+   "x": 43.1,
+   "z": 94.3,
+   "tint": "#b04040",
+   "town": "Thistlewell",
+   "lines": [
+    "Hear ye! Welcome to Thistlewell. Share the spring!",
+    "A frontier hamlet built around a contested spring.",
+    "The spring is all Thistlewell has. Everyone wants it.",
+    "Charter or Commons, sooner or later you'll have to pick a side."
+   ]
   }
  },
  "towns": [
@@ -7537,6 +8411,7 @@
   "Saltreach",
   "Highcrest",
   "Whitecairn",
+  "Thistlewell",
   "Wilds"
  ],
  "qpMilestones": [

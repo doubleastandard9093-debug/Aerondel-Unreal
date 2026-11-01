@@ -254,6 +254,18 @@ struct FTownInfo
 	UPROPERTY(EditAnywhere, BlueprintReadOnly) FName Id;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly) FText DisplayName;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly) FVector2D Position = FVector2D::ZeroVector;
+	/** Name banner over the town gate ("Royal City of Highcrest"). */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly) FText Banner;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly) FText Motto;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly) FText Blurb;
+	/** Standing faction id (watch, mariners, circle, lantern) or None. */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly) FName Faction;
+	/** Waystone spot: fast travel lands here (web units). */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly) FVector2D TravelPoint = FVector2D::ZeroVector;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly) bool bHasBank = false;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly) int32 StoreCount = 0;
+	/** Names this town had before the v5 rename (Data/TownRenames.h). */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly) TArray<FString> LegacyNames;
 };
 
 /** Repeatable bounty: kill Count of Mob for Coins and XP. */

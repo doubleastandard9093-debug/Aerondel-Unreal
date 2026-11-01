@@ -525,6 +525,11 @@ int32 FJsonContentLoader::MergeInto(UGameDatabase* Db, const FString& Dir)
 				if (!bFill) continue;
 				N->DisplayName = Txt(Str(O, TEXT("name")));
 				N->IdleLines = { Txt(Str(O, TEXT("examine"))) };
+				if (const FArr* Lines = Arr(O, TEXT("lines")); Lines && Lines->Num() > 0) // town dialogue (examine is usually line 0)
+				{
+					N->IdleLines.Reset();
+					for (const TSharedPtr<FJsonValue>& L : *Lines) N->IdleLines.Add(Txt(L->AsString()));
+				}
 				N->Service = Has(O, TEXT("service")) ? FName(*Str(O, TEXT("service"))) : NAME_None;
 				N->bHasHome = Has(O, TEXT("x"));
 				if (N->bHasHome) N->Home = FVector2D(Num(O, TEXT("x")), Num(O, TEXT("z")));
@@ -833,6 +838,15 @@ int32 FJsonContentLoader::MergeInto(UGameDatabase* Db, const FString& Dir)
 				T.Id = Id(FString(*Pair.Key));
 				T.DisplayName = Txt(FString(*Pair.Key));
 				T.Position = FVector2D(Num(O, TEXT("x")), Num(O, TEXT("z")));
+				T.Banner = Txt(Has(O, TEXT("banner")) ? Str(O, TEXT("banner")) : FString(*Pair.Key));
+				T.Motto = Txt(Str(O, TEXT("motto")));
+				T.Blurb = Txt(Str(O, TEXT("blurb")));
+				T.Faction = Has(O, TEXT("faction")) ? FName(*Str(O, TEXT("faction"))) : NAME_None;
+				T.TravelPoint = T.Position;
+				if (const FArr* Tp = Arr(O, TEXT("travel")); Tp && Tp->Num() >= 2) T.TravelPoint = FVector2D((*Tp)[0]->AsNumber(), (*Tp)[1]->AsNumber());
+				T.bHasBank = Has(O, TEXT("bank"));
+				if (const FArr* St = Arr(O, TEXT("stores"))) T.StoreCount = St->Num();
+				if (const FArr* Lg = Arr(O, TEXT("legacy"))) for (const TSharedPtr<FJsonValue>& L : *Lg) T.LegacyNames.Add(L->AsString());
 				Db->Towns.Add(T);
 			}
 		}

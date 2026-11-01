@@ -12,23 +12,225 @@
  "towns": {
   "Larkhaven": {
    "x": 0,
-   "z": 0
+   "z": 0,
+   "legacy": [
+    "Brightwater"
+   ],
+   "banner": "Larkhaven",
+   "motto": "Where every road begins",
+   "blurb": "A friendly market town on the lake, home of the Larkhaven Watch.",
+   "faction": "watch",
+   "travel": [
+    3,
+    4
+   ],
+   "id": "larkhaven",
+   "bank": {
+    "building": "Bank of Larkhaven",
+    "at": [
+     -9.6,
+     2.6
+    ]
+   },
+   "stores": [
+    {
+     "building": "General Store",
+     "shop": "shop",
+     "at": [
+      11.6,
+      4.6
+     ]
+    },
+    {
+     "building": "Tobin's Trusty Tools",
+     "shop": "tools",
+     "at": [
+      5,
+      -6.4
+     ]
+    }
+   ]
   },
   "Emberfold": {
    "x": 50,
-   "z": -24
+   "z": -24,
+   "legacy": [
+    "Ashford"
+   ],
+   "banner": "Emberfold",
+   "motto": "Rebuilt from the ashes",
+   "blurb": "A farming village east of Larkhaven, rebuilt after the great fire.",
+   "faction": "watch",
+   "travel": [
+    50,
+    -19
+   ],
+   "id": "emberfold",
+   "bank": {
+    "building": "Emberfold Bank",
+    "at": [
+     48,
+     -20.4
+    ]
+   },
+   "stores": [
+    {
+     "building": "Emberfold Store",
+     "shop": "ashford",
+     "at": [
+      55,
+      -13.9
+     ]
+    }
+   ]
   },
   "Saltreach": {
    "x": -80,
-   "z": 60
+   "z": 60,
+   "legacy": [
+    "Port Sarim"
+   ],
+   "banner": "Port of Saltreach",
+   "motto": "Fair winds, full nets",
+   "blurb": "A salt-crusted harbour town; ships leave here for the Saltreach Sound.",
+   "faction": "mariners",
+   "travel": [
+    -80,
+    63
+   ],
+   "id": "saltreach",
+   "bank": {
+    "building": "Saltreach Bank",
+    "at": [
+     -94,
+     64.1
+    ]
+   },
+   "stores": [
+    {
+     "building": "Saltreach General Store",
+     "shop": "general2",
+     "at": [
+      -88,
+      58.1
+     ]
+    },
+    {
+     "building": "Odessa's Magic Emporium",
+     "shop": "magic",
+     "at": [
+      -72,
+      58.1
+     ]
+    }
+   ]
   },
   "Highcrest": {
    "x": 120,
-   "z": -40
+   "z": -40,
+   "legacy": [
+    "Varrock"
+   ],
+   "banner": "Royal City of Highcrest",
+   "motto": "Crown, Circle and Craft",
+   "blurb": "The walled royal city of King Aldermar, seat of the Arcane Circle.",
+   "faction": "circle",
+   "travel": [
+    120,
+    -36
+   ],
+   "id": "highcrest",
+   "bank": {
+    "building": "Highcrest Bank",
+    "at": [
+     102,
+     -35.4
+    ]
+   },
+   "stores": [
+    {
+     "building": "Highcrest General Store",
+     "shop": "general3",
+     "at": [
+      130,
+      -39.9
+     ]
+    },
+    {
+     "building": "Highcrest Weaponsmith",
+     "shop": "weapons",
+     "at": [
+      110,
+      -39.9
+     ]
+    },
+    {
+     "building": "Orrin's Rune Shop",
+     "shop": "runes",
+     "at": [
+      130,
+      -29.4
+     ]
+    }
+   ]
   },
   "Whitecairn": {
    "x": -60,
-   "z": -80
+   "z": -80,
+   "legacy": [
+    "Falador"
+   ],
+   "banner": "Whitecairn",
+   "motto": "The lantern never sleeps",
+   "blurb": "A city of white stone guarded by the Knights of the White Lantern.",
+   "faction": "lantern",
+   "travel": [
+    -60,
+    -76
+   ],
+   "id": "whitecairn",
+   "bank": {
+    "building": "Whitecairn Bank",
+    "at": [
+     -44,
+     -71.9
+    ]
+   },
+   "stores": [
+    {
+     "building": "Whitecairn General Store",
+     "shop": "shop",
+     "at": [
+      -72,
+      -58.4
+     ]
+    },
+    {
+     "building": "Whitecairn Armoury",
+     "shop": "armour",
+     "at": [
+      -70,
+      -79.9
+     ]
+    }
+   ]
+  },
+  "Thistlewell": {
+   "x": 40,
+   "z": 90,
+   "legacy": [
+    "Wellmere"
+   ],
+   "banner": "Thistlewell",
+   "motto": "Share the spring",
+   "blurb": "A frontier hamlet built around a contested spring.",
+   "faction": "",
+   "travel": [
+    40,
+    94
+   ],
+   "id": "thistlewell",
+   "stores": []
   }
  },
  "paths": [
@@ -515,6 +717,86 @@
    3824186,
    "Crafting Guild",
    "Members need Crafting level 40 to enter."
+  ],
+  [
+   -94,
+   60,
+   4,
+   5,
+   9075306,
+   5913130,
+   "Saltreach Bank",
+   "A squat stone bank with barred windows; it smells of salt."
+  ],
+  [
+   102,
+   -40,
+   5,
+   6,
+   10130568,
+   6957610,
+   "Highcrest Bank",
+   "The royal mint's counting house."
+  ],
+  [
+   -44,
+   -76,
+   5,
+   5,
+   14736592,
+   4872826,
+   "Whitecairn Bank",
+   "White marble, polished daily by the squires."
+  ],
+  [
+   -72,
+   -62,
+   5,
+   4,
+   13153418,
+   3824266,
+   "Whitecairn General Store",
+   "Everything a knight forgets to pack."
+  ],
+  [
+   62,
+   -30,
+   4,
+   3,
+   9071178,
+   4864554,
+   "The Cinder Cup",
+   "Emberfold's inn, rebuilt with blackened beams."
+  ],
+  [
+   32,
+   94,
+   3,
+   3,
+   12628112,
+   5917242,
+   "Thistlewell House",
+   "A sod-roofed cottage."
+  ],
+  [
+   48,
+   86,
+   3,
+   3,
+   13680800,
+   8010282,
+   "Thistlewell House",
+   "A sod-roofed cottage."
+  ],
+  [
+   40,
+   103,
+   5,
+   4,
+   9071178,
+   4864554,
+   "The Thistle and Pail",
+   "The hamlet's only tavern."
   ]
  ],
  "guilds": [
