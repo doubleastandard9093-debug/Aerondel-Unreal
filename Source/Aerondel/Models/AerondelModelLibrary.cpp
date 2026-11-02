@@ -90,11 +90,12 @@ void UAerondelModelLibrary::SetAnimState(USkeletalMeshComponent* Comp, FName Sta
 		if (S.StartsWith(TEXT("AerondelRig:"))) K = S.Mid(12);
 		else if (S.StartsWith(TEXT("AerondelAnim:"))) Cur = FName(*S.Mid(13));
 	}
-	if (K.IsEmpty() || Cur == State) return;
+	if (K.IsEmpty()) return;
 	static const FName Death(TEXT("death")), Attack(TEXT("attack")), Hit(TEXT("hit")), Idle(TEXT("idle"));
 	if (Cur == Death && State != Idle) return; // stays down until respawn (ApplyRig / idle)
-	const bool bOneShot = State == Attack || State == Hit || State == Death;
-	if (!bOneShot && (Cur == Attack || Cur == Hit) && Comp->IsPlaying()) return; // let the swing finish
+	const bool bOneShot = State == Attack || State == Hit || State == Death || State == FName(TEXT("gather"));
+	if (Cur == State && (!bOneShot || State == Death || Comp->IsPlaying())) return; // one-shots may replay once finished
+	if (!bOneShot && (Cur == Attack || Cur == Hit || Cur == FName(TEXT("gather"))) && Comp->IsPlaying()) return; // let the swing finish
 	const AerondelRigs::FRig* Rig = AerondelRigs::Rigs.Find(K); if (!Rig) return;
 	const FString* Path = Rig->Anims.Find(State);
 	if (!Path && State == FName(TEXT("run"))) Path = Rig->Anims.Find(TEXT("walk"));
@@ -104,7 +105,7 @@ void UAerondelModelLibrary::SetAnimState(USkeletalMeshComponent* Comp, FName Sta
 	if (!Seq) return;
 	Comp->ComponentTags.RemoveAll([](const FName& T) { return T.ToString().StartsWith(TEXT("AerondelAnim:")); });
 	Comp->ComponentTags.Add(FName(*(TEXT("AerondelAnim:") + State.ToString())));
-	const bool bLoop = State != FName(TEXT("death")) && State != FName(TEXT("attack")) && State != FName(TEXT("hit"));
+	const bool bLoop = !bOneShot;
 	Comp->PlayAnimation(Seq, bLoop);
 }
 
@@ -125,6 +126,6 @@ void UAerondelModelLibrary::FitRig(USkeletalMeshComponent* Comp, float HeightCm,
 bool UAerondelModelLibrary::IsBusy(USkeletalMeshComponent* Comp)
 {
 	if (!Comp || !Comp->IsPlaying()) return false;
-	for (const FName& T : Comp->ComponentTags) if (T == FName(TEXT("AerondelAnim:attack")) || T == FName(TEXT("AerondelAnim:hit"))) return true;
+	for (const FName& T : Comp->ComponentTags) if (T == FName(TEXT("AerondelAnim:attack")) || T == FName(TEXT("AerondelAnim:hit")) || T == FName(TEXT("AerondelAnim:gather"))) return true;
 	return false;
 }

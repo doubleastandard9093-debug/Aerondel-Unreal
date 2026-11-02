@@ -1,4 +1,5 @@
 #include "Interaction/ResourceNode.h"
+#include "Player/AerondelCharacter.h"
 #include "Data/ResourceNodeDef.h"
 #include "Data/ItemDef.h"
 #include "Data/SkillDef.h"
@@ -82,7 +83,11 @@ bool AResourceNode::Roll(AActor* InInstigator, float Bonus)
 	return true;
 }
 
-bool AResourceNode::OnLoopTick(AActor* InInstigator) { return Roll(InInstigator, 0.f); }
+bool AResourceNode::OnLoopTick(AActor* InInstigator)
+{
+	if (AAerondelCharacter* Ch = Cast<AAerondelCharacter>(InInstigator)) Ch->PlayBodyAnim(TEXT("gather")); // web rigs.js "interact" clip while skilling
+	return Roll(InInstigator, 0.f);
+}
 
 void AResourceNode::OnToolHit(AActor* InInstigator, EToolType Tool, float Power)
 {
