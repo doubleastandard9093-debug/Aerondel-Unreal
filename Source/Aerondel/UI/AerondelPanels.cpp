@@ -32,6 +32,8 @@
 #include "World/AerondelScalability.h"
 #include "Data/ItemDef.h"
 #include "Data/NpcDef.h"
+#include "Data/QuestDef.h"
+#include "Quests/QuestComponent.h"
 #include "Data/ContentDefs.h"
 #include "Data/GameDatabase.h"
 #include "Features/AerondelFeature.h"
@@ -58,6 +60,8 @@ namespace
 		static const TCHAR* S[4] = { TEXT("Anchor"), TEXT("Shell"), TEXT("Skull"), TEXT("Compass") };
 		return FString::Printf(TEXT("[%s %s]"), R[FMath::Clamp(C.Rank, 0, 12)], S[FMath::Clamp(C.Suit, 0, 3)]);
 	}
+	// Quest journal paging (web quest tab: 1,245 quests are paged, not listed at once).
+	int32 GQuestPage = 0, GQuestFilter = 0, GQuestTown = -1;
 	FString Hand(const TArray<FPlayingCard>& H) { FString S; for (const FPlayingCard& C : H) S += CardStr(C) + TEXT(" "); return S; }
 }
 
@@ -86,6 +90,7 @@ void FAerondelPanels::Build(UWorld* W, FName Panel, AActor* Ctx, FGPanelModel& M
 			Act(M, TEXT("Dig here (Spade)"), [Sea] { Sea->DigHere(); });
 		}
 		auto Go = [W](const TCHAR* Panel) { const FName N(Panel); return [W, N] { if (UAerondelEvents* Ev = UAerondelEvents::Get(W)) Ev->OnServiceRequested.Broadcast(N, nullptr); }; };
+		Act(M, TEXT("Quest journal"), Go(TEXT("quests")));
 		Act(M, TEXT("Companions"), Go(TEXT("companions")));
 		Act(M, TEXT("Relicry"), Go(TEXT("relicry")));
 		Act(M, TEXT("Delving"), Go(TEXT("delving")));
@@ -161,6 +166,49 @@ void FAerondelPanels::Build(UWorld* W, FName Panel, AActor* Ctx, FGPanelModel& M
 				[WA, WP] { if (WA.IsValid() && WP.IsValid()) if (IAerondelInteractable* X = Cast<IAerondelInteractable>(WA.Get())) X->Interact(WP.Get()); }, true);
 		}
 		if (!Near.Num()) M.Lines.Add(TEXT("Nothing within reach."));
+		Close(M); return;
+	}
+	if (P == TEXT("quests"))
+	{
+		static const TCHAR* Filters[4] = { TEXT("All"), TEXT("In progress"), TEXT("Not started"), TEXT("Completed") };
+		static constexpr int32 PerPage = 12;
+		M.Title = TEXT("Quest journal");
+		const UGameDatabase* Db = UGameDatabase::Get();
+		UQuestComponent* QC = PS ? PS->Quests : nullptr;
+		if (!Db || !QC) { M.Lines.Add(TEXT("No quest data loaded.")); Close(M); return; }
+		TArray<FName> Towns;
+		for (const UQuestDef* Q : Db->Quests) if (Q && !Q->Town.IsNone()) Towns.AddUnique(Q->Town);
+		if (GQuestTown >= Towns.Num()) GQuestTown = -1;
+		TArray<const UQuestDef*> List; int32 Done = 0;
+		for (const UQuestDef* Q : Db->Quests)
+		{
+			if (!Q) continue;
+			const EQuestState St = QC->GetState(Q);
+			if (St == EQuestState::Completed) ++Done;
+			if (GQuestTown >= 0 && Q->Town != Towns[GQuestTown]) continue;
+			if ((GQuestFilter == 1 && St != EQuestState::InProgress) || (GQuestFilter == 2 && St != EQuestState::NotStarted) || (GQuestFilter == 3 && St != EQuestState::Completed)) continue;
+			List.Add(Q);
+		}
+		const int32 Pages = FMath::Max(1, FMath::DivideAndRoundUp(List.Num(), PerPage));
+		GQuestPage = FMath::Clamp(GQuestPage, 0, Pages - 1);
+		M.Lines.Add(FString::Printf(TEXT("%d/%d quests done, %d quest points. Showing %s%s%s: page %d/%d (%d quests)."), Done, Db->Quests.Num(), QC->QuestPoints(),
+			Filters[GQuestFilter], GQuestTown >= 0 ? TEXT(" in ") : TEXT(""), GQuestTown >= 0 ? *Towns[GQuestTown].ToString() : TEXT(""), GQuestPage + 1, Pages, List.Num()));
+		for (int32 I = GQuestPage * PerPage; I < FMath::Min(List.Num(), (GQuestPage + 1) * PerPage); ++I)
+		{
+			const UQuestDef* Q = List[I];
+			const EQuestState St = QC->GetState(Q);
+			FString L = FString::Printf(TEXT("%s %s (%s, %d QP, %s)"), St == EQuestState::Completed ? TEXT("[done]") : St == EQuestState::InProgress ? TEXT("[>>]") : TEXT("[  ]"),
+				*Q->DisplayName.ToString(), Q->Difficulty.IsEmpty() ? TEXT("Novice") : *Q->Difficulty.ToString(), Q->QuestPoints, Q->Town.IsNone() ? TEXT("Aerondel") : *Q->Town.ToString());
+			if (St == EQuestState::InProgress) L += TEXT(" - ") + QC->CurrentStepText(Q).ToString();
+			else if (St == EQuestState::NotStarted && !Q->StartText.IsEmpty()) L += TEXT(" - ") + Q->StartText.ToString();
+			if (!Q->PermanentBonusText.IsEmpty()) L += TEXT(" Bonus: ") + Q->PermanentBonusText.ToString(); // most generated quests have no bonus
+			M.Lines.Add(L);
+		}
+		Act(M, TEXT("Previous page"), [] { --GQuestPage; }, false, GQuestPage > 0);
+		Act(M, TEXT("Next page"), [] { ++GQuestPage; }, false, GQuestPage < Pages - 1);
+		Act(M, FString::Printf(TEXT("Show: %s"), Filters[(GQuestFilter + 1) % 4]), [] { GQuestFilter = (GQuestFilter + 1) % 4; GQuestPage = 0; });
+		const int32 NT = Towns.Num();
+		Act(M, FString::Printf(TEXT("Town: %s"), GQuestTown + 1 < NT ? *Towns[GQuestTown + 1].ToString() : TEXT("all towns")), [NT] { GQuestTown = GQuestTown + 1 < NT ? GQuestTown + 1 : -1; GQuestPage = 0; });
 		Close(M); return;
 	}
 	if (P == TEXT("relicry"))
