@@ -26,6 +26,12 @@ public:
 	/** Scales the applied mesh to HeightCm (largest of height / 0.6 x length for quadrupeds), puts its feet at -HalfHeight
 	 *  and turns it by the rigs.json "yaw" (default -90: imported glTF characters face +Y). */
 	UFUNCTION(BlueprintCallable, Category="Aerondel|Models") static void FitRig(USkeletalMeshComponent* Comp, float HeightCm, float HalfHeight);
+	/** High/Ultra only: swaps each material slot for a dynamic instance of the matching realism master
+	 *  (/Game/Gielinor/Materials/Real/MI_Real_<kind>: skin = subsurface profile, fur/cloth/hair = cloth shading with sheen,
+	 *  leather/metal/horn/wood/bone/hide = default lit), keeping the original base colour/texture and adding a micro detail
+	 *  normal. Slot kinds follow the web js/realism.js surfaceKind(). Low/Quest: no-op (original cheap materials).
+	 *  Called by ApplyRig; missing assets (Build Realism Materials not run) are a no-op. */
+	UFUNCTION(BlueprintCallable, Category="Aerondel|Models") static void ApplyRealism(USkeletalMeshComponent* Comp, const FString& RigKey);
 	/** True while a one-shot (attack/hit) is still playing, so callers don't cut it off with the base state. */
 	UFUNCTION(BlueprintPure, Category="Aerondel|Models") static bool IsBusy(USkeletalMeshComponent* Comp);
 };

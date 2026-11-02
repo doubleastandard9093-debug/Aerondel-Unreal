@@ -22,6 +22,8 @@ ENTRIES = [
      "import build_festival_decor, importlib; importlib.reload(build_festival_decor); build_festival_decor.run()"),
     ("ImportLiteModels", "7. Import Lite Models", "Interchange-import the Lite CC0 glTF models (rigged monsters, player, NPCs + props) and write Content/Data/rigs.json",
      "import import_lite_models, importlib; importlib.reload(import_lite_models); import_lite_models.run()"),
+    ("BuildRealismMaterials", "8. Build Realism Materials", "Skin (subsurface), fur/cloth (sheen) and leather/metal masters for rigged bodies; High/Ultra only",
+     "import aerondel_safe, build_realism_materials, importlib; importlib.reload(aerondel_safe); importlib.reload(build_realism_materials); build_realism_materials.run()"),
     ("RunAll", "Run All (1-3 + smooth shapes)", "Everything above, in order",
      "import aerondel_all, importlib; importlib.reload(aerondel_all); aerondel_all.run()"),
 ]

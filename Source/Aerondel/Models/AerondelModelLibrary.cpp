@@ -2,6 +2,9 @@
 #include "Components/SkeletalMeshComponent.h"
 #include "Engine/SkeletalMesh.h"
 #include "Animation/AnimSequence.h"
+#include "Materials/MaterialInstanceDynamic.h"
+#include "Materials/MaterialInterface.h"
+#include "Engine/Texture.h"
 #include "World/AerondelScalability.h"
 #include "Misc/FileHelper.h"
 #include "Misc/Paths.h"
@@ -77,6 +80,7 @@ bool UAerondelModelLibrary::ApplyRig(USkeletalMeshComponent* Comp, const FString
 	Comp->VisibilityBasedAnimTickOption = bLow ? EVisibilityBasedAnimTickOption::OnlyTickPoseWhenRendered : EVisibilityBasedAnimTickOption::AlwaysTickPose;
 	Comp->SetCastShadow(!bLow);
 	SetAnimState(Comp, TEXT("idle"));
+	if (!bLow) ApplyRealism(Comp, K);
 	return true;
 }
 
@@ -128,4 +132,56 @@ bool UAerondelModelLibrary::IsBusy(USkeletalMeshComponent* Comp)
 	if (!Comp || !Comp->IsPlaying()) return false;
 	for (const FName& T : Comp->ComponentTags) if (T == FName(TEXT("AerondelAnim:attack")) || T == FName(TEXT("AerondelAnim:hit")) || T == FName(TEXT("AerondelAnim:gather"))) return true;
 	return false;
+}
+
+namespace AerondelRealism
+{
+	/** Web js/realism.js surfaceKind(), ported. */
+	static FString Kind(const FString& MatName, const FString& Model)
+	{
+		const FString N = MatName.ToLower(), M = Model.ToLower();
+		auto Any = [&N](std::initializer_list<const TCHAR*> L) { for (const TCHAR* W : L) if (N.Contains(W)) return true; return false; };
+		auto ModelAny = [&M](std::initializer_list<const TCHAR*> L) { for (const TCHAR* W : L) if (M.Contains(W)) return true; return false; };
+		if (Any({TEXT("eye")})) return TEXT("horn");  // wet glossy
+		if (Any({TEXT("gold"), TEXT("metal"), TEXT("steel"), TEXT("iron"), TEXT("grey"), TEXT("gray"), TEXT("silver")})) return TEXT("metal");
+		if (Any({TEXT("horn"), TEXT("hoove"), TEXT("teeth"), TEXT("tooth"), TEXT("nose"), TEXT("claw"), TEXT("tongue"), TEXT("mouth")})) return TEXT("horn");
+		if (Any({TEXT("belt"), TEXT("strap"), TEXT("brown"), TEXT("leather"), TEXT("boot")})) return TEXT("leather");
+		if (Any({TEXT("wood")})) return TEXT("wood");
+		if (Any({TEXT("hair"), TEXT("eyebrow")})) return TEXT("hair");
+		if (Any({TEXT("skin"), TEXT("muzzle")})) return TEXT("skin");
+		if (Any({TEXT("main"), TEXT("secondary"), TEXT("light")}) || N.StartsWith(TEXT("material")))
+			return ModelAny({TEXT("wolf"), TEXT("cow"), TEXT("yeti"), TEXT("spider")}) ? TEXT("fur")
+				: ModelAny({TEXT("dragon"), TEXT("demon"), TEXT("orc"), TEXT("goblin"), TEXT("giant"), TEXT("zombie")}) ? TEXT("hide") : TEXT("cloth");
+		if (Any({TEXT("atlas")})) return M.Contains(TEXT("skeleton")) ? TEXT("bone") : TEXT("hide");
+		return TEXT("cloth");
+	}
+}
+
+void UAerondelModelLibrary::ApplyRealism(USkeletalMeshComponent* Comp, const FString& RigKey)
+{
+	if (!Comp) return;
+	const EAerondelTier Tier = UAerondelScalability::GetSavedTier();
+	if (Tier == EAerondelTier::Low || Tier == EAerondelTier::Quest) return;
+	const TArray<FName> Slots = Comp->GetMaterialSlotNames();
+	for (int32 i = 0; i < Comp->GetNumMaterials(); ++i)
+	{
+		UMaterialInterface* Orig = Comp->GetMaterial(i);
+		if (!Orig || Orig->IsA<UMaterialInstanceDynamic>()) continue;
+		const FString SlotName = Slots.IsValidIndex(i) ? Slots[i].ToString() : Orig->GetName();
+		const FString Kind = AerondelRealism::Kind(SlotName + TEXT(" ") + Orig->GetName(), RigKey);
+		const FString Path = FString::Printf(TEXT("/Game/Gielinor/Materials/Real/MI_Real_%s.MI_Real_%s"), *Kind, *Kind);
+		UMaterialInterface* Master = LoadObject<UMaterialInterface>(nullptr, *Path);
+		if (!Master) return;  // realism materials not built yet
+		UMaterialInstanceDynamic* D = UMaterialInstanceDynamic::Create(Master, Comp);
+		// Interchange glTF material instances: BaseColorTexture / BaseColorFactor (older importers: BaseColor / Color).
+		UTexture* Tex = nullptr;
+		for (const TCHAR* P : {TEXT("BaseColorTexture"), TEXT("BaseColorMap"), TEXT("BaseColor")})
+			if (Orig->GetTextureParameterValue(FHashedMaterialParameterInfo(FName(P)), Tex) && Tex) break;
+		if (Tex) { D->SetTextureParameterValue(TEXT("BaseTex"), Tex); D->SetScalarParameterValue(TEXT("UseTex"), 1.f); }
+		FLinearColor C = FLinearColor::White;
+		for (const TCHAR* P : {TEXT("BaseColorFactor"), TEXT("BaseColor"), TEXT("Color")})
+			if (Orig->GetVectorParameterValue(FHashedMaterialParameterInfo(FName(P)), C)) break;
+		D->SetVectorParameterValue(TEXT("Tint"), C);
+		Comp->SetMaterial(i, D);
+	}
 }
