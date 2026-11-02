@@ -114,7 +114,21 @@ bool UPlayerCombatComponent::CastAt(AAerondelMob* Mob, USpellDef* Spell)
 	Xp.Add(TEXT("magic"), Spell->Xp * 2.f + Dmg * 0.6f);
 	Xp.Add(TEXT("hitpoints"), Dmg * 0.4f);
 	GiveXp(Xp);
+	const bool bAlive = Mob->GetHp() - Dmg > 0;
 	Mob->TakePlayerDamage(Dmg, GetOwner());
+	// Relicry/Delving gear: frost freezes for 3 s (5 ticks); chain arcs to another foe within 6 m for half damage.
+	if (Dmg > 0 && bAlive && FMath::FRand() < UAerondelRules::GearFx(S, TEXT("frost"))) { Mob->Stun(5); Msg(FText::Format(LOCTEXT("Frost", "The {0} is frozen in place!"), Mob->GetDisplayName())); }
+	if (Dmg > 1 && FMath::FRand() < UAerondelRules::GearFx(S, TEXT("chain")))
+	{
+		const FVector C = Mob->GetActorLocation();
+		for (TActorIterator<AAerondelMob> It(GetWorld()); It; ++It)
+		{
+			if (*It == Mob || It->IsDead() || It->GetHp() <= 0 || FVector::Dist2D(It->GetActorLocation(), C) > 600.f) continue;
+			const int32 D2 = FMath::Min(It->GetHp(), Dmg / 2);
+			It->TakePlayerDamage(D2, GetOwner()); Msg(LOCTEXT("Chain", "Your spell arcs to another foe!"));
+			break;
+		}
+	}
 	return true;
 }
 
@@ -217,6 +231,7 @@ void UPlayerCombatComponent::PlayerAttack(AAerondelMob* Mob, float Power)
 		const int32 Multi = FMath::RoundToInt(UAerondelRules::GearFx(S, TEXT("multiArrow")));
 		for (int32 i = 1; i < Multi; ++i) { FText E; if (St->UseAmmo(E)) Swings.Add(Base); }
 		if (Special.IsNone() && FMath::FRand() < UAerondelRules::Perk(S, TEXT("ranged"), TEXT("doubleShot"))) { Swings.Add(Base); Msg(LOCTEXT("Double", "Double Shot!")); }
+		if (FMath::FRand() < UAerondelRules::GearFx(S, TEXT("echo"))) { Swings.Add(With(0.f, -0.4f)); Msg(LOCTEXT("Echo", "A free echo arrow follows!")); } // gear: echo at 60% power
 	}
 	float Next = UAerondelRules::AttackSpeedTicks(S) * UAerondelRules::TickSeconds;
 	if (!bRanged && FMath::FRand() < UAerondelRules::Perk(S, TEXT("attack"), TEXT("quick"))) Next = FMath::Max(UAerondelRules::TickSeconds, Next - UAerondelRules::TickSeconds);
@@ -239,6 +254,7 @@ void UPlayerCombatComponent::PlayerAttack(AAerondelMob* Mob, float Power)
 		const bool bAlive = Mob->GetHp() - D > 0;
 		Mob->TakePlayerDamage(D, GetOwner());
 		if (bAlive && P.Poison > 0 && Mob->ApplyVenom(P.Poison)) Msg(FText::Format(LOCTEXT("Venom", "You poison the {0}!"), Mob->GetDisplayName()));
+		if (bAlive && !bRanged && FMath::FRand() < UAerondelRules::GearFx(S, TEXT("burn")) && Mob->ApplyVenom(FMath::Max(1, FMath::RoundToInt(UAerondelRules::GearFx(S, TEXT("burnDmg")))))) Msg(FText::Format(LOCTEXT("Burn", "You set the {0} ablaze!"), Mob->GetDisplayName()));
 		if (bAlive && P.bStun) { Mob->Stun(5); Msg(FText::Format(LOCTEXT("Stun", "The {0} is stunned!"), Mob->GetDisplayName())); }
 	}
 	if (Special == TEXT("challenge") && !Mob->IsDead()) { Mob->Challenge(4, 10); Msg(FText::Format(LOCTEXT("Challenge", "You shove the {0} back on its heels; it only has eyes for you."), Mob->GetDisplayName())); }

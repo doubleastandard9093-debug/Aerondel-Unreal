@@ -112,10 +112,11 @@ namespace AerondelJson
 			else if (Pair.Value->Type == EJson::Object)
 			{
 				const FObj Sub = Pair.Value->AsObject();
-				if (FString(*Pair.Key) == TEXT("poison"))
+				if (FString(*Pair.Key) == TEXT("poison") || FString(*Pair.Key) == TEXT("burn")) // {chance, dmg} -> key / keyDmg
 				{
-					Out.Add(TEXT("poison"), (float)Num(Sub, TEXT("chance")));
-					Out.Add(TEXT("poisonDmg"), (float)Num(Sub, TEXT("dmg")));
+					const FString K = FString(*Pair.Key);
+					Out.Add(FName(*K), (float)Num(Sub, TEXT("chance")));
+					Out.Add(FName(*(K + TEXT("Dmg"))), (float)Num(Sub, TEXT("dmg")));
 				}
 				else
 				{

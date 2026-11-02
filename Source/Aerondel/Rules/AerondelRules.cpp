@@ -334,6 +334,7 @@ float UAerondelRules::DamageMult(const AAerondelPlayerState* PS, const UMobDef* 
 	float M = 1.f + QuestFx(PS, TEXT("dmgVs.*")) + GearFx(PS, TEXT("dmgPct")) + SetFx(PS, TEXT("dmgPct"));
 	if (Mob) M += QuestFx(PS, FName(*(TEXT("dmgVs.") + Mob->Id.ToString())));
 	if (MobMaxHp > 0 && MobHp < MobMaxHp * 0.25f && !IsRanged(PS)) M += Perk(PS, TEXT("strength"), TEXT("execute"));
+	if (MobMaxHp > 0 && MobHp > MobMaxHp * 0.5f && IsRanged(PS)) M += GearFx(PS, TEXT("pierce")); // Relicry/Delving gear: pierce
 	M += UAerondelFeature::TotalDamageDealtBonus(PS, Mob);
 	return M;
 }
@@ -399,6 +400,7 @@ int32 UAerondelRules::ReduceIncoming(const AAerondelPlayerState* PS, int32 Damag
 	if (Damage <= 0) return 0;
 	const float Cap = Db() ? Db()->DamageReductionCap : 0.6f;
 	float M = 1.f - FMath::Min(Cap, Perk(PS, TEXT("defence"), TEXT("dr")) + QuestFx(PS, TEXT("dr")) + SetFx(PS, TEXT("dr")));
+	M *= 1.f - FMath::Min(0.2f, GearFx(PS, TEXT("dr"))); // Relicry/Delving gear: dr stacks across pieces, capped at 20%
 	M *= 1.f - PrayerFx(PS, TEXT("protect"));
 	if (bFortify) M *= 0.5f;
 	if (bRage) M *= 1.1f;
