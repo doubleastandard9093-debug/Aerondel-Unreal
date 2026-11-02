@@ -9,8 +9,9 @@ import json
 import os
 import random
 import unreal
+import aerondel_safe as safe
 from aerondel_util import ROOT, mat, eal
-from build_starter_town import box, label, actors, levels, V
+from build_starter_town import box, label, actors, levels, spawn, V
 
 MAP = ROOT + "/Maps/RelicDungeon"
 ROOM, STEP, WALL_H = 16.0, 22.0, 3.4
@@ -35,6 +36,12 @@ def layout(rng, n, side):
 
 
 def run(seed=2026, site="Frozen Barrow"):
+    with safe.SafeRun("Relic dungeon", 1) as task:
+        task.frame("Rooms, corridors and gates")
+        _build(seed, site)
+
+
+def _build(seed, site):
     data = json.load(open(os.path.join(unreal.Paths.project_content_dir(), "Data", "relicry.json"), encoding="utf-8"))
     theme = data["sites"][site]["theme"]
     rgb = lambda h: ((h >> 16 & 255) / 255.0, (h >> 8 & 255) / 255.0, (h & 255) / 255.0)
@@ -61,7 +68,7 @@ def run(seed=2026, site="Frozen Barrow"):
         if 0 <= mi < len(main_links) - 1 and mi < len(gates):
             g = gates[mi]
             box("Gate_%d_%s" % (mi, g), "Dungeon/Gates", (cx, 1.3, cz), (0.5 if along else 3.4, 2.6, 3.4 if along else 0.5), accent)
-            label(actors.spawn_actor_from_class(unreal.TextRenderActor, V(cx, 3.2, cz)), "GateLabel_%d %s (%s)" % (mi, data["gates"][g]["name"], g), "Dungeon/Gates")
+            label(spawn(unreal.TextRenderActor, V(cx, 3.2, cz)), "GateLabel_%d %s (%s)" % (mi, data["gates"][g]["name"], g), "Dungeon/Gates")
     h = ROOM / 2
     for i, (x, z) in enumerate(pos):
         box("Room_%d" % i, "Dungeon/Rooms", (x, -0.1, z), (ROOM, 0.2, ROOM), floor)
@@ -82,8 +89,8 @@ def run(seed=2026, site="Frozen Barrow"):
     cx, cz = pos[side[0]] if side else (bx + 4, bz)
     box("Reliquary_Chest", "Dungeon/Loot", (cx + 4, 0.5, cz), (1.4, 1, 1), mat("Chest", (0.69, 0.54, 0.23)))
     sx, sz = pos[0]
-    label(actors.spawn_actor_from_class(unreal.PlayerStart, V(sx, 1.0, sz - 3)), "PlayerStart", "Dungeon")
-    label(actors.spawn_actor_from_class(unreal.PointLight, V(sx, 3.0, sz)), "DungeonLight", "Dungeon")
-    sun = actors.spawn_actor_from_class(unreal.SkyLight, V(0, 20, 0)); label(sun, "SkyLight", "Dungeon")
+    label(spawn(unreal.PlayerStart, V(sx, 1.0, sz - 3)), "PlayerStart", "Dungeon")
+    label(spawn(unreal.PointLight, V(sx, 3.0, sz)), "DungeonLight", "Dungeon")
+    sun = spawn(unreal.SkyLight, V(0, 20, 0)); label(sun, "SkyLight", "Dungeon")
     levels.save_current_level()
     unreal.log("[Aerondel] Relic dungeon (%s, seed %d, %d rooms) saved to %s" % (site, seed, len(rooms), MAP))

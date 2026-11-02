@@ -14,9 +14,10 @@ import math
 import os
 import unreal
 from aerondel_util import ROOT, mat, eal
+import aerondel_safe as safe
 import build_starter_town as bst
 import world_partition as wpart
-from build_starter_town import V, box, label, actors, levels, CUBE, CYL, CONE
+from build_starter_town import V, box, label, actors, levels, spawn, CUBE, CYL, CONE
 
 MAP = ROOT + "/Maps/World"
 FEATURE_SITES = [("wellmere", 40, 90, 12), ("siege_fort", -1000, -640, 16), ("wilds", 122, -122, 20),
@@ -34,12 +35,24 @@ def hex_rgb(c):
     return (((c >> 16) & 255) / 255.0, ((c >> 8) & 255) / 255.0, (c & 255) / 255.0)
 
 
+def _q(v, step=0x20):
+    """Quantise a 0-255 channel so near-identical colours share one material instance (fewer shaders/MIs on weak GPUs)."""
+    return min(255, int(round(v / step)) * step)
+
+
 def hex_mat(c):
+    c = (_q(c >> 16 & 255) << 16) | (_q(c >> 8 & 255) << 8) | _q(c & 255)
     return mat("Hex%06X" % c, hex_rgb(c))
 
 
+def tone_mat(rgb):
+    """Shared palette material for NPC bodies instead of one per NPC."""
+    r, g, b = (_q(int(v * 255)) for v in rgb)
+    return mat("Tone%02X%02X%02X" % (r, g, b), (r / 255.0, g / 255.0, b / 255.0))
+
+
 def place_volume(place_id, x, z, size=12.0, display=None):
-    v = actors.spawn_actor_from_class(unreal.QuestPlaceVolume, V(x, 2, z))
+    v = spawn(unreal.QuestPlaceVolume, V(x, 2, z))
     v.set_editor_property("place_id", unreal.Name(place_id))
     if display:
         v.set_editor_property("display_name", display)
@@ -56,7 +69,7 @@ def house(name, x, z, w, d, wall, roof, folder):
 def text3d(name, folder, x, y, z, text, size=60.0, yaw=0.0, rgb=(255, 236, 180)):
     """World-space label (TextRenderActor): cheap on every graphics tier, two-sided by spawning a back-to-back pair."""
     for i, yy in enumerate((yaw, yaw + 180.0)):
-        a = actors.spawn_actor_from_class(unreal.TextRenderActor, V(x, y, z), unreal.Rotator(0, 0, yy))
+        a = spawn(unreal.TextRenderActor, V(x, y, z), unreal.Rotator(0, 0, yy))
         c = a.get_editor_property("text_render")
         try:
             c.set_text(unreal.Text(text))
@@ -87,7 +100,7 @@ def build_towns(w):
     cloth = mat("BannerCloth", (0.45, 0.12, 0.12))
     chest = mat("Chest", (0.5, 0.3, 0.15))
     plinth = mat("WaystonePlinth", (0.5, 0.52, 0.56))
-    for name, t in towns.items():
+    for name, t in safe.limit(towns):
         f = "Towns/" + name
         x, z = t["x"], t["z"]
         # Gate banner on the main approach, 14 m south of the square (or north for towns on the south coast).
@@ -108,7 +121,7 @@ def build_towns(w):
             h = 2.9 - i * 0.38
             ax, az = sx + math.cos(math.radians(yaw)) * 0.9, sz + math.sin(math.radians(yaw)) * 0.9
             box("%s_Sign_%s" % (name, other), f, (ax, h, az), (1.8, 0.3, 0.06), plank, yaw=yaw, collide=False)
-            text3d("%s_SignText_%s" % (name, other), f, ax, h - 0.1, az, "%s %dm" % (other, round(math.hypot(dx, dz))), 16.0, yaw + 90.0, (40, 25, 10))
+            if not safe.small(): text3d("%s_SignText_%s" % (name, other), f, ax, h - 0.1, az, "%s %dm" % (other, round(math.hypot(dx, dz))), 16.0, yaw + 90.0, (40, 25, 10))
         # Town square volume (quest/visit + "You enter X" toast) already placed from towns; add bank chest + plinth.
         bank = t.get("bank")
         if bank:
@@ -119,7 +132,8 @@ def build_towns(w):
             box(name + "_WaystonePlinth", f, (tp[0], 0.12, tp[1]), (2.2, 0.24, 2.2), plinth, shape=CYL)
 
 
-def run():
+def run(small=False):
+    """small=True: quick 'small test' (first few of each category, no signpost text) to check the machine copes."""
     w = load_world()
     if eal.does_asset_exist(MAP):
         eal.delete_asset(MAP)
@@ -127,22 +141,21 @@ def run():
         unreal.log_error("[Aerondel] Could not create " + MAP)
         return
     half = float(w.get("worldHalf", 300))
-    with unreal.ScopedSlowTask(8, "Aerondel: world blockout") as task:
-        task.make_dialog(True)
+    with safe.SafeRun("World blockout", 9, small=small, save_fn=levels.save_current_level) as task:
 
-        task.enter_progress_frame(1, "Ground and lighting")
+        task.frame("Ground and lighting")
         bst.environment()
         for a in actors.get_all_level_actors():  # replace the starter-town ground/fences with a world-sized one
             if a.get_folder_path() == "Environment" and a.get_actor_label() in ("Ground", "Town square", "Fence N", "Fence S", "Fence W", "NavMeshBounds", "PlayerStart"):
                 actors.destroy_actor(a)
         box("Ground", "Environment", (0, -0.05, 0), (half * 2, 0.1, half * 2), mat("Grass", (0.3, 0.45, 0.2), 0.95))
-        nav = actors.spawn_actor_from_class(unreal.NavMeshBoundsVolume, V(0, 2, 0))
+        nav = spawn(unreal.NavMeshBoundsVolume, V(0, 2, 0))
         nav.set_actor_scale3d(unreal.Vector(half, half, 10))
         label(nav, "NavMeshBounds", "Environment")
         sp = w.get("spawn", {"x": 0, "z": 0})
-        label(actors.spawn_actor_from_class(unreal.PlayerStart, V(sp["x"], 1.0, sp["z"])), "PlayerStart", "Environment")
+        label(spawn(unreal.PlayerStart, V(sp["x"], 1.0, sp["z"])), "PlayerStart", "Environment")
 
-        task.enter_progress_frame(1, "Water")
+        task.frame("Water")
         water = mat("Water", (0.15, 0.35, 0.55), 0.1)
         lk = w.get("lake")
         if lk:
@@ -150,20 +163,20 @@ def run():
         for i, p in enumerate(w.get("ponds", [])):
             box("Pond_%d" % i, "Water", (p["x"], 0.02, p["z"]), (p["r"] * 2, 0.04, p["r"] * 2), water, shape=CYL, collide=False)
 
-        task.enter_progress_frame(1, "Paths")
+        task.frame("Paths")
         dirt = mat("Path", (0.55, 0.45, 0.3), 0.9)
-        for i, (x1, z1, x2, z2) in enumerate(w.get("paths", [])):
+        for i, (x1, z1, x2, z2) in enumerate(safe.limit(w.get("paths", []))):
             length = math.hypot(x2 - x1, z2 - z1)
             yaw = math.degrees(math.atan2(z2 - z1, x2 - x1))
             box("Path_%02d" % i, "Paths", ((x1 + x2) / 2, 0.015, (z1 + z2) / 2), (length + 2, 0.03, 2.4), dirt, yaw=yaw, collide=False)
 
-        task.enter_progress_frame(1, "Buildings")
-        for i, b in enumerate(w.get("buildings", [])):
+        task.frame("Buildings")
+        for i, b in enumerate(safe.limit(w.get("buildings", []))):
             x, z, bw, bd, wall, roof, name = b[0], b[1], b[2], b[3], b[4], b[5], b[6]
             house(name.replace(" ", "_"), x, z, bw, bd, wall, roof, "Buildings/" + name)
 
-        task.enter_progress_frame(1, "Guilds")
-        for g in w.get("guilds", []):
+        task.frame("Guilds")
+        for g in safe.limit(w.get("guilds", [])):
             name, f = g["name"], "Guilds/" + g["name"]
             house(name.replace(" ", "_"), g["x"], g["z"], g["w"], g["d"], g["wall"], g["roof"], f)
             for j, s in enumerate(g.get("stations", [])):
@@ -176,15 +189,15 @@ def run():
                                  CUBE, (1.2, 0.9, 0.8), mat("Chest", (0.5, 0.3, 0.15)))
             place_volume(name, g["x"], g["z"], max(g["w"], g["d"]) + 4)  # extra ids; quests use the "places" table
 
-        task.enter_progress_frame(1, "Landmarks and towns")
+        task.frame("Landmarks and towns")
         stone = mat("StoneDark", (0.45, 0.42, 0.4))
-        for lm in w.get("landmarks", []):
+        for lm in safe.limit(w.get("landmarks", [])):
             box("Landmark_" + lm["n"], "Landmarks", (lm["x"], 2, lm["z"]), (1.2, 4, 1.2), stone)
             place_volume(lm["n"], lm["x"], lm["z"], 16)
-        for town, t in w.get("towns", {}).items():
+        for town, t in safe.limit(w.get("towns", {})):
             place_volume(town, t["x"], t["z"], 40, t.get("banner", town))  # "You arrive at Royal City of Highcrest."
         # Quest visit targets (quests.json "place" ids -> world.json "places", exported from the web PLACES table).
-        for pid, p in w.get("places", {}).items():
+        for pid, p in safe.limit(w.get("places", {})):
             place_volume(pid, p["x"], p["z"], p["r"] * 2, p.get("name"))
         cave = w.get("cave")
         if cave:
@@ -199,19 +212,19 @@ def run():
         with open(quests_path, "r", encoding="utf-8") as f:
             npcs = json.load(f).get("npcs", {})
         counter = mat("Counter", (0.45, 0.32, 0.2))
-        for nid, n in npcs.items():
+        for nid, n in safe.limit(npcs):
             if "x" not in n:
                 continue
             # JSON-only NpcDefs: the actor resolves npc_id at BeginPlay (no Npc_ asset needed).
-            a = actors.spawn_actor_from_class(unreal.NpcTalk, V(n["x"], 0, n["z"]))
+            a = spawn(unreal.NpcTalk, V(n["x"], 0, n["z"]))
             a.set_editor_property("npc_id", unreal.Name(nid))
             a.set_editor_property("display_name", n["name"])
             t = n.get("tint", "#a08060").lstrip("#")
             rgb = tuple(int(t[i:i + 2], 16) / 255.0 for i in (0, 2, 4))
             if nid.startswith("waystone_"):  # carved standing stone instead of a person
-                bst.set_mesh(a.get_editor_property("mesh"), CUBE, (0.7, 0.5, 2.2), mat("Npc_" + nid, rgb), rel=(0, 0, 110.0))
+                bst.set_mesh(a.get_editor_property("mesh"), CUBE, (0.7, 0.5, 2.2), tone_mat(rgb), rel=(0, 0, 110.0))
             else:
-                bst.set_mesh(a.get_editor_property("mesh"), CYL, (0.55, 0.55, 1.75), mat("Npc_" + nid, rgb), rel=(0, 0, 87.5))
+                bst.set_mesh(a.get_editor_property("mesh"), CYL, (0.55, 0.55, 1.75), tone_mat(rgb), rel=(0, 0, 87.5))
             a.set_editor_property("range", 220.0)
             label(a, n["name"], ("Towns/" + n["town"] + "/NPCs") if n.get("town") else "FeatureSites/NPCs")
             svc = n.get("service", "")
@@ -246,12 +259,13 @@ def run():
             place_volume(iid.lower(), ix, iz, ir * 2)
         box("Port_Sarim_Dock", "FeatureSites/Docks", (-80, 0.2, 80), (6, 0.4, 14), mat("Planks", (0.45, 0.32, 0.2)))
 
+        task.frame("Towns, regions and sea")
         build_towns(w)  # banners, signposts, bank chests, waystone plinths
         import build_aerondel_regions, importlib
         importlib.reload(build_aerondel_regions)
-        build_aerondel_regions.build(w)  # climate-region ground, biome props, dig sites, Delver's Descent
+        build_aerondel_regions.build(w, density=0.4 if small else 1.0)  # climate-region ground, biome props, dig sites, Delver's Descent
 
-        task.enter_progress_frame(1, "World Partition streaming + save")
+        task.frame("World Partition streaming + save")
         if wpart.is_partitioned():
             wpart.configure_runtime_grid()
             wpart.apply_streaming_flags(actors)

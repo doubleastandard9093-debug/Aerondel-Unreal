@@ -9,7 +9,8 @@ import math
 import random
 import unreal
 from aerondel_util import mat
-from build_starter_town import box, CUBE, CYL, CONE
+import aerondel_safe as safe
+from build_starter_town import box, instanced, CUBE, CYL, CONE
 
 # Per-biome prop kit: (name, shape, (sx, sy, sz) metres, rgb). Kept to a few cheap meshes per region.
 PROPS = {
@@ -29,7 +30,7 @@ def _rgb(hexv):
 
 def build(w, density=1.0):
     regions, biomes = w.get("regions", []), w.get("biomes", {})
-    for R in regions:
+    for R in safe.limit(regions):
         b = biomes.get(R["biome"], {})
         rid, folder = R["name"].replace(" ", "_"), "Regions/" + R["name"]
         tint = b.get("map", b.get("tint", 0x808080))
@@ -37,6 +38,7 @@ def build(w, density=1.0):
         box(rid + "_Ground", folder, (R["x"], -0.04, R["z"]), (R["r"] * 2, 0.06, R["r"] * 2), ground, shape=CYL, collide=False)
         rng = random.Random(hash(R["name"]) & 0xFFFF)
         kit = PROPS.get(R["biome"], [])
+        groups = {}  # repeated props -> one instanced actor per (region, prop kind)
         for i in range(int(18 * density)):
             if not kit:
                 break
@@ -44,8 +46,9 @@ def build(w, density=1.0):
             a, d = rng.random() * math.tau, R["r"] * (0.25 + 0.7 * rng.random())
             x, z = R["x"] + math.cos(a) * d, R["z"] + math.sin(a) * d
             s = 0.8 + rng.random() * 0.5
-            box("%s_%s_%02d" % (rid, n, i), folder + "/Props", (x, size[1] * s / 2, z), tuple(v * s for v in size), mat(n, rgb, 0.9),
-                shape=shape, yaw=rng.random() * 360)
+            groups.setdefault((n, shape, rgb), []).append(((x, size[1] * s / 2, z), tuple(v * s for v in size), rng.random() * 360))
+        for (n, shape, rgb), xf in groups.items():
+            instanced("%s_%s" % (rid, n), folder + "/Props", shape, mat(n, rgb, 0.9), xf)
         dig = R.get("dig")
         if dig:
             sx, sz = R["x"] + dig["dx"], R["z"] + dig["dz"]

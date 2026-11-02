@@ -14,6 +14,7 @@ import json
 import os
 import re
 import unreal
+import aerondel_safe as safe
 
 DEST = "/Game/Aerondel/Models"
 CLIP = {
@@ -88,13 +89,11 @@ def run():
     files = [(g, d, f) for g, d in groups for f in sorted(os.listdir(os.path.join(models, g))) if f.lower().endswith(".glb")]
     statics = [(g, g.capitalize(), f) for g in ("buildings", "nature", "props") if os.path.isdir(os.path.join(models, g))
                for f in sorted(os.listdir(os.path.join(models, g))) if f.lower().endswith(".glb")]
-    with unreal.ScopedSlowTask(len(files) + len(statics), "Aerondel: importing Lite models") as task:
-        task.make_dialog(True)
+    # One model at a time with a save + GC between them (weak iGPUs time out compiling many imported materials at once).
+    with safe.SafeRun("Importing Lite models", len(files) + len(statics), save_fn=safe.save_dirty) as task:
         for g, d, f in files:
-            if task.should_cancel():
-                return
             key = os.path.splitext(f)[0]
-            task.enter_progress_frame(1, f)
+            task.frame(f)
             folder = "%s/%s/%s" % (DEST, d, key)
             import_glb(os.path.join(models, g, f), folder)
             mesh, anims = None, []
@@ -112,8 +111,11 @@ def run():
             rigs[key] = {"mesh": mesh, "anims": {s: p for s, p in states.items() if p}}
             unreal.log("[Aerondel] %s: %d clips, states %s" % (key, len(anims), ",".join(sorted(rigs[key]["anims"]))))
         for g, d, f in statics:
-            task.enter_progress_frame(1, f)
+            task.frame(f)
             import_glb(os.path.join(models, g, f), "%s/%s" % (DEST, d))
+    if task.cancelled:
+        unreal.log_warning("[Aerondel] Import cancelled; rigs.json left unchanged. Re-run to finish (already-imported models are kept).")
+        return
     rmap = json.load(open(os.path.join(root, "rig_map.json"), encoding="utf-8"))
     for alias, target in rmap.get("aliases", {}).items():
         if target in rigs:

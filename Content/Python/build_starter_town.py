@@ -8,6 +8,7 @@ Run "Generate Starter Data" first.
 """
 import unreal
 from aerondel_util import ROOT, mat, eal
+import aerondel_safe as safe
 
 MAP = ROOT + "/Maps/StarterTown"
 M = 100.0           # metres -> cm
@@ -62,15 +63,46 @@ def label(actor, text, folder):
     return actor
 
 
-def box(name, folder, center, size, material, shape=CUBE, yaw=0.0, collide=True):
-    """center/size in metres (Unity axes). Basic shapes are 100 cm, centred (cylinder/sphere/cone too)."""
-    a = actors.spawn_actor_from_class(unreal.StaticMeshActor, V(*center), unreal.Rotator(0, 0, yaw))
+def spawn(cls, loc, rot=None):
+    """spawn_actor_from_class + low-GPU breather every few spawns (aerondel_safe)."""
+    safe.tick()
+    return actors.spawn_actor_from_class(cls, loc, rot or unreal.Rotator(0, 0, 0))
+
+
+def box(name, folder, center, size, material, shape=CUBE, yaw=0.0, collide=True, decor=False):
+    """center/size in metres (Unity axes). Basic shapes are 100 cm, centred (cylinder/sphere/cone too).
+    decor=True: optional dressing, skipped (returns None) once its 128 m cell hits aerondel_safe.CELL_CAP."""
+    if decor and not safe.allow(center[0], center[2]):
+        return None
+    a = spawn(unreal.StaticMeshActor, V(*center), unreal.Rotator(0, 0, yaw))
     c = a.static_mesh_component
     c.set_static_mesh(mesh(shape, _smooth_ok(shape, size)))
     c.set_world_scale3d(unreal.Vector(size[0], size[2], size[1]))
     c.set_material(0, material)
     if not collide:
         c.set_collision_profile_name("NoCollision")
+    return label(a, name, folder)
+
+
+_ism = {}
+
+
+def instanced(name, folder, shape, material, transforms_m, collide=False):
+    """Repeated pieces as ONE hierarchical-instanced actor (AAerondelPropInstances): transforms_m = [(center, size, yaw)].
+    Falls back to individual decor boxes if the C++ class is missing (old build)."""
+    cls = getattr(unreal, "AerondelPropInstances", None)
+    if cls is None:
+        return [box("%s_%02d" % (name, i), folder, c, s, material, shape=shape, yaw=y, collide=collide, decor=True)
+                for i, (c, s, y) in enumerate(transforms_m)]
+    kept = [(c, s, y) for c, s, y in transforms_m if safe.allow(c[0], c[2])]
+    if not kept:
+        return None
+    cx = sum(c[0] for c, _, _ in kept) / len(kept)
+    cz = sum(c[2] for c, _, _ in kept) / len(kept)
+    a = spawn(cls, V(cx, 0, cz))
+    a.setup(mesh(shape, True), material, collide)
+    xf = [unreal.Transform(V(*c), unreal.Rotator(0, 0, y), unreal.Vector(s[0], s[2], s[1])) for c, s, y in kept]
+    a.add_instances(xf)
     return label(a, name, folder)
 
 
@@ -101,7 +133,7 @@ def building(name, cx, cz, w, d, h, wall_mat):
     box(f"{name}_Ridge", f, (cx, h + 0.8, cz), (w * 0.6, 1.0, d * 0.5), roof)
 
     # Hinged door: actor origin = hinge at the left jamb, leaf offset +X by half its width.
-    door = actors.spawn_actor_from_class(unreal.Door, V(cx - DOOR_W / 2, 0, fz), unreal.Rotator(0, 0, 0))
+    door = spawn(unreal.Door, V(cx - DOOR_W / 2, 0, fz), unreal.Rotator(0, 0, 0))
     leaf = door.get_editor_property("mesh")
     set_mesh(leaf, CUBE, ((DOOR_W - 0.04), 0.08, (DOOR_H - 0.02)), mat("Door", (0.4, 0.25, 0.12)),
              rel=(DOOR_W / 2 * M, 0, DOOR_H / 2 * M))
@@ -110,7 +142,7 @@ def building(name, cx, cz, w, d, h, wall_mat):
     door.set_editor_property("display_name", "Door")
     label(door, f"{name}_Door", f)
 
-    lamp = actors.spawn_actor_from_class(unreal.PointLight, V(cx, h - 0.6, cz), unreal.Rotator(0, 0, 0))
+    lamp = spawn(unreal.PointLight, V(cx, h - 0.6, cz), unreal.Rotator(0, 0, 0))
     lc = lamp.get_component_by_class(unreal.PointLightComponent)
     lc.set_editor_property("intensity", 3000.0)
     lc.set_editor_property("light_color", unreal.Color(255, 214, 160, 255))
@@ -121,7 +153,7 @@ def building(name, cx, cz, w, d, h, wall_mat):
 
 
 def interactable(cls, name, folder, pos, shape, size, material, yaw=0.0):
-    a = actors.spawn_actor_from_class(cls, V(*pos), unreal.Rotator(0, 0, yaw))
+    a = spawn(cls, V(*pos), unreal.Rotator(0, 0, yaw))
     set_mesh(a.get_editor_property("mesh"), shape, (size[0], size[2], size[1]), material)
     a.set_editor_property("display_name", name)
     return label(a, name, folder)
@@ -135,7 +167,7 @@ def station(name, folder, pos, size, material, stype):
 
 # ---------------------------------------------------------------- resources
 def tree(node_def, x, z, s=1.0, oak=False):
-    a = actors.spawn_actor_from_class(unreal.ResourceNode, V(x, 0, z), unreal.Rotator(0, 0, 0))
+    a = spawn(unreal.ResourceNode, V(x, 0, z), unreal.Rotator(0, 0, 0))
     a.set_editor_property("definition", node_def)
     crown = mat("Oak" if oak else "Leaves", (0.3, 0.45, 0.15) if oak else (0.25, 0.5, 0.2))
     # Alive: a cone "tree" 4.5 m tall (pivot at centre, so lift by half).
@@ -146,7 +178,7 @@ def tree(node_def, x, z, s=1.0, oak=False):
 
 
 def rock(node_def, x, z, rgb, name):
-    a = actors.spawn_actor_from_class(unreal.ResourceNode, V(x, 0, z), unreal.Rotator(0, 0, 0))
+    a = spawn(unreal.ResourceNode, V(x, 0, z), unreal.Rotator(0, 0, 0))
     a.set_editor_property("definition", node_def)
     set_mesh(a.get_editor_property("mesh"), SPHERE, (1.4, 1.2, 0.9), mat(f"Ore_{name}", rgb, 0.6), rel=(0, 0, 45))
     set_mesh(a.get_editor_property("depleted_mesh"), SPHERE, (1.3, 1.1, 0.8), mat("RockEmpty", (0.4, 0.38, 0.36)), rel=(0, 0, 40))
@@ -158,7 +190,7 @@ def pond(node_def, x, z):
     water = box("Pond", "Resources/Pond", (x, 0.02, z), (14, 0.04, 10), mat("Water", (0.15, 0.35, 0.6), 0.05), shape=CYL, collide=False)
     water.static_mesh_component.set_editor_property("can_ever_affect_navigation", False)
     for i, (ox, oz) in enumerate(((-4, 3.4), (3, 3.6))):  # near the north (town-side) shore
-        a = actors.spawn_actor_from_class(unreal.ResourceNode, V(x + ox, 0.05, z + oz), unreal.Rotator(0, 0, 0))
+        a = spawn(unreal.ResourceNode, V(x + ox, 0.05, z + oz), unreal.Rotator(0, 0, 0))
         a.set_editor_property("definition", node_def)
         set_mesh(a.get_editor_property("mesh"), CYL, (1.2, 1.2, 0.05), mat("FishSpot", (0.5, 0.75, 1.0), 0.1))
         a.get_editor_property("mesh").set_collision_profile_name("OverlapAllDynamic")
@@ -170,7 +202,7 @@ def pond(node_def, x, z):
 # ---------------------------------------------------------------- characters
 def npc(npc_id, x, z, yaw=0.0):
     d = data("Npcs", f"Npc_{npc_id}")
-    a = actors.spawn_actor_from_class(unreal.NpcTalk, V(x, 0, z), unreal.Rotator(0, 0, yaw))
+    a = spawn(unreal.NpcTalk, V(x, 0, z), unreal.Rotator(0, 0, yaw))
     a.set_editor_property("definition", d)
     tint = d.get_editor_property("tint")
     set_mesh(a.get_editor_property("mesh"), CYL, (0.55, 0.55, 1.75), mat(f"Npc_{npc_id}", (tint.r, tint.g, tint.b)), rel=(0, 0, 87.5))
@@ -179,7 +211,7 @@ def npc(npc_id, x, z, yaw=0.0):
 
 
 def mob(mob_def, x, z, name):
-    a = actors.spawn_actor_from_class(unreal.AerondelMob, V(x, 1.0, z), unreal.Rotator(0, 0, 0))
+    a = spawn(unreal.AerondelMob, V(x, 1.0, z), unreal.Rotator(0, 0, 0))
     a.set_editor_property("definition", mob_def)
     a.rerun_construction_scripts()
     return label(a, name, "Mobs")
@@ -194,58 +226,57 @@ def environment():
     box("Fence S", f, (-16, 0.5, -30), (14, 1, 0.15), mat("Wood", (0.5, 0.35, 0.2)))
     box("Fence W", f, (-23, 0.5, -24), (0.15, 1, 12), mat("Wood", (0.5, 0.35, 0.2)))
 
-    sun = actors.spawn_actor_from_class(unreal.DirectionalLight, V(0, 30, 0), unreal.Rotator(0, -45, 35))
+    sun = spawn(unreal.DirectionalLight, V(0, 30, 0), unreal.Rotator(0, -45, 35))
     sc = sun.get_component_by_class(unreal.DirectionalLightComponent)
     sc.set_editor_property("intensity", 8.0)
     sc.set_editor_property("atmosphere_sun_light", True)
     sc.set_editor_property("mobility", unreal.ComponentMobility.MOVABLE)
     sc.set_editor_property("dynamic_shadow_distance_movable_light", 6000.0)  # one CSM-friendly distance for Quest
     label(sun, "Sun", f)
-    label(actors.spawn_actor_from_class(unreal.SkyAtmosphere, V(0, 0, 0)), "SkyAtmosphere", f)
-    sky = actors.spawn_actor_from_class(unreal.SkyLight, V(0, 5, 0))
+    label(spawn(unreal.SkyAtmosphere, V(0, 0, 0)), "SkyAtmosphere", f)
+    sky = spawn(unreal.SkyLight, V(0, 5, 0))
     skc = sky.get_component_by_class(unreal.SkyLightComponent)
     skc.set_editor_property("real_time_capture", True)
     skc.set_editor_property("mobility", unreal.ComponentMobility.MOVABLE)
     label(sky, "SkyLight", f)
-    fog = actors.spawn_actor_from_class(unreal.ExponentialHeightFog, V(0, 0, 0))
+    fog = spawn(unreal.ExponentialHeightFog, V(0, 0, 0))
     fog.get_component_by_class(unreal.ExponentialHeightFogComponent).set_editor_property("fog_density", 0.01)
     label(fog, "HeightFog", f)
-    pp = actors.spawn_actor_from_class(unreal.PostProcessVolume, V(0, 0, 0))
+    pp = spawn(unreal.PostProcessVolume, V(0, 0, 0))
     pp.set_editor_property("unbound", True)
     label(pp, "PostProcess (unbound)", f)
 
-    nav = actors.spawn_actor_from_class(unreal.NavMeshBoundsVolume, V(0, 2, 0))
+    nav = spawn(unreal.NavMeshBoundsVolume, V(0, 2, 0))
     nav.set_actor_scale3d(unreal.Vector(75, 75, 10))  # default brush is 200 cm -> 150 x 150 x 20 m
     label(nav, "NavMeshBounds", f)
 
-    start = actors.spawn_actor_from_class(unreal.PlayerStart, V(0, 1.0, -4), unreal.Rotator(0, 0, 90))
+    start = spawn(unreal.PlayerStart, V(0, 1.0, -4), unreal.Rotator(0, 0, 90))
     label(start, "PlayerStart", f)
 
 
-def run():
+def run(small=False):
     if eal.does_asset_exist(MAP):
         eal.delete_asset(MAP)
     if not levels.new_level(MAP):
         unreal.log_error("[Aerondel] Could not create " + MAP)
         return
 
-    with unreal.ScopedSlowTask(6, "Aerondel: building Larkhaven") as task:
-        task.make_dialog(True)
-        task.enter_progress_frame(1, "Environment")
+    with safe.SafeRun("Building Larkhaven", 6, small=small, save_fn=levels.save_current_level) as task:
+        task.frame("Environment")
         environment()
 
-        task.enter_progress_frame(1, "Buildings")
+        task.frame("Buildings")
         bank = building("Bank", -14, 10, 10, 8, 4, mat("StoneLight", (0.78, 0.75, 0.68)))
         smithy = building("Smithy", 14, 10, 10, 8, 4, mat("StoneDark", (0.45, 0.42, 0.4)))
         store = building("GeneralStore", 0, 18, 10, 8, 4, mat("Plaster", (0.85, 0.8, 0.65)))
 
-        task.enter_progress_frame(1, "Interiors")
+        task.frame("Interiors")
         wood_dark = mat("WoodDark", (0.35, 0.22, 0.12))
         box("Bank counter", "Town/Bank", bank(0, 0.5, 2), (6, 1, 0.8), wood_dark)
         chest = interactable(unreal.BankChest, "Bank chest", "Town/Bank", bank(-3.5, 0.45, 3), CUBE, (1.2, 0.9, 0.8), mat("Chest", (0.5, 0.3, 0.15)))
         booth = interactable(unreal.BankChest, "Bank booth", "Town/Bank", bank(2.5, 0.45, 3), CUBE, (1.2, 0.9, 0.8), mat("Chest", (0.5, 0.3, 0.15)))
         station("Furnace", "Town/Smithy", smithy(-3, 1.0, 2.5), (2, 2, 1.6), mat("Brick", (0.55, 0.25, 0.18)), unreal.StationType.FURNACE)
-        glow = actors.spawn_actor_from_class(unreal.PointLight, V(*smithy(-3, 1.0, 1.5)))
+        glow = spawn(unreal.PointLight, V(*smithy(-3, 1.0, 1.5)))
         gc = glow.get_component_by_class(unreal.PointLightComponent)
         gc.set_editor_property("light_color", unreal.Color(255, 120, 40, 255))
         gc.set_editor_property("intensity", 2500.0)
@@ -257,7 +288,7 @@ def run():
         for i in range(3):
             box(f"Shelf {i + 1}", "Town/GeneralStore", store(-1 + i * 2.2, 1.2, 3.6), (1.8, 2.4, 0.4), mat("Wood", (0.5, 0.35, 0.2)))
 
-        task.enter_progress_frame(1, "Resources")
+        task.frame("Resources")
         t, oak = data("Resources", "Node_tree"), data("Resources", "Node_oak_tree")
         for x, z in ((-30, -10), (-34, -4), (-27, -2), (-36, -14), (-31, 4)):
             tree(t, x, z)
@@ -271,7 +302,7 @@ def run():
         rock(fe, 38, -10, (0.5, 0.3, 0.25), "Iron rocks")
         pond(data("Resources", "Node_shrimp_spot"), 0, -30)
 
-        task.enter_progress_frame(1, "NPCs and mobs")
+        task.frame("NPCs and mobs")
         npc("hilda", -8, -2, 90)
         npc("osric", *bank(0, 0, 3.2)[::2], yaw=-90)
         npc("doric", *smithy(3, 0, 3)[::2], yaw=-90)
@@ -281,7 +312,7 @@ def run():
         for i, (x, z) in enumerate(((28, 20), (31, 23), (26, 25))):
             mob(gob, x, z, f"Goblin {i + 1}")
 
-        task.enter_progress_frame(1, "World settings, NavMesh, save")
+        task.frame("World settings, NavMesh, save")
         world = unreal.get_editor_subsystem(unreal.UnrealEditorSubsystem).get_editor_world()
         ws = world.get_world_settings()
         ws.set_editor_property("default_game_mode", unreal.AerondelGameMode)

@@ -8,6 +8,7 @@ import json
 import math
 import os
 import unreal
+import aerondel_safe as safe
 from aerondel_util import mat
 from build_starter_town import box, actors, CUBE, CYL, SPHERE, CONE
 
@@ -36,7 +37,7 @@ def piece(E, i, x, z, folder, mats):
     else:  # lanterns / bunting poles
         parts.append(box(n + "_Pole", folder, (x, 1.3, z), (0.16, 2.6, 0.16), mat("Festival_Pole", (0.29, 0.21, 0.15)), CYL))
         parts.append(box(n + "_Top", folder, (x, 2.7, z), (0.48, 0.48, 0.48) if E["deco"] == "lanterns" else (0.6, 0.5, 0.6), c, SPHERE if E["deco"] == "lanterns" else CONE, collide=False))
-    for a in parts:
+    for a in [p for p in parts if p]:
         tags = [unreal.Name("festival:" + E["id"])] + ([unreal.Name("festival_full")] if i >= LOW else [])
         a.set_editor_property("tags", tags)
         a.static_mesh_component.set_editor_property("cast_shadow", False)
@@ -48,12 +49,18 @@ def run():
     for a in actors.get_all_level_actors():
         if str(a.get_folder_path()).startswith("Festival"):
             actors.destroy_actor(a)
-    for k, E in enumerate(events):
-        mats = [mat("Festival_%s_%d" % (E["id"], j), rgb(c), 0.6) for j, c in enumerate(E["colors"])]
-        folder = "Festival/" + E["name"]
-        r = 8.2 + (k % 3) * 1.1  # web rings at 8.2 m + 1.1 m per concurrent event
-        for i in range(FULL):
-            a = (i / FULL) * math.pi * 2 + k * 0.22
-            piece(E, i, math.cos(a) * r, math.sin(a) * r, folder, mats)
+    with safe.SafeRun("Festival decor", len(events), save_fn=unreal.EditorLevelLibrary.save_current_level) as task:
+        for k, E in enumerate(events):
+            task.frame(E["name"])
+            _event(k, E)
     unreal.EditorLevelLibrary.save_current_level()
     unreal.log("[Aerondel] Festival decor placed for %d events (hidden at runtime unless the event is running)." % len(events))
+
+
+def _event(k, E):
+    mats = [mat("Festival_%s_%d" % (E["id"], j), rgb(c), 0.6) for j, c in enumerate(E["colors"])]
+    folder = "Festival/" + E["name"]
+    r = 8.2 + (k % 3) * 1.1  # web rings at 8.2 m + 1.1 m per concurrent event
+    for i in range(FULL):
+        a = (i / FULL) * math.pi * 2 + k * 0.22
+        piece(E, i, math.cos(a) * r, math.sin(a) * r, folder, mats)
