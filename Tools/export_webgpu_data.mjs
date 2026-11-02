@@ -26,13 +26,15 @@ const I = async m => import('file://' + path.join(src, m + '.js'));
 const items = await I('items'), gp = await I('gameplay'), sk = await I('skills'), pr = await I('prayer'),
   po = await I('potions'), qs = await I('quests'), ab = await I('abilities'), ps = await I('playerState'), sv = await I('save');
 // Aerondel expansion: these modules register their items/monsters into ITEMS / MONSTER_TYPES at import time.
+const ev = await I('events'); // seasonal events register their tokens and stall items at import time
 const rg = await I('relicgear'), rd = await I('relicdata'), gt = await I('gates'), dv = await I('delving'), rc = await I('relicry'), reg = await I('regiondata');
 const clean = v => JSON.parse(JSON.stringify(v, (k, x) => (typeof x === 'function' ? undefined : x instanceof Set ? [...x] : x)));
 const w = (n, v) => fs.writeFileSync(path.join(out, n + '.json'), JSON.stringify(clean(v), null, 1));
 w('skills', { skills: sk.SKILLS, perks: sk.PERKS, perkLevels: sk.PERK_LEVELS, perkCaps: sk.PERK_CAPS, milestones: sk.MILESTONES });
 // UE-only extras: the web draws uncut gem icons but never defines the items; the Unreal port defines them for treasure digs.
-const UE_EXTRA_ITEMS = {"Uncut sapphire": {"value": 25, "type": "resource"}, "Uncut emerald": {"value": 50, "type": "resource"}, "Uncut ruby": {"value": 100, "type": "resource"}, "Uncut diamond": {"value": 200, "type": "resource"}};
+const UE_EXTRA_ITEMS = {"Uncut sapphire": {"value": 25, "type": "resource"}, "Uncut emerald": {"value": 50, "type": "resource"}, "Uncut ruby": {"value": 100, "type": "resource"}, "Uncut diamond": {"value": 200, "type": "resource"}, "Guild crest": {"value": 250, "examine": "A crest of your guild. Hand it to Guildmaster Halvard for renown."}};
 for (const [k, v] of Object.entries(UE_EXTRA_ITEMS)) if (!items.ITEMS[k]) items.ITEMS[k] = v;
+w('events', { events: ev.EVENTS });
 w('items', { items: items.ITEMS, metals: items.METALS, sets: items.SETS, starterTools: items.STARTER_TOOLS, toolTypes: items.TOOL_TYPES, healScale: items.HEAL_SCALE });
 w('recipes', { recipes: items.RECIPES, potionRecipes: items.POTION_RECIPES });
 w('gathering', { trees: gp.TREES, rocks: gp.ROCKS, fishSpots: gp.FISH_SPOTS, herbPatches: gp.HERB_PATCHES });

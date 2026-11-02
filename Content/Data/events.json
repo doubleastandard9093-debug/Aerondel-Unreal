@@ -1,0 +1,217 @@
+{
+ "events": [
+  {
+   "id": "bloomtide",
+   "name": "Bloomtide",
+   "icon": "🌸",
+   "season": "spring",
+   "token": "Bloom petal",
+   "deco": "flowers",
+   "colors": [
+    16751312,
+    16773242,
+    11569919
+   ],
+   "blurb": "Larkhaven strews the square with blossoms to wake the fields.",
+   "shop": [
+    [
+     "Bloomcrown",
+     "head",
+     {
+      "def": 4,
+      "rdef": 4,
+      "mag": 2
+     },
+     60
+    ],
+    [
+     "Honeyed bun",
+     "food",
+     {
+      "heal": 22
+     },
+     4
+    ]
+   ]
+  },
+  {
+   "id": "midsummer",
+   "name": "Midsummer Fair",
+   "icon": "🎪",
+   "season": "summer",
+   "token": "Fair ticket",
+   "deco": "bunting",
+   "colors": [
+    14699066,
+    15777856,
+    3832544
+   ],
+   "blurb": "Stalls, games and the long light of the year's longest days.",
+   "shop": [
+    [
+     "Fairgoer's straw hat",
+     "head",
+     {
+      "def": 3,
+      "rdef": 3,
+      "ranged": 2
+     },
+     60
+    ],
+    [
+     "Candied apple",
+     "food",
+     {
+      "heal": 22
+     },
+     4
+    ]
+   ]
+  },
+  {
+   "id": "harvest",
+   "name": "Harvest Moon",
+   "icon": "🌾",
+   "season": "autumn",
+   "token": "Harvest sheaf",
+   "deco": "pumpkins",
+   "colors": [
+    14711328,
+    12619818,
+    9058842
+   ],
+   "blurb": "The fields are in. Aerondel gives thanks under a fat orange moon.",
+   "shop": [
+    [
+     "Sheaf-crown",
+     "head",
+     {
+      "def": 4,
+      "rdef": 4,
+      "str": 2
+     },
+     60
+    ],
+    [
+     "Harvest pie",
+     "food",
+     {
+      "heal": 26
+     },
+     5
+    ]
+   ]
+  },
+  {
+   "id": "frostfall",
+   "name": "Frostfall",
+   "icon": "❄️",
+   "season": "winter",
+   "token": "Frost star",
+   "deco": "snowmen",
+   "colors": [
+    16054527,
+    9095423,
+    13647936
+   ],
+   "blurb": "Snow, lanterns and the longest night; gifts are left on every doorstep.",
+   "shop": [
+    [
+     "Frostfall toque",
+     "head",
+     {
+      "def": 4,
+      "rdef": 5,
+      "atk": 2
+     },
+     60
+    ],
+    [
+     "Spiced cider",
+     "food",
+     {
+      "heal": 24
+     },
+     4
+    ]
+   ]
+  },
+  {
+   "id": "lantern",
+   "name": "Lantern Night",
+   "icon": "🏮",
+   "special": true,
+   "from": [
+    10,
+    24
+   ],
+   "to": [
+    11,
+    7
+   ],
+   "token": "Ghost lantern",
+   "deco": "lanterns",
+   "colors": [
+    16752704,
+    10117375,
+    6356912
+   ],
+   "blurb": "For two weeks the dead walk lightly; lanterns guide them home. Kills drop twice as many tokens.",
+   "shop": [
+    [
+     "Hollow-eyed mask",
+     "head",
+     {
+      "def": 5,
+      "rdef": 5,
+      "mag": 3
+     },
+     90
+    ],
+    [
+     "Grave-cake",
+     "food",
+     {
+      "heal": 30
+     },
+     6
+    ]
+   ]
+  },
+  {
+   "id": "founders",
+   "name": "Founders' Week",
+   "icon": "🏰",
+   "special": true,
+   "from": [
+    6,
+    1
+   ],
+   "to": [
+    6,
+    10
+   ],
+   "token": "Founder's seal",
+   "deco": "bunting",
+   "colors": [
+    13938487,
+    2771616,
+    16777215
+   ],
+   "blurb": "Aerondel remembers the first walls of Larkhaven.",
+   "shop": [
+    [
+     "Founder's circlet",
+     "head",
+     {
+      "def": 5,
+      "rdef": 5,
+      "atk": 2,
+      "str": 2
+     },
+     120
+    ]
+   ]
+  }
+ ]
+}

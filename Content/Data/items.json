@@ -1881,7 +1881,7 @@
    "type": "food",
    "heal": 10,
    "buff": {
-    "icon": "🍲",
+    "icon": "\ud83c\udf72",
     "ticks": 300,
     "boost": {
      "Strength": [
@@ -1896,7 +1896,7 @@
    "type": "food",
    "heal": 8,
    "buff": {
-    "icon": "🙏",
+    "icon": "\ud83d\ude4f",
     "prayer": 12
    }
   },
@@ -1905,7 +1905,7 @@
    "type": "food",
    "heal": 14,
    "buff": {
-    "icon": "🥧",
+    "icon": "\ud83e\udd67",
     "ticks": 300,
     "boost": {
      "Defence": [
@@ -1920,7 +1920,7 @@
    "type": "food",
    "heal": 24,
    "buff": {
-    "icon": "🍖",
+    "icon": "\ud83c\udf56",
     "ticks": 400,
     "boost": {
      "Attack": [
@@ -3582,6 +3582,125 @@
   "Relic key": {
    "value": 1500,
    "examine": "Opens any one gate inside a relic dungeon."
+  },
+  "Bloom petal": {
+   "value": 1,
+   "stack": true,
+   "examine": "Bloomtide token. Spend it with Festival Herald Odelyn in Larkhaven."
+  },
+  "Bloomcrown": {
+   "type": "head",
+   "def": 4,
+   "rdef": 4,
+   "mag": 2,
+   "value": 6000,
+   "cosmetic": "bloomtide",
+   "examine": "Worn at Bloomtide. Bought with bloom petals."
+  },
+  "Honeyed bun": {
+   "type": "food",
+   "heal": 22,
+   "value": 40,
+   "examine": "Bloomtide treat."
+  },
+  "Fair ticket": {
+   "value": 1,
+   "stack": true,
+   "examine": "Midsummer Fair token. Spend it with Festival Herald Odelyn in Larkhaven."
+  },
+  "Fairgoer's straw hat": {
+   "type": "head",
+   "def": 3,
+   "rdef": 3,
+   "ranged": 2,
+   "value": 6000,
+   "cosmetic": "midsummer",
+   "examine": "Worn at Midsummer Fair. Bought with fair tickets."
+  },
+  "Candied apple": {
+   "type": "food",
+   "heal": 22,
+   "value": 40,
+   "examine": "Midsummer Fair treat."
+  },
+  "Harvest sheaf": {
+   "value": 1,
+   "stack": true,
+   "examine": "Harvest Moon token. Spend it with Festival Herald Odelyn in Larkhaven."
+  },
+  "Sheaf-crown": {
+   "type": "head",
+   "def": 4,
+   "rdef": 4,
+   "str": 2,
+   "value": 6000,
+   "cosmetic": "harvest",
+   "examine": "Worn at Harvest Moon. Bought with harvest sheafs."
+  },
+  "Harvest pie": {
+   "type": "food",
+   "heal": 26,
+   "value": 50,
+   "examine": "Harvest Moon treat."
+  },
+  "Frost star": {
+   "value": 1,
+   "stack": true,
+   "examine": "Frostfall token. Spend it with Festival Herald Odelyn in Larkhaven."
+  },
+  "Frostfall toque": {
+   "type": "head",
+   "def": 4,
+   "rdef": 5,
+   "atk": 2,
+   "value": 6000,
+   "cosmetic": "frostfall",
+   "examine": "Worn at Frostfall. Bought with frost stars."
+  },
+  "Spiced cider": {
+   "type": "food",
+   "heal": 24,
+   "value": 40,
+   "examine": "Frostfall treat."
+  },
+  "Ghost lantern": {
+   "value": 1,
+   "stack": true,
+   "examine": "Lantern Night token. Spend it with Festival Herald Odelyn in Larkhaven."
+  },
+  "Hollow-eyed mask": {
+   "type": "head",
+   "def": 5,
+   "rdef": 5,
+   "mag": 3,
+   "value": 9000,
+   "cosmetic": "lantern",
+   "examine": "Worn at Lantern Night. Bought with ghost lanterns."
+  },
+  "Grave-cake": {
+   "type": "food",
+   "heal": 30,
+   "value": 60,
+   "examine": "Lantern Night treat."
+  },
+  "Founder's seal": {
+   "value": 1,
+   "stack": true,
+   "examine": "Founders' Week token. Spend it with Festival Herald Odelyn in Larkhaven."
+  },
+  "Founder's circlet": {
+   "type": "head",
+   "def": 5,
+   "rdef": 5,
+   "atk": 2,
+   "str": 2,
+   "value": 12000,
+   "cosmetic": "founders",
+   "examine": "Worn at Founders' Week. Bought with founder's seals."
+  },
+  "Guild crest": {
+   "value": 250,
+   "examine": "A crest of your guild. Hand it to Guildmaster Halvard for renown."
   }
  },
  "metals": [
@@ -3715,64 +3834,64 @@
   {
    "id": "axe",
    "name": "Axe",
-   "icon": "🪓",
+   "icon": "\ud83e\ude93",
    "skill": "Woodcutting"
   },
   {
    "id": "pickaxe",
    "name": "Pickaxe",
-   "icon": "⛏️",
+   "icon": "\u26cf\ufe0f",
    "skill": "Mining"
   },
   {
    "id": "net",
    "name": "Fishing net",
-   "icon": "🥅"
+   "icon": "\ud83e\udd45"
   },
   {
    "id": "rod",
    "name": "Fishing rod",
-   "icon": "🎣"
+   "icon": "\ud83c\udfa3"
   },
   {
    "id": "cage",
    "name": "Lobster pot",
-   "icon": "🧺"
+   "icon": "\ud83e\uddfa"
   },
   {
    "id": "harpoon",
    "name": "Harpoon",
-   "icon": "🔱"
+   "icon": "\ud83d\udd31"
   },
   {
    "id": "hammer",
    "name": "Hammer",
-   "icon": "🔨"
+   "icon": "\ud83d\udd28"
   },
   {
    "id": "knife",
    "name": "Knife",
-   "icon": "🔪"
+   "icon": "\ud83d\udd2a"
   },
   {
    "id": "needle",
    "name": "Needle",
-   "icon": "🪡"
+   "icon": "\ud83e\udea1"
   },
   {
    "id": "tinderbox",
    "name": "Tinderbox",
-   "icon": "🔥"
+   "icon": "\ud83d\udd25"
   },
   {
    "id": "spade",
    "name": "Spade",
-   "icon": "🪏"
+   "icon": "\ud83e\ude8f"
   },
   {
    "id": "mattock",
    "name": "Mattock",
-   "icon": "⛏️",
+   "icon": "\u26cf\ufe0f",
    "skill": "Relicry"
   }
  ],
