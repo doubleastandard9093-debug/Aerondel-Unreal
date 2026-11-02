@@ -1,7 +1,7 @@
 # Next steps
 
 ## WebGPU-parity port (Oct 2026): manual editor steps
-The C++ now mirrors Gielinor-Lite's `webgpu` branch: rules/formulas (`UGielinorRules`), 0.6 s game tick, HP x10, prayer, potions/food boosts,
+The C++ now mirrors Aerondel-Lite (formerly Gielinor-Lite)'s `webgpu` branch: rules/formulas (`UGielinorRules`), 0.6 s game tick, HP x10, prayer, potions/food boosts,
 run energy, poison/venom/stun, adrenaline abilities, melee/ranged/magic combat with ammo/runes, procs, block/reflect/riposte, leash,
 bounties, drops, gathering/cooking via rules, activity actors and data-driven quests (requirements, Visit/Xp/Bury steps, QP milestones).
 - [ ] JSON content (Content/Data/*.json) is merged into the GameDatabase at startup; check the Output Log for loader warnings on first Play.

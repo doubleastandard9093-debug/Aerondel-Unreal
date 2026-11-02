@@ -1,7 +1,7 @@
 // Exports Gielinor Lite (WebGPU branch) game data to Content/Data/*.json for the Unreal content loader.
-// Usage: node Tools/export_webgpu_data.mjs <path-to-Gielinor-Lite/js> [outDir]
+// Usage: node Tools/export_webgpu_data.mjs <path-to-Aerondel-Lite/js> [outDir]
 import fs from 'fs'; import path from 'path'; import os from 'os';
-const jsDir = path.resolve(process.argv[2] || '../Gielinor-Lite/js');
+const jsDir = path.resolve(process.argv[2] || (fs.existsSync('../Aerondel-Lite/js') ? '../Aerondel-Lite/js' : '../Gielinor-Lite/js'));
 const out = path.resolve(process.argv[3] || 'Content/Data');
 fs.mkdirSync(out, { recursive: true });
 // Copy the web js into a temp dir next to a generated three.js stub (world.js imports three; we only read constants).
