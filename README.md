@@ -101,3 +101,8 @@ tier shrinks the range at runtime (Android 160 m, Low 256 m, High 384 m, Ultra 5
 `AerondelScalability.cpp`. To grow the map, add coordinates to `Content/Data/world.json` and re-run
 the blockout; new areas stream automatically. Optional: Build > Build HLODs for distant proxies.
 If the log says the map isn't partitioned, open it and use Tools > Convert Level, then re-run.
+
+## Aerondel update (events, guilds, villages, quests)
+`Content/Data/aerondel_update.json` mirrors Lite's goblin village Snarlwick (190,40), ogre village Gorrumhold (-200,-30),
+quest-warded elven town Sylvaranth (30,230; unlocked by `moonlit_ward`), generated NPCs/waymarks and the ~1,120 generated quests.
+Seasonal events, guilds and the animation pass live in the Lite web build; Unreal reads this data for blockout/quest tables.
