@@ -90,7 +90,7 @@ float UGuildFeature::XpBonus(FName SkillId) const
 {
 	if (!HasGuild()) return 0.f;
 	const bool bC = GuildData::IsCombat(SkillId);
-	float M = (bC ? Rooms.FindRef(TEXT("training")) : Rooms.FindRef(TEXT("workshop"))) * 0.01f + FMath::Min(0.1f, Members().Num() * 0.005f);
+	float M = (bC ? Rooms.FindRef(TEXT("training")) : Rooms.FindRef(TEXT("workshop"))) * 0.01f + Members().Num() * 0.005f;
 	const FString B = ActiveBoost();
 	if (B == TEXT("wisdom")) M += 0.1f; else if (B == TEXT("rally")) M += 0.25f;
 	else if (B == TEXT("valor") && bC) M += 0.15f; else if (B == TEXT("craft") && !bC) M += 0.15f;

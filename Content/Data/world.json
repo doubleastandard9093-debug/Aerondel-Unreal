@@ -1,5 +1,5 @@
 {
- "worldHalf": 420,
+ "worldHalf": 620,
  "spawn": {
   "x": 0,
   "z": 0
@@ -255,6 +255,46 @@
   "Bogwatch": {
    "x": -360,
    "z": 185
+  },
+  "Ashgate Post": {
+   "x": 540,
+   "z": 0
+  },
+  "Briarwatch": {
+   "x": 380,
+   "z": 400
+  },
+  "Thunderhold": {
+   "x": -390,
+   "z": 400
+  },
+  "Lanternmoor": {
+   "x": -545,
+   "z": -10
+  },
+  "Mirrorsand Rest": {
+   "x": -410,
+   "z": -440
+  },
+  "Slagwatch": {
+   "x": 0,
+   "z": -545
+  },
+  "Last Light Bastion": {
+   "x": 420,
+   "z": -430
+  },
+  "Snarlwick": {
+   "x": 190,
+   "z": 40
+  },
+  "Gorrumhold": {
+   "x": -200,
+   "z": -30
+  },
+  "Sylvaranth": {
+   "x": 30,
+   "z": 230
   }
  },
  "paths": [
@@ -1329,6 +1369,396 @@
    "z": -124,
    "r": 6,
    "name": "Grumsh's camp beyond the ogre hills"
+  },
+  "varrockSquare": {
+   "x": 120,
+   "z": -40,
+   "r": 6,
+   "name": "Highcrest square"
+  },
+  "faladorSquare": {
+   "x": -60,
+   "z": -80,
+   "r": 6,
+   "name": "Whitecairn square"
+  },
+  "ashfordSquare": {
+   "x": 50,
+   "z": -24,
+   "r": 6,
+   "name": "Emberfold square"
+  },
+  "sarimSquare": {
+   "x": -80,
+   "z": 60,
+   "r": 6,
+   "name": "Saltreach square"
+  },
+  "yewFalador": {
+   "x": -38,
+   "z": -88,
+   "r": 6,
+   "name": "the yew trees east of Whitecairn"
+  },
+  "magicVarrock": {
+   "x": 104,
+   "z": -112,
+   "r": 5,
+   "name": "the magic trees north of Highcrest"
+  },
+  "mapleVarrock": {
+   "x": 100,
+   "z": -6,
+   "r": 6,
+   "name": "the maple trees south-west of Highcrest"
+  },
+  "larkhavenHub": {
+   "x": 0,
+   "z": 0,
+   "r": 7,
+   "name": "the heart of Larkhaven"
+  },
+  "larkhavenWay0": {
+   "x": 10,
+   "z": -32,
+   "r": 6,
+   "name": "the waymark north of Larkhaven"
+  },
+  "larkhavenWay1": {
+   "x": 23,
+   "z": 25,
+   "r": 6,
+   "name": "the waymark south-west of Larkhaven"
+  },
+  "larkhavenWay2": {
+   "x": -31,
+   "z": 14,
+   "r": 6,
+   "name": "the waymark east of Larkhaven"
+  },
+  "emberfoldHub": {
+   "x": 50,
+   "z": -24,
+   "r": 7,
+   "name": "the heart of Emberfold"
+  },
+  "emberfoldWay0": {
+   "x": 60,
+   "z": -56,
+   "r": 6,
+   "name": "the waymark north of Emberfold"
+  },
+  "emberfoldWay1": {
+   "x": 73,
+   "z": 1,
+   "r": 6,
+   "name": "the waymark south-west of Emberfold"
+  },
+  "emberfoldWay2": {
+   "x": 19,
+   "z": -10,
+   "r": 6,
+   "name": "the waymark east of Emberfold"
+  },
+  "saltreachHub": {
+   "x": -80,
+   "z": 60,
+   "r": 7,
+   "name": "the heart of Saltreach"
+  },
+  "saltreachWay0": {
+   "x": -70,
+   "z": 28,
+   "r": 6,
+   "name": "the waymark north of Saltreach"
+  },
+  "saltreachWay1": {
+   "x": -57,
+   "z": 85,
+   "r": 6,
+   "name": "the waymark south-west of Saltreach"
+  },
+  "saltreachWay2": {
+   "x": -111,
+   "z": 74,
+   "r": 6,
+   "name": "the waymark east of Saltreach"
+  },
+  "whitecairnHub": {
+   "x": -60,
+   "z": -80,
+   "r": 7,
+   "name": "the heart of Whitecairn"
+  },
+  "whitecairnWay0": {
+   "x": -50,
+   "z": -112,
+   "r": 6,
+   "name": "the waymark north of Whitecairn"
+  },
+  "whitecairnWay1": {
+   "x": -37,
+   "z": -55,
+   "r": 6,
+   "name": "the waymark south-west of Whitecairn"
+  },
+  "whitecairnWay2": {
+   "x": -91,
+   "z": -66,
+   "r": 6,
+   "name": "the waymark east of Whitecairn"
+  },
+  "highcrestHub": {
+   "x": 120,
+   "z": -40,
+   "r": 7,
+   "name": "the heart of Highcrest"
+  },
+  "highcrestWay0": {
+   "x": 130,
+   "z": -72,
+   "r": 6,
+   "name": "the waymark north of Highcrest"
+  },
+  "highcrestWay1": {
+   "x": 143,
+   "z": -15,
+   "r": 6,
+   "name": "the waymark south-west of Highcrest"
+  },
+  "highcrestWay2": {
+   "x": 89,
+   "z": -26,
+   "r": 6,
+   "name": "the waymark east of Highcrest"
+  },
+  "bogwatchHub": {
+   "x": -360,
+   "z": 185,
+   "r": 7,
+   "name": "the heart of Bogwatch"
+  },
+  "bogwatchWay0": {
+   "x": -351,
+   "z": 156,
+   "r": 6,
+   "name": "the waymark north of Bogwatch"
+  },
+  "bogwatchWay1": {
+   "x": -340,
+   "z": 207,
+   "r": 6,
+   "name": "the waymark south-west of Bogwatch"
+  },
+  "bogwatchWay2": {
+   "x": -387,
+   "z": 197,
+   "r": 6,
+   "name": "the waymark east of Bogwatch"
+  },
+  "cragmoorlodgeHub": {
+   "x": 235,
+   "z": -350,
+   "r": 7,
+   "name": "the heart of Cragmoor Lodge"
+  },
+  "cragmoorlodgeWay0": {
+   "x": 244,
+   "z": -379,
+   "r": 6,
+   "name": "the waymark north of Cragmoor Lodge"
+  },
+  "cragmoorlodgeWay1": {
+   "x": 255,
+   "z": -328,
+   "r": 6,
+   "name": "the waymark south-west of Cragmoor Lodge"
+  },
+  "cragmoorlodgeWay2": {
+   "x": 208,
+   "z": -338,
+   "r": 6,
+   "name": "the waymark east of Cragmoor Lodge"
+  },
+  "rimeholtHub": {
+   "x": -250,
+   "z": -355,
+   "r": 7,
+   "name": "the heart of Rimeholt"
+  },
+  "rimeholtWay0": {
+   "x": -241,
+   "z": -384,
+   "r": 6,
+   "name": "the waymark north of Rimeholt"
+  },
+  "rimeholtWay1": {
+   "x": -230,
+   "z": -333,
+   "r": 6,
+   "name": "the waymark south-west of Rimeholt"
+  },
+  "rimeholtWay2": {
+   "x": -277,
+   "z": -343,
+   "r": 6,
+   "name": "the waymark east of Rimeholt"
+  },
+  "miragewellHub": {
+   "x": 360,
+   "z": 120,
+   "r": 7,
+   "name": "the heart of Mirage Well"
+  },
+  "miragewellWay0": {
+   "x": 369,
+   "z": 91,
+   "r": 6,
+   "name": "the waymark north of Mirage Well"
+  },
+  "miragewellWay1": {
+   "x": 380,
+   "z": 142,
+   "r": 6,
+   "name": "the waymark south-west of Mirage Well"
+  },
+  "miragewellWay2": {
+   "x": 333,
+   "z": 132,
+   "r": 6,
+   "name": "the waymark east of Mirage Well"
+  },
+  "vinehollowHub": {
+   "x": 210,
+   "z": 360,
+   "r": 7,
+   "name": "the heart of Vinehollow"
+  },
+  "vinehollowWay0": {
+   "x": 219,
+   "z": 331,
+   "r": 6,
+   "name": "the waymark north of Vinehollow"
+  },
+  "vinehollowWay1": {
+   "x": 230,
+   "z": 382,
+   "r": 6,
+   "name": "the waymark south-west of Vinehollow"
+  },
+  "vinehollowWay2": {
+   "x": 183,
+   "z": 372,
+   "r": 6,
+   "name": "the waymark east of Vinehollow"
+  },
+  "cinderpostHub": {
+   "x": 355,
+   "z": -140,
+   "r": 7,
+   "name": "the heart of Cinderpost"
+  },
+  "cinderpostWay0": {
+   "x": 364,
+   "z": -169,
+   "r": 6,
+   "name": "the waymark north of Cinderpost"
+  },
+  "cinderpostWay1": {
+   "x": 375,
+   "z": -118,
+   "r": 6,
+   "name": "the waymark south-west of Cinderpost"
+  },
+  "cinderpostWay2": {
+   "x": 328,
+   "z": -128,
+   "r": 6,
+   "name": "the waymark east of Cinderpost"
+  },
+  "snarlwickHub": {
+   "x": 190,
+   "z": 40,
+   "r": 7,
+   "name": "the heart of Snarlwick"
+  },
+  "snarlwickWay0": {
+   "x": 199,
+   "z": 11,
+   "r": 6,
+   "name": "the waymark north of Snarlwick"
+  },
+  "snarlwickWay1": {
+   "x": 210,
+   "z": 62,
+   "r": 6,
+   "name": "the waymark south-west of Snarlwick"
+  },
+  "snarlwickWay2": {
+   "x": 163,
+   "z": 52,
+   "r": 6,
+   "name": "the waymark east of Snarlwick"
+  },
+  "gorrumholdHub": {
+   "x": -200,
+   "z": -30,
+   "r": 7,
+   "name": "the heart of Gorrumhold"
+  },
+  "gorrumholdWay0": {
+   "x": -191,
+   "z": -59,
+   "r": 6,
+   "name": "the waymark north of Gorrumhold"
+  },
+  "gorrumholdWay1": {
+   "x": -180,
+   "z": -8,
+   "r": 6,
+   "name": "the waymark south-west of Gorrumhold"
+  },
+  "gorrumholdWay2": {
+   "x": -227,
+   "z": -18,
+   "r": 6,
+   "name": "the waymark east of Gorrumhold"
+  },
+  "sylvaranthHub": {
+   "x": 30,
+   "z": 230,
+   "r": 7,
+   "name": "the heart of Sylvaranth"
+  },
+  "sylvaranthWay0": {
+   "x": 39,
+   "z": 201,
+   "r": 6,
+   "name": "the waymark north of Sylvaranth"
+  },
+  "sylvaranthWay1": {
+   "x": 50,
+   "z": 252,
+   "r": 6,
+   "name": "the waymark south-west of Sylvaranth"
+  },
+  "sylvaranthWay2": {
+   "x": 3,
+   "z": 242,
+   "r": 6,
+   "name": "the waymark east of Sylvaranth"
+  },
+  "sylvaWard": {
+   "x": 30,
+   "z": 206,
+   "r": 5,
+   "name": "the edge of the Sylvaranth ward"
+  },
+  "moonPool": {
+   "x": -20,
+   "z": 16,
+   "r": 10,
+   "name": "the shore of Larkhaven lake at night"
   }
  },
  "regions": [
@@ -1874,6 +2304,432 @@
     "dz": -20,
     "level": 1
    }
+  },
+  {
+   "id": "grimhollow",
+   "name": "Grimhollow Barrens",
+   "biome": "volcanic",
+   "x": 540,
+   "z": 0,
+   "r": 58,
+   "tier": [
+    110,
+    140
+   ],
+   "camp": {
+    "name": "Ashgate Post",
+    "dx": 0,
+    "dz": 0
+   },
+   "scatter": {
+    "lavarock": 34,
+    "deadtree": 20,
+    "vent": 8
+   },
+   "mobs": [
+    [
+     "Barrow Ghoul",
+     26,
+     24,
+     4
+    ],
+    [
+     "Barrow Ghoul",
+     32,
+     18,
+     4
+    ],
+    [
+     "Barrow Ghoul",
+     22,
+     32,
+     4
+    ],
+    [
+     "Cinder Warden",
+     -28,
+     -26,
+     3
+    ],
+    [
+     "Cinder Warden",
+     -34,
+     -20,
+     3
+    ]
+   ]
+  },
+  {
+   "id": "thornmere",
+   "name": "Thornmere Wilds",
+   "biome": "jungle",
+   "x": 380,
+   "z": 400,
+   "r": 58,
+   "tier": [
+    180,
+    220
+   ],
+   "camp": {
+    "name": "Briarwatch",
+    "dx": 0,
+    "dz": 0
+   },
+   "scatter": {
+    "palm": 30,
+    "junglebush": 46,
+    "fern": 30
+   },
+   "mobs": [
+    [
+     "Thornback Prowler",
+     26,
+     24,
+     4
+    ],
+    [
+     "Thornback Prowler",
+     32,
+     18,
+     4
+    ],
+    [
+     "Thornback Prowler",
+     22,
+     32,
+     4
+    ],
+    [
+     "Bramble Colossus",
+     -28,
+     -26,
+     3
+    ],
+    [
+     "Bramble Colossus",
+     -34,
+     -20,
+     3
+    ]
+   ]
+  },
+  {
+   "id": "hollowfrost",
+   "name": "Hollowfrost Expanse",
+   "biome": "tundra",
+   "x": 0,
+   "z": 540,
+   "r": 58,
+   "tier": [
+    260,
+    320
+   ],
+   "camp": {
+    "name": "Whitecairn",
+    "dx": 0,
+    "dz": 0
+   },
+   "scatter": {
+    "pine": 50,
+    "snowrock": 24,
+    "iceshard": 16
+   },
+   "mobs": [
+    [
+     "Hoarfrost Stalker",
+     26,
+     24,
+     4
+    ],
+    [
+     "Hoarfrost Stalker",
+     32,
+     18,
+     4
+    ],
+    [
+     "Hoarfrost Stalker",
+     22,
+     32,
+     4
+    ],
+    [
+     "Glacier Behemoth",
+     -28,
+     -26,
+     3
+    ],
+    [
+     "Glacier Behemoth",
+     -34,
+     -20,
+     3
+    ]
+   ]
+  },
+  {
+   "id": "stormcrown",
+   "name": "Stormcrown Peaks",
+   "biome": "alpine",
+   "x": -390,
+   "z": 400,
+   "r": 58,
+   "tier": [
+    380,
+    450
+   ],
+   "camp": {
+    "name": "Thunderhold",
+    "dx": 0,
+    "dz": 0
+   },
+   "scatter": {
+    "pine": 40,
+    "boulder": 34,
+    "fern": 14
+   },
+   "mobs": [
+    [
+     "Storm Gryphon",
+     26,
+     24,
+     4
+    ],
+    [
+     "Storm Gryphon",
+     32,
+     18,
+     4
+    ],
+    [
+     "Storm Gryphon",
+     22,
+     32,
+     4
+    ],
+    [
+     "Peak Warlord",
+     -28,
+     -26,
+     3
+    ],
+    [
+     "Peak Warlord",
+     -34,
+     -20,
+     3
+    ]
+   ]
+  },
+  {
+   "id": "duskmarsh",
+   "name": "Duskmarsh Deeps",
+   "biome": "swamp",
+   "x": -545,
+   "z": -10,
+   "r": 58,
+   "tier": [
+    520,
+    600
+   ],
+   "camp": {
+    "name": "Lanternmoor",
+    "dx": 0,
+    "dz": 0
+   },
+   "scatter": {
+    "deadtree": 34,
+    "reed": 56,
+    "mossrock": 18
+   },
+   "mobs": [
+    [
+     "Murk Leech",
+     26,
+     24,
+     4
+    ],
+    [
+     "Murk Leech",
+     32,
+     18,
+     4
+    ],
+    [
+     "Murk Leech",
+     22,
+     32,
+     4
+    ],
+    [
+     "Bog Revenant",
+     -28,
+     -26,
+     3
+    ],
+    [
+     "Bog Revenant",
+     -34,
+     -20,
+     3
+    ]
+   ]
+  },
+  {
+   "id": "glasswind",
+   "name": "Glasswind Erg",
+   "biome": "desert",
+   "x": -410,
+   "z": -440,
+   "r": 58,
+   "tier": [
+    650,
+    720
+   ],
+   "camp": {
+    "name": "Mirrorsand Rest",
+    "dx": 0,
+    "dz": 0
+   },
+   "scatter": {
+    "cactus": 36,
+    "sandstone": 26,
+    "bones": 14
+   },
+   "mobs": [
+    [
+     "Glass Scorpion",
+     26,
+     24,
+     4
+    ],
+    [
+     "Glass Scorpion",
+     32,
+     18,
+     4
+    ],
+    [
+     "Glass Scorpion",
+     22,
+     32,
+     4
+    ],
+    [
+     "Dune Tyrant",
+     -28,
+     -26,
+     3
+    ],
+    [
+     "Dune Tyrant",
+     -34,
+     -20,
+     3
+    ]
+   ]
+  },
+  {
+   "id": "emberdeep",
+   "name": "Emberdeep Caldera",
+   "biome": "volcanic",
+   "x": 0,
+   "z": -545,
+   "r": 58,
+   "tier": [
+    800,
+    880
+   ],
+   "camp": {
+    "name": "Slagwatch",
+    "dx": 0,
+    "dz": 0
+   },
+   "scatter": {
+    "lavarock": 44,
+    "vent": 14,
+    "deadtree": 10
+   },
+   "mobs": [
+    [
+     "Caldera Drake",
+     26,
+     24,
+     4
+    ],
+    [
+     "Caldera Drake",
+     32,
+     18,
+     4
+    ],
+    [
+     "Caldera Drake",
+     22,
+     32,
+     4
+    ],
+    [
+     "Molten Archon",
+     -28,
+     -26,
+     3
+    ],
+    [
+     "Molten Archon",
+     -34,
+     -20,
+     3
+    ]
+   ]
+  },
+  {
+   "id": "sundered",
+   "name": "The Sundered Reach",
+   "biome": "alpine",
+   "x": 420,
+   "z": -430,
+   "r": 58,
+   "tier": [
+    950,
+    1000
+   ],
+   "camp": {
+    "name": "Last Light Bastion",
+    "dx": 0,
+    "dz": 0
+   },
+   "scatter": {
+    "boulder": 40,
+    "pine": 24,
+    "deadtree": 16
+   },
+   "mobs": [
+    [
+     "Voidborn Knight",
+     26,
+     24,
+     4
+    ],
+    [
+     "Voidborn Knight",
+     32,
+     18,
+     4
+    ],
+    [
+     "Voidborn Knight",
+     22,
+     32,
+     4
+    ],
+    [
+     "Sunderlord Vexmar",
+     -28,
+     -26,
+     3
+    ]
+   ]
   }
  ],
  "biomes": {

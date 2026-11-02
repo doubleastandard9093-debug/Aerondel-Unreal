@@ -521,6 +521,213 @@
    "color": 5918792,
    "scale": 1.8,
    "skin": 10127984
+  },
+  "Barrow Ghoul": {
+   "name": "Barrow Ghoul",
+   "level": 110,
+   "hp": 1155,
+   "maxHit": 105,
+   "att": 90,
+   "def": 79,
+   "speed": 4,
+   "scale": 1.1,
+   "color": 6978138,
+   "skin": 10137738,
+   "undead": true
+  },
+  "Cinder Warden": {
+   "name": "Cinder Warden",
+   "level": 140,
+   "hp": 1470,
+   "maxHit": 133,
+   "att": 115,
+   "def": 101,
+   "speed": 4,
+   "scale": 1.5,
+   "color": 4860442,
+   "skin": 12603434
+  },
+  "Thornback Prowler": {
+   "name": "Thornback Prowler",
+   "level": 180,
+   "hp": 1890,
+   "maxHit": 171,
+   "att": 148,
+   "def": 130,
+   "speed": 4,
+   "scale": 1.2,
+   "color": 3824170,
+   "shape": "quad"
+  },
+  "Bramble Colossus": {
+   "name": "Bramble Colossus",
+   "level": 220,
+   "hp": 2310,
+   "maxHit": 209,
+   "att": 180,
+   "def": 158,
+   "speed": 5,
+   "scale": 2,
+   "color": 4864538,
+   "skin": 5929530
+  },
+  "Hoarfrost Stalker": {
+   "name": "Hoarfrost Stalker",
+   "level": 260,
+   "hp": 2730,
+   "maxHit": 247,
+   "att": 213,
+   "def": 187,
+   "speed": 4,
+   "scale": 1.2,
+   "color": 14214384,
+   "shape": "quad"
+  },
+  "Glacier Behemoth": {
+   "name": "Glacier Behemoth",
+   "level": 320,
+   "hp": 3360,
+   "maxHit": 304,
+   "att": 262,
+   "def": 230,
+   "speed": 5,
+   "scale": 2.1,
+   "color": 10535136,
+   "skin": 13691135
+  },
+  "Storm Gryphon": {
+   "name": "Storm Gryphon",
+   "level": 380,
+   "hp": 3990,
+   "maxHit": 361,
+   "att": 312,
+   "def": 274,
+   "speed": 4,
+   "scale": 1.5,
+   "color": 9075290,
+   "shape": "dragon"
+  },
+  "Peak Warlord": {
+   "name": "Peak Warlord",
+   "level": 450,
+   "hp": 4725,
+   "maxHit": 428,
+   "att": 369,
+   "def": 324,
+   "speed": 4,
+   "scale": 1.3,
+   "color": 5921386,
+   "skin": 11569770
+  },
+  "Murk Leech": {
+   "name": "Murk Leech",
+   "level": 520,
+   "hp": 5460,
+   "maxHit": 494,
+   "att": 426,
+   "def": 374,
+   "speed": 4,
+   "scale": 1.1,
+   "color": 2767402,
+   "shape": "spider",
+   "poison": {
+    "chance": 0.3,
+    "dmg": 120
+   }
+  },
+  "Bog Revenant": {
+   "name": "Bog Revenant",
+   "level": 600,
+   "hp": 6300,
+   "maxHit": 570,
+   "att": 492,
+   "def": 432,
+   "speed": 4,
+   "scale": 1.4,
+   "color": 3820090,
+   "skin": 8034938,
+   "undead": true
+  },
+  "Glass Scorpion": {
+   "name": "Glass Scorpion",
+   "level": 650,
+   "hp": 6825,
+   "maxHit": 618,
+   "att": 533,
+   "def": 468,
+   "speed": 4,
+   "scale": 1.4,
+   "color": 13160664,
+   "shape": "spider",
+   "poison": {
+    "chance": 0.25,
+    "dmg": 160
+   }
+  },
+  "Dune Tyrant": {
+   "name": "Dune Tyrant",
+   "level": 720,
+   "hp": 7560,
+   "maxHit": 684,
+   "att": 590,
+   "def": 518,
+   "speed": 5,
+   "scale": 2,
+   "color": 9071162,
+   "skin": 13146730
+  },
+  "Caldera Drake": {
+   "name": "Caldera Drake",
+   "level": 800,
+   "hp": 8400,
+   "maxHit": 760,
+   "att": 656,
+   "def": 576,
+   "speed": 4,
+   "scale": 1.8,
+   "color": 10498074,
+   "shape": "dragon",
+   "ranged": true,
+   "range": 7
+  },
+  "Molten Archon": {
+   "name": "Molten Archon",
+   "level": 880,
+   "hp": 9240,
+   "maxHit": 836,
+   "att": 722,
+   "def": 634,
+   "speed": 4,
+   "scale": 2,
+   "color": 2759184,
+   "skin": 16738842
+  },
+  "Voidborn Knight": {
+   "name": "Voidborn Knight",
+   "level": 950,
+   "hp": 9975,
+   "maxHit": 903,
+   "att": 779,
+   "def": 684,
+   "speed": 4,
+   "scale": 1.3,
+   "color": 1710634,
+   "skin": 6970016
+  },
+  "Sunderlord Vexmar": {
+   "name": "Sunderlord Vexmar",
+   "level": 1000,
+   "hp": 25000,
+   "maxHit": 1100,
+   "att": 820,
+   "def": 720,
+   "speed": 5,
+   "scale": 2.6,
+   "color": 1182234,
+   "skin": 10119888,
+   "boss": true,
+   "respawn": 300000,
+   "title": "Sunderlord Vexmar, the Last Eclipse"
   }
  },
  "loot": {
@@ -1948,6 +2155,422 @@
      1,
      3
     ]
+   }
+  ],
+  "Barrow Ghoul": [
+   {
+    "item": "Big bones",
+    "chance": 1
+   },
+   {
+    "item": "Coins",
+    "chance": 0.9,
+    "qty": [
+     220,
+     660
+    ]
+   },
+   {
+    "item": "Relic shard",
+    "chance": 0.35,
+    "qty": [
+     1,
+     2
+    ]
+   },
+   {
+    "item": "Ancient fragment",
+    "chance": 0.0775
+   }
+  ],
+  "Cinder Warden": [
+   {
+    "item": "Big bones",
+    "chance": 1
+   },
+   {
+    "item": "Coins",
+    "chance": 0.9,
+    "qty": [
+     280,
+     840
+    ]
+   },
+   {
+    "item": "Relic shard",
+    "chance": 0.35,
+    "qty": [
+     1,
+     2
+    ]
+   },
+   {
+    "item": "Ancient fragment",
+    "chance": 0.085
+   }
+  ],
+  "Thornback Prowler": [
+   {
+    "item": "Big bones",
+    "chance": 1
+   },
+   {
+    "item": "Coins",
+    "chance": 0.9,
+    "qty": [
+     360,
+     1080
+    ]
+   },
+   {
+    "item": "Relic shard",
+    "chance": 0.35,
+    "qty": [
+     1,
+     2
+    ]
+   },
+   {
+    "item": "Ancient fragment",
+    "chance": 0.095
+   }
+  ],
+  "Bramble Colossus": [
+   {
+    "item": "Big bones",
+    "chance": 1
+   },
+   {
+    "item": "Coins",
+    "chance": 0.9,
+    "qty": [
+     440,
+     1320
+    ]
+   },
+   {
+    "item": "Relic shard",
+    "chance": 0.35,
+    "qty": [
+     1,
+     2
+    ]
+   },
+   {
+    "item": "Ancient fragment",
+    "chance": 0.10500000000000001
+   }
+  ],
+  "Hoarfrost Stalker": [
+   {
+    "item": "Big bones",
+    "chance": 1
+   },
+   {
+    "item": "Coins",
+    "chance": 0.9,
+    "qty": [
+     520,
+     1560
+    ]
+   },
+   {
+    "item": "Relic shard",
+    "chance": 0.35,
+    "qty": [
+     1,
+     3
+    ]
+   },
+   {
+    "item": "Ancient fragment",
+    "chance": 0.115
+   }
+  ],
+  "Glacier Behemoth": [
+   {
+    "item": "Big bones",
+    "chance": 1
+   },
+   {
+    "item": "Coins",
+    "chance": 0.9,
+    "qty": [
+     640,
+     1920
+    ]
+   },
+   {
+    "item": "Relic shard",
+    "chance": 0.35,
+    "qty": [
+     1,
+     3
+    ]
+   },
+   {
+    "item": "Ancient fragment",
+    "chance": 0.13
+   }
+  ],
+  "Storm Gryphon": [
+   {
+    "item": "Big bones",
+    "chance": 1
+   },
+   {
+    "item": "Coins",
+    "chance": 0.9,
+    "qty": [
+     760,
+     2280
+    ]
+   },
+   {
+    "item": "Relic shard",
+    "chance": 0.35,
+    "qty": [
+     1,
+     3
+    ]
+   },
+   {
+    "item": "Ancient fragment",
+    "chance": 0.14500000000000002
+   }
+  ],
+  "Peak Warlord": [
+   {
+    "item": "Big bones",
+    "chance": 1
+   },
+   {
+    "item": "Coins",
+    "chance": 0.9,
+    "qty": [
+     900,
+     2700
+    ]
+   },
+   {
+    "item": "Relic shard",
+    "chance": 0.35,
+    "qty": [
+     1,
+     3
+    ]
+   },
+   {
+    "item": "Ancient fragment",
+    "chance": 0.1625
+   }
+  ],
+  "Murk Leech": [
+   {
+    "item": "Big bones",
+    "chance": 1
+   },
+   {
+    "item": "Coins",
+    "chance": 0.9,
+    "qty": [
+     1040,
+     3120
+    ]
+   },
+   {
+    "item": "Relic shard",
+    "chance": 0.35,
+    "qty": [
+     1,
+     4
+    ]
+   },
+   {
+    "item": "Ancient fragment",
+    "chance": 0.18
+   }
+  ],
+  "Bog Revenant": [
+   {
+    "item": "Big bones",
+    "chance": 1
+   },
+   {
+    "item": "Coins",
+    "chance": 0.9,
+    "qty": [
+     1200,
+     3600
+    ]
+   },
+   {
+    "item": "Relic shard",
+    "chance": 0.35,
+    "qty": [
+     1,
+     4
+    ]
+   },
+   {
+    "item": "Ancient fragment",
+    "chance": 0.2
+   }
+  ],
+  "Glass Scorpion": [
+   {
+    "item": "Big bones",
+    "chance": 1
+   },
+   {
+    "item": "Coins",
+    "chance": 0.9,
+    "qty": [
+     1300,
+     3900
+    ]
+   },
+   {
+    "item": "Relic shard",
+    "chance": 0.35,
+    "qty": [
+     1,
+     4
+    ]
+   },
+   {
+    "item": "Ancient fragment",
+    "chance": 0.21250000000000002
+   }
+  ],
+  "Dune Tyrant": [
+   {
+    "item": "Big bones",
+    "chance": 1
+   },
+   {
+    "item": "Coins",
+    "chance": 0.9,
+    "qty": [
+     1440,
+     4320
+    ]
+   },
+   {
+    "item": "Relic shard",
+    "chance": 0.35,
+    "qty": [
+     1,
+     4
+    ]
+   },
+   {
+    "item": "Ancient fragment",
+    "chance": 0.22999999999999998
+   }
+  ],
+  "Caldera Drake": [
+   {
+    "item": "Big bones",
+    "chance": 1
+   },
+   {
+    "item": "Coins",
+    "chance": 0.9,
+    "qty": [
+     1600,
+     4800
+    ]
+   },
+   {
+    "item": "Relic shard",
+    "chance": 0.35,
+    "qty": [
+     1,
+     5
+    ]
+   },
+   {
+    "item": "Ancient fragment",
+    "chance": 0.25
+   }
+  ],
+  "Molten Archon": [
+   {
+    "item": "Big bones",
+    "chance": 1
+   },
+   {
+    "item": "Coins",
+    "chance": 0.9,
+    "qty": [
+     1760,
+     5280
+    ]
+   },
+   {
+    "item": "Relic shard",
+    "chance": 0.35,
+    "qty": [
+     1,
+     5
+    ]
+   },
+   {
+    "item": "Ancient fragment",
+    "chance": 0.27
+   }
+  ],
+  "Voidborn Knight": [
+   {
+    "item": "Big bones",
+    "chance": 1
+   },
+   {
+    "item": "Coins",
+    "chance": 0.9,
+    "qty": [
+     1900,
+     5700
+    ]
+   },
+   {
+    "item": "Relic shard",
+    "chance": 0.35,
+    "qty": [
+     1,
+     5
+    ]
+   },
+   {
+    "item": "Ancient fragment",
+    "chance": 0.2875
+   }
+  ],
+  "Sunderlord Vexmar": [
+   {
+    "item": "Big bones",
+    "chance": 1
+   },
+   {
+    "item": "Coins",
+    "chance": 0.9,
+    "qty": [
+     2000,
+     6000
+    ]
+   },
+   {
+    "item": "Relic shard",
+    "chance": 0.35,
+    "qty": [
+     1,
+     6
+    ]
+   },
+   {
+    "item": "Ancient fragment",
+    "chance": 0.3
    }
   ]
  },

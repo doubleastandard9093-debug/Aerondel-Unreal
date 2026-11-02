@@ -88,7 +88,7 @@ void URelicryFeature::OnGameTick()
 	auto Perk = [PS](const TCHAR* K) { return UAerondelRules::Perk(PS, TEXT("relicry"), K); };
 	DigNext = TickN + (FMath::FRand() < Perk(TEXT("fastGather")) ? 2 : 3);
 	FString Tool; const int32 Tier = FMath::Max(0, MattockTier(Tool));
-	const float Chance = FMath::Min(0.9f, 0.3f + (Lvl() - S->Level) * 0.01f + Tier * 0.05f);
+	const float Chance = 0.3f + (Lvl() - S->Level) * 0.01f + Tier * 0.05f;
 	if (FMath::FRand() >= Chance) return;
 	GiveXp(TEXT("Relicry"), 8.f + Lvl() * 0.9f);
 	const int32 Dbl = FMath::FRand() < Perk(TEXT("double")) ? 2 : 1; const float R = FMath::FRand();

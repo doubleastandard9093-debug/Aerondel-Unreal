@@ -59,7 +59,6 @@ FPathFx UPathsFeature::Fx() const
 	for (int32 i = 0; i < Talents.Num() && i < NumRows; ++i)
 		if (Talents[i] >= 0 && Talents[i] < 3)
 		{ const PathData::FT& T = PathData::Rows[i][Talents[i]]; O.Red += T.Red; O.Dmg += T.Dmg; O.Acc += T.Acc; O.Regen += T.Regen; O.KillHeal += T.KillHeal; }
-	O.Red = FMath::Min(0.45f, O.Red);
 	return O;
 }
 

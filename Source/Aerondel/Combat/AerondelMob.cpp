@@ -244,7 +244,7 @@ void AAerondelMob::TryAttack()
 		if (Ev) Ev->Message(NSLOCTEXT("Aerondel", "Parry", "Parry: you block the attack!"));
 	}
 	// Retribution: reflect some damage back.
-	const int32 Refl = Dmg > 0 ? FMath::FloorToInt(Dmg * FMath::Min(0.6f, UAerondelRules::Perk(PS, TEXT("defence"), TEXT("reflect")) + UAerondelRules::GearFx(PS, TEXT("reflect")))) : 0;
+	const int32 Refl = Dmg > 0 ? FMath::FloorToInt(Dmg * (UAerondelRules::Perk(PS, TEXT("defence"), TEXT("reflect")) + UAerondelRules::GearFx(PS, TEXT("reflect")))) : 0;
 	if (Refl > 0) TakePlayerDamage(Refl, T);
 	if (State == EMobState::Dead) return;
 	UPlayerCombatComponent* PC = T->FindComponentByClass<UPlayerCombatComponent>();

@@ -44,13 +44,18 @@ class AERONDEL_API UXpCurve : public UBlueprintFunctionLibrary
 {
 	GENERATED_BODY()
 public:
-	static constexpr int32 MaxTableLevel = 120;
+	/** Web v21: combat skills go to 1000 (table has one extra entry for the "next level" bar). */
+	static constexpr int32 MaxTableLevel = 1001;
+	static constexpr int32 CombatMaxLevel = 1000;
+	static constexpr int32 SkillMaxLevel = 99;
 	static constexpr double XpScale = 0.3;
-	UFUNCTION(BlueprintPure, Category="Aerondel|Skills") static int32 XpForLevel(int32 Level);
+	UFUNCTION(BlueprintPure, Category="Aerondel|Skills") static int64 XpForLevel(int32 Level);
 	UFUNCTION(BlueprintPure, Category="Aerondel|Skills") static int32 LevelForXp(float Xp, int32 MaxLevel = 99);
 	/** Old-curve XP -> new-curve XP, keeping the level and the fraction through it. Above 99: extra XP x10. */
 	UFUNCTION(BlueprintPure, Category="Aerondel|Skills") static float ConvertXpV1(float Xp);
+	/** Web maxLevelOf: Attack/Strength/Defence/Hitpoints/Ranged/Magic/Prayer cap at 1000, others at the skill's MaxLevel (99). */
+	static int32 MaxLevelFor(const USkillDef* Skill);
 private:
-	static const TArray<int32>& Table();
+	static const TArray<int64>& Table();
 	static const TArray<int32>& TableV1();
 };

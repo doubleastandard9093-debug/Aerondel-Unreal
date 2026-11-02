@@ -87,9 +87,9 @@ void UCompanionsFeature::LoadState(const FJsonObject& In)
 
 float UCompanionsFeature::XpBonus(FName SkillId) const
 {
-	// Party XP bonus: each member's bond bonus, summed, capped at 25% (web partyXpBonus).
+	// Party XP bonus: each member's bond bonus, summed, uncapped (web partyXpBonus, v21).
 	float T = 0.f; for (FName M : GetPartyIds()) T += OneXpBonus(M, SkillId);
-	return FMath::Min(0.25f, T);
+	return T;
 }
 
 TArray<FName> UCompanionsFeature::GetPartyIds() const
@@ -123,7 +123,7 @@ float UCompanionsFeature::PartyGuard() const
 {
 	float R = 0.f;
 	for (FName M : GetPartyIds()) { const FCompanionDef* D = Def(M); const FCompanionState* S = States.Find(M); if (D && S && D->Style == TEXT("melee")) R += 0.05f + (S->Bond >= 6 ? 0.03f : 0.f); }
-	return FMath::Min(0.2f, R);
+	return R;
 }
 
 float UCompanionsFeature::DamageTakenMult(const UMobDef* Source, float HpFrac) const { return 1.f - PartyGuard(); }

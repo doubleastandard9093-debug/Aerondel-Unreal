@@ -312,7 +312,7 @@ FText UPlayerStatsComponent::UseAbility(FName AbilityId, bool bHasTarget)
 		|| A->Special == TEXT("wall") || A->Special == TEXT("ward") || A->Special == TEXT("mend");
 	if (!bSelf && !bHasTarget) return LOCTEXT("AbTarget", "Attack something first, then use that.");
 	if (Cost > 0.f) Adrenaline -= Cost; else GainAdrenaline(9.f);
-	const int32 Cd = FMath::Max(3, FMath::RoundToInt(A->Cooldown * (1.f - UAerondelRules::Perk(S, TEXT("attack"), TEXT("abilityCd")))));
+	const int32 Cd = FMath::Max(0, FMath::RoundToInt(A->Cooldown * (1.f - UAerondelRules::Perk(S, TEXT("attack"), TEXT("abilityCd")))));
 	if (A->Special == TEXT("fortify")) { FortifyUntil = GameTick + 10; CooldownReady.Add(AbilityId, GameTick + Cd); }
 	else if (A->Special == TEXT("rage")) { RageUntil = GameTick + 15; CooldownReady.Add(AbilityId, GameTick + Cd); }
 	else if (A->Special == TEXT("rejuv"))
@@ -346,7 +346,7 @@ FName UPlayerStatsComponent::ConsumeQueuedAbility()
 	if (!Q.IsNone())
 		if (const UGameDatabase* Db = UGameDatabase::Get())
 			if (const UAbilityDef* A = Db->FindAbility(Q))
-				CooldownReady.Add(Q, GameTick + FMath::Max(3, FMath::RoundToInt(A->Cooldown * (1.f - UAerondelRules::Perk(PS(), TEXT("attack"), TEXT("abilityCd"))))));
+				CooldownReady.Add(Q, GameTick + FMath::Max(0, FMath::RoundToInt(A->Cooldown * (1.f - UAerondelRules::Perk(PS(), TEXT("attack"), TEXT("abilityCd"))))));
 	return Q;
 }
 
@@ -372,10 +372,10 @@ void UPlayerStatsComponent::ApplyPlayerDamage(int32 Amount, AActor* Source)
 	const AAerondelMob* Mob = Cast<AAerondelMob>(Source);
 	const float HpFrac = S->Health->GetMax() > 0 ? (float)S->Health->GetCurrent() / S->Health->GetMax() : 1.f;
 	const float Mult = UAerondelFeature::TotalDamageTakenMult(this, Mob ? Mob->Definition.Get() : nullptr, HpFrac);
-	if (!FMath::IsNearlyEqual(Mult, 1.f)) Amount = FMath::Max(1, FMath::RoundToInt(Amount * Mult));
+	if (!FMath::IsNearlyEqual(Mult, 1.f)) Amount = FMath::Max(0, FMath::RoundToInt(Amount * Mult));
 	if (Mob && Mob->IsWithered()) Amount = FMath::Max(1, FMath::FloorToInt(Amount * 0.7f));
-	const float Red = FMath::Min(0.8f, (GameTick < WallUntil ? 0.6f : 0.f) + (GameTick < WardUntil ? 0.4f : 0.f));
-	if (Red > 0.f) Amount = FMath::Max(1, FMath::RoundToInt(Amount * (1.f - Red)));
+	const float Red = (GameTick < WallUntil ? 0.6f : 0.f) + (GameTick < WardUntil ? 0.4f : 0.f); // uncapped (web v21)
+	if (Red > 0.f) Amount = FMath::Max(0, FMath::RoundToInt(Amount * FMath::Max(0.f, 1.f - Red)));
 	S->Health->ApplyDamage(Amount, Source);
 	if (UEconomyFeature* Econ = UEconomyFeature::Get(this)) Econ->OnPlayerHit();
 	if (S->Health->IsDead()) { HandleDeath(); UAerondelFeature::NotifyPlayerDied(this); }

@@ -78,8 +78,7 @@ float UAerondelRules::Perk(const AAerondelPlayerState* PS, FName SkillId, FName 
 		if (const UItemDef* Cape = Worn(PS, EEquipSlot::Cape)) if (Cape->CapeSkill == SkillId) V *= 1.1f;
 	}
 	V += Synergy(PS, SkillId, Key); // web: synergy is added after boosts, before the cap
-	const float Cap = D ? D->GetPerkCap(Key) : -1.f;
-	return Cap >= 0.f ? FMath::Min(Cap, V) : V;
+	return V; // uncapped since web v21 (PerkCaps kept only as reference values)
 }
 
 float UAerondelRules::QuestFx(const AAerondelPlayerState* PS, FName Key)
@@ -205,7 +204,7 @@ bool UAerondelRules::OwnsToolType(const AAerondelPlayerState* PS, EToolType Type
 	return PS->Equipment->EquippedTool(Type) != nullptr;
 }
 
-float UAerondelRules::SuccessChance(int32 Level, int32 Required) { return FMath::Clamp(0.3f + (Level - Required) * 0.025f, 0.05f, 0.92f); }
+float UAerondelRules::SuccessChance(int32 Level, int32 Required) { return FMath::Max(0.05f, 0.3f + (Level - Required) * 0.025f); }
 
 FGatherResult UAerondelRules::GatherAttempt(const AAerondelPlayerState* PS, const UResourceNodeDef* Node, float ExtraBonus)
 {
@@ -241,14 +240,14 @@ FGatherResult UAerondelRules::GatherAttempt(const AAerondelPlayerState* PS, cons
 			if (L < C.Level || !C.Item) continue;
 			if (!PS->Inventory->CanAdd(C.Item)) { R.Error = LOCTEXT("Full", "Your inventory is too full to hold any more."); return R; }
 			const bool bLast = i == Node->Catches.Num() - 1;
-			if (Rand() < FMath::Min(0.95f, SuccessChance(L, C.Level) + Bonus) * (bLast ? 1.f : 0.6f)) { Win(C.Item, C.Xp); return R; }
+			if (Rand() < (SuccessChance(L, C.Level) + Bonus) * (bLast ? 1.f : 0.6f)) { Win(C.Item, C.Xp); return R; }
 		}
 		return R;
 	}
 	UItemDef* Item = (Node->PureLevel > 0 && Node->PureProduct && L >= Node->PureLevel) ? Node->PureProduct.Get() : Node->Product.Get();
 	if (!Item) { R.Error = LOCTEXT("Cant", "You can't do that."); return R; }
 	if (!PS->Inventory->CanAdd(Item)) { R.Error = LOCTEXT("Full", "Your inventory is too full to hold any more."); return R; }
-	if (Rand() < FMath::Min(0.95f, SuccessChance(L, Node->LevelRequired) + Bonus)) Win(Item, Node->Xp);
+	if (Rand() < SuccessChance(L, Node->LevelRequired) + Bonus) Win(Item, Node->Xp);
 	return R;
 }
 
@@ -326,7 +325,7 @@ float UAerondelRules::PlayerAccuracy(const AAerondelPlayerState* PS, const UMobD
 	const float Att = L * FMath::Max(16.f, 64.f + (bR ? B.RangedAttack : B.Attack) * 3.f);
 	const float Def = ((Mob ? Mob->DefenceLevel : 1) + 8.f) * 64.f;
 	const float Bonus = (bR ? Perk(PS, TEXT("ranged"), TEXT("racc")) + SetFx(PS, TEXT("racc")) : Perk(PS, TEXT("attack"), TEXT("acc")) + SetFx(PS, TEXT("acc"))) + Mods.Accuracy;
-	return FMath::Min(0.98f, HitChance(Att, Def) * (1.f + Bonus));
+	return HitChance(Att, Def) * (1.f + Bonus);
 }
 
 float UAerondelRules::DamageMult(const AAerondelPlayerState* PS, const UMobDef* Mob, int32 MobHp, int32 MobMaxHp)
@@ -346,7 +345,7 @@ int32 UAerondelRules::RollPlayerHit(const AAerondelPlayerState* PS, const UMobDe
 	{
 		Dmg = 1 + FMath::FloorToInt(Rand() * PlayerMaxHit(PS, Mods));
 		const bool bR = IsRanged(PS);
-		const float Crit = FMath::Min(0.75f, (bR ? Perk(PS, TEXT("ranged"), TEXT("rcrit")) : Perk(PS, TEXT("strength"), TEXT("crit"))) + GearFx(PS, TEXT("crit")));
+		const float Crit = (bR ? Perk(PS, TEXT("ranged"), TEXT("rcrit")) : Perk(PS, TEXT("strength"), TEXT("crit"))) + GearFx(PS, TEXT("crit"));
 		if (Rand() < Crit) { Dmg = FMath::FloorToInt(Dmg * (1.5f + Perk(PS, TEXT("strength"), TEXT("critMult")))); Mods.bCrit = true; }
 		const float Big = GearFx(PS, TEXT("bigHit"));
 		if (Big > 0.f && Rand() < Big) { Dmg = FMath::FloorToInt(Dmg * 1.5f); Mods.bBigHit = true; }
@@ -398,10 +397,10 @@ int32 UAerondelRules::RollMonsterHit(const UMobDef* Mob, const AAerondelPlayerSt
 int32 UAerondelRules::ReduceIncoming(const AAerondelPlayerState* PS, int32 Damage, bool bFortify, bool bRage)
 {
 	if (Damage <= 0) return 0;
-	const float Cap = Db() ? Db()->DamageReductionCap : 0.6f;
-	float M = 1.f - FMath::Min(Cap, Perk(PS, TEXT("defence"), TEXT("dr")) + QuestFx(PS, TEXT("dr")) + SetFx(PS, TEXT("dr")));
-	M *= 1.f - FMath::Min(0.2f, GearFx(PS, TEXT("dr"))); // Relicry/Delving gear: dr stacks across pieces, capped at 20%
-	M *= 1.f - PrayerFx(PS, TEXT("protect"));
+	// Uncapped since web v21: 100%+ damage reduction means no damage taken.
+	float M = FMath::Max(0.f, 1.f - (Perk(PS, TEXT("defence"), TEXT("dr")) + QuestFx(PS, TEXT("dr")) + SetFx(PS, TEXT("dr"))));
+	M *= FMath::Max(0.f, 1.f - GearFx(PS, TEXT("dr"))); // Relicry/Delving gear: dr stacks across pieces
+	M *= FMath::Max(0.f, 1.f - PrayerFx(PS, TEXT("protect")));
 	if (bFortify) M *= 0.5f;
 	if (bRage) M *= 1.1f;
 	return FMath::Max(0, FMath::RoundToInt(Damage * M));
@@ -467,17 +466,17 @@ float UAerondelRules::MagicAccuracy(const AAerondelPlayerState* PS, const UMobDe
 {
 	const float Att = (BoostedLevel(PS, TEXT("magic")) + 8.f) * FMath::Max(16.f, 64.f + EquipmentBonuses(PS).Magic * 3.f);
 	const float Def = ((Mob ? Mob->DefenceLevel : 1) + 8.f) * 64.f;
-	return FMath::Min(0.98f, HitChance(Att, Def) * (1.f + Perk(PS, TEXT("magic"), TEXT("magicAcc"))));
+	return HitChance(Att, Def) * (1.f + Perk(PS, TEXT("magic"), TEXT("magicAcc")));
 }
 
 // ---------------------------------------------------------------- activities
 float UAerondelRules::AgilitySuccess(int32 Level, int32 Required, float FailLess)
 {
-	const float Fail = FMath::Clamp(0.25f - (Level - Required) * 0.012f, 0.02f, 0.5f);
-	return 1.f - Fail * (1.f - FMath::Min(0.9f, FailLess));
+	const float Fail = FMath::Clamp(0.25f - (Level - Required) * 0.012f, 0.f, 0.5f);
+	return 1.f - Fail * FMath::Max(0.f, 1.f - FailLess);
 }
 
-float UAerondelRules::ThieveChance(int32 Level, int32 Required, float Bonus) { return FMath::Clamp(0.6f + (Level - Required) * 0.012f + Bonus, 0.1f, 0.95f); }
+float UAerondelRules::ThieveChance(int32 Level, int32 Required, float Bonus) { return FMath::Max(0.1f, 0.6f + (Level - Required) * 0.012f + Bonus); }
 
 int32 UAerondelRules::RunesPerEssence(const URuneAltarDef* Altar, int32 Level)
 {
@@ -498,7 +497,7 @@ int32 UAerondelRules::BuyPrice(const AAerondelPlayerState* PS, int32 Price)
 int32 UAerondelRules::HealAmount(const AAerondelPlayerState* PS, const UItemDef* Food)
 {
 	if (!Food || Food->HealAmount <= 0) return 0;
-	const float Bonus = FMath::Min(1.f, Perk(PS, TEXT("hitpoints"), TEXT("healBonus")) + Perk(PS, TEXT("cooking"), TEXT("healBonus")));
+	const float Bonus = Perk(PS, TEXT("hitpoints"), TEXT("healBonus")) + Perk(PS, TEXT("cooking"), TEXT("healBonus"));
 	return FMath::RoundToInt(Food->HealAmount * (1.f + Bonus)); // HealAmount is already x HEAL_SCALE
 }
 
@@ -519,8 +518,8 @@ float UAerondelRules::PrayerDrainPerTick(const AAerondelPlayerState* PS)
 	if (!PS || !PS->Stats || !D) return 0.f;
 	float Drain = 0.f;
 	for (FName Id : PS->Stats->ActivePrayers) if (const UPrayerDef* P = D->FindPrayer(Id)) Drain += P->DrainPerTick;
-	const float Less = FMath::Min(0.6f, Perk(PS, TEXT("prayer"), TEXT("drainLess")) + QuestFx(PS, TEXT("drainLess")));
-	return Drain * (1.f - Less) / (1.f + FMath::Max(0, EquipmentBonuses(PS).Prayer) / 30.f);
+	const float Less = Perk(PS, TEXT("prayer"), TEXT("drainLess")) + QuestFx(PS, TEXT("drainLess"));
+	return Drain * FMath::Max(0.f, 1.f - Less) / (1.f + FMath::Max(0, EquipmentBonuses(PS).Prayer) / 30.f);
 }
 
 #undef LOCTEXT_NAMESPACE

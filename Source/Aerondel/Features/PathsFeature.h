@@ -29,7 +29,7 @@ public:
 	virtual void SaveState(FJsonObject& Out) const override;
 	virtual void LoadState(const FJsonObject& In) override;
 	virtual void ResetState() override { PathId = NAME_None; Talents.Init(-1, NumRows); Switches = 0; RegenAcc = 0.f; }
-	virtual float DamageTakenMult(const UMobDef* Source, float HpFrac) const override { return 1.f - Fx().Red; }
+	virtual float DamageTakenMult(const UMobDef* Source, float HpFrac) const override { return FMath::Max(0.f, 1.f - Fx().Red); }
 	virtual float DamageDealtBonus(const UMobDef* Target) const override { return Fx().Dmg; }
 	virtual void OnGameTick() override;
 

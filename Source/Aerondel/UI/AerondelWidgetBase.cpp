@@ -96,7 +96,8 @@ void UAerondelSkillsWidget::BindSources()
 
 float UAerondelSkillsWidget::ProgressToNext(float Xp, int32 Level)
 {
-	const float A = UXpCurve::XpForLevel(Level), B = UXpCurve::XpForLevel(Level + 1);
+	const float A = (float)UXpCurve::XpForLevel(Level);
+	const float B = (float)UXpCurve::XpForLevel(Level + 1);
 	return B > A ? FMath::Clamp((Xp - A) / (B - A), 0.f, 1.f) : 1.f;
 }
 

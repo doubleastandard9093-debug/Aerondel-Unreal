@@ -20,7 +20,7 @@ void USkillsComponent::ResetToDatabase()
 		for (USkillDef* S : Db->Skills)
 		{
 			if (!S) continue;
-			FSkillProgress P; P.Skill = S; P.Level = S->StartLevel; P.Xp = UXpCurve::XpForLevel(S->StartLevel);
+			FSkillProgress P; P.Skill = S; P.Level = S->StartLevel; P.Xp = (float)UXpCurve::XpForLevel(S->StartLevel);
 			Entries.Add(P);
 		}
 	}
@@ -39,12 +39,12 @@ void USkillsComponent::AddXp(USkillDef* Skill, float Amount)
 {
 	if (!Skill || Amount <= 0.f) return;
 	// Companions, standing, saga calling, quirks, hearth rooms... (web: xpMult in gameplay.js).
-	Amount *= 1.f + FMath::Clamp(UAerondelFeature::TotalXpBonus(this, Skill->Id), 0.f, 1.f);
+	Amount *= 1.f + FMath::Max(0.f, UAerondelFeature::TotalXpBonus(this, Skill->Id)); // uncapped (web v21)
 	FSkillProgress* P = Find(Skill);
-	if (!P) { FSkillProgress N; N.Skill = Skill; N.Level = Skill->StartLevel; N.Xp = UXpCurve::XpForLevel(Skill->StartLevel); P = &Entries.Add_GetRef(N); }
-	P->Xp = FMath::Min(P->Xp + Amount, 200000000.f);
+	if (!P) { FSkillProgress N; N.Skill = Skill; N.Level = Skill->StartLevel; N.Xp = (float)UXpCurve::XpForLevel(Skill->StartLevel); P = &Entries.Add_GetRef(N); }
+	P->Xp = FMath::Min(P->Xp + Amount, (float)UXpCurve::XpForLevel(UXpCurve::MaxTableLevel)); // web has no 200M cap since v21
 	const int32 Old = P->Level;
-	P->Level = UXpCurve::LevelForXp(P->Xp, Skill->MaxLevel);
+	P->Level = UXpCurve::LevelForXp(P->Xp, UXpCurve::MaxLevelFor(Skill));
 	if (UAerondelEvents* Ev = UAerondelEvents::Get(this))
 	{
 		Ev->OnXpGained.Broadcast(Skill, Amount, P->Xp, P->Level);
@@ -78,6 +78,6 @@ void USkillsComponent::SetXpRaw(FName SkillId, float Xp)
 {
 	for (FSkillProgress& P : Entries)
 	{
-		if (P.Skill && P.Skill->Id == SkillId) { P.Xp = Xp; P.Level = UXpCurve::LevelForXp(Xp, P.Skill->MaxLevel); return; }
+		if (P.Skill && P.Skill->Id == SkillId) { P.Xp = Xp; P.Level = UXpCurve::LevelForXp(Xp, UXpCurve::MaxLevelFor(P.Skill)); return; }
 	}
 }

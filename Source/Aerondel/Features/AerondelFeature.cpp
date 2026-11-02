@@ -65,14 +65,14 @@ float UAerondelFeature::TotalDamageTakenMult(const UObject* WorldContext, const 
 {
 	float M = 1.f;
 	if (const UGameInstance* GI = FeatureGI(WorldContext)) for (const UAerondelFeature* F : AllFor(GI)) M *= F->DamageTakenMult(Source, HpFrac);
-	return FMath::Clamp(M, 0.1f, 3.f);
+	return FMath::Max(0.f, M); // uncapped below (web v21); NaN/negative guard only
 }
 
 float UAerondelFeature::TotalDamageDealtBonus(const UObject* WorldContext, const UMobDef* Target)
 {
 	float B = 0.f;
 	if (const UGameInstance* GI = FeatureGI(WorldContext)) for (const UAerondelFeature* F : AllFor(GI)) B += F->DamageDealtBonus(Target);
-	return FMath::Clamp(B, -0.5f, 2.f);
+	return FMath::Max(-0.5f, B); // no upper cap (web v21)
 }
 
 void UAerondelFeature::NotifyPlayerDied(const UObject* WorldContext)
