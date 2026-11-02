@@ -1,0 +1,362 @@
+{
+ "sites": {
+  "Drowned Chapel": {
+   "mat": "Bog-iron flake",
+   "theme": {
+    "floor": 3818550,
+    "wall": 5660750,
+    "accent": 8036490,
+    "glow": 6348992
+   },
+   "reward": "Drowned reliquary staff",
+   "arts": [
+    [
+     "Chapel bell",
+     1
+    ],
+    [
+     "Pilgrim's lamp",
+     6
+    ],
+    [
+     "Drowned censer",
+     12
+    ]
+   ]
+  },
+  "Frozen Barrow": {
+   "mat": "Frostglass",
+   "theme": {
+    "floor": 9082534,
+    "wall": 12109526,
+    "accent": 14217471,
+    "glow": 12577023
+   },
+   "reward": "Barrow-king's cuirass",
+   "arts": [
+    [
+     "Barrow-king's torc",
+     20
+    ],
+    [
+     "Rime-carved horn",
+     25
+    ],
+    [
+     "Frozen war-banner",
+     30
+    ]
+   ]
+  },
+  "Sky Shrine Ruins": {
+   "mat": "Skyslate",
+   "theme": {
+    "floor": 8026758,
+    "wall": 10921648,
+    "accent": 10148095,
+    "glow": 10148095
+   },
+   "reward": "Skyreach warbow",
+   "arts": [
+    [
+     "Wind-chime crown",
+     35
+    ],
+    [
+     "Feathered idol",
+     40
+    ],
+    [
+     "Shrine keystone",
+     44
+    ]
+   ]
+  },
+  "Sunken Sun Temple": {
+   "mat": "Sunstone dust",
+   "theme": {
+    "floor": 11569752,
+    "wall": 13149292,
+    "accent": 16767072,
+    "glow": 16767072
+   },
+   "reward": "Sun-disc ward",
+   "arts": [
+    [
+     "Sun-disc mirror",
+     45
+    ],
+    [
+     "Scarab seal",
+     48
+    ],
+    [
+     "Temple sundial",
+     52
+    ]
+   ]
+  },
+  "Overgrown Ziggurat": {
+   "mat": "Vine resin",
+   "theme": {
+    "floor": 4872762,
+    "wall": 6978126,
+    "accent": 6344816,
+    "glow": 6344816
+   },
+   "reward": "Ziggurat scale body",
+   "arts": [
+    [
+     "Jade mask",
+     50
+    ],
+    [
+     "Serpent sceptre",
+     55
+    ],
+    [
+     "Calendar stone",
+     58
+    ]
+   ]
+  },
+  "Cinder Forge Vault": {
+   "mat": "Cinderglass",
+   "theme": {
+    "floor": 3811878,
+    "wall": 5913136,
+    "accent": 16742960,
+    "glow": 16747072
+   },
+   "reward": "Sunforged khopesh",
+   "arts": [
+    [
+     "Forge-god anvil",
+     60
+    ],
+    [
+     "Ember crown",
+     66
+    ],
+    [
+     "First hammer",
+     72
+    ]
+   ]
+  }
+ },
+ "reforge": {
+  "Drowned reliquary staff": {
+   "site": "Drowned Chapel",
+   "frags": 14,
+   "mat": 30,
+   "level": 50
+  },
+  "Barrow-king's helm": {
+   "site": "Frozen Barrow",
+   "frags": 8,
+   "mat": 25,
+   "level": 40
+  },
+  "Barrow-king's greaves": {
+   "site": "Frozen Barrow",
+   "frags": 12,
+   "mat": 30,
+   "level": 60
+  },
+  "Barrow-king's cuirass": {
+   "site": "Frozen Barrow",
+   "frags": 16,
+   "mat": 35,
+   "level": 65
+  },
+  "Skyreach warbow": {
+   "site": "Sky Shrine Ruins",
+   "frags": 14,
+   "mat": 30,
+   "level": 55
+  },
+  "Sun-disc ward": {
+   "site": "Sunken Sun Temple",
+   "frags": 12,
+   "mat": 30,
+   "level": 55
+  },
+  "Mirage silk robe": {
+   "site": "Sunken Sun Temple",
+   "frags": 10,
+   "mat": 25,
+   "level": 45
+  },
+  "Ziggurat scale body": {
+   "site": "Overgrown Ziggurat",
+   "frags": 12,
+   "mat": 30,
+   "level": 50
+  },
+  "Sunforged khopesh": {
+   "site": "Cinder Forge Vault",
+   "frags": 16,
+   "mat": 35,
+   "level": 60
+  }
+ },
+ "gates": {
+  "Attack": {
+   "name": "Warden Gate",
+   "kind": "fight",
+   "act": "Challenge the warden",
+   "done": "The warden falls and the gate grinds open."
+  },
+  "Strength": {
+   "name": "Fallen Pillar",
+   "act": "Heave the pillar aside",
+   "done": "You heave the pillar out of the way."
+  },
+  "Defence": {
+   "name": "Spike Corridor",
+   "act": "Brace and push through",
+   "done": "You weather the spikes and trip the release."
+  },
+  "Hitpoints": {
+   "name": "Blood Seal",
+   "kind": "hp",
+   "act": "Feed the seal",
+   "done": "The seal drinks and the way opens."
+  },
+  "Ranged": {
+   "name": "Distant Lever",
+   "act": "Shoot the lever",
+   "done": "Your shot strikes the far lever. Clunk."
+  },
+  "Magic": {
+   "name": "Arcane Ward",
+   "act": "Unpick the ward",
+   "done": "The ward unravels in a spray of sparks."
+  },
+  "Prayer": {
+   "name": "Desecrated Altar",
+   "act": "Reconsecrate the altar",
+   "done": "Your prayer cleanses the altar."
+  },
+  "Agility": {
+   "name": "Crumbling Ledge",
+   "act": "Leap the ledge",
+   "done": "You leap across and lower the bridge."
+  },
+  "Thieving": {
+   "name": "Trapped Lock",
+   "act": "Pick the lock",
+   "done": "Click. The trap never fires."
+  },
+  "Mining": {
+   "name": "Rubble Fall",
+   "act": "Dig through the rubble",
+   "done": "You clear a path through the rubble."
+  },
+  "Woodcutting": {
+   "name": "Root Wall",
+   "act": "Hack through the roots",
+   "done": "The roots part under your blade."
+  },
+  "Fishing": {
+   "name": "Flooded Channel",
+   "act": "Net the sluice key",
+   "done": "You fish the sluice key out of the water and drain the channel."
+  },
+  "Smithing": {
+   "name": "Seized Portcullis",
+   "act": "Re-forge the hinges",
+   "done": "You hammer the hinges free."
+  },
+  "Crafting": {
+   "name": "Mosaic Bridge",
+   "act": "Restore the mosaic",
+   "done": "The mosaic is whole; the bridge rises."
+  },
+  "Cooking": {
+   "name": "Hungry Guardian",
+   "act": "Cook a treat for it",
+   "done": "The guardian hound munches happily and lets you by."
+  },
+  "Fletching": {
+   "name": "Rope-Arrow Gap",
+   "act": "Fletch a rope arrow",
+   "done": "You loose a rope arrow across the gap and climb over."
+  },
+  "Herbalism": {
+   "name": "Spore Cloud",
+   "act": "Mix an antidote",
+   "done": "Your antidote holds the spores at bay."
+  },
+  "Glyphcraft": {
+   "name": "Rune Lock",
+   "act": "Trace the glyphs",
+   "done": "The glyphs flare in sequence and the lock opens."
+  },
+  "Relicry": {
+   "name": "Sealed Reliquary",
+   "act": "Read the reliquary",
+   "done": "You read the old seal and it yields."
+  },
+  "Delving": {
+   "name": "Shifting Maze",
+   "act": "Find the true path",
+   "done": "You find the true path through the maze."
+  }
+ },
+ "relicGear": [
+  "Sunforged khopesh",
+  "Skyreach warbow",
+  "Drowned reliquary staff",
+  "Barrow-king's helm",
+  "Barrow-king's cuirass",
+  "Barrow-king's greaves",
+  "Sun-disc ward",
+  "Ziggurat scale body",
+  "Mirage silk robe"
+ ],
+ "delveGear": [
+  "Deepwarden greatblade",
+  "Gloomstring longbow",
+  "Voidlantern staff",
+  "Delver's warhelm",
+  "Delver's warplate",
+  "Delver's bulwark",
+  "Shadowhide jerkin",
+  "Gloamweave robe",
+  "Delver's signet"
+ ],
+ "delveSizes": {
+  "small": {
+   "name": "Small",
+   "rooms": 5,
+   "side": 2
+  },
+  "medium": {
+   "name": "Medium",
+   "rooms": 7,
+   "side": 3
+  },
+  "large": {
+   "name": "Large",
+   "rooms": 9,
+   "side": 4
+  }
+ },
+ "dungeonOrigin": {
+  "relic": {
+   "x": -1500,
+   "z": 560
+  },
+  "delve": {
+   "x": -1500,
+   "z": 1100
+  }
+ },
+ "room": {
+  "size": 16,
+  "step": 22,
+  "wallH": 3.4
+ }
+}

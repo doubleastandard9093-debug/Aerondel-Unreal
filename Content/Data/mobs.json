@@ -298,6 +298,229 @@
    "respawn": 180000,
    "undead": true,
    "drowned": true
+  },
+  "Fen Crawler": {
+   "name": "Fen Crawler",
+   "level": 24,
+   "hp": 240,
+   "maxHit": 22,
+   "att": 20,
+   "def": 16,
+   "speed": 4,
+   "color": 3820074,
+   "scale": 0.9,
+   "shape": "spider",
+   "poison": {
+    "chance": 0.3,
+    "dmg": 16
+   }
+  },
+  "Mire Hag": {
+   "name": "Mire Hag",
+   "level": 40,
+   "hp": 400,
+   "maxHit": 36,
+   "att": 30,
+   "def": 24,
+   "speed": 5,
+   "color": 3815978,
+   "scale": 1,
+   "skin": 8030810,
+   "ranged": true,
+   "range": 6
+  },
+  "Crag Ram": {
+   "name": "Crag Ram",
+   "level": 30,
+   "hp": 320,
+   "maxHit": 30,
+   "att": 24,
+   "def": 26,
+   "speed": 4,
+   "color": 14209216,
+   "scale": 1,
+   "shape": "quad"
+  },
+  "Skyreach Harpy": {
+   "name": "Skyreach Harpy",
+   "level": 44,
+   "hp": 430,
+   "maxHit": 40,
+   "att": 34,
+   "def": 28,
+   "speed": 4,
+   "color": 8022666,
+   "scale": 1,
+   "skin": 11575488,
+   "ranged": true,
+   "range": 7
+  },
+  "Frostfang Wolf": {
+   "name": "Frostfang Wolf",
+   "level": 36,
+   "hp": 360,
+   "maxHit": 34,
+   "att": 30,
+   "def": 26,
+   "speed": 4,
+   "color": 14739696,
+   "scale": 1.05,
+   "shape": "quad"
+  },
+  "Rime Wraith": {
+   "name": "Rime Wraith",
+   "level": 48,
+   "hp": 480,
+   "maxHit": 44,
+   "att": 38,
+   "def": 32,
+   "speed": 4,
+   "color": 10141920,
+   "scale": 1.1,
+   "skin": 13691135,
+   "undead": true
+  },
+  "Dune Scuttler": {
+   "name": "Dune Scuttler",
+   "level": 38,
+   "hp": 380,
+   "maxHit": 34,
+   "att": 30,
+   "def": 30,
+   "speed": 4,
+   "color": 13148256,
+   "scale": 1,
+   "shape": "spider",
+   "poison": {
+    "chance": 0.2,
+    "dmg": 24
+   }
+  },
+  "Sand Reaver": {
+   "name": "Sand Reaver",
+   "level": 50,
+   "hp": 520,
+   "maxHit": 46,
+   "att": 40,
+   "def": 34,
+   "speed": 4,
+   "color": 9071162,
+   "scale": 1.1,
+   "skin": 13146730
+  },
+  "Vine Lurker": {
+   "name": "Vine Lurker",
+   "level": 45,
+   "hp": 460,
+   "maxHit": 40,
+   "att": 36,
+   "def": 30,
+   "speed": 4,
+   "color": 2775578,
+   "scale": 1.1,
+   "shape": "spider",
+   "poison": {
+    "chance": 0.3,
+    "dmg": 30
+   }
+  },
+  "Canopy Stalker": {
+   "name": "Canopy Stalker",
+   "level": 58,
+   "hp": 600,
+   "maxHit": 54,
+   "att": 46,
+   "def": 38,
+   "speed": 3,
+   "color": 3820058,
+   "scale": 1.15,
+   "shape": "quad"
+  },
+  "Ember Imp": {
+   "name": "Ember Imp",
+   "level": 52,
+   "hp": 480,
+   "maxHit": 50,
+   "att": 44,
+   "def": 32,
+   "speed": 3,
+   "color": 12599322,
+   "scale": 0.8,
+   "skin": 14704688,
+   "ranged": true,
+   "range": 6
+  },
+  "Magma Brute": {
+   "name": "Magma Brute",
+   "level": 70,
+   "hp": 900,
+   "maxHit": 70,
+   "att": 56,
+   "def": 50,
+   "speed": 5,
+   "color": 3807760,
+   "scale": 1.9,
+   "skin": 10500634
+  },
+  "Delve fiend": {
+   "name": "Delve fiend",
+   "level": 30,
+   "hp": 300,
+   "maxHit": 26,
+   "att": 26,
+   "def": 24,
+   "speed": 4,
+   "color": 4864602,
+   "scale": 1,
+   "skin": 9075360
+  },
+  "Floor guardian": {
+   "name": "Floor guardian",
+   "level": 60,
+   "hp": 1100,
+   "maxHit": 40,
+   "att": 42,
+   "def": 40,
+   "speed": 5,
+   "color": 3811914,
+   "scale": 1.7,
+   "skin": 8022682
+  },
+  "Relic sentinel": {
+   "name": "Relic sentinel",
+   "level": 40,
+   "hp": 400,
+   "maxHit": 30,
+   "att": 30,
+   "def": 30,
+   "speed": 4,
+   "color": 9075290,
+   "scale": 1.05,
+   "skin": 11049594
+  },
+  "Vault warden": {
+   "name": "Vault warden",
+   "level": 50,
+   "hp": 500,
+   "maxHit": 34,
+   "att": 34,
+   "def": 34,
+   "speed": 4,
+   "color": 6969914,
+   "scale": 1.15,
+   "skin": 12099696
+  },
+  "Relic colossus": {
+   "name": "Relic colossus",
+   "level": 80,
+   "hp": 1500,
+   "maxHit": 50,
+   "att": 50,
+   "def": 50,
+   "speed": 5,
+   "color": 5918792,
+   "scale": 1.8,
+   "skin": 10127984
   }
  },
  "loot": {
@@ -1389,6 +1612,338 @@
    {
     "item": "Havoc rune",
     "chance": 0.1,
+    "qty": [
+     1,
+     3
+    ]
+   }
+  ],
+  "Fen Crawler": [
+   {
+    "item": "Bones",
+    "chance": 1
+   },
+   {
+    "item": "Marsh reed",
+    "chance": 0.3
+   },
+   {
+    "herbs": [
+     "Marshmint",
+     "Tallowroot"
+    ],
+    "chance": 0.3
+   },
+   {
+    "item": "Relic shard",
+    "chance": 0.12
+   }
+  ],
+  "Mire Hag": [
+   {
+    "item": "Big bones",
+    "chance": 1
+   },
+   {
+    "item": "Coins",
+    "chance": 0.8,
+    "qty": [
+     20,
+     80
+    ]
+   },
+   {
+    "item": "Marsh reed",
+    "chance": 0.3
+   },
+   {
+    "herbs": [
+     "Harrowbloom",
+     "Ravenweed",
+     "Toadflax",
+     "Ironleaf"
+    ],
+    "chance": 0.4
+   },
+   {
+    "item": "Relic shard",
+    "chance": 0.15
+   }
+  ],
+  "Crag Ram": [
+   {
+    "item": "Big bones",
+    "chance": 1
+   },
+   {
+    "item": "Coins",
+    "chance": 0.8,
+    "qty": [
+     10,
+     60
+    ]
+   },
+   {
+    "item": "Goat horn dust",
+    "chance": 0.35
+   },
+   {
+    "item": "Relic shard",
+    "chance": 0.1
+   }
+  ],
+  "Skyreach Harpy": [
+   {
+    "item": "Big bones",
+    "chance": 1
+   },
+   {
+    "item": "Coins",
+    "chance": 0.8,
+    "qty": [
+     30,
+     110
+    ]
+   },
+   {
+    "item": "Feather",
+    "chance": 0.6,
+    "qty": [
+     10,
+     30
+    ]
+   },
+   {
+    "item": "Relic shard",
+    "chance": 0.15
+   },
+   {
+    "item": "Verdite ore",
+    "chance": 0.05
+   }
+  ],
+  "Frostfang Wolf": [
+   {
+    "item": "Big bones",
+    "chance": 1
+   },
+   {
+    "item": "Coins",
+    "chance": 0.8,
+    "qty": [
+     20,
+     90
+    ]
+   },
+   {
+    "item": "White berries",
+    "chance": 0.25
+   },
+   {
+    "item": "Relic shard",
+    "chance": 0.12
+   }
+  ],
+  "Rime Wraith": [
+   {
+    "item": "Coins",
+    "chance": 0.8,
+    "qty": [
+     40,
+     140
+    ]
+   },
+   {
+    "item": "Water rune",
+    "chance": 0.3,
+    "qty": [
+     10,
+     30
+    ]
+   },
+   {
+    "item": "Relic shard",
+    "chance": 0.2
+   },
+   {
+    "item": "Ancient fragment",
+    "chance": 0.04
+   }
+  ],
+  "Dune Scuttler": [
+   {
+    "item": "Bones",
+    "chance": 1
+   },
+   {
+    "item": "Coins",
+    "chance": 0.7,
+    "qty": [
+     20,
+     90
+    ]
+   },
+   {
+    "item": "Relic shard",
+    "chance": 0.15
+   }
+  ],
+  "Sand Reaver": [
+   {
+    "item": "Big bones",
+    "chance": 1
+   },
+   {
+    "item": "Coins",
+    "chance": 0.8,
+    "qty": [
+     40,
+     160
+    ]
+   },
+   {
+    "item": "Bluesteel ore",
+    "chance": 0.1
+   },
+   {
+    "item": "Relic shard",
+    "chance": 0.2
+   },
+   {
+    "item": "Ancient fragment",
+    "chance": 0.04
+   }
+  ],
+  "Vine Lurker": [
+   {
+    "item": "Bones",
+    "chance": 1
+   },
+   {
+    "herbs": [
+     "Harrowbloom",
+     "Ravenweed",
+     "Toadflax",
+     "Ironleaf",
+     "Snapdragon"
+    ],
+    "chance": 0.4
+   },
+   {
+    "item": "Relic shard",
+    "chance": 0.18
+   }
+  ],
+  "Canopy Stalker": [
+   {
+    "item": "Big bones",
+    "chance": 1
+   },
+   {
+    "item": "Coins",
+    "chance": 0.8,
+    "qty": [
+     50,
+     180
+    ]
+   },
+   {
+    "item": "Relic shard",
+    "chance": 0.22
+   },
+   {
+    "item": "Ancient fragment",
+    "chance": 0.05
+   }
+  ],
+  "Ember Imp": [
+   {
+    "item": "Coins",
+    "chance": 0.8,
+    "qty": [
+     40,
+     160
+    ]
+   },
+   {
+    "item": "Fire rune",
+    "chance": 0.4,
+    "qty": [
+     10,
+     40
+    ]
+   },
+   {
+    "item": "Relic shard",
+    "chance": 0.2
+   }
+  ],
+  "Magma Brute": [
+   {
+    "item": "Big bones",
+    "chance": 1
+   },
+   {
+    "item": "Coins",
+    "chance": 0.8,
+    "qty": [
+     80,
+     260
+    ]
+   },
+   {
+    "item": "Emberite ore",
+    "chance": 0.06
+   },
+   {
+    "item": "Relic shard",
+    "chance": 0.3,
+    "qty": [
+     1,
+     3
+    ]
+   },
+   {
+    "item": "Ancient fragment",
+    "chance": 0.08
+   }
+  ],
+  "Delve fiend": [
+   {
+    "item": "Delve ore",
+    "chance": 0.4
+   }
+  ],
+  "Floor guardian": [
+   {
+    "item": "Delve ore",
+    "chance": 0.4
+   }
+  ],
+  "Relic sentinel": [
+   {
+    "item": "Relic shard",
+    "chance": 0.5,
+    "qty": [
+     1,
+     3
+    ]
+   }
+  ],
+  "Vault warden": [
+   {
+    "item": "Relic shard",
+    "chance": 0.5,
+    "qty": [
+     1,
+     3
+    ]
+   }
+  ],
+  "Relic colossus": [
+   {
+    "item": "Relic shard",
+    "chance": 0.5,
     "qty": [
      1,
      3

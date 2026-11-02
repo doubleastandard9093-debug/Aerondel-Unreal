@@ -14,6 +14,8 @@ ENTRIES = [
      "import build_starter_town, importlib; importlib.reload(build_starter_town); build_starter_town.run()"),
     ("BuildWorldBlockout", "4. Build World Blockout", "Whole web world greybox from Content/Data/world.json -> /Game/Gielinor/Maps/World",
      "import build_world_blockout, importlib; importlib.reload(build_world_blockout); build_world_blockout.run()"),
+    ("BuildRelicDungeon", "5. Build Relic Dungeon", "Sample Relicry instance dungeon (rooms, skill gates, boss, chest) -> /Game/Gielinor/Maps/RelicDungeon",
+     "import build_relic_dungeon, importlib; importlib.reload(build_relic_dungeon); build_relic_dungeon.run()"),
     ("RunAll", "Run All (1-3 + smooth shapes)", "Everything above, in order",
      "import gielinor_all, importlib; importlib.reload(gielinor_all); gielinor_all.run()"),
 ]

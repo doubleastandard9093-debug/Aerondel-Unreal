@@ -17,7 +17,9 @@
   "Cooking",
   "Fletching",
   "Herbalism",
-  "Glyphcraft"
+  "Glyphcraft",
+  "Relicry",
+  "Delving"
  ],
  "perks": {
   "Attack": [
@@ -3313,6 +3315,372 @@
     "milestone": true,
     "desc": "50% chance of double runes, +25% Glyphcraft XP"
    }
+  ],
+  "Relicry": [
+   {
+    "level": 5,
+    "name": "Gentle Brush I",
+    "fx": {
+     "xpBonus": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% XP"
+   },
+   {
+    "level": 10,
+    "name": "Keen Sieve I",
+    "fx": {
+     "double": 0.05
+    },
+    "milestone": false,
+    "desc": "5% chance of double resources"
+   },
+   {
+    "level": 15,
+    "name": "Gentle Brush II",
+    "fx": {
+     "xpBonus": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% XP"
+   },
+   {
+    "level": 20,
+    "name": "Keen Sieve II",
+    "fx": {
+     "double": 0.05
+    },
+    "milestone": false,
+    "desc": "5% chance of double resources"
+   },
+   {
+    "level": 25,
+    "name": "Swift Trowel",
+    "fx": {
+     "fastGather": 0.4
+    },
+    "milestone": true,
+    "desc": "40% chance your next gather comes a tick sooner"
+   },
+   {
+    "level": 30,
+    "name": "Keen Sieve III",
+    "fx": {
+     "double": 0.05
+    },
+    "milestone": false,
+    "desc": "5% chance of double resources"
+   },
+   {
+    "level": 35,
+    "name": "Gentle Brush III",
+    "fx": {
+     "xpBonus": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% XP"
+   },
+   {
+    "level": 40,
+    "name": "Keen Sieve IV",
+    "fx": {
+     "double": 0.05
+    },
+    "milestone": false,
+    "desc": "5% chance of double resources"
+   },
+   {
+    "level": 45,
+    "name": "Gentle Brush IV",
+    "fx": {
+     "xpBonus": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% XP"
+   },
+   {
+    "level": 50,
+    "name": "Curator",
+    "fx": {
+     "saveMat": 0.4
+    },
+    "milestone": true,
+    "desc": "40% chance to save materials"
+   },
+   {
+    "level": 55,
+    "name": "Gentle Brush V",
+    "fx": {
+     "xpBonus": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% XP"
+   },
+   {
+    "level": 60,
+    "name": "Keen Sieve V",
+    "fx": {
+     "double": 0.05
+    },
+    "milestone": false,
+    "desc": "5% chance of double resources"
+   },
+   {
+    "level": 65,
+    "name": "Gentle Brush VI",
+    "fx": {
+     "xpBonus": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% XP"
+   },
+   {
+    "level": 70,
+    "name": "Keen Sieve VI",
+    "fx": {
+     "double": 0.05
+    },
+    "milestone": false,
+    "desc": "5% chance of double resources"
+   },
+   {
+    "level": 75,
+    "name": "Lost Hoards",
+    "fx": {
+     "rareFind": 0.1
+    },
+    "milestone": true,
+    "desc": "10% chance of an Ancient fragment while excavating"
+   },
+   {
+    "level": 80,
+    "name": "Keen Sieve VII",
+    "fx": {
+     "double": 0.05
+    },
+    "milestone": false,
+    "desc": "5% chance of double resources"
+   },
+   {
+    "level": 85,
+    "name": "Gentle Brush VII",
+    "fx": {
+     "xpBonus": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% XP"
+   },
+   {
+    "level": 90,
+    "name": "Keen Sieve VIII",
+    "fx": {
+     "double": 0.05
+    },
+    "milestone": false,
+    "desc": "5% chance of double resources"
+   },
+   {
+    "level": 95,
+    "name": "Gentle Brush VIII",
+    "fx": {
+     "xpBonus": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% XP"
+   },
+   {
+    "level": 99,
+    "name": "Relicry Mastery",
+    "fx": {
+     "xpBonus": 0.25,
+     "gateEase": 0.5
+    },
+    "milestone": true,
+    "desc": "+25% XP, dungeon gates need 10 fewer levels"
+   }
+  ],
+  "Delving": [
+   {
+    "level": 5,
+    "name": "Pathfinder I",
+    "fx": {
+     "xpBonus": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% XP"
+   },
+   {
+    "level": 10,
+    "name": "Token Hoarder I",
+    "fx": {
+     "tokenBonus": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% Delving tokens"
+   },
+   {
+    "level": 15,
+    "name": "Pathfinder II",
+    "fx": {
+     "xpBonus": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% XP"
+   },
+   {
+    "level": 20,
+    "name": "Token Hoarder II",
+    "fx": {
+     "tokenBonus": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% Delving tokens"
+   },
+   {
+    "level": 25,
+    "name": "Scavenger",
+    "fx": {
+     "double": 0.3
+    },
+    "milestone": true,
+    "desc": "30% chance of double resources"
+   },
+   {
+    "level": 30,
+    "name": "Token Hoarder III",
+    "fx": {
+     "tokenBonus": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% Delving tokens"
+   },
+   {
+    "level": 35,
+    "name": "Pathfinder III",
+    "fx": {
+     "xpBonus": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% XP"
+   },
+   {
+    "level": 40,
+    "name": "Token Hoarder IV",
+    "fx": {
+     "tokenBonus": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% Delving tokens"
+   },
+   {
+    "level": 45,
+    "name": "Pathfinder IV",
+    "fx": {
+     "xpBonus": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% XP"
+   },
+   {
+    "level": 50,
+    "name": "Gatebreaker",
+    "fx": {
+     "gateEase": 0.5
+    },
+    "milestone": true,
+    "desc": "dungeon gates need 10 fewer levels"
+   },
+   {
+    "level": 55,
+    "name": "Pathfinder V",
+    "fx": {
+     "xpBonus": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% XP"
+   },
+   {
+    "level": 60,
+    "name": "Token Hoarder V",
+    "fx": {
+     "tokenBonus": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% Delving tokens"
+   },
+   {
+    "level": 65,
+    "name": "Pathfinder VI",
+    "fx": {
+     "xpBonus": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% XP"
+   },
+   {
+    "level": 70,
+    "name": "Token Hoarder VI",
+    "fx": {
+     "tokenBonus": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% Delving tokens"
+   },
+   {
+    "level": 75,
+    "name": "Delver's Resolve",
+    "fx": {
+     "floorHeal": 0.15
+    },
+    "milestone": true,
+    "desc": "heal 15% of your life whenever a floor door opens"
+   },
+   {
+    "level": 80,
+    "name": "Token Hoarder VII",
+    "fx": {
+     "tokenBonus": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% Delving tokens"
+   },
+   {
+    "level": 85,
+    "name": "Pathfinder VII",
+    "fx": {
+     "xpBonus": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% XP"
+   },
+   {
+    "level": 90,
+    "name": "Token Hoarder VIII",
+    "fx": {
+     "tokenBonus": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% Delving tokens"
+   },
+   {
+    "level": 95,
+    "name": "Pathfinder VIII",
+    "fx": {
+     "xpBonus": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% XP"
+   },
+   {
+    "level": 99,
+    "name": "Delving Mastery",
+    "fx": {
+     "xpBonus": 0.25,
+     "tokenBonus": 0.25
+    },
+    "milestone": true,
+    "desc": "+25% XP, +25% Delving tokens"
+   }
   ]
  },
  "perkLevels": [
@@ -3383,7 +3751,11 @@
   "runeDouble": 0.5,
   "dodgeMs": 120,
   "rareDrop": 0.25,
-  "magicAdren": 0.4
+  "magicAdren": 0.4,
+  "rareFind": 0.5,
+  "gateEase": 0.75,
+  "tokenBonus": 1,
+  "floorHeal": 0.5
  },
  "milestones": [
   25,

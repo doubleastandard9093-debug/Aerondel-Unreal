@@ -2568,6 +2568,1020 @@
   "Uncut diamond": {
    "value": 200,
    "type": "resource"
+  },
+  "Bronze mattock": {
+   "value": 14,
+   "type": "tool",
+   "tool": "mattock",
+   "tier": 0,
+   "metal": "Bronze",
+   "toolTier": 0,
+   "req": {
+    "Relicry": 1
+   }
+  },
+  "Iron mattock": {
+   "value": 42,
+   "type": "tool",
+   "tool": "mattock",
+   "tier": 1,
+   "metal": "Iron",
+   "toolTier": 1,
+   "req": {
+    "Relicry": 1
+   }
+  },
+  "Steel mattock": {
+   "value": 112,
+   "type": "tool",
+   "tool": "mattock",
+   "tier": 2,
+   "metal": "Steel",
+   "toolTier": 2,
+   "req": {
+    "Relicry": 6
+   }
+  },
+  "Bluesteel mattock": {
+   "value": 280,
+   "type": "tool",
+   "tool": "mattock",
+   "tier": 3,
+   "metal": "Bluesteel",
+   "toolTier": 3,
+   "req": {
+    "Relicry": 21
+   }
+  },
+  "Verdite mattock": {
+   "value": 700,
+   "type": "tool",
+   "tool": "mattock",
+   "tier": 4,
+   "metal": "Verdite",
+   "toolTier": 4,
+   "req": {
+    "Relicry": 31
+   }
+  },
+  "Cobalt mattock": {
+   "value": 1820,
+   "type": "tool",
+   "tool": "mattock",
+   "tier": 5,
+   "metal": "Cobalt",
+   "toolTier": 5,
+   "req": {
+    "Relicry": 41
+   }
+  },
+  "Emberite mattock": {
+   "value": 4900,
+   "type": "tool",
+   "tool": "mattock",
+   "tier": 6,
+   "metal": "Emberite",
+   "toolTier": 6,
+   "req": {
+    "Relicry": 61
+   }
+  },
+  "Relicry cape": {
+   "value": 9900,
+   "type": "cape",
+   "def": 4,
+   "rdef": 4,
+   "prayer": 2,
+   "capeSkill": "Relicry",
+   "req": {
+    "Relicry": 99
+   }
+  },
+  "Delving cape": {
+   "value": 9900,
+   "type": "cape",
+   "def": 4,
+   "rdef": 4,
+   "prayer": 2,
+   "capeSkill": "Delving",
+   "req": {
+    "Delving": 99
+   }
+  },
+  "Relic shard": {
+   "value": 25,
+   "type": "resource"
+  },
+  "Ancient fragment": {
+   "value": 400,
+   "type": "resource"
+  },
+  "Sunforged khopesh": {
+   "value": 260000,
+   "unique": true,
+   "highTier": true,
+   "type": "weapon",
+   "atk": 66,
+   "str": 62,
+   "speed": 4,
+   "rarity": "legendary",
+   "glow": 16752704,
+   "eff": {
+    "burn": {
+     "chance": 0.25,
+     "dmg": 12
+    }
+   },
+   "special": "Solar Brand: 25% chance to set the target ablaze (12 damage a tick, 6 ticks)",
+   "req": {
+    "Attack": 70,
+    "Relicry": 60
+   },
+   "source": "Relicry"
+  },
+  "Skyreach warbow": {
+   "value": 240000,
+   "unique": true,
+   "highTier": true,
+   "type": "weapon",
+   "ranged": 78,
+   "speed": 4,
+   "rarity": "legendary",
+   "glow": 10148095,
+   "eff": {
+    "echo": 0.2
+   },
+   "special": "Gale Echo: 20% chance to loose a free second arrow at 60% power",
+   "req": {
+    "Ranged": 70,
+    "Relicry": 55
+   },
+   "source": "Relicry"
+  },
+  "Drowned reliquary staff": {
+   "value": 240000,
+   "unique": true,
+   "highTier": true,
+   "type": "weapon",
+   "atk": 10,
+   "str": 6,
+   "mag": 26,
+   "speed": 5,
+   "rarity": "legendary",
+   "glow": 6348992,
+   "eff": {
+    "frost": 0.15
+   },
+   "special": "Tidelock: 15% chance for spells to freeze the target for 3 seconds",
+   "req": {
+    "Magic": 70,
+    "Relicry": 50
+   },
+   "source": "Relicry"
+  },
+  "Barrow-king's helm": {
+   "value": 90000,
+   "unique": true,
+   "highTier": true,
+   "type": "head",
+   "def": 34,
+   "rdef": 30,
+   "rarity": "epic",
+   "glow": 12577023,
+   "eff": {
+    "dr": 0.02
+   },
+   "special": "Rime Ward: take 2% less damage",
+   "req": {
+    "Defence": 70,
+    "Relicry": 40
+   },
+   "source": "Relicry"
+  },
+  "Barrow-king's cuirass": {
+   "value": 220000,
+   "unique": true,
+   "highTier": true,
+   "type": "body",
+   "def": 80,
+   "rdef": 66,
+   "rarity": "legendary",
+   "glow": 12577023,
+   "eff": {
+    "dr": 0.04
+   },
+   "special": "Rime Ward: take 4% less damage",
+   "req": {
+    "Defence": 70,
+    "Relicry": 65
+   },
+   "source": "Relicry"
+  },
+  "Barrow-king's greaves": {
+   "value": 150000,
+   "unique": true,
+   "highTier": true,
+   "type": "legs",
+   "def": 60,
+   "rdef": 50,
+   "rarity": "epic",
+   "glow": 12577023,
+   "eff": {
+    "dr": 0.03
+   },
+   "special": "Rime Ward: take 3% less damage",
+   "req": {
+    "Defence": 70,
+    "Relicry": 60
+   },
+   "source": "Relicry"
+  },
+  "Sun-disc ward": {
+   "value": 160000,
+   "unique": true,
+   "highTier": true,
+   "type": "shield",
+   "def": 62,
+   "rdef": 56,
+   "rarity": "epic",
+   "glow": 16767072,
+   "eff": {
+    "reflect": 0.1
+   },
+   "special": "Blinding Rebuke: reflects 10% of melee damage taken",
+   "req": {
+    "Defence": 70,
+    "Relicry": 55
+   },
+   "source": "Relicry"
+  },
+  "Ziggurat scale body": {
+   "value": 150000,
+   "unique": true,
+   "highTier": true,
+   "type": "body",
+   "def": 44,
+   "rdef": 74,
+   "ranged": 14,
+   "rarity": "epic",
+   "glow": 6344816,
+   "eff": {
+    "pierce": 0.1
+   },
+   "special": "Hunter's Glyph: +10% ranged damage while the target is above half health",
+   "req": {
+    "Ranged": 65,
+    "Relicry": 50
+   },
+   "source": "Relicry"
+  },
+  "Mirage silk robe": {
+   "value": 140000,
+   "unique": true,
+   "highTier": true,
+   "type": "body",
+   "def": 30,
+   "rdef": 30,
+   "mag": 20,
+   "rarity": "epic",
+   "glow": 16763024,
+   "eff": {
+    "dr": 0.02,
+    "chain": 0.08
+   },
+   "special": "Heat Haze: take 2% less damage; 8% chance for spells to arc to a second foe",
+   "req": {
+    "Magic": 65,
+    "Relicry": 45
+   },
+   "source": "Relicry"
+  },
+  "Deepwarden greatblade": {
+   "value": 300000,
+   "unique": true,
+   "highTier": true,
+   "type": "weapon",
+   "atk": 72,
+   "str": 72,
+   "speed": 5,
+   "rarity": "legendary",
+   "glow": 11559167,
+   "eff": {
+    "lifesteal": 0.1,
+    "burn": {
+     "chance": 0.1,
+     "dmg": 10
+    }
+   },
+   "special": "Hungering Edge: heals 10% of damage dealt; 10% chance of shadowflame (10 a tick)",
+   "req": {
+    "Attack": 75,
+    "Delving": 70
+   },
+   "tokens": 2600,
+   "source": "Delving"
+  },
+  "Gloomstring longbow": {
+   "value": 280000,
+   "unique": true,
+   "highTier": true,
+   "type": "weapon",
+   "ranged": 84,
+   "speed": 5,
+   "rarity": "legendary",
+   "glow": 8413439,
+   "eff": {
+    "pierce": 0.25
+   },
+   "special": "Opening Volley: +25% damage while the target is above half health",
+   "req": {
+    "Ranged": 75,
+    "Delving": 65
+   },
+   "tokens": 2400,
+   "source": "Delving"
+  },
+  "Voidlantern staff": {
+   "value": 280000,
+   "unique": true,
+   "highTier": true,
+   "type": "weapon",
+   "atk": 12,
+   "str": 8,
+   "mag": 32,
+   "speed": 5,
+   "rarity": "legendary",
+   "glow": 7381247,
+   "eff": {
+    "chain": 0.25
+   },
+   "special": "Lantern Arc: 25% chance for spells to arc to another foe for half damage",
+   "req": {
+    "Magic": 75,
+    "Delving": 60
+   },
+   "tokens": 2400,
+   "source": "Delving"
+  },
+  "Delver's warhelm": {
+   "value": 110000,
+   "unique": true,
+   "highTier": true,
+   "type": "head",
+   "def": 36,
+   "rdef": 32,
+   "rarity": "epic",
+   "glow": 10518783,
+   "eff": {
+    "crit": 0.04
+   },
+   "special": "Keen Eye: 4% chance of a critical hit",
+   "req": {
+    "Defence": 75,
+    "Delving": 50
+   },
+   "tokens": 1100,
+   "source": "Delving"
+  },
+  "Delver's warplate": {
+   "value": 260000,
+   "unique": true,
+   "highTier": true,
+   "type": "body",
+   "def": 84,
+   "rdef": 70,
+   "rarity": "legendary",
+   "glow": 10518783,
+   "eff": {
+    "dr": 0.05
+   },
+   "special": "Deep Bulwark: take 5% less damage",
+   "req": {
+    "Defence": 75,
+    "Delving": 70
+   },
+   "tokens": 2200,
+   "source": "Delving"
+  },
+  "Delver's bulwark": {
+   "value": 170000,
+   "unique": true,
+   "highTier": true,
+   "type": "shield",
+   "def": 66,
+   "rdef": 64,
+   "rarity": "epic",
+   "glow": 10518783,
+   "eff": {
+    "dr": 0.04
+   },
+   "special": "Stone Heart: take 4% less damage",
+   "req": {
+    "Defence": 75,
+    "Delving": 55
+   },
+   "tokens": 1500,
+   "source": "Delving"
+  },
+  "Shadowhide jerkin": {
+   "value": 160000,
+   "unique": true,
+   "highTier": true,
+   "type": "body",
+   "def": 46,
+   "rdef": 78,
+   "ranged": 16,
+   "rarity": "epic",
+   "glow": 6320320,
+   "eff": {
+    "echo": 0.1
+   },
+   "special": "Twin Shadow: 10% chance of a free second arrow",
+   "req": {
+    "Ranged": 70,
+    "Delving": 50
+   },
+   "tokens": 1500,
+   "source": "Delving"
+  },
+  "Gloamweave robe": {
+   "value": 150000,
+   "unique": true,
+   "highTier": true,
+   "type": "body",
+   "def": 32,
+   "rdef": 32,
+   "mag": 24,
+   "rarity": "epic",
+   "glow": 7377151,
+   "eff": {
+    "dr": 0.03,
+    "frost": 0.05
+   },
+   "special": "Gloam Chill: take 3% less damage; 5% chance for spells to freeze",
+   "req": {
+    "Magic": 70,
+    "Delving": 50
+   },
+   "tokens": 1500,
+   "source": "Delving"
+  },
+  "Delver's signet": {
+   "value": 60000,
+   "unique": true,
+   "highTier": true,
+   "type": "ring",
+   "atk": 6,
+   "str": 6,
+   "ranged": 6,
+   "mag": 6,
+   "rarity": "epic",
+   "glow": 0,
+   "eff": {
+    "dmgPct": 0.04
+   },
+   "special": "+4% damage with every style",
+   "req": {
+    "Delving": 40
+   },
+   "tokens": 800,
+   "source": "Delving"
+  },
+  "Delve ore": {
+   "value": 0,
+   "bound": true,
+   "examine": "Floor-bound: it crumbles when you leave the floor."
+  },
+  "Delve logs": {
+   "value": 0,
+   "bound": true,
+   "examine": "Floor-bound: it crumbles when you leave the floor."
+  },
+  "Raw cavefish": {
+   "value": 0,
+   "bound": true,
+   "examine": "Floor-bound: it crumbles when you leave the floor."
+  },
+  "Cavefish": {
+   "value": 0,
+   "bound": true,
+   "examine": "Floor-bound: it crumbles when you leave the floor.",
+   "type": "food",
+   "heal": 12
+  },
+  "Burnt cavefish": {
+   "value": 0,
+   "bound": true,
+   "examine": "Floor-bound: it crumbles when you leave the floor."
+  },
+  "Crimson key": {
+   "value": 0,
+   "bound": true,
+   "examine": "Opens the crimson door on this floor."
+  },
+  "Azure key": {
+   "value": 0,
+   "bound": true,
+   "examine": "Opens the azure door on this floor."
+  },
+  "Gold key": {
+   "value": 0,
+   "bound": true,
+   "examine": "Opens the gold door on this floor."
+  },
+  "Jade key": {
+   "value": 0,
+   "bound": true,
+   "examine": "Opens the jade door on this floor."
+  },
+  "Delve blade I": {
+   "value": 0,
+   "bound": true,
+   "examine": "Floor-bound: it crumbles when you leave the floor.",
+   "type": "weapon",
+   "atk": 18,
+   "str": 16,
+   "speed": 4
+  },
+  "Delve shortbow I": {
+   "value": 0,
+   "bound": true,
+   "examine": "Floor-bound: it crumbles when you leave the floor.",
+   "type": "weapon",
+   "ranged": 20,
+   "speed": 4
+  },
+  "Delve arrows I": {
+   "value": 0,
+   "bound": true,
+   "examine": "Floor-bound: it crumbles when you leave the floor.",
+   "type": "ammo",
+   "rstr": 10,
+   "stack": true
+  },
+  "Delve plate I": {
+   "value": 0,
+   "bound": true,
+   "examine": "Floor-bound: it crumbles when you leave the floor.",
+   "type": "body",
+   "def": 20,
+   "rdef": 16
+  },
+  "Delve greaves I": {
+   "value": 0,
+   "bound": true,
+   "examine": "Floor-bound: it crumbles when you leave the floor.",
+   "type": "legs",
+   "def": 15,
+   "rdef": 13
+  },
+  "Delve buckler I": {
+   "value": 0,
+   "bound": true,
+   "examine": "Floor-bound: it crumbles when you leave the floor.",
+   "type": "shield",
+   "def": 13,
+   "rdef": 13
+  },
+  "Delve blade II": {
+   "value": 0,
+   "bound": true,
+   "examine": "Floor-bound: it crumbles when you leave the floor.",
+   "type": "weapon",
+   "atk": 28,
+   "str": 26,
+   "speed": 4
+  },
+  "Delve shortbow II": {
+   "value": 0,
+   "bound": true,
+   "examine": "Floor-bound: it crumbles when you leave the floor.",
+   "type": "weapon",
+   "ranged": 32,
+   "speed": 4
+  },
+  "Delve arrows II": {
+   "value": 0,
+   "bound": true,
+   "examine": "Floor-bound: it crumbles when you leave the floor.",
+   "type": "ammo",
+   "rstr": 16,
+   "stack": true
+  },
+  "Delve plate II": {
+   "value": 0,
+   "bound": true,
+   "examine": "Floor-bound: it crumbles when you leave the floor.",
+   "type": "body",
+   "def": 32,
+   "rdef": 26
+  },
+  "Delve greaves II": {
+   "value": 0,
+   "bound": true,
+   "examine": "Floor-bound: it crumbles when you leave the floor.",
+   "type": "legs",
+   "def": 24,
+   "rdef": 21
+  },
+  "Delve buckler II": {
+   "value": 0,
+   "bound": true,
+   "examine": "Floor-bound: it crumbles when you leave the floor.",
+   "type": "shield",
+   "def": 21,
+   "rdef": 21
+  },
+  "Delve blade III": {
+   "value": 0,
+   "bound": true,
+   "examine": "Floor-bound: it crumbles when you leave the floor.",
+   "type": "weapon",
+   "atk": 38,
+   "str": 36,
+   "speed": 4
+  },
+  "Delve shortbow III": {
+   "value": 0,
+   "bound": true,
+   "examine": "Floor-bound: it crumbles when you leave the floor.",
+   "type": "weapon",
+   "ranged": 44,
+   "speed": 4
+  },
+  "Delve arrows III": {
+   "value": 0,
+   "bound": true,
+   "examine": "Floor-bound: it crumbles when you leave the floor.",
+   "type": "ammo",
+   "rstr": 22,
+   "stack": true
+  },
+  "Delve plate III": {
+   "value": 0,
+   "bound": true,
+   "examine": "Floor-bound: it crumbles when you leave the floor.",
+   "type": "body",
+   "def": 44,
+   "rdef": 36
+  },
+  "Delve greaves III": {
+   "value": 0,
+   "bound": true,
+   "examine": "Floor-bound: it crumbles when you leave the floor.",
+   "type": "legs",
+   "def": 33,
+   "rdef": 29
+  },
+  "Delve buckler III": {
+   "value": 0,
+   "bound": true,
+   "examine": "Floor-bound: it crumbles when you leave the floor.",
+   "type": "shield",
+   "def": 29,
+   "rdef": 29
+  },
+  "Delve blade IV": {
+   "value": 0,
+   "bound": true,
+   "examine": "Floor-bound: it crumbles when you leave the floor.",
+   "type": "weapon",
+   "atk": 48,
+   "str": 46,
+   "speed": 4
+  },
+  "Delve shortbow IV": {
+   "value": 0,
+   "bound": true,
+   "examine": "Floor-bound: it crumbles when you leave the floor.",
+   "type": "weapon",
+   "ranged": 56,
+   "speed": 4
+  },
+  "Delve arrows IV": {
+   "value": 0,
+   "bound": true,
+   "examine": "Floor-bound: it crumbles when you leave the floor.",
+   "type": "ammo",
+   "rstr": 28,
+   "stack": true
+  },
+  "Delve plate IV": {
+   "value": 0,
+   "bound": true,
+   "examine": "Floor-bound: it crumbles when you leave the floor.",
+   "type": "body",
+   "def": 56,
+   "rdef": 46
+  },
+  "Delve greaves IV": {
+   "value": 0,
+   "bound": true,
+   "examine": "Floor-bound: it crumbles when you leave the floor.",
+   "type": "legs",
+   "def": 42,
+   "rdef": 37
+  },
+  "Delve buckler IV": {
+   "value": 0,
+   "bound": true,
+   "examine": "Floor-bound: it crumbles when you leave the floor.",
+   "type": "shield",
+   "def": 37,
+   "rdef": 37
+  },
+  "Delve blade V": {
+   "value": 0,
+   "bound": true,
+   "examine": "Floor-bound: it crumbles when you leave the floor.",
+   "type": "weapon",
+   "atk": 58,
+   "str": 56,
+   "speed": 4
+  },
+  "Delve shortbow V": {
+   "value": 0,
+   "bound": true,
+   "examine": "Floor-bound: it crumbles when you leave the floor.",
+   "type": "weapon",
+   "ranged": 68,
+   "speed": 4
+  },
+  "Delve arrows V": {
+   "value": 0,
+   "bound": true,
+   "examine": "Floor-bound: it crumbles when you leave the floor.",
+   "type": "ammo",
+   "rstr": 34,
+   "stack": true
+  },
+  "Delve plate V": {
+   "value": 0,
+   "bound": true,
+   "examine": "Floor-bound: it crumbles when you leave the floor.",
+   "type": "body",
+   "def": 68,
+   "rdef": 56
+  },
+  "Delve greaves V": {
+   "value": 0,
+   "bound": true,
+   "examine": "Floor-bound: it crumbles when you leave the floor.",
+   "type": "legs",
+   "def": 51,
+   "rdef": 45
+  },
+  "Delve buckler V": {
+   "value": 0,
+   "bound": true,
+   "examine": "Floor-bound: it crumbles when you leave the floor.",
+   "type": "shield",
+   "def": 45,
+   "rdef": 45
+  },
+  "Bog-iron flake": {
+   "value": 21,
+   "examine": "Restoration material from the Drowned Chapel."
+  },
+  "Damaged chapel bell": {
+   "value": 34,
+   "artifact": "Chapel bell",
+   "damaged": true,
+   "examine": "A damaged artifact from the Drowned Chapel. Restore it at the site's bench."
+  },
+  "Chapel bell": {
+   "value": 225,
+   "artifact": "Chapel bell",
+   "site": "Drowned Chapel",
+   "examine": "A restored artifact from the Drowned Chapel. Part of a collection."
+  },
+  "Damaged pilgrim's lamp": {
+   "value": 54,
+   "artifact": "Pilgrim's lamp",
+   "damaged": true,
+   "examine": "A damaged artifact from the Drowned Chapel. Restore it at the site's bench."
+  },
+  "Pilgrim's lamp": {
+   "value": 350,
+   "artifact": "Pilgrim's lamp",
+   "site": "Drowned Chapel",
+   "examine": "A restored artifact from the Drowned Chapel. Part of a collection."
+  },
+  "Damaged drowned censer": {
+   "value": 78,
+   "artifact": "Drowned censer",
+   "damaged": true,
+   "examine": "A damaged artifact from the Drowned Chapel. Restore it at the site's bench."
+  },
+  "Drowned censer": {
+   "value": 500,
+   "artifact": "Drowned censer",
+   "site": "Drowned Chapel",
+   "examine": "A restored artifact from the Drowned Chapel. Part of a collection."
+  },
+  "Frostglass": {
+   "value": 40,
+   "examine": "Restoration material from the Frozen Barrow."
+  },
+  "Damaged barrow-king's torc": {
+   "value": 110,
+   "artifact": "Barrow-king's torc",
+   "damaged": true,
+   "examine": "A damaged artifact from the Frozen Barrow. Restore it at the site's bench."
+  },
+  "Barrow-king's torc": {
+   "value": 700,
+   "artifact": "Barrow-king's torc",
+   "site": "Frozen Barrow",
+   "examine": "A restored artifact from the Frozen Barrow. Part of a collection."
+  },
+  "Damaged rime-carved horn": {
+   "value": 130,
+   "artifact": "Rime-carved horn",
+   "damaged": true,
+   "examine": "A damaged artifact from the Frozen Barrow. Restore it at the site's bench."
+  },
+  "Rime-carved horn": {
+   "value": 825,
+   "artifact": "Rime-carved horn",
+   "site": "Frozen Barrow",
+   "examine": "A restored artifact from the Frozen Barrow. Part of a collection."
+  },
+  "Damaged frozen war-banner": {
+   "value": 150,
+   "artifact": "Frozen war-banner",
+   "damaged": true,
+   "examine": "A damaged artifact from the Frozen Barrow. Restore it at the site's bench."
+  },
+  "Frozen war-banner": {
+   "value": 950,
+   "artifact": "Frozen war-banner",
+   "site": "Frozen Barrow",
+   "examine": "A restored artifact from the Frozen Barrow. Part of a collection."
+  },
+  "Skyslate": {
+   "value": 55,
+   "examine": "Restoration material from the Sky Shrine Ruins."
+  },
+  "Damaged wind-chime crown": {
+   "value": 170,
+   "artifact": "Wind-chime crown",
+   "damaged": true,
+   "examine": "A damaged artifact from the Sky Shrine Ruins. Restore it at the site's bench."
+  },
+  "Wind-chime crown": {
+   "value": 1075,
+   "artifact": "Wind-chime crown",
+   "site": "Sky Shrine Ruins",
+   "examine": "A restored artifact from the Sky Shrine Ruins. Part of a collection."
+  },
+  "Damaged feathered idol": {
+   "value": 190,
+   "artifact": "Feathered idol",
+   "damaged": true,
+   "examine": "A damaged artifact from the Sky Shrine Ruins. Restore it at the site's bench."
+  },
+  "Feathered idol": {
+   "value": 1200,
+   "artifact": "Feathered idol",
+   "site": "Sky Shrine Ruins",
+   "examine": "A restored artifact from the Sky Shrine Ruins. Part of a collection."
+  },
+  "Damaged shrine keystone": {
+   "value": 206,
+   "artifact": "Shrine keystone",
+   "damaged": true,
+   "examine": "A damaged artifact from the Sky Shrine Ruins. Restore it at the site's bench."
+  },
+  "Shrine keystone": {
+   "value": 1300,
+   "artifact": "Shrine keystone",
+   "site": "Sky Shrine Ruins",
+   "examine": "A restored artifact from the Sky Shrine Ruins. Part of a collection."
+  },
+  "Sunstone dust": {
+   "value": 65,
+   "examine": "Restoration material from the Sunken Sun Temple."
+  },
+  "Damaged sun-disc mirror": {
+   "value": 210,
+   "artifact": "Sun-disc mirror",
+   "damaged": true,
+   "examine": "A damaged artifact from the Sunken Sun Temple. Restore it at the site's bench."
+  },
+  "Sun-disc mirror": {
+   "value": 1325,
+   "artifact": "Sun-disc mirror",
+   "site": "Sunken Sun Temple",
+   "examine": "A restored artifact from the Sunken Sun Temple. Part of a collection."
+  },
+  "Damaged scarab seal": {
+   "value": 222,
+   "artifact": "Scarab seal",
+   "damaged": true,
+   "examine": "A damaged artifact from the Sunken Sun Temple. Restore it at the site's bench."
+  },
+  "Scarab seal": {
+   "value": 1400,
+   "artifact": "Scarab seal",
+   "site": "Sunken Sun Temple",
+   "examine": "A restored artifact from the Sunken Sun Temple. Part of a collection."
+  },
+  "Damaged temple sundial": {
+   "value": 238,
+   "artifact": "Temple sundial",
+   "damaged": true,
+   "examine": "A damaged artifact from the Sunken Sun Temple. Restore it at the site's bench."
+  },
+  "Temple sundial": {
+   "value": 1500,
+   "artifact": "Temple sundial",
+   "site": "Sunken Sun Temple",
+   "examine": "A restored artifact from the Sunken Sun Temple. Part of a collection."
+  },
+  "Vine resin": {
+   "value": 70,
+   "examine": "Restoration material from the Overgrown Ziggurat."
+  },
+  "Damaged jade mask": {
+   "value": 230,
+   "artifact": "Jade mask",
+   "damaged": true,
+   "examine": "A damaged artifact from the Overgrown Ziggurat. Restore it at the site's bench."
+  },
+  "Jade mask": {
+   "value": 1450,
+   "artifact": "Jade mask",
+   "site": "Overgrown Ziggurat",
+   "examine": "A restored artifact from the Overgrown Ziggurat. Part of a collection."
+  },
+  "Damaged serpent sceptre": {
+   "value": 250,
+   "artifact": "Serpent sceptre",
+   "damaged": true,
+   "examine": "A damaged artifact from the Overgrown Ziggurat. Restore it at the site's bench."
+  },
+  "Serpent sceptre": {
+   "value": 1575,
+   "artifact": "Serpent sceptre",
+   "site": "Overgrown Ziggurat",
+   "examine": "A restored artifact from the Overgrown Ziggurat. Part of a collection."
+  },
+  "Damaged calendar stone": {
+   "value": 262,
+   "artifact": "Calendar stone",
+   "damaged": true,
+   "examine": "A damaged artifact from the Overgrown Ziggurat. Restore it at the site's bench."
+  },
+  "Calendar stone": {
+   "value": 1650,
+   "artifact": "Calendar stone",
+   "site": "Overgrown Ziggurat",
+   "examine": "A restored artifact from the Overgrown Ziggurat. Part of a collection."
+  },
+  "Cinderglass": {
+   "value": 80,
+   "examine": "Restoration material from the Cinder Forge Vault."
+  },
+  "Damaged forge-god anvil": {
+   "value": 270,
+   "artifact": "Forge-god anvil",
+   "damaged": true,
+   "examine": "A damaged artifact from the Cinder Forge Vault. Restore it at the site's bench."
+  },
+  "Forge-god anvil": {
+   "value": 1700,
+   "artifact": "Forge-god anvil",
+   "site": "Cinder Forge Vault",
+   "examine": "A restored artifact from the Cinder Forge Vault. Part of a collection."
+  },
+  "Damaged ember crown": {
+   "value": 294,
+   "artifact": "Ember crown",
+   "damaged": true,
+   "examine": "A damaged artifact from the Cinder Forge Vault. Restore it at the site's bench."
+  },
+  "Ember crown": {
+   "value": 1850,
+   "artifact": "Ember crown",
+   "site": "Cinder Forge Vault",
+   "examine": "A restored artifact from the Cinder Forge Vault. Part of a collection."
+  },
+  "Damaged first hammer": {
+   "value": 318,
+   "artifact": "First hammer",
+   "damaged": true,
+   "examine": "A damaged artifact from the Cinder Forge Vault. Restore it at the site's bench."
+  },
+  "First hammer": {
+   "value": 2000,
+   "artifact": "First hammer",
+   "site": "Cinder Forge Vault",
+   "examine": "A restored artifact from the Cinder Forge Vault. Part of a collection."
+  },
+  "Relic key": {
+   "value": 1500,
+   "examine": "Opens any one gate inside a relic dungeon."
   }
  },
  "metals": [
@@ -2754,6 +3768,12 @@
    "id": "spade",
    "name": "Spade",
    "icon": "🪏"
+  },
+  {
+   "id": "mattock",
+   "name": "Mattock",
+   "icon": "⛏️",
+   "skill": "Relicry"
   }
  ],
  "healScale": 10

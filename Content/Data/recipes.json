@@ -2224,6 +2224,104 @@
    },
    "output": "Thornstalk",
    "xp": 15
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Bronze mattock",
+   "cat": "Smithing",
+   "group": "Bronze",
+   "skill": "Smithing",
+   "level": 2,
+   "inputs": {
+    "Bronze bar": 2
+   },
+   "output": "Bronze mattock",
+   "xp": 25
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Iron mattock",
+   "cat": "Smithing",
+   "group": "Iron",
+   "skill": "Smithing",
+   "level": 17,
+   "inputs": {
+    "Iron bar": 2
+   },
+   "output": "Iron mattock",
+   "xp": 50
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Steel mattock",
+   "cat": "Smithing",
+   "group": "Steel",
+   "skill": "Smithing",
+   "level": 32,
+   "inputs": {
+    "Steel bar": 2
+   },
+   "output": "Steel mattock",
+   "xp": 75
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Bluesteel mattock",
+   "cat": "Smithing",
+   "group": "Bluesteel",
+   "skill": "Smithing",
+   "level": 52,
+   "inputs": {
+    "Bluesteel bar": 2
+   },
+   "output": "Bluesteel mattock",
+   "xp": 100
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Verdite mattock",
+   "cat": "Smithing",
+   "group": "Verdite",
+   "skill": "Smithing",
+   "level": 72,
+   "inputs": {
+    "Verdite bar": 2
+   },
+   "output": "Verdite mattock",
+   "xp": 125
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Cobalt mattock",
+   "cat": "Smithing",
+   "group": "Cobalt",
+   "skill": "Smithing",
+   "level": 87,
+   "inputs": {
+    "Cobalt bar": 2
+   },
+   "output": "Cobalt mattock",
+   "xp": 150
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Emberite mattock",
+   "cat": "Smithing",
+   "group": "Emberite",
+   "skill": "Smithing",
+   "level": 92,
+   "inputs": {
+    "Emberite bar": 2
+   },
+   "output": "Emberite mattock",
+   "xp": 180
   }
  ],
  "potionRecipes": [

@@ -247,6 +247,9 @@ def run():
         box("Port_Sarim_Dock", "FeatureSites/Docks", (-80, 0.2, 80), (6, 0.4, 14), mat("Planks", (0.45, 0.32, 0.2)))
 
         build_towns(w)  # banners, signposts, bank chests, waystone plinths
+        import build_aerondel_regions, importlib
+        importlib.reload(build_aerondel_regions)
+        build_aerondel_regions.build(w)  # climate-region ground, biome props, dig sites, Delver's Descent
 
         task.enter_progress_frame(1, "World Partition streaming + save")
         if wpart.is_partitioned():

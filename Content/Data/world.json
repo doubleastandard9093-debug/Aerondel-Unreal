@@ -1,5 +1,5 @@
 {
- "worldHalf": 300,
+ "worldHalf": 420,
  "spawn": {
   "x": 0,
   "z": 0
@@ -231,6 +231,30 @@
    ],
    "id": "thistlewell",
    "stores": []
+  },
+  "Rimeholt": {
+   "x": -250,
+   "z": -355
+  },
+  "Cragmoor Lodge": {
+   "x": 235,
+   "z": -350
+  },
+  "Cinderpost": {
+   "x": 355,
+   "z": -140
+  },
+  "Mirage Well": {
+   "x": 360,
+   "z": 120
+  },
+  "Vinehollow": {
+   "x": 210,
+   "z": 360
+  },
+  "Bogwatch": {
+   "x": -360,
+   "z": 185
   }
  },
  "paths": [
@@ -797,6 +821,66 @@
    4864554,
    "The Thistle and Pail",
    "The hamlet's only tavern."
+  ],
+  [
+   -241,
+   -362,
+   5,
+   4,
+   14212324,
+   3820138,
+   "Rimeholt Lodge",
+   "The outpost lodge of Rimeholt, Rimeholt Tundra."
+  ],
+  [
+   244,
+   -357,
+   5,
+   4,
+   9075298,
+   4872762,
+   "Cragmoor Lodge",
+   "The outpost lodge of Cragmoor Lodge, Skyreach Highlands."
+  ],
+  [
+   364,
+   -147,
+   5,
+   4,
+   4864566,
+   9054746,
+   "Cinderpost Lodge",
+   "The outpost lodge of Cinderpost, Ashveil Wastes."
+  ],
+  [
+   369,
+   113,
+   5,
+   4,
+   14205066,
+   10510394,
+   "Mirage Well Lodge",
+   "The outpost lodge of Mirage Well, Sunscour Dunes."
+  ],
+  [
+   219,
+   353,
+   5,
+   4,
+   6969914,
+   3828266,
+   "Vinehollow Lodge",
+   "The outpost lodge of Vinehollow, Verdant Tangle."
+  ],
+  [
+   -351,
+   178,
+   5,
+   4,
+   5921352,
+   3820074,
+   "Bogwatch Lodge",
+   "The outpost lodge of Bogwatch, Mirelow Fen."
   ]
  ],
  "guilds": [
@@ -914,6 +998,30 @@
    "x": 130,
    "z": -175,
    "r": 5
+  },
+  {
+   "x": -220,
+   "z": -329,
+   "r": 6,
+   "region": "rimeholt"
+  },
+  {
+   "x": 378,
+   "z": 136,
+   "r": 4,
+   "region": "sunscour"
+  },
+  {
+   "x": 184,
+   "z": 342,
+   "r": 5,
+   "region": "vinehollow"
+  },
+  {
+   "x": -382,
+   "z": 205,
+   "r": 7,
+   "region": "mirelow"
   }
  ],
  "cave": {
@@ -1221,6 +1329,646 @@
    "z": -124,
    "r": 6,
    "name": "Grumsh's camp beyond the ogre hills"
+  }
+ },
+ "regions": [
+  {
+   "id": "rimeholt",
+   "name": "Rimeholt Tundra",
+   "biome": "tundra",
+   "x": -250,
+   "z": -355,
+   "r": 72,
+   "camp": {
+    "name": "Rimeholt",
+    "dx": 0,
+    "dz": 0
+   },
+   "scatter": {
+    "pine": 70,
+    "snowrock": 26,
+    "iceshard": 14,
+    "deadtree": 10
+   },
+   "nodes": [
+    [
+     "tree",
+     "Yew",
+     18,
+     -10
+    ],
+    [
+     "tree",
+     "Yew",
+     22,
+     -4
+    ],
+    [
+     "tree",
+     "Maple",
+     -20,
+     14
+    ],
+    [
+     "rock",
+     "Coal",
+     -12,
+     -18
+    ],
+    [
+     "rock",
+     "Coal",
+     -9,
+     -21
+    ],
+    [
+     "rock",
+     "Bluesteel",
+     -15,
+     -22
+    ],
+    [
+     "fish",
+     "Harpoon",
+     30,
+     22
+    ],
+    [
+     "herb",
+     "Snapdragon",
+     6,
+     20
+    ]
+   ],
+   "pond": {
+    "dx": 30,
+    "dz": 26,
+    "r": 6
+   },
+   "mobs": [
+    [
+     "Frostfang Wolf",
+     -30,
+     30,
+     4
+    ],
+    [
+     "Frostfang Wolf",
+     -36,
+     24,
+     4
+    ],
+    [
+     "Rime Wraith",
+     40,
+     -30,
+     3
+    ],
+    [
+     "Rime Wraith",
+     46,
+     -24,
+     3
+    ]
+   ],
+   "dig": {
+    "name": "Frozen Barrow",
+    "dx": -34,
+    "dz": -6,
+    "level": 20
+   }
+  },
+  {
+   "id": "skyreach",
+   "name": "Skyreach Highlands",
+   "biome": "alpine",
+   "x": 235,
+   "z": -350,
+   "r": 66,
+   "camp": {
+    "name": "Cragmoor Lodge",
+    "dx": 0,
+    "dz": 0
+   },
+   "scatter": {
+    "pine": 55,
+    "boulder": 30,
+    "fern": 20
+   },
+   "nodes": [
+    [
+     "tree",
+     "Maple",
+     14,
+     12
+    ],
+    [
+     "tree",
+     "Maple",
+     18,
+     16
+    ],
+    [
+     "tree",
+     "Magic",
+     -22,
+     -16
+    ],
+    [
+     "rock",
+     "Verdite",
+     -14,
+     18
+    ],
+    [
+     "rock",
+     "Iron",
+     -10,
+     22
+    ],
+    [
+     "rock",
+     "Iron",
+     -17,
+     20
+    ],
+    [
+     "herb",
+     "Knotroot",
+     20,
+     -14
+    ]
+   ],
+   "mobs": [
+    [
+     "Crag Ram",
+     30,
+     30,
+     5
+    ],
+    [
+     "Crag Ram",
+     24,
+     36,
+     5
+    ],
+    [
+     "Skyreach Harpy",
+     -34,
+     -28,
+     3
+    ],
+    [
+     "Skyreach Harpy",
+     -28,
+     -34,
+     3
+    ]
+   ],
+   "dig": {
+    "name": "Sky Shrine Ruins",
+    "dx": 30,
+    "dz": -22,
+    "level": 35
+   }
+  },
+  {
+   "id": "ashveil",
+   "name": "Ashveil Wastes",
+   "biome": "volcanic",
+   "x": 365,
+   "z": -140,
+   "r": 56,
+   "camp": {
+    "name": "Cinderpost",
+    "dx": -10,
+    "dz": 0
+   },
+   "scatter": {
+    "lavarock": 40,
+    "deadtree": 18,
+    "vent": 10
+   },
+   "nodes": [
+    [
+     "rock",
+     "Emberite",
+     18,
+     14
+    ],
+    [
+     "rock",
+     "Cobalt",
+     22,
+     10
+    ],
+    [
+     "rock",
+     "Coal",
+     14,
+     18
+    ],
+    [
+     "rock",
+     "Coal",
+     20,
+     20
+    ]
+   ],
+   "mobs": [
+    [
+     "Ember Imp",
+     24,
+     -24,
+     4
+    ],
+    [
+     "Ember Imp",
+     30,
+     -18,
+     4
+    ],
+    [
+     "Magma Brute",
+     28,
+     30,
+     2
+    ]
+   ],
+   "dig": {
+    "name": "Cinder Forge Vault",
+    "dx": -24,
+    "dz": -24,
+    "level": 60
+   }
+  },
+  {
+   "id": "sunscour",
+   "name": "Sunscour Dunes",
+   "biome": "desert",
+   "x": 360,
+   "z": 120,
+   "r": 60,
+   "camp": {
+    "name": "Mirage Well",
+    "dx": 0,
+    "dz": 0
+   },
+   "scatter": {
+    "cactus": 45,
+    "palm": 12,
+    "sandstone": 22,
+    "bones": 10
+   },
+   "nodes": [
+    [
+     "tree",
+     "Oak",
+     24,
+     4
+    ],
+    [
+     "rock",
+     "Bluesteel",
+     -18,
+     16
+    ],
+    [
+     "rock",
+     "Tin",
+     -14,
+     20
+    ],
+    [
+     "rock",
+     "Copper",
+     -21,
+     21
+    ],
+    [
+     "fish",
+     "Net",
+     18,
+     14
+    ],
+    [
+     "herb",
+     "Amberleaf",
+     14,
+     -8
+    ]
+   ],
+   "pond": {
+    "dx": 18,
+    "dz": 16,
+    "r": 4
+   },
+   "mobs": [
+    [
+     "Dune Scuttler",
+     30,
+     26,
+     4
+    ],
+    [
+     "Dune Scuttler",
+     36,
+     20,
+     4
+    ],
+    [
+     "Sand Reaver",
+     -32,
+     -28,
+     3
+    ]
+   ],
+   "dig": {
+    "name": "Sunken Sun Temple",
+    "dx": 32,
+    "dz": -24,
+    "level": 45
+   },
+   "delveHub": {
+    "dx": -30,
+    "dz": -14
+   }
+  },
+  {
+   "id": "vinehollow",
+   "name": "Verdant Tangle",
+   "biome": "jungle",
+   "x": 210,
+   "z": 360,
+   "r": 60,
+   "camp": {
+    "name": "Vinehollow",
+    "dx": 0,
+    "dz": 0
+   },
+   "scatter": {
+    "palm": 40,
+    "junglebush": 50,
+    "fern": 40,
+    "pine": 10
+   },
+   "nodes": [
+    [
+     "tree",
+     "Yew",
+     16,
+     14
+    ],
+    [
+     "tree",
+     "Magic",
+     -20,
+     18
+    ],
+    [
+     "tree",
+     "Willow",
+     22,
+     -14
+    ],
+    [
+     "fish",
+     "Lure",
+     -26,
+     -14
+    ],
+    [
+     "herb",
+     "Harrowbloom",
+     10,
+     -20
+    ],
+    [
+     "herb",
+     "Snapdragon",
+     14,
+     -22
+    ]
+   ],
+   "pond": {
+    "dx": -26,
+    "dz": -18,
+    "r": 5
+   },
+   "mobs": [
+    [
+     "Vine Lurker",
+     30,
+     28,
+     4
+    ],
+    [
+     "Vine Lurker",
+     24,
+     34,
+     4
+    ],
+    [
+     "Canopy Stalker",
+     -34,
+     30,
+     4
+    ]
+   ],
+   "dig": {
+    "name": "Overgrown Ziggurat",
+    "dx": -30,
+    "dz": 32,
+    "level": 50
+   }
+  },
+  {
+   "id": "mirelow",
+   "name": "Mirelow Fen",
+   "biome": "swamp",
+   "x": -360,
+   "z": 185,
+   "r": 60,
+   "camp": {
+    "name": "Bogwatch",
+    "dx": 0,
+    "dz": 0
+   },
+   "scatter": {
+    "deadtree": 36,
+    "reed": 60,
+    "mossrock": 18
+   },
+   "nodes": [
+    [
+     "tree",
+     "Willow",
+     14,
+     12
+    ],
+    [
+     "tree",
+     "Willow",
+     18,
+     16
+    ],
+    [
+     "tree",
+     "Willow",
+     12,
+     18
+    ],
+    [
+     "fish",
+     "Net",
+     -18,
+     18
+    ],
+    [
+     "fish",
+     "Lure",
+     -22,
+     14
+    ],
+    [
+     "herb",
+     "Marshmint",
+     20,
+     -12
+    ],
+    [
+     "herb",
+     "Tallowroot",
+     24,
+     -10
+    ]
+   ],
+   "pond": {
+    "dx": -22,
+    "dz": 20,
+    "r": 7
+   },
+   "mobs": [
+    [
+     "Fen Crawler",
+     30,
+     -26,
+     4
+    ],
+    [
+     "Fen Crawler",
+     36,
+     -20,
+     4
+    ],
+    [
+     "Mire Hag",
+     -30,
+     -30,
+     3
+    ]
+   ],
+   "dig": {
+    "name": "Drowned Chapel",
+    "dx": -32,
+    "dz": -20,
+    "level": 1
+   }
+  }
+ ],
+ "biomes": {
+  "tundra": {
+   "tint": [
+    1.16,
+    1.26,
+    1.78
+   ],
+   "paint": [
+    "0,255,0",
+    1
+   ],
+   "fog": 14674162,
+   "fogK": 1.35,
+   "particles": "snow",
+   "relief": "mounds",
+   "map": "#e4ecf4"
+  },
+  "alpine": {
+   "tint": [
+    1.12,
+    1.06,
+    1.22
+   ],
+   "paint": [
+    "255,0,0",
+    0.25
+   ],
+   "fog": 13162212,
+   "fogK": 1.1,
+   "particles": null,
+   "relief": "crags",
+   "map": "#8a9a78"
+  },
+  "volcanic": {
+   "tint": [
+    0.62,
+    0.5,
+    0.5
+   ],
+   "paint": [
+    "255,0,0",
+    1
+   ],
+   "fog": 5917252,
+   "fogK": 1.5,
+   "particles": "ash",
+   "relief": "crags",
+   "map": "#4a3a36"
+  },
+  "desert": {
+   "tint": [
+    1.06,
+    1,
+    0.92
+   ],
+   "paint": [
+    "0,255,0",
+    1
+   ],
+   "fog": 15258792,
+   "fogK": 1.2,
+   "particles": "sand",
+   "relief": "dunes",
+   "map": "#d8c088"
+  },
+  "jungle": {
+   "tint": [
+    0.72,
+    1.02,
+    0.66
+   ],
+   "paint": null,
+   "fog": 10139792,
+   "fogK": 1.4,
+   "particles": "leaves",
+   "relief": "mounds",
+   "map": "#2a5a24"
+  },
+  "swamp": {
+   "tint": [
+    0.76,
+    0.84,
+    0.68
+   ],
+   "paint": [
+    "255,0,0",
+    0.45
+   ],
+   "fog": 9083514,
+   "fogK": 1.8,
+   "particles": "spores",
+   "relief": "flat",
+   "map": "#4a5a3a"
   }
  }
 }
