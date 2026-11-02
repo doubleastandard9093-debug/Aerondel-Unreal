@@ -5,7 +5,9 @@ ground, lake/ponds, paths, every town building (wall + roof colours from the dat
 stations and bank chest, landmark markers, the cave, an AQuestPlaceVolume per town/landmark/guild
 (PlaceId = its name), per-town banners/signposts/bank chests/waystones, plus one per quest place in world.json "places" (PlaceId = quest place id), NavMeshBoundsVolume, lighting and a PlayerStart at world.spawn.
 Web units are metres with x east, z south-ish; mapped the same way as build_starter_town (V()).
-Saved to /Game/Gielinor/Maps/World. Data-driven: edit world.json and re-run.
+Saved to /Game/Gielinor/Maps/World as a World Partition map (see world_partition.py): everything streams in
+128 m cells except PlayerStart, lighting, ground/sea and nav bounds. Data-driven: edit world.json and re-run;
+new regions are just new coordinates in world.json and stream automatically.
 """
 import json
 import math
@@ -13,6 +15,7 @@ import os
 import unreal
 from gielinor_util import ROOT, mat, eal
 import build_starter_town as bst
+import world_partition as wpart
 from build_starter_town import V, box, label, actors, levels, CUBE, CYL, CONE
 
 MAP = ROOT + "/Maps/World"
@@ -120,7 +123,7 @@ def run():
     w = load_world()
     if eal.does_asset_exist(MAP):
         eal.delete_asset(MAP)
-    if not levels.new_level(MAP):
+    if not wpart.new_partitioned_level(MAP, levels):  # World Partition: actors stream in 128 m cells
         unreal.log_error("[Gielinor] Could not create " + MAP)
         return
     half = float(w.get("worldHalf", 300))
@@ -245,6 +248,13 @@ def run():
 
         build_towns(w)  # banners, signposts, bank chests, waystone plinths
 
-        task.enter_progress_frame(1, "Save")
+        task.enter_progress_frame(1, "World Partition streaming + save")
+        if wpart.is_partitioned():
+            wpart.configure_runtime_grid()
+            wpart.apply_streaming_flags(actors)
+            wpart.dynamic_navmesh(actors)
+        else:
+            unreal.log_warning("[Gielinor] World map is not partitioned; it will load all at once until converted (Tools > Convert Level).")
         levels.save_current_level()
+        wpart.save_all()
     unreal.log("[Gielinor] World blockout saved to " + MAP)
