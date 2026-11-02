@@ -71,3 +71,13 @@ docs/              ARCHITECTURE.md, PERFORMANCE.md, NEXT_STEPS.md, UNREAL_VS_UNI
 - `Scripts/validate_project.py`: `.uproject` JSON and plugin list, ini syntax, and the XP curve recomputed independently (level 2 = 83, level 10 = 1,154, level 99 = 13,034,431).
 - `python -m py_compile` on every editor script.
 - **Not done:** a real compile against engine headers, running the Python inside the editor, or a play test. Expect a handful of compile fixes on the first build.
+
+## World streaming (World Partition)
+
+`4. Build World Blockout` creates `/Game/Gielinor/Maps/World` as a World Partition map
+(`Content/Python/world_partition.py`): 128 m runtime cells, 384 m loading range, every actor
+spatially loaded except PlayerStart, lighting/sky/fog, ground, sea and nav bounds. The graphics
+tier shrinks the range at runtime (Android 160 m, Low 256 m, High 384 m, Ultra 512 m) in
+`GielinorScalability.cpp`. To grow the map, add coordinates to `Content/Data/world.json` and re-run
+the blockout; new areas stream automatically. Optional: Build > Build HLODs for distant proxies.
+If the log says the map isn't partitioned, open it and use Tools > Convert Level, then re-run.
