@@ -38,6 +38,7 @@ public:
 	UFUNCTION(BlueprintPure, Category="Aerondel|Events") FString ShopLabel(int32 EventIndex, int32 ItemIndex) const;
 	UFUNCTION(BlueprintCallable, Category="Aerondel|Events") FString Buy(int32 EventIndex, int32 ItemIndex);
 	UFUNCTION(BlueprintCallable, Category="Aerondel|Events") FString Blessing(int32 EventIndex);
+	UFUNCTION(BlueprintPure, Category="Aerondel|Events") int32 TokenCount(int32 EventIndex) const { return CountItem(EventToken(EventIndex)); }
 	UFUNCTION(BlueprintPure, Category="Aerondel|Events") int32 TasksDone() const { return Total; }
 private:
 	UFUNCTION() void HandleMobKilled(UMobDef* Mob);

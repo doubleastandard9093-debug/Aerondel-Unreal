@@ -16,12 +16,18 @@
 #include "Features/PathsFeature.h"
 #include "Features/ErrandsFeature.h"
 #include "Features/TrueAimFeature.h"
+#include "Features/RelicryFeature.h"
+#include "Features/RelicryData.h"
+#include "Features/DelvingFeature.h"
+#include "Features/GuildFeature.h"
+#include "Features/SeasonalEventsFeature.h"
 #include "Activities/ActivityActors.h"
 #include "Interaction/AerondelInteractable.h"
 #include "Interaction/NpcTalk.h"
 #include "Core/AerondelPlayerState.h"
 #include "Core/AerondelEvents.h"
 #include "Inventory/InventoryComponent.h"
+#include "Skills/SkillsComponent.h"
 #include "Player/AerondelGamepadComponent.h"
 #include "World/AerondelScalability.h"
 #include "Data/ItemDef.h"
@@ -41,6 +47,9 @@ namespace
 	void Act(FGPanelModel& M, const FString& L, TFunction<void()> F, bool bClose = false, bool bEnabled = true)
 	{ FGPanelAction A; A.Label = L; A.Run = MoveTemp(F); A.bClose = bClose; A.bEnabled = bEnabled; M.Actions.Add(MoveTemp(A)); }
 	void Close(FGPanelModel& M) { Act(M, TEXT("Close"), [] {}, true); }
+	/** Runs a feature call and shows its reply in the message log. */
+	TFunction<void()> Say(UWorld* W, TFunction<FString()> F)
+	{ return [W, F] { const FString R = F(); if (!R.IsEmpty()) if (UAerondelEvents* Ev = UAerondelEvents::Get(W)) Ev->Message(FText::FromString(R)); }; }
 	const TCHAR* ToneName(EWheelTone T) { return T == EWheelTone::Kind ? TEXT("Kind") : T == EWheelTone::Firm ? TEXT("Firm") : TEXT("Cunning"); }
 	FString CardStr(const FPlayingCard& C)
 	{
@@ -78,6 +87,10 @@ void FAerondelPanels::Build(UWorld* W, FName Panel, AActor* Ctx, FGPanelModel& M
 		}
 		auto Go = [W](const TCHAR* Panel) { const FName N(Panel); return [W, N] { if (UAerondelEvents* Ev = UAerondelEvents::Get(W)) Ev->OnServiceRequested.Broadcast(N, nullptr); }; };
 		Act(M, TEXT("Companions"), Go(TEXT("companions")));
+		Act(M, TEXT("Relicry"), Go(TEXT("relicry")));
+		Act(M, TEXT("Delving"), Go(TEXT("delving")));
+		Act(M, TEXT("Guild"), Go(TEXT("guild")));
+		if (USeasonalEventsFeature::ActiveIndices().Num() > 0) Act(M, TEXT("Festival"), Go(TEXT("festival")));
 		if (UHearthFeature* H = Sub<UHearthFeature>(W)) if (H->HasDeed()) Act(M, TEXT("Hearthstead"), Go(TEXT("hearth")));
 		Close(M); return;
 	}
@@ -150,6 +163,110 @@ void FAerondelPanels::Build(UWorld* W, FName Panel, AActor* Ctx, FGPanelModel& M
 		if (!Near.Num()) M.Lines.Add(TEXT("Nothing within reach."));
 		Close(M); return;
 	}
+	if (P == TEXT("relicry"))
+	{
+		M.Title = TEXT("Relicry");
+		URelicryFeature* R = Sub<URelicryFeature>(W);
+		if (!R) { Close(M); return; }
+		if (R->IsInRun())
+		{
+			M.Lines.Add(TEXT("Relic dungeon run: pass the gates in order, beat the Relic colossus, open the reliquary."));
+			const TArray<FRelicGate> G = R->GetGates();
+			for (int32 I = 0; I < G.Num(); ++I)
+			{
+				M.Lines.Add(FString::Printf(TEXT("%s (%s %d)%s"), *G[I].Name, *G[I].Skill, G[I].Need, G[I].bOpen ? TEXT(" - open") : TEXT("")));
+				if (!G[I].bOpen) { Act(M, FString::Printf(TEXT("Pass: %s"), *G[I].Name), Say(W, [R, I] { return R->TryGate(I); })); Act(M, FString::Printf(TEXT("Use a key: %s"), *G[I].Name), Say(W, [R, I] { return R->TryGate(I, true); })); }
+			}
+			Act(M, TEXT("Open the reliquary"), Say(W, [R] { return R->OpenChest(); }));
+			Act(M, TEXT("Leave the dungeon"), [R] { R->Leave(); }, true);
+			Close(M); return;
+		}
+		M.Lines.Add(FString::Printf(TEXT("Relicry level %d, %d dungeon runs."), PS && PS->Skills ? PS->Skills->GetLevelById(TEXT("relicry")) : 1, R->GetRuns()));
+		const int32 Near = R->NearestSite();
+		const int32 NS = (int32)UE_ARRAY_COUNT(RelicryData::Sites);
+		for (int32 I = 0; I < NS; ++I) M.Lines.Add(FString::Printf(TEXT("%s (lvl %d): %d collections%s"), RelicryData::Sites[I].Name, RelicryData::Sites[I].Level, R->GetCollections(RelicryData::Sites[I].Name), I == Near ? TEXT(" - you are here") : TEXT("")));
+		if (Near < 0) M.Lines.Add(TEXT("Walk to a dig site to excavate, restore and enter its vault."));
+		else
+		{
+			Act(M, TEXT("Excavate"), Say(W, [R, Near] { return R->StartDig(Near); }), true);
+			for (int32 A = 0; A < 3; ++A) Act(M, FString::Printf(TEXT("Restore %s"), RelicryData::Sites[Near].Arts[A].Name), Say(W, [R, Near, A] { return R->Restore(Near, A); }));
+			Act(M, TEXT("Turn in a collection"), Say(W, [R, Near] { return R->TurnIn(Near); }));
+			Act(M, FString::Printf(TEXT("Enter the vault (dungeon level %d)"), R->DungeonLevel(Near)), Say(W, [R, Near] { return R->EnterVault(Near); }), true);
+			for (const RelicryData::FReforge& F : RelicryData::Reforges)
+				if (FString(F.Site) == RelicryData::Sites[Near].Name) { const FString G = F.Gear; Act(M, FString::Printf(TEXT("Reforge %s (%d fragments, lvl %d)"), F.Gear, F.Frags, F.Level), Say(W, [R, G] { return R->Reforge(G); })); }
+		}
+		Close(M); return;
+	}
+	if (P == TEXT("delving"))
+	{
+		M.Title = TEXT("Delver's Descent");
+		UDelvingFeature* D = Sub<UDelvingFeature>(W);
+		if (!D) { Close(M); return; }
+		M.Lines.Add(FString::Printf(TEXT("%d delving tokens. Difficulty up to %d unlocked."), D->GetTokens(), D->Unlocked()));
+		if (D->IsInRun())
+		{
+			for (const TCHAR* Sk : { TEXT("Mining"), TEXT("Woodcutting"), TEXT("Fishing") }) { const FString S = Sk; Act(M, FString::Printf(TEXT("Gather (%s)"), Sk), Say(W, [D, S] { return D->Gather(S); }), true); }
+			const TArray<FString> Rec = D->GetRecipes();
+			for (int32 I = 0; I < Rec.Num(); ++I) Act(M, TEXT("Forge: ") + Rec[I], Say(W, [D, I] { return D->Forge(I); }));
+			Act(M, TEXT("Cook at the campfire"), Say(W, [D] { return D->Cook(); }));
+			const TArray<FString> Keys = D->GetKeysOnFloor();
+			for (int32 I = 0; I < Keys.Num(); ++I) Act(M, FString::Printf(TEXT("Take the %s key"), *Keys[I]), Say(W, [D, I] { return D->TakeKey(I); }));
+			const TArray<FDelveDoor> Doors = D->GetDoors();
+			for (int32 I = 0; I < Doors.Num(); ++I) if (!Doors[I].bOpen)
+			{
+				const FString L = Doors[I].Kind == TEXT("key") ? FString::Printf(TEXT("Unlock the %s door"), *Doors[I].Key) : Doors[I].Kind == TEXT("gate") ? FString::Printf(TEXT("%s (%s %d)"), *Doors[I].Name, *Doors[I].Skill, Doors[I].Need) : FString(TEXT("Open the guardian's door"));
+				Act(M, L, Say(W, [D, I] { return D->OpenDoor(I); }));
+			}
+			Act(M, TEXT("Leave the floor"), [D] { D->Leave(); }, true);
+		}
+		else
+		{
+			for (const TCHAR* Sz : { TEXT("small"), TEXT("medium"), TEXT("large") })
+				for (int32 Df : TSet<int32>({ 1, FMath::Max(1, D->Unlocked() / 2), D->Unlocked() }))
+				{ const FName S(Sz); Act(M, FString::Printf(TEXT("Enter a %s floor, difficulty %d"), Sz, Df), Say(W, [D, S, Df] { return D->Enter(S, Df); }), true); }
+			const TArray<FString> Shop = D->GetShop();
+			for (int32 I = 0; I < Shop.Num(); ++I) Act(M, TEXT("Buy ") + Shop[I], Say(W, [D, I] { return D->Buy(I); }));
+		}
+		Close(M); return;
+	}
+	if (P == TEXT("guild"))
+	{
+		M.Title = TEXT("Guildmaster Halvard");
+		UGuildFeature* G = Sub<UGuildFeature>(W);
+		if (!G) { Close(M); return; }
+		M.Lines.Add(G->Status());
+		if (!G->HasGuild())
+		{
+			const TArray<FString> Names = UGuildFeature::CharterNames();
+			for (int32 I = 0; I < Names.Num(); ++I) Act(M, FString::Printf(TEXT("Found \"%s\" (5,000 coins)"), *Names[I]), Say(W, [G, I] { return G->Found(I); }));
+			Close(M); return;
+		}
+		for (int32 C : { 1000, 10000 }) Act(M, FString::Printf(TEXT("Deposit %d coins"), C), Say(W, [G, C] { return G->Deposit(C); }));
+		for (int32 I = 0; I < UGuildFeature::NumRooms(); ++I) Act(M, G->RoomLabel(I), Say(W, [G, I] { return G->UpgradeRoom(I); }));
+		for (int32 I = 0; I < UGuildFeature::NumBoosts(); ++I) Act(M, G->BoostLabel(I), Say(W, [G, I] { return G->RaiseBoost(I); }));
+		Act(M, TEXT("Hire an adventurer"), Say(W, [G] { return G->Hire(); }));
+		Act(M, TEXT("Hand in guild crests"), Say(W, [G] { return G->TurnInCrests(); }));
+		Close(M); return;
+	}
+	if (P == TEXT("festival"))
+	{
+		USeasonalEventsFeature* F = Sub<USeasonalEventsFeature>(W);
+		M.Title = TEXT("Festival Herald Odelyn");
+		if (!F) { Close(M); return; }
+		M.Lines.Add(F->Greeting());
+		const TArray<int32> L = USeasonalEventsFeature::ActiveIndices();
+		if (L.Num() == 0) { Close(M); return; }
+		M.Lines.Add(TEXT("Today's task: ") + F->TaskText());
+		Act(M, TEXT("I finished the festival task."), Say(W, [F] { return F->TurnInTask(); }));
+		for (int32 E : L)
+		{
+			const FString Tok = USeasonalEventsFeature::EventToken(E);
+			M.Lines.Add(FString::Printf(TEXT("%s stall: you have %d %ss"), *USeasonalEventsFeature::EventName(E), F->TokenCount(E), *Tok.ToLower()));
+			for (int32 I = 0; I < USeasonalEventsFeature::NumShopItems(E); ++I) Act(M, F->ShopLabel(E, I), Say(W, [F, E, I] { return F->Buy(E, I); }));
+			Act(M, FString::Printf(TEXT("Blessing: 25 %ss for XP in your weakest skill"), *Tok.ToLower()), Say(W, [F, E] { return F->Blessing(E); }));
+		}
+		Close(M); return;
+	}
 	if (P == TEXT("companions"))
 	{
 		M.Title = TEXT("Sworn Companions");
@@ -161,8 +278,10 @@ void FAerondelPanels::Build(UWorld* W, FName Panel, AActor* Ctx, FGPanelModel& M
 			const bool bActive = C->GetActive() == D.Id;
 			M.Lines.Add(FString::Printf(TEXT("%s (%s): %s, bond %d%s"), *D.Name, *D.Role, S.bRecruited ? TEXT("sworn") : S.bStarted ? TEXT("recruiting") : TEXT("not met"), S.Bond, bActive ? TEXT(", travelling with you") : TEXT("")));
 			if (S.bRecruited && !bActive) { const FName Id = D.Id; Act(M, FString::Printf(TEXT("Travel with %s"), *D.Name), [C, Id] { C->SetActive(Id); }); }
+			if (S.bRecruited && !bActive) { const FName Id = D.Id; Act(M, FString::Printf(C->InParty(Id) ? TEXT("Party: dismiss %s") : TEXT("Party: bring %s along"), *D.Name), [C, Id] { C->TogglePartyMember(Id); }); }
 		}
 		if (!C->GetActive().IsNone()) Act(M, TEXT("Send companion home"), [C] { C->SendHome(); });
+		Act(M, TEXT("Call the whole party"), [C, W] { const FString R = C->CallWholeParty(); if (UAerondelEvents* Ev = UAerondelEvents::Get(W)) Ev->Message(FText::FromString(R)); });
 		if (UErrandsFeature* E = Sub<UErrandsFeature>(W)) Act(M, TEXT("Collect finished errands"), [E] { E->CollectFinished(); });
 		Close(M); return;
 	}

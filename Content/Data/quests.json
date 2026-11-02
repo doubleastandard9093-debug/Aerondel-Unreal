@@ -65145,11 +65145,17 @@
   },
   "guildmaster": {
    "name": "Guildmaster Halvard",
-   "examine": "A grey-bearded veteran who charters adventuring guilds."
+   "examine": "A grey-bearded veteran who charters adventuring guilds.",
+   "service": "guild",
+   "x": -18,
+   "z": 23
   },
   "herald": {
    "name": "Festival Herald Odelyn",
-   "examine": "She runs every festival in Larkhaven square, season after season."
+   "examine": "She runs every festival in Larkhaven square, season after season.",
+   "service": "festival",
+   "x": 3,
+   "z": -6
   },
   "dell": {
    "name": "Coach Dell",
