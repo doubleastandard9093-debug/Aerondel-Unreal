@@ -16,6 +16,8 @@ ENTRIES = [
      "import build_world_blockout, importlib; importlib.reload(build_world_blockout); build_world_blockout.run()"),
     ("BuildRelicDungeon", "5. Build Relic Dungeon", "Sample Relicry instance dungeon (rooms, skill gates, boss, chest) -> /Game/Gielinor/Maps/RelicDungeon",
      "import build_relic_dungeon, importlib; importlib.reload(build_relic_dungeon); build_relic_dungeon.run()"),
+    ("BuildFestivalDecor", "6. Build Festival Decor", "Seasonal event decorations around Larkhaven square in the open World map (hidden at runtime unless the event runs)",
+     "import build_festival_decor, importlib; importlib.reload(build_festival_decor); build_festival_decor.run()"),
     ("RunAll", "Run All (1-3 + smooth shapes)", "Everything above, in order",
      "import aerondel_all, importlib; importlib.reload(aerondel_all); aerondel_all.run()"),
 ]
