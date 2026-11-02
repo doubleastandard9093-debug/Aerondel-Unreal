@@ -9,7 +9,7 @@
 
 namespace
 {
-	constexpr int32 NumSites = UE_ARRAY_COUNT(RelicryData::Sites);
+	constexpr int32 NumSites = (int32)UE_ARRAY_COUNT(RelicryData::Sites);
 	const RelicryData::FSite* SiteAt(int32 i) { return i >= 0 && i < NumSites ? &RelicryData::Sites[i] : nullptr; }
 	struct FMobBase { const TCHAR* Name; int32 Level, Hp, MaxHit, Att, Def; float Scale; };
 	const FMobBase Sentinel = { TEXT("Relic sentinel"), 40, 400, 30, 30, 30, 1.05f };
@@ -51,7 +51,7 @@ int32 URelicryFeature::NearestSite() const
 
 int32 URelicryFeature::MattockTier(FString& OutName) const
 {
-	for (int32 t = UE_ARRAY_COUNT(Mattocks) - 1; t >= 0; --t)
+	for (int32 t = (int32)UE_ARRAY_COUNT(Mattocks) - 1; t >= 0; --t)
 		if (CountItem(Mattocks[t]) > 0) { OutName = Mattocks[t]; return t; }
 	return -1;
 }
@@ -227,7 +227,7 @@ FString URelicryFeature::OpenChest()
 	if (FMath::FRand() < 0.3f) GiveItem(TEXT("Relic key"), 1);
 	GiveXp(TEXT("Relicry"), 200.f + L * 15.f);
 	FString Gear;
-	if (FMath::FRand() < 0.02f + L / 2500.f) { Gear = RelicryData::RelicGear[FMath::RandHelper(UE_ARRAY_COUNT(RelicryData::RelicGear))]; GiveItem(Gear, 1); }
+	if (FMath::FRand() < 0.02f + L / 2500.f) { Gear = RelicryData::RelicGear[FMath::RandHelper((int32)UE_ARRAY_COUNT(RelicryData::RelicGear))]; GiveItem(Gear, 1); }
 	++Runs; const int32 Secs = FMath::RoundToInt(RunTicks * 0.6f); if (!Best || Secs < Best) Best = Secs;
 	return FString::Printf(TEXT("Inside: coins, shards, fragments%s. Run %d done in %ds."), Gear.IsEmpty() ? TEXT("") : *(TEXT(" and the ") + Gear), Runs, Secs);
 }
