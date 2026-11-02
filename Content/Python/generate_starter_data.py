@@ -1,11 +1,11 @@
 """
-Gielinor > Generate Starter Data
+Aerondel > Generate Starter Data
 Creates/updates the data assets for the starter slice (same content as the Unity scaffold's
 StarterDataGenerator.cs, names ported from the web build: Larkhaven, Granny Hilda, Granny's Pie)
 and the GameDatabase. Idempotent: rerun after editing values here.
 """
 import unreal
-from gielinor_util import ROOT, load_or_create, set_props, color, save, tint_material
+from aerondel_util import ROOT, load_or_create, set_props, color, save, tint_material
 
 D = ROOT + "/Data"
 items, skills, nodes, npcs, mobs = {}, {}, {}, {}, {}
@@ -117,7 +117,7 @@ def step(type_, desc, npc_id=None, item_id=None, mob_id=None, n=1):
 
 
 def run():
-    with unreal.ScopedSlowTask(6, "Gielinor: generating starter data") as task:
+    with unreal.ScopedSlowTask(6, "Aerondel: generating starter data") as task:
         task.make_dialog(True)
         tint_material()
 
@@ -224,7 +224,7 @@ def run():
             save(a)
         save(db)
 
-    unreal.log(f"[Gielinor] Starter data: {len(items)} items, {len(skills)} skills, {len(nodes)} nodes, "
+    unreal.log(f"[Aerondel] Starter data: {len(items)} items, {len(skills)} skills, {len(nodes)} nodes, "
                f"{len(db_lists['recipes'])} recipes, {len(npcs)} npcs, {len(mobs)} mobs, {len(db_lists['quests'])} quest.")
     return db
 

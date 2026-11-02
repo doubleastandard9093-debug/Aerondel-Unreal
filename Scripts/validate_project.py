@@ -5,12 +5,12 @@ import json, math, os, re, sys, configparser
 ROOT = os.path.join(os.path.dirname(__file__), "..")
 errs = []
 
-proj = json.load(open(os.path.join(ROOT, "Gielinor.uproject")))
+proj = json.load(open(os.path.join(ROOT, "Aerondel.uproject")))
 plugins = {p["Name"]: p["Enabled"] for p in proj["Plugins"]}
 for need in ("OpenXR", "OpenXRHandTracking", "EnhancedInput", "CommonUI", "ModelingToolsEditorMode", "PythonScriptPlugin", "EditorScriptingUtilities"):
     if not plugins.get(need):
         errs.append(f"plugin {need} not enabled")
-if proj["Modules"][0]["Name"] != "Gielinor":
+if proj["Modules"][0]["Name"] != "Aerondel":
     errs.append("module name mismatch")
 print("uproject OK:", proj["EngineAssociation"], sorted(k for k, v in plugins.items() if v))
 

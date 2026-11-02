@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""Static sanity checks for the Gielinor C++ (no engine headers needed).
+"""Static sanity checks for the Aerondel C++ (no engine headers needed).
 Checks: brace/paren balance, .generated.h include name + position, reflection macro/GENERATED_BODY pairing,
 own-header-first in .cpp, project-relative includes resolve, UCLASS name prefixes, #pragma once."""
 import os, re, sys
 
-ROOT = os.path.join(os.path.dirname(__file__), "..", "Source", "Gielinor")
+ROOT = os.path.join(os.path.dirname(__file__), "..", "Source", "Aerondel")
 errors = []
 
 
@@ -66,13 +66,13 @@ for path in sorted(files):
     else:
         own = os.path.relpath(path, ROOT)[:-4] + ".h"
         if os.path.exists(os.path.join(ROOT, own)) and (not includes or includes[0] != own.replace(os.sep, "/")):
-            if not rel.startswith("Gielinor.cpp"):
+            if not rel.startswith("Aerondel.cpp"):
                 errors.append(f"{rel}: first include should be \"{own}\"")
     for inc in includes:
         if inc.endswith(".generated.h"):
             continue
         top = inc.split("/")[0]
-        if top in ("Core", "Data", "Skills", "Inventory", "Bank", "Quests", "Interaction", "Player", "XR", "Combat", "World", "UI", "Save", "Tests") or inc == "Gielinor.h":
+        if top in ("Core", "Data", "Skills", "Inventory", "Bank", "Quests", "Interaction", "Player", "XR", "Combat", "World", "UI", "Save", "Tests") or inc == "Aerondel.h":
             if not os.path.exists(os.path.join(ROOT, inc)):
                 errors.append(f"{rel}: include not found: {inc}")
 

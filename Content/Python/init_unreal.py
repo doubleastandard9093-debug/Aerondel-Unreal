@@ -1,7 +1,7 @@
-"""Auto-run by the Python Script Plugin at editor start: adds the top-level "Gielinor" menu."""
+"""Auto-run by the Python Script Plugin at editor start: adds the top-level "Aerondel" menu."""
 import unreal
 
-MENU_OWNER = "GielinorTools"
+MENU_OWNER = "AerondelTools"
 
 ENTRIES = [
     ("CreateInputAssets", "1. Create Input Assets", "Enhanced Input actions + desktop/XR mapping contexts",
@@ -17,7 +17,7 @@ ENTRIES = [
     ("BuildRelicDungeon", "5. Build Relic Dungeon", "Sample Relicry instance dungeon (rooms, skill gates, boss, chest) -> /Game/Gielinor/Maps/RelicDungeon",
      "import build_relic_dungeon, importlib; importlib.reload(build_relic_dungeon); build_relic_dungeon.run()"),
     ("RunAll", "Run All (1-3 + smooth shapes)", "Everything above, in order",
-     "import gielinor_all, importlib; importlib.reload(gielinor_all); gielinor_all.run()"),
+     "import aerondel_all, importlib; importlib.reload(aerondel_all); aerondel_all.run()"),
 ]
 
 
@@ -25,17 +25,17 @@ def register_menu():
     menus = unreal.ToolMenus.get()
     main = menus.find_menu("LevelEditor.MainMenu")
     if not main:
-        unreal.log_warning("[Gielinor] LevelEditor.MainMenu not found; menu not added.")
+        unreal.log_warning("[Aerondel] LevelEditor.MainMenu not found; menu not added.")
         return
-    sub = main.add_sub_menu(MENU_OWNER, "", "Gielinor", "Gielinor", "Gielinor project tools")
+    sub = main.add_sub_menu(MENU_OWNER, "", "Aerondel", "Aerondel", "Aerondel project tools")
     for name, label, tip, cmd in ENTRIES:
         entry = unreal.ToolMenuEntry(name=name, type=unreal.MultiBlockType.MENU_ENTRY)
         entry.set_label(label)
         entry.set_tool_tip(tip)
         entry.set_string_command(unreal.ToolMenuStringCommandType.PYTHON, "", cmd)
-        sub.add_menu_entry("Gielinor", entry)
+        sub.add_menu_entry("Aerondel", entry)
     menus.refresh_all_widgets()
-    unreal.log("[Gielinor] Menu registered.")
+    unreal.log("[Aerondel] Menu registered.")
 
 
 register_menu()

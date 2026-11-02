@@ -1,5 +1,5 @@
 """
-World Partition helpers for the Gielinor builders (UE 5.8).
+World Partition helpers for the Aerondel builders (UE 5.8).
 
 The World map (Build World Blockout) is created as a partitioned world so its actors
 stream in cells around the player instead of all loading at once. That lets the map
@@ -7,7 +7,7 @@ grow (new regions in Content/Data/world.json) without raising memory or draw cal
 on the 8 GB laptop or on Android.
 
 - Runtime grid "MainGrid": 128 m cells, 384 m loading range (desktop High/Ultra).
-  Lower tiers shrink the range at runtime (UGielinorScalability: Low 256 m, Quest/Android 160 m).
+  Lower tiers shrink the range at runtime (UAerondelScalability: Low 256 m, Quest/Android 160 m).
 - Every actor is spatially loaded except the essentials, which stay always loaded:
   PlayerStart, lights/sky/fog/post-process, NavMeshBounds, the world-sized ground and sea,
   and anything whose folder starts with an ALWAYS_LOADED_FOLDERS entry.
@@ -32,21 +32,21 @@ def new_partitioned_level(path, levels):
     """Create `path` as a World Partition map. Returns True on success."""
     try:
         if levels.new_level(path, True):  # LevelEditorSubsystem.new_level(asset_path, is_partitioned_world)
-            unreal.log("[Gielinor] Created World Partition map " + path)
+            unreal.log("[Aerondel] Created World Partition map " + path)
             return True
     except TypeError:
         pass
     except Exception as e:  # noqa: BLE001
-        unreal.log_warning("[Gielinor] new_level(partitioned) failed: %s" % e)
+        unreal.log_warning("[Aerondel] new_level(partitioned) failed: %s" % e)
     for tmpl in ("/Engine/Maps/Templates/OpenWorld", "/Engine/Maps/Templates/Template_Default"):
         try:
             if unreal.EditorAssetLibrary.does_asset_exist(tmpl) and levels.new_level_from_template(path, tmpl):
-                unreal.log_warning("[Gielinor] Created %s from %s. If it isn't partitioned, use Tools > Convert Level after the build." % (path, tmpl))
+                unreal.log_warning("[Aerondel] Created %s from %s. If it isn't partitioned, use Tools > Convert Level after the build." % (path, tmpl))
                 return True
         except Exception as e:  # noqa: BLE001
-            unreal.log_warning("[Gielinor] new_level_from_template(%s) failed: %s" % (tmpl, e))
+            unreal.log_warning("[Aerondel] new_level_from_template(%s) failed: %s" % (tmpl, e))
     if levels.new_level(path):
-        unreal.log_warning("[Gielinor] Created %s WITHOUT World Partition. Convert it: Tools > Convert Level (see README)." % path)
+        unreal.log_warning("[Aerondel] Created %s WITHOUT World Partition. Convert it: Tools > Convert Level (see README)." % path)
         return True
     return False
 
@@ -74,7 +74,7 @@ def configure_runtime_grid(cell=CELL_SIZE_CM, loading_range=LOADING_RANGE_CM):
         wp = _world().get_world_settings().get_editor_property("world_partition")
         rh = wp.get_editor_property("runtime_hash")
     except Exception as e:  # noqa: BLE001
-        unreal.log_warning("[Gielinor] Could not read the World Partition runtime hash (%s). Set by hand: %s" % (e, manual))
+        unreal.log_warning("[Aerondel] Could not read the World Partition runtime hash (%s). Set by hand: %s" % (e, manual))
         return False
     # Classic spatial hash: Grids[]. Runtime hash set (5.4+): RuntimePartitions[].MainLayer.
     for prop in ("grids", "runtime_partitions"):
@@ -95,11 +95,11 @@ def configure_runtime_grid(cell=CELL_SIZE_CM, loading_range=LOADING_RANGE_CM):
                 g.set_editor_property("main_layer", target)
             grids[0] = g
             rh.set_editor_property(prop, grids)
-            unreal.log("[Gielinor] Runtime grid: %d cm cells, %d cm loading range" % (cell, loading_range))
+            unreal.log("[Aerondel] Runtime grid: %d cm cells, %d cm loading range" % (cell, loading_range))
             return True
         except Exception as e:  # noqa: BLE001
-            unreal.log_warning("[Gielinor] Runtime grid edit via %s failed (%s)" % (prop, e))
-    unreal.log_warning("[Gielinor] Runtime grid not changed automatically. Set by hand: " + manual)
+            unreal.log_warning("[Aerondel] Runtime grid edit via %s failed (%s)" % (prop, e))
+    unreal.log_warning("[Aerondel] Runtime grid not changed automatically. Set by hand: " + manual)
     return False
 
 
@@ -126,7 +126,7 @@ def apply_streaming_flags(actors):
             always += 1
         else:
             streamed += 1
-    unreal.log("[Gielinor] World Partition: %d actors stream by cell, %d always loaded" % (streamed, always))
+    unreal.log("[Aerondel] World Partition: %d actors stream by cell, %d always loaded" % (streamed, always))
     return streamed, always
 
 
@@ -139,7 +139,7 @@ def dynamic_navmesh(actors):
                 a.set_editor_property("runtime_generation", unreal.RuntimeGenerationType.DYNAMIC)
                 n += 1
             except Exception as e:  # noqa: BLE001
-                unreal.log_warning("[Gielinor] RecastNavMesh runtime generation not set (%s); set Runtime Generation = Dynamic by hand." % e)
+                unreal.log_warning("[Aerondel] RecastNavMesh runtime generation not set (%s); set Runtime Generation = Dynamic by hand." % e)
     return n
 
 
@@ -148,4 +148,4 @@ def save_all():
     try:
         unreal.EditorLoadingAndSavingUtils.save_dirty_packages(True, True)
     except Exception as e:  # noqa: BLE001
-        unreal.log_warning("[Gielinor] save_dirty_packages failed (%s). Use File > Save All." % e)
+        unreal.log_warning("[Aerondel] save_dirty_packages failed (%s). Use File > Save All." % e)

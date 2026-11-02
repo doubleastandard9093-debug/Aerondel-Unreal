@@ -1,11 +1,11 @@
 """
-Gielinor > Create Input Assets
-Creates Enhanced Input actions and two mapping contexts (paths match UGielinorInputConfig defaults):
+Aerondel > Create Input Assets
+Creates Enhanced Input actions and two mapping contexts (paths match UAerondelInputConfig defaults):
   IMC_Desktop: keyboard + mouse + gamepad
   IMC_XR:      OpenXR controllers (Meta Quest Touch, Valve Index). Hand tracking pinch is handled in C++.
 """
 import unreal
-from gielinor_util import ROOT, load_or_create, save
+from aerondel_util import ROOT, load_or_create, save
 
 P = ROOT + "/Input"
 VT = unreal.InputActionValueType
@@ -69,7 +69,7 @@ def run():
     dead = lambda: mod(unreal.InputModifierDeadZone, imc, lower_threshold=0.2)
     scale = lambda s: mod(unreal.InputModifierScalar, imc, scalar=unreal.Vector(s, s, s))
     maps = [
-        # Gamepad rows live in C++ (UGielinorGamepadComponent, runtime IMC above this one).
+        # Gamepad rows live in C++ (UAerondelGamepadComponent, runtime IMC above this one).
         # WASD -> 2D (X = right, Y = forward)
         mapping(imc, move, "W", swz()),
         mapping(imc, move, "S", swz(), neg()),
@@ -115,7 +115,7 @@ def run():
     xmaps.append(mapping(xmc, menu, "ValveIndex_Left_B_Click"))
     write_mappings(xmc, xmaps)
 
-    unreal.log(f"[Gielinor] Input assets created in {P}: {len(maps)} desktop + {len(xmaps)} XR mappings.")
+    unreal.log(f"[Aerondel] Input assets created in {P}: {len(maps)} desktop + {len(xmaps)} XR mappings.")
 
 
 if __name__ == "__main__":

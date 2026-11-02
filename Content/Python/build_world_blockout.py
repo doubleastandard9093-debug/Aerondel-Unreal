@@ -1,5 +1,5 @@
 """
-Gielinor > Build World Blockout
+Aerondel > Build World Blockout
 Greybox of the whole web-build world from Content/Data/world.json (same file the JSON importer reads):
 ground, lake/ponds, paths, every town building (wall + roof colours from the data), guilds with their
 stations and bank chest, landmark markers, the cave, an AQuestPlaceVolume per town/landmark/guild
@@ -13,7 +13,7 @@ import json
 import math
 import os
 import unreal
-from gielinor_util import ROOT, mat, eal
+from aerondel_util import ROOT, mat, eal
 import build_starter_town as bst
 import world_partition as wpart
 from build_starter_town import V, box, label, actors, levels, CUBE, CYL, CONE
@@ -124,10 +124,10 @@ def run():
     if eal.does_asset_exist(MAP):
         eal.delete_asset(MAP)
     if not wpart.new_partitioned_level(MAP, levels):  # World Partition: actors stream in 128 m cells
-        unreal.log_error("[Gielinor] Could not create " + MAP)
+        unreal.log_error("[Aerondel] Could not create " + MAP)
         return
     half = float(w.get("worldHalf", 300))
-    with unreal.ScopedSlowTask(8, "Gielinor: world blockout") as task:
+    with unreal.ScopedSlowTask(8, "Aerondel: world blockout") as task:
         task.make_dialog(True)
 
         task.enter_progress_frame(1, "Ground and lighting")
@@ -257,7 +257,7 @@ def run():
             wpart.apply_streaming_flags(actors)
             wpart.dynamic_navmesh(actors)
         else:
-            unreal.log_warning("[Gielinor] World map is not partitioned; it will load all at once until converted (Tools > Convert Level).")
+            unreal.log_warning("[Aerondel] World map is not partitioned; it will load all at once until converted (Tools > Convert Level).")
         levels.save_current_level()
         wpart.save_all()
-    unreal.log("[Gielinor] World blockout saved to " + MAP)
+    unreal.log("[Aerondel] World blockout saved to " + MAP)

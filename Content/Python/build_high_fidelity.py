@@ -1,14 +1,14 @@
-"""High/Ultra-only material for the Gielinor world: /Game/Gielinor/Materials/High/M_TintHigh.
+"""High/Ultra-only material for the Aerondel world: /Game/Gielinor/Materials/High/M_TintHigh.
 
 Same parameters as M_Tint (Color, Roughness, Metallic) plus Water (0/1). Adds world-space macro variation to colour and
 roughness so flat greybox surfaces (grass, stone, wood, cloth, mob bodies) stop looking like single swatches, and an
 animated shimmer on water. All procedural (engine Noise / Time nodes), no textures, original work.
 
-Nothing on the Low or Quest path references this asset: AGielinorHighDetail soft-loads it only when the tier is High+.
+Nothing on the Low or Quest path references this asset: AAerondelHighDetail soft-loads it only when the tier is High+.
 Run from the editor: py build_high_fidelity.py (or import and call run()).
 """
 import unreal
-from gielinor_util import ROOT, asset_tools, eal, save, color
+from aerondel_util import ROOT, asset_tools, eal, save, color
 
 PATH = ROOT + "/Materials/High/M_TintHigh"
 
@@ -76,7 +76,7 @@ def run():
     mat.set_editor_property("used_with_instanced_static_meshes", True)
     mel.recompile_material(mat)
     save(mat)
-    unreal.log("Gielinor: built " + PATH)
+    unreal.log("Aerondel: built " + PATH)
 
 
 if __name__ == "__main__":

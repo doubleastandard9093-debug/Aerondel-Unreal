@@ -1,4 +1,4 @@
-"""Gielinor > Build Smooth Shapes
+"""Aerondel > Build Smooth Shapes
 Rounder replacements for the engine BasicShapes used by the greybox (Low-friendly: plain static meshes, no Nanite,
 smooth vertex normals so curved surfaces shade round instead of faceted). Same 100 cm size and centred pivot as
 /Engine/BasicShapes, so the town/world builders can swap them in 1:1. Written to /Game/Gielinor/Meshes/Smooth.
@@ -8,7 +8,7 @@ Triangle budget (per mesh): cylinder 48 sides ~ 0.4k, sphere 32x20 ~ 1.2k, cone 
 bevelled cube ~ 0.3k. Each mesh also gets 2 auto-reduced LODs so far objects stay cheap on an iGPU.
 """
 import unreal
-from gielinor_util import ROOT, eal
+from aerondel_util import ROOT, eal
 
 FOLDER = ROOT + "/Meshes/Smooth"
 SHAPES = {
@@ -36,7 +36,7 @@ def _build(name, append):
         nopts = G.GeometryScriptCalculateNormalsOptions()
         G.GeometryScript_Normals.compute_split_normals(dm, G.GeometryScriptSplitNormalsOptions(split_by_opening_angle=True, opening_angle_deg=40.0), nopts)
     except Exception as e:  # older API names: keep the primitive's own normals
-        unreal.log_warning(f"[Gielinor] {name}: split normals skipped ({e})")
+        unreal.log_warning(f"[Aerondel] {name}: split normals skipped ({e})")
     path = FOLDER + "/" + name
     if eal.does_asset_exist(path):
         eal.delete_asset(path)
@@ -59,7 +59,7 @@ def _build(name, append):
             unreal.EditorScriptingMeshReductionSettings(0.25, 0.12)])
         esl.set_lods(sm, o)
     except Exception as e:
-        unreal.log_warning(f"[Gielinor] {name}: LODs skipped ({e})")
+        unreal.log_warning(f"[Aerondel] {name}: LODs skipped ({e})")
     eal.save_loaded_asset(sm, only_if_is_dirty=False)
     return sm
 
@@ -80,5 +80,5 @@ def run():
             _build(name, fn)
             ok += 1
         except Exception as e:
-            unreal.log_warning(f"[Gielinor] {name} not built, engine shape stays in use: {e}")
-    unreal.log(f"[Gielinor] Smooth shapes built: {ok}/{len(jobs)} -> {FOLDER}. Re-run Build Starter Town / Build World Blockout.")
+            unreal.log_warning(f"[Aerondel] {name} not built, engine shape stays in use: {e}")
+    unreal.log(f"[Aerondel] Smooth shapes built: {ok}/{len(jobs)} -> {FOLDER}. Re-run Build Starter Town / Build World Blockout.")

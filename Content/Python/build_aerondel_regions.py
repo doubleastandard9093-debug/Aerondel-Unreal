@@ -8,7 +8,7 @@ Relicry / Delving skills is data (skills.json, items.json, relicry.json); dungeo
 import math
 import random
 import unreal
-from gielinor_util import mat
+from aerondel_util import mat
 from build_starter_town import box, CUBE, CYL, CONE
 
 # Per-biome prop kit: (name, shape, (sx, sy, sz) metres, rgb). Kept to a few cheap meshes per region.

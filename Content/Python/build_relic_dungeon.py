@@ -1,5 +1,5 @@
 """
-Gielinor > Build Relic Dungeon: a separate map (/Game/Gielinor/Maps/RelicDungeon) with a sample relic dungeon laid out
+Aerondel > Build Relic Dungeon: a separate map (/Game/Gielinor/Maps/RelicDungeon) with a sample relic dungeon laid out
 by the same room-grid generator as the web js/dungeon.js: 16 m rooms on a 22 m grid, corridors with gate slabs,
 a side chest room and a boss room. Each gate is labelled with the skill it tests (relicry.json "gates").
 Not World Partition: it is small and loads as one level (stream it in as a sublevel or open it directly).
@@ -9,7 +9,7 @@ import json
 import os
 import random
 import unreal
-from gielinor_util import ROOT, mat, eal
+from aerondel_util import ROOT, mat, eal
 from build_starter_town import box, label, actors, levels, V
 
 MAP = ROOT + "/Maps/RelicDungeon"

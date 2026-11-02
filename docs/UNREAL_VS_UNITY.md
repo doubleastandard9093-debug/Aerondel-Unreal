@@ -1,4 +1,4 @@
-# Unreal vs Unity for Gielinor
+# Unreal vs Unity for Aerondel
 
 Aaron's goals: a **console release**, **VR**, and the **highest graphics ceiling** (RS3 quality and beyond), single-player first.
 

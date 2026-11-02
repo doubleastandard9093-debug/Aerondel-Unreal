@@ -1,5 +1,5 @@
 """
-Gielinor > Build Starter Town
+Aerondel > Build Starter Town
 Greybox of Larkhaven from basic shapes (same layout as the Unity StarterTownBuilder, metres -> cm):
 bank, smithy (furnace + anvil) and general store (range) with interiors, solid walls and door-only gaps
 with hinged doors; trees, oaks, copper/tin/iron rocks, a pond with a fishing spot, NPCs, cows, goblins,
@@ -7,7 +7,7 @@ NavMeshBoundsVolume, sun/sky/skylight/fog, PlayerStart. Saved to /Game/Gielinor/
 Run "Generate Starter Data" first.
 """
 import unreal
-from gielinor_util import ROOT, mat, eal
+from aerondel_util import ROOT, mat, eal
 
 MAP = ROOT + "/Maps/StarterTown"
 M = 100.0           # metres -> cm
@@ -179,7 +179,7 @@ def npc(npc_id, x, z, yaw=0.0):
 
 
 def mob(mob_def, x, z, name):
-    a = actors.spawn_actor_from_class(unreal.GielinorMob, V(x, 1.0, z), unreal.Rotator(0, 0, 0))
+    a = actors.spawn_actor_from_class(unreal.AerondelMob, V(x, 1.0, z), unreal.Rotator(0, 0, 0))
     a.set_editor_property("definition", mob_def)
     a.rerun_construction_scripts()
     return label(a, name, "Mobs")
@@ -226,10 +226,10 @@ def run():
     if eal.does_asset_exist(MAP):
         eal.delete_asset(MAP)
     if not levels.new_level(MAP):
-        unreal.log_error("[Gielinor] Could not create " + MAP)
+        unreal.log_error("[Aerondel] Could not create " + MAP)
         return
 
-    with unreal.ScopedSlowTask(6, "Gielinor: building Larkhaven") as task:
+    with unreal.ScopedSlowTask(6, "Aerondel: building Larkhaven") as task:
         task.make_dialog(True)
         task.enter_progress_frame(1, "Environment")
         environment()
@@ -284,11 +284,11 @@ def run():
         task.enter_progress_frame(1, "World settings, NavMesh, save")
         world = unreal.get_editor_subsystem(unreal.UnrealEditorSubsystem).get_editor_world()
         ws = world.get_world_settings()
-        ws.set_editor_property("default_game_mode", unreal.GielinorGameMode)
+        ws.set_editor_property("default_game_mode", unreal.AerondelGameMode)
         unreal.SystemLibrary.execute_console_command(world, "RebuildNavigation")
         levels.save_current_level()
 
-    unreal.log(f"[Gielinor] Built {MAP}. Press Play (desktop) or VR Preview (headset).")
+    unreal.log(f"[Aerondel] Built {MAP}. Press Play (desktop) or VR Preview (headset).")
 
 
 if __name__ == "__main__":
