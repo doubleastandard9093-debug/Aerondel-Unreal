@@ -3,6 +3,8 @@
 #include "Kismet/KismetSystemLibrary.h"
 #include "HAL/IConsoleManager.h"
 #include "Misc/ConfigCacheIni.h"
+#include "Engine/Engine.h"
+#include "Engine/World.h"
 
 static const TCHAR* GTierSection = TEXT("Gielinor");
 static const TCHAR* GTierKey = TEXT("GraphicsTier");
@@ -58,6 +60,22 @@ FOnGielinorTierApplied UGielinorScalability::OnTierApplied;
 static EGielinorTier GAppliedTier = EGielinorTier::Low;
 EGielinorTier UGielinorScalability::GetAppliedTier() { return GAppliedTier; }
 
+/**
+ * World Partition streaming per tier (World map only; non-partitioned maps ignore it).
+ * The map's runtime grid is 128 m cells / 384 m range (world_partition.py). Lower tiers
+ * shrink the loading range and load fewer cells at once so memory and hitching stay low
+ * on the 8 GB laptop and on Android. Unknown cvars/commands are harmless no-ops.
+ */
+static void ApplyWorldStreaming(const UObject* WorldContext, int32 RangeCm, int32 MaxLoadingCells)
+{
+	SetCVar(TEXT("wp.Runtime.MaxLoadingStreamingCells"), MaxLoadingCells);
+	UWorld* World = (GEngine && WorldContext) ? GEngine->GetWorldFromContextObject(WorldContext, EGetWorldErrorMode::ReturnNull) : nullptr;
+	if (World && World->GetWorldPartition())
+	{
+		GEngine->Exec(World, *FString::Printf(TEXT("wp.Runtime.OverrideRuntimeSpatialHashLoadingRange -grid=0 -range=%d"), RangeCm));
+	}
+}
+
 /** Strict cheap path shared by Quest and Low: no Lumen, no VSM, no volumetrics, no Nanite, nothing that pulls High content. */
 static void ApplyCheapPath()
 {
@@ -107,6 +125,7 @@ void UGielinorScalability::ApplyTier(const UObject* WorldContext, EGielinorTier 
 		SetCVar(TEXT("r.ScreenPercentage"), 100);
 		ApplyCheapPath();
 		SetCVar(TEXT("r.AntiAliasingMethod"), 1); // FXAA (not allowed in Scalability.ini)
+		ApplyWorldStreaming(WorldContext, 16000, 2); // 160 m
 		break;
 	case EGielinorTier::Low:
 		S->SetOverallScalabilityLevel(1);
@@ -115,16 +134,19 @@ void UGielinorScalability::ApplyTier(const UObject* WorldContext, EGielinorTier 
 		// Render at 75% and let TSR upscale: smooth edges on the i3/UHD without the full-res cost.
 		SetCVar(TEXT("r.ScreenPercentage"), 75);
 		SetCVar(TEXT("r.MaxAnisotropy"), 4); // also set by TextureQuality@1; repeated so a custom ini can't drop it
+		ApplyWorldStreaming(WorldContext, 25600, 2); // 256 m
 		break;
 	case EGielinorTier::High:
 		S->SetOverallScalabilityLevel(2);
 		SetCVar(TEXT("r.ScreenPercentage"), 100);
 		ApplyRichPath(false);
+		ApplyWorldStreaming(WorldContext, 38400, 4); // 384 m (map default)
 		break;
 	case EGielinorTier::Ultra:
 		S->SetOverallScalabilityLevel(3); // Epic (Cinematic is for offline renders)
 		SetCVar(TEXT("r.ScreenPercentage"), 100);
 		ApplyRichPath(true);
+		ApplyWorldStreaming(WorldContext, 51200, 4); // 512 m
 		break;
 	}
 	S->ApplySettings(false);
