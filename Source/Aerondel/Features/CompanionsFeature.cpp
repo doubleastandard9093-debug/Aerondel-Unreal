@@ -2,6 +2,13 @@
 #include "Core/AerondelEvents.h"
 #include "Data/MobDef.h"
 #include "Dom/JsonValue.h"
+#include "Core/AerondelPlayerState.h"
+#include "Combat/HealthComponent.h"
+#include "Features/PartyFollower.h"
+#include "GameFramework/PlayerController.h"
+#include "GameFramework/Pawn.h"
+#include "Engine/World.h"
+#include "Engine/GameInstance.h"
 
 const TArray<FCompanionDef>& UCompanionsFeature::Defs()
 {
@@ -35,7 +42,7 @@ void UCompanionsFeature::Initialize(FSubsystemCollectionBase& Collection)
 
 void UCompanionsFeature::ResetState()
 {
-	States.Reset(); Active = NAME_None; Alignment[0] = Alignment[1] = Alignment[2] = 0;
+	States.Reset(); Active = NAME_None; Party.Reset(); Alignment[0] = Alignment[1] = Alignment[2] = 0;
 	for (const FCompanionDef& D : Defs()) States.Add(D.Id, FCompanionState());
 }
 
@@ -51,6 +58,7 @@ void UCompanionsFeature::SaveState(FJsonObject& Out) const
 		Out.SetObjectField(P.Key.ToString(), J);
 	}
 	Out.SetStringField(TEXT("_active"), Active.ToString());
+	{ TArray<FString> P; for (FName N : Party) P.Add(N.ToString()); PutStrArr(Out, TEXT("_party"), P); }
 	TSharedPtr<FJsonObject> A = MakeShared<FJsonObject>();
 	A->SetNumberField(TEXT("kind"), Alignment[0]); A->SetNumberField(TEXT("firm"), Alignment[1]); A->SetNumberField(TEXT("cunning"), Alignment[2]);
 	Out.SetObjectField(TEXT("_alignment"), A);
@@ -69,6 +77,8 @@ void UCompanionsFeature::LoadState(const FJsonObject& In)
 	const FName A(*JStr(In, TEXT("_active")));
 	const FCompanionState* S = States.Find(A);
 	Active = S && S->bRecruited ? A : NAME_None;
+	Party.Reset();
+	for (const FString& P : JStrArr(In, TEXT("_party"))) { const FName N(*P); const FCompanionState* PS = States.Find(N); if (PS && PS->bRecruited && N != Active) Party.AddUnique(N); }
 	if (TSharedPtr<FJsonObject> Al = JObj(In, TEXT("_alignment")))
 	{
 		Alignment[0] = FMath::Max(0, (int32)JInt(*Al, TEXT("kind"))); Alignment[1] = FMath::Max(0, (int32)JInt(*Al, TEXT("firm"))); Alignment[2] = FMath::Max(0, (int32)JInt(*Al, TEXT("cunning")));
@@ -77,7 +87,103 @@ void UCompanionsFeature::LoadState(const FJsonObject& In)
 
 float UCompanionsFeature::XpBonus(FName SkillId) const
 {
-	const FCompanionDef* D = Def(Active); const FCompanionState* S = States.Find(Active);
+	// Party XP bonus: each member's bond bonus, summed, capped at 25% (web partyXpBonus).
+	float T = 0.f; for (FName M : GetPartyIds()) T += OneXpBonus(M, SkillId);
+	return FMath::Min(0.25f, T);
+}
+
+TArray<FName> UCompanionsFeature::GetPartyIds() const
+{
+	TArray<FName> O; if (!Active.IsNone()) O.Add(Active);
+	for (FName N : Party) { const FCompanionState* S = States.Find(N); if (S && S->bRecruited) O.AddUnique(N); }
+	return O;
+}
+
+void UCompanionsFeature::TogglePartyMember(FName CompId)
+{
+	const FCompanionState* S = States.Find(CompId); if (!S || !S->bRecruited) return;
+	if (InParty(CompId))
+	{
+		if (Active == CompId) { Active = Party.Num() ? Party[0] : NAME_None; if (Party.Num()) Party.RemoveAt(0); }
+		else Party.Remove(CompId);
+	}
+	else if (Active.IsNone()) Active = CompId;
+	else Party.AddUnique(CompId);
+}
+
+FString UCompanionsFeature::CallWholeParty()
+{
+	TArray<FString> Names;
+	for (const FCompanionDef& D : Defs()) { const FCompanionState* S = States.Find(D.Id); if (S && S->bRecruited) { if (!InParty(D.Id)) TogglePartyMember(D.Id); Names.Add(D.Name); } }
+	if (!Names.Num()) return TEXT("Recruit a Sworn Companion first.");
+	return TEXT("Your party gathers: ") + FString::Join(Names, TEXT(", ")) + TEXT(".");
+}
+
+float UCompanionsFeature::PartyGuard() const
+{
+	float R = 0.f;
+	for (FName M : GetPartyIds()) { const FCompanionDef* D = Def(M); const FCompanionState* S = States.Find(M); if (D && S && D->Style == TEXT("melee")) R += 0.05f + (S->Bond >= 6 ? 0.03f : 0.f); }
+	return FMath::Min(0.2f, R);
+}
+
+float UCompanionsFeature::DamageTakenMult(const UMobDef* Source, float HpFrac) const { return 1.f - PartyGuard(); }
+
+FVector2D UCompanionsFeature::FormationSlot(int32 Slot)
+{
+	static const FVector2D Slots[] = { FVector2D(-1.5f, -1.5f), FVector2D(1.5f, -1.5f), FVector2D(-2.6f, -0.2f), FVector2D(2.6f, -0.2f), FVector2D(0.f, -2.8f) };
+	return Slots[FMath::Abs(Slot) % 5];
+}
+
+void UCompanionsFeature::OnGameTick()
+{
+	++PartyTick;
+	SyncFollowers();
+	// Hedge-mage (magic style) mends you between blows below 60% HP, every 10 ticks.
+	AAerondelPlayerState* PS = GetPS(); if (!PS || !PS->Health || PS->Health->IsDead() || PartyTick % 10 != 0) return;
+	if (PS->Health->GetCurrent() >= PS->Health->GetMax() * 0.6f) return;
+	for (FName M : GetPartyIds())
+	{
+		const FCompanionDef* D = Def(M); const FCompanionState* S = States.Find(M);
+		if (!D || !S || D->Style != TEXT("magic")) continue;
+		const int32 H = 2 + (S->Bond / 2) * 2; PS->Health->Heal(H);
+		if (PartyTick % 50 == 0) Say(FString::Printf(TEXT("%s mends your wounds (+%d HP)."), *D->Name, H));
+	}
+}
+
+void UCompanionsFeature::SyncFollowers()
+{
+	UGameInstance* GI = GetGameInstance(); UWorld* W = GI ? GI->GetWorld() : nullptr;
+	APlayerController* PC = GI ? GI->GetFirstLocalPlayerController() : nullptr;
+	APawn* Pawn = PC ? PC->GetPawn() : nullptr;
+	const TArray<FName> Ids = GetPartyIds();
+	TArray<FName> Gone; for (const auto& F : Followers) if (!Ids.Contains(F.Key) || !IsValid(F.Value)) Gone.Add(F.Key);
+	for (FName G : Gone) { if (AActor* A = Followers.FindRef(G)) if (IsValid(A)) A->Destroy(); Followers.Remove(G); }
+	if (!W || !Pawn) return;
+	for (int32 i = 0; i < Ids.Num(); ++i)
+	{
+		APartyFollower* F = Cast<APartyFollower>(Followers.FindRef(Ids[i]));
+		if (!F)
+		{
+			FActorSpawnParameters P; P.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+			F = W->SpawnActor<APartyFollower>(APartyFollower::StaticClass(), Pawn->GetActorLocation(), FRotator::ZeroRotator, P);
+			if (!F) continue;
+			const FCompanionDef* D = Def(Ids[i]); F->Setup(Ids[i], D ? D->Name : Ids[i].ToString(), D ? D->Style : FString());
+			Followers.Add(Ids[i], F);
+		}
+		F->Leader = Pawn; F->Slot = UCompanionsFeature::FormationSlot(i) * 100.f; // web metres -> cm
+	}
+}
+
+void UCompanionsFeature::Deinitialize()
+{
+	for (const auto& F : Followers) if (IsValid(F.Value)) F.Value->Destroy();
+	Followers.Reset();
+	Super::Deinitialize();
+}
+
+float UCompanionsFeature::OneXpBonus(FName CompId, FName SkillId) const
+{
+	const FCompanionDef* D = Def(CompId); const FCompanionState* S = States.Find(CompId);
 	if (!D || !S || !S->bRecruited) return 0.f;
 	bool bHelps = false; for (const FString& K : D->Skills) if (Id(K) == SkillId) bHelps = true;
 	return !bHelps ? 0.f : S->Bond >= 6 ? 0.10f : S->Bond >= 3 ? 0.05f : 0.f;

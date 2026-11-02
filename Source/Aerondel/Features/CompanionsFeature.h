@@ -60,6 +60,21 @@ public:
 	virtual void LoadState(const FJsonObject& In) override;
 	virtual void ResetState() override;
 	virtual float XpBonus(FName SkillId) const override;
+	/** Co-op party: melee members guard you (5% each, +3% at bond 6, capped at 20%). */
+	virtual float DamageTakenMult(const UMobDef* Source, float HpFrac) const override;
+	/** Hedge-mage mending, follower actors in formation. */
+	virtual void OnGameTick() override;
+	virtual void Deinitialize() override;
+
+	/** Co-op party (web main.js): every recruited companion can follow at once. Active is the lead; Party holds the rest. */
+	UFUNCTION(BlueprintPure, Category="Aerondel|Party") TArray<FName> GetPartyIds() const;
+	UFUNCTION(BlueprintPure, Category="Aerondel|Party") bool InParty(FName Id) const { return Active == Id || Party.Contains(Id); }
+	UFUNCTION(BlueprintCallable, Category="Aerondel|Party") void TogglePartyMember(FName Id);
+	/** Call every recruited companion to your side. */
+	UFUNCTION(BlueprintCallable, Category="Aerondel|Party") FString CallWholeParty();
+	UFUNCTION(BlueprintPure, Category="Aerondel|Party") float PartyGuard() const;
+	/** Formation slot offset in web metres behind/around the player (5 slots). */
+	UFUNCTION(BlueprintPure, Category="Aerondel|Party") static FVector2D FormationSlot(int32 Slot);
 
 	static const TArray<FCompanionDef>& Defs();
 	static const FCompanionDef* Def(FName Id);
@@ -89,5 +104,10 @@ private:
 	UFUNCTION() void HandleMobKilled(UMobDef* Mob);
 	UPROPERTY() TMap<FName, FCompanionState> States;
 	UPROPERTY() FName Active;
+	UPROPERTY() TArray<FName> Party;
+	UPROPERTY() TMap<FName, TObjectPtr<AActor>> Followers;
+	int32 PartyTick = 0;
+	float OneXpBonus(FName Id, FName SkillId) const;
+	void SyncFollowers();
 	int32 Alignment[3] = { 0, 0, 0 };
 };
