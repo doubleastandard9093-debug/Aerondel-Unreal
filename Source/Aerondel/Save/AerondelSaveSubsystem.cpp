@@ -157,7 +157,10 @@ bool UAerondelSaveSubsystem::LoadInto(AAerondelPlayerState* PS)
 			const TSharedRef<TJsonReader<>> R = TJsonReaderFactory<>::Create(Migrated);
 			if (FJsonSerializer::Deserialize(R, J) && J.IsValid()) F->LoadState(*J);
 		}
+		else if (S->Version < 8) // v8: blocks added with the web parity update start fresh; say so once so a missing block is not mistaken for data loss
+			UE_LOG(LogAerondel, Log, TEXT("Save v%d -> v8: feature '%s' has no saved data yet, starting fresh."), S->Version, *F->GetSaveKey());
 	}
+	if (S->Version < 8) UE_LOG(LogAerondel, Log, TEXT("Save migrated v%d -> v8 (Relicry, Delving, guild, seasonal events, co-op party)."), S->Version);
 
 	UE_LOG(LogAerondel, Log, TEXT("Loaded save: %d skills, %d inventory slots."), S->Skills.Num(), S->Inventory.Num());
 	return true;
