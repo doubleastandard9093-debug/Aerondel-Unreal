@@ -4,6 +4,17 @@
 #include "Core/AerondelEvents.h"
 #include "Quests/QuestComponent.h"
 #include "Data/GameDatabase.h"
+#include "Models/AerondelModelLibrary.h"
+#include "Components/SkeletalMeshComponent.h"
+#include "Components/StaticMeshComponent.h"
+
+ANpcTalk::ANpcTalk()
+{
+	Rig = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Rig"));
+	Rig->SetupAttachment(RootComponent);
+	Rig->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	Rig->SetGenerateOverlapEvents(false);
+}
 
 void ANpcTalk::BeginPlay()
 {
@@ -11,6 +22,11 @@ void ANpcTalk::BeginPlay()
 	if (!Definition && !NpcId.IsNone())
 		if (const UGameDatabase* Db = UGameDatabase::Get()) Definition = Db->FindNpc(NpcId);
 	if (Definition) DisplayName = Definition->DisplayName;
+	if (Definition && UAerondelModelLibrary::ApplyRig(Rig, TEXT("npc:") + Definition->Id.ToString()))
+	{
+		UAerondelModelLibrary::FitRig(Rig, 172.f, 0.f);
+		if (Mesh) Mesh->SetVisibility(false);
+	}
 }
 
 void ANpcTalk::OnConstruction(const FTransform& Xf)

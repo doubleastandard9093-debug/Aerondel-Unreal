@@ -38,10 +38,14 @@ public:
 	AActor* FindNearestInteractable(float Radius = 300.f) const;
 
 	virtual void Tick(float Dt) override;
+	virtual void BeginPlay() override;
+	/** Plays a one-shot on the rigged body (attack, hit, gather); no-op with the placeholder capsule. */
+	void PlayBodyAnim(FName State);
 	virtual void SetupPlayerInputComponent(UInputComponent* Input) override;
 	virtual void PawnClientRestart() override;
 
 private:
+	bool bRigged = false;
 	void OnMove(const FInputActionValue& V);
 	void OnLook(const FInputActionValue& V);
 	void OnZoom(const FInputActionValue& V);

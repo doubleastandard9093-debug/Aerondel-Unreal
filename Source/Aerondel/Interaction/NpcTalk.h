@@ -17,6 +17,9 @@ public:
 	virtual FText GetInteractLabel() const override;
 	virtual void Interact(AActor* InInstigator) override;
 	virtual void OnConstruction(const FTransform& Xf) override;
+	/** Rigged body from rigs.json "npcs" (by NPC id); the static Mesh stays as the hidden click collider. */
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Npc") TObjectPtr<class USkeletalMeshComponent> Rig;
+	ANpcTalk();
 private:
 	int32 LineIndex = 0;
 };

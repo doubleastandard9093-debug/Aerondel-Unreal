@@ -59,6 +59,11 @@ public:
 
 private:
 	UFUNCTION() void HandleDied(AActor* Killer);
+	/** Swaps the box for the imported rig (rigs.json "monsters"); false keeps the box. */
+	void TryRig();
+	void HideCorpse();
+	bool bRigged = false;
+	FTimerHandle CorpseTimer;
 	void SetState(EMobState S);
 	void Respawn();
 	void TryAttack();

@@ -8,6 +8,8 @@
 #include "Data/MobDef.h"
 #include "Data/ItemDef.h"
 #include "Core/AerondelEvents.h"
+#include "Models/AerondelModelLibrary.h"
+#include "Components/SkeletalMeshComponent.h"
 #include "Core/AerondelPlayerState.h"
 #include "Skills/SkillsComponent.h"
 #include "Inventory/EquipmentComponent.h"
@@ -69,6 +71,19 @@ void AAerondelMob::BeginPlay()
 	Home = GetActorLocation();
 	Health->SetMax(Definition ? Definition->Hitpoints : 5, true);
 	Health->OnDied.AddDynamic(this, &AAerondelMob::HandleDied);
+	TryRig();
+}
+
+void AAerondelMob::TryRig()
+{
+	USkeletalMeshComponent* Sk = GetMesh();
+	if (!Definition || !Sk) return;
+	bRigged = UAerondelModelLibrary::ApplyRig(Sk, TEXT("mob:") + Definition->Id.ToString());
+	if (!bRigged) return;
+	UCapsuleComponent* Cap = GetCapsuleComponent();
+	UAerondelModelLibrary::FitRig(Sk, Definition->BodySize.Z, Cap->GetUnscaledCapsuleHalfHeight());
+	Sk->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	Body->SetVisibility(false); // the box stays as the (invisible) click / VR-hand collider
 }
 
 AAIController* AAerondelMob::AI() const { return Cast<AAIController>(GetController()); }
@@ -106,6 +121,7 @@ void AAerondelMob::TakePlayerDamage(int32 Damage, AActor* Attacker)
 	if (State == EMobState::Dead) return;
 	Target = Attacker;
 	if (State != EMobState::Attack) { SetState(EMobState::Chase); AttackCooldown = FMath::Min(AttackCooldown, UAerondelRules::TickSeconds); }
+	if (bRigged && Damage > 0 && !UAerondelModelLibrary::IsBusy(GetMesh())) UAerondelModelLibrary::SetAnimState(GetMesh(), TEXT("hit"));
 	Health->ApplyDamage(FMath::Clamp(Damage, 0, Health->GetCurrent()), Attacker);
 }
 
@@ -150,6 +166,12 @@ void AAerondelMob::Tick(float Dt)
 	AAIController* C = AI();
 	if (!C || !Definition) return;
 	AActor* T = Target.Get();
+
+	if (bRigged && State != EMobState::Dead && !UAerondelModelLibrary::IsBusy(GetMesh()))
+	{
+		const float V = GetVelocity().Size2D();
+		UAerondelModelLibrary::SetAnimState(GetMesh(), V > 260.f ? FName(TEXT("run")) : V > 20.f ? FName(TEXT("walk")) : FName(TEXT("idle")));
+	}
 
 	switch (State)
 	{
@@ -214,6 +236,7 @@ void AAerondelMob::TryAttack()
 	UPlayerStatsComponent* St = PS->Stats;
 	UAerondelEvents* Ev = UAerondelEvents::Get(this);
 	const int32 Raw = UAerondelRules::RollMonsterHit(Definition, PS);
+	if (bRigged) UAerondelModelLibrary::SetAnimState(GetMesh(), TEXT("attack"));
 	int32 Dmg = UAerondelRules::ReduceIncoming(PS, Raw, St->IsFortified(), St->IsRaging());
 	if (Dmg > 0 && FMath::FRand() < UAerondelRules::Perk(PS, TEXT("defence"), TEXT("block")))
 	{
@@ -261,8 +284,9 @@ void AAerondelMob::HandleDied(AActor* Killer)
 		if (UAerondelEvents* Ev = UAerondelEvents::Get(this)) Ev->OnMobKilled.Broadcast(Definition);
 	}
 	Target = nullptr;
-	SetActorHiddenInGame(true);
 	SetActorEnableCollision(false);
+	if (bRigged) { UAerondelModelLibrary::SetAnimState(GetMesh(), TEXT("death")); GetWorldTimerManager().SetTimer(CorpseTimer, this, &AAerondelMob::HideCorpse, 1.6f, false); }
+	else SetActorHiddenInGame(true);
 	GetWorldTimerManager().SetTimer(RespawnTimer, this, &AAerondelMob::Respawn, Definition ? Definition->RespawnSeconds : 20.f, false);
 }
 
@@ -271,7 +295,11 @@ void AAerondelMob::Respawn()
 	StunTicks = 0; VenomDamage = 0;
 	SetActorLocation(Home, false, nullptr, ETeleportType::TeleportPhysics);
 	Health->SetMax(Definition ? Definition->Hitpoints : 5, true);
+	GetWorldTimerManager().ClearTimer(CorpseTimer);
 	SetActorHiddenInGame(false);
 	SetActorEnableCollision(true);
 	SetState(EMobState::Idle);
+	if (bRigged) UAerondelModelLibrary::SetAnimState(GetMesh(), TEXT("idle"));
 }
+
+void AAerondelMob::HideCorpse() { if (State == EMobState::Dead) SetActorHiddenInGame(true); }

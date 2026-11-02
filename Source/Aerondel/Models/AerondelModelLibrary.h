@@ -23,4 +23,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category="Aerondel|Models") static void SetAnimState(USkeletalMeshComponent* Comp, FName State);
 	UFUNCTION(BlueprintPure, Category="Aerondel|Models") static FString ResolveKey(const FString& Key);
 	UFUNCTION(BlueprintCallable, Category="Aerondel|Models") static void ReloadRigTable();
+	/** Scales the applied mesh to HeightCm (largest of height / 0.6 x length for quadrupeds), puts its feet at -HalfHeight
+	 *  and turns it by the rigs.json "yaw" (default -90: imported glTF characters face +Y). */
+	UFUNCTION(BlueprintCallable, Category="Aerondel|Models") static void FitRig(USkeletalMeshComponent* Comp, float HeightCm, float HalfHeight);
+	/** True while a one-shot (attack/hit) is still playing, so callers don't cut it off with the base state. */
+	UFUNCTION(BlueprintPure, Category="Aerondel|Models") static bool IsBusy(USkeletalMeshComponent* Comp);
 };

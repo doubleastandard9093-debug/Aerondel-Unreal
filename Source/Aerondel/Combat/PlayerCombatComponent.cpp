@@ -1,4 +1,5 @@
 #include "Combat/PlayerCombatComponent.h"
+#include "Player/AerondelCharacter.h"
 #include "Combat/AerondelMob.h"
 #include "Combat/HealthComponent.h"
 #include "Core/AerondelPlayerState.h"
@@ -83,6 +84,7 @@ FText UPlayerCombatComponent::UseAbility(FName AbilityId)
 
 void UPlayerCombatComponent::OnAttackedBy(AAerondelMob* Mob)
 {
+	if (AAerondelCharacter* Ch = Cast<AAerondelCharacter>(GetOwner())) Ch->PlayBodyAnim(TEXT("hit"));
 	AAerondelPlayerState* S = PS();
 	if (!Target.IsValid() && (!S || !S->Stats || S->Stats->bAutoRetaliate)) SetTarget(Mob);
 }
@@ -192,6 +194,7 @@ void UPlayerCombatComponent::PlayerAttack(AAerondelMob* Mob, float Power)
 	if (!S || !S->Stats || !Mob || Mob->IsDead()) return;
 	UPlayerStatsComponent* St = S->Stats;
 	const UGameDatabase* Db = UGameDatabase::Get();
+	if (AAerondelCharacter* Ch = Cast<AAerondelCharacter>(GetOwner())) Ch->PlayBodyAnim(TEXT("attack"));
 
 	// Magic autocast.
 	if (!St->AutocastSpell.IsNone() && Db)

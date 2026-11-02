@@ -16,6 +16,7 @@ namespace AerondelRigs
 	static TMap<FString, FRig> Rigs;
 	static TMap<FString, FString> Monsters, Npcs;
 	static FString Player;
+	static float Yaw = -90.f;
 	static const FName StateTag(TEXT("AerondelAnim:"));
 
 	static void Load()
@@ -43,6 +44,7 @@ namespace AerondelRigs
 		};
 		Map(TEXT("monsters"), Monsters); Map(TEXT("npcs"), Npcs);
 		Root->TryGetStringField(TEXT("player"), Player);
+		double Y = -90.0; if (Root->TryGetNumberField(TEXT("yaw"), Y)) Yaw = (float)Y;
 		UE_LOG(LogTemp, Log, TEXT("[Aerondel] rigs.json: %d rigs, %d monster mappings, %d npc mappings"), Rigs.Num(), Monsters.Num(), Npcs.Num());
 	}
 }
@@ -89,6 +91,10 @@ void UAerondelModelLibrary::SetAnimState(USkeletalMeshComponent* Comp, FName Sta
 		else if (S.StartsWith(TEXT("AerondelAnim:"))) Cur = FName(*S.Mid(13));
 	}
 	if (K.IsEmpty() || Cur == State) return;
+	static const FName Death(TEXT("death")), Attack(TEXT("attack")), Hit(TEXT("hit")), Idle(TEXT("idle"));
+	if (Cur == Death && State != Idle) return; // stays down until respawn (ApplyRig / idle)
+	const bool bOneShot = State == Attack || State == Hit || State == Death;
+	if (!bOneShot && (Cur == Attack || Cur == Hit) && Comp->IsPlaying()) return; // let the swing finish
 	const AerondelRigs::FRig* Rig = AerondelRigs::Rigs.Find(K); if (!Rig) return;
 	const FString* Path = Rig->Anims.Find(State);
 	if (!Path && State == FName(TEXT("run"))) Path = Rig->Anims.Find(TEXT("walk"));
@@ -100,4 +106,25 @@ void UAerondelModelLibrary::SetAnimState(USkeletalMeshComponent* Comp, FName Sta
 	Comp->ComponentTags.Add(FName(*(TEXT("AerondelAnim:") + State.ToString())));
 	const bool bLoop = State != FName(TEXT("death")) && State != FName(TEXT("attack")) && State != FName(TEXT("hit"));
 	Comp->PlayAnimation(Seq, bLoop);
+}
+
+void UAerondelModelLibrary::FitRig(USkeletalMeshComponent* Comp, float HeightCm, float HalfHeight)
+{
+	USkeletalMesh* Mesh = Comp ? Comp->GetSkeletalMeshAsset() : nullptr; if (!Mesh) return;
+	const FBox B = Mesh->GetBounds().GetBox();
+	const FVector S = B.GetSize();
+	if (S.Z < 1.0) return;
+	// Quadrupeds (longer than tall) fit their length to 1/0.6 of the target so a wolf is not a pony.
+	const double Len = FMath::Max(S.X, S.Y);
+	const double K = Len > S.Z * 1.3 ? (HeightCm / 0.6) / Len : HeightCm / S.Z;
+	Comp->SetRelativeScale3D(FVector(K));
+	Comp->SetRelativeLocation(FVector(0, 0, -HalfHeight - B.Min.Z * K));
+	Comp->SetRelativeRotation(FRotator(0, AerondelRigs::Yaw, 0));
+}
+
+bool UAerondelModelLibrary::IsBusy(USkeletalMeshComponent* Comp)
+{
+	if (!Comp || !Comp->IsPlaying()) return false;
+	for (const FName& T : Comp->ComponentTags) if (T == FName(TEXT("AerondelAnim:attack")) || T == FName(TEXT("AerondelAnim:hit"))) return true;
+	return false;
 }

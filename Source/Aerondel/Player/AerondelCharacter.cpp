@@ -3,6 +3,8 @@
 #include "Interaction/AerondelInteractable.h"
 #include "Interaction/InteractableActor.h"
 #include "Combat/PlayerCombatComponent.h"
+#include "Models/AerondelModelLibrary.h"
+#include "Components/SkeletalMeshComponent.h"
 #include "Player/AerondelGamepadComponent.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
@@ -155,6 +157,11 @@ void AAerondelCharacter::CancelInteraction()
 void AAerondelCharacter::Tick(float Dt)
 {
 	Super::Tick(Dt);
+	if (bRigged && !UAerondelModelLibrary::IsBusy(GetMesh()))
+	{
+		const float V = GetVelocity().Size2D();
+		UAerondelModelLibrary::SetAnimState(GetMesh(), V > 330.f ? FName(TEXT("run")) : V > 20.f ? FName(TEXT("walk")) : FName(TEXT("idle")));
+	}
 	SpringArm->TargetArmLength = FMath::FInterpTo(SpringArm->TargetArmLength, TargetArm, Dt, 10.f);
 	AActor* T = Pending.Get();
 	IAerondelInteractable* I = Cast<IAerondelInteractable>(T);
@@ -167,3 +174,21 @@ void AAerondelCharacter::Tick(float Dt)
 		I->Interact(this);
 	}
 }
+
+void AAerondelCharacter::BeginPlay()
+{
+	Super::BeginPlay();
+	// Lite rigs.js: the Adventurer stays animated on every tier (Low only drops its shadow / off-screen ticking).
+	if (USkeletalMeshComponent* Sk = GetMesh())
+	{
+		bRigged = UAerondelModelLibrary::ApplyRig(Sk, TEXT("player"));
+		if (bRigged)
+		{
+			UAerondelModelLibrary::FitRig(Sk, 178.f, GetCapsuleComponent()->GetUnscaledCapsuleHalfHeight());
+			Sk->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+			if (PlaceholderBody) PlaceholderBody->SetVisibility(false);
+		}
+	}
+}
+
+void AAerondelCharacter::PlayBodyAnim(FName State) { if (bRigged) UAerondelModelLibrary::SetAnimState(GetMesh(), State); }
