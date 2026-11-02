@@ -58,8 +58,8 @@ Follow Epic's **"Setting Up Android SDK and NDK for Unreal"** page for *your* en
 
 ## Aerondel climate regions, Relicry and Delving (data mirror of the web build)
 
-- `Content/Data/world.json` now carries `regions` and `biomes` (six climate regions: Rimeholt Tundra, Cragmoor Highlands,
-  Cinderreach, Sunscour Dunes, Verdant Tangle, Mirefen Marsh), their camp towns, lodges and ponds; `worldHalf` is 420.
+- `Content/Data/world.json` now carries `regions` and `biomes` (six climate regions: Rimeholt Tundra, Skyreach Highlands,
+  Ashveil Wastes, Sunscour Dunes, Verdant Tangle, Mirelow Fen), their camp towns, lodges and ponds; `worldHalf` is 420.
 - `skills.json` adds **Relicry** and **Delving** (ids `relicry` / `delving`, constants in `Source/Gielinor/Data/AerondelSkills.h`).
   `items.json` adds mattocks, dig-site materials, artifacts, relic gear and Delving gear; `relicry.json` holds dig sites,
   skill gates and dungeon themes; `mobs.json` adds the regional and dungeon monsters.
