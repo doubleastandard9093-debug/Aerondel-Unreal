@@ -24,7 +24,9 @@ class AERONDEL_API USiegeFeature : public UAerondelFeature
 {
 	GENERATED_BODY()
 public:
-	static constexpr int32 FriendCap = 8, HostileCap = 10, BossCoins = 1500;
+	static constexpr int32 FriendCap = 8;
+	static constexpr int32 HostileCap = 10;
+	static constexpr int32 BossCoins = 1500;
 	virtual void Initialize(FSubsystemCollectionBase& Collection) override;
 	virtual FString GetSaveKey() const override { return TEXT("siege"); }
 	virtual void SaveState(FJsonObject& Out) const override;

@@ -15,7 +15,12 @@ class AERONDEL_API UEconomyFeature : public UAerondelFeature
 	GENERATED_BODY()
 public:
 	static constexpr int32 RestockTicks = 200;
-	static constexpr float PriceClimb = 0.6f, ArbMargin = 1.15f, WearPerHit = 0.25f, WornMult = 0.7f, RepairRate = 0.002f, DeathFee = 0.05f;
+	static constexpr float PriceClimb = 0.6f;
+	static constexpr float ArbMargin = 1.15f;
+	static constexpr float WearPerHit = 0.25f;
+	static constexpr float WornMult = 0.7f;
+	static constexpr float RepairRate = 0.002f;
+	static constexpr float DeathFee = 0.05f;
 	static constexpr int32 DeathFeeCap = 50000;
 
 	virtual FString GetSaveKey() const override { return TEXT("economy"); }

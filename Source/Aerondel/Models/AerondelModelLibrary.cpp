@@ -34,13 +34,13 @@ namespace AerondelRigs
 				const TSharedPtr<FJsonObject>* RO = nullptr; if (!P.Value.IsValid() || !P.Value->TryGetObject(RO)) continue;
 				FRig Rig; (*RO)->TryGetStringField(TEXT("mesh"), Rig.Mesh);
 				const TSharedPtr<FJsonObject>* A = nullptr;
-				if ((*RO)->TryGetObjectField(TEXT("anims"), A)) for (const auto& Q : (*A)->Values) { FString S; if (Q.Value.IsValid() && Q.Value->TryGetString(S)) Rig.Anims.Add(FName(*Q.Key), S); }
-				if (!Rig.Mesh.IsEmpty()) Rigs.Add(P.Key, Rig);
+				if ((*RO)->TryGetObjectField(TEXT("anims"), A)) for (const auto& Q : (*A)->Values) { FString S; if (Q.Value.IsValid() && Q.Value->TryGetString(S)) Rig.Anims.Add(FName(*FString(*Q.Key)), S); }
+				if (!Rig.Mesh.IsEmpty()) Rigs.Add(FString(*P.Key), Rig);
 			}
 		auto Map = [&Root](const TCHAR* Field, TMap<FString, FString>& Out)
 		{
 			const TSharedPtr<FJsonObject>* M = nullptr;
-			if (Root->TryGetObjectField(Field, M)) for (const auto& P : (*M)->Values) { FString S; if (P.Value.IsValid() && P.Value->TryGetString(S)) Out.Add(P.Key.ToLower(), S); }
+			if (Root->TryGetObjectField(Field, M)) for (const auto& P : (*M)->Values) { FString S; if (P.Value.IsValid() && P.Value->TryGetString(S)) Out.Add(FString(*P.Key).ToLower(), S); }
 		};
 		Map(TEXT("monsters"), Monsters); Map(TEXT("npcs"), Npcs);
 		Root->TryGetStringField(TEXT("player"), Player);

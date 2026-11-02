@@ -326,7 +326,7 @@ void FAerondelPanels::Build(UWorld* W, FName Panel, AActor* Ctx, FGPanelModel& M
 			const bool bActive = C->GetActive() == D.Id;
 			M.Lines.Add(FString::Printf(TEXT("%s (%s): %s, bond %d%s"), *D.Name, *D.Role, S.bRecruited ? TEXT("sworn") : S.bStarted ? TEXT("recruiting") : TEXT("not met"), S.Bond, bActive ? TEXT(", travelling with you") : TEXT("")));
 			if (S.bRecruited && !bActive) { const FName Id = D.Id; Act(M, FString::Printf(TEXT("Travel with %s"), *D.Name), [C, Id] { C->SetActive(Id); }); }
-			if (S.bRecruited && !bActive) { const FName Id = D.Id; Act(M, FString::Printf(C->InParty(Id) ? TEXT("Party: dismiss %s") : TEXT("Party: bring %s along"), *D.Name), [C, Id] { C->TogglePartyMember(Id); }); }
+			if (S.bRecruited && !bActive) { const FName Id = D.Id; Act(M, (C->InParty(Id) ? FString::Printf(TEXT("Party: dismiss %s"), *D.Name) : FString::Printf(TEXT("Party: bring %s along"), *D.Name)), [C, Id] { C->TogglePartyMember(Id); }); }
 		}
 		if (!C->GetActive().IsNone()) Act(M, TEXT("Send companion home"), [C] { C->SendHome(); });
 		Act(M, TEXT("Call the whole party"), [C, W] { const FString R = C->CallWholeParty(); if (UAerondelEvents* Ev = UAerondelEvents::Get(W)) Ev->Message(FText::FromString(R)); });

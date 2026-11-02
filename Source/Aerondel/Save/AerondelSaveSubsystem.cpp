@@ -135,8 +135,8 @@ bool UAerondelSaveSubsystem::LoadInto(AAerondelPlayerState* PS)
 	{
 		// v1 -> v2: starter tools onto the toolbelt, tools in the pack move to the belt, worn ammo counts as 1.
 		for (UItemDef* T : Db->StarterTools) St->AddTool(T);
-		for (const FItemStack& Slot : TArray<FItemStack>(PS->Inventory->GetSlots()))
-			if (Slot.Item && Slot.Item->IsTool() && St->AddTool(Slot.Item)) PS->Inventory->Remove(Slot.Item, Slot.Count);
+		for (const FItemStack& Stack : TArray<FItemStack>(PS->Inventory->GetSlots()))
+			if (Stack.Item && Stack.Item->IsTool() && St->AddTool(Stack.Item)) PS->Inventory->Remove(Stack.Item, Stack.Count);
 		if (PS->Equipment->GetEquipped(EEquipSlot::Ammo)) St->AmmoCount = 1;
 		PS->Quests->bQuestCapeLegacy = PS->Quests->AllQuestsDone();
 	}

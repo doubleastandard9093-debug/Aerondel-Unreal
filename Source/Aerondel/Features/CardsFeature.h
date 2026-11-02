@@ -48,7 +48,8 @@ class AERONDEL_API UCardsFeature : public UAerondelFeature
 {
 	GENERATED_BODY()
 public:
-	static constexpr int32 BetMin = 10, BetMax = 500;
+	static constexpr int32 BetMin = 10;
+	static constexpr int32 BetMax = 500;
 
 	UFUNCTION(BlueprintCallable, Category="Aerondel|Cards") void Open(ECardGame Game, const FString& DealerName);
 	UFUNCTION(BlueprintCallable, Category="Aerondel|Cards") void Close();
