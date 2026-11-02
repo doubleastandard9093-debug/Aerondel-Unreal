@@ -62,6 +62,10 @@
 			"Name": "OculusXR",
 			"Enabled": false,
 			"MarketplaceURL": "https://developers.meta.com/horizon/downloads/package/unreal-engine-5-integration/"
+		},
+		{
+			"Name": "VisualStudioTools",
+			"Enabled": false
 		}
 	],
 	"TargetPlatforms": [
