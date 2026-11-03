@@ -42,14 +42,26 @@ namespace SynergyData
 		{ TEXT("smithing"), TEXT("defence"), TEXT("dr"), 0.002f }, { TEXT("agility"), TEXT("attack"), TEXT("quick"), 0.003f }, { TEXT("strength"), TEXT("mining"), TEXT("speed"), 0.003f },
 		{ TEXT("strength"), TEXT("woodcutting"), TEXT("speed"), 0.003f }, { TEXT("crafting"), TEXT("glyphcraft"), TEXT("runeDouble"), 0.003f }, { TEXT("magic"), TEXT("glyphcraft"), TEXT("rcXp"), 0.004f },
 		{ TEXT("attack"), TEXT("thieving"), TEXT("thieveXp"), 0.004f }, { TEXT("agility"), TEXT("combat"), TEXT("dodgeMs"), 12.f }, { TEXT("thieving"), TEXT("combat"), TEXT("rareDrop"), 0.02f },
-		{ TEXT("prayer"), TEXT("combat"), TEXT("magicAdren"), 0.04f }, { TEXT("defence"), TEXT("agility"), TEXT("failLess"), 0.004f }, { TEXT("hitpoints"), TEXT("prayer"), TEXT("drainLess"), 0.004f } };
+		{ TEXT("prayer"), TEXT("combat"), TEXT("magicAdren"), 0.04f }, { TEXT("defence"), TEXT("agility"), TEXT("failLess"), 0.004f }, { TEXT("hitpoints"), TEXT("prayer"), TEXT("drainLess"), 0.004f },
+		// v22 SYNERGY_HIGH: combat links that matter past 99.
+		{ TEXT("attack"), TEXT("strength"), TEXT("crit"), 0.002f }, { TEXT("strength"), TEXT("attack"), TEXT("acc"), 0.002f }, { TEXT("defence"), TEXT("hitpoints"), TEXT("maxHp"), 4.f },
+		{ TEXT("hitpoints"), TEXT("defence"), TEXT("block"), 0.002f }, { TEXT("ranged"), TEXT("attack"), TEXT("counter"), 0.002f }, { TEXT("magic"), TEXT("prayer"), TEXT("ppRegen"), 0.002f },
+		{ TEXT("prayer"), TEXT("defence"), TEXT("reflect"), 0.002f }, { TEXT("attack"), TEXT("ranged"), TEXT("racc"), 0.002f }, { TEXT("strength"), TEXT("ranged"), TEXT("rmaxHit"), 0.5f } };
+
+	// Web synergySteps: one step per 10 levels to 99, then per 25 levels, plus 5 "Resonance" steps at 500 and again at 1000.
+	static int32 Steps(int32 Level)
+	{
+		const int32 Lo = FMath::Min(Level, 99) / 10;
+		const int32 Hi = Level > 99 ? (Level - 99) / 25 : 0;
+		return Lo + Hi + (Level >= 500 ? 5 : 0) + (Level >= 1000 ? 5 : 0);
+	}
 }
 
 float UAerondelRules::Synergy(const AAerondelPlayerState* PS, FName SkillId, FName Key)
 {
 	float V = 0.f;
 	for (const SynergyData::FS& E : SynergyData::All)
-		if (SkillId == FName(E.To) && Key == FName(E.Key)) V += (Lvl(PS, FName(E.From)) / 10) * E.Per;
+		if (SkillId == FName(E.To) && Key == FName(E.Key)) V += SynergyData::Steps(Lvl(PS, FName(E.From))) * E.Per;
 	return V;
 }
 
@@ -58,7 +70,7 @@ TArray<FString> UAerondelRules::SynergyLines(const AAerondelPlayerState* PS, FNa
 	TArray<FString> Out;
 	for (const SynergyData::FS& E : SynergyData::All)
 		if (SkillId == FName(E.From) || SkillId == FName(E.To))
-			Out.Add(FString::Printf(TEXT("%s -> %s: %s +%g (+%g per 10 %s levels)"), E.From, E.To, E.Key, (Lvl(PS, FName(E.From)) / 10) * E.Per, E.Per, E.From));
+			Out.Add(FString::Printf(TEXT("%s -> %s: %s +%g (+%g per 10 %s levels to 99, then per 25; Resonance at 500 and 1000)"), E.From, E.To, E.Key, SynergyData::Steps(Lvl(PS, FName(E.From))) * E.Per, E.Per, E.From));
 	return Out;
 }
 
