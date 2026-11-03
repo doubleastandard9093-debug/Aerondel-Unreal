@@ -694,6 +694,7 @@ int32 FJsonContentLoader::MergeInto(UGameDatabase* Db, const FString& Dir)
 				A->Style = FName(*Str(O, TEXT("style")));
 				A->Special = FName(*Str(O, TEXT("id")));
 				A->Element = O->HasField(TEXT("element")) ? FName(*Str(O, TEXT("element"))) : NAME_None;
+				A->bScale = Bool(O, TEXT("scale"));
 				A->Path = O->HasField(TEXT("path")) ? FName(*Str(O, TEXT("path"))) : NAME_None;
 				A->Runes.Reset();
 				if (FObj R = Obj(O, TEXT("runes"))) for (const auto& P : R->Values) { FRuneCost C; C.Rune = Item(FString(*P.Key)); C.Amount = (int32)P.Value->AsNumber(); if (C.Rune) A->Runes.Add(C); }

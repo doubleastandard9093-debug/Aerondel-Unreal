@@ -105,6 +105,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Ability") FName Special;
 	/** Magic kit: wind | water | earth | fire. */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Ability") FName Element;
+	/** v22 high-level Magic techniques (frostspire, leyrend, astralnova, voidcollapse) grow x(1 + Magic/500). */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Ability") bool bScale = false;
 	/** Runes spent when a magic-kit ability rides on a cast. */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Ability") TArray<FRuneCost> Runes;
 	/** Combat Path that grants it (bulwark | mender | striker), else None. */

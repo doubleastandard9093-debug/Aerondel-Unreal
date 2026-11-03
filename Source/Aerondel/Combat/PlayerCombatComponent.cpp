@@ -161,6 +161,27 @@ int32 UPlayerCombatComponent::MagicKit(AAerondelMob* Mob, USpellDef* Spell)
 		if (A->Element == TEXT("earth")) Mob->Wither(8);
 		if (A->Element == TEXT("fire")) Mob->ApplyVenom(FMath::Max(4, FMath::RoundToInt(Mh * 0.08f)));
 	}
+	else if (A->bScale) // v22 high-level Magic techniques: grow with Magic level, x(1 + Magic/500)
+	{
+		const float Kx = 1.f + (S->Skills ? S->Skills->GetLevelById(TEXT("magic")) : 1) / 500.f;
+		if (Special == TEXT("frostspire")) { Extra = FMath::FloorToInt(Mh * 1.2f * Kx); Mob->Stun(4); Msg(FText::Format(LOCTEXT("Frozen", "The {0} is frozen solid!"), Mob->GetDisplayName())); }
+		else if (Special == TEXT("leyrend")) { Extra = FMath::FloorToInt(Mh * (1.5f + FMath::FRand()) * Kx); Mob->Wither(10); }
+		else if (Special == TEXT("astralnova"))
+		{
+			Extra = FMath::FloorToInt(Mh * 2.f * Kx);
+			const FVector C = Mob->GetActorLocation();
+			TArray<AAerondelMob*> Near;
+			for (TActorIterator<AAerondelMob> It(GetWorld()); It; ++It)
+				if (*It != Mob && !It->IsDead() && It->GetHp() > 0 && FVector::Dist2D(It->GetActorLocation(), C) < 600.f) Near.Add(*It);
+			for (AAerondelMob* M : Near)
+			{
+				const int32 D = FMath::Min(M->GetHp(), FMath::FloorToInt(Mh * 1.2f * Kx * (0.6f + FMath::FRand() * 0.4f)));
+				TMap<FName, float> Xp; Xp.Add(TEXT("magic"), D * 0.6f); GiveXp(Xp);
+				M->TakePlayerDamage(D, GetOwner());
+			}
+		}
+		else if (Special == TEXT("voidcollapse")) Extra = FMath::FloorToInt(Mh * 5.f * Kx * (Mob->GetHp() < Mob->GetMaxHp() * 0.25f ? 2.f : 1.f));
+	}
 	else if (Special == TEXT("surge")) { St->SurgeLeft = 3; Msg(LOCTEXT("Surge", "Power surges through your spells (+50% for 3 casts).")); }
 	else if (Special == TEXT("storm"))
 	{
@@ -236,6 +257,7 @@ void UPlayerCombatComponent::PlayerAttack(AAerondelMob* Mob, float Power)
 		if (Special.IsNone() && FMath::FRand() < UAerondelRules::Perk(S, TEXT("ranged"), TEXT("doubleShot"))) { Swings.Add(Base); Msg(LOCTEXT("Double", "Double Shot!")); }
 		if (FMath::FRand() < UAerondelRules::GearFx(S, TEXT("echo"))) { Swings.Add(With(0.f, -0.4f)); Msg(LOCTEXT("Echo", "A free echo arrow follows!")); } // gear: echo at 60% power
 	}
+	ArsenalSwing(Mob, Swings, bRanged, Special);
 	float Next = UAerondelRules::AttackSpeedTicks(S) * UAerondelRules::TickSeconds;
 	if (!bRanged && FMath::FRand() < UAerondelRules::Perk(S, TEXT("attack"), TEXT("quick"))) Next = FMath::Max(UAerondelRules::TickSeconds, Next - UAerondelRules::TickSeconds);
 	Cooldown = Next;
@@ -243,7 +265,7 @@ void UPlayerCombatComponent::PlayerAttack(AAerondelMob* Mob, float Power)
 
 	int32 Total = 0;
 	bool bExtraUsed = false;
-	for (int32 i = 0; i < Swings.Num() && i < 6; ++i)
+	for (int32 i = 0; i < Swings.Num() && i < 9; ++i) // 9: Thousand Cuts (6) plus class extras
 	{
 		if (Mob->IsDead() || Mob->GetHp() <= 0) break;
 		FSwingMods M = Swings[i];
@@ -262,7 +284,59 @@ void UPlayerCombatComponent::PlayerAttack(AAerondelMob* Mob, float Power)
 	}
 	if (Special == TEXT("challenge") && !Mob->IsDead()) { Mob->Challenge(4, 10); Msg(FText::Format(LOCTEXT("Challenge", "You shove the {0} back on its heels; it only has eyes for you."), Mob->GetDisplayName())); }
 	if (Special == TEXT("bash") && !Mob->IsDead()) { Mob->Stun(5); Msg(FText::Format(LOCTEXT("Stun", "The {0} is stunned!"), Mob->GetDisplayName())); }
-	GiveXp(UAerondelRules::CombatXp(S, Total));
+	const UItemDef* Wpn = S->Equipment ? S->Equipment->GetEquipped(EEquipSlot::Weapon) : nullptr;
+	if (Special == TEXT("whirl") && !bRanged) // Reaping Whirl: every other foe within 4 m takes a cut too (5 m with a glaive)
+	{
+		const float R = Wpn && Wpn->WeaponClass == TEXT("glaive") ? 500.f : 400.f;
+		const FVector P0 = GetOwner()->GetActorLocation();
+		TArray<AAerondelMob*> Near;
+		for (TActorIterator<AAerondelMob> It(GetWorld()); It; ++It)
+			if (*It != Mob && !It->IsDead() && It->GetHp() > 0 && FVector::Dist2D(It->GetActorLocation(), P0) < R) Near.Add(*It);
+		FSwingMods M = Base; M.Damage -= 0.1f;
+		for (AAerondelMob* O : Near)
+		{
+			const int32 D = UAerondelRules::RollPlayerHit(S, O->Definition, O->GetHp(), O->GetMaxHp(), M);
+			Total += D;
+			O->TakePlayerDamage(D, GetOwner());
+		}
+		if (Near.Num()) Msg(FText::Format(LOCTEXT("WhirlN", "Reaping Whirl catches {0} more {0}|plural(one=foe,other=foes)!"), Near.Num()));
+	}
+	TMap<FName, float> Xp = UAerondelRules::CombatXp(S, Total);
+	if (!bRanged && Total > 0 && Wpn && Wpn->IsBlade()) Xp.FindOrAdd(TEXT("swordsmanship")) += Total * 0.6f; // arsenalXp
+	GiveXp(Xp);
+}
+
+void UPlayerCombatComponent::ArsenalSwing(AAerondelMob* Mob, TArray<FSwingMods>& Swings, bool bRanged, FName Special)
+{
+	// Port of Gielinor-Lite js/arsenal.js arsenalSwing (v22 techniques, weapon-class passives, Swordsmanship blade perks).
+	AAerondelPlayerState* S = PS();
+	if (!S || !Mob || Swings.Num() == 0) return;
+	UPlayerStatsComponent* St = S->Stats;
+	const UItemDef* W = S->Equipment ? S->Equipment->GetEquipped(EEquipSlot::Weapon) : nullptr;
+	const FName Cls = W ? W->WeaponClass : NAME_None;
+	auto Extra = [&Swings](float Dmg) { FSwingMods M = Swings[0]; M.Damage += Dmg; Swings.Add(M); };
+	if (Special == TEXT("iaido")) { Swings[0].Damage += Cls == TEXT("katana") ? 2.5f : 1.5f; Swings[0].Accuracy += 0.4f; }
+	else if (Special == TEXT("crescent")) { Swings[0].Damage += 0.2f; const int32 N = Cls == TEXT("scimitar") ? 2 : 1; for (int32 i = 0; i < N; ++i) Extra(0.f); }
+	else if (Special == TEXT("whirl")) { Swings[0].Damage -= 0.1f; const int32 N = Cls == TEXT("glaive") ? 4 : 3; for (int32 i = 0; i < N; ++i) Extra(0.f); }
+	else if (Special == TEXT("gale")) { Swings[0].Accuracy += 0.3f; Mob->Stun(Cls == TEXT("warfan") ? 8 : 5); Msg(FText::Format(LOCTEXT("Gale", "A gale pins the {0} in place!"), Mob->GetDisplayName())); }
+	else if (Special == TEXT("ricochet")) { const float B = Cls == TEXT("chakram") ? 0.4f : 0.25f; Extra(B); Extra(B * 2.f); }
+	else if (Special == TEXT("starfall")) { Swings[0].Damage += 0.3f; for (int32 i = 0; i < 3; ++i) { FText E; if (St && St->UseAmmo(E)) Extra(0.f); } } // each extra shot uses ammo
+	else if (Special == TEXT("eclipse")) { Swings[0].Damage += Mob->GetHp() < Mob->GetMaxHp() * 0.15f ? 9.f : 4.f; Swings[0].Accuracy += 0.5f; }
+	else if (Special == TEXT("thousand")) { Swings[0].Damage += 0.1f; Swings[0].Accuracy += 0.2f; for (int32 i = 0; i < 5; ++i) Extra(0.f); }
+	if (bRanged || Cls.IsNone()) return;
+	const bool bSameMob = ClassMob.Get() == Mob && ClassName == Cls;
+	if (Cls == TEXT("katana")) { if (!bSameMob) { ClassHits = 0; Swings[0].Damage += 0.4f; Msg(LOCTEXT("IaidoOpen", "Iaido opening!")); } ++ClassHits; }
+	else if (Cls == TEXT("scimitar")) { ClassHits = bSameMob ? ClassHits + 1 : 1; if (ClassHits % 4 == 0) { Extra(-0.2f); Msg(LOCTEXT("Flourish", "Scimitar flourish!")); } }
+	else if (Cls == TEXT("glaive")) { if (FMath::FRand() < 0.2f) { Extra(-0.3f); Msg(LOCTEXT("Sweep", "Glaive sweep!")); } }
+	else if (Cls == TEXT("warfan")) { if (St) St->GainAdrenaline(3.f); if (FMath::FRand() < 0.1f) { Mob->Stun(3); Msg(LOCTEXT("Gust", "A gust staggers the foe!")); } }
+	else if (Cls == TEXT("chakram")) { if (FMath::FRand() < 0.25f) { Extra(-0.2f); Msg(LOCTEXT("Chakram", "The chakram returns for another cut!")); } }
+	ClassMob = Mob; ClassName = Cls;
+	if (W->IsBlade())
+	{
+		const float A = UAerondelRules::Perk(S, TEXT("swordsmanship"), TEXT("bladeAcc"));
+		const float D = UAerondelRules::Perk(S, TEXT("swordsmanship"), TEXT("bladeDmg"));
+		if (A != 0.f || D != 0.f) for (FSwingMods& M : Swings) { M.Accuracy += A; M.Damage += D; }
+	}
 }
 
 void UPlayerCombatComponent::BonusHit(AAerondelMob* Mob, const FText& Label)

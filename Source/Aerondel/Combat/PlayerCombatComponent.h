@@ -51,4 +51,9 @@ private:
 	void ApplyHex(AAerondelMob* Mob, USpellDef* Spell, int32 Dmg);
 	TWeakObjectPtr<AAerondelMob> Target;
 	float Cooldown = 0.f;
+	/** v22 arsenal.js weapon-class state: katana opening and scimitar flourish count, per target. */
+	TWeakObjectPtr<AAerondelMob> ClassMob;
+	int32 ClassHits = 0;
+	FName ClassName;
+	void ArsenalSwing(AAerondelMob* Mob, TArray<FSwingMods>& Swings, bool bRanged, FName Special);
 };
