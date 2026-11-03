@@ -5,6 +5,9 @@
 #include "Materials/MaterialInstanceDynamic.h"
 #include "Materials/MaterialInterface.h"
 #include "Engine/Texture.h"
+#include "Engine/World.h"
+#include "TimerManager.h"
+#include "ReferenceSkeleton.h"
 #include "World/AerondelScalability.h"
 #include "Misc/FileHelper.h"
 #include "Misc/Paths.h"
@@ -125,6 +128,53 @@ void UAerondelModelLibrary::FitRig(USkeletalMeshComponent* Comp, float HeightCm,
 	Comp->SetRelativeScale3D(FVector(K));
 	Comp->SetRelativeLocation(FVector(0, 0, -HalfHeight - B.Min.Z * K));
 	Comp->SetRelativeRotation(FRotator(0, AerondelRigs::Yaw, 0));
+	// glTF rigs (Kenney / Quaternius) often carry a x100 armature scale in their clips that the bind-pose bounds above
+	// don't see, so the posed body renders far bigger than HeightCm. Once the first pose is evaluated, compare the
+	// skeleton's posed extent with its reference extent and undo the difference.
+	const double RefExtent = BoneExtent(Mesh, nullptr);
+	if (RefExtent <= KINDA_SMALL_NUMBER || !Comp->GetWorld()) return;
+	TWeakObjectPtr<USkeletalMeshComponent> Weak(Comp);
+	auto Correct = [Weak, RefExtent, K, HalfHeight, MinZ = B.Min.Z]()
+	{
+		USkeletalMeshComponent* C = Weak.Get();
+		if (!C || !C->GetSkeletalMeshAsset()) return;
+		C->TickAnimation(0.f, false);
+		C->RefreshBoneTransforms();
+		const double Posed = BoneExtent(C->GetSkeletalMeshAsset(), C);
+		if (Posed <= KINDA_SMALL_NUMBER) return;
+		const double Ratio = Posed / RefExtent;
+		if (Ratio > 0.7 && Ratio < 1.45) return; // pose matches the bounds: nothing to fix
+		const double K2 = K / Ratio;
+		C->SetRelativeScale3D(FVector(K2));
+		C->SetRelativeLocation(FVector(0, 0, -HalfHeight - MinZ * K2 * Ratio));
+		UE_LOG(LogTemp, Log, TEXT("[Aerondel] FitRig %s: posed skeleton x%.2f of bind pose, rescaled %.3f -> %.3f"), *C->GetSkeletalMeshAsset()->GetName(), Ratio, K, K2);
+	};
+	Correct();
+	Comp->GetWorld()->GetTimerManager().SetTimerForNextTick(FTimerDelegate::CreateLambda(Correct));
+}
+
+double UAerondelModelLibrary::BoneExtent(const USkeletalMesh* Mesh, const USkeletalMeshComponent* Posed)
+{
+	// Largest axis extent of the bone positions (component space): reference pose, or the component's current pose.
+	if (!Mesh) return 0.0;
+	const FReferenceSkeleton& Ref = Mesh->GetRefSkeleton();
+	const int32 N = Ref.GetNum();
+	if (N < 3) return 0.0;
+	TArray<FTransform> Cs;
+	if (Posed && Posed->GetComponentSpaceTransforms().Num() == N) Cs = Posed->GetComponentSpaceTransforms();
+	else
+	{
+		const TArray<FTransform>& Local = Ref.GetRefBonePose();
+		Cs.SetNum(N);
+		for (int32 i = 0; i < N; ++i)
+		{
+			const int32 P = Ref.GetParentIndex(i);
+			Cs[i] = P >= 0 ? Local[i] * Cs[P] : Local[i];
+		}
+	}
+	FBox Box(ForceInit);
+	for (const FTransform& T : Cs) Box += T.GetLocation();
+	return Box.GetSize().GetMax();
 }
 
 bool UAerondelModelLibrary::IsBusy(USkeletalMeshComponent* Comp)

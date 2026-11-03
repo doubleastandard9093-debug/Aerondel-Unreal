@@ -4,6 +4,7 @@
 #include "AerondelModelLibrary.generated.h"
 
 class USkeletalMeshComponent;
+class USkeletalMesh;
 
 /** Rigged Lite models in Unreal. Content/Data/rigs.json is written by Content/Python/import_lite_models.py:
  *    rigs:     key -> { mesh: SkeletalMesh path, anims: { idle|walk|run|attack|hit|death|gather: AnimSequence path } }
@@ -26,6 +27,8 @@ public:
 	/** Scales the applied mesh to HeightCm (largest of height / 0.6 x length for quadrupeds), puts its feet at -HalfHeight
 	 *  and turns it by the rigs.json "yaw" (default -90: imported glTF characters face +Y). */
 	UFUNCTION(BlueprintCallable, Category="Aerondel|Models") static void FitRig(USkeletalMeshComponent* Comp, float HeightCm, float HalfHeight);
+	/** Largest extent of the skeleton's bone positions: reference pose (Posed = nullptr) or that component's current pose. */
+	static double BoneExtent(const USkeletalMesh* Mesh, const USkeletalMeshComponent* Posed);
 	/** High/Ultra only: swaps each material slot for a dynamic instance of the matching realism master
 	 *  (/Game/Gielinor/Materials/Real/MI_Real_<kind>: skin = subsurface profile, fur/cloth/hair = cloth shading with sheen,
 	 *  leather/metal/horn/wood/bone/hide = default lit), keeping the original base colour/texture and adding a micro detail
