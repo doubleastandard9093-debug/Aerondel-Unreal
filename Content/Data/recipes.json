@@ -2322,6 +2322,496 @@
    },
    "output": "Emberite mattock",
    "xp": 180
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Bronze katana",
+   "cat": "Smithing",
+   "group": "Arsenal",
+   "skill": "Smithing",
+   "level": 6,
+   "inputs": {
+    "Bronze bar": 2
+   },
+   "output": "Bronze katana",
+   "xp": 25
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Bronze scimitar",
+   "cat": "Smithing",
+   "group": "Arsenal",
+   "skill": "Smithing",
+   "level": 4,
+   "inputs": {
+    "Bronze bar": 2
+   },
+   "output": "Bronze scimitar",
+   "xp": 25
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Bronze glaive",
+   "cat": "Smithing",
+   "group": "Arsenal",
+   "skill": "Smithing",
+   "level": 10,
+   "inputs": {
+    "Bronze bar": 3
+   },
+   "output": "Bronze glaive",
+   "xp": 37.5
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Bronze war fan",
+   "cat": "Smithing",
+   "group": "Arsenal",
+   "skill": "Smithing",
+   "level": 5,
+   "inputs": {
+    "Bronze bar": 1
+   },
+   "output": "Bronze war fan",
+   "xp": 12.5
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Bronze chakram",
+   "cat": "Smithing",
+   "group": "Arsenal",
+   "skill": "Smithing",
+   "level": 7,
+   "inputs": {
+    "Bronze bar": 1
+   },
+   "output": "Bronze chakram",
+   "xp": 12.5
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Iron katana",
+   "cat": "Smithing",
+   "group": "Arsenal",
+   "skill": "Smithing",
+   "level": 20,
+   "inputs": {
+    "Iron bar": 2
+   },
+   "output": "Iron katana",
+   "xp": 50
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Iron scimitar",
+   "cat": "Smithing",
+   "group": "Arsenal",
+   "skill": "Smithing",
+   "level": 18,
+   "inputs": {
+    "Iron bar": 2
+   },
+   "output": "Iron scimitar",
+   "xp": 50
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Iron glaive",
+   "cat": "Smithing",
+   "group": "Arsenal",
+   "skill": "Smithing",
+   "level": 24,
+   "inputs": {
+    "Iron bar": 3
+   },
+   "output": "Iron glaive",
+   "xp": 75
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Iron war fan",
+   "cat": "Smithing",
+   "group": "Arsenal",
+   "skill": "Smithing",
+   "level": 19,
+   "inputs": {
+    "Iron bar": 1
+   },
+   "output": "Iron war fan",
+   "xp": 25
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Iron chakram",
+   "cat": "Smithing",
+   "group": "Arsenal",
+   "skill": "Smithing",
+   "level": 21,
+   "inputs": {
+    "Iron bar": 1
+   },
+   "output": "Iron chakram",
+   "xp": 25
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Steel katana",
+   "cat": "Smithing",
+   "group": "Arsenal",
+   "skill": "Smithing",
+   "level": 35,
+   "inputs": {
+    "Steel bar": 2
+   },
+   "output": "Steel katana",
+   "xp": 75
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Steel scimitar",
+   "cat": "Smithing",
+   "group": "Arsenal",
+   "skill": "Smithing",
+   "level": 33,
+   "inputs": {
+    "Steel bar": 2
+   },
+   "output": "Steel scimitar",
+   "xp": 75
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Steel glaive",
+   "cat": "Smithing",
+   "group": "Arsenal",
+   "skill": "Smithing",
+   "level": 39,
+   "inputs": {
+    "Steel bar": 3
+   },
+   "output": "Steel glaive",
+   "xp": 112.5
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Steel war fan",
+   "cat": "Smithing",
+   "group": "Arsenal",
+   "skill": "Smithing",
+   "level": 34,
+   "inputs": {
+    "Steel bar": 1
+   },
+   "output": "Steel war fan",
+   "xp": 37.5
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Steel chakram",
+   "cat": "Smithing",
+   "group": "Arsenal",
+   "skill": "Smithing",
+   "level": 36,
+   "inputs": {
+    "Steel bar": 1
+   },
+   "output": "Steel chakram",
+   "xp": 37.5
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Bluesteel katana",
+   "cat": "Smithing",
+   "group": "Arsenal",
+   "skill": "Smithing",
+   "level": 55,
+   "inputs": {
+    "Bluesteel bar": 2
+   },
+   "output": "Bluesteel katana",
+   "xp": 100
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Bluesteel scimitar",
+   "cat": "Smithing",
+   "group": "Arsenal",
+   "skill": "Smithing",
+   "level": 53,
+   "inputs": {
+    "Bluesteel bar": 2
+   },
+   "output": "Bluesteel scimitar",
+   "xp": 100
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Bluesteel glaive",
+   "cat": "Smithing",
+   "group": "Arsenal",
+   "skill": "Smithing",
+   "level": 59,
+   "inputs": {
+    "Bluesteel bar": 3
+   },
+   "output": "Bluesteel glaive",
+   "xp": 150
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Bluesteel war fan",
+   "cat": "Smithing",
+   "group": "Arsenal",
+   "skill": "Smithing",
+   "level": 54,
+   "inputs": {
+    "Bluesteel bar": 1
+   },
+   "output": "Bluesteel war fan",
+   "xp": 50
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Bluesteel chakram",
+   "cat": "Smithing",
+   "group": "Arsenal",
+   "skill": "Smithing",
+   "level": 56,
+   "inputs": {
+    "Bluesteel bar": 1
+   },
+   "output": "Bluesteel chakram",
+   "xp": 50
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Verdite katana",
+   "cat": "Smithing",
+   "group": "Arsenal",
+   "skill": "Smithing",
+   "level": 75,
+   "inputs": {
+    "Verdite bar": 2
+   },
+   "output": "Verdite katana",
+   "xp": 125
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Verdite scimitar",
+   "cat": "Smithing",
+   "group": "Arsenal",
+   "skill": "Smithing",
+   "level": 73,
+   "inputs": {
+    "Verdite bar": 2
+   },
+   "output": "Verdite scimitar",
+   "xp": 125
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Verdite glaive",
+   "cat": "Smithing",
+   "group": "Arsenal",
+   "skill": "Smithing",
+   "level": 79,
+   "inputs": {
+    "Verdite bar": 3
+   },
+   "output": "Verdite glaive",
+   "xp": 187.5
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Verdite war fan",
+   "cat": "Smithing",
+   "group": "Arsenal",
+   "skill": "Smithing",
+   "level": 74,
+   "inputs": {
+    "Verdite bar": 1
+   },
+   "output": "Verdite war fan",
+   "xp": 62.5
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Verdite chakram",
+   "cat": "Smithing",
+   "group": "Arsenal",
+   "skill": "Smithing",
+   "level": 76,
+   "inputs": {
+    "Verdite bar": 1
+   },
+   "output": "Verdite chakram",
+   "xp": 62.5
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Cobalt katana",
+   "cat": "Smithing",
+   "group": "Arsenal",
+   "skill": "Smithing",
+   "level": 90,
+   "inputs": {
+    "Cobalt bar": 2
+   },
+   "output": "Cobalt katana",
+   "xp": 150
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Cobalt scimitar",
+   "cat": "Smithing",
+   "group": "Arsenal",
+   "skill": "Smithing",
+   "level": 88,
+   "inputs": {
+    "Cobalt bar": 2
+   },
+   "output": "Cobalt scimitar",
+   "xp": 150
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Cobalt glaive",
+   "cat": "Smithing",
+   "group": "Arsenal",
+   "skill": "Smithing",
+   "level": 94,
+   "inputs": {
+    "Cobalt bar": 3
+   },
+   "output": "Cobalt glaive",
+   "xp": 225
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Cobalt war fan",
+   "cat": "Smithing",
+   "group": "Arsenal",
+   "skill": "Smithing",
+   "level": 89,
+   "inputs": {
+    "Cobalt bar": 1
+   },
+   "output": "Cobalt war fan",
+   "xp": 75
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Cobalt chakram",
+   "cat": "Smithing",
+   "group": "Arsenal",
+   "skill": "Smithing",
+   "level": 91,
+   "inputs": {
+    "Cobalt bar": 1
+   },
+   "output": "Cobalt chakram",
+   "xp": 75
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Emberite katana",
+   "cat": "Smithing",
+   "group": "Arsenal",
+   "skill": "Smithing",
+   "level": 95,
+   "inputs": {
+    "Emberite bar": 2
+   },
+   "output": "Emberite katana",
+   "xp": 180
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Emberite scimitar",
+   "cat": "Smithing",
+   "group": "Arsenal",
+   "skill": "Smithing",
+   "level": 93,
+   "inputs": {
+    "Emberite bar": 2
+   },
+   "output": "Emberite scimitar",
+   "xp": 180
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Emberite glaive",
+   "cat": "Smithing",
+   "group": "Arsenal",
+   "skill": "Smithing",
+   "level": 99,
+   "inputs": {
+    "Emberite bar": 3
+   },
+   "output": "Emberite glaive",
+   "xp": 270
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Emberite war fan",
+   "cat": "Smithing",
+   "group": "Arsenal",
+   "skill": "Smithing",
+   "level": 94,
+   "inputs": {
+    "Emberite bar": 1
+   },
+   "output": "Emberite war fan",
+   "xp": 90
+  },
+  {
+   "station": "anvil",
+   "tool": "hammer",
+   "name": "Smith Emberite chakram",
+   "cat": "Smithing",
+   "group": "Arsenal",
+   "skill": "Smithing",
+   "level": 96,
+   "inputs": {
+    "Emberite bar": 1
+   },
+   "output": "Emberite chakram",
+   "xp": 90
   }
  ],
  "potionRecipes": [

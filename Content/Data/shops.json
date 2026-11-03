@@ -1614,6 +1614,21 @@
    "item": "Glyphcraft cape",
    "price": 99000,
    "skill99": "Glyphcraft"
+  },
+  {
+   "item": "Relicry cape",
+   "price": 99000,
+   "skill99": "Relicry"
+  },
+  {
+   "item": "Delving cape",
+   "price": 99000,
+   "skill99": "Delving"
+  },
+  {
+   "item": "Swordsmanship cape",
+   "price": 99000,
+   "skill99": "Swordsmanship"
   }
  ],
  "tools": [
@@ -1879,6 +1894,86 @@
   {
    "item": "Cobalt arrows",
    "price": 64
+  },
+  {
+   "item": "Iron katana",
+   "price": 86
+  },
+  {
+   "item": "Iron scimitar",
+   "price": 86
+  },
+  {
+   "item": "Iron glaive",
+   "price": 122
+  },
+  {
+   "item": "Iron war fan",
+   "price": 86
+  },
+  {
+   "item": "Iron chakram",
+   "price": 86
+  },
+  {
+   "item": "Steel katana",
+   "price": 230
+  },
+  {
+   "item": "Steel scimitar",
+   "price": 230
+  },
+  {
+   "item": "Steel glaive",
+   "price": 323
+  },
+  {
+   "item": "Steel war fan",
+   "price": 230
+  },
+  {
+   "item": "Steel chakram",
+   "price": 230
+  },
+  {
+   "item": "Bluesteel katana",
+   "price": 576
+  },
+  {
+   "item": "Bluesteel scimitar",
+   "price": 576
+  },
+  {
+   "item": "Bluesteel glaive",
+   "price": 806
+  },
+  {
+   "item": "Bluesteel war fan",
+   "price": 576
+  },
+  {
+   "item": "Bluesteel chakram",
+   "price": 576
+  },
+  {
+   "item": "Verdite katana",
+   "price": 1440
+  },
+  {
+   "item": "Verdite scimitar",
+   "price": 1440
+  },
+  {
+   "item": "Verdite glaive",
+   "price": 2016
+  },
+  {
+   "item": "Verdite war fan",
+   "price": 1440
+  },
+  {
+   "item": "Verdite chakram",
+   "price": 1440
   },
   {
    "item": "Warrior ring",

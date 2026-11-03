@@ -277,6 +277,17 @@
     "Mining": 1
    }
   },
+  "Bronze mattock": {
+   "value": 14,
+   "type": "tool",
+   "tool": "mattock",
+   "tier": 0,
+   "metal": "Bronze",
+   "toolTier": 0,
+   "req": {
+    "Relicry": 1
+   }
+  },
   "Bronze arrows": {
    "value": 1,
    "type": "ammo",
@@ -371,6 +382,17 @@
    "toolTier": 1,
    "req": {
     "Mining": 1
+   }
+  },
+  "Iron mattock": {
+   "value": 42,
+   "type": "tool",
+   "tool": "mattock",
+   "tier": 1,
+   "metal": "Iron",
+   "toolTier": 1,
+   "req": {
+    "Relicry": 1
    }
   },
   "Iron arrows": {
@@ -469,6 +491,17 @@
     "Mining": 6
    }
   },
+  "Steel mattock": {
+   "value": 112,
+   "type": "tool",
+   "tool": "mattock",
+   "tier": 2,
+   "metal": "Steel",
+   "toolTier": 2,
+   "req": {
+    "Relicry": 6
+   }
+  },
   "Steel arrows": {
    "value": 4,
    "type": "ammo",
@@ -563,6 +596,17 @@
    "toolTier": 3,
    "req": {
     "Mining": 21
+   }
+  },
+  "Bluesteel mattock": {
+   "value": 280,
+   "type": "tool",
+   "tool": "mattock",
+   "tier": 3,
+   "metal": "Bluesteel",
+   "toolTier": 3,
+   "req": {
+    "Relicry": 21
    }
   },
   "Bluesteel arrows": {
@@ -661,6 +705,17 @@
     "Mining": 31
    }
   },
+  "Verdite mattock": {
+   "value": 700,
+   "type": "tool",
+   "tool": "mattock",
+   "tier": 4,
+   "metal": "Verdite",
+   "toolTier": 4,
+   "req": {
+    "Relicry": 31
+   }
+  },
   "Verdite arrows": {
    "value": 16,
    "type": "ammo",
@@ -755,6 +810,17 @@
    "toolTier": 5,
    "req": {
     "Mining": 41
+   }
+  },
+  "Cobalt mattock": {
+   "value": 1820,
+   "type": "tool",
+   "tool": "mattock",
+   "tier": 5,
+   "metal": "Cobalt",
+   "toolTier": 5,
+   "req": {
+    "Relicry": 41
    }
   },
   "Cobalt arrows": {
@@ -853,6 +919,17 @@
     "Mining": 61
    }
   },
+  "Emberite mattock": {
+   "value": 4900,
+   "type": "tool",
+   "tool": "mattock",
+   "tier": 6,
+   "metal": "Emberite",
+   "toolTier": 6,
+   "req": {
+    "Relicry": 61
+   }
+  },
   "Emberite arrows": {
    "value": 100,
    "type": "ammo",
@@ -860,6 +937,496 @@
    "rstr": 45,
    "tier": 6,
    "metal": "Emberite"
+  },
+  "Bronze katana": {
+   "value": 18,
+   "type": "weapon",
+   "wclass": "katana",
+   "atk": 6,
+   "str": 4,
+   "def": 0,
+   "speed": 4,
+   "tier": 0,
+   "metal": "Bronze",
+   "req": {
+    "Attack": 1
+   }
+  },
+  "Bronze scimitar": {
+   "value": 18,
+   "type": "weapon",
+   "wclass": "scimitar",
+   "atk": 5,
+   "str": 2,
+   "def": 0,
+   "speed": 3,
+   "tier": 0,
+   "metal": "Bronze",
+   "req": {
+    "Attack": 1
+   }
+  },
+  "Bronze glaive": {
+   "value": 25,
+   "type": "weapon",
+   "wclass": "glaive",
+   "atk": 6,
+   "str": 6,
+   "def": 0,
+   "speed": 6,
+   "tier": 0,
+   "metal": "Bronze",
+   "req": {
+    "Attack": 1
+   }
+  },
+  "Bronze war fan": {
+   "value": 18,
+   "type": "weapon",
+   "wclass": "warfan",
+   "atk": 4,
+   "str": 2,
+   "def": 2,
+   "speed": 3,
+   "tier": 0,
+   "metal": "Bronze",
+   "req": {
+    "Attack": 1
+   }
+  },
+  "Bronze chakram": {
+   "value": 18,
+   "type": "weapon",
+   "wclass": "chakram",
+   "atk": 5,
+   "str": 3,
+   "def": 0,
+   "speed": 3,
+   "tier": 0,
+   "metal": "Bronze",
+   "req": {
+    "Attack": 1
+   }
+  },
+  "Iron katana": {
+   "value": 54,
+   "type": "weapon",
+   "wclass": "katana",
+   "atk": 11,
+   "str": 7,
+   "def": 0,
+   "speed": 4,
+   "tier": 1,
+   "metal": "Iron",
+   "req": {
+    "Attack": 10
+   }
+  },
+  "Iron scimitar": {
+   "value": 54,
+   "type": "weapon",
+   "wclass": "scimitar",
+   "atk": 9,
+   "str": 5,
+   "def": 0,
+   "speed": 3,
+   "tier": 1,
+   "metal": "Iron",
+   "req": {
+    "Attack": 10
+   }
+  },
+  "Iron glaive": {
+   "value": 76,
+   "type": "weapon",
+   "wclass": "glaive",
+   "atk": 10,
+   "str": 10,
+   "def": 0,
+   "speed": 6,
+   "tier": 1,
+   "metal": "Iron",
+   "req": {
+    "Attack": 10
+   }
+  },
+  "Iron war fan": {
+   "value": 54,
+   "type": "weapon",
+   "wclass": "warfan",
+   "atk": 7,
+   "str": 4,
+   "def": 3,
+   "speed": 3,
+   "tier": 1,
+   "metal": "Iron",
+   "req": {
+    "Attack": 10
+   }
+  },
+  "Iron chakram": {
+   "value": 54,
+   "type": "weapon",
+   "wclass": "chakram",
+   "atk": 9,
+   "str": 5,
+   "def": 0,
+   "speed": 3,
+   "tier": 1,
+   "metal": "Iron",
+   "req": {
+    "Attack": 10
+   }
+  },
+  "Steel katana": {
+   "value": 144,
+   "type": "weapon",
+   "wclass": "katana",
+   "atk": 17,
+   "str": 12,
+   "def": 0,
+   "speed": 4,
+   "tier": 2,
+   "metal": "Steel",
+   "req": {
+    "Attack": 20
+   }
+  },
+  "Steel scimitar": {
+   "value": 144,
+   "type": "weapon",
+   "wclass": "scimitar",
+   "atk": 14,
+   "str": 8,
+   "def": 0,
+   "speed": 3,
+   "tier": 2,
+   "metal": "Steel",
+   "req": {
+    "Attack": 20
+   }
+  },
+  "Steel glaive": {
+   "value": 202,
+   "type": "weapon",
+   "wclass": "glaive",
+   "atk": 16,
+   "str": 16,
+   "def": 0,
+   "speed": 6,
+   "tier": 2,
+   "metal": "Steel",
+   "req": {
+    "Attack": 20
+   }
+  },
+  "Steel war fan": {
+   "value": 144,
+   "type": "weapon",
+   "wclass": "warfan",
+   "atk": 11,
+   "str": 7,
+   "def": 5,
+   "speed": 3,
+   "tier": 2,
+   "metal": "Steel",
+   "req": {
+    "Attack": 20
+   }
+  },
+  "Steel chakram": {
+   "value": 144,
+   "type": "weapon",
+   "wclass": "chakram",
+   "atk": 13,
+   "str": 9,
+   "def": 0,
+   "speed": 3,
+   "tier": 2,
+   "metal": "Steel",
+   "req": {
+    "Attack": 20
+   }
+  },
+  "Bluesteel katana": {
+   "value": 360,
+   "type": "weapon",
+   "wclass": "katana",
+   "atk": 24,
+   "str": 18,
+   "def": 0,
+   "speed": 4,
+   "tier": 3,
+   "metal": "Bluesteel",
+   "req": {
+    "Attack": 30
+   }
+  },
+  "Bluesteel scimitar": {
+   "value": 360,
+   "type": "weapon",
+   "wclass": "scimitar",
+   "atk": 20,
+   "str": 12,
+   "def": 0,
+   "speed": 3,
+   "tier": 3,
+   "metal": "Bluesteel",
+   "req": {
+    "Attack": 30
+   }
+  },
+  "Bluesteel glaive": {
+   "value": 504,
+   "type": "weapon",
+   "wclass": "glaive",
+   "atk": 23,
+   "str": 24,
+   "def": 0,
+   "speed": 6,
+   "tier": 3,
+   "metal": "Bluesteel",
+   "req": {
+    "Attack": 30
+   }
+  },
+  "Bluesteel war fan": {
+   "value": 360,
+   "type": "weapon",
+   "wclass": "warfan",
+   "atk": 16,
+   "str": 10,
+   "def": 7,
+   "speed": 3,
+   "tier": 3,
+   "metal": "Bluesteel",
+   "req": {
+    "Attack": 30
+   }
+  },
+  "Bluesteel chakram": {
+   "value": 360,
+   "type": "weapon",
+   "wclass": "chakram",
+   "atk": 19,
+   "str": 13,
+   "def": 0,
+   "speed": 3,
+   "tier": 3,
+   "metal": "Bluesteel",
+   "req": {
+    "Attack": 30
+   }
+  },
+  "Verdite katana": {
+   "value": 900,
+   "type": "weapon",
+   "wclass": "katana",
+   "atk": 33,
+   "str": 26,
+   "def": 0,
+   "speed": 4,
+   "tier": 4,
+   "metal": "Verdite",
+   "req": {
+    "Attack": 40
+   }
+  },
+  "Verdite scimitar": {
+   "value": 900,
+   "type": "weapon",
+   "wclass": "scimitar",
+   "atk": 28,
+   "str": 18,
+   "def": 0,
+   "speed": 3,
+   "tier": 4,
+   "metal": "Verdite",
+   "req": {
+    "Attack": 40
+   }
+  },
+  "Verdite glaive": {
+   "value": 1260,
+   "type": "weapon",
+   "wclass": "glaive",
+   "atk": 32,
+   "str": 34,
+   "def": 0,
+   "speed": 6,
+   "tier": 4,
+   "metal": "Verdite",
+   "req": {
+    "Attack": 40
+   }
+  },
+  "Verdite war fan": {
+   "value": 900,
+   "type": "weapon",
+   "wclass": "warfan",
+   "atk": 22,
+   "str": 15,
+   "def": 10,
+   "speed": 3,
+   "tier": 4,
+   "metal": "Verdite",
+   "req": {
+    "Attack": 40
+   }
+  },
+  "Verdite chakram": {
+   "value": 900,
+   "type": "weapon",
+   "wclass": "chakram",
+   "atk": 26,
+   "str": 19,
+   "def": 0,
+   "speed": 3,
+   "tier": 4,
+   "metal": "Verdite",
+   "req": {
+    "Attack": 40
+   }
+  },
+  "Cobalt katana": {
+   "value": 2340,
+   "type": "weapon",
+   "wclass": "katana",
+   "atk": 45,
+   "str": 37,
+   "def": 0,
+   "speed": 4,
+   "tier": 5,
+   "metal": "Cobalt",
+   "req": {
+    "Attack": 50
+   }
+  },
+  "Cobalt scimitar": {
+   "value": 2340,
+   "type": "weapon",
+   "wclass": "scimitar",
+   "atk": 38,
+   "str": 27,
+   "def": 0,
+   "speed": 3,
+   "tier": 5,
+   "metal": "Cobalt",
+   "req": {
+    "Attack": 50
+   }
+  },
+  "Cobalt glaive": {
+   "value": 3276,
+   "type": "weapon",
+   "wclass": "glaive",
+   "atk": 44,
+   "str": 48,
+   "def": 0,
+   "speed": 6,
+   "tier": 5,
+   "metal": "Cobalt",
+   "req": {
+    "Attack": 50
+   }
+  },
+  "Cobalt war fan": {
+   "value": 2340,
+   "type": "weapon",
+   "wclass": "warfan",
+   "atk": 30,
+   "str": 22,
+   "def": 14,
+   "speed": 3,
+   "tier": 5,
+   "metal": "Cobalt",
+   "req": {
+    "Attack": 50
+   }
+  },
+  "Cobalt chakram": {
+   "value": 2340,
+   "type": "weapon",
+   "wclass": "chakram",
+   "atk": 36,
+   "str": 28,
+   "def": 0,
+   "speed": 3,
+   "tier": 5,
+   "metal": "Cobalt",
+   "req": {
+    "Attack": 50
+   }
+  },
+  "Emberite katana": {
+   "value": 6300,
+   "type": "weapon",
+   "wclass": "katana",
+   "atk": 62,
+   "str": 54,
+   "def": 0,
+   "speed": 4,
+   "tier": 6,
+   "metal": "Emberite",
+   "req": {
+    "Attack": 60
+   }
+  },
+  "Emberite scimitar": {
+   "value": 6300,
+   "type": "weapon",
+   "wclass": "scimitar",
+   "atk": 52,
+   "str": 40,
+   "def": 0,
+   "speed": 3,
+   "tier": 6,
+   "metal": "Emberite",
+   "req": {
+    "Attack": 60
+   }
+  },
+  "Emberite glaive": {
+   "value": 8820,
+   "type": "weapon",
+   "wclass": "glaive",
+   "atk": 60,
+   "str": 68,
+   "def": 0,
+   "speed": 6,
+   "tier": 6,
+   "metal": "Emberite",
+   "req": {
+    "Attack": 60
+   }
+  },
+  "Emberite war fan": {
+   "value": 6300,
+   "type": "weapon",
+   "wclass": "warfan",
+   "atk": 42,
+   "str": 32,
+   "def": 20,
+   "speed": 3,
+   "tier": 6,
+   "metal": "Emberite",
+   "req": {
+    "Attack": 60
+   }
+  },
+  "Emberite chakram": {
+   "value": 6300,
+   "type": "weapon",
+   "wclass": "chakram",
+   "atk": 50,
+   "str": 40,
+   "def": 0,
+   "speed": 3,
+   "tier": 6,
+   "metal": "Emberite",
+   "req": {
+    "Attack": 60
+   }
   },
   "Shortbow": {
    "value": 20,
@@ -1699,6 +2266,39 @@
     "Glyphcraft": 99
    }
   },
+  "Relicry cape": {
+   "value": 9900,
+   "type": "cape",
+   "def": 4,
+   "rdef": 4,
+   "prayer": 2,
+   "capeSkill": "Relicry",
+   "req": {
+    "Relicry": 99
+   }
+  },
+  "Delving cape": {
+   "value": 9900,
+   "type": "cape",
+   "def": 4,
+   "rdef": 4,
+   "prayer": 2,
+   "capeSkill": "Delving",
+   "req": {
+    "Delving": 99
+   }
+  },
+  "Swordsmanship cape": {
+   "value": 9900,
+   "type": "cape",
+   "def": 4,
+   "rdef": 4,
+   "prayer": 2,
+   "capeSkill": "Swordsmanship",
+   "req": {
+    "Swordsmanship": 99
+   }
+  },
   "Glyph essence": {
    "value": 4,
    "type": "resource"
@@ -1881,7 +2481,7 @@
    "type": "food",
    "heal": 10,
    "buff": {
-    "icon": "\ud83c\udf72",
+    "icon": "🍲",
     "ticks": 300,
     "boost": {
      "Strength": [
@@ -1896,7 +2496,7 @@
    "type": "food",
    "heal": 8,
    "buff": {
-    "icon": "\ud83d\ude4f",
+    "icon": "🙏",
     "prayer": 12
    }
   },
@@ -1905,7 +2505,7 @@
    "type": "food",
    "heal": 14,
    "buff": {
-    "icon": "\ud83e\udd67",
+    "icon": "🥧",
     "ticks": 300,
     "boost": {
      "Defence": [
@@ -1920,7 +2520,7 @@
    "type": "food",
    "heal": 24,
    "buff": {
-    "icon": "\ud83c\udf56",
+    "icon": "🍖",
     "ticks": 400,
     "boost": {
      "Attack": [
@@ -2415,6 +3015,825 @@
     "Attack": 40
    }
   },
+  "Emberfang katana": {
+   "value": 126000,
+   "unique": true,
+   "type": "weapon",
+   "wclass": "katana",
+   "atk": 153,
+   "str": 141,
+   "speed": 4,
+   "rarity": "epic",
+   "eff": {
+    "bigHit": 0.15
+   },
+   "tint": 9058842,
+   "highTier": true,
+   "icon": "🗡️",
+   "special": "Cleave: 15% chance of a hit with +50% damage. Dropped by Cinder Warden",
+   "req": {
+    "Attack": 140,
+    "Swordsmanship": 70
+   },
+   "frontier": "Cinder Warden"
+  },
+  "Ashwarden helm": {
+   "value": 70000,
+   "unique": true,
+   "type": "head",
+   "set": "Ashwarden",
+   "def": 44,
+   "rdef": 41,
+   "str": 0,
+   "rarity": "epic",
+   "tint": 9058842,
+   "highTier": true,
+   "special": "Ashwarden set piece. Dropped by Cinder Warden",
+   "req": {
+    "Defence": 140
+   },
+   "frontier": "Cinder Warden"
+  },
+  "Ashwarden cuirass": {
+   "value": 70000,
+   "unique": true,
+   "type": "body",
+   "set": "Ashwarden",
+   "def": 105,
+   "rdef": 98,
+   "str": 8,
+   "rarity": "epic",
+   "tint": 9058842,
+   "highTier": true,
+   "special": "Ashwarden set piece. Dropped by Cinder Warden",
+   "req": {
+    "Defence": 140
+   },
+   "frontier": "Cinder Warden"
+  },
+  "Ashwarden greaves": {
+   "value": 70000,
+   "unique": true,
+   "type": "legs",
+   "set": "Ashwarden",
+   "def": 82,
+   "rdef": 76,
+   "str": 0,
+   "rarity": "epic",
+   "tint": 9058842,
+   "highTier": true,
+   "special": "Ashwarden set piece. Dropped by Cinder Warden",
+   "req": {
+    "Defence": 140
+   },
+   "frontier": "Cinder Warden"
+  },
+  "Ashwarden aegis": {
+   "value": 70000,
+   "unique": true,
+   "type": "shield",
+   "set": "Ashwarden",
+   "def": 84,
+   "rdef": 78,
+   "str": 0,
+   "rarity": "epic",
+   "tint": 9058842,
+   "highTier": true,
+   "special": "Ashwarden set piece. Dropped by Cinder Warden",
+   "req": {
+    "Defence": 140
+   },
+   "frontier": "Cinder Warden"
+  },
+  "Briarhook scimitar": {
+   "value": 198000,
+   "unique": true,
+   "type": "weapon",
+   "wclass": "scimitar",
+   "atk": 229,
+   "str": 213,
+   "speed": 3,
+   "rarity": "epic",
+   "eff": {
+    "poison": {
+     "chance": 0.3,
+     "dmg": 260
+    }
+   },
+   "tint": 4876842,
+   "highTier": true,
+   "icon": "🗡️",
+   "special": "30% chance to poison (260 damage, fading). Dropped by Bramble Colossus",
+   "req": {
+    "Attack": 220,
+    "Swordsmanship": 110
+   },
+   "frontier": "Bramble Colossus"
+  },
+  "Thornroot helm": {
+   "value": 110000,
+   "unique": true,
+   "type": "head",
+   "set": "Thornroot",
+   "def": 69,
+   "rdef": 65,
+   "str": 0,
+   "rarity": "epic",
+   "tint": 4876842,
+   "highTier": true,
+   "special": "Thornroot set piece. Dropped by Bramble Colossus",
+   "req": {
+    "Defence": 220
+   },
+   "frontier": "Bramble Colossus"
+  },
+  "Thornroot cuirass": {
+   "value": 110000,
+   "unique": true,
+   "type": "body",
+   "set": "Thornroot",
+   "def": 165,
+   "rdef": 154,
+   "str": 13,
+   "rarity": "epic",
+   "tint": 4876842,
+   "highTier": true,
+   "special": "Thornroot set piece. Dropped by Bramble Colossus",
+   "req": {
+    "Defence": 220
+   },
+   "frontier": "Bramble Colossus"
+  },
+  "Thornroot greaves": {
+   "value": 110000,
+   "unique": true,
+   "type": "legs",
+   "set": "Thornroot",
+   "def": 129,
+   "rdef": 120,
+   "str": 0,
+   "rarity": "epic",
+   "tint": 4876842,
+   "highTier": true,
+   "special": "Thornroot set piece. Dropped by Bramble Colossus",
+   "req": {
+    "Defence": 220
+   },
+   "frontier": "Bramble Colossus"
+  },
+  "Thornroot aegis": {
+   "value": 110000,
+   "unique": true,
+   "type": "shield",
+   "set": "Thornroot",
+   "def": 132,
+   "rdef": 123,
+   "str": 0,
+   "rarity": "epic",
+   "tint": 4876842,
+   "highTier": true,
+   "special": "Thornroot set piece. Dropped by Bramble Colossus",
+   "req": {
+    "Defence": 220
+   },
+   "frontier": "Bramble Colossus"
+  },
+  "Glacierfall glaive": {
+   "value": 288000,
+   "unique": true,
+   "type": "weapon",
+   "wclass": "glaive",
+   "atk": 324,
+   "str": 303,
+   "speed": 6,
+   "rarity": "epic",
+   "eff": {
+    "stun": 0.15
+   },
+   "tint": 12114160,
+   "highTier": true,
+   "icon": "🔱",
+   "special": "15% chance to freeze the foe for 3 seconds. Dropped by Glacier Behemoth",
+   "req": {
+    "Attack": 320,
+    "Swordsmanship": 160
+   },
+   "frontier": "Glacier Behemoth"
+  },
+  "Rimeplate helm": {
+   "value": 160000,
+   "unique": true,
+   "type": "head",
+   "set": "Rimeplate",
+   "def": 101,
+   "rdef": 94,
+   "str": 0,
+   "rarity": "epic",
+   "tint": 12114160,
+   "highTier": true,
+   "special": "Rimeplate set piece. Dropped by Glacier Behemoth",
+   "req": {
+    "Defence": 320
+   },
+   "frontier": "Glacier Behemoth"
+  },
+  "Rimeplate cuirass": {
+   "value": 160000,
+   "unique": true,
+   "type": "body",
+   "set": "Rimeplate",
+   "def": 240,
+   "rdef": 224,
+   "str": 19,
+   "rarity": "epic",
+   "tint": 12114160,
+   "highTier": true,
+   "special": "Rimeplate set piece. Dropped by Glacier Behemoth",
+   "req": {
+    "Defence": 320
+   },
+   "frontier": "Glacier Behemoth"
+  },
+  "Rimeplate greaves": {
+   "value": 160000,
+   "unique": true,
+   "type": "legs",
+   "set": "Rimeplate",
+   "def": 187,
+   "rdef": 175,
+   "str": 0,
+   "rarity": "epic",
+   "tint": 12114160,
+   "highTier": true,
+   "special": "Rimeplate set piece. Dropped by Glacier Behemoth",
+   "req": {
+    "Defence": 320
+   },
+   "frontier": "Glacier Behemoth"
+  },
+  "Rimeplate aegis": {
+   "value": 160000,
+   "unique": true,
+   "type": "shield",
+   "set": "Rimeplate",
+   "def": 192,
+   "rdef": 179,
+   "str": 0,
+   "rarity": "epic",
+   "tint": 12114160,
+   "highTier": true,
+   "special": "Rimeplate set piece. Dropped by Glacier Behemoth",
+   "req": {
+    "Defence": 320
+   },
+   "frontier": "Glacier Behemoth"
+  },
+  "Thunderwing war fan": {
+   "value": 405000,
+   "unique": true,
+   "type": "weapon",
+   "wclass": "warfan",
+   "atk": 448,
+   "str": 420,
+   "speed": 3,
+   "rarity": "epic",
+   "eff": {
+    "doubleHit": 0.2
+   },
+   "tint": 6978208,
+   "highTier": true,
+   "icon": "🪭",
+   "special": "Thunderclap: 20% chance to strike twice. Dropped by Peak Warlord",
+   "req": {
+    "Attack": 450,
+    "Swordsmanship": 225
+   },
+   "frontier": "Peak Warlord"
+  },
+  "Stormforged helm": {
+   "value": 225000,
+   "unique": true,
+   "type": "head",
+   "set": "Stormforged",
+   "def": 142,
+   "rdef": 132,
+   "str": 0,
+   "rarity": "epic",
+   "tint": 6978208,
+   "highTier": true,
+   "special": "Stormforged set piece. Dropped by Peak Warlord",
+   "req": {
+    "Defence": 450
+   },
+   "frontier": "Peak Warlord"
+  },
+  "Stormforged cuirass": {
+   "value": 225000,
+   "unique": true,
+   "type": "body",
+   "set": "Stormforged",
+   "def": 338,
+   "rdef": 315,
+   "str": 27,
+   "rarity": "epic",
+   "tint": 6978208,
+   "highTier": true,
+   "special": "Stormforged set piece. Dropped by Peak Warlord",
+   "req": {
+    "Defence": 450
+   },
+   "frontier": "Peak Warlord"
+  },
+  "Stormforged greaves": {
+   "value": 225000,
+   "unique": true,
+   "type": "legs",
+   "set": "Stormforged",
+   "def": 263,
+   "rdef": 246,
+   "str": 0,
+   "rarity": "epic",
+   "tint": 6978208,
+   "highTier": true,
+   "special": "Stormforged set piece. Dropped by Peak Warlord",
+   "req": {
+    "Defence": 450
+   },
+   "frontier": "Peak Warlord"
+  },
+  "Stormforged aegis": {
+   "value": 225000,
+   "unique": true,
+   "type": "shield",
+   "set": "Stormforged",
+   "def": 270,
+   "rdef": 252,
+   "str": 0,
+   "rarity": "epic",
+   "tint": 6978208,
+   "highTier": true,
+   "special": "Stormforged set piece. Dropped by Peak Warlord",
+   "req": {
+    "Defence": 450
+   },
+   "frontier": "Peak Warlord"
+  },
+  "Mirewraith chakram": {
+   "value": 540000,
+   "unique": true,
+   "type": "weapon",
+   "wclass": "chakram",
+   "atk": 590,
+   "str": 555,
+   "speed": 3,
+   "rarity": "epic",
+   "eff": {
+    "lifesteal": 0.12
+   },
+   "tint": 3820090,
+   "highTier": true,
+   "icon": "💿",
+   "special": "Heals you for 12% of the damage you deal. Dropped by Bog Revenant",
+   "req": {
+    "Attack": 600,
+    "Swordsmanship": 300
+   },
+   "frontier": "Bog Revenant"
+  },
+  "Gravemire helm": {
+   "value": 300000,
+   "unique": true,
+   "type": "head",
+   "set": "Gravemire",
+   "def": 189,
+   "rdef": 176,
+   "str": 0,
+   "rarity": "epic",
+   "tint": 3820090,
+   "highTier": true,
+   "special": "Gravemire set piece. Dropped by Bog Revenant",
+   "req": {
+    "Defence": 600
+   },
+   "frontier": "Bog Revenant"
+  },
+  "Gravemire cuirass": {
+   "value": 300000,
+   "unique": true,
+   "type": "body",
+   "set": "Gravemire",
+   "def": 450,
+   "rdef": 420,
+   "str": 36,
+   "rarity": "epic",
+   "tint": 3820090,
+   "highTier": true,
+   "special": "Gravemire set piece. Dropped by Bog Revenant",
+   "req": {
+    "Defence": 600
+   },
+   "frontier": "Bog Revenant"
+  },
+  "Gravemire greaves": {
+   "value": 300000,
+   "unique": true,
+   "type": "legs",
+   "set": "Gravemire",
+   "def": 351,
+   "rdef": 328,
+   "str": 0,
+   "rarity": "epic",
+   "tint": 3820090,
+   "highTier": true,
+   "special": "Gravemire set piece. Dropped by Bog Revenant",
+   "req": {
+    "Defence": 600
+   },
+   "frontier": "Bog Revenant"
+  },
+  "Gravemire aegis": {
+   "value": 300000,
+   "unique": true,
+   "type": "shield",
+   "set": "Gravemire",
+   "def": 360,
+   "rdef": 336,
+   "str": 0,
+   "rarity": "epic",
+   "tint": 3820090,
+   "highTier": true,
+   "special": "Gravemire set piece. Dropped by Bog Revenant",
+   "req": {
+    "Defence": 600
+   },
+   "frontier": "Bog Revenant"
+  },
+  "Mirage scimitar": {
+   "value": 648000,
+   "unique": true,
+   "type": "weapon",
+   "wclass": "scimitar",
+   "atk": 704,
+   "str": 663,
+   "speed": 3,
+   "rarity": "epic",
+   "eff": {
+    "crit": 0.08,
+    "bigHit": 0.1
+   },
+   "tint": 13148256,
+   "highTier": true,
+   "icon": "🗡️",
+   "special": "+8% critical hit chance; 10% chance of a +50% hit. Dropped by Dune Tyrant",
+   "req": {
+    "Attack": 720,
+    "Swordsmanship": 360
+   },
+   "frontier": "Dune Tyrant"
+  },
+  "Sandsovereign helm": {
+   "value": 360000,
+   "unique": true,
+   "type": "head",
+   "set": "Sandsovereign",
+   "def": 227,
+   "rdef": 212,
+   "str": 0,
+   "rarity": "epic",
+   "tint": 13148256,
+   "highTier": true,
+   "special": "Sandsovereign set piece. Dropped by Dune Tyrant",
+   "req": {
+    "Defence": 720
+   },
+   "frontier": "Dune Tyrant"
+  },
+  "Sandsovereign cuirass": {
+   "value": 360000,
+   "unique": true,
+   "type": "body",
+   "set": "Sandsovereign",
+   "def": 540,
+   "rdef": 504,
+   "str": 43,
+   "rarity": "epic",
+   "tint": 13148256,
+   "highTier": true,
+   "special": "Sandsovereign set piece. Dropped by Dune Tyrant",
+   "req": {
+    "Defence": 720
+   },
+   "frontier": "Dune Tyrant"
+  },
+  "Sandsovereign greaves": {
+   "value": 360000,
+   "unique": true,
+   "type": "legs",
+   "set": "Sandsovereign",
+   "def": 421,
+   "rdef": 393,
+   "str": 0,
+   "rarity": "epic",
+   "tint": 13148256,
+   "highTier": true,
+   "special": "Sandsovereign set piece. Dropped by Dune Tyrant",
+   "req": {
+    "Defence": 720
+   },
+   "frontier": "Dune Tyrant"
+  },
+  "Sandsovereign aegis": {
+   "value": 360000,
+   "unique": true,
+   "type": "shield",
+   "set": "Sandsovereign",
+   "def": 432,
+   "rdef": 403,
+   "str": 0,
+   "rarity": "epic",
+   "tint": 13148256,
+   "highTier": true,
+   "special": "Sandsovereign set piece. Dropped by Dune Tyrant",
+   "req": {
+    "Defence": 720
+   },
+   "frontier": "Dune Tyrant"
+  },
+  "Magmaheart glaive": {
+   "value": 792000,
+   "unique": true,
+   "type": "weapon",
+   "wclass": "glaive",
+   "atk": 856,
+   "str": 807,
+   "speed": 6,
+   "rarity": "epic",
+   "eff": {
+    "dmgPct": 0.08,
+    "bigHit": 0.2
+   },
+   "tint": 13651994,
+   "highTier": true,
+   "icon": "🔱",
+   "special": "+8% damage; 20% chance of a +50% hit. Dropped by Molten Archon",
+   "req": {
+    "Attack": 880,
+    "Swordsmanship": 440
+   },
+   "frontier": "Molten Archon"
+  },
+  "Archon's Caldera helm": {
+   "value": 440000,
+   "unique": true,
+   "type": "head",
+   "set": "Archon's Caldera",
+   "def": 277,
+   "rdef": 259,
+   "str": 0,
+   "rarity": "epic",
+   "tint": 13651994,
+   "highTier": true,
+   "special": "Archon's Caldera set piece. Dropped by Molten Archon",
+   "req": {
+    "Defence": 880
+   },
+   "frontier": "Molten Archon"
+  },
+  "Archon's Caldera cuirass": {
+   "value": 440000,
+   "unique": true,
+   "type": "body",
+   "set": "Archon's Caldera",
+   "def": 660,
+   "rdef": 616,
+   "str": 53,
+   "rarity": "epic",
+   "tint": 13651994,
+   "highTier": true,
+   "special": "Archon's Caldera set piece. Dropped by Molten Archon",
+   "req": {
+    "Defence": 880
+   },
+   "frontier": "Molten Archon"
+  },
+  "Archon's Caldera greaves": {
+   "value": 440000,
+   "unique": true,
+   "type": "legs",
+   "set": "Archon's Caldera",
+   "def": 515,
+   "rdef": 480,
+   "str": 0,
+   "rarity": "epic",
+   "tint": 13651994,
+   "highTier": true,
+   "special": "Archon's Caldera set piece. Dropped by Molten Archon",
+   "req": {
+    "Defence": 880
+   },
+   "frontier": "Molten Archon"
+  },
+  "Archon's Caldera aegis": {
+   "value": 440000,
+   "unique": true,
+   "type": "shield",
+   "set": "Archon's Caldera",
+   "def": 528,
+   "rdef": 493,
+   "str": 0,
+   "rarity": "epic",
+   "tint": 13651994,
+   "highTier": true,
+   "special": "Archon's Caldera set piece. Dropped by Molten Archon",
+   "req": {
+    "Defence": 880
+   },
+   "frontier": "Molten Archon"
+  },
+  "Nulledge katana": {
+   "value": 855000,
+   "unique": true,
+   "type": "weapon",
+   "wclass": "katana",
+   "atk": 923,
+   "str": 870,
+   "speed": 4,
+   "rarity": "legendary",
+   "eff": {
+    "doubleHit": 0.2,
+    "lifesteal": 0.06
+   },
+   "tint": 3811930,
+   "highTier": true,
+   "icon": "🗡️",
+   "special": "20% chance to strike twice; heals 6% of damage dealt. Dropped by Voidborn Knight",
+   "req": {
+    "Attack": 950,
+    "Swordsmanship": 475
+   },
+   "frontier": "Voidborn Knight"
+  },
+  "Voidwrought helm": {
+   "value": 475000,
+   "unique": true,
+   "type": "head",
+   "set": "Voidwrought",
+   "def": 299,
+   "rdef": 279,
+   "str": 0,
+   "rarity": "legendary",
+   "tint": 3811930,
+   "highTier": true,
+   "special": "Voidwrought set piece. Dropped by Voidborn Knight",
+   "req": {
+    "Defence": 950
+   },
+   "frontier": "Voidborn Knight"
+  },
+  "Voidwrought cuirass": {
+   "value": 475000,
+   "unique": true,
+   "type": "body",
+   "set": "Voidwrought",
+   "def": 713,
+   "rdef": 665,
+   "str": 57,
+   "rarity": "legendary",
+   "tint": 3811930,
+   "highTier": true,
+   "special": "Voidwrought set piece. Dropped by Voidborn Knight",
+   "req": {
+    "Defence": 950
+   },
+   "frontier": "Voidborn Knight"
+  },
+  "Voidwrought greaves": {
+   "value": 475000,
+   "unique": true,
+   "type": "legs",
+   "set": "Voidwrought",
+   "def": 556,
+   "rdef": 519,
+   "str": 0,
+   "rarity": "legendary",
+   "tint": 3811930,
+   "highTier": true,
+   "special": "Voidwrought set piece. Dropped by Voidborn Knight",
+   "req": {
+    "Defence": 950
+   },
+   "frontier": "Voidborn Knight"
+  },
+  "Voidwrought aegis": {
+   "value": 475000,
+   "unique": true,
+   "type": "shield",
+   "set": "Voidwrought",
+   "def": 570,
+   "rdef": 532,
+   "str": 0,
+   "rarity": "legendary",
+   "tint": 3811930,
+   "highTier": true,
+   "special": "Voidwrought set piece. Dropped by Voidborn Knight",
+   "req": {
+    "Defence": 950
+   },
+   "frontier": "Voidborn Knight"
+  },
+  "Vexmar, the Last Eclipse": {
+   "value": 900000,
+   "unique": true,
+   "type": "weapon",
+   "wclass": "katana",
+   "atk": 1120,
+   "str": 1065,
+   "speed": 4,
+   "rarity": "legendary",
+   "eff": {
+    "bigHit": 0.25,
+    "doubleHit": 0.25,
+    "lifesteal": 0.1,
+    "dmgPct": 0.1
+   },
+   "tint": 6961824,
+   "highTier": true,
+   "icon": "🗡️",
+   "special": "The Sunderlord's own blade: 25% chance to strike twice, 25% chance of a +50% hit, heals 10% of damage dealt, +10% damage. Dropped by Sunderlord Vexmar",
+   "req": {
+    "Attack": 1000,
+    "Swordsmanship": 500
+   },
+   "frontier": "Sunderlord Vexmar"
+  },
+  "Eclipse Sovereign helm": {
+   "value": 500000,
+   "unique": true,
+   "type": "head",
+   "set": "Eclipse Sovereign",
+   "def": 315,
+   "rdef": 294,
+   "str": 0,
+   "rarity": "legendary",
+   "tint": 6961824,
+   "highTier": true,
+   "special": "Eclipse Sovereign set piece. Dropped by Sunderlord Vexmar",
+   "req": {
+    "Defence": 1000
+   },
+   "frontier": "Sunderlord Vexmar"
+  },
+  "Eclipse Sovereign cuirass": {
+   "value": 500000,
+   "unique": true,
+   "type": "body",
+   "set": "Eclipse Sovereign",
+   "def": 750,
+   "rdef": 700,
+   "str": 60,
+   "rarity": "legendary",
+   "tint": 6961824,
+   "highTier": true,
+   "special": "Eclipse Sovereign set piece. Dropped by Sunderlord Vexmar",
+   "req": {
+    "Defence": 1000
+   },
+   "frontier": "Sunderlord Vexmar"
+  },
+  "Eclipse Sovereign greaves": {
+   "value": 500000,
+   "unique": true,
+   "type": "legs",
+   "set": "Eclipse Sovereign",
+   "def": 585,
+   "rdef": 546,
+   "str": 0,
+   "rarity": "legendary",
+   "tint": 6961824,
+   "highTier": true,
+   "special": "Eclipse Sovereign set piece. Dropped by Sunderlord Vexmar",
+   "req": {
+    "Defence": 1000
+   },
+   "frontier": "Sunderlord Vexmar"
+  },
+  "Eclipse Sovereign aegis": {
+   "value": 500000,
+   "unique": true,
+   "type": "shield",
+   "set": "Eclipse Sovereign",
+   "def": 600,
+   "rdef": 560,
+   "str": 0,
+   "rarity": "legendary",
+   "tint": 6961824,
+   "highTier": true,
+   "special": "Eclipse Sovereign set piece. Dropped by Sunderlord Vexmar",
+   "req": {
+    "Defence": 1000
+   },
+   "frontier": "Sunderlord Vexmar"
+  },
   "Highcrag warhammer": {
    "value": 20000,
    "unique": true,
@@ -2553,121 +3972,6 @@
    "tool": "spade",
    "tier": 0
   },
-  "Uncut sapphire": {
-   "value": 25,
-   "type": "resource"
-  },
-  "Uncut emerald": {
-   "value": 50,
-   "type": "resource"
-  },
-  "Uncut ruby": {
-   "value": 100,
-   "type": "resource"
-  },
-  "Uncut diamond": {
-   "value": 200,
-   "type": "resource"
-  },
-  "Bronze mattock": {
-   "value": 14,
-   "type": "tool",
-   "tool": "mattock",
-   "tier": 0,
-   "metal": "Bronze",
-   "toolTier": 0,
-   "req": {
-    "Relicry": 1
-   }
-  },
-  "Iron mattock": {
-   "value": 42,
-   "type": "tool",
-   "tool": "mattock",
-   "tier": 1,
-   "metal": "Iron",
-   "toolTier": 1,
-   "req": {
-    "Relicry": 1
-   }
-  },
-  "Steel mattock": {
-   "value": 112,
-   "type": "tool",
-   "tool": "mattock",
-   "tier": 2,
-   "metal": "Steel",
-   "toolTier": 2,
-   "req": {
-    "Relicry": 6
-   }
-  },
-  "Bluesteel mattock": {
-   "value": 280,
-   "type": "tool",
-   "tool": "mattock",
-   "tier": 3,
-   "metal": "Bluesteel",
-   "toolTier": 3,
-   "req": {
-    "Relicry": 21
-   }
-  },
-  "Verdite mattock": {
-   "value": 700,
-   "type": "tool",
-   "tool": "mattock",
-   "tier": 4,
-   "metal": "Verdite",
-   "toolTier": 4,
-   "req": {
-    "Relicry": 31
-   }
-  },
-  "Cobalt mattock": {
-   "value": 1820,
-   "type": "tool",
-   "tool": "mattock",
-   "tier": 5,
-   "metal": "Cobalt",
-   "toolTier": 5,
-   "req": {
-    "Relicry": 41
-   }
-  },
-  "Emberite mattock": {
-   "value": 4900,
-   "type": "tool",
-   "tool": "mattock",
-   "tier": 6,
-   "metal": "Emberite",
-   "toolTier": 6,
-   "req": {
-    "Relicry": 61
-   }
-  },
-  "Relicry cape": {
-   "value": 9900,
-   "type": "cape",
-   "def": 4,
-   "rdef": 4,
-   "prayer": 2,
-   "capeSkill": "Relicry",
-   "req": {
-    "Relicry": 99
-   }
-  },
-  "Delving cape": {
-   "value": 9900,
-   "type": "cape",
-   "def": 4,
-   "rdef": 4,
-   "prayer": 2,
-   "capeSkill": "Delving",
-   "req": {
-    "Delving": 99
-   }
-  },
   "Relic shard": {
    "value": 25,
    "type": "resource"
@@ -2675,6 +3979,121 @@
   "Ancient fragment": {
    "value": 400,
    "type": "resource"
+  },
+  "Bloom petal": {
+   "value": 1,
+   "stack": true,
+   "examine": "Bloomtide token. Spend it with Festival Herald Odelyn in Larkhaven."
+  },
+  "Bloomcrown": {
+   "type": "head",
+   "def": 4,
+   "rdef": 4,
+   "mag": 2,
+   "value": 6000,
+   "cosmetic": "bloomtide",
+   "examine": "Worn at Bloomtide. Bought with bloom petals."
+  },
+  "Honeyed bun": {
+   "type": "food",
+   "heal": 22,
+   "value": 40,
+   "examine": "Bloomtide treat."
+  },
+  "Fair ticket": {
+   "value": 1,
+   "stack": true,
+   "examine": "Midsummer Fair token. Spend it with Festival Herald Odelyn in Larkhaven."
+  },
+  "Fairgoer's straw hat": {
+   "type": "head",
+   "def": 3,
+   "rdef": 3,
+   "ranged": 2,
+   "value": 6000,
+   "cosmetic": "midsummer",
+   "examine": "Worn at Midsummer Fair. Bought with fair tickets."
+  },
+  "Candied apple": {
+   "type": "food",
+   "heal": 22,
+   "value": 40,
+   "examine": "Midsummer Fair treat."
+  },
+  "Harvest sheaf": {
+   "value": 1,
+   "stack": true,
+   "examine": "Harvest Moon token. Spend it with Festival Herald Odelyn in Larkhaven."
+  },
+  "Sheaf-crown": {
+   "type": "head",
+   "def": 4,
+   "rdef": 4,
+   "str": 2,
+   "value": 6000,
+   "cosmetic": "harvest",
+   "examine": "Worn at Harvest Moon. Bought with harvest sheafs."
+  },
+  "Harvest pie": {
+   "type": "food",
+   "heal": 26,
+   "value": 50,
+   "examine": "Harvest Moon treat."
+  },
+  "Frost star": {
+   "value": 1,
+   "stack": true,
+   "examine": "Frostfall token. Spend it with Festival Herald Odelyn in Larkhaven."
+  },
+  "Frostfall toque": {
+   "type": "head",
+   "def": 4,
+   "rdef": 5,
+   "atk": 2,
+   "value": 6000,
+   "cosmetic": "frostfall",
+   "examine": "Worn at Frostfall. Bought with frost stars."
+  },
+  "Spiced cider": {
+   "type": "food",
+   "heal": 24,
+   "value": 40,
+   "examine": "Frostfall treat."
+  },
+  "Ghost lantern": {
+   "value": 1,
+   "stack": true,
+   "examine": "Lantern Night token. Spend it with Festival Herald Odelyn in Larkhaven."
+  },
+  "Hollow-eyed mask": {
+   "type": "head",
+   "def": 5,
+   "rdef": 5,
+   "mag": 3,
+   "value": 9000,
+   "cosmetic": "lantern",
+   "examine": "Worn at Lantern Night. Bought with ghost lanterns."
+  },
+  "Grave-cake": {
+   "type": "food",
+   "heal": 30,
+   "value": 60,
+   "examine": "Lantern Night treat."
+  },
+  "Founder's seal": {
+   "value": 1,
+   "stack": true,
+   "examine": "Founders' Week token. Spend it with Festival Herald Odelyn in Larkhaven."
+  },
+  "Founder's circlet": {
+   "type": "head",
+   "def": 5,
+   "rdef": 5,
+   "atk": 2,
+   "str": 2,
+   "value": 12000,
+   "cosmetic": "founders",
+   "examine": "Worn at Founders' Week. Bought with founder's seals."
   },
   "Sunforged khopesh": {
    "value": 260000,
@@ -3583,120 +5002,21 @@
    "value": 1500,
    "examine": "Opens any one gate inside a relic dungeon."
   },
-  "Bloom petal": {
-   "value": 1,
-   "stack": true,
-   "examine": "Bloomtide token. Spend it with Festival Herald Odelyn in Larkhaven."
+  "Uncut sapphire": {
+   "value": 25,
+   "type": "resource"
   },
-  "Bloomcrown": {
-   "type": "head",
-   "def": 4,
-   "rdef": 4,
-   "mag": 2,
-   "value": 6000,
-   "cosmetic": "bloomtide",
-   "examine": "Worn at Bloomtide. Bought with bloom petals."
-  },
-  "Honeyed bun": {
-   "type": "food",
-   "heal": 22,
-   "value": 40,
-   "examine": "Bloomtide treat."
-  },
-  "Fair ticket": {
-   "value": 1,
-   "stack": true,
-   "examine": "Midsummer Fair token. Spend it with Festival Herald Odelyn in Larkhaven."
-  },
-  "Fairgoer's straw hat": {
-   "type": "head",
-   "def": 3,
-   "rdef": 3,
-   "ranged": 2,
-   "value": 6000,
-   "cosmetic": "midsummer",
-   "examine": "Worn at Midsummer Fair. Bought with fair tickets."
-  },
-  "Candied apple": {
-   "type": "food",
-   "heal": 22,
-   "value": 40,
-   "examine": "Midsummer Fair treat."
-  },
-  "Harvest sheaf": {
-   "value": 1,
-   "stack": true,
-   "examine": "Harvest Moon token. Spend it with Festival Herald Odelyn in Larkhaven."
-  },
-  "Sheaf-crown": {
-   "type": "head",
-   "def": 4,
-   "rdef": 4,
-   "str": 2,
-   "value": 6000,
-   "cosmetic": "harvest",
-   "examine": "Worn at Harvest Moon. Bought with harvest sheafs."
-  },
-  "Harvest pie": {
-   "type": "food",
-   "heal": 26,
+  "Uncut emerald": {
    "value": 50,
-   "examine": "Harvest Moon treat."
+   "type": "resource"
   },
-  "Frost star": {
-   "value": 1,
-   "stack": true,
-   "examine": "Frostfall token. Spend it with Festival Herald Odelyn in Larkhaven."
+  "Uncut ruby": {
+   "value": 100,
+   "type": "resource"
   },
-  "Frostfall toque": {
-   "type": "head",
-   "def": 4,
-   "rdef": 5,
-   "atk": 2,
-   "value": 6000,
-   "cosmetic": "frostfall",
-   "examine": "Worn at Frostfall. Bought with frost stars."
-  },
-  "Spiced cider": {
-   "type": "food",
-   "heal": 24,
-   "value": 40,
-   "examine": "Frostfall treat."
-  },
-  "Ghost lantern": {
-   "value": 1,
-   "stack": true,
-   "examine": "Lantern Night token. Spend it with Festival Herald Odelyn in Larkhaven."
-  },
-  "Hollow-eyed mask": {
-   "type": "head",
-   "def": 5,
-   "rdef": 5,
-   "mag": 3,
-   "value": 9000,
-   "cosmetic": "lantern",
-   "examine": "Worn at Lantern Night. Bought with ghost lanterns."
-  },
-  "Grave-cake": {
-   "type": "food",
-   "heal": 30,
-   "value": 60,
-   "examine": "Lantern Night treat."
-  },
-  "Founder's seal": {
-   "value": 1,
-   "stack": true,
-   "examine": "Founders' Week token. Spend it with Festival Herald Odelyn in Larkhaven."
-  },
-  "Founder's circlet": {
-   "type": "head",
-   "def": 5,
-   "rdef": 5,
-   "atk": 2,
-   "str": 2,
-   "value": 12000,
-   "cosmetic": "founders",
-   "examine": "Worn at Founders' Week. Bought with founder's seals."
+  "Uncut diamond": {
+   "value": 200,
+   "type": "resource"
   },
   "Guild crest": {
    "value": 250,
@@ -3819,6 +5139,115 @@
     "dr": 0.12,
     "dmgPct": 0.1
    }
+  },
+  "Ashwarden": {
+   "pieces": [
+    "head",
+    "body",
+    "legs",
+    "shield"
+   ],
+   "fx": {
+    "dr": 0.06,
+    "dmgPct": 0.06
+   }
+  },
+  "Thornroot": {
+   "pieces": [
+    "head",
+    "body",
+    "legs",
+    "shield"
+   ],
+   "fx": {
+    "dr": 0.08,
+    "acc": 0.06
+   }
+  },
+  "Rimeplate": {
+   "pieces": [
+    "head",
+    "body",
+    "legs",
+    "shield"
+   ],
+   "fx": {
+    "dr": 0.1,
+    "dmgPct": 0.08
+   }
+  },
+  "Stormforged": {
+   "pieces": [
+    "head",
+    "body",
+    "legs",
+    "shield"
+   ],
+   "fx": {
+    "dr": 0.11,
+    "acc": 0.1
+   }
+  },
+  "Gravemire": {
+   "pieces": [
+    "head",
+    "body",
+    "legs",
+    "shield"
+   ],
+   "fx": {
+    "dr": 0.12,
+    "dmgPct": 0.1
+   }
+  },
+  "Sandsovereign": {
+   "pieces": [
+    "head",
+    "body",
+    "legs",
+    "shield"
+   ],
+   "fx": {
+    "dr": 0.13,
+    "acc": 0.12
+   }
+  },
+  "Archon's Caldera": {
+   "pieces": [
+    "head",
+    "body",
+    "legs",
+    "shield"
+   ],
+   "fx": {
+    "dr": 0.14,
+    "dmgPct": 0.12
+   }
+  },
+  "Voidwrought": {
+   "pieces": [
+    "head",
+    "body",
+    "legs",
+    "shield"
+   ],
+   "fx": {
+    "dr": 0.15,
+    "acc": 0.14
+   }
+  },
+  "Eclipse Sovereign": {
+   "pieces": [
+    "head",
+    "body",
+    "legs",
+    "shield"
+   ],
+   "fx": {
+    "dr": 0.2,
+    "dmgPct": 0.2,
+    "acc": 0.15
+   }
   }
  },
  "starterTools": [
@@ -3834,64 +5263,64 @@
   {
    "id": "axe",
    "name": "Axe",
-   "icon": "\ud83e\ude93",
+   "icon": "🪓",
    "skill": "Woodcutting"
   },
   {
    "id": "pickaxe",
    "name": "Pickaxe",
-   "icon": "\u26cf\ufe0f",
+   "icon": "⛏️",
    "skill": "Mining"
   },
   {
    "id": "net",
    "name": "Fishing net",
-   "icon": "\ud83e\udd45"
+   "icon": "🥅"
   },
   {
    "id": "rod",
    "name": "Fishing rod",
-   "icon": "\ud83c\udfa3"
+   "icon": "🎣"
   },
   {
    "id": "cage",
    "name": "Lobster pot",
-   "icon": "\ud83e\uddfa"
+   "icon": "🧺"
   },
   {
    "id": "harpoon",
    "name": "Harpoon",
-   "icon": "\ud83d\udd31"
+   "icon": "🔱"
   },
   {
    "id": "hammer",
    "name": "Hammer",
-   "icon": "\ud83d\udd28"
+   "icon": "🔨"
   },
   {
    "id": "knife",
    "name": "Knife",
-   "icon": "\ud83d\udd2a"
+   "icon": "🔪"
   },
   {
    "id": "needle",
    "name": "Needle",
-   "icon": "\ud83e\udea1"
+   "icon": "🪡"
   },
   {
    "id": "tinderbox",
    "name": "Tinderbox",
-   "icon": "\ud83d\udd25"
+   "icon": "🔥"
   },
   {
    "id": "spade",
    "name": "Spade",
-   "icon": "\ud83e\ude8f"
+   "icon": "🪏"
   },
   {
    "id": "mattock",
    "name": "Mattock",
-   "icon": "\u26cf\ufe0f",
+   "icon": "⛏️",
    "skill": "Relicry"
   }
  ],

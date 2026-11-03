@@ -19,7 +19,8 @@
   "Herbalism",
   "Glyphcraft",
   "Relicry",
-  "Delving"
+  "Delving",
+  "Swordsmanship"
  ],
  "perks": {
   "Attack": [
@@ -203,6 +204,359 @@
     },
     "milestone": true,
     "desc": "+20% melee accuracy, 25% chance to counter-attack when a monster misses"
+   },
+   {
+    "level": 100,
+    "name": "Blademaster",
+    "fx": {
+     "acc": 0.05,
+     "counter": 0.05,
+     "abilityCd": 0.025
+    },
+    "milestone": true,
+    "desc": "+5% melee accuracy, 5% chance to counter-attack when a monster misses, combat skills recharge 2.5% faster"
+   },
+   {
+    "level": 125,
+    "name": "Attack Prowess I",
+    "fx": {
+     "acc": 0.01
+    },
+    "milestone": false,
+    "desc": "+1% melee accuracy"
+   },
+   {
+    "level": 150,
+    "name": "Attack Prowess II",
+    "fx": {
+     "acc": 0.01
+    },
+    "milestone": false,
+    "desc": "+1% melee accuracy"
+   },
+   {
+    "level": 175,
+    "name": "Attack Prowess III",
+    "fx": {
+     "acc": 0.01
+    },
+    "milestone": false,
+    "desc": "+1% melee accuracy"
+   },
+   {
+    "level": 200,
+    "name": "Edge of Dawn",
+    "fx": {
+     "acc": 0.0555,
+     "counter": 0.0555,
+     "abilityCd": 0.028
+    },
+    "milestone": true,
+    "desc": "+5.5% melee accuracy, 5.5% chance to counter-attack when a monster misses, combat skills recharge 2.8% faster"
+   },
+   {
+    "level": 225,
+    "name": "Attack Prowess IV",
+    "fx": {
+     "acc": 0.01
+    },
+    "milestone": false,
+    "desc": "+1% melee accuracy"
+   },
+   {
+    "level": 250,
+    "name": "Attack Prowess V",
+    "fx": {
+     "acc": 0.01
+    },
+    "milestone": false,
+    "desc": "+1% melee accuracy"
+   },
+   {
+    "level": 275,
+    "name": "Attack Prowess VI",
+    "fx": {
+     "acc": 0.01
+    },
+    "milestone": false,
+    "desc": "+1% melee accuracy"
+   },
+   {
+    "level": 300,
+    "name": "Tempest Hand",
+    "fx": {
+     "acc": 0.061,
+     "counter": 0.061,
+     "abilityCd": 0.0305
+    },
+    "milestone": true,
+    "desc": "+6.1% melee accuracy, 6.1% chance to counter-attack when a monster misses, combat skills recharge 3% faster"
+   },
+   {
+    "level": 325,
+    "name": "Attack Prowess VII",
+    "fx": {
+     "acc": 0.01
+    },
+    "milestone": false,
+    "desc": "+1% melee accuracy"
+   },
+   {
+    "level": 350,
+    "name": "Attack Prowess VIII",
+    "fx": {
+     "acc": 0.01
+    },
+    "milestone": false,
+    "desc": "+1% melee accuracy"
+   },
+   {
+    "level": 375,
+    "name": "Attack Prowess IX",
+    "fx": {
+     "acc": 0.01
+    },
+    "milestone": false,
+    "desc": "+1% melee accuracy"
+   },
+   {
+    "level": 400,
+    "name": "Unerring",
+    "fx": {
+     "acc": 0.0665,
+     "counter": 0.0665,
+     "abilityCd": 0.0335
+    },
+    "milestone": true,
+    "desc": "+6.7% melee accuracy, 6.7% chance to counter-attack when a monster misses, combat skills recharge 3.4% faster"
+   },
+   {
+    "level": 425,
+    "name": "Attack Prowess X",
+    "fx": {
+     "acc": 0.01
+    },
+    "milestone": false,
+    "desc": "+1% melee accuracy"
+   },
+   {
+    "level": 450,
+    "name": "Attack Prowess XI",
+    "fx": {
+     "acc": 0.01
+    },
+    "milestone": false,
+    "desc": "+1% melee accuracy"
+   },
+   {
+    "level": 475,
+    "name": "Attack Prowess XII",
+    "fx": {
+     "acc": 0.01
+    },
+    "milestone": false,
+    "desc": "+1% melee accuracy"
+   },
+   {
+    "level": 500,
+    "name": "Thousand Cuts",
+    "fx": {
+     "acc": 0.072,
+     "counter": 0.072,
+     "abilityCd": 0.036
+    },
+    "milestone": true,
+    "desc": "+7.2% melee accuracy, 7.2% chance to counter-attack when a monster misses, combat skills recharge 3.6% faster"
+   },
+   {
+    "level": 525,
+    "name": "Attack Prowess XIII",
+    "fx": {
+     "acc": 0.01
+    },
+    "milestone": false,
+    "desc": "+1% melee accuracy"
+   },
+   {
+    "level": 550,
+    "name": "Attack Prowess XIV",
+    "fx": {
+     "acc": 0.01
+    },
+    "milestone": false,
+    "desc": "+1% melee accuracy"
+   },
+   {
+    "level": 575,
+    "name": "Attack Prowess XV",
+    "fx": {
+     "acc": 0.01
+    },
+    "milestone": false,
+    "desc": "+1% melee accuracy"
+   },
+   {
+    "level": 600,
+    "name": "Swordsaint",
+    "fx": {
+     "acc": 0.078,
+     "counter": 0.078,
+     "abilityCd": 0.039
+    },
+    "milestone": true,
+    "desc": "+7.8% melee accuracy, 7.8% chance to counter-attack when a monster misses, combat skills recharge 3.9% faster"
+   },
+   {
+    "level": 625,
+    "name": "Attack Prowess XVI",
+    "fx": {
+     "acc": 0.01
+    },
+    "milestone": false,
+    "desc": "+1% melee accuracy"
+   },
+   {
+    "level": 650,
+    "name": "Attack Prowess XVII",
+    "fx": {
+     "acc": 0.01
+    },
+    "milestone": false,
+    "desc": "+1% melee accuracy"
+   },
+   {
+    "level": 675,
+    "name": "Attack Prowess XVIII",
+    "fx": {
+     "acc": 0.01
+    },
+    "milestone": false,
+    "desc": "+1% melee accuracy"
+   },
+   {
+    "level": 700,
+    "name": "Moonsplitter",
+    "fx": {
+     "acc": 0.0835,
+     "counter": 0.0835,
+     "abilityCd": 0.0415
+    },
+    "milestone": true,
+    "desc": "+8.3% melee accuracy, 8.3% chance to counter-attack when a monster misses, combat skills recharge 4.2% faster"
+   },
+   {
+    "level": 725,
+    "name": "Attack Prowess XIX",
+    "fx": {
+     "acc": 0.01
+    },
+    "milestone": false,
+    "desc": "+1% melee accuracy"
+   },
+   {
+    "level": 750,
+    "name": "Attack Prowess XX",
+    "fx": {
+     "acc": 0.01
+    },
+    "milestone": false,
+    "desc": "+1% melee accuracy"
+   },
+   {
+    "level": 775,
+    "name": "Attack Prowess XXI",
+    "fx": {
+     "acc": 0.01
+    },
+    "milestone": false,
+    "desc": "+1% melee accuracy"
+   },
+   {
+    "level": 800,
+    "name": "Worldedge",
+    "fx": {
+     "acc": 0.089,
+     "counter": 0.089,
+     "abilityCd": 0.0445
+    },
+    "milestone": true,
+    "desc": "+8.9% melee accuracy, 8.9% chance to counter-attack when a monster misses, combat skills recharge 4.5% faster"
+   },
+   {
+    "level": 825,
+    "name": "Attack Prowess XXII",
+    "fx": {
+     "acc": 0.01
+    },
+    "milestone": false,
+    "desc": "+1% melee accuracy"
+   },
+   {
+    "level": 850,
+    "name": "Attack Prowess XXIII",
+    "fx": {
+     "acc": 0.01
+    },
+    "milestone": false,
+    "desc": "+1% melee accuracy"
+   },
+   {
+    "level": 875,
+    "name": "Attack Prowess XXIV",
+    "fx": {
+     "acc": 0.01
+    },
+    "milestone": false,
+    "desc": "+1% melee accuracy"
+   },
+   {
+    "level": 900,
+    "name": "Eclipse Form",
+    "fx": {
+     "acc": 0.0945,
+     "counter": 0.0945,
+     "abilityCd": 0.047
+    },
+    "milestone": true,
+    "desc": "+9.4% melee accuracy, 9.4% chance to counter-attack when a monster misses, combat skills recharge 4.7% faster"
+   },
+   {
+    "level": 925,
+    "name": "Attack Prowess XXV",
+    "fx": {
+     "acc": 0.01
+    },
+    "milestone": false,
+    "desc": "+1% melee accuracy"
+   },
+   {
+    "level": 950,
+    "name": "Attack Prowess XXVI",
+    "fx": {
+     "acc": 0.01
+    },
+    "milestone": false,
+    "desc": "+1% melee accuracy"
+   },
+   {
+    "level": 975,
+    "name": "Attack Prowess XXVII",
+    "fx": {
+     "acc": 0.01
+    },
+    "milestone": false,
+    "desc": "+1% melee accuracy"
+   },
+   {
+    "level": 1000,
+    "name": "Attack Ascendant",
+    "fx": {
+     "acc": 0.1,
+     "counter": 0.1,
+     "abilityCd": 0.05
+    },
+    "milestone": true,
+    "desc": "+10% melee accuracy, 10% chance to counter-attack when a monster misses, combat skills recharge 5% faster"
    }
   ],
   "Strength": [
@@ -386,6 +740,359 @@
     },
     "milestone": true,
     "desc": "+20 melee max hit, 10% critical hit chance"
+   },
+   {
+    "level": 100,
+    "name": "Titan Grip",
+    "fx": {
+     "maxHit": 30,
+     "crit": 0.02,
+     "critMult": 0.2
+    },
+    "milestone": true,
+    "desc": "+30 melee max hit, 2% critical hit chance, critical hits deal +20% more"
+   },
+   {
+    "level": 125,
+    "name": "Strength Prowess I",
+    "fx": {
+     "maxHit": 10
+    },
+    "milestone": false,
+    "desc": "+10 melee max hit"
+   },
+   {
+    "level": 150,
+    "name": "Strength Prowess II",
+    "fx": {
+     "maxHit": 10
+    },
+    "milestone": false,
+    "desc": "+10 melee max hit"
+   },
+   {
+    "level": 175,
+    "name": "Strength Prowess III",
+    "fx": {
+     "maxHit": 10
+    },
+    "milestone": false,
+    "desc": "+10 melee max hit"
+   },
+   {
+    "level": 200,
+    "name": "Bonebreaker",
+    "fx": {
+     "maxHit": 33.3335,
+     "crit": 0.022,
+     "critMult": 0.222
+    },
+    "milestone": true,
+    "desc": "+33.3335 melee max hit, 2.2% critical hit chance, critical hits deal +22.2% more"
+   },
+   {
+    "level": 225,
+    "name": "Strength Prowess IV",
+    "fx": {
+     "maxHit": 10
+    },
+    "milestone": false,
+    "desc": "+10 melee max hit"
+   },
+   {
+    "level": 250,
+    "name": "Strength Prowess V",
+    "fx": {
+     "maxHit": 10
+    },
+    "milestone": false,
+    "desc": "+10 melee max hit"
+   },
+   {
+    "level": 275,
+    "name": "Strength Prowess VI",
+    "fx": {
+     "maxHit": 10
+    },
+    "milestone": false,
+    "desc": "+10 melee max hit"
+   },
+   {
+    "level": 300,
+    "name": "Earthshaker",
+    "fx": {
+     "maxHit": 36.6665,
+     "crit": 0.0245,
+     "critMult": 0.2445
+    },
+    "milestone": true,
+    "desc": "+36.6665 melee max hit, 2.5% critical hit chance, critical hits deal +24.4% more"
+   },
+   {
+    "level": 325,
+    "name": "Strength Prowess VII",
+    "fx": {
+     "maxHit": 10
+    },
+    "milestone": false,
+    "desc": "+10 melee max hit"
+   },
+   {
+    "level": 350,
+    "name": "Strength Prowess VIII",
+    "fx": {
+     "maxHit": 10
+    },
+    "milestone": false,
+    "desc": "+10 melee max hit"
+   },
+   {
+    "level": 375,
+    "name": "Strength Prowess IX",
+    "fx": {
+     "maxHit": 10
+    },
+    "milestone": false,
+    "desc": "+10 melee max hit"
+   },
+   {
+    "level": 400,
+    "name": "Ruinous",
+    "fx": {
+     "maxHit": 40,
+     "crit": 0.0265,
+     "critMult": 0.2665
+    },
+    "milestone": true,
+    "desc": "+40 melee max hit, 2.6% critical hit chance, critical hits deal +26.7% more"
+   },
+   {
+    "level": 425,
+    "name": "Strength Prowess X",
+    "fx": {
+     "maxHit": 10
+    },
+    "milestone": false,
+    "desc": "+10 melee max hit"
+   },
+   {
+    "level": 450,
+    "name": "Strength Prowess XI",
+    "fx": {
+     "maxHit": 10
+    },
+    "milestone": false,
+    "desc": "+10 melee max hit"
+   },
+   {
+    "level": 475,
+    "name": "Strength Prowess XII",
+    "fx": {
+     "maxHit": 10
+    },
+    "milestone": false,
+    "desc": "+10 melee max hit"
+   },
+   {
+    "level": 500,
+    "name": "Colossal Might",
+    "fx": {
+     "maxHit": 43.3335,
+     "crit": 0.029,
+     "critMult": 0.289
+    },
+    "milestone": true,
+    "desc": "+43.3335 melee max hit, 2.9% critical hit chance, critical hits deal +28.9% more"
+   },
+   {
+    "level": 525,
+    "name": "Strength Prowess XIII",
+    "fx": {
+     "maxHit": 10
+    },
+    "milestone": false,
+    "desc": "+10 melee max hit"
+   },
+   {
+    "level": 550,
+    "name": "Strength Prowess XIV",
+    "fx": {
+     "maxHit": 10
+    },
+    "milestone": false,
+    "desc": "+10 melee max hit"
+   },
+   {
+    "level": 575,
+    "name": "Strength Prowess XV",
+    "fx": {
+     "maxHit": 10
+    },
+    "milestone": false,
+    "desc": "+10 melee max hit"
+   },
+   {
+    "level": 600,
+    "name": "Mountain Splitter",
+    "fx": {
+     "maxHit": 46.6665,
+     "crit": 0.031,
+     "critMult": 0.311
+    },
+    "milestone": true,
+    "desc": "+46.6665 melee max hit, 3.1% critical hit chance, critical hits deal +31.1% more"
+   },
+   {
+    "level": 625,
+    "name": "Strength Prowess XVI",
+    "fx": {
+     "maxHit": 10
+    },
+    "milestone": false,
+    "desc": "+10 melee max hit"
+   },
+   {
+    "level": 650,
+    "name": "Strength Prowess XVII",
+    "fx": {
+     "maxHit": 10
+    },
+    "milestone": false,
+    "desc": "+10 melee max hit"
+   },
+   {
+    "level": 675,
+    "name": "Strength Prowess XVIII",
+    "fx": {
+     "maxHit": 10
+    },
+    "milestone": false,
+    "desc": "+10 melee max hit"
+   },
+   {
+    "level": 700,
+    "name": "Godslayer",
+    "fx": {
+     "maxHit": 50,
+     "crit": 0.0335,
+     "critMult": 0.3335
+    },
+    "milestone": true,
+    "desc": "+50 melee max hit, 3.4% critical hit chance, critical hits deal +33.4% more"
+   },
+   {
+    "level": 725,
+    "name": "Strength Prowess XIX",
+    "fx": {
+     "maxHit": 10
+    },
+    "milestone": false,
+    "desc": "+10 melee max hit"
+   },
+   {
+    "level": 750,
+    "name": "Strength Prowess XX",
+    "fx": {
+     "maxHit": 10
+    },
+    "milestone": false,
+    "desc": "+10 melee max hit"
+   },
+   {
+    "level": 775,
+    "name": "Strength Prowess XXI",
+    "fx": {
+     "maxHit": 10
+    },
+    "milestone": false,
+    "desc": "+10 melee max hit"
+   },
+   {
+    "level": 800,
+    "name": "Cataclysm",
+    "fx": {
+     "maxHit": 53.3335,
+     "crit": 0.0355,
+     "critMult": 0.3555
+    },
+    "milestone": true,
+    "desc": "+53.3335 melee max hit, 3.5% critical hit chance, critical hits deal +35.5% more"
+   },
+   {
+    "level": 825,
+    "name": "Strength Prowess XXII",
+    "fx": {
+     "maxHit": 10
+    },
+    "milestone": false,
+    "desc": "+10 melee max hit"
+   },
+   {
+    "level": 850,
+    "name": "Strength Prowess XXIII",
+    "fx": {
+     "maxHit": 10
+    },
+    "milestone": false,
+    "desc": "+10 melee max hit"
+   },
+   {
+    "level": 875,
+    "name": "Strength Prowess XXIV",
+    "fx": {
+     "maxHit": 10
+    },
+    "milestone": false,
+    "desc": "+10 melee max hit"
+   },
+   {
+    "level": 900,
+    "name": "Starfall",
+    "fx": {
+     "maxHit": 56.6665,
+     "crit": 0.038,
+     "critMult": 0.378
+    },
+    "milestone": true,
+    "desc": "+56.6665 melee max hit, 3.8% critical hit chance, critical hits deal +37.8% more"
+   },
+   {
+    "level": 925,
+    "name": "Strength Prowess XXV",
+    "fx": {
+     "maxHit": 10
+    },
+    "milestone": false,
+    "desc": "+10 melee max hit"
+   },
+   {
+    "level": 950,
+    "name": "Strength Prowess XXVI",
+    "fx": {
+     "maxHit": 10
+    },
+    "milestone": false,
+    "desc": "+10 melee max hit"
+   },
+   {
+    "level": 975,
+    "name": "Strength Prowess XXVII",
+    "fx": {
+     "maxHit": 10
+    },
+    "milestone": false,
+    "desc": "+10 melee max hit"
+   },
+   {
+    "level": 1000,
+    "name": "Strength Ascendant",
+    "fx": {
+     "maxHit": 60,
+     "crit": 0.04,
+     "critMult": 0.4
+    },
+    "milestone": true,
+    "desc": "+60 melee max hit, 4% critical hit chance, critical hits deal +40% more"
    }
   ],
   "Defence": [
@@ -569,6 +1276,359 @@
     },
     "milestone": true,
     "desc": "take 15% less damage, 15% chance to block a hit completely"
+   },
+   {
+    "level": 100,
+    "name": "Bastion",
+    "fx": {
+     "dr": 0.02,
+     "block": 0.02,
+     "reflect": 0.025
+    },
+    "milestone": true,
+    "desc": "take 2% less damage, 2% chance to block a hit completely, reflect 2.5% of damage taken"
+   },
+   {
+    "level": 125,
+    "name": "Defence Prowess I",
+    "fx": {
+     "dr": 0.005
+    },
+    "milestone": false,
+    "desc": "take 0.5% less damage"
+   },
+   {
+    "level": 150,
+    "name": "Defence Prowess II",
+    "fx": {
+     "dr": 0.005
+    },
+    "milestone": false,
+    "desc": "take 0.5% less damage"
+   },
+   {
+    "level": 175,
+    "name": "Defence Prowess III",
+    "fx": {
+     "dr": 0.005
+    },
+    "milestone": false,
+    "desc": "take 0.5% less damage"
+   },
+   {
+    "level": 200,
+    "name": "Unbroken",
+    "fx": {
+     "dr": 0.022,
+     "block": 0.022,
+     "reflect": 0.028
+    },
+    "milestone": true,
+    "desc": "take 2.2% less damage, 2.2% chance to block a hit completely, reflect 2.8% of damage taken"
+   },
+   {
+    "level": 225,
+    "name": "Defence Prowess IV",
+    "fx": {
+     "dr": 0.005
+    },
+    "milestone": false,
+    "desc": "take 0.5% less damage"
+   },
+   {
+    "level": 250,
+    "name": "Defence Prowess V",
+    "fx": {
+     "dr": 0.005
+    },
+    "milestone": false,
+    "desc": "take 0.5% less damage"
+   },
+   {
+    "level": 275,
+    "name": "Defence Prowess VI",
+    "fx": {
+     "dr": 0.005
+    },
+    "milestone": false,
+    "desc": "take 0.5% less damage"
+   },
+   {
+    "level": 300,
+    "name": "Aegis",
+    "fx": {
+     "dr": 0.0245,
+     "block": 0.0245,
+     "reflect": 0.0305
+    },
+    "milestone": true,
+    "desc": "take 2.5% less damage, 2.5% chance to block a hit completely, reflect 3% of damage taken"
+   },
+   {
+    "level": 325,
+    "name": "Defence Prowess VII",
+    "fx": {
+     "dr": 0.005
+    },
+    "milestone": false,
+    "desc": "take 0.5% less damage"
+   },
+   {
+    "level": 350,
+    "name": "Defence Prowess VIII",
+    "fx": {
+     "dr": 0.005
+    },
+    "milestone": false,
+    "desc": "take 0.5% less damage"
+   },
+   {
+    "level": 375,
+    "name": "Defence Prowess IX",
+    "fx": {
+     "dr": 0.005
+    },
+    "milestone": false,
+    "desc": "take 0.5% less damage"
+   },
+   {
+    "level": 400,
+    "name": "Ironheart",
+    "fx": {
+     "dr": 0.0265,
+     "block": 0.0265,
+     "reflect": 0.0335
+    },
+    "milestone": true,
+    "desc": "take 2.6% less damage, 2.6% chance to block a hit completely, reflect 3.4% of damage taken"
+   },
+   {
+    "level": 425,
+    "name": "Defence Prowess X",
+    "fx": {
+     "dr": 0.005
+    },
+    "milestone": false,
+    "desc": "take 0.5% less damage"
+   },
+   {
+    "level": 450,
+    "name": "Defence Prowess XI",
+    "fx": {
+     "dr": 0.005
+    },
+    "milestone": false,
+    "desc": "take 0.5% less damage"
+   },
+   {
+    "level": 475,
+    "name": "Defence Prowess XII",
+    "fx": {
+     "dr": 0.005
+    },
+    "milestone": false,
+    "desc": "take 0.5% less damage"
+   },
+   {
+    "level": 500,
+    "name": "Living Fortress",
+    "fx": {
+     "dr": 0.029,
+     "block": 0.029,
+     "reflect": 0.036
+    },
+    "milestone": true,
+    "desc": "take 2.9% less damage, 2.9% chance to block a hit completely, reflect 3.6% of damage taken"
+   },
+   {
+    "level": 525,
+    "name": "Defence Prowess XIII",
+    "fx": {
+     "dr": 0.005
+    },
+    "milestone": false,
+    "desc": "take 0.5% less damage"
+   },
+   {
+    "level": 550,
+    "name": "Defence Prowess XIV",
+    "fx": {
+     "dr": 0.005
+    },
+    "milestone": false,
+    "desc": "take 0.5% less damage"
+   },
+   {
+    "level": 575,
+    "name": "Defence Prowess XV",
+    "fx": {
+     "dr": 0.005
+    },
+    "milestone": false,
+    "desc": "take 0.5% less damage"
+   },
+   {
+    "level": 600,
+    "name": "Unmovable",
+    "fx": {
+     "dr": 0.031,
+     "block": 0.031,
+     "reflect": 0.039
+    },
+    "milestone": true,
+    "desc": "take 3.1% less damage, 3.1% chance to block a hit completely, reflect 3.9% of damage taken"
+   },
+   {
+    "level": 625,
+    "name": "Defence Prowess XVI",
+    "fx": {
+     "dr": 0.005
+    },
+    "milestone": false,
+    "desc": "take 0.5% less damage"
+   },
+   {
+    "level": 650,
+    "name": "Defence Prowess XVII",
+    "fx": {
+     "dr": 0.005
+    },
+    "milestone": false,
+    "desc": "take 0.5% less damage"
+   },
+   {
+    "level": 675,
+    "name": "Defence Prowess XVIII",
+    "fx": {
+     "dr": 0.005
+    },
+    "milestone": false,
+    "desc": "take 0.5% less damage"
+   },
+   {
+    "level": 700,
+    "name": "Adamant Soul",
+    "fx": {
+     "dr": 0.0335,
+     "block": 0.0335,
+     "reflect": 0.0415
+    },
+    "milestone": true,
+    "desc": "take 3.4% less damage, 3.4% chance to block a hit completely, reflect 4.2% of damage taken"
+   },
+   {
+    "level": 725,
+    "name": "Defence Prowess XIX",
+    "fx": {
+     "dr": 0.005
+    },
+    "milestone": false,
+    "desc": "take 0.5% less damage"
+   },
+   {
+    "level": 750,
+    "name": "Defence Prowess XX",
+    "fx": {
+     "dr": 0.005
+    },
+    "milestone": false,
+    "desc": "take 0.5% less damage"
+   },
+   {
+    "level": 775,
+    "name": "Defence Prowess XXI",
+    "fx": {
+     "dr": 0.005
+    },
+    "milestone": false,
+    "desc": "take 0.5% less damage"
+   },
+   {
+    "level": 800,
+    "name": "Warden Eternal",
+    "fx": {
+     "dr": 0.0355,
+     "block": 0.0355,
+     "reflect": 0.0445
+    },
+    "milestone": true,
+    "desc": "take 3.5% less damage, 3.5% chance to block a hit completely, reflect 4.5% of damage taken"
+   },
+   {
+    "level": 825,
+    "name": "Defence Prowess XXII",
+    "fx": {
+     "dr": 0.005
+    },
+    "milestone": false,
+    "desc": "take 0.5% less damage"
+   },
+   {
+    "level": 850,
+    "name": "Defence Prowess XXIII",
+    "fx": {
+     "dr": 0.005
+    },
+    "milestone": false,
+    "desc": "take 0.5% less damage"
+   },
+   {
+    "level": 875,
+    "name": "Defence Prowess XXIV",
+    "fx": {
+     "dr": 0.005
+    },
+    "milestone": false,
+    "desc": "take 0.5% less damage"
+   },
+   {
+    "level": 900,
+    "name": "Eclipse Shell",
+    "fx": {
+     "dr": 0.038,
+     "block": 0.038,
+     "reflect": 0.047
+    },
+    "milestone": true,
+    "desc": "take 3.8% less damage, 3.8% chance to block a hit completely, reflect 4.7% of damage taken"
+   },
+   {
+    "level": 925,
+    "name": "Defence Prowess XXV",
+    "fx": {
+     "dr": 0.005
+    },
+    "milestone": false,
+    "desc": "take 0.5% less damage"
+   },
+   {
+    "level": 950,
+    "name": "Defence Prowess XXVI",
+    "fx": {
+     "dr": 0.005
+    },
+    "milestone": false,
+    "desc": "take 0.5% less damage"
+   },
+   {
+    "level": 975,
+    "name": "Defence Prowess XXVII",
+    "fx": {
+     "dr": 0.005
+    },
+    "milestone": false,
+    "desc": "take 0.5% less damage"
+   },
+   {
+    "level": 1000,
+    "name": "Defence Ascendant",
+    "fx": {
+     "dr": 0.04,
+     "block": 0.04,
+     "reflect": 0.05
+    },
+    "milestone": true,
+    "desc": "take 4% less damage, 4% chance to block a hit completely, reflect 5% of damage taken"
    }
   ],
   "Hitpoints": [
@@ -752,6 +1812,359 @@
     },
     "milestone": true,
     "desc": "HP regenerates 100% faster, heal 10% of max HP on each kill"
+   },
+   {
+    "level": 100,
+    "name": "Deep Vigor",
+    "fx": {
+     "maxHp": 200,
+     "regen": 0.25,
+     "killHeal": 0.01
+    },
+    "milestone": true,
+    "desc": "+200 max hitpoints, HP regenerates 25% faster, heal 1% of max HP on each kill"
+   },
+   {
+    "level": 125,
+    "name": "Hitpoints Prowess I",
+    "fx": {
+     "maxHp": 50
+    },
+    "milestone": false,
+    "desc": "+50 max hitpoints"
+   },
+   {
+    "level": 150,
+    "name": "Hitpoints Prowess II",
+    "fx": {
+     "maxHp": 50
+    },
+    "milestone": false,
+    "desc": "+50 max hitpoints"
+   },
+   {
+    "level": 175,
+    "name": "Hitpoints Prowess III",
+    "fx": {
+     "maxHp": 50
+    },
+    "milestone": false,
+    "desc": "+50 max hitpoints"
+   },
+   {
+    "level": 200,
+    "name": "Troll Blood",
+    "fx": {
+     "maxHp": 222.222,
+     "regen": 0.278,
+     "killHeal": 0.011
+    },
+    "milestone": true,
+    "desc": "+222 max hitpoints, HP regenerates 27.8% faster, heal 1.1% of max HP on each kill"
+   },
+   {
+    "level": 225,
+    "name": "Hitpoints Prowess IV",
+    "fx": {
+     "maxHp": 50
+    },
+    "milestone": false,
+    "desc": "+50 max hitpoints"
+   },
+   {
+    "level": 250,
+    "name": "Hitpoints Prowess V",
+    "fx": {
+     "maxHp": 50
+    },
+    "milestone": false,
+    "desc": "+50 max hitpoints"
+   },
+   {
+    "level": 275,
+    "name": "Hitpoints Prowess VI",
+    "fx": {
+     "maxHp": 50
+    },
+    "milestone": false,
+    "desc": "+50 max hitpoints"
+   },
+   {
+    "level": 300,
+    "name": "Undying",
+    "fx": {
+     "maxHp": 244.4445,
+     "regen": 0.3055,
+     "killHeal": 0.012
+    },
+    "milestone": true,
+    "desc": "+244 max hitpoints, HP regenerates 30.6% faster, heal 1.2% of max HP on each kill"
+   },
+   {
+    "level": 325,
+    "name": "Hitpoints Prowess VII",
+    "fx": {
+     "maxHp": 50
+    },
+    "milestone": false,
+    "desc": "+50 max hitpoints"
+   },
+   {
+    "level": 350,
+    "name": "Hitpoints Prowess VIII",
+    "fx": {
+     "maxHp": 50
+    },
+    "milestone": false,
+    "desc": "+50 max hitpoints"
+   },
+   {
+    "level": 375,
+    "name": "Hitpoints Prowess IX",
+    "fx": {
+     "maxHp": 50
+    },
+    "milestone": false,
+    "desc": "+50 max hitpoints"
+   },
+   {
+    "level": 400,
+    "name": "Heartforge",
+    "fx": {
+     "maxHp": 266.6665,
+     "regen": 0.3335,
+     "killHeal": 0.0135
+    },
+    "milestone": true,
+    "desc": "+267 max hitpoints, HP regenerates 33.4% faster, heal 1.4% of max HP on each kill"
+   },
+   {
+    "level": 425,
+    "name": "Hitpoints Prowess X",
+    "fx": {
+     "maxHp": 50
+    },
+    "milestone": false,
+    "desc": "+50 max hitpoints"
+   },
+   {
+    "level": 450,
+    "name": "Hitpoints Prowess XI",
+    "fx": {
+     "maxHp": 50
+    },
+    "milestone": false,
+    "desc": "+50 max hitpoints"
+   },
+   {
+    "level": 475,
+    "name": "Hitpoints Prowess XII",
+    "fx": {
+     "maxHp": 50
+    },
+    "milestone": false,
+    "desc": "+50 max hitpoints"
+   },
+   {
+    "level": 500,
+    "name": "Phoenix Pulse",
+    "fx": {
+     "maxHp": 288.889,
+     "regen": 0.361,
+     "killHeal": 0.0145
+    },
+    "milestone": true,
+    "desc": "+289 max hitpoints, HP regenerates 36.1% faster, heal 1.5% of max HP on each kill"
+   },
+   {
+    "level": 525,
+    "name": "Hitpoints Prowess XIII",
+    "fx": {
+     "maxHp": 50
+    },
+    "milestone": false,
+    "desc": "+50 max hitpoints"
+   },
+   {
+    "level": 550,
+    "name": "Hitpoints Prowess XIV",
+    "fx": {
+     "maxHp": 50
+    },
+    "milestone": false,
+    "desc": "+50 max hitpoints"
+   },
+   {
+    "level": 575,
+    "name": "Hitpoints Prowess XV",
+    "fx": {
+     "maxHp": 50
+    },
+    "milestone": false,
+    "desc": "+50 max hitpoints"
+   },
+   {
+    "level": 600,
+    "name": "Evergreen",
+    "fx": {
+     "maxHp": 311.111,
+     "regen": 0.389,
+     "killHeal": 0.0155
+    },
+    "milestone": true,
+    "desc": "+311 max hitpoints, HP regenerates 38.9% faster, heal 1.6% of max HP on each kill"
+   },
+   {
+    "level": 625,
+    "name": "Hitpoints Prowess XVI",
+    "fx": {
+     "maxHp": 50
+    },
+    "milestone": false,
+    "desc": "+50 max hitpoints"
+   },
+   {
+    "level": 650,
+    "name": "Hitpoints Prowess XVII",
+    "fx": {
+     "maxHp": 50
+    },
+    "milestone": false,
+    "desc": "+50 max hitpoints"
+   },
+   {
+    "level": 675,
+    "name": "Hitpoints Prowess XVIII",
+    "fx": {
+     "maxHp": 50
+    },
+    "milestone": false,
+    "desc": "+50 max hitpoints"
+   },
+   {
+    "level": 700,
+    "name": "Lifewell",
+    "fx": {
+     "maxHp": 333.3335,
+     "regen": 0.4165,
+     "killHeal": 0.0165
+    },
+    "milestone": true,
+    "desc": "+333 max hitpoints, HP regenerates 41.6% faster, heal 1.7% of max HP on each kill"
+   },
+   {
+    "level": 725,
+    "name": "Hitpoints Prowess XIX",
+    "fx": {
+     "maxHp": 50
+    },
+    "milestone": false,
+    "desc": "+50 max hitpoints"
+   },
+   {
+    "level": 750,
+    "name": "Hitpoints Prowess XX",
+    "fx": {
+     "maxHp": 50
+    },
+    "milestone": false,
+    "desc": "+50 max hitpoints"
+   },
+   {
+    "level": 775,
+    "name": "Hitpoints Prowess XXI",
+    "fx": {
+     "maxHp": 50
+    },
+    "milestone": false,
+    "desc": "+50 max hitpoints"
+   },
+   {
+    "level": 800,
+    "name": "Immortal Coil",
+    "fx": {
+     "maxHp": 355.5555,
+     "regen": 0.4445,
+     "killHeal": 0.018
+    },
+    "milestone": true,
+    "desc": "+356 max hitpoints, HP regenerates 44.5% faster, heal 1.8% of max HP on each kill"
+   },
+   {
+    "level": 825,
+    "name": "Hitpoints Prowess XXII",
+    "fx": {
+     "maxHp": 50
+    },
+    "milestone": false,
+    "desc": "+50 max hitpoints"
+   },
+   {
+    "level": 850,
+    "name": "Hitpoints Prowess XXIII",
+    "fx": {
+     "maxHp": 50
+    },
+    "milestone": false,
+    "desc": "+50 max hitpoints"
+   },
+   {
+    "level": 875,
+    "name": "Hitpoints Prowess XXIV",
+    "fx": {
+     "maxHp": 50
+    },
+    "milestone": false,
+    "desc": "+50 max hitpoints"
+   },
+   {
+    "level": 900,
+    "name": "Sunblood",
+    "fx": {
+     "maxHp": 377.778,
+     "regen": 0.472,
+     "killHeal": 0.019
+    },
+    "milestone": true,
+    "desc": "+378 max hitpoints, HP regenerates 47.2% faster, heal 1.9% of max HP on each kill"
+   },
+   {
+    "level": 925,
+    "name": "Hitpoints Prowess XXV",
+    "fx": {
+     "maxHp": 50
+    },
+    "milestone": false,
+    "desc": "+50 max hitpoints"
+   },
+   {
+    "level": 950,
+    "name": "Hitpoints Prowess XXVI",
+    "fx": {
+     "maxHp": 50
+    },
+    "milestone": false,
+    "desc": "+50 max hitpoints"
+   },
+   {
+    "level": 975,
+    "name": "Hitpoints Prowess XXVII",
+    "fx": {
+     "maxHp": 50
+    },
+    "milestone": false,
+    "desc": "+50 max hitpoints"
+   },
+   {
+    "level": 1000,
+    "name": "Hitpoints Ascendant",
+    "fx": {
+     "maxHp": 400,
+     "regen": 0.5,
+     "killHeal": 0.02
+    },
+    "milestone": true,
+    "desc": "+400 max hitpoints, HP regenerates 50% faster, heal 2% of max HP on each kill"
    }
   ],
   "Ranged": [
@@ -935,6 +2348,386 @@
     },
     "milestone": true,
     "desc": "+20% ranged accuracy, +15 ranged max hit"
+   },
+   {
+    "level": 100,
+    "name": "Hawkeye",
+    "fx": {
+     "racc": 0.05,
+     "rmaxHit": 25,
+     "doubleShot": 0.025
+    },
+    "milestone": true,
+    "desc": "+5% ranged accuracy, +25 ranged max hit, 2.5% chance of a free second arrow"
+   },
+   {
+    "level": 125,
+    "name": "Ranged Prowess I",
+    "fx": {
+     "rmaxHit": 5,
+     "racc": 0.01
+    },
+    "milestone": false,
+    "desc": "+5 ranged max hit, +1% ranged accuracy"
+   },
+   {
+    "level": 150,
+    "name": "Ranged Prowess II",
+    "fx": {
+     "rmaxHit": 5,
+     "racc": 0.01
+    },
+    "milestone": false,
+    "desc": "+5 ranged max hit, +1% ranged accuracy"
+   },
+   {
+    "level": 175,
+    "name": "Ranged Prowess III",
+    "fx": {
+     "rmaxHit": 5,
+     "racc": 0.01
+    },
+    "milestone": false,
+    "desc": "+5 ranged max hit, +1% ranged accuracy"
+   },
+   {
+    "level": 200,
+    "name": "Windreader",
+    "fx": {
+     "racc": 0.0555,
+     "rmaxHit": 27.778,
+     "doubleShot": 0.028
+    },
+    "milestone": true,
+    "desc": "+5.5% ranged accuracy, +27.778 ranged max hit, 2.8% chance of a free second arrow"
+   },
+   {
+    "level": 225,
+    "name": "Ranged Prowess IV",
+    "fx": {
+     "rmaxHit": 5,
+     "racc": 0.01
+    },
+    "milestone": false,
+    "desc": "+5 ranged max hit, +1% ranged accuracy"
+   },
+   {
+    "level": 250,
+    "name": "Ranged Prowess V",
+    "fx": {
+     "rmaxHit": 5,
+     "racc": 0.01
+    },
+    "milestone": false,
+    "desc": "+5 ranged max hit, +1% ranged accuracy"
+   },
+   {
+    "level": 275,
+    "name": "Ranged Prowess VI",
+    "fx": {
+     "rmaxHit": 5,
+     "racc": 0.01
+    },
+    "milestone": false,
+    "desc": "+5 ranged max hit, +1% ranged accuracy"
+   },
+   {
+    "level": 300,
+    "name": "Piercer",
+    "fx": {
+     "racc": 0.061,
+     "rmaxHit": 30.5555,
+     "doubleShot": 0.0305
+    },
+    "milestone": true,
+    "desc": "+6.1% ranged accuracy, +30.5555 ranged max hit, 3% chance of a free second arrow"
+   },
+   {
+    "level": 325,
+    "name": "Ranged Prowess VII",
+    "fx": {
+     "rmaxHit": 5,
+     "racc": 0.01
+    },
+    "milestone": false,
+    "desc": "+5 ranged max hit, +1% ranged accuracy"
+   },
+   {
+    "level": 350,
+    "name": "Ranged Prowess VIII",
+    "fx": {
+     "rmaxHit": 5,
+     "racc": 0.01
+    },
+    "milestone": false,
+    "desc": "+5 ranged max hit, +1% ranged accuracy"
+   },
+   {
+    "level": 375,
+    "name": "Ranged Prowess IX",
+    "fx": {
+     "rmaxHit": 5,
+     "racc": 0.01
+    },
+    "milestone": false,
+    "desc": "+5 ranged max hit, +1% ranged accuracy"
+   },
+   {
+    "level": 400,
+    "name": "Skybreaker",
+    "fx": {
+     "racc": 0.0665,
+     "rmaxHit": 33.3335,
+     "doubleShot": 0.0335
+    },
+    "milestone": true,
+    "desc": "+6.7% ranged accuracy, +33.3335 ranged max hit, 3.4% chance of a free second arrow"
+   },
+   {
+    "level": 425,
+    "name": "Ranged Prowess X",
+    "fx": {
+     "rmaxHit": 5,
+     "racc": 0.01
+    },
+    "milestone": false,
+    "desc": "+5 ranged max hit, +1% ranged accuracy"
+   },
+   {
+    "level": 450,
+    "name": "Ranged Prowess XI",
+    "fx": {
+     "rmaxHit": 5,
+     "racc": 0.01
+    },
+    "milestone": false,
+    "desc": "+5 ranged max hit, +1% ranged accuracy"
+   },
+   {
+    "level": 475,
+    "name": "Ranged Prowess XII",
+    "fx": {
+     "rmaxHit": 5,
+     "racc": 0.01
+    },
+    "milestone": false,
+    "desc": "+5 ranged max hit, +1% ranged accuracy"
+   },
+   {
+    "level": 500,
+    "name": "Storm of Arrows",
+    "fx": {
+     "racc": 0.072,
+     "rmaxHit": 36.111,
+     "doubleShot": 0.036
+    },
+    "milestone": true,
+    "desc": "+7.2% ranged accuracy, +36.111 ranged max hit, 3.6% chance of a free second arrow"
+   },
+   {
+    "level": 525,
+    "name": "Ranged Prowess XIII",
+    "fx": {
+     "rmaxHit": 5,
+     "racc": 0.01
+    },
+    "milestone": false,
+    "desc": "+5 ranged max hit, +1% ranged accuracy"
+   },
+   {
+    "level": 550,
+    "name": "Ranged Prowess XIV",
+    "fx": {
+     "rmaxHit": 5,
+     "racc": 0.01
+    },
+    "milestone": false,
+    "desc": "+5 ranged max hit, +1% ranged accuracy"
+   },
+   {
+    "level": 575,
+    "name": "Ranged Prowess XV",
+    "fx": {
+     "rmaxHit": 5,
+     "racc": 0.01
+    },
+    "milestone": false,
+    "desc": "+5 ranged max hit, +1% ranged accuracy"
+   },
+   {
+    "level": 600,
+    "name": "Starshot",
+    "fx": {
+     "racc": 0.078,
+     "rmaxHit": 38.889,
+     "doubleShot": 0.039
+    },
+    "milestone": true,
+    "desc": "+7.8% ranged accuracy, +38.889 ranged max hit, 3.9% chance of a free second arrow"
+   },
+   {
+    "level": 625,
+    "name": "Ranged Prowess XVI",
+    "fx": {
+     "rmaxHit": 5,
+     "racc": 0.01
+    },
+    "milestone": false,
+    "desc": "+5 ranged max hit, +1% ranged accuracy"
+   },
+   {
+    "level": 650,
+    "name": "Ranged Prowess XVII",
+    "fx": {
+     "rmaxHit": 5,
+     "racc": 0.01
+    },
+    "milestone": false,
+    "desc": "+5 ranged max hit, +1% ranged accuracy"
+   },
+   {
+    "level": 675,
+    "name": "Ranged Prowess XVIII",
+    "fx": {
+     "rmaxHit": 5,
+     "racc": 0.01
+    },
+    "milestone": false,
+    "desc": "+5 ranged max hit, +1% ranged accuracy"
+   },
+   {
+    "level": 700,
+    "name": "Horizon",
+    "fx": {
+     "racc": 0.0835,
+     "rmaxHit": 41.6665,
+     "doubleShot": 0.0415
+    },
+    "milestone": true,
+    "desc": "+8.3% ranged accuracy, +41.6665 ranged max hit, 4.2% chance of a free second arrow"
+   },
+   {
+    "level": 725,
+    "name": "Ranged Prowess XIX",
+    "fx": {
+     "rmaxHit": 5,
+     "racc": 0.01
+    },
+    "milestone": false,
+    "desc": "+5 ranged max hit, +1% ranged accuracy"
+   },
+   {
+    "level": 750,
+    "name": "Ranged Prowess XX",
+    "fx": {
+     "rmaxHit": 5,
+     "racc": 0.01
+    },
+    "milestone": false,
+    "desc": "+5 ranged max hit, +1% ranged accuracy"
+   },
+   {
+    "level": 775,
+    "name": "Ranged Prowess XXI",
+    "fx": {
+     "rmaxHit": 5,
+     "racc": 0.01
+    },
+    "milestone": false,
+    "desc": "+5 ranged max hit, +1% ranged accuracy"
+   },
+   {
+    "level": 800,
+    "name": "Farseer",
+    "fx": {
+     "racc": 0.089,
+     "rmaxHit": 44.4445,
+     "doubleShot": 0.0445
+    },
+    "milestone": true,
+    "desc": "+8.9% ranged accuracy, +44.4445 ranged max hit, 4.5% chance of a free second arrow"
+   },
+   {
+    "level": 825,
+    "name": "Ranged Prowess XXII",
+    "fx": {
+     "rmaxHit": 5,
+     "racc": 0.01
+    },
+    "milestone": false,
+    "desc": "+5 ranged max hit, +1% ranged accuracy"
+   },
+   {
+    "level": 850,
+    "name": "Ranged Prowess XXIII",
+    "fx": {
+     "rmaxHit": 5,
+     "racc": 0.01
+    },
+    "milestone": false,
+    "desc": "+5 ranged max hit, +1% ranged accuracy"
+   },
+   {
+    "level": 875,
+    "name": "Ranged Prowess XXIV",
+    "fx": {
+     "rmaxHit": 5,
+     "racc": 0.01
+    },
+    "milestone": false,
+    "desc": "+5 ranged max hit, +1% ranged accuracy"
+   },
+   {
+    "level": 900,
+    "name": "Eclipse Arrow",
+    "fx": {
+     "racc": 0.0945,
+     "rmaxHit": 47.222,
+     "doubleShot": 0.047
+    },
+    "milestone": true,
+    "desc": "+9.4% ranged accuracy, +47.222 ranged max hit, 4.7% chance of a free second arrow"
+   },
+   {
+    "level": 925,
+    "name": "Ranged Prowess XXV",
+    "fx": {
+     "rmaxHit": 5,
+     "racc": 0.01
+    },
+    "milestone": false,
+    "desc": "+5 ranged max hit, +1% ranged accuracy"
+   },
+   {
+    "level": 950,
+    "name": "Ranged Prowess XXVI",
+    "fx": {
+     "rmaxHit": 5,
+     "racc": 0.01
+    },
+    "milestone": false,
+    "desc": "+5 ranged max hit, +1% ranged accuracy"
+   },
+   {
+    "level": 975,
+    "name": "Ranged Prowess XXVII",
+    "fx": {
+     "rmaxHit": 5,
+     "racc": 0.01
+    },
+    "milestone": false,
+    "desc": "+5 ranged max hit, +1% ranged accuracy"
+   },
+   {
+    "level": 1000,
+    "name": "Ranged Ascendant",
+    "fx": {
+     "racc": 0.1,
+     "rmaxHit": 50,
+     "doubleShot": 0.05
+    },
+    "milestone": true,
+    "desc": "+10% ranged accuracy, +50 ranged max hit, 5% chance of a free second arrow"
    }
   ],
   "Magic": [
@@ -1118,6 +2911,359 @@
     },
     "milestone": true,
     "desc": "+40% magic damage, 25% chance to save runes"
+   },
+   {
+    "level": 100,
+    "name": "Archmage",
+    "fx": {
+     "magicDmg": 0.1,
+     "magicAcc": 0.05,
+     "runeSave": 0.025
+    },
+    "milestone": true,
+    "desc": "+10% magic damage, +5% magic accuracy, 2.5% chance to save runes"
+   },
+   {
+    "level": 125,
+    "name": "Magic Prowess I",
+    "fx": {
+     "magicDmg": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% magic damage"
+   },
+   {
+    "level": 150,
+    "name": "Magic Prowess II",
+    "fx": {
+     "magicDmg": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% magic damage"
+   },
+   {
+    "level": 175,
+    "name": "Magic Prowess III",
+    "fx": {
+     "magicDmg": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% magic damage"
+   },
+   {
+    "level": 200,
+    "name": "Spellweaver",
+    "fx": {
+     "magicDmg": 0.111,
+     "magicAcc": 0.0555,
+     "runeSave": 0.028
+    },
+    "milestone": true,
+    "desc": "+11.1% magic damage, +5.5% magic accuracy, 2.8% chance to save runes"
+   },
+   {
+    "level": 225,
+    "name": "Magic Prowess IV",
+    "fx": {
+     "magicDmg": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% magic damage"
+   },
+   {
+    "level": 250,
+    "name": "Magic Prowess V",
+    "fx": {
+     "magicDmg": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% magic damage"
+   },
+   {
+    "level": 275,
+    "name": "Magic Prowess VI",
+    "fx": {
+     "magicDmg": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% magic damage"
+   },
+   {
+    "level": 300,
+    "name": "Leyline",
+    "fx": {
+     "magicDmg": 0.122,
+     "magicAcc": 0.061,
+     "runeSave": 0.0305
+    },
+    "milestone": true,
+    "desc": "+12.2% magic damage, +6.1% magic accuracy, 3% chance to save runes"
+   },
+   {
+    "level": 325,
+    "name": "Magic Prowess VII",
+    "fx": {
+     "magicDmg": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% magic damage"
+   },
+   {
+    "level": 350,
+    "name": "Magic Prowess VIII",
+    "fx": {
+     "magicDmg": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% magic damage"
+   },
+   {
+    "level": 375,
+    "name": "Magic Prowess IX",
+    "fx": {
+     "magicDmg": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% magic damage"
+   },
+   {
+    "level": 400,
+    "name": "Astral Mind",
+    "fx": {
+     "magicDmg": 0.1335,
+     "magicAcc": 0.0665,
+     "runeSave": 0.0335
+    },
+    "milestone": true,
+    "desc": "+13.4% magic damage, +6.7% magic accuracy, 3.4% chance to save runes"
+   },
+   {
+    "level": 425,
+    "name": "Magic Prowess X",
+    "fx": {
+     "magicDmg": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% magic damage"
+   },
+   {
+    "level": 450,
+    "name": "Magic Prowess XI",
+    "fx": {
+     "magicDmg": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% magic damage"
+   },
+   {
+    "level": 475,
+    "name": "Magic Prowess XII",
+    "fx": {
+     "magicDmg": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% magic damage"
+   },
+   {
+    "level": 500,
+    "name": "Runeheart",
+    "fx": {
+     "magicDmg": 0.1445,
+     "magicAcc": 0.072,
+     "runeSave": 0.036
+    },
+    "milestone": true,
+    "desc": "+14.4% magic damage, +7.2% magic accuracy, 3.6% chance to save runes"
+   },
+   {
+    "level": 525,
+    "name": "Magic Prowess XIII",
+    "fx": {
+     "magicDmg": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% magic damage"
+   },
+   {
+    "level": 550,
+    "name": "Magic Prowess XIV",
+    "fx": {
+     "magicDmg": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% magic damage"
+   },
+   {
+    "level": 575,
+    "name": "Magic Prowess XV",
+    "fx": {
+     "magicDmg": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% magic damage"
+   },
+   {
+    "level": 600,
+    "name": "Starweaver",
+    "fx": {
+     "magicDmg": 0.1555,
+     "magicAcc": 0.078,
+     "runeSave": 0.039
+    },
+    "milestone": true,
+    "desc": "+15.6% magic damage, +7.8% magic accuracy, 3.9% chance to save runes"
+   },
+   {
+    "level": 625,
+    "name": "Magic Prowess XVI",
+    "fx": {
+     "magicDmg": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% magic damage"
+   },
+   {
+    "level": 650,
+    "name": "Magic Prowess XVII",
+    "fx": {
+     "magicDmg": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% magic damage"
+   },
+   {
+    "level": 675,
+    "name": "Magic Prowess XVIII",
+    "fx": {
+     "magicDmg": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% magic damage"
+   },
+   {
+    "level": 700,
+    "name": "Voidcaller",
+    "fx": {
+     "magicDmg": 0.1665,
+     "magicAcc": 0.0835,
+     "runeSave": 0.0415
+    },
+    "milestone": true,
+    "desc": "+16.7% magic damage, +8.3% magic accuracy, 4.2% chance to save runes"
+   },
+   {
+    "level": 725,
+    "name": "Magic Prowess XIX",
+    "fx": {
+     "magicDmg": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% magic damage"
+   },
+   {
+    "level": 750,
+    "name": "Magic Prowess XX",
+    "fx": {
+     "magicDmg": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% magic damage"
+   },
+   {
+    "level": 775,
+    "name": "Magic Prowess XXI",
+    "fx": {
+     "magicDmg": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% magic damage"
+   },
+   {
+    "level": 800,
+    "name": "Aether Crown",
+    "fx": {
+     "magicDmg": 0.178,
+     "magicAcc": 0.089,
+     "runeSave": 0.0445
+    },
+    "milestone": true,
+    "desc": "+17.8% magic damage, +8.9% magic accuracy, 4.5% chance to save runes"
+   },
+   {
+    "level": 825,
+    "name": "Magic Prowess XXII",
+    "fx": {
+     "magicDmg": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% magic damage"
+   },
+   {
+    "level": 850,
+    "name": "Magic Prowess XXIII",
+    "fx": {
+     "magicDmg": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% magic damage"
+   },
+   {
+    "level": 875,
+    "name": "Magic Prowess XXIV",
+    "fx": {
+     "magicDmg": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% magic damage"
+   },
+   {
+    "level": 900,
+    "name": "Eclipse Sigil",
+    "fx": {
+     "magicDmg": 0.189,
+     "magicAcc": 0.0945,
+     "runeSave": 0.047
+    },
+    "milestone": true,
+    "desc": "+18.9% magic damage, +9.4% magic accuracy, 4.7% chance to save runes"
+   },
+   {
+    "level": 925,
+    "name": "Magic Prowess XXV",
+    "fx": {
+     "magicDmg": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% magic damage"
+   },
+   {
+    "level": 950,
+    "name": "Magic Prowess XXVI",
+    "fx": {
+     "magicDmg": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% magic damage"
+   },
+   {
+    "level": 975,
+    "name": "Magic Prowess XXVII",
+    "fx": {
+     "magicDmg": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% magic damage"
+   },
+   {
+    "level": 1000,
+    "name": "Magic Ascendant",
+    "fx": {
+     "magicDmg": 0.2,
+     "magicAcc": 0.1,
+     "runeSave": 0.05
+    },
+    "milestone": true,
+    "desc": "+20% magic damage, +10% magic accuracy, 5% chance to save runes"
    }
   ],
   "Prayer": [
@@ -1301,6 +3447,359 @@
     },
     "milestone": true,
     "desc": "regain 0.25 prayer points/sec, +50% XP from burying bones"
+   },
+   {
+    "level": 100,
+    "name": "Anointed",
+    "fx": {
+     "ppRegen": 0.05,
+     "drainLess": 0.1,
+     "buryRestore": 10
+    },
+    "milestone": true,
+    "desc": "regain 0.08 prayer points/sec, prayers drain 10% slower, burying bones restores 10 prayer points"
+   },
+   {
+    "level": 125,
+    "name": "Prayer Prowess I",
+    "fx": {
+     "drainLess": 0.025
+    },
+    "milestone": false,
+    "desc": "prayers drain 2.5% slower"
+   },
+   {
+    "level": 150,
+    "name": "Prayer Prowess II",
+    "fx": {
+     "drainLess": 0.025
+    },
+    "milestone": false,
+    "desc": "prayers drain 2.5% slower"
+   },
+   {
+    "level": 175,
+    "name": "Prayer Prowess III",
+    "fx": {
+     "drainLess": 0.025
+    },
+    "milestone": false,
+    "desc": "prayers drain 2.5% slower"
+   },
+   {
+    "level": 200,
+    "name": "Sanctified",
+    "fx": {
+     "ppRegen": 0.0555,
+     "drainLess": 0.111,
+     "buryRestore": 11.111
+    },
+    "milestone": true,
+    "desc": "regain 0.09 prayer points/sec, prayers drain 11.1% slower, burying bones restores 11 prayer points"
+   },
+   {
+    "level": 225,
+    "name": "Prayer Prowess IV",
+    "fx": {
+     "drainLess": 0.025
+    },
+    "milestone": false,
+    "desc": "prayers drain 2.5% slower"
+   },
+   {
+    "level": 250,
+    "name": "Prayer Prowess V",
+    "fx": {
+     "drainLess": 0.025
+    },
+    "milestone": false,
+    "desc": "prayers drain 2.5% slower"
+   },
+   {
+    "level": 275,
+    "name": "Prayer Prowess VI",
+    "fx": {
+     "drainLess": 0.025
+    },
+    "milestone": false,
+    "desc": "prayers drain 2.5% slower"
+   },
+   {
+    "level": 300,
+    "name": "Lightbearer",
+    "fx": {
+     "ppRegen": 0.061,
+     "drainLess": 0.122,
+     "buryRestore": 12.222
+    },
+    "milestone": true,
+    "desc": "regain 0.10 prayer points/sec, prayers drain 12.2% slower, burying bones restores 12 prayer points"
+   },
+   {
+    "level": 325,
+    "name": "Prayer Prowess VII",
+    "fx": {
+     "drainLess": 0.025
+    },
+    "milestone": false,
+    "desc": "prayers drain 2.5% slower"
+   },
+   {
+    "level": 350,
+    "name": "Prayer Prowess VIII",
+    "fx": {
+     "drainLess": 0.025
+    },
+    "milestone": false,
+    "desc": "prayers drain 2.5% slower"
+   },
+   {
+    "level": 375,
+    "name": "Prayer Prowess IX",
+    "fx": {
+     "drainLess": 0.025
+    },
+    "milestone": false,
+    "desc": "prayers drain 2.5% slower"
+   },
+   {
+    "level": 400,
+    "name": "Hallowed",
+    "fx": {
+     "ppRegen": 0.0665,
+     "drainLess": 0.1335,
+     "buryRestore": 13.3335
+    },
+    "milestone": true,
+    "desc": "regain 0.11 prayer points/sec, prayers drain 13.4% slower, burying bones restores 13 prayer points"
+   },
+   {
+    "level": 425,
+    "name": "Prayer Prowess X",
+    "fx": {
+     "drainLess": 0.025
+    },
+    "milestone": false,
+    "desc": "prayers drain 2.5% slower"
+   },
+   {
+    "level": 450,
+    "name": "Prayer Prowess XI",
+    "fx": {
+     "drainLess": 0.025
+    },
+    "milestone": false,
+    "desc": "prayers drain 2.5% slower"
+   },
+   {
+    "level": 475,
+    "name": "Prayer Prowess XII",
+    "fx": {
+     "drainLess": 0.025
+    },
+    "milestone": false,
+    "desc": "prayers drain 2.5% slower"
+   },
+   {
+    "level": 500,
+    "name": "Saintly",
+    "fx": {
+     "ppRegen": 0.072,
+     "drainLess": 0.1445,
+     "buryRestore": 14.4445
+    },
+    "milestone": true,
+    "desc": "regain 0.12 prayer points/sec, prayers drain 14.4% slower, burying bones restores 14 prayer points"
+   },
+   {
+    "level": 525,
+    "name": "Prayer Prowess XIII",
+    "fx": {
+     "drainLess": 0.025
+    },
+    "milestone": false,
+    "desc": "prayers drain 2.5% slower"
+   },
+   {
+    "level": 550,
+    "name": "Prayer Prowess XIV",
+    "fx": {
+     "drainLess": 0.025
+    },
+    "milestone": false,
+    "desc": "prayers drain 2.5% slower"
+   },
+   {
+    "level": 575,
+    "name": "Prayer Prowess XV",
+    "fx": {
+     "drainLess": 0.025
+    },
+    "milestone": false,
+    "desc": "prayers drain 2.5% slower"
+   },
+   {
+    "level": 600,
+    "name": "Exalted",
+    "fx": {
+     "ppRegen": 0.078,
+     "drainLess": 0.1555,
+     "buryRestore": 15.5555
+    },
+    "milestone": true,
+    "desc": "regain 0.13 prayer points/sec, prayers drain 15.6% slower, burying bones restores 16 prayer points"
+   },
+   {
+    "level": 625,
+    "name": "Prayer Prowess XVI",
+    "fx": {
+     "drainLess": 0.025
+    },
+    "milestone": false,
+    "desc": "prayers drain 2.5% slower"
+   },
+   {
+    "level": 650,
+    "name": "Prayer Prowess XVII",
+    "fx": {
+     "drainLess": 0.025
+    },
+    "milestone": false,
+    "desc": "prayers drain 2.5% slower"
+   },
+   {
+    "level": 675,
+    "name": "Prayer Prowess XVIII",
+    "fx": {
+     "drainLess": 0.025
+    },
+    "milestone": false,
+    "desc": "prayers drain 2.5% slower"
+   },
+   {
+    "level": 700,
+    "name": "Seraphic",
+    "fx": {
+     "ppRegen": 0.0835,
+     "drainLess": 0.1665,
+     "buryRestore": 16.6665
+    },
+    "milestone": true,
+    "desc": "regain 0.14 prayer points/sec, prayers drain 16.7% slower, burying bones restores 17 prayer points"
+   },
+   {
+    "level": 725,
+    "name": "Prayer Prowess XIX",
+    "fx": {
+     "drainLess": 0.025
+    },
+    "milestone": false,
+    "desc": "prayers drain 2.5% slower"
+   },
+   {
+    "level": 750,
+    "name": "Prayer Prowess XX",
+    "fx": {
+     "drainLess": 0.025
+    },
+    "milestone": false,
+    "desc": "prayers drain 2.5% slower"
+   },
+   {
+    "level": 775,
+    "name": "Prayer Prowess XXI",
+    "fx": {
+     "drainLess": 0.025
+    },
+    "milestone": false,
+    "desc": "prayers drain 2.5% slower"
+   },
+   {
+    "level": 800,
+    "name": "Divine Echo",
+    "fx": {
+     "ppRegen": 0.089,
+     "drainLess": 0.178,
+     "buryRestore": 17.778
+    },
+    "milestone": true,
+    "desc": "regain 0.15 prayer points/sec, prayers drain 17.8% slower, burying bones restores 18 prayer points"
+   },
+   {
+    "level": 825,
+    "name": "Prayer Prowess XXII",
+    "fx": {
+     "drainLess": 0.025
+    },
+    "milestone": false,
+    "desc": "prayers drain 2.5% slower"
+   },
+   {
+    "level": 850,
+    "name": "Prayer Prowess XXIII",
+    "fx": {
+     "drainLess": 0.025
+    },
+    "milestone": false,
+    "desc": "prayers drain 2.5% slower"
+   },
+   {
+    "level": 875,
+    "name": "Prayer Prowess XXIV",
+    "fx": {
+     "drainLess": 0.025
+    },
+    "milestone": false,
+    "desc": "prayers drain 2.5% slower"
+   },
+   {
+    "level": 900,
+    "name": "Eclipse Litany",
+    "fx": {
+     "ppRegen": 0.0945,
+     "drainLess": 0.189,
+     "buryRestore": 18.889
+    },
+    "milestone": true,
+    "desc": "regain 0.16 prayer points/sec, prayers drain 18.9% slower, burying bones restores 19 prayer points"
+   },
+   {
+    "level": 925,
+    "name": "Prayer Prowess XXV",
+    "fx": {
+     "drainLess": 0.025
+    },
+    "milestone": false,
+    "desc": "prayers drain 2.5% slower"
+   },
+   {
+    "level": 950,
+    "name": "Prayer Prowess XXVI",
+    "fx": {
+     "drainLess": 0.025
+    },
+    "milestone": false,
+    "desc": "prayers drain 2.5% slower"
+   },
+   {
+    "level": 975,
+    "name": "Prayer Prowess XXVII",
+    "fx": {
+     "drainLess": 0.025
+    },
+    "milestone": false,
+    "desc": "prayers drain 2.5% slower"
+   },
+   {
+    "level": 1000,
+    "name": "Prayer Ascendant",
+    "fx": {
+     "ppRegen": 0.1,
+     "drainLess": 0.2,
+     "buryRestore": 20
+    },
+    "milestone": true,
+    "desc": "regain 0.17 prayer points/sec, prayers drain 20% slower, burying bones restores 20 prayer points"
    }
   ],
   "Agility": [
@@ -3497,6 +5996,533 @@
     },
     "milestone": true,
     "desc": "+25% XP, dungeon gates need 10 fewer levels"
+   }
+  ],
+  "Swordsmanship": [
+   {
+    "level": 5,
+    "name": "Clean Cut I",
+    "fx": {
+     "bladeAcc": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% accuracy with blades"
+   },
+   {
+    "level": 10,
+    "name": "Keen Edge I",
+    "fx": {
+     "bladeDmg": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% damage with blades"
+   },
+   {
+    "level": 15,
+    "name": "Clean Cut II",
+    "fx": {
+     "bladeAcc": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% accuracy with blades"
+   },
+   {
+    "level": 20,
+    "name": "Keen Edge II",
+    "fx": {
+     "bladeDmg": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% damage with blades"
+   },
+   {
+    "level": 25,
+    "name": "Flowing Steel",
+    "fx": {
+     "bladeAcc": 0.15
+    },
+    "milestone": true,
+    "desc": "+15% accuracy with blades"
+   },
+   {
+    "level": 30,
+    "name": "Keen Edge III",
+    "fx": {
+     "bladeDmg": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% damage with blades"
+   },
+   {
+    "level": 35,
+    "name": "Clean Cut III",
+    "fx": {
+     "bladeAcc": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% accuracy with blades"
+   },
+   {
+    "level": 40,
+    "name": "Keen Edge IV",
+    "fx": {
+     "bladeDmg": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% damage with blades"
+   },
+   {
+    "level": 45,
+    "name": "Clean Cut IV",
+    "fx": {
+     "bladeAcc": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% accuracy with blades"
+   },
+   {
+    "level": 50,
+    "name": "Twin Draw",
+    "fx": {
+     "bladeDmg": 0.2
+    },
+    "milestone": true,
+    "desc": "+20% damage with blades"
+   },
+   {
+    "level": 55,
+    "name": "Clean Cut V",
+    "fx": {
+     "bladeAcc": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% accuracy with blades"
+   },
+   {
+    "level": 60,
+    "name": "Keen Edge V",
+    "fx": {
+     "bladeDmg": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% damage with blades"
+   },
+   {
+    "level": 65,
+    "name": "Clean Cut VI",
+    "fx": {
+     "bladeAcc": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% accuracy with blades"
+   },
+   {
+    "level": 70,
+    "name": "Keen Edge VI",
+    "fx": {
+     "bladeDmg": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% damage with blades"
+   },
+   {
+    "level": 75,
+    "name": "Sword Dancer",
+    "fx": {
+     "bladeAcc": 0.15,
+     "bladeDmg": 0.15
+    },
+    "milestone": true,
+    "desc": "+15% accuracy with blades, +15% damage with blades"
+   },
+   {
+    "level": 80,
+    "name": "Keen Edge VII",
+    "fx": {
+     "bladeDmg": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% damage with blades"
+   },
+   {
+    "level": 85,
+    "name": "Clean Cut VII",
+    "fx": {
+     "bladeAcc": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% accuracy with blades"
+   },
+   {
+    "level": 90,
+    "name": "Keen Edge VIII",
+    "fx": {
+     "bladeDmg": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% damage with blades"
+   },
+   {
+    "level": 95,
+    "name": "Clean Cut VIII",
+    "fx": {
+     "bladeAcc": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% accuracy with blades"
+   },
+   {
+    "level": 99,
+    "name": "Swordsmanship Mastery",
+    "fx": {
+     "bladeDmg": 0.25,
+     "bladeAcc": 0.15
+    },
+    "milestone": true,
+    "desc": "+25% damage with blades, +15% accuracy with blades"
+   },
+   {
+    "level": 100,
+    "name": "Kensei",
+    "fx": {
+     "bladeAcc": 0.05,
+     "bladeDmg": 0.1
+    },
+    "milestone": true,
+    "desc": "+5% accuracy with blades, +10% damage with blades"
+   },
+   {
+    "level": 125,
+    "name": "Swordsmanship Prowess I",
+    "fx": {
+     "bladeDmg": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% damage with blades"
+   },
+   {
+    "level": 150,
+    "name": "Swordsmanship Prowess II",
+    "fx": {
+     "bladeDmg": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% damage with blades"
+   },
+   {
+    "level": 175,
+    "name": "Swordsmanship Prowess III",
+    "fx": {
+     "bladeDmg": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% damage with blades"
+   },
+   {
+    "level": 200,
+    "name": "Mirror Edge",
+    "fx": {
+     "bladeAcc": 0.0555,
+     "bladeDmg": 0.111
+    },
+    "milestone": true,
+    "desc": "+5.5% accuracy with blades, +11.1% damage with blades"
+   },
+   {
+    "level": 225,
+    "name": "Swordsmanship Prowess IV",
+    "fx": {
+     "bladeDmg": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% damage with blades"
+   },
+   {
+    "level": 250,
+    "name": "Swordsmanship Prowess V",
+    "fx": {
+     "bladeDmg": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% damage with blades"
+   },
+   {
+    "level": 275,
+    "name": "Swordsmanship Prowess VI",
+    "fx": {
+     "bladeDmg": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% damage with blades"
+   },
+   {
+    "level": 300,
+    "name": "Wind Splitter",
+    "fx": {
+     "bladeAcc": 0.061,
+     "bladeDmg": 0.122
+    },
+    "milestone": true,
+    "desc": "+6.1% accuracy with blades, +12.2% damage with blades"
+   },
+   {
+    "level": 325,
+    "name": "Swordsmanship Prowess VII",
+    "fx": {
+     "bladeDmg": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% damage with blades"
+   },
+   {
+    "level": 350,
+    "name": "Swordsmanship Prowess VIII",
+    "fx": {
+     "bladeDmg": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% damage with blades"
+   },
+   {
+    "level": 375,
+    "name": "Swordsmanship Prowess IX",
+    "fx": {
+     "bladeDmg": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% damage with blades"
+   },
+   {
+    "level": 400,
+    "name": "Ghost Step",
+    "fx": {
+     "bladeAcc": 0.0665,
+     "bladeDmg": 0.1335
+    },
+    "milestone": true,
+    "desc": "+6.7% accuracy with blades, +13.4% damage with blades"
+   },
+   {
+    "level": 425,
+    "name": "Swordsmanship Prowess X",
+    "fx": {
+     "bladeDmg": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% damage with blades"
+   },
+   {
+    "level": 450,
+    "name": "Swordsmanship Prowess XI",
+    "fx": {
+     "bladeDmg": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% damage with blades"
+   },
+   {
+    "level": 475,
+    "name": "Swordsmanship Prowess XII",
+    "fx": {
+     "bladeDmg": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% damage with blades"
+   },
+   {
+    "level": 500,
+    "name": "Hundred Steels",
+    "fx": {
+     "bladeAcc": 0.072,
+     "bladeDmg": 0.1445
+    },
+    "milestone": true,
+    "desc": "+7.2% accuracy with blades, +14.4% damage with blades"
+   },
+   {
+    "level": 525,
+    "name": "Swordsmanship Prowess XIII",
+    "fx": {
+     "bladeDmg": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% damage with blades"
+   },
+   {
+    "level": 550,
+    "name": "Swordsmanship Prowess XIV",
+    "fx": {
+     "bladeDmg": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% damage with blades"
+   },
+   {
+    "level": 575,
+    "name": "Swordsmanship Prowess XV",
+    "fx": {
+     "bladeDmg": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% damage with blades"
+   },
+   {
+    "level": 600,
+    "name": "Moonblade",
+    "fx": {
+     "bladeAcc": 0.078,
+     "bladeDmg": 0.1555
+    },
+    "milestone": true,
+    "desc": "+7.8% accuracy with blades, +15.6% damage with blades"
+   },
+   {
+    "level": 625,
+    "name": "Swordsmanship Prowess XVI",
+    "fx": {
+     "bladeDmg": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% damage with blades"
+   },
+   {
+    "level": 650,
+    "name": "Swordsmanship Prowess XVII",
+    "fx": {
+     "bladeDmg": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% damage with blades"
+   },
+   {
+    "level": 675,
+    "name": "Swordsmanship Prowess XVIII",
+    "fx": {
+     "bladeDmg": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% damage with blades"
+   },
+   {
+    "level": 700,
+    "name": "Sky Cleaver",
+    "fx": {
+     "bladeAcc": 0.0835,
+     "bladeDmg": 0.1665
+    },
+    "milestone": true,
+    "desc": "+8.3% accuracy with blades, +16.7% damage with blades"
+   },
+   {
+    "level": 725,
+    "name": "Swordsmanship Prowess XIX",
+    "fx": {
+     "bladeDmg": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% damage with blades"
+   },
+   {
+    "level": 750,
+    "name": "Swordsmanship Prowess XX",
+    "fx": {
+     "bladeDmg": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% damage with blades"
+   },
+   {
+    "level": 775,
+    "name": "Swordsmanship Prowess XXI",
+    "fx": {
+     "bladeDmg": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% damage with blades"
+   },
+   {
+    "level": 800,
+    "name": "Unsheathed",
+    "fx": {
+     "bladeAcc": 0.089,
+     "bladeDmg": 0.178
+    },
+    "milestone": true,
+    "desc": "+8.9% accuracy with blades, +17.8% damage with blades"
+   },
+   {
+    "level": 825,
+    "name": "Swordsmanship Prowess XXII",
+    "fx": {
+     "bladeDmg": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% damage with blades"
+   },
+   {
+    "level": 850,
+    "name": "Swordsmanship Prowess XXIII",
+    "fx": {
+     "bladeDmg": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% damage with blades"
+   },
+   {
+    "level": 875,
+    "name": "Swordsmanship Prowess XXIV",
+    "fx": {
+     "bladeDmg": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% damage with blades"
+   },
+   {
+    "level": 900,
+    "name": "Eclipse Edge",
+    "fx": {
+     "bladeAcc": 0.0945,
+     "bladeDmg": 0.189
+    },
+    "milestone": true,
+    "desc": "+9.4% accuracy with blades, +18.9% damage with blades"
+   },
+   {
+    "level": 925,
+    "name": "Swordsmanship Prowess XXV",
+    "fx": {
+     "bladeDmg": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% damage with blades"
+   },
+   {
+    "level": 950,
+    "name": "Swordsmanship Prowess XXVI",
+    "fx": {
+     "bladeDmg": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% damage with blades"
+   },
+   {
+    "level": 975,
+    "name": "Swordsmanship Prowess XXVII",
+    "fx": {
+     "bladeDmg": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% damage with blades"
+   },
+   {
+    "level": 1000,
+    "name": "Swordsmanship Ascendant",
+    "fx": {
+     "bladeAcc": 0.1,
+     "bladeDmg": 0.2
+    },
+    "milestone": true,
+    "desc": "+10% accuracy with blades, +20% damage with blades"
    }
   ],
   "Delving": [

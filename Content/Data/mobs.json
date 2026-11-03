@@ -2207,6 +2207,26 @@
    {
     "item": "Ancient fragment",
     "chance": 0.085
+   },
+   {
+    "item": "Emberfang katana",
+    "chance": 0.006666666666666667
+   },
+   {
+    "item": "Ashwarden helm",
+    "chance": 0.01
+   },
+   {
+    "item": "Ashwarden cuirass",
+    "chance": 0.01
+   },
+   {
+    "item": "Ashwarden greaves",
+    "chance": 0.01
+   },
+   {
+    "item": "Ashwarden aegis",
+    "chance": 0.01
    }
   ],
   "Thornback Prowler": [
@@ -2259,6 +2279,26 @@
    {
     "item": "Ancient fragment",
     "chance": 0.10500000000000001
+   },
+   {
+    "item": "Briarhook scimitar",
+    "chance": 0.006666666666666667
+   },
+   {
+    "item": "Thornroot helm",
+    "chance": 0.01
+   },
+   {
+    "item": "Thornroot cuirass",
+    "chance": 0.01
+   },
+   {
+    "item": "Thornroot greaves",
+    "chance": 0.01
+   },
+   {
+    "item": "Thornroot aegis",
+    "chance": 0.01
    }
   ],
   "Hoarfrost Stalker": [
@@ -2311,6 +2351,26 @@
    {
     "item": "Ancient fragment",
     "chance": 0.13
+   },
+   {
+    "item": "Glacierfall glaive",
+    "chance": 0.006666666666666667
+   },
+   {
+    "item": "Rimeplate helm",
+    "chance": 0.01
+   },
+   {
+    "item": "Rimeplate cuirass",
+    "chance": 0.01
+   },
+   {
+    "item": "Rimeplate greaves",
+    "chance": 0.01
+   },
+   {
+    "item": "Rimeplate aegis",
+    "chance": 0.01
    }
   ],
   "Storm Gryphon": [
@@ -2363,6 +2423,26 @@
    {
     "item": "Ancient fragment",
     "chance": 0.1625
+   },
+   {
+    "item": "Thunderwing war fan",
+    "chance": 0.006666666666666667
+   },
+   {
+    "item": "Stormforged helm",
+    "chance": 0.01
+   },
+   {
+    "item": "Stormforged cuirass",
+    "chance": 0.01
+   },
+   {
+    "item": "Stormforged greaves",
+    "chance": 0.01
+   },
+   {
+    "item": "Stormforged aegis",
+    "chance": 0.01
    }
   ],
   "Murk Leech": [
@@ -2415,6 +2495,26 @@
    {
     "item": "Ancient fragment",
     "chance": 0.2
+   },
+   {
+    "item": "Mirewraith chakram",
+    "chance": 0.006666666666666667
+   },
+   {
+    "item": "Gravemire helm",
+    "chance": 0.01
+   },
+   {
+    "item": "Gravemire cuirass",
+    "chance": 0.01
+   },
+   {
+    "item": "Gravemire greaves",
+    "chance": 0.01
+   },
+   {
+    "item": "Gravemire aegis",
+    "chance": 0.01
    }
   ],
   "Glass Scorpion": [
@@ -2467,6 +2567,26 @@
    {
     "item": "Ancient fragment",
     "chance": 0.22999999999999998
+   },
+   {
+    "item": "Mirage scimitar",
+    "chance": 0.006666666666666667
+   },
+   {
+    "item": "Sandsovereign helm",
+    "chance": 0.01
+   },
+   {
+    "item": "Sandsovereign cuirass",
+    "chance": 0.01
+   },
+   {
+    "item": "Sandsovereign greaves",
+    "chance": 0.01
+   },
+   {
+    "item": "Sandsovereign aegis",
+    "chance": 0.01
    }
   ],
   "Caldera Drake": [
@@ -2519,6 +2639,26 @@
    {
     "item": "Ancient fragment",
     "chance": 0.27
+   },
+   {
+    "item": "Magmaheart glaive",
+    "chance": 0.006666666666666667
+   },
+   {
+    "item": "Archon's Caldera helm",
+    "chance": 0.01
+   },
+   {
+    "item": "Archon's Caldera cuirass",
+    "chance": 0.01
+   },
+   {
+    "item": "Archon's Caldera greaves",
+    "chance": 0.01
+   },
+   {
+    "item": "Archon's Caldera aegis",
+    "chance": 0.01
    }
   ],
   "Voidborn Knight": [
@@ -2545,6 +2685,26 @@
    {
     "item": "Ancient fragment",
     "chance": 0.2875
+   },
+   {
+    "item": "Nulledge katana",
+    "chance": 0.006666666666666667
+   },
+   {
+    "item": "Voidwrought helm",
+    "chance": 0.01
+   },
+   {
+    "item": "Voidwrought cuirass",
+    "chance": 0.01
+   },
+   {
+    "item": "Voidwrought greaves",
+    "chance": 0.01
+   },
+   {
+    "item": "Voidwrought aegis",
+    "chance": 0.01
    }
   ],
   "Sunderlord Vexmar": [
@@ -2571,6 +2731,26 @@
    {
     "item": "Ancient fragment",
     "chance": 0.3
+   },
+   {
+    "item": "Vexmar, the Last Eclipse",
+    "chance": 0.03333333333333333
+   },
+   {
+    "item": "Eclipse Sovereign helm",
+    "chance": 0.05
+   },
+   {
+    "item": "Eclipse Sovereign cuirass",
+    "chance": 0.05
+   },
+   {
+    "item": "Eclipse Sovereign greaves",
+    "chance": 0.05
+   },
+   {
+    "item": "Eclipse Sovereign aegis",
+    "chance": 0.05
    }
   ]
  },
