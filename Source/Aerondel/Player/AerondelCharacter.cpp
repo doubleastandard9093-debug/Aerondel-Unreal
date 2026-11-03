@@ -20,6 +20,10 @@
 #include "Engine/StaticMesh.h"
 #include "Engine/World.h"
 #include "UObject/ConstructorHelpers.h"
+#include "TimerManager.h"
+#include "Core/AerondelPlayerState.h"
+#include "Inventory/EquipmentComponent.h"
+#include "Data/ItemDef.h"
 
 AAerondelCharacter::AAerondelCharacter()
 {
@@ -187,8 +191,20 @@ void AAerondelCharacter::BeginPlay()
 			UAerondelModelLibrary::FitRig(Sk, 178.f, GetCapsuleComponent()->GetUnscaledCapsuleHalfHeight());
 			Sk->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 			if (PlaceholderBody) PlaceholderBody->SetVisibility(false);
+			GetWorldTimerManager().SetTimer(GearTintTimer, this, &AAerondelCharacter::RefreshGearTint, 1.f, true);
 		}
 	}
+}
+
+void AAerondelCharacter::RefreshGearTint()
+{
+	const AAerondelPlayerState* S = GetPlayerState<AAerondelPlayerState>();
+	const UItemDef* Body = S && S->Equipment ? S->Equipment->GetEquipped(EEquipSlot::Body) : nullptr;
+	if (Body == TintedBody.Get()) return;
+	TintedBody = Body;
+	const bool bTinted = Body && !Body->Tint.Equals(FLinearColor::White);
+	// Web gearKind/metalColor tints the armour pieces; one rig mesh here, so a light whole-body blend (0 restores the original colours).
+	if (bTinted || UntintedColors.Num()) UAerondelModelLibrary::ApplyTint(GetMesh(), bTinted ? Body->Tint : FLinearColor::White, bTinted ? 0.35f : 0.f, &UntintedColors);
 }
 
 void AAerondelCharacter::PlayBodyAnim(FName State) { if (bRigged) UAerondelModelLibrary::SetAnimState(GetMesh(), State); }

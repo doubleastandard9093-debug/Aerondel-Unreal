@@ -46,6 +46,11 @@ public:
 
 private:
 	bool bRigged = false;
+	/** v22 armour tints: body-armour Tint blended onto the rig (polled, so no equipment delegate wiring). */
+	void RefreshGearTint();
+	FTimerHandle GearTintTimer;
+	TWeakObjectPtr<const class UItemDef> TintedBody;
+	TArray<FLinearColor> UntintedColors;
 	void OnMove(const FInputActionValue& V);
 	void OnLook(const FInputActionValue& V);
 	void OnZoom(const FInputActionValue& V);

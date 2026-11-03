@@ -32,6 +32,10 @@ public:
 	 *  normal. Slot kinds follow the web js/realism.js surfaceKind(). Low/Quest: no-op (original cheap materials).
 	 *  Called by ApplyRig; missing assets (Build Realism Materials not run) are a no-op. */
 	UFUNCTION(BlueprintCallable, Category="Aerondel|Models") static void ApplyRealism(USkeletalMeshComponent* Comp, const FString& RigKey);
+	/** Web rigs.js T(rig, tint, k): blend every material's base colour toward Color by K (0..1). Cache keeps the untinted colours so it can be re-applied (pass nullptr for one-shot). */
+	static void ApplyTint(USkeletalMeshComponent* Comp, const FLinearColor& Color, float K, TArray<FLinearColor>* Cache = nullptr);
+	/** Web MONSTER_RIGS tint for a mob id (e.g. ice_giant); false when the rig is untinted. */
+	static bool MobTint(FName MobId, FLinearColor& OutColor, float& OutK);
 	/** True while a one-shot (attack/hit) is still playing, so callers don't cut it off with the base state. */
 	UFUNCTION(BlueprintPure, Category="Aerondel|Models") static bool IsBusy(USkeletalMeshComponent* Comp);
 };

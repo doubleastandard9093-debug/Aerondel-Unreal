@@ -260,6 +260,16 @@ int32 FJsonContentLoader::MergeInto(UGameDatabase* Db, const FString& Dir)
 				I->bThrown = Bool(O, TEXT("thrown"));
 				if (I->bThrown) { I->bRangedWeapon = true; I->EquipSlot = EEquipSlot::Weapon; }
 				I->SetName = FName(*Str(O, TEXT("set")));
+				// v22 arsenal.js weaponClass(): explicit wclass, else cutlass flag, else the blade name test.
+				if (Type == TEXT("weapon"))
+				{
+					const FString Nm = FString(*Pair.Key).ToLower();
+					if (Has(O, TEXT("wclass"))) I->WeaponClass = FName(*Str(O, TEXT("wclass")));
+					else if (Bool(O, TEXT("cutlass"))) I->WeaponClass = TEXT("cutlass");
+					else for (const TCHAR* B : { TEXT("sword"), TEXT("blade"), TEXT("dagger"), TEXT("cutlass"), TEXT("katana"), TEXT("scimitar"), TEXT("glaive"), TEXT("odachi"), TEXT("tachi") })
+						if (Nm.Contains(B)) { I->WeaponClass = TEXT("blade"); break; }
+				}
+				if (Has(O, TEXT("tint"))) I->Tint = ColorFromInt(Num(O, TEXT("tint"))); // frontier armour / unique tint
 				I->CapeSkill = Has(O, TEXT("capeSkill")) ? Id(Str(O, TEXT("capeSkill"))) : NAME_None;
 				I->bQuestCape = Bool(O, TEXT("questCape"));
 				I->bUntradeable = Bool(O, TEXT("untradeable")) || I->bQuestCape || !I->CapeSkill.IsNone();

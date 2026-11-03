@@ -83,6 +83,8 @@ void AAerondelMob::TryRig()
 	UCapsuleComponent* Cap = GetCapsuleComponent();
 	UAerondelModelLibrary::FitRig(Sk, Definition->BodySize.Z, Cap->GetUnscaledCapsuleHalfHeight());
 	Sk->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	FLinearColor TintC; float TintK = 0.f;
+	if (UAerondelModelLibrary::MobTint(Definition->Id, TintC, TintK)) UAerondelModelLibrary::ApplyTint(Sk, TintC, TintK); // e.g. pale-blue Ice Giant on the giant rig
 	Body->SetVisibility(false); // the box stays as the (invisible) click / VR-hand collider
 }
 

@@ -185,3 +185,52 @@ void UAerondelModelLibrary::ApplyRealism(USkeletalMeshComponent* Comp, const FSt
 		Comp->SetMaterial(i, D);
 	}
 }
+
+bool UAerondelModelLibrary::MobTint(FName MobId, FLinearColor& OutColor, float& OutK)
+{
+	// Generated from Gielinor-Lite js/rigs.js MONSTER_RIGS (first variant of each mob that carries a tint).
+	struct FT { const TCHAR* Id; uint32 Hex; float K; };
+	static const FT All[] = {
+		{ TEXT("ogre"), 0x9a8a5au, 0.55f }, { TEXT("grumsh"), 0xb05a3au, 0.55f }, { TEXT("bog_giant"), 0x5a8a4au, 0.55f },
+		{ TEXT("crag_giant"), 0x9a9a9au, 0.55f }, { TEXT("ice_giant"), 0x9cc8ecu, 0.55f }, { TEXT("green_dragon"), 0x5ab05au, 0.55f },
+		{ TEXT("scorchwing"), 0xd05a2au, 0.55f }, { TEXT("bandit"), 0x8a6a4au, 0.3f }, { TEXT("guard"), 0xb0b0c0u, 0.35f },
+		{ TEXT("ironveil_knight"), 0x9aa0b8u, 0.5f }, { TEXT("dark_archer"), 0x4a4a5au, 0.5f }, { TEXT("ashen_raider"), 0x8a7a70u, 0.4f },
+		{ TEXT("barrow_ghoul"), 0x9ab08au, 0.4f }, { TEXT("cinder_warden"), 0xc0502au, 0.4f }, { TEXT("thornback_prowler"), 0x5a7a3au, 0.5f },
+		{ TEXT("bramble_colossus"), 0x5a7a3au, 0.55f }, { TEXT("hoarfrost_stalker"), 0xe0ecf8u, 0.5f }, { TEXT("glacier_behemoth"), 0xc0dcf4u, 0.6f },
+		{ TEXT("storm_gryphon"), 0x9a8a6au, 0.55f }, { TEXT("peak_warlord"), 0x6a6a7au, 0.5f }, { TEXT("murk_leech"), 0x2a3a2au, 0.55f },
+		{ TEXT("bog_revenant"), 0x7a9a7au, 0.5f }, { TEXT("glass_scorpion"), 0xd0d8e0u, 0.55f }, { TEXT("dune_tyrant"), 0xc89a6au, 0.55f },
+		{ TEXT("caldera_drake"), 0xa0301au, 0.55f }, { TEXT("molten_archon"), 0xff6a1au, 0.5f }, { TEXT("voidborn_knight"), 0x4a3a7au, 0.6f },
+		{ TEXT("sunderlord_vexmar"), 0x6a4aa0u, 0.6f }, { TEXT("drowned_deckhand"), 0x6ab0a0u, 0.4f }, { TEXT("drowned_gunner"), 0x5a9ab0u, 0.4f },
+		{ TEXT("captain_saltgrave"), 0x4a8a9au, 0.5f } };
+	for (const FT& T : All)
+		if (MobId == FName(T.Id))
+		{
+			OutColor = FLinearColor(FColor((T.Hex >> 16) & 0xFF, (T.Hex >> 8) & 0xFF, T.Hex & 0xFF));
+			OutK = T.K;
+			return true;
+		}
+	return false;
+}
+
+void UAerondelModelLibrary::ApplyTint(USkeletalMeshComponent* Comp, const FLinearColor& Color, float K, TArray<FLinearColor>* Cache)
+{
+	if (!Comp) return;
+	const float A = FMath::Clamp(K, 0.f, 1.f);
+	const bool bFill = Cache && Cache->Num() != Comp->GetNumMaterials();
+	if (bFill) Cache->Reset();
+	for (int32 i = 0; i < Comp->GetNumMaterials(); ++i)
+	{
+		UMaterialInterface* Mat = Comp->GetMaterial(i);
+		if (!Mat) { if (bFill) Cache->Add(FLinearColor::White); continue; }
+		UMaterialInstanceDynamic* D = Cast<UMaterialInstanceDynamic>(Mat);
+		if (!D) { D = UMaterialInstanceDynamic::Create(Mat, Comp); Comp->SetMaterial(i, D); }
+		FLinearColor Base = FLinearColor::White;
+		for (const TCHAR* P : { TEXT("Tint"), TEXT("BaseColorFactor"), TEXT("BaseColor"), TEXT("Color") })
+			if (D->GetVectorParameterValue(FHashedMaterialParameterInfo(FName(P)), Base)) break;
+		if (bFill) Cache->Add(Base);
+		else if (Cache && Cache->IsValidIndex(i)) Base = (*Cache)[i];
+		const FLinearColor Out = FMath::Lerp(Base, Color, A);
+		for (const TCHAR* P : { TEXT("Tint"), TEXT("BaseColorFactor"), TEXT("BaseColor"), TEXT("Color") })
+			D->SetVectorParameterValue(FName(P), Out);
+	}
+}

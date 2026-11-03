@@ -33,6 +33,10 @@ public:
 	// ---- Web-build parity (filled by the JSON content loader or by hand) ----
 	/** resource, processed, food, weapon, head, body, legs, shield, cape, neck, ring, ammo, tool, rune, herb, grimy, secondary, vial, potion, bones, junk. */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Item") FName ItemType;
+	/** v22 weapon class: katana, scimitar, glaive, warfan, chakram, cutlass, blade (other swords/daggers), or None. */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Equipment") FName WeaponClass;
+	/** Blades train Swordsmanship (every class except warfan and chakram). */
+	bool IsBlade() const { return !WeaponClass.IsNone() && WeaponClass != FName(TEXT("warfan")) && WeaponClass != FName(TEXT("chakram")); }
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Item") bool bUnique = false;
 	/** uncommon / rare / epic / legendary (empty = common). */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Item") FName Rarity;
