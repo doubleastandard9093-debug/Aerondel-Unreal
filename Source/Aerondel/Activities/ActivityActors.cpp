@@ -267,9 +267,21 @@ void AQuestPlaceVolume::NotifyActorBeginOverlap(AActor* OtherActor)
 	Super::NotifyActorBeginOverlap(OtherActor);
 	const APawn* Pawn = Cast<APawn>(OtherActor);
 	if (!Pawn || !Pawn->IsPlayerControlled() || PlaceId.IsNone()) return;
+	// Debounce: overlaps re-fire when the capsule brushes nested / overlapping volumes (town square inside town heart)
+	// or gets nudged by crowded NPCs. Only announce a real change of place, and the same place again after 60 s.
+	static TWeakObjectPtr<UWorld> LastWorld;
+	static TMap<FName, double> Announced; // place -> last time it was announced
+	static double LastTime = -1000.0;
+	UWorld* W = GetWorld();
+	const double Now = W ? W->GetTimeSeconds() : 0.0;
+	if (LastWorld.Get() != W) { LastWorld = W; Announced.Reset(); LastTime = -1000.0; }
+	if (const double* T = Announced.Find(PlaceId)) if (Now - *T < 60.0) return;
+	const bool bNested = Now - LastTime < 3.0; // entered a second volume within 3 s: count the visit, skip the chat line
+	Announced.Add(PlaceId, Now);
+	LastTime = Now;
 	if (UAerondelEvents* Ev = UAerondelEvents::Get(this))
 	{
-		if (!DisplayName.IsEmpty()) Ev->Message(FText::Format(LOCTEXT("Enter", "You arrive at {0}."), DisplayName));
+		if (!DisplayName.IsEmpty() && !bNested) Ev->Message(FText::Format(LOCTEXT("Enter", "You arrive at {0}."), DisplayName));
 		Ev->OnPlaceVisited.Broadcast(PlaceId);
 	}
 }
