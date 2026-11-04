@@ -122,6 +122,25 @@ public:
 	/** A bonus drop from Ventures loot (Sigil tome or a graft). */
 	void BonusDrop(const AAerondelMob* Mob, const FString& Why);
 
+	// ---- group 3: Burst Tides, Breach Runs, Tetherline + shared Ventures zones (Ventures_Zone.cpp) ----
+	static constexpr float ZoneHalf = 14.f;
+	static FString StyleSkill(const FString& Style);
+	/** Pad centre (web metres): x = -1000, z = 135 vigil / 205 breach / 270 hold. */
+	static FVector2D ZoneC(const FString& ZoneId);
+	AAerondelMob* ZoneSpawn(const FString& ZoneId, const FString& Type, float Dx, float Dz, float L, float HpMul = 1.f, bool bBoss = false);
+	TArray<AAerondelMob*> ZoneAlive() const;
+	void ZonePark();
+	bool OnPad(const FString& ZoneId) const;
+	bool RunStart(const FString& ZoneId, const FString& Kind);
+	void RunEnd(bool bWin);
+	bool InRun() const { return Run.bOn; }
+	bool InRunKind(const TCHAR* Kind) const { return Run.bOn && Run.Kind == Kind; }
+	void BreachStart(const FString& Mode, bool bHard);
+	void TideStart(int32 RegionIndex = -1);
+	void TideWave();
+	bool InTide() const;
+	bool Tether();
+
 protected:
 	UFUNCTION() void HandleMobKilled(UMobDef* Mob);
 
@@ -158,6 +177,24 @@ protected:
 	float DrCombat() const;
 	float XpCombat(FName SkillId) const;
 	float FlareCombat() const;
+	// group 3 internals
+	void ResetZone();
+	void SaveZone(FJsonObject& A) const;
+	void LoadZone(const FJsonObject& A);
+	void TickZone();
+	void DiedZone(AAerondelMob* Mob, bool bByPlayer);
+	float RespawnZone(const AAerondelMob* Mob) const;
+	float XpZone(FName SkillId) const;
+	/** Incoming-damage multiplier from the active run (Frenzy). */
+	float TakenZone() const;
+	void BreachSetup();
+	void BreachStep();
+	void BreachFinish(bool bWin);
+	void LoadTideRegions();
+	void TideEnd();
+	void TabTides(FGPanelModel& M);
+	void TabBreach(FGPanelModel& M);
+	void TabTether(FGPanelModel& M);
 
 	// group 1 internals
 	void ResetQuick();
@@ -212,4 +249,42 @@ protected:
 	FString GraftSel;
 	// Twin Stance
 	FString StanceMain, StanceSub;
+
+	// One Ventures run at a time (breach / vigil / hold share it).
+	struct FVentureRun
+	{
+		bool bOn = false;
+		FString Zone, Kind, Mode, Mod;
+		bool bHard = false;
+		int32 L = 0;
+		int32 Set = 0;
+		int32 Wave = 0;
+		int32 Kills = 0;
+		int32 Goal = 0;
+		int32 Away = 0;
+		int32 Phase = 0;
+		float Ward = 100.f;
+		int64 StartMs = 0;
+		TArray<FVector2D> NodePos;
+		TArray<float> NodeP;
+		FVector2D Return = FVector2D(0.0, 10.0);
+		TArray<TWeakObjectPtr<AAerondelMob>> Foes;
+		TWeakObjectPtr<AAerondelMob> Boss;
+	};
+	FVentureRun Run;
+	struct FTideRegion { FString Name; FVector2D C = FVector2D::ZeroVector; float R = 50.f; FString Camp; FVector2D CampOff = FVector2D::ZeroVector; bool bCamp = false; };
+	TArray<FTideRegion> TideRegions;
+	bool bTideLoaded = false;
+	int32 TideRegion = -1;
+	int64 TideUntil = 0;
+	int64 TideNext = 0;
+	int32 TideStacks = 0;
+	bool bTideWaved = false;
+	TArray<TWeakObjectPtr<AAerondelMob>> TideWaveMobs;
+	int32 TidesSeen = 0;
+	int32 TidesBest = 0;
+	int32 BreachRuns = 0;
+	int32 BreachAnima = 0;
+	TMap<FString, FString> BreachBest;
+	int64 TetherReady = 0;
 };

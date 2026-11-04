@@ -66400,6 +66400,15 @@
    "z": -16,
    "town": "Larkhaven",
    "tint": "#6ad0c0"
+  },
+  "breachwarden": {
+   "name": "Breachwarden Kael",
+   "examine": "Rifts open out past the western mists. Short runs, odd twists, good pay. Pick one.",
+   "service": "breach",
+   "x": -14,
+   "z": -14,
+   "town": "Larkhaven",
+   "tint": "#5a6ad0"
   }
  },
  "towns": [

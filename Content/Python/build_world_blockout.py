@@ -21,7 +21,8 @@ from build_starter_town import V, box, label, actors, levels, spawn, CUBE, CYL, 
 
 MAP = ROOT + "/Maps/World"
 FEATURE_SITES = [("wellmere", 40, 90, 12), ("siege_fort", -1000, -640, 16), ("wilds", 122, -122, 20),
-                 ("port_sarim_dock", -80, 76, 8), ("brineholt", 80, 1030, 14)]
+                 ("port_sarim_dock", -80, 76, 8), ("brineholt", 80, 1030, 14),
+                 ("venture_vigil", -1000, 135, 14), ("venture_breach", -1000, 205, 14), ("venture_hold", -1000, 270, 14)]
 STATION = {"range": "RANGE", "furnace": "FURNACE", "anvil": "ANVIL", "fire": "FIRE"}
 
 
@@ -243,6 +244,17 @@ def run(small=False):
         banner = mat("WildsBanner", (0.6, 0.1, 0.1))
         for i, (dx, dz) in enumerate(((-6, -6), (6, -6), (-6, 6), (6, 6))):
             box("Wilds_Banner_%d" % i, "FeatureSites/Wilds", (122 + dx, 2.5, -122 + dz), (0.2, 5, 1.2), banner)
+        # Ventures pads (web adapt/zone.js): flat 28x28 floors with low walls at x = -1000.
+        for zid, zz, fc, ec in (("Vigil", 135, (0.23, 0.2, 0.27), (0.5, 0.35, 0.55)), ("Breach", 205, (0.23, 0.23, 0.27), (0.42, 0.35, 0.54)),
+                                ("Hold", 270, (0.3, 0.26, 0.2), (0.5, 0.4, 0.28))):
+            fl, ed = mat("Venture%sFloor" % zid, fc), mat("Venture%sEdge" % zid, ec)
+            box("Venture_%s_Floor" % zid, "FeatureSites/Ventures", (-1000, 0.05, zz), (28, 0.1, 28), fl)
+            for i, (w, d, dx, dz) in enumerate(((28, 0.6, 0, -14), (28, 0.6, 0, 14), (0.6, 28, -14, 0), (0.6, 28, 14, 0))):
+                box("Venture_%s_Wall_%d" % (zid, i), "FeatureSites/Ventures", (-1000 + dx, 0.8, zz + dz), (w, 1.6, d), ed)
+        node = mat("BreachNode", (0.8, 0.3, 1.0))
+        for i, (dx, dz) in enumerate(((-8, -6), (8, -6), (0, -11))):
+            box("Venture_Breach_Node_%d" % i, "FeatureSites/Ventures", (-1000 + dx, 0.5, 205 + dz), (1.2, 1, 1.2), node)
+        box("Venture_Breach_Ward", "FeatureSites/Ventures", (-1000, 1.1, 205), (1.6, 2.2, 1.6), mat("BreachWard", (0.4, 0.8, 1.0)))
         felt = mat("CardFelt", (0.1, 0.4, 0.2))
         for i in range(2):
             box("Card_Table_%d" % i, "FeatureSites/Brineholt", (80 + i * 4 - 2, 0.45, 1030), (2, 0.9, 1.2), felt)

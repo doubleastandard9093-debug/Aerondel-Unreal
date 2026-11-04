@@ -112,6 +112,7 @@ void UVenturesFeature::ResetState()
 	Unknown.Reset();
 	ResetQuick();
 	ResetCombat();
+	ResetZone();
 }
 
 void UVenturesFeature::SaveState(FJsonObject& Out) const
@@ -119,6 +120,7 @@ void UVenturesFeature::SaveState(FJsonObject& Out) const
 	for (const auto& U : Unknown) Out.SetField(U.Key, U.Value); // keys from a newer build survive a round trip
 	SaveQuick(Out);
 	SaveCombat(Out);
+	SaveZone(Out);
 }
 
 void UVenturesFeature::LoadState(const FJsonObject& In)
@@ -127,17 +129,20 @@ void UVenturesFeature::LoadState(const FJsonObject& In)
 	for (const auto& V : In.Values) Unknown.Add(V.Key, V.Value);
 	LoadQuick(In);
 	LoadCombat(In);
+	LoadZone(In);
 }
 
 void UVenturesFeature::OnGameTick()
 {
 	++TickN;
 	TickQuick();
+	TickZone();
 }
 
 void UVenturesFeature::OnPlayerDied()
 {
 	Puz = FRelicPuzzle();
+	if (Run.bOn) RunEnd(false);
 }
 
 void UVenturesFeature::HandleMobKilled(UMobDef* Mob)
@@ -153,7 +158,7 @@ float UVenturesFeature::AccuracyBonus(const UMobDef* Target) const { return FMat
 float UVenturesFeature::DamageTakenMult(const UMobDef* Source, float HpFrac) const
 {
 	FlareAdd(1.2f); // only called for a hit that lands (Amount > 0)
-	return 1.f - FMath::Clamp(SumDr(Source), 0.f, CapDr);
+	return (1.f - FMath::Clamp(SumDr(Source), 0.f, CapDr)) * TakenZone();
 }
 float UVenturesFeature::XpBonus(FName SkillId) const { return FMath::Clamp(SumXp(SkillId), 0.f, CapXp); }
 
@@ -176,7 +181,7 @@ float UVenturesFeature::SumDr(const UMobDef* Source) const
 }
 float UVenturesFeature::SumXp(FName SkillId) const
 {
-	float T = LedgerTier() * 0.02f + XpCombat(SkillId);
+	float T = LedgerTier() * 0.02f + XpCombat(SkillId) + XpZone(SkillId);
 	return T;
 }
 float UVenturesFeature::FlareGainBonus() const
@@ -207,6 +212,7 @@ void UVenturesFeature::HookMobDied(AAerondelMob* Mob, AActor* Killer)
 void UVenturesFeature::DiedMore(AAerondelMob* Mob, bool bByPlayer)
 {
 	DiedCombat(Mob, bByPlayer);
+	DiedZone(Mob, bByPlayer);
 }
 
 bool UVenturesFeature::BuildTabMore(const FString& Tab, FGPanelModel& M)
@@ -215,6 +221,9 @@ bool UVenturesFeature::BuildTabMore(const FString& Tab, FGPanelModel& M)
 	if (Tab == TEXT("sigils")) { TabSigils(M); return true; }
 	if (Tab == TEXT("grafts")) { TabGrafts(M); return true; }
 	if (Tab == TEXT("stance")) { TabStance(M); return true; }
+	if (Tab == TEXT("tides")) { TabTides(M); return true; }
+	if (Tab == TEXT("breach")) { TabBreach(M); return true; }
+	if (Tab == TEXT("tether")) { TabTether(M); return true; }
 	return false;
 }
 
@@ -224,16 +233,21 @@ void UVenturesFeature::OverviewMore(FGPanelModel& M)
 	VAct(M, TEXT("Engrave Sigils"), [this] { GoTab(TEXT("sigils")); });
 	VAct(M, TEXT("Riven Grafts"), [this] { GoTab(TEXT("grafts")); });
 	VAct(M, TEXT("Twin Stance"), [this] { GoTab(TEXT("stance")); });
+	VAct(M, TideRegion >= 0 ? TEXT("Burst Tides (surging!)") : TEXT("Burst Tides"), [this] { GoTab(TEXT("tides")); });
+	VAct(M, TEXT("Breach Runs"), [this] { GoTab(TEXT("breach")); });
+	VAct(M, TEXT("Tetherline (L)"), [this] { GoTab(TEXT("tether")); });
 }
 
 float UVenturesFeature::HookRespawnScale(const AAerondelMob* Mob)
 {
-	return 1.f;
+	const UVenturesFeature* V = Get(Mob);
+	return V ? V->RespawnZone(Mob) : 1.f;
 }
 
 void UVenturesFeature::OnKey(FName Key)
 {
 	if (Key == FName(TEXT("overflare"))) { Flare(); return; }
+	if (Key == FName(TEXT("tether"))) { Tether(); return; }
 }
 
 // ---------------------------------------------------------------- helpers
@@ -617,7 +631,7 @@ void UVenturesFeature::RelicFinish(bool bOk)
 
 bool UVenturesFeature::IsVenturePanel(const FString& P)
 {
-	return P.StartsWith(TEXT("ventures")) || P == TEXT("reliquary") || P == TEXT("grafts");
+	return P.StartsWith(TEXT("ventures")) || P == TEXT("reliquary") || P == TEXT("grafts") || P == TEXT("breach");
 }
 
 void UVenturesFeature::GoTab(const FString& Tab) const
