@@ -27,6 +27,8 @@ public:
 	/** Opens a C++ UMG feature panel (see FAerondelPanels) with an optional context actor (the NPC / shop counter). */
 	UFUNCTION(BlueprintCallable, Category="Aerondel") void OpenPanel(FName Panel, AActor* Context);
 	UFUNCTION(BlueprintCallable, Category="Aerondel") void ClosePanel();
+	/** Name of the open panel, or None. */
+	FName GetOpenPanel() const;
 private:
 	void BindPad();
 	void DrawPadMenu(class AAerondelPlayerState* PS);

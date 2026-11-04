@@ -5021,6 +5021,10 @@
   "Guild crest": {
    "value": 250,
    "examine": "A crest of your guild. Hand it to Guildmaster Halvard for renown."
+  },
+  "Dowsing rod": {
+   "value": 60,
+   "examine": "Twitches near buried reliquaries."
   }
  },
  "metals": [

@@ -24,6 +24,11 @@
 #include "Core/AerondelPlayerState.h"
 #include "Inventory/EquipmentComponent.h"
 #include "Data/ItemDef.h"
+#include "Features/VenturesFeature.h"
+#include "UI/AerondelHUD.h"
+#include "InputAction.h"
+#include "InputMappingContext.h"
+#include "InputCoreTypes.h"
 
 AAerondelCharacter::AAerondelCharacter()
 {
@@ -70,6 +75,8 @@ void AAerondelCharacter::PawnClientRestart()
 			if (UInputMappingContext* IMC = UAerondelInputConfig::Get()->DesktopContext.LoadSynchronous()) Sub->AddMappingContext(IMC, 0);
 			// Gamepad layout sits above the desktop context so its keys consume any old gamepad rows there.
 			if (Gamepad) if (UInputMappingContext* Pad = Gamepad->GetContext()) Sub->AddMappingContext(Pad, 1);
+			BuildVentureKeys();
+			if (VentureContext) Sub->AddMappingContext(VentureContext, 2);
 		}
 }
 
@@ -90,6 +97,16 @@ void AAerondelCharacter::SetupPlayerInputComponent(UInputComponent* Input)
 	if (UInputAction* A = Cfg->Interact.LoadSynchronous()) EIC->BindAction(A, ETriggerEvent::Started, this, &AAerondelCharacter::OnInteract);
 	if (UInputAction* A = Cfg->Jump.LoadSynchronous()) EIC->BindAction(A, ETriggerEvent::Started, this, &ACharacter::Jump);
 	if (Gamepad) Gamepad->Bind(EIC);
+	if (EIC)
+	{
+		BuildVentureKeys();
+		static const TCHAR* Names[] = { TEXT("overflare"), TEXT("ventures"), TEXT("tether"), TEXT("super"), TEXT("dash") };
+		for (int32 i = 0; i < VentureActions.Num() && i < 5; ++i)
+		{
+			const FName K(Names[i]);
+			EIC->BindAction(VentureActions[i].Get(), ETriggerEvent::Started, this, &AAerondelCharacter::OnVentureKey, K);
+		}
+	}
 	// Click is bound by AAerondelPlayerController (needs the cursor).
 }
 
@@ -201,11 +218,43 @@ void AAerondelCharacter::RefreshGearTint()
 {
 	const AAerondelPlayerState* S = GetPlayerState<AAerondelPlayerState>();
 	const UItemDef* Body = S && S->Equipment ? S->Equipment->GetEquipped(EEquipSlot::Body) : nullptr;
-	if (Body == TintedBody.Get()) return;
-	TintedBody = Body;
-	const bool bTinted = Body && !Body->Tint.Equals(FLinearColor::White);
+	FLinearColor Want = Body ? Body->Tint : FLinearColor::White;
+	float Blend = 0.35f;
+	FLinearColor Dye;
+	if (Body && UVenturesFeature::BodyDye(this, Dye)) { Want = Dye; Blend = 0.55f; } // Kitbash Wardrobe body dye
+	if (Body == TintedBody.Get() && Want.Equals(AppliedTint)) return;
+	TintedBody = Body; AppliedTint = Want;
+	const bool bTinted = !Want.Equals(FLinearColor::White);
 	// Web gearKind/metalColor tints the armour pieces; one rig mesh here, so a light whole-body blend (0 restores the original colours).
-	if (bTinted || UntintedColors.Num()) UAerondelModelLibrary::ApplyTint(GetMesh(), bTinted ? Body->Tint : FLinearColor::White, bTinted ? 0.35f : 0.f, &UntintedColors);
+	if (bTinted || UntintedColors.Num()) UAerondelModelLibrary::ApplyTint(GetMesh(), bTinted ? Want : FLinearColor::White, bTinted ? Blend : 0.f, &UntintedColors);
+}
+
+void AAerondelCharacter::BuildVentureKeys()
+{
+	if (VentureContext) return;
+	VentureContext = NewObject<UInputMappingContext>(this, TEXT("IMC_Ventures"));
+	static const TCHAR* Names[] = { TEXT("IA_VentureFlare"), TEXT("IA_VentureHub"), TEXT("IA_VentureTether"), TEXT("IA_VentureSuper"), TEXT("IA_VentureDash") };
+	const FKey Keys[] = { EKeys::U, EKeys::J, EKeys::L, EKeys::N, EKeys::C };
+	for (int32 i = 0; i < 5; ++i)
+	{
+		UInputAction* A = NewObject<UInputAction>(this, FName(Names[i]));
+		A->ValueType = EInputActionValueType::Boolean;
+		VentureActions.Add(A);
+		VentureContext->MapKey(A, Keys[i]);
+	}
+}
+
+void AAerondelCharacter::OnVentureKey(FName Key)
+{
+	if (Key == FName(TEXT("ventures")))
+	{
+		APlayerController* PC = Cast<APlayerController>(GetController());
+		AAerondelHUD* Hud = PC ? Cast<AAerondelHUD>(PC->GetHUD()) : nullptr;
+		if (!Hud) return;
+		if (Hud->GetOpenPanel().ToString().StartsWith(TEXT("ventures"))) Hud->ClosePanel(); else Hud->OpenPanel(TEXT("ventures"), nullptr);
+		return;
+	}
+	if (UVenturesFeature* V = UVenturesFeature::Get(this)) V->OnKey(Key);
 }
 
 void AAerondelCharacter::PlayBodyAnim(FName State) { if (bRigged) UAerondelModelLibrary::SetAnimState(GetMesh(), State); }

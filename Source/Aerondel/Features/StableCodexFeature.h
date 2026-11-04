@@ -36,6 +36,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category="Aerondel|Codex") void MarkSeen(const FString& Item) { if (Seen.Num() < 400) Seen.AddUnique(Item); }
 	/** Slot: head, body, legs, shield, cape. Empty item clears the look. */
 	UFUNCTION(BlueprintCallable, Category="Aerondel|Codex") bool SetLook(const FString& Slot, const FString& Item);
+	const TArray<FString>& GetSeen() const { return Seen; }
 	UFUNCTION(BlueprintPure, Category="Aerondel|Codex") FString GetLook(const FString& Slot) const { const FString* L = Looks.Find(Slot); return L ? *L : FString(); }
 
 private:

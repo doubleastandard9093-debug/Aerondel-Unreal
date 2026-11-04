@@ -75,6 +75,13 @@ float UAerondelFeature::TotalDamageDealtBonus(const UObject* WorldContext, const
 	return FMath::Max(-0.5f, B); // no upper cap (web v21)
 }
 
+float UAerondelFeature::TotalAccuracyBonus(const UObject* WorldContext, const UMobDef* Target)
+{
+	float B = 0.f;
+	if (const UGameInstance* GI = FeatureGI(WorldContext)) for (const UAerondelFeature* F : AllFor(GI)) B += F->AccuracyBonus(Target);
+	return FMath::Max(-0.5f, B);
+}
+
 void UAerondelFeature::NotifyPlayerDied(const UObject* WorldContext)
 {
 	if (const UGameInstance* GI = FeatureGI(WorldContext)) for (UAerondelFeature* F : AllFor(GI)) F->OnPlayerDied();

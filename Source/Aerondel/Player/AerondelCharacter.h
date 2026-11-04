@@ -57,6 +57,12 @@ private:
 	void OnOrbitStart(const FInputActionValue& V) { bOrbiting = true; }
 	void OnOrbitEnd(const FInputActionValue& V) { bOrbiting = false; }
 	void OnInteract(const FInputActionValue& V);
+	/** Ventures keys (U Overflare, J hub, L Tether, N Attunement super, C Glidewalk dash): runtime actions + context, like the gamepad layout. */
+	void BuildVentureKeys();
+	void OnVentureKey(FName Key);
+	UPROPERTY(Transient) TObjectPtr<class UInputMappingContext> VentureContext;
+	UPROPERTY(Transient) TArray<TObjectPtr<class UInputAction>> VentureActions;
+	FLinearColor AppliedTint = FLinearColor::White;
 
 	TWeakObjectPtr<AActor> Pending;
 	bool bOrbiting = false;

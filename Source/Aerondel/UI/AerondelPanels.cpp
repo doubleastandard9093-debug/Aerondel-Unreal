@@ -21,6 +21,7 @@
 #include "Features/DelvingFeature.h"
 #include "Features/GuildFeature.h"
 #include "Features/SeasonalEventsFeature.h"
+#include "Features/VenturesFeature.h"
 #include "Activities/ActivityActors.h"
 #include "Interaction/AerondelInteractable.h"
 #include "Interaction/NpcTalk.h"
@@ -75,6 +76,9 @@ void FAerondelPanels::Build(UWorld* W, FName Panel, AActor* Ctx, FGPanelModel& M
 	const FString NpcName = Npc && Npc->Definition ? Npc->Definition->DisplayName.ToString() : FString();
 	const FName NpcId = Npc && Npc->Definition ? Npc->Definition->Id : NAME_None;
 
+	// Ventures (J): every ventures* panel and the Ventures NPC services.
+	if (UVenturesFeature::IsVenturePanel(P)) if (UVenturesFeature* V = Sub<UVenturesFeature>(W)) if (V->BuildPanel(P, M)) return;
+
 	if (P == TEXT("pad_inventory"))
 	{
 		M.Title = TEXT("Inventory");
@@ -95,6 +99,7 @@ void FAerondelPanels::Build(UWorld* W, FName Panel, AActor* Ctx, FGPanelModel& M
 		Act(M, TEXT("Relicry"), Go(TEXT("relicry")));
 		Act(M, TEXT("Delving"), Go(TEXT("delving")));
 		Act(M, TEXT("Guild"), Go(TEXT("guild")));
+		Act(M, TEXT("Ventures (J)"), Go(TEXT("ventures")));
 		if (USeasonalEventsFeature::ActiveIndices().Num() > 0) Act(M, TEXT("Festival"), Go(TEXT("festival")));
 		if (UHearthFeature* H = Sub<UHearthFeature>(W)) if (H->HasDeed()) Act(M, TEXT("Hearthstead"), Go(TEXT("hearth")));
 		Close(M); return;

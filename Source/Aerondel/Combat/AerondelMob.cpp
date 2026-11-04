@@ -8,6 +8,7 @@
 #include "Data/MobDef.h"
 #include "Data/ItemDef.h"
 #include "Core/AerondelEvents.h"
+#include "Features/VenturesFeature.h"
 #include "Models/AerondelModelLibrary.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "Core/AerondelPlayerState.h"
@@ -145,6 +146,7 @@ void AAerondelMob::ReceivePlayerHit(AActor* Attacker, float Power)
 void AAerondelMob::TakePlayerDamage(int32 Damage, AActor* Attacker)
 {
 	if (State == EMobState::Dead) return;
+	Damage = UVenturesFeature::HookPlayerHit(this, Damage, Attacker); // Ventures: Crestbreak, Overflare gain, Attunements
 	Target = Attacker;
 	if (State != EMobState::Attack) { SetState(EMobState::Chase); AttackCooldown = FMath::Min(AttackCooldown, UAerondelRules::TickSeconds); }
 	if (bRigged && Damage > 0 && !UAerondelModelLibrary::IsBusy(GetMesh())) UAerondelModelLibrary::SetAnimState(GetMesh(), TEXT("hit"));
@@ -314,12 +316,13 @@ void AAerondelMob::HandleDied(AActor* Killer)
 				AGroundItem::Spawn(GetWorld(), DropItem, FMath::RandRange(D.Min, D.Max), GetActorLocation() - FVector(0, 0, GetCapsuleComponent()->GetScaledCapsuleHalfHeight() - 15.f) + FVector(FMath::FRandRange(-40.f, 40.f), FMath::FRandRange(-40.f, 40.f), 0));
 		}
 		if (UAerondelEvents* Ev = UAerondelEvents::Get(this)) Ev->OnMobKilled.Broadcast(Definition);
+		UVenturesFeature::HookMobDied(this, Killer);
 	}
 	Target = nullptr;
 	SetActorEnableCollision(false);
 	if (bRigged) { UAerondelModelLibrary::SetAnimState(GetMesh(), TEXT("death")); GetWorldTimerManager().SetTimer(CorpseTimer, this, &AAerondelMob::HideCorpse, 1.6f, false); }
 	else SetActorHiddenInGame(true);
-	GetWorldTimerManager().SetTimer(RespawnTimer, this, &AAerondelMob::Respawn, Definition ? Definition->RespawnSeconds : 20.f, false);
+	GetWorldTimerManager().SetTimer(RespawnTimer, this, &AAerondelMob::Respawn, FMath::Max(1.f, (Definition ? Definition->RespawnSeconds : 20.f) * UVenturesFeature::HookRespawnScale(this)), false);
 }
 
 void AAerondelMob::Respawn()

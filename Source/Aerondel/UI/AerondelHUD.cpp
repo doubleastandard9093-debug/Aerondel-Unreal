@@ -67,6 +67,8 @@ void AAerondelHUD::OpenPanel(FName PanelName, AActor* Context)
 	Panel->Open(PanelName, Context);
 }
 
+FName AAerondelHUD::GetOpenPanel() const { return Panel && Panel->IsInViewport() ? Panel->GetPanel() : NAME_None; }
+
 void AAerondelHUD::ClosePanel()
 {
 	if (Panel && Panel->IsInViewport()) Panel->RemoveFromParent();

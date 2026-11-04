@@ -35,6 +35,8 @@ public:
 	virtual float DamageTakenMult(const UMobDef* Source, float HpFrac) const { return 1.f; }
 	/** Additive bonus on player damage dealt (0.05 = +5%). */
 	virtual float DamageDealtBonus(const UMobDef* Target) const { return 0.f; }
+	/** Additive bonus on player accuracy (0.05 = +5%), added to the swing's accuracy bonus. */
+	virtual float AccuracyBonus(const UMobDef* Target) const { return 0.f; }
 	/** Called when the player dies. */
 	virtual void OnPlayerDied() {}
 	/** Called every game tick (0.6 s) by UFeatureTicker. */
@@ -45,6 +47,7 @@ public:
 	static float TotalXpBonus(const UObject* WorldContext, FName SkillId);
 	static float TotalDamageTakenMult(const UObject* WorldContext, const UMobDef* Source, float HpFrac);
 	static float TotalDamageDealtBonus(const UObject* WorldContext, const UMobDef* Target);
+	static float TotalAccuracyBonus(const UObject* WorldContext, const UMobDef* Target);
 	static void NotifyPlayerDied(const UObject* WorldContext);
 	/** Unix time in ms (the web build uses Date.now()). */
 	static int64 NowMs();

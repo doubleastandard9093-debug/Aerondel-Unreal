@@ -336,7 +336,7 @@ float UAerondelRules::PlayerAccuracy(const AAerondelPlayerState* PS, const UMobD
 	const float L = Base + (S ? S->AttackBonus : 0) + 8.f;
 	const float Att = L * FMath::Max(16.f, 64.f + (bR ? B.RangedAttack : B.Attack) * 3.f);
 	const float Def = ((Mob ? Mob->DefenceLevel : 1) + 8.f) * 64.f;
-	const float Bonus = (bR ? Perk(PS, TEXT("ranged"), TEXT("racc")) + SetFx(PS, TEXT("racc")) : Perk(PS, TEXT("attack"), TEXT("acc")) + SetFx(PS, TEXT("acc"))) + Mods.Accuracy;
+	const float Bonus = (bR ? Perk(PS, TEXT("ranged"), TEXT("racc")) + SetFx(PS, TEXT("racc")) : Perk(PS, TEXT("attack"), TEXT("acc")) + SetFx(PS, TEXT("acc"))) + Mods.Accuracy + UAerondelFeature::TotalAccuracyBonus(PS, Mob);
 	return HitChance(Att, Def) * (1.f + Bonus);
 }
 

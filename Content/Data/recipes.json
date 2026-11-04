@@ -2812,6 +2812,21 @@
    },
    "output": "Emberite chakram",
    "xp": 90
+  },
+  {
+   "station": null,
+   "tool": null,
+   "name": "Craft Dowsing rod",
+   "cat": "Crafting",
+   "group": "Tools",
+   "skill": "Crafting",
+   "level": 10,
+   "inputs": {
+    "Logs": 1,
+    "Iron bar": 1
+   },
+   "output": "Dowsing rod",
+   "xp": 25
   }
  ],
  "potionRecipes": [

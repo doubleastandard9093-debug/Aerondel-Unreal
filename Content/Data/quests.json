@@ -66382,6 +66382,15 @@
     "The spring is all Thistlewell has. Everyone wants it.",
     "Charter or Commons, sooner or later you'll have to pick a side."
    ]
+  },
+  "wayfinder": {
+   "name": "Wayfinder Orla",
+   "examine": "A treasure-hunter with a twitching rod. Ventures: Hidden Reliquaries.",
+   "service": "reliquary",
+   "x": -9,
+   "z": 23,
+   "town": "Larkhaven",
+   "tint": "#6a8a5a"
   }
  },
  "towns": [
