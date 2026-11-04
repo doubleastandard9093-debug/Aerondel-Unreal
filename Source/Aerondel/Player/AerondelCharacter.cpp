@@ -186,6 +186,7 @@ void AAerondelCharacter::BeginPlay()
 	if (USkeletalMeshComponent* Sk = GetMesh())
 	{
 		bRigged = UAerondelModelLibrary::ApplyRig(Sk, TEXT("player"));
+		UE_LOG(LogTemp, Log, TEXT("[Aerondel] Spawn player %s: rig %s"), *GetName(), bRigged ? TEXT("applied") : TEXT("FAILED, placeholder body"));
 		if (bRigged)
 		{
 			UAerondelModelLibrary::FitRig(Sk, 178.f, GetCapsuleComponent()->GetUnscaledCapsuleHalfHeight());

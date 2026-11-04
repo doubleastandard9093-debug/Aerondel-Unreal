@@ -25,11 +25,13 @@ void APartyFollower::Setup(FName InId, const FString& InName, const FString& Sty
 {
 	Id = InId; DisplayName = InName;
 	// Rigged model for the companion's role (Lite rigs.js npc mapping); stays a capsule when models are not imported yet.
-	if (UAerondelModelLibrary::ApplyRig(Rig, Style == TEXT("magic") ? TEXT("npc_mage") : Style == TEXT("ranged") ? TEXT("npc_ranger") : TEXT("npc_knight")))
+	const bool bRig = UAerondelModelLibrary::ApplyRig(Rig, Style == TEXT("magic") ? TEXT("npc_mage") : Style == TEXT("ranged") ? TEXT("npc_ranger") : TEXT("npc_knight"));
+	UE_LOG(LogTemp, Log, TEXT("[Aerondel] Spawn companion %s (%s): rig %s"), *InId.ToString(), *Style, bRig ? TEXT("applied") : TEXT("FAILED, capsule"));
+	if (bRig)
 	{
 		Body->SetVisibility(false);
 		Rig->SetUsingAbsoluteScale(true); Rig->SetWorldScale3D(FVector(1.f));
-		Rig->SetRelativeLocation(FVector(0.f, 0.f, -50.f));
+		UAerondelModelLibrary::FitRig(Rig, 172.f, 50.f); // body is ~100 cm tall: feet 50 cm below its centre
 	}
 }
 
