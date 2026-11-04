@@ -238,6 +238,7 @@ void UVenturesFeature::DiedZone(AAerondelMob* Mob, bool bByPlayer)
 	for (const TWeakObjectPtr<AAerondelMob>& W : TideWaveMobs) if (W.Get() == Mob) bTideBoss = true;
 	DiedGear(Mob, bByPlayer, bTideBoss);
 	DiedRaid(Mob, bByPlayer);
+	DiedSeason(Mob, bByPlayer, bTideBoss);
 	if (bByPlayer && !bVenture && InTide())
 	{
 		TideStacks = FMath::Min(50, TideStacks + 1);
@@ -485,6 +486,7 @@ void UVenturesFeature::BreachFinish(bool bWin)
 	Say(FString::Printf(TEXT("Breach cleared in %ds - grade %s! +%d coins, +%d Anima."), FMath::RoundToInt(Secs), *Grade, CoinsWon, Anima));
 	if (Grade == TEXT("S") || Run.bHard || FMath::FRand() < 0.35f) BonusDrop(nullptr, TEXT("the breach"));
 	BreachClearGear(Run.Mode);
+	ChronBreach();
 }
 
 void UVenturesFeature::TabBreach(FGPanelModel& M)

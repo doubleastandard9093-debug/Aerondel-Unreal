@@ -115,6 +115,7 @@ void UVenturesFeature::ResetState()
 	ResetZone();
 	ResetGear();
 	ResetRaid();
+	ResetSeason();
 }
 
 void UVenturesFeature::SaveState(FJsonObject& Out) const
@@ -125,6 +126,7 @@ void UVenturesFeature::SaveState(FJsonObject& Out) const
 	SaveZone(Out);
 	SaveGear(Out);
 	SaveRaid(Out);
+	SaveSeason(Out);
 }
 
 void UVenturesFeature::LoadState(const FJsonObject& In)
@@ -136,6 +138,7 @@ void UVenturesFeature::LoadState(const FJsonObject& In)
 	LoadZone(In);
 	LoadGear(In);
 	LoadRaid(In);
+	LoadSeason(In);
 }
 
 void UVenturesFeature::OnGameTick()
@@ -179,17 +182,17 @@ float UVenturesFeature::SumDmg(const UMobDef* Target) const
 }
 float UVenturesFeature::SumAcc(const UMobDef* Target) const
 {
-	float T = AccCombat() + AccGear() + AccRaid();
+	float T = AccCombat() + AccGear() + AccRaid() + AccSeason();
 	return T;
 }
 float UVenturesFeature::SumDr(const UMobDef* Source) const
 {
-	float T = LedgerTier() * 0.01f + DrCombat() + DrGear() + DrRaid();
+	float T = LedgerTier() * 0.01f + DrCombat() + DrGear() + DrRaid() + DrSeason();
 	return T;
 }
 float UVenturesFeature::SumXp(FName SkillId) const
 {
-	float T = LedgerTier() * 0.02f + XpCombat(SkillId) + XpZone(SkillId) + XpGear(SkillId) + XpRaid(SkillId);
+	float T = LedgerTier() * 0.02f + XpCombat(SkillId) + XpZone(SkillId) + XpGear(SkillId) + XpRaid(SkillId) + XpSeason();
 	return T;
 }
 float UVenturesFeature::FlareGainBonus() const
@@ -239,6 +242,7 @@ bool UVenturesFeature::BuildTabMore(const FString& Tab, FGPanelModel& M)
 	if (Tab == TEXT("vigil")) { TabVigil(M); return true; }
 	if (Tab == TEXT("attune")) { TabAttune(M); return true; }
 	if (Tab == TEXT("hold")) { TabHold(M); return true; }
+	if (Tab == TEXT("chron")) { TabChron(M); return true; }
 	return false;
 }
 
@@ -258,6 +262,8 @@ void UVenturesFeature::OverviewMore(FGPanelModel& M)
 	VAct(M, TEXT("Vigil Gates"), [this] { GoTab(TEXT("vigil")); });
 	VAct(M, TEXT("Elemental Attunements (N)"), [this] { GoTab(TEXT("attune")); });
 	VAct(M, TEXT("Hearthhold"), [this] { GoTab(TEXT("hold")); });
+	VAct(M, TEXT("Season Chronicle"), [this] { GoTab(TEXT("chron")); });
+	VAct(M, TEXT("Dash / Glide (C)"), [this] { Dash(); }, true, true);
 }
 
 float UVenturesFeature::HookRespawnScale(const AAerondelMob* Mob)
@@ -271,6 +277,7 @@ void UVenturesFeature::OnKey(FName Key)
 	if (Key == FName(TEXT("overflare"))) { Flare(); return; }
 	if (Key == FName(TEXT("tether"))) { Tether(); return; }
 	if (Key == FName(TEXT("super"))) { SuperUse(); return; }
+	if (Key == FName(TEXT("dash"))) { Dash(); return; }
 }
 
 // ---------------------------------------------------------------- helpers

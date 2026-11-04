@@ -5110,6 +5110,26 @@
    "type": "misc",
    "value": 800,
    "examine": "Sealed. It opens when you clear a Sever the Nodes Breach Run while carrying it."
+  },
+  "Bloomward Seal fragment": {
+   "type": "misc",
+   "value": 2500,
+   "examine": "A shard of this season's artifact. A keepsake of a finished Chronicle chapter."
+  },
+  "Sunforged Seal fragment": {
+   "type": "misc",
+   "value": 2500,
+   "examine": "A shard of this season's artifact. A keepsake of a finished Chronicle chapter."
+  },
+  "Harvestmoon Seal fragment": {
+   "type": "misc",
+   "value": 2500,
+   "examine": "A shard of this season's artifact. A keepsake of a finished Chronicle chapter."
+  },
+  "Rimeheart Seal fragment": {
+   "type": "misc",
+   "value": 2500,
+   "examine": "A shard of this season's artifact. A keepsake of a finished Chronicle chapter."
   }
  },
  "metals": [

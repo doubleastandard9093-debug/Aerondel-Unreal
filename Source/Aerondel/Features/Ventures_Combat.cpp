@@ -184,7 +184,7 @@ int32 UVenturesFeature::HitCombat(AAerondelMob* Mob, int32 D)
 	const bool bFull = Mob->GetHp() >= Mob->GetMaxHp();
 	// Per-foe damage that the def-only DamageDealtBonus cannot see: broken parts and Ambush.
 	float Extra = (IsBroken(Mob) ? (WeaponClass() == FName(TEXT("katana")) ? 0.7f : 0.4f) : 0.f) + (bFull ? Sig(TEXT("ambush")) : 0.f);
-	Extra += DmgRaidActor(Mob);
+	Extra += DmgRaidActor(Mob) + DmgSeasonActor(Mob);
 	Extra = FMath::Min(Extra, CapDmg);
 	if (Extra > 0.f) D = FMath::Max(1, FMath::RoundToInt(D * (1.f + Extra)));
 	const bool bFlare = StrikeKind && FCString::Strcmp(StrikeKind, TEXT("flare")) == 0;
@@ -213,6 +213,7 @@ int32 UVenturesFeature::HitCombat(AAerondelMob* Mob, int32 D)
 		}
 		bBouncing = false;
 	}
+	HitSeason(Mob, D);
 	return HitRaid(Mob, D);
 }
 

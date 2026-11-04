@@ -174,6 +174,13 @@ public:
 	void HoldSend(FName Companion, const FString& Trip);
 	void HoldCollect(FName Companion);
 
+	// ---- group 6: Season Chronicle, Glidewalk (Ventures_Season.cpp) ----
+	void ChronGain(float N);
+	void ChronStep(int32 I, int32 N = 1);
+	/** Dash forward (C); facing a 3 m+ drop it becomes a long glide. */
+	bool Dash();
+	float GlideDrop() const;
+
 protected:
 	UFUNCTION() void HandleMobKilled(UMobDef* Mob);
 
@@ -267,6 +274,20 @@ protected:
 	void TabVigil(FGPanelModel& M);
 	void TabAttune(FGPanelModel& M);
 	void TabHold(FGPanelModel& M);
+	// group 6 internals
+	void ResetSeason();
+	void SaveSeason(FJsonObject& A) const;
+	void LoadSeason(const FJsonObject& A);
+	void ChronCheck();
+	bool ChronModOn(const TCHAR* Key) const;
+	void DiedSeason(AAerondelMob* Mob, bool bByPlayer, bool bTideBoss);
+	void ChronBreach();
+	float DmgSeasonActor(const AAerondelMob* Mob) const;
+	float AccSeason() const;
+	float DrSeason() const;
+	float XpSeason() const;
+	void HitSeason(AAerondelMob* Mob, int32 D);
+	void TabChron(FGPanelModel& M);
 
 	// group 1 internals
 	void ResetQuick();
@@ -397,4 +418,13 @@ protected:
 	double HoldGardenAt = 0.0;
 	int32 HoldDone = 0;
 	FVector2D HoldReturn = FVector2D(0.0, 10.0);
+	// Season Chronicle
+	FString ChronKeyCur;
+	TArray<int32> ChronSteps = { 0, 0, 0, 0 };
+	int32 ChronLv = 0;
+	float ChronXp = 0.f;
+	TArray<FString> ChronOn;
+	bool bChronDone = false;
+	// Glidewalk
+	int64 DashReady = 0;
 };
