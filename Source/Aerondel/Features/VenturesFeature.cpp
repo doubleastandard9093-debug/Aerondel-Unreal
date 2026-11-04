@@ -88,6 +88,9 @@ namespace VenturesData
 }
 using namespace VenturesData;
 
+static void VAct(FGPanelModel& M, const FString& L, TFunction<void()> F, bool bEnabled = true, bool bClose = false)
+{ FGPanelAction A; A.Label = L; A.Run = MoveTemp(F); A.bEnabled = bEnabled; A.bClose = bClose; M.Actions.Add(MoveTemp(A)); }
+
 // ---------------------------------------------------------------- lifecycle / save
 
 void UVenturesFeature::Initialize(FSubsystemCollectionBase& Collection)
@@ -108,12 +111,14 @@ void UVenturesFeature::ResetState()
 {
 	Unknown.Reset();
 	ResetQuick();
+	ResetCombat();
 }
 
 void UVenturesFeature::SaveState(FJsonObject& Out) const
 {
 	for (const auto& U : Unknown) Out.SetField(U.Key, U.Value); // keys from a newer build survive a round trip
 	SaveQuick(Out);
+	SaveCombat(Out);
 }
 
 void UVenturesFeature::LoadState(const FJsonObject& In)
@@ -121,6 +126,7 @@ void UVenturesFeature::LoadState(const FJsonObject& In)
 	ResetState();
 	for (const auto& V : In.Values) Unknown.Add(V.Key, V.Value);
 	LoadQuick(In);
+	LoadCombat(In);
 }
 
 void UVenturesFeature::OnGameTick()
@@ -155,26 +161,27 @@ float UVenturesFeature::XpBonus(FName SkillId) const { return FMath::Clamp(SumXp
 float UVenturesFeature::SumDmg(const UMobDef* Target) const
 {
 	float T = (TickN < FlareBuffUntil ? 0.3f : 0.f) + LedgerTier() * 0.01f;
+	T += DmgCombat(Target);
 	return T;
 }
 float UVenturesFeature::SumAcc(const UMobDef* Target) const
 {
-	float T = 0.f;
+	float T = AccCombat();
 	return T;
 }
 float UVenturesFeature::SumDr(const UMobDef* Source) const
 {
-	float T = LedgerTier() * 0.01f;
+	float T = LedgerTier() * 0.01f + DrCombat();
 	return T;
 }
 float UVenturesFeature::SumXp(FName SkillId) const
 {
-	float T = LedgerTier() * 0.02f;
+	float T = LedgerTier() * 0.02f + XpCombat(SkillId);
 	return T;
 }
 float UVenturesFeature::FlareGainBonus() const
 {
-	float T = 0.f;
+	float T = FlareCombat();
 	return T;
 }
 
@@ -184,7 +191,7 @@ int32 UVenturesFeature::HookPlayerHit(AAerondelMob* Mob, int32 Damage, AActor* A
 {
 	UVenturesFeature* V = Get(Mob);
 	if (!V || !Mob || !Attacker || !AAerondelPlayerState::FromActor(Attacker)) return Damage;
-	const int32 D = FMath::Max(0, Damage);
+	const int32 D = V->HitCombat(Mob, FMath::Max(0, Damage));
 	const bool bFlareStrike = V->StrikeKind && FCString::Strcmp(V->StrikeKind, TEXT("flare")) == 0;
 	if (D > 0 && !bFlareStrike) V->FlareAdd(1.5f + FMath::Min(4.f, D / (float)FMath::Max(1, Mob->GetMaxHp()) * 25.f));
 	return D;
@@ -199,15 +206,24 @@ void UVenturesFeature::HookMobDied(AAerondelMob* Mob, AActor* Killer)
 
 void UVenturesFeature::DiedMore(AAerondelMob* Mob, bool bByPlayer)
 {
+	DiedCombat(Mob, bByPlayer);
 }
 
 bool UVenturesFeature::BuildTabMore(const FString& Tab, FGPanelModel& M)
 {
+	if (Tab == TEXT("crest")) { TabCrest(M); return true; }
+	if (Tab == TEXT("sigils")) { TabSigils(M); return true; }
+	if (Tab == TEXT("grafts")) { TabGrafts(M); return true; }
+	if (Tab == TEXT("stance")) { TabStance(M); return true; }
 	return false;
 }
 
 void UVenturesFeature::OverviewMore(FGPanelModel& M)
 {
+	VAct(M, TEXT("Crestbreak"), [this] { GoTab(TEXT("crest")); });
+	VAct(M, TEXT("Engrave Sigils"), [this] { GoTab(TEXT("sigils")); });
+	VAct(M, TEXT("Riven Grafts"), [this] { GoTab(TEXT("grafts")); });
+	VAct(M, TEXT("Twin Stance"), [this] { GoTab(TEXT("stance")); });
 }
 
 float UVenturesFeature::HookRespawnScale(const AAerondelMob* Mob)
@@ -601,7 +617,7 @@ void UVenturesFeature::RelicFinish(bool bOk)
 
 bool UVenturesFeature::IsVenturePanel(const FString& P)
 {
-	return P.StartsWith(TEXT("ventures")) || P == TEXT("reliquary");
+	return P.StartsWith(TEXT("ventures")) || P == TEXT("reliquary") || P == TEXT("grafts");
 }
 
 void UVenturesFeature::GoTab(const FString& Tab) const
@@ -610,8 +626,6 @@ void UVenturesFeature::GoTab(const FString& Tab) const
 	if (UGameInstance* GI = GetGameInstance()) if (UAerondelEvents* Ev = GI->GetSubsystem<UAerondelEvents>()) Ev->OnServiceRequested.Broadcast(N, nullptr);
 }
 
-static void VAct(FGPanelModel& M, const FString& L, TFunction<void()> F, bool bEnabled = true, bool bClose = false)
-{ FGPanelAction A; A.Label = L; A.Run = MoveTemp(F); A.bEnabled = bEnabled; A.bClose = bClose; M.Actions.Add(MoveTemp(A)); }
 
 void UVenturesFeature::Tabs(FGPanelModel& M, const FString& Cur)
 {
@@ -622,7 +636,7 @@ void UVenturesFeature::Tabs(FGPanelModel& M, const FString& Cur)
 bool UVenturesFeature::BuildPanel(const FString& P, FGPanelModel& M)
 {
 	if (!IsVenturePanel(P)) return false;
-	FString Tab = P == TEXT("reliquary") ? FString(TEXT("reliq")) : P.StartsWith(TEXT("ventures_")) ? P.Mid(9) : FString();
+	FString Tab = P == TEXT("reliquary") ? FString(TEXT("reliq")) : P.StartsWith(TEXT("ventures_")) ? P.Mid(9) : P.StartsWith(TEXT("ventures")) ? FString() : P;
 	M.bLive = true;
 	if (P == TEXT("reliquary"))
 	{

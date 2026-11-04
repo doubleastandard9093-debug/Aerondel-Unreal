@@ -1,5 +1,6 @@
 #include "Rules/AerondelRules.h"
 #include "Features/AerondelFeature.h"
+#include "Features/VenturesFeature.h"
 #include "Features/EconomyFeature.h"
 #include "Core/AerondelPlayerState.h"
 #include "Core/PlayerStatsComponent.h"
@@ -88,6 +89,7 @@ float UAerondelRules::Perk(const AAerondelPlayerState* PS, FName SkillId, FName 
 			if (const float* F = P.Effects.Find(Key)) V += *F;
 		}
 		if (const UItemDef* Cape = Worn(PS, EEquipSlot::Cape)) if (Cape->CapeSkill == SkillId) V *= 1.1f;
+		V *= 1.f + UVenturesFeature::PerkBoost(PS, SkillId); // Twin Stance (web setPerkBoost)
 	}
 	V += Synergy(PS, SkillId, Key); // web: synergy is added after boosts, before the cap
 	return V; // uncapped since web v21 (PerkCaps kept only as reference values)

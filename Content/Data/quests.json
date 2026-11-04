@@ -66391,6 +66391,15 @@
    "z": 23,
    "town": "Larkhaven",
    "tint": "#6a8a5a"
+  },
+  "graftwright": {
+   "name": "Graftwright Oren",
+   "examine": "Any blade or plate can take four grafts. Bring three alike and I'll try fusing them stronger.",
+   "service": "grafts",
+   "x": 13,
+   "z": -16,
+   "town": "Larkhaven",
+   "tint": "#6ad0c0"
   }
  },
  "towns": [

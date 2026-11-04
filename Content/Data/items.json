@@ -5025,6 +5025,71 @@
   "Dowsing rod": {
    "value": 60,
    "examine": "Twitches near buried reliquaries."
+  },
+  "Sigil tome": {
+   "type": "misc",
+   "value": 500,
+   "examine": "Study it in Ventures (J) - Sigils to learn or deepen a sigil."
+  },
+  "Lesser keen graft": {
+   "type": "misc",
+   "value": 300,
+   "examine": "Socket it into gear at Graftwright Oren (Ventures - Grafts)."
+  },
+  "Lesser brutal graft": {
+   "type": "misc",
+   "value": 300,
+   "examine": "Socket it into gear at Graftwright Oren (Ventures - Grafts)."
+  },
+  "Lesser warding graft": {
+   "type": "misc",
+   "value": 300,
+   "examine": "Socket it into gear at Graftwright Oren (Ventures - Grafts)."
+  },
+  "Lesser fervent graft": {
+   "type": "misc",
+   "value": 300,
+   "examine": "Socket it into gear at Graftwright Oren (Ventures - Grafts)."
+  },
+  "Greater keen graft": {
+   "type": "misc",
+   "value": 1500,
+   "examine": "Socket it into gear at Graftwright Oren (Ventures - Grafts)."
+  },
+  "Greater brutal graft": {
+   "type": "misc",
+   "value": 1500,
+   "examine": "Socket it into gear at Graftwright Oren (Ventures - Grafts)."
+  },
+  "Greater warding graft": {
+   "type": "misc",
+   "value": 1500,
+   "examine": "Socket it into gear at Graftwright Oren (Ventures - Grafts)."
+  },
+  "Greater fervent graft": {
+   "type": "misc",
+   "value": 1500,
+   "examine": "Socket it into gear at Graftwright Oren (Ventures - Grafts)."
+  },
+  "Exalted keen graft": {
+   "type": "misc",
+   "value": 6000,
+   "examine": "Socket it into gear at Graftwright Oren (Ventures - Grafts)."
+  },
+  "Exalted brutal graft": {
+   "type": "misc",
+   "value": 6000,
+   "examine": "Socket it into gear at Graftwright Oren (Ventures - Grafts)."
+  },
+  "Exalted warding graft": {
+   "type": "misc",
+   "value": 6000,
+   "examine": "Socket it into gear at Graftwright Oren (Ventures - Grafts)."
+  },
+  "Exalted fervent graft": {
+   "type": "misc",
+   "value": 6000,
+   "examine": "Socket it into gear at Graftwright Oren (Ventures - Grafts)."
   }
  },
  "metals": [

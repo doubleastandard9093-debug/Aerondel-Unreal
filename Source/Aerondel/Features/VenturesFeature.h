@@ -100,6 +100,28 @@ public:
 	void RelicDig();
 	void RelicPress(int32 Rune);
 
+	// ---- group 2: Crestbreak, Engrave Sigils, Riven Grafts, Twin Stance (Ventures_Combat.cpp) ----
+	/** Adds stagger to a boss; at 100 a part breaks (stun 3 ticks, +40% damage / +70% with a katana for 8 ticks). */
+	void Stagger(AAerondelMob* Mob, float N);
+	bool IsBroken(const AAerondelMob* Mob) const;
+	float StaggerOf(const AAerondelMob* Mob) const;
+	int32 SigTier(const FString& Key) const;
+	/** Active sigil value (0 when not engraved). */
+	float Sig(const FString& Key) const;
+	void Study(const FString& Key);
+	void SigToggle(const FString& Key);
+	float GraftSum(const FString& Stat) const;
+	bool GraftOn(const FString& Item, const FString& Graft);
+	void GraftOff(const FString& Item, int32 Index);
+	void GraftFuse(const FString& Graft);
+	bool NearBank() const;
+	void SetStance(const FString& Slot, const FString& Style);
+	bool StanceOn() const;
+	/** UAerondelRules::Perk: Twin Stance multiplies a skill's perks (+20% main, +10% support). */
+	static float PerkBoost(const UObject* WorldContext, FName SkillId);
+	/** A bonus drop from Ventures loot (Sigil tome or a graft). */
+	void BonusDrop(const AAerondelMob* Mob, const FString& Why);
+
 protected:
 	UFUNCTION() void HandleMobKilled(UMobDef* Mob);
 
@@ -121,6 +143,21 @@ protected:
 	void TabWardrobe(FGPanelModel& M);
 	void TabLedger(FGPanelModel& M);
 	void TabReliq(FGPanelModel& M);
+	void TabCrest(FGPanelModel& M);
+	void TabSigils(FGPanelModel& M);
+	void TabGrafts(FGPanelModel& M);
+	void TabStance(FGPanelModel& M);
+	// group 2 internals
+	void ResetCombat();
+	void SaveCombat(FJsonObject& A) const;
+	void LoadCombat(const FJsonObject& A);
+	int32 HitCombat(AAerondelMob* Mob, int32 D);
+	void DiedCombat(AAerondelMob* Mob, bool bByPlayer);
+	float DmgCombat(const UMobDef* Target) const;
+	float AccCombat() const;
+	float DrCombat() const;
+	float XpCombat(FName SkillId) const;
+	float FlareCombat() const;
 
 	// group 1 internals
 	void ResetQuick();
@@ -161,4 +198,18 @@ protected:
 	int32 RelicTotal = 0;
 	struct FRelicPuzzle { bool bOn = false; FVentureRelic Site; TArray<int32> Seq; int32 At = 0; int64 EndMs = 0; };
 	FRelicPuzzle Puz;
+
+	// Crestbreak (per live boss) and its save
+	struct FCrestState { float Stag = 0.f; int32 Parts = 0; int32 BrokeUntil = 0; };
+	TMap<TWeakObjectPtr<AAerondelMob>, FCrestState> Crest;
+	int32 CrestBreaks = 0;
+	bool bBouncing = false;
+	// Sigils
+	TMap<FString, int32> SigRead;
+	TArray<FString> SigOn;
+	// Grafts: worn item name -> graft names
+	TMap<FString, TArray<FString>> GraftsOn;
+	FString GraftSel;
+	// Twin Stance
+	FString StanceMain, StanceSub;
 };

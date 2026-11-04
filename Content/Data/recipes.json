@@ -2827,6 +2827,81 @@
    },
    "output": "Dowsing rod",
    "xp": 25
+  },
+  {
+   "station": null,
+   "tool": null,
+   "name": "Bind Sigil tome",
+   "cat": "Crafting",
+   "group": "Ventures",
+   "skill": "Glyphcraft",
+   "level": 30,
+   "inputs": {
+    "Havoc rune": 25,
+    "Soft leather": 2
+   },
+   "output": "Sigil tome",
+   "xp": 120
+  },
+  {
+   "station": "anvil",
+   "tool": null,
+   "name": "Forge Lesser keen graft",
+   "cat": "Smithing",
+   "group": "Ventures",
+   "skill": "Smithing",
+   "level": 30,
+   "inputs": {
+    "Iron bar": 3,
+    "Air rune": 20
+   },
+   "output": "Lesser keen graft",
+   "xp": 60
+  },
+  {
+   "station": "anvil",
+   "tool": null,
+   "name": "Forge Lesser brutal graft",
+   "cat": "Smithing",
+   "group": "Ventures",
+   "skill": "Smithing",
+   "level": 30,
+   "inputs": {
+    "Iron bar": 3,
+    "Fire rune": 20
+   },
+   "output": "Lesser brutal graft",
+   "xp": 60
+  },
+  {
+   "station": "anvil",
+   "tool": null,
+   "name": "Forge Lesser warding graft",
+   "cat": "Smithing",
+   "group": "Ventures",
+   "skill": "Smithing",
+   "level": 30,
+   "inputs": {
+    "Iron bar": 3,
+    "Earth rune": 20
+   },
+   "output": "Lesser warding graft",
+   "xp": 60
+  },
+  {
+   "station": "anvil",
+   "tool": null,
+   "name": "Forge Lesser fervent graft",
+   "cat": "Smithing",
+   "group": "Ventures",
+   "skill": "Smithing",
+   "level": 30,
+   "inputs": {
+    "Iron bar": 3,
+    "Water rune": 20
+   },
+   "output": "Lesser fervent graft",
+   "xp": 60
   }
  ],
  "potionRecipes": [
