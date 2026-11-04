@@ -159,6 +159,21 @@ public:
 	void LatticeFill(const FString& StyleName, int32 Node);
 	void LatticeReset(const FString& StyleName);
 
+	// ---- group 5: Vigil Gates, Elemental Attunements, Hearthhold (Ventures_Raid.cpp) ----
+	bool VigilStart(const FString& Gate, bool bHard);
+	bool SuperUse();
+	void AttuneSet(const FString& Element);
+	void FragToggle(const FString& Frag);
+	bool HoldHome() const;
+	void HoldGo();
+	void HoldLeave();
+	void HoldBuy();
+	void HoldUp(const FString& Building);
+	void HoldForge();
+	void HoldGarden();
+	void HoldSend(FName Companion, const FString& Trip);
+	void HoldCollect(FName Companion);
+
 protected:
 	UFUNCTION() void HandleMobKilled(UMobDef* Mob);
 
@@ -233,6 +248,25 @@ protected:
 	void TabAscent(FGPanelModel& M);
 	void TabLumen(FGPanelModel& M);
 	void TabLattice(FGPanelModel& M);
+	// group 5 internals
+	void ResetRaid();
+	void SaveRaid(FJsonObject& A) const;
+	void LoadRaid(const FJsonObject& A);
+	void TickRaid();
+	void VigilStep();
+	void VigilFinish(bool bWin);
+	int32 HitRaid(AAerondelMob* Mob, int32 D);
+	void DiedRaid(AAerondelMob* Mob, bool bByPlayer);
+	float DmgRaid(const UMobDef* Target) const;
+	float DmgRaidActor(const AAerondelMob* Mob) const;
+	float AccRaid() const;
+	float DrRaid() const;
+	float XpRaid(FName SkillId) const;
+	bool AttuneGearMatch() const;
+	bool HasFrag(const TCHAR* Frag) const { return AttuneFrags.Contains(Frag); }
+	void TabVigil(FGPanelModel& M);
+	void TabAttune(FGPanelModel& M);
+	void TabHold(FGPanelModel& M);
 
 	// group 1 internals
 	void ResetQuick();
@@ -341,4 +375,26 @@ protected:
 	TMap<FString, TArray<int32>> LatticeBoards;
 	int32 LatticeSpent = 0;
 	FString LatticeView;
+	// Vigil: "gate:tier" -> week looted; clears per gate; live blast
+	TMap<FString, int32> VigilLock;
+	TMap<FString, int32> VigilClears;
+	int32 VigilNext = 0;
+	bool bBlast = false;
+	FVector2D BlastAt = FVector2D::ZeroVector;
+	int32 BlastTick = 0;
+	// Attune
+	FString AttuneEl;
+	TArray<FString> AttuneFrags;
+	int32 AttuneSupers = 0;
+	int64 SuperReady = 0;
+	bool bArcing = false;
+	// Hearthhold
+	struct FHoldTrip { FString Kind; int64 Back = 0; bool bTold = false; };
+	bool bHoldOwned = false;
+	TMap<FString, int32> HoldLv;
+	TMap<FName, FHoldTrip> HoldTrips;
+	FString HoldForgeDay;
+	double HoldGardenAt = 0.0;
+	int32 HoldDone = 0;
+	FVector2D HoldReturn = FVector2D(0.0, 10.0);
 };

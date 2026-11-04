@@ -66409,6 +66409,15 @@
    "z": -14,
    "town": "Larkhaven",
    "tint": "#5a6ad0"
+  },
+  "harbourmasterwynn": {
+   "name": "Harbourmaster Wynn",
+   "examine": "An island sits empty off the west coast. 10,000 coins and it's yours to build on.",
+   "service": "hold",
+   "x": -18,
+   "z": 8,
+   "town": "Larkhaven",
+   "tint": "#4a8a6a"
   }
  },
  "towns": [

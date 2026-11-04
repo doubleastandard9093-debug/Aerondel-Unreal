@@ -185,6 +185,7 @@ void UVenturesFeature::RunEnd(bool bWin)
 	if (!Run.bOn) return;
 	Run.bOn = false;
 	if (Run.Kind == TEXT("breach")) BreachFinish(bWin);
+	if (Run.Kind == TEXT("vigil")) VigilFinish(bWin);
 	ZonePark();
 	const FString Z = Run.Zone;
 	const FVector2D Back = Run.Return;
@@ -214,6 +215,7 @@ void UVenturesFeature::TickZone()
 		{
 			Run.Away = 0;
 			if (Run.Kind == TEXT("breach")) BreachStep();
+			else if (Run.Kind == TEXT("vigil")) VigilStep();
 		}
 	}
 	if (TickN % 5 != 0) return;
@@ -235,6 +237,7 @@ void UVenturesFeature::DiedZone(AAerondelMob* Mob, bool bByPlayer)
 	bool bTideBoss = false;
 	for (const TWeakObjectPtr<AAerondelMob>& W : TideWaveMobs) if (W.Get() == Mob) bTideBoss = true;
 	DiedGear(Mob, bByPlayer, bTideBoss);
+	DiedRaid(Mob, bByPlayer);
 	if (bByPlayer && !bVenture && InTide())
 	{
 		TideStacks = FMath::Min(50, TideStacks + 1);

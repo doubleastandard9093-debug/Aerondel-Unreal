@@ -254,6 +254,9 @@ def run(small=False):
         node = mat("BreachNode", (0.8, 0.3, 1.0))
         for i, (dx, dz) in enumerate(((-8, -6), (8, -6), (0, -11))):
             box("Venture_Breach_Node_%d" % i, "FeatureSites/Ventures", (-1000 + dx, 0.5, 205 + dz), (1.2, 1, 1.2), node)
+        for k, dx, dz, c in (("Forge", -7, -6, (0.35, 0.29, 0.29)), ("Garden", 0, -8, (0.23, 0.54, 0.23)), ("Kennel", 7, -6, (0.48, 0.35, 0.23))):
+            box("Hearthhold_" + k, "FeatureSites/Ventures", (-1000 + dx, 1.2, 270 + dz), (3, 2.4, 3), mat("Hold" + k, c))
+        box("Hearthhold_Boat", "FeatureSites/Ventures", (-1000, 0.3, 280), (2.2, 0.6, 2.2), mat("HoldBoat", (0.42, 0.82, 1.0)), shape=CYL)
         box("Venture_Breach_Ward", "FeatureSites/Ventures", (-1000, 1.1, 205), (1.6, 2.2, 1.6), mat("BreachWard", (0.4, 0.8, 1.0)))
         felt = mat("CardFelt", (0.1, 0.4, 0.2))
         for i in range(2):

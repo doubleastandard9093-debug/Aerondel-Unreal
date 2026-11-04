@@ -114,6 +114,7 @@ void UVenturesFeature::ResetState()
 	ResetCombat();
 	ResetZone();
 	ResetGear();
+	ResetRaid();
 }
 
 void UVenturesFeature::SaveState(FJsonObject& Out) const
@@ -123,6 +124,7 @@ void UVenturesFeature::SaveState(FJsonObject& Out) const
 	SaveCombat(Out);
 	SaveZone(Out);
 	SaveGear(Out);
+	SaveRaid(Out);
 }
 
 void UVenturesFeature::LoadState(const FJsonObject& In)
@@ -133,6 +135,7 @@ void UVenturesFeature::LoadState(const FJsonObject& In)
 	LoadCombat(In);
 	LoadZone(In);
 	LoadGear(In);
+	LoadRaid(In);
 }
 
 void UVenturesFeature::OnGameTick()
@@ -141,6 +144,7 @@ void UVenturesFeature::OnGameTick()
 	TickQuick();
 	TickZone();
 	TickGear();
+	TickRaid();
 }
 
 void UVenturesFeature::OnPlayerDied()
@@ -170,22 +174,22 @@ float UVenturesFeature::XpBonus(FName SkillId) const { return FMath::Clamp(SumXp
 float UVenturesFeature::SumDmg(const UMobDef* Target) const
 {
 	float T = (TickN < FlareBuffUntil ? 0.3f : 0.f) + LedgerTier() * 0.01f;
-	T += DmgCombat(Target) + DmgGear(Target);
+	T += DmgCombat(Target) + DmgGear(Target) + DmgRaid(Target);
 	return T;
 }
 float UVenturesFeature::SumAcc(const UMobDef* Target) const
 {
-	float T = AccCombat() + AccGear();
+	float T = AccCombat() + AccGear() + AccRaid();
 	return T;
 }
 float UVenturesFeature::SumDr(const UMobDef* Source) const
 {
-	float T = LedgerTier() * 0.01f + DrCombat() + DrGear();
+	float T = LedgerTier() * 0.01f + DrCombat() + DrGear() + DrRaid();
 	return T;
 }
 float UVenturesFeature::SumXp(FName SkillId) const
 {
-	float T = LedgerTier() * 0.02f + XpCombat(SkillId) + XpZone(SkillId) + XpGear(SkillId);
+	float T = LedgerTier() * 0.02f + XpCombat(SkillId) + XpZone(SkillId) + XpGear(SkillId) + XpRaid(SkillId);
 	return T;
 }
 float UVenturesFeature::FlareGainBonus() const
@@ -232,6 +236,9 @@ bool UVenturesFeature::BuildTabMore(const FString& Tab, FGPanelModel& M)
 	if (Tab == TEXT("ascent")) { TabAscent(M); return true; }
 	if (Tab == TEXT("lumen")) { TabLumen(M); return true; }
 	if (Tab == TEXT("lattice")) { TabLattice(M); return true; }
+	if (Tab == TEXT("vigil")) { TabVigil(M); return true; }
+	if (Tab == TEXT("attune")) { TabAttune(M); return true; }
+	if (Tab == TEXT("hold")) { TabHold(M); return true; }
 	return false;
 }
 
@@ -248,6 +255,9 @@ void UVenturesFeature::OverviewMore(FGPanelModel& M)
 	VAct(M, TEXT("Ascent Rolls"), [this] { GoTab(TEXT("ascent")); });
 	VAct(M, TEXT("Lumen Rise"), [this] { GoTab(TEXT("lumen")); });
 	VAct(M, TEXT("Anima Lattice"), [this] { GoTab(TEXT("lattice")); });
+	VAct(M, TEXT("Vigil Gates"), [this] { GoTab(TEXT("vigil")); });
+	VAct(M, TEXT("Elemental Attunements (N)"), [this] { GoTab(TEXT("attune")); });
+	VAct(M, TEXT("Hearthhold"), [this] { GoTab(TEXT("hold")); });
 }
 
 float UVenturesFeature::HookRespawnScale(const AAerondelMob* Mob)
@@ -260,6 +270,7 @@ void UVenturesFeature::OnKey(FName Key)
 {
 	if (Key == FName(TEXT("overflare"))) { Flare(); return; }
 	if (Key == FName(TEXT("tether"))) { Tether(); return; }
+	if (Key == FName(TEXT("super"))) { SuperUse(); return; }
 }
 
 // ---------------------------------------------------------------- helpers
@@ -643,7 +654,7 @@ void UVenturesFeature::RelicFinish(bool bOk)
 
 bool UVenturesFeature::IsVenturePanel(const FString& P)
 {
-	return P.StartsWith(TEXT("ventures")) || P == TEXT("reliquary") || P == TEXT("grafts") || P == TEXT("breach");
+	return P.StartsWith(TEXT("ventures")) || P == TEXT("reliquary") || P == TEXT("grafts") || P == TEXT("breach") || P == TEXT("hold");
 }
 
 void UVenturesFeature::GoTab(const FString& Tab) const
