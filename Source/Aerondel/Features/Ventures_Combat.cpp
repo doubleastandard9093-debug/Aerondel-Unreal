@@ -161,7 +161,7 @@ void UVenturesFeature::Stagger(AAerondelMob* Mob, float N)
 {
 	if (!Mob || Mob->IsDead() || !IsBossy(Mob) || IsBroken(Mob)) return;
 	FCrestState& C = Crest.FindOrAdd(TWeakObjectPtr<AAerondelMob>(Mob));
-	C.Stag += N * (1.f + Sig(TEXT("breaker")));
+	C.Stag += N * (1.f + Sig(TEXT("breaker")) + StagGear());
 	if (C.Stag < 100.f) return;
 	C.Stag = 0.f;
 	C.Parts++;

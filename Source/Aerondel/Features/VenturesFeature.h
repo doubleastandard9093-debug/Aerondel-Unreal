@@ -141,6 +141,24 @@ public:
 	bool InTide() const;
 	bool Tether();
 
+	// ---- group 4: Sealed Geodes, Ascent Rolls, Lumen Rise, Anima Lattice (Ventures_Gear.cpp) ----
+	bool GeodeOpen(const FString& Geode);
+	void RelicForge(const FString& Geode);
+	static bool AscentOk(const UItemDef* I);
+	void AscentScan();
+	void AscentReroll(const FString& Weapon);
+	void AscentDismantle(const FString& Weapon);
+	void AscentSet(const FString& Weapon, int32 Slot, const FString& Perk);
+	bool LumenOn() const;
+	void LumenGain(float N);
+	/** Weekly (max 3) Pinnacle chest from a Vigil clear or a Tide boss. */
+	bool Pinnacle(const FString& Source);
+	bool LatticeOpen(const FString& StyleName) const;
+	float LatticeSum(const FString& Type, const FString& Board) const;
+	FString LatticeBoard() const;
+	void LatticeFill(const FString& StyleName, int32 Node);
+	void LatticeReset(const FString& StyleName);
+
 protected:
 	UFUNCTION() void HandleMobKilled(UMobDef* Mob);
 
@@ -195,6 +213,26 @@ protected:
 	void TabTides(FGPanelModel& M);
 	void TabBreach(FGPanelModel& M);
 	void TabTether(FGPanelModel& M);
+	// group 4 internals
+	void ResetGear();
+	void SaveGear(FJsonObject& A) const;
+	void LoadGear(const FJsonObject& A);
+	void TickGear();
+	void DiedGear(AAerondelMob* Mob, bool bByPlayer, bool bTideBoss);
+	void BreachClearGear(const FString& Mode);
+	float DmgGear(const UMobDef* Target) const;
+	float AccGear() const;
+	float DrGear() const;
+	float XpGear(FName SkillId) const;
+	float FlareGear() const;
+	float StagGear() const;
+	float AscentCur(const FString& Stat) const;
+	float RelicSum(const FString& Stat) const;
+	float LumenBonus() const;
+	void TabGeodes(FGPanelModel& M);
+	void TabAscent(FGPanelModel& M);
+	void TabLumen(FGPanelModel& M);
+	void TabLattice(FGPanelModel& M);
 
 	// group 1 internals
 	void ResetQuick();
@@ -287,4 +325,20 @@ protected:
 	int32 BreachAnima = 0;
 	TMap<FString, FString> BreachBest;
 	int64 TetherReady = 0;
+	// Geodes: geode name -> parts got; relics forged
+	TMap<FString, TArray<FString>> GeodeParts;
+	TArray<FString> RelicsForged;
+	// Ascent: weapon name -> 2 perk keys; dismantle counts; learned patterns
+	TMap<FString, TArray<FString>> AscentRolls;
+	TMap<FString, int32> AscentDis;
+	TArray<FString> AscentPat;
+	FString AscentSel;
+	// Lumen
+	float LumenScore = 1000.f;
+	int32 LumenWeek = 0;
+	int32 LumenPinn = 0;
+	// Lattice: style -> filled node indices
+	TMap<FString, TArray<int32>> LatticeBoards;
+	int32 LatticeSpent = 0;
+	FString LatticeView;
 };

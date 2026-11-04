@@ -113,6 +113,7 @@ void UVenturesFeature::ResetState()
 	ResetQuick();
 	ResetCombat();
 	ResetZone();
+	ResetGear();
 }
 
 void UVenturesFeature::SaveState(FJsonObject& Out) const
@@ -121,6 +122,7 @@ void UVenturesFeature::SaveState(FJsonObject& Out) const
 	SaveQuick(Out);
 	SaveCombat(Out);
 	SaveZone(Out);
+	SaveGear(Out);
 }
 
 void UVenturesFeature::LoadState(const FJsonObject& In)
@@ -130,6 +132,7 @@ void UVenturesFeature::LoadState(const FJsonObject& In)
 	LoadQuick(In);
 	LoadCombat(In);
 	LoadZone(In);
+	LoadGear(In);
 }
 
 void UVenturesFeature::OnGameTick()
@@ -137,6 +140,7 @@ void UVenturesFeature::OnGameTick()
 	++TickN;
 	TickQuick();
 	TickZone();
+	TickGear();
 }
 
 void UVenturesFeature::OnPlayerDied()
@@ -166,27 +170,27 @@ float UVenturesFeature::XpBonus(FName SkillId) const { return FMath::Clamp(SumXp
 float UVenturesFeature::SumDmg(const UMobDef* Target) const
 {
 	float T = (TickN < FlareBuffUntil ? 0.3f : 0.f) + LedgerTier() * 0.01f;
-	T += DmgCombat(Target);
+	T += DmgCombat(Target) + DmgGear(Target);
 	return T;
 }
 float UVenturesFeature::SumAcc(const UMobDef* Target) const
 {
-	float T = AccCombat();
+	float T = AccCombat() + AccGear();
 	return T;
 }
 float UVenturesFeature::SumDr(const UMobDef* Source) const
 {
-	float T = LedgerTier() * 0.01f + DrCombat();
+	float T = LedgerTier() * 0.01f + DrCombat() + DrGear();
 	return T;
 }
 float UVenturesFeature::SumXp(FName SkillId) const
 {
-	float T = LedgerTier() * 0.02f + XpCombat(SkillId) + XpZone(SkillId);
+	float T = LedgerTier() * 0.02f + XpCombat(SkillId) + XpZone(SkillId) + XpGear(SkillId);
 	return T;
 }
 float UVenturesFeature::FlareGainBonus() const
 {
-	float T = FlareCombat();
+	float T = FlareCombat() + FlareGear();
 	return T;
 }
 
@@ -224,6 +228,10 @@ bool UVenturesFeature::BuildTabMore(const FString& Tab, FGPanelModel& M)
 	if (Tab == TEXT("tides")) { TabTides(M); return true; }
 	if (Tab == TEXT("breach")) { TabBreach(M); return true; }
 	if (Tab == TEXT("tether")) { TabTether(M); return true; }
+	if (Tab == TEXT("geodes")) { TabGeodes(M); return true; }
+	if (Tab == TEXT("ascent")) { TabAscent(M); return true; }
+	if (Tab == TEXT("lumen")) { TabLumen(M); return true; }
+	if (Tab == TEXT("lattice")) { TabLattice(M); return true; }
 	return false;
 }
 
@@ -236,6 +244,10 @@ void UVenturesFeature::OverviewMore(FGPanelModel& M)
 	VAct(M, TideRegion >= 0 ? TEXT("Burst Tides (surging!)") : TEXT("Burst Tides"), [this] { GoTab(TEXT("tides")); });
 	VAct(M, TEXT("Breach Runs"), [this] { GoTab(TEXT("breach")); });
 	VAct(M, TEXT("Tetherline (L)"), [this] { GoTab(TEXT("tether")); });
+	VAct(M, TEXT("Sealed Geodes"), [this] { GoTab(TEXT("geodes")); });
+	VAct(M, TEXT("Ascent Rolls"), [this] { GoTab(TEXT("ascent")); });
+	VAct(M, TEXT("Lumen Rise"), [this] { GoTab(TEXT("lumen")); });
+	VAct(M, TEXT("Anima Lattice"), [this] { GoTab(TEXT("lattice")); });
 }
 
 float UVenturesFeature::HookRespawnScale(const AAerondelMob* Mob)

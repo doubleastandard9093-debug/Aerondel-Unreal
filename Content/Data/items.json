@@ -5090,6 +5090,26 @@
    "type": "misc",
    "value": 6000,
    "examine": "Socket it into gear at Graftwright Oren (Ventures - Grafts)."
+  },
+  "Ember geode": {
+   "type": "misc",
+   "value": 800,
+   "examine": "Sealed. It opens when you defeat the Cinder Warden while carrying it."
+  },
+  "Rime geode": {
+   "type": "misc",
+   "value": 800,
+   "examine": "Sealed. It opens when you defeat the Peak Warlord while carrying it."
+  },
+  "Storm geode": {
+   "type": "misc",
+   "value": 800,
+   "examine": "Sealed. It opens when you clear a Hold the Ward Breach Run while carrying it."
+  },
+  "Void geode": {
+   "type": "misc",
+   "value": 800,
+   "examine": "Sealed. It opens when you clear a Sever the Nodes Breach Run while carrying it."
   }
  },
  "metals": [
