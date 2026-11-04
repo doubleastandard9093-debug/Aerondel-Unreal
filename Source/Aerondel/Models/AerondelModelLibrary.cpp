@@ -140,14 +140,47 @@ void UAerondelModelLibrary::FitRig(USkeletalMeshComponent* Comp, float HeightCm,
 		if (!C || !C->GetSkeletalMeshAsset()) return;
 		C->TickAnimation(0.f, false);
 		C->RefreshBoneTransforms();
-		const double Posed = BoneExtent(C->GetSkeletalMeshAsset(), C);
+		USkeletalMesh* M = C->GetSkeletalMeshAsset();
+		const double Posed = BoneExtent(M, C);
 		if (Posed <= KINDA_SMALL_NUMBER) return;
-		const double Ratio = Posed / RefExtent;
-		if (Ratio > 0.7 && Ratio < 1.45) return; // pose matches the bounds: nothing to fix
+		double Ratio = Posed / RefExtent;
+		if (Ratio > 0.7 && Ratio < 1.45) Ratio = 1.0;
+		// glTF clips often key the armature root with its own Y-up -> Z-up rotation, which the bind pose doesn't have, so
+		// the animated body lies on its back / leans back. Compare the "up" direction (centroid -> highest bone) of the
+		// reference pose with the posed skeleton and rotate the component to undo the difference.
+		FQuat Fix = FQuat::Identity;
+		const FReferenceSkeleton& Ref = M->GetRefSkeleton();
+		const TArray<FTransform>& Cs = C->GetComponentSpaceTransforms();
+		const int32 N = Ref.GetNum();
+		if (N >= 3 && Cs.Num() == N)
+		{
+			TArray<FVector> R; R.SetNum(N);
+			{
+				const TArray<FTransform>& Local = Ref.GetRefBonePose();
+				TArray<FTransform> T; T.SetNum(N);
+				for (int32 i = 0; i < N; ++i) { const int32 P = Ref.GetParentIndex(i); T[i] = P >= 0 ? Local[i] * T[P] : Local[i]; R[i] = T[i].GetLocation(); }
+			}
+			int32 H = 0; FVector CR = FVector::ZeroVector, CP = FVector::ZeroVector;
+			for (int32 i = 0; i < N; ++i) { if (R[i].Z > R[H].Z) H = i; CR += R[i]; CP += Cs[i].GetLocation(); }
+			CR /= N; CP /= N;
+			const FVector RefUp = (R[H] - CR).GetSafeNormal();
+			const FVector PosUp = (Cs[H].GetLocation() - CP).GetSafeNormal();
+			if (!RefUp.IsNearlyZero() && !PosUp.IsNearlyZero() && FVector::DotProduct(RefUp, PosUp) < 0.8) // > ~37 degrees off
+				Fix = FQuat::FindBetweenNormals(PosUp, RefUp);
+		}
+		if (Ratio == 1.0 && Fix.Equals(FQuat::Identity)) return; // pose matches the bind pose: nothing to fix
 		const double K2 = K / Ratio;
+		const FQuat Rot = FRotator(0, AerondelRigs::Yaw, 0).Quaternion() * Fix;
 		C->SetRelativeScale3D(FVector(K2));
-		C->SetRelativeLocation(FVector(0, 0, -HalfHeight - MinZ * K2 * Ratio));
-		UE_LOG(LogTemp, Log, TEXT("[Aerondel] FitRig %s: posed skeleton x%.2f of bind pose, rescaled %.3f -> %.3f"), *C->GetSkeletalMeshAsset()->GetName(), Ratio, K, K2);
+		C->SetRelativeRotation(Rot);
+		if (Fix.Equals(FQuat::Identity)) C->SetRelativeLocation(FVector(0, 0, -HalfHeight - MinZ * K2 * Ratio));
+		else
+		{
+			double Low = TNumericLimits<double>::Max();
+			for (const FTransform& T : Cs) Low = FMath::Min(Low, Rot.RotateVector(T.GetLocation() * K2).Z);
+			C->SetRelativeLocation(FVector(0, 0, -HalfHeight - Low + 4.0)); // lowest bone is the ankle/toe: ~4 cm above the sole
+		}
+		UE_LOG(LogTemp, Log, TEXT("[Aerondel] FitRig %s: posed x%.2f of bind pose, scale %.3f -> %.3f, upright fix %.0f deg"), *M->GetName(), Ratio, K, K2, FMath::RadiansToDegrees(Fix.GetAngle()));
 	};
 	Correct();
 	Comp->GetWorld()->GetTimerManager().SetTimerForNextTick(FTimerDelegate::CreateLambda(Correct));
