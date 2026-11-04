@@ -4,7 +4,7 @@
 #include "Interaction/AerondelInteractable.h"
 #include "AerondelMob.generated.h"
 
-class UMobDef; class UHealthComponent; class UStaticMeshComponent;
+class UMobDef; class UHealthComponent; class UStaticMeshComponent; class UTextRenderComponent;
 
 UENUM(BlueprintType)
 enum class EMobState : uint8 { Idle, Wander, Chase, Attack, Return, Dead };
@@ -23,6 +23,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Mob") TObjectPtr<UMobDef> Definition;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Mob") TObjectPtr<UHealthComponent> Health;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Mob") TObjectPtr<UStaticMeshComponent> Body;
+	/** Floating "Name (lvl N)" above the head, coloured by level, so every enemy can be told apart. */
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Mob") TObjectPtr<UTextRenderComponent> Nameplate;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Mob") float WanderRadius = 500.f;
 
 	// IAerondelInteractable: "Attack Goblin (level 2)".

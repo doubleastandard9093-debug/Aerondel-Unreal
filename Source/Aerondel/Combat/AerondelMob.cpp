@@ -25,6 +25,8 @@
 #include "Materials/MaterialInstanceDynamic.h"
 #include "TimerManager.h"
 #include "UObject/ConstructorHelpers.h"
+#include "Components/TextRenderComponent.h"
+#include "Camera/PlayerCameraManager.h"
 
 AAerondelMob::AAerondelMob()
 {
@@ -35,6 +37,13 @@ AAerondelMob::AAerondelMob()
 	Health = CreateDefaultSubobject<UHealthComponent>(TEXT("Health"));
 	Body = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Body"));
 	Body->SetupAttachment(GetCapsuleComponent());
+	Nameplate = CreateDefaultSubobject<UTextRenderComponent>(TEXT("Nameplate"));
+	Nameplate->SetupAttachment(GetCapsuleComponent());
+	Nameplate->SetHorizontalAlignment(EHTA_Center);
+	Nameplate->SetVerticalAlignment(EVRTA_TextBottom);
+	Nameplate->SetWorldSize(22.f);
+	Nameplate->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	Nameplate->SetCastShadow(false);
 	// Body: no physics; blocks Visibility (cursor clicks) and overlaps WorldDynamic (VR hands/tools).
 	Body->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
 	Body->SetCollisionResponseToAllChannels(ECR_Ignore);
@@ -56,6 +65,13 @@ void AAerondelMob::OnConstruction(const FTransform& Xf)
 	const FVector S = Definition->BodySize;
 	GetCapsuleComponent()->SetCapsuleSize(FMath::Min(S.X, S.Y) * 0.5f, FMath::Max(S.Z * 0.5f, FMath::Min(S.X, S.Y) * 0.5f));
 	Body->SetRelativeScale3D(FVector(S.Y, S.X, S.Z) / 100.f);
+	if (Nameplate)
+	{
+		Nameplate->SetText(FText::Format(NSLOCTEXT("Aerondel", "MobPlate", "{0} (lvl {1})"), Definition->DisplayName, Definition->CombatLevel));
+		const int32 L = Definition->CombatLevel;
+		Nameplate->SetTextRenderColor(L >= 500 ? FColor(200, 90, 255) : L >= 200 ? FColor(255, 70, 50) : L >= 60 ? FColor(255, 160, 40) : L >= 20 ? FColor(255, 235, 90) : FColor(140, 255, 120));
+		Nameplate->SetRelativeLocation(FVector(0, 0, GetCapsuleComponent()->GetUnscaledCapsuleHalfHeight() + 30.f));
+	}
 	// M_Tint (Vector param "Color") is created by generate_starter_data.py; quietly skip if it doesn't exist yet.
 	if (UMaterialInterface* Base = LoadObject<UMaterialInterface>(nullptr, TEXT("/Game/Gielinor/Materials/M_Tint.M_Tint"), nullptr, LOAD_NoWarn | LOAD_Quiet))
 	{
@@ -165,6 +181,12 @@ void AAerondelMob::Tick(float Dt)
 	Super::Tick(Dt);
 	StateTime += Dt; AttackCooldown -= Dt;
 	if (State != EMobState::Dead) { TickAcc += Dt; while (TickAcc >= UAerondelRules::TickSeconds) { TickAcc -= UAerondelRules::TickSeconds; GameTick(); } }
+	if (Nameplate && Nameplate->IsVisible())
+		if (APlayerCameraManager* Cam = UGameplayStatics::GetPlayerCameraManager(this, 0))
+		{
+			FVector To = Cam->GetCameraLocation() - Nameplate->GetComponentLocation(); To.Z = 0.f;
+			if (!To.IsNearlyZero()) Nameplate->SetWorldRotation(To.Rotation());
+		}
 	AAIController* C = AI();
 	if (!C || !Definition) return;
 	AActor* T = Target.Get();
