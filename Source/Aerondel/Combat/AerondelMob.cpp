@@ -41,7 +41,7 @@ AAerondelMob::AAerondelMob()
 	Nameplate->SetupAttachment(GetCapsuleComponent());
 	Nameplate->SetHorizontalAlignment(EHTA_Center);
 	Nameplate->SetVerticalAlignment(EVRTA_TextBottom);
-	Nameplate->SetWorldSize(22.f);
+	Nameplate->SetWorldSize(32.f);
 	Nameplate->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	Nameplate->SetCastShadow(false);
 	// Body: no physics; blocks Visibility (cursor clicks) and overlaps WorldDynamic (VR hands/tools).
@@ -65,19 +65,24 @@ void AAerondelMob::OnConstruction(const FTransform& Xf)
 	const FVector S = Definition->BodySize;
 	GetCapsuleComponent()->SetCapsuleSize(FMath::Min(S.X, S.Y) * 0.5f, FMath::Max(S.Z * 0.5f, FMath::Min(S.X, S.Y) * 0.5f));
 	Body->SetRelativeScale3D(FVector(S.Y, S.X, S.Z) / 100.f);
-	if (Nameplate)
-	{
-		Nameplate->SetText(FText::Format(NSLOCTEXT("Aerondel", "MobPlate", "{0} (lvl {1})"), Definition->DisplayName, Definition->CombatLevel));
-		const int32 L = Definition->CombatLevel;
-		Nameplate->SetTextRenderColor(L >= 500 ? FColor(200, 90, 255) : L >= 200 ? FColor(255, 70, 50) : L >= 60 ? FColor(255, 160, 40) : L >= 20 ? FColor(255, 235, 90) : FColor(140, 255, 120));
-		Nameplate->SetRelativeLocation(FVector(0, 0, GetCapsuleComponent()->GetUnscaledCapsuleHalfHeight() + 30.f));
-	}
+	RefreshNameplate();
 	// M_Tint (Vector param "Color") is created by generate_starter_data.py; quietly skip if it doesn't exist yet.
 	if (UMaterialInterface* Base = LoadObject<UMaterialInterface>(nullptr, TEXT("/Game/Gielinor/Materials/M_Tint.M_Tint"), nullptr, LOAD_NoWarn | LOAD_Quiet))
 	{
 		UMaterialInstanceDynamic* M = UMaterialInstanceDynamic::Create(Base, this);
 		M->SetVectorParameterValue(TEXT("Color"), Definition->Tint);
 		Body->SetMaterial(0, M);
+	}
+}
+
+void AAerondelMob::RefreshNameplate()
+{
+	if (Nameplate && Definition)
+	{
+		Nameplate->SetText(FText::Format(NSLOCTEXT("Aerondel", "MobPlate", "{0} (lvl {1})"), Definition->DisplayName, Definition->CombatLevel));
+		const int32 L = Definition->CombatLevel;
+		Nameplate->SetTextRenderColor(L >= 500 ? FColor(200, 90, 255) : L >= 200 ? FColor(255, 70, 50) : L >= 60 ? FColor(255, 160, 40) : L >= 20 ? FColor(255, 235, 90) : FColor(140, 255, 120));
+		Nameplate->SetRelativeLocation(FVector(0, 0, GetCapsuleComponent()->GetUnscaledCapsuleHalfHeight() + 30.f));
 	}
 }
 
@@ -88,6 +93,8 @@ void AAerondelMob::BeginPlay()
 	Health->SetMax(Definition ? Definition->Hitpoints : 5, true);
 	Health->OnDied.AddDynamic(this, &AAerondelMob::HandleDied);
 	TryRig();
+	RefreshNameplate(); // pre-placed mobs saved before the plate existed only get it set here
+	if (Nameplate) { Nameplate->SetHiddenInGame(false); Nameplate->SetVisibility(true); }
 }
 
 void AAerondelMob::TryRig()
@@ -95,6 +102,7 @@ void AAerondelMob::TryRig()
 	USkeletalMeshComponent* Sk = GetMesh();
 	if (!Definition || !Sk) return;
 	bRigged = UAerondelModelLibrary::ApplyRig(Sk, TEXT("mob:") + Definition->Id.ToString());
+	UE_LOG(LogTemp, Log, TEXT("[Aerondel] Spawn mob %s (%s): rig %s"), *GetName(), *Definition->Id.ToString(), bRigged ? TEXT("applied") : TEXT("FAILED, placeholder box"));
 	if (!bRigged) return;
 	UCapsuleComponent* Cap = GetCapsuleComponent();
 	UAerondelModelLibrary::FitRig(Sk, Definition->BodySize.Z, Cap->GetUnscaledCapsuleHalfHeight());

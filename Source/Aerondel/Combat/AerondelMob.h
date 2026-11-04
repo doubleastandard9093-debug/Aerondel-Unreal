@@ -25,6 +25,7 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Mob") TObjectPtr<UStaticMeshComponent> Body;
 	/** Floating "Name (lvl N)" above the head, coloured by level, so every enemy can be told apart. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Mob") TObjectPtr<UTextRenderComponent> Nameplate;
+	void RefreshNameplate();
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Mob") float WanderRadius = 500.f;
 
 	// IAerondelInteractable: "Attack Goblin (level 2)".
