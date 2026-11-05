@@ -1,5 +1,6 @@
 #include "Player/AerondelPlayerController.h"
 #include "UI/AerondelHUD.h"
+#include "Camera/PlayerCameraManager.h"
 #include "Player/AerondelCharacter.h"
 #include "Core/AerondelInputConfig.h"
 #include "Core/AerondelPlayerState.h"
@@ -26,6 +27,8 @@ void AAerondelPlayerController::BeginPlay()
 	if (AActor* Start = UGameplayStatics::GetActorOfClass(this, APlayerStart::StaticClass())) RespawnPoint = Start->GetActorLocation();
 	FInputModeGameAndUI Mode; Mode.SetHideCursorDuringCapture(false); Mode.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
 	SetInputMode(Mode);
+	// Camera pitch: -75 (looking down from above) .. +35 (camera low, looking up at the sky / tall things).
+	if (PlayerCameraManager) { PlayerCameraManager->ViewPitchMin = -75.f; PlayerCameraManager->ViewPitchMax = 35.f; }
 }
 
 void AAerondelPlayerController::OnPossess(APawn* InPawn)

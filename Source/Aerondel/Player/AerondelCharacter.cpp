@@ -46,6 +46,9 @@ AAerondelCharacter::AAerondelCharacter()
 	SpringArm->SetupAttachment(RootComponent);
 	SpringArm->TargetArmLength = TargetArm;
 	SpringArm->SetRelativeRotation(FRotator(-35, 0, 0));
+	// Pivot at head height so tilting the camera up has room before the boom hits the ground and pulls in.
+	SpringArm->SetRelativeLocation(FVector(0, 0, 60.f));
+	SpringArm->ProbeSize = 8.f;
 	SpringArm->bUsePawnControlRotation = true;
 	SpringArm->bEnableCameraLag = true;
 	SpringArm->CameraLagSpeed = 12.f;
@@ -128,7 +131,7 @@ void AAerondelCharacter::OnLook(const FInputActionValue& V)
 	APlayerController* PC = Cast<APlayerController>(GetController());
 	if (PC && PC->bShowMouseCursor && !bOrbiting) return;
 	AddControllerYawInput(In.X);
-	AddControllerPitchInput(-In.Y);
+	AddControllerPitchInput(-In.Y * 1.5f); // pitch was much slower than yaw to drag; limits are set on the camera manager
 }
 
 void AAerondelCharacter::OnZoom(const FInputActionValue& V)
