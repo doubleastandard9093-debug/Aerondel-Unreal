@@ -1,6 +1,7 @@
 #include "Interaction/ResourceNode.h"
 #include "Player/AerondelCharacter.h"
 #include "Data/ResourceNodeDef.h"
+#include "Data/GameDatabase.h"
 #include "Data/ItemDef.h"
 #include "Data/SkillDef.h"
 #include "Core/AerondelPlayerState.h"
@@ -27,6 +28,17 @@ void AResourceNode::OnConstruction(const FTransform& Xf)
 {
 	Super::OnConstruction(Xf);
 	if (Definition) DisplayName = Definition->DisplayName;
+}
+
+void AResourceNode::BeginPlay()
+{
+	Super::BeginPlay();
+	if (!Definition && !DefinitionId.IsNone())
+	{
+		if (UGameDatabase* Db = UGameDatabase::Get()) Definition = Db->FindResourceNode(DefinitionId);
+		if (Definition) DisplayName = Definition->DisplayName;
+		else UE_LOG(LogTemp, Warning, TEXT("[Aerondel] Placement: resource node %s has unknown id %s"), *GetName(), *DefinitionId.ToString());
+	}
 }
 
 FText AResourceNode::GetInteractLabel() const

@@ -21,11 +21,15 @@ class AERONDEL_API AAerondelMob : public ACharacter, public IAerondelInteractabl
 public:
 	AAerondelMob();
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Mob") TObjectPtr<UMobDef> Definition;
+	/** Used when Definition is empty (World map placements from placements.json): resolved from the game database at BeginPlay, e.g. "giant_spider". */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Mob") FName DefinitionId;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Mob") TObjectPtr<UHealthComponent> Health;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Mob") TObjectPtr<UStaticMeshComponent> Body;
 	/** Floating "Name (lvl N)" above the head, coloured by level, so every enemy can be told apart. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Mob") TObjectPtr<UTextRenderComponent> Nameplate;
 	void RefreshNameplate();
+	/** Capsule, placeholder box and tint from Definition (shared by OnConstruction and the BeginPlay id lookup). */
+	void ApplyDefinitionShape();
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Mob") float WanderRadius = 500.f;
 
 	// IAerondelInteractable: "Attack Goblin (level 2)".
