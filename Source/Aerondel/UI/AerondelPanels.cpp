@@ -1,4 +1,6 @@
 #include "UI/AerondelPanels.h"
+#include "GameFramework/GameUserSettings.h"
+#include "Engine/Engine.h"
 #include "Features/CompanionsFeature.h"
 #include "Features/SagaFeature.h"
 #include "Features/HearthFeature.h"
@@ -117,6 +119,34 @@ void FAerondelPanels::Build(UWorld* W, FName Panel, AActor* Ctx, FGPanelModel& M
 			const bool bNanite = UAerondelScalability::GetNaniteOptIn();
 			Act(M, FString::Printf(TEXT("Nanite (experimental, restart): %s"), bNanite ? TEXT("on") : TEXT("off")), [bNanite] { UAerondelScalability::SetNaniteOptIn(!bNanite); });
 		}
+		// Window mode + resolution (engine GameUserSettings; saved to GameUserSettings.ini, applied immediately).
+		if (UGameUserSettings* GUS = GEngine ? GEngine->GetGameUserSettings() : nullptr)
+		{
+			const EWindowMode::Type Mode = GUS->GetFullscreenMode();
+			const FIntPoint Res = GUS->GetScreenResolution();
+			static const TCHAR* ModeNames[3] = { TEXT("Fullscreen"), TEXT("Borderless window"), TEXT("Window") };
+			M.Lines.Add(FString::Printf(TEXT("Display: %s, %dx%d (F10 / Esc opens this menu)"), ModeNames[FMath::Clamp((int32)Mode, 0, 2)], Res.X, Res.Y));
+			Act(M, FString::Printf(TEXT("Window mode: %s (change)"), ModeNames[FMath::Clamp((int32)Mode, 0, 2)]), [GUS, Mode]
+			{
+				const EWindowMode::Type Next = Mode == EWindowMode::Windowed ? EWindowMode::WindowedFullscreen : Mode == EWindowMode::WindowedFullscreen ? EWindowMode::Fullscreen : EWindowMode::Windowed;
+				GUS->SetFullscreenMode(Next);
+				if (Next == EWindowMode::WindowedFullscreen) GUS->SetScreenResolution(GUS->GetDesktopResolution());
+				GUS->ApplySettings(false);
+			});
+			static const FIntPoint Presets[] = { FIntPoint(1280, 720), FIntPoint(1600, 900), FIntPoint(1920, 1080), FIntPoint(2560, 1440), FIntPoint(3840, 2160) };
+			const FIntPoint Desk = GUS->GetDesktopResolution();
+			for (const FIntPoint& R : Presets)
+			{
+				if (Desk.X > 0 && (R.X > Desk.X || R.Y > Desk.Y)) continue; // never offer more than the monitor
+				Act(M, FString::Printf(TEXT("%sResolution %dx%d"), R == Res ? TEXT("> ") : TEXT(""), R.X, R.Y), [GUS, R]
+				{
+					if (GUS->GetFullscreenMode() == EWindowMode::WindowedFullscreen) GUS->SetFullscreenMode(EWindowMode::Windowed);
+					GUS->SetScreenResolution(R);
+					GUS->ApplySettings(false);
+				});
+			}
+		}
+		M.Lines.Add(TEXT("Camera: hold right (or middle) mouse and move to look around; wheel zooms."));
 		if (UTrueAimFeature* Aim = Sub<UTrueAimFeature>(W))
 			Act(M, FString::Printf(TEXT("True Aim: %s"), Aim->IsOn() ? TEXT("on") : TEXT("off")), [Aim] { Aim->Toggle(); });
 		if (UAerondelGamepadComponent* Pad = Pawn ? Pawn->FindComponentByClass<UAerondelGamepadComponent>() : nullptr)

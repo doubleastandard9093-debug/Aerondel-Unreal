@@ -100,8 +100,8 @@ void AAerondelCharacter::SetupPlayerInputComponent(UInputComponent* Input)
 	if (EIC)
 	{
 		BuildVentureKeys();
-		static const TCHAR* Names[] = { TEXT("overflare"), TEXT("ventures"), TEXT("tether"), TEXT("super"), TEXT("dash") };
-		for (int32 i = 0; i < VentureActions.Num() && i < 5; ++i)
+		static const TCHAR* Names[] = { TEXT("overflare"), TEXT("ventures"), TEXT("tether"), TEXT("super"), TEXT("dash"), TEXT("settings") };
+		for (int32 i = 0; i < VentureActions.Num() && i < 6; ++i)
 		{
 			const FName K(Names[i]);
 			EIC->BindAction(VentureActions[i].Get(), ETriggerEvent::Started, this, &AAerondelCharacter::OnVentureKey, K);
@@ -242,10 +242,22 @@ void AAerondelCharacter::BuildVentureKeys()
 		VentureActions.Add(A);
 		VentureContext->MapKey(A, Keys[i]);
 	}
+	// Settings on the keyboard: bound here in C++ so it works without re-running Create Input Assets.
+	UInputAction* S = NewObject<UInputAction>(this, FName(TEXT("IA_Settings")));
+	S->ValueType = EInputActionValueType::Boolean;
+	VentureActions.Add(S);
+	VentureContext->MapKey(S, EKeys::F10);
+	VentureContext->MapKey(S, EKeys::Escape);
 }
 
 void AAerondelCharacter::OnVentureKey(FName Key)
 {
+	if (Key == FName(TEXT("settings")))
+	{
+		APlayerController* PC = Cast<APlayerController>(GetController());
+		if (AAerondelHUD* Hud = PC ? Cast<AAerondelHUD>(PC->GetHUD()) : nullptr) Hud->ToggleSettings();
+		return;
+	}
 	if (Key == FName(TEXT("ventures")))
 	{
 		APlayerController* PC = Cast<APlayerController>(GetController());

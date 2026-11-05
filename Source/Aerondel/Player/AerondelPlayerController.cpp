@@ -1,4 +1,5 @@
 #include "Player/AerondelPlayerController.h"
+#include "UI/AerondelHUD.h"
 #include "Player/AerondelCharacter.h"
 #include "Core/AerondelInputConfig.h"
 #include "Core/AerondelPlayerState.h"
@@ -67,6 +68,8 @@ void AAerondelPlayerController::OnClick(const FInputActionValue&)
 {
 	AAerondelCharacter* Ch = GetPawn<AAerondelCharacter>();
 	if (!Ch) return;
+	float Mx = 0.f, My = 0.f;
+	if (AAerondelHUD* Hud = Cast<AAerondelHUD>(GetHUD())) if (GetMousePosition(Mx, My) && Hud->HandleHudClick(FVector2D(Mx, My))) return;
 	FHitResult Hit;
 	if (!GetHitResultUnderCursor(ECC_Visibility, false, Hit)) return;
 	AActor* A = Hit.GetActor();
