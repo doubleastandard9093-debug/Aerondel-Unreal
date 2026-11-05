@@ -4,6 +4,8 @@ import unreal
 MENU_OWNER = "AerondelTools"
 
 ENTRIES = [
+    ("BuildFullWorld", "0. BUILD FULL GAME WORLD (all steps + whole World map)", "Runs 1-3 + smooth shapes + high fidelity, then the FULL World map with every tree, rock, fishing spot and monster. Use this before packaging.",
+     "import aerondel_full_world, importlib; importlib.reload(aerondel_full_world); aerondel_full_world.run()"),
     ("CreateInputAssets", "1. Create Input Assets", "Enhanced Input actions + desktop/XR mapping contexts",
      "import create_input_assets, importlib; importlib.reload(create_input_assets); create_input_assets.run()"),
     ("GenerateStarterData", "2. Generate Starter Data", "Skills, items, nodes, recipes, NPCs, mobs, Granny's Pie, GameDatabase",
@@ -12,10 +14,10 @@ ENTRIES = [
      "import build_smooth_shapes, importlib; importlib.reload(build_smooth_shapes); build_smooth_shapes.run()"),
     ("BuildStarterTown", "3. Build Starter Town", "Larkhaven greybox level -> /Game/Gielinor/Maps/StarterTown",
      "import build_starter_town, importlib; importlib.reload(build_starter_town); build_starter_town.run()"),
-    ("BuildWorldBlockout", "4. Build World Blockout", "Whole web world greybox from Content/Data/world.json -> /Game/Gielinor/Maps/World",
-     "import aerondel_safe, build_starter_town, build_aerondel_regions, build_world_blockout, importlib; [importlib.reload(m) for m in (aerondel_safe, build_starter_town, build_aerondel_regions, build_world_blockout)]; build_world_blockout.run()"),
-    ("BuildWorldBlockoutSmall", "4s. Build World Blockout (small test)", "Same as 4 but only a slice of the world: try this first on a weak GPU / laptop",
-     "import aerondel_safe, build_starter_town, build_aerondel_regions, build_world_blockout, importlib; [importlib.reload(m) for m in (aerondel_safe, build_starter_town, build_aerondel_regions, build_world_blockout)]; build_world_blockout.run(small=True)"),
+    ("BuildWorldBlockout", "4. Build World Blockout (FULL world)", "Whole web world from Content/Data/world.json + placements.json (trees, rocks, fishing, monsters) -> /Game/Gielinor/Maps/World",
+     "import aerondel_safe, build_starter_town, build_aerondel_regions, world_placements, build_world_blockout, importlib; [importlib.reload(m) for m in (aerondel_safe, build_starter_town, build_aerondel_regions, world_placements, build_world_blockout)]; build_world_blockout.run()"),
+    ("BuildWorldBlockoutSmall", "4s. SMALL TEST ONLY - partial World (do not package)", "Only a slice of the world (10 of each kind) to test a weak GPU / laptop. The packager refuses this build; run 0 or 4 before packaging.",
+     "import aerondel_safe, build_starter_town, build_aerondel_regions, world_placements, build_world_blockout, importlib; [importlib.reload(m) for m in (aerondel_safe, build_starter_town, build_aerondel_regions, world_placements, build_world_blockout)]; build_world_blockout.run(small=True)"),
     ("BuildRelicDungeon", "5. Build Relic Dungeon", "Sample Relicry instance dungeon (rooms, skill gates, boss, chest) -> /Game/Gielinor/Maps/RelicDungeon",
      "import build_relic_dungeon, importlib; importlib.reload(build_relic_dungeon); build_relic_dungeon.run()"),
     ("BuildFestivalDecor", "6. Build Festival Decor", "Seasonal event decorations around Larkhaven square in the open World map (hidden at runtime unless the event runs)",
@@ -26,7 +28,7 @@ ENTRIES = [
      "import aerondel_safe, import_lite_models, importlib; importlib.reload(aerondel_safe); importlib.reload(import_lite_models); import_lite_models.run(batch=import_lite_models.BATCH_SMALL)"),
     ("BuildRealismMaterials", "8. Build Realism Materials", "Skin (subsurface), fur/cloth (sheen) and leather/metal masters for rigged bodies; High/Ultra only",
      "import aerondel_safe, build_realism_materials, importlib; importlib.reload(aerondel_safe); importlib.reload(build_realism_materials); build_realism_materials.run()"),
-    ("RunAll", "Run All (1-3 + smooth shapes)", "Everything above, in order",
+    ("RunAll", "Run All setup (1-3 + smooth shapes; NOT the World map)", "Setup steps only; use 0 for the full game world",
      "import aerondel_all, importlib; importlib.reload(aerondel_all); aerondel_all.run()"),
 ]
 
