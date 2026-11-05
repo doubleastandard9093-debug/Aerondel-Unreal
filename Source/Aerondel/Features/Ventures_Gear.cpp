@@ -167,10 +167,10 @@ void UVenturesFeature::LoadGear(const FJsonObject& A)
 			{
 				TArray<FString> P;
 				for (const FString& K : JStrArr(*Rolls, *E.Key)) if (FindPerk(K) && P.Num() < 2) P.Add(K);
-				if (P.Num()) AscentRolls.Add(E.Key, P);
+				if (P.Num()) AscentRolls.Add(FString(*E.Key), P);
 			}
 		if (const TSharedPtr<FJsonObject> Dis = JObj(*As, TEXT("dis")))
-			for (const auto& E : Dis->Values) AscentDis.Add(E.Key, FMath::Clamp((int32)JInt(*Dis, *E.Key), 0, 99));
+			for (const auto& E : Dis->Values) AscentDis.Add(FString(*E.Key), FMath::Clamp((int32)JInt(*Dis, *E.Key), 0, 99));
 		for (const FString& N : JStrArr(*As, TEXT("pat"))) AscentPat.AddUnique(N);
 	}
 	if (const TSharedPtr<FJsonObject> L = JObj(A, TEXT("lumen")))

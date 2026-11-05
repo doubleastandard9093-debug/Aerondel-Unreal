@@ -68,7 +68,7 @@ namespace VenturesCombat
 		if (St == TEXT("Swordsmanship")) return Skill == FName(TEXT("swordsmanship"));
 		return false;
 	}
-	static const TCHAR* Roman(int32 T) { return T >= 3 ? TEXT("III") : T == 2 ? TEXT("II") : T == 1 ? TEXT("I") : TEXT("-"); }
+	static const TCHAR* VenturesRomanTier(int32 T) { return T >= 3 ? TEXT("III") : T == 2 ? TEXT("II") : T == 1 ? TEXT("I") : TEXT("-"); }
 }
 using namespace VenturesCombat;
 
@@ -122,7 +122,7 @@ void UVenturesFeature::LoadCombat(const FJsonObject& A)
 	{
 		if (const TSharedPtr<FJsonObject> R = JObj(*S, TEXT("read")))
 			for (const auto& E : R->Values)
-				if (FindSigil(E.Key)) SigRead.Add(E.Key, FMath::Clamp((int32)JInt(*R, *E.Key), 0, 6));
+				if (FindSigil(FString(*E.Key))) SigRead.Add(FString(*E.Key), FMath::Clamp((int32)JInt(*R, *E.Key), 0, 6));
 		for (const FString& K : JStrArr(*S, TEXT("on")))
 			if (FindSigil(K) && !SigOn.Contains(K) && SigOn.Num() < 5) SigOn.Add(K);
 	}
@@ -133,7 +133,7 @@ void UVenturesFeature::LoadCombat(const FJsonObject& A)
 				TArray<FString> Ok;
 				int32 Ti, Ty;
 				for (const FString& N : JStrArr(*On, *E.Key)) if (ParseGraft(N, Ti, Ty) && Ok.Num() < 4) Ok.Add(N);
-				if (Ok.Num()) GraftsOn.Add(E.Key, Ok);
+				if (Ok.Num()) GraftsOn.Add(FString(*E.Key), Ok);
 			}
 	if (const TSharedPtr<FJsonObject> T = JObj(A, TEXT("stance")))
 	{
@@ -270,7 +270,7 @@ void UVenturesFeature::Study(const FString& Key)
 	N++;
 	const int32 T = SigTier(Key);
 	static const int32 Need[] = { 1, 3, 6, 6 };
-	if (T > T0) Say(FString::Printf(TEXT("You engrave %s %s."), S->Name, Roman(T)));
+	if (T > T0) Say(FString::Printf(TEXT("You engrave %s %s."), S->Name, VenturesRomanTier(T)));
 	else Say(FString::Printf(TEXT("You study %s (%d/%d toward the next tier)."), S->Name, N, Need[T]));
 }
 
@@ -432,7 +432,7 @@ void UVenturesFeature::TabSigils(FGPanelModel& M)
 		const int32 T = SigTier(K);
 		const bool bOn = SigOn.Contains(K);
 		auto Val = [](float X) { return X < 1.f ? FString::Printf(TEXT("+%d%%"), FMath::RoundToInt(X * 100.f)) : FString::Printf(TEXT("+%d"), FMath::RoundToInt(X)); };
-		M.Lines.Add(FString::Printf(TEXT("%s %s: %s / %s / %s %s"), S.Name, T ? Roman(T) : TEXT("(unlearned)"), *Val(S.V[0]), *Val(S.V[1]), *Val(S.V[2]), S.What));
+		M.Lines.Add(FString::Printf(TEXT("%s %s: %s / %s / %s %s"), S.Name, T ? VenturesRomanTier(T) : TEXT("(unlearned)"), *Val(S.V[0]), *Val(S.V[1]), *Val(S.V[2]), S.What));
 		VAct2(M, FString::Printf(TEXT("Study %s"), S.Name), [this, K] { Study(K); });
 		VAct2(M, FString::Printf(TEXT("%s: %s"), S.Name, bOn ? TEXT("On") : TEXT("Off")), [this, K] { SigToggle(K); }, T > 0 || bOn);
 	}

@@ -43,7 +43,7 @@ namespace VenturesRaid
 			{ { TEXT("orb"), TEXT("Void orb"), TEXT("kills add 5% Overflare") }, { TEXT("hollow"), TEXT("Hollow"), TEXT("+6% more combat XP") }, { TEXT("well"), TEXT("Deep well"), TEXT("Hollow Well heals 25% instead of 12%") } },
 			{ TEXT("void"), TEXT("null"), TEXT("eclipse"), TEXT("shadow") } },
 	};
-	static const FElem* FindElem(const FString& K) { for (const FElem& E : Elems) if (K == E.Key) return &E; return nullptr; }
+	static const FElem* FindElem(const FString& K) { for (const FElem& E : Elems) if (K == FString(*E.Key)) return &E; return nullptr; }
 	static bool HasFragDef(const FElem& E, const FString& F) { for (const FFrag& X : E.Frags) if (F == X.Key) return true; return false; }
 	static constexpr int64 SuperCdMs = 90000;
 
@@ -124,7 +124,7 @@ void UVenturesFeature::SaveRaid(FJsonObject& A) const
 		TSharedRef<FJsonObject> T = MakeShared<FJsonObject>();
 		T->SetStringField(TEXT("kind"), E.Value.Kind);
 		T->SetNumberField(TEXT("back"), (double)E.Value.Back);
-		Tr->SetObjectField(E.Key.ToString(), T);
+		Tr->SetObjectField(FString(*E.Key).ToString(), T);
 	}
 	H->SetObjectField(TEXT("trips"), Tr);
 	H->SetStringField(TEXT("forgeDay"), HoldForgeDay);
@@ -141,10 +141,10 @@ void UVenturesFeature::LoadRaid(const FJsonObject& A)
 			for (const auto& E : Lock->Values)
 			{
 				FString G, T;
-				if (E.Key.Split(TEXT(":"), &G, &T) && FindGate(G) && (T == TEXT("normal") || T == TEXT("hard"))) VigilLock.Add(E.Key, (int32)JInt(*Lock, *E.Key));
+				if (FString(*E.Key).Split(TEXT(":"), &G, &T) && FindGate(G) && (T == TEXT("normal") || T == TEXT("hard"))) VigilLock.Add(FString(*E.Key), (int32)JInt(*Lock, *E.Key));
 			}
 		if (const TSharedPtr<FJsonObject> Cl = JObj(*V, TEXT("clears")))
-			for (const auto& E : Cl->Values) if (FindGate(E.Key)) VigilClears.Add(E.Key, FMath::Max(0, (int32)JInt(*Cl, *E.Key)));
+			for (const auto& E : Cl->Values) if (FindGate(FString(*E.Key))) VigilClears.Add(FString(*E.Key), FMath::Max(0, (int32)JInt(*Cl, *E.Key)));
 	}
 	if (const TSharedPtr<FJsonObject> At = JObj(A, TEXT("attune")))
 	{
@@ -185,7 +185,7 @@ void UVenturesFeature::TickRaid()
 	{
 		if (Now < E.Value.Back || E.Value.bTold) continue;
 		E.Value.bTold = true;
-		const FCompanionDef* D = UCompanionsFeature::Def(E.Key);
+		const FCompanionDef* D = UCompanionsFeature::Def(FString(*E.Key));
 		Say(FString::Printf(TEXT("%s is back from an expedition (Ventures -> Hold)."), D ? *D->Name : TEXT("A companion")));
 	}
 }
@@ -434,7 +434,7 @@ void UVenturesFeature::TabAttune(FGPanelModel& M)
 	M.Lines.Add(TEXT("Pick an element: a super on N (90 s cooldown, kills shorten it), a passive class move, and 2 of 3 fragments. Matching gear adds +5% damage."));
 	for (const FElem& E : Elems)
 	{
-		const FString K = E.Key;
+		const FString K = FString(*E.Key);
 		VAct5(M, FString::Printf(TEXT("%s%s"), AttuneEl == K ? TEXT("[on] ") : TEXT(""), E.Name), [this, K] { AttuneSet(K); });
 	}
 	const FElem* E = FindElem(AttuneEl);

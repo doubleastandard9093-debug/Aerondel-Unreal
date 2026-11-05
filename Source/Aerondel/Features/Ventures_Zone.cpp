@@ -41,7 +41,7 @@ namespace VenturesZone
 		{ TEXT("purge"), TEXT("Purge"), TEXT("Defeat 24 foes as fast as you can."), 140 },
 	};
 	struct FBreachMod { const TCHAR* Key; const TCHAR* Name; const TCHAR* Desc; float Mul; };
-	static const FBreachMod Mods[] = {
+	static const FBreachMod BreachMods[] = {
 		{ TEXT("burning"), TEXT("Burning ground"), TEXT("You lose 1% health every 3 ticks"), 1.25f },
 		{ TEXT("shielded"), TEXT("Elites shielded"), TEXT("Foes have +50% health"), 1.2f },
 		{ TEXT("frenzy"), TEXT("Frenzy"), TEXT("Foes hit 30% harder"), 1.2f },
@@ -49,7 +49,7 @@ namespace VenturesZone
 		{ TEXT("calm"), TEXT("Calm"), TEXT("No twist"), 1.f },
 	};
 	static const FBreachMode* FindMode(const FString& K) { for (const FBreachMode& M : Modes) if (K == M.Key) return &M; return nullptr; }
-	static const FBreachMod* FindMod(const FString& K) { for (const FBreachMod& M : Mods) if (K == M.Key) return &M; return nullptr; }
+	static const FBreachMod* FindMod(const FString& K) { for (const FBreachMod& M : BreachMods) if (K == M.Key) return &M; return nullptr; }
 	static int32 GradeIdx(const FString& G) { return G == TEXT("S") ? 0 : G == TEXT("A") ? 1 : G == TEXT("B") ? 2 : G == TEXT("C") ? 3 : 9; }
 	static int64 TideGapMs() { return (int64)((20.0 + FMath::FRand() * 10.0) * 60000.0); }
 }
@@ -361,7 +361,7 @@ void UVenturesFeature::BreachStart(const FString& Mode, bool bHard)
 {
 	if (!FindMode(Mode)) return;
 	if (bHard && VLevel() < 500) { Say(TEXT("Hard breaches open at an average combat level of 500.")); return; }
-	const FString Mod = Mods[FMath::RandRange(0, (int32)UE_ARRAY_COUNT(Mods) - 1)].Key;
+	const FString Mod = BreachMods[FMath::RandRange(0, (int32)UE_ARRAY_COUNT(BreachMods) - 1)].Key;
 	if (!RunStart(TEXT("breach"), TEXT("breach"))) return;
 	Run.Mode = Mode;
 	Run.Mod = Mod;
