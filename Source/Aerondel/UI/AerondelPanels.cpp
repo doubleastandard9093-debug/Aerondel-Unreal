@@ -1,6 +1,9 @@
 #include "UI/AerondelPanels.h"
 #include "GameFramework/GameUserSettings.h"
 #include "Engine/Engine.h"
+#include "Models/AerondelModelLibrary.h"
+#include "GameFramework/Character.h"
+#include "Components/SkeletalMeshComponent.h"
 #include "Features/CompanionsFeature.h"
 #include "Features/SagaFeature.h"
 #include "Features/HearthFeature.h"
@@ -147,6 +150,12 @@ void FAerondelPanels::Build(UWorld* W, FName Panel, AActor* Ctx, FGPanelModel& M
 			}
 		}
 		M.Lines.Add(TEXT("Camera: hold right (or middle) mouse and move to look around; wheel zooms."));
+		{
+			const int32 BP = UAerondelModelLibrary::GetBindPoseMode();
+			ACharacter* PlayerChar = Cast<ACharacter>(Pawn);
+			USkeletalMeshComponent* PlayerMesh = PlayerChar ? PlayerChar->GetMesh() : nullptr;
+			Act(M, FString::Printf(TEXT("Debug: player bind pose, no animation (pose test): %s"), BP >= 1 ? TEXT("on") : TEXT("off")), [BP, WeakMesh = TWeakObjectPtr<USkeletalMeshComponent>(PlayerMesh)] { UAerondelModelLibrary::SetBindPoseMode(BP >= 1 ? 0 : 1, WeakMesh.Get()); });
+		}
 		if (UTrueAimFeature* Aim = Sub<UTrueAimFeature>(W))
 			Act(M, FString::Printf(TEXT("True Aim: %s"), Aim->IsOn() ? TEXT("on") : TEXT("off")), [Aim] { Aim->Toggle(); });
 		if (UAerondelGamepadComponent* Pad = Pawn ? Pawn->FindComponentByClass<UAerondelGamepadComponent>() : nullptr)

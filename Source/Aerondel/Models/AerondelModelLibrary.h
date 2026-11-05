@@ -23,6 +23,11 @@ public:
 	/** idle, walk, run, attack, hit, death, gather. Falls back to idle; death plays once. */
 	UFUNCTION(BlueprintCallable, Category="Aerondel|Models") static void SetAnimState(USkeletalMeshComponent* Comp, FName State);
 	UFUNCTION(BlueprintPure, Category="Aerondel|Models") static FString ResolveKey(const FString& Key);
+	/** Pose diagnostic (reversible, changes no assets): 0 = normal animation, 1 = player rig held in its bind pose,
+	 *  2 = every rig in bind pose. Console: aerondel.Rig.BindPose N, launch arg -AerondelBindPose (= 1), or Settings.
+	 *  If the bent player stands straight in bind pose, the imported animation clips (not the mesh) are at fault. */
+	static int32 GetBindPoseMode();
+	static void SetBindPoseMode(int32 Mode, USkeletalMeshComponent* PlayerMesh);
 	UFUNCTION(BlueprintCallable, Category="Aerondel|Models") static void ReloadRigTable();
 	/** Scales the applied mesh to HeightCm (largest of height / 0.6 x length for quadrupeds), puts its feet at -HalfHeight
 	 *  and turns it by the rigs.json "yaw" (default -90: imported glTF characters face +Y). */
