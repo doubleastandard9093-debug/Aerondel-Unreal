@@ -94,7 +94,7 @@ void UVenturesFeature::SaveZone(FJsonObject& A) const
 	TSharedRef<FJsonObject> B = MakeShared<FJsonObject>(), Best = MakeShared<FJsonObject>();
 	B->SetNumberField(TEXT("runs"), BreachRuns);
 	B->SetNumberField(TEXT("anima"), BreachAnima);
-	for (const auto& E : BreachBest) Best->SetStringField(FString(*E.Key), E.Value);
+	for (const auto& E : BreachBest) Best->SetStringField(E.Key, E.Value);
 	B->SetObjectField(TEXT("best"), Best);
 	A.SetObjectField(TEXT("breach"), B);
 }

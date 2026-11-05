@@ -398,7 +398,7 @@ void UVenturesFeature::ResetQuick()
 static TSharedPtr<FJsonObject> StrMapObj(const TMap<FString, FString>& M)
 {
 	TSharedPtr<FJsonObject> O = MakeShared<FJsonObject>();
-	for (const auto& E : M) O->SetStringField(FString(*E.Key), E.Value);
+	for (const auto& E : M) O->SetStringField(E.Key, E.Value);
 	return O;
 }
 
@@ -436,7 +436,7 @@ void UVenturesFeature::LoadQuick(const FJsonObject& A)
 	if (TSharedPtr<FJsonObject> W = JObj(A, TEXT("wardrobe")))
 	{
 		TMap<FString, FString> D; ReadStrMap(JObj(*W, TEXT("dyes")), D);
-		for (const auto& E : D) for (const FDye& Dy : VenturesData::Dyes) if (E.Value == Dy.Name) Dyes.Add(FString(*E.Key), E.Value);
+		for (const auto& E : D) for (const FDye& Dy : VenturesData::Dyes) if (E.Value == Dy.Name) Dyes.Add(E.Key, E.Value);
 		const TArray<TSharedPtr<FJsonValue>>* Arr = nullptr;
 		if (W->TryGetArrayField(TEXT("outfits"), Arr) && Arr)
 			for (int32 i = 0; i < FMath::Min(3, Arr->Num()); ++i)
