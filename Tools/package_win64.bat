@@ -2,6 +2,7 @@
 rem Aerondel - package a Win64 Development build (cook + stage + pak) for a weak laptop GPU/CPU.
 rem Usage: double-click, or run from any folder:  Tools\package_win64.bat
 rem Override paths:  set UE_ROOT=D:\Epic\UE_5.8  before running.
+rem Day-to-day C++ compile is root Build.bat (incremental by default). This script always cooks.
 setlocal
 if "%UE_ROOT%"=="" set "UE_ROOT=C:\Program Files\Epic Games\UE_5.8"
 set "PROJECT=C:\Dev\Aerondel-Unreal\Aerondel.uproject"

@@ -2,6 +2,7 @@
 import os, re, unittest
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SCAL = open(os.path.join(ROOT, "Config/DefaultScalability.ini"), encoding="utf-8").read()
+ENG = open(os.path.join(ROOT, "Config/DefaultEngine.ini"), encoding="utf-8").read()
 CPP = open(os.path.join(ROOT, "Source/Aerondel/World/AerondelScalability.cpp"), encoding="utf-8").read()
 # Not scalability cvars: an ensure in the cook (ExitCode 25) if they appear in DefaultScalability.ini.
 FORBIDDEN = ["r.DynamicGlobalIlluminationMethod", "r.ReflectionMethod", "r.AntiAliasingMethod", "r.Nanite"]  # r.Shadow.Virtual.Enable IS a ShadowQuality cvar (cooked fine)
@@ -17,6 +18,10 @@ class Graphics(unittest.TestCase):
         for k in FORBIDDEN:
             self.assertNotRegex(SCAL, r"(?m)^\s*" + re.escape(k) + r"\s*=", k)
 
+
+    def test_nanite_off_in_engine(self):
+        self.assertRegex(ENG, r"(?m)^\s*r\.Nanite\.ProjectEnabled\s*=\s*False")
+        self.assertRegex(ENG, r"(?m)^\s*r\.Nanite\s*=\s*0")
     def test_low_has_no_lumen_or_heavy_effects(self):
         low = low_block()
         self.assertTrue(low, "Low case not found")
