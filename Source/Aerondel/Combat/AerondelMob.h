@@ -55,6 +55,8 @@ public:
 	UFUNCTION(BlueprintPure, Category="Mob") bool IsWithered() const { return WitherTicks > 0; }
 	UFUNCTION(BlueprintPure, Category="Mob") EMobState GetState() const { return State; }
 	UFUNCTION(BlueprintPure, Category="Mob") bool IsDead() const { return State == EMobState::Dead; }
+	/** Chasing / attacking / walking home: never put to sleep by distance. */
+	bool IsEngaged() const { return State == EMobState::Chase || State == EMobState::Attack || State == EMobState::Return; }
 	UFUNCTION(BlueprintPure, Category="Mob") bool IsStunned() const { return StunTicks > 0; }
 	UFUNCTION(BlueprintPure, Category="Mob") int32 GetHp() const;
 	UFUNCTION(BlueprintPure, Category="Mob") int32 GetMaxHp() const;
