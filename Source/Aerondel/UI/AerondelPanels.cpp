@@ -1,6 +1,7 @@
 #include "UI/AerondelPanels.h"
 #include "GameFramework/GameUserSettings.h"
 #include "Engine/Engine.h"
+#include "World/AerondelRelevance.h"
 #include "Models/AerondelModelLibrary.h"
 #include "GameFramework/Character.h"
 #include "Components/SkeletalMeshComponent.h"
@@ -115,6 +116,10 @@ void FAerondelPanels::Build(UWorld* W, FName Panel, AActor* Ctx, FGPanelModel& M
 		const EAerondelTier Tier = UAerondelScalability::GetSavedTier();
 		static const TCHAR* TierNames[4] = { TEXT("Quest"), TEXT("Low"), TEXT("High"), TEXT("Ultra") };
 		M.Lines.Add(FString::Printf(TEXT("Graphics: %s. Low never loads High assets; Lumen, sky and foliage upgrades are High/Ultra only."), TierNames[(int32)Tier]));
+		{
+			const AerondelRelevance::FBands Bd = AerondelRelevance::ForTier(Tier);
+			M.Lines.Add(FString::Printf(TEXT("Characters and resources: full detail within %.0f m, reduced to %.0f m, asleep beyond (anything you fight or use stays awake)."), Bd.Near / 100.f, Bd.Mid / 100.f));
+		}
 		for (EAerondelTier T : { EAerondelTier::Low, EAerondelTier::High, EAerondelTier::Ultra })
 			Act(M, FString::Printf(TEXT("%sGraphics: %s"), T == Tier ? TEXT("> ") : TEXT(""), TierNames[(int32)T]), [W, T] { UAerondelScalability::SetAndSaveTier(W, T); });
 		if (Tier >= EAerondelTier::High)
