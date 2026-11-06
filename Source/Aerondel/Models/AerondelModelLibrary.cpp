@@ -15,6 +15,13 @@
 #include "Serialization/JsonReader.h"
 #include "Serialization/JsonSerializer.h"
 
+#include "HAL/IConsoleManager.h"
+#include "Misc/CommandLine.h"
+#include "Misc/Parse.h"
+
+static TAutoConsoleVariable<int32> CVarAerondelBindPose(TEXT("aerondel.Rig.BindPose"), 0,
+	TEXT("Pose diagnostic: 0 = animate normally, 1 = hold the player rig in its bind (reference) pose, 2 = all rigs in bind pose."));
+
 namespace AerondelRigs
 {
 	struct FRig { FString Mesh; TMap<FName, FString> Anims; };
@@ -66,6 +73,27 @@ FString UAerondelModelLibrary::ResolveKey(const FString& Key)
 	return Key;
 }
 
+int32 UAerondelModelLibrary::GetBindPoseMode()
+{
+	static bool bArgChecked = false;
+	if (!bArgChecked)
+	{
+		bArgChecked = true;
+		if (FParse::Param(FCommandLine::Get(), TEXT("AerondelBindPose")) && CVarAerondelBindPose.GetValueOnGameThread() == 0) CVarAerondelBindPose->Set(1, ECVF_SetByCommandline);
+	}
+	return CVarAerondelBindPose.GetValueOnGameThread();
+}
+
+void UAerondelModelLibrary::SetBindPoseMode(int32 Mode, USkeletalMeshComponent* PlayerMesh)
+{
+	GetBindPoseMode();
+	CVarAerondelBindPose->Set(FMath::Clamp(Mode, 0, 2), ECVF_SetByConsole);
+	UE_LOG(LogTemp, Log, TEXT("[Aerondel] RigDiag: bind-pose mode %d (0 = animated, 1 = player, 2 = all)"), FMath::Clamp(Mode, 0, 2));
+	if (!PlayerMesh) return;
+	PlayerMesh->ComponentTags.RemoveAll([](const FName& T) { return T.ToString().StartsWith(TEXT("AerondelAnim:")); });
+	SetAnimState(PlayerMesh, TEXT("idle")); // re-evaluates: holds the bind pose when on, restarts idle when off
+}
+
 bool UAerondelModelLibrary::ApplyRig(USkeletalMeshComponent* Comp, const FString& Key)
 {
 	if (!Comp) return false;
@@ -104,6 +132,20 @@ void UAerondelModelLibrary::SetAnimState(USkeletalMeshComponent* Comp, FName Sta
 	if (Cur == State && (!bOneShot || State == Death || Comp->IsPlaying())) return; // one-shots may replay once finished
 	if (!bOneShot && (Cur == Attack || Cur == Hit || Cur == FName(TEXT("gather"))) && Comp->IsPlaying()) return; // let the swing finish
 	const AerondelRigs::FRig* Rig = AerondelRigs::Rigs.Find(K); if (!Rig) return;
+	const int32 BindMode = GetBindPoseMode();
+	if (BindMode >= 2 || (BindMode == 1 && K == AerondelRigs::Player))
+	{
+		if (Cur != FName(TEXT("bindpose")))
+		{
+			Comp->Stop();
+			Comp->SetAnimation(nullptr);
+			Comp->ComponentTags.RemoveAll([](const FName& T) { return T.ToString().StartsWith(TEXT("AerondelAnim:")); });
+			Comp->ComponentTags.Add(FName(TEXT("AerondelAnim:bindpose")));
+			Comp->RefreshBoneTransforms();
+			UE_LOG(LogTemp, Log, TEXT("[Aerondel] RigDiag %s: held in BIND POSE (animation off, aerondel.Rig.BindPose=%d)"), *K, BindMode);
+		}
+		return;
+	}
 	const FString* Path = Rig->Anims.Find(State);
 	if (!Path && State == FName(TEXT("run"))) Path = Rig->Anims.Find(TEXT("walk"));
 	if (!Path) Path = Rig->Anims.Find(TEXT("idle"));
@@ -145,6 +187,13 @@ void UAerondelModelLibrary::FitRig(USkeletalMeshComponent* Comp, float HeightCm,
 		const double Posed = BoneExtent(M, C);
 		if (Posed <= KINDA_SMALL_NUMBER) return;
 		double Ratio = Posed / RefExtent;
+		{
+			FString Anim = TEXT("none");
+			for (const FName& T : C->ComponentTags) if (T.ToString().StartsWith(TEXT("AerondelAnim:"))) Anim = T.ToString().Mid(13);
+			const FVector MS = M->GetBounds().GetBox().GetSize();
+			UE_LOG(LogTemp, Log, TEXT("[Aerondel] RigDiag %s: mesh bounds %.1f x %.1f x %.1f, bind bone extent %.2f, posed bone extent %.2f (x%.2f), anim %s, fit scale %.5f"),
+				*M->GetName(), MS.X, MS.Y, MS.Z, RefExtent, Posed, Posed / RefExtent, *Anim, K);
+		}
 		if (Ratio > 0.7 && Ratio < 1.45) Ratio = 1.0;
 		// Absolute upright check. Interchange often bakes the glTF Y-up -> Z-up turn into BOTH the bind pose and the clips,
 		// so comparing posed vs bind pose sees no difference while the body still lies on its back. Instead measure the
@@ -189,7 +238,7 @@ void UAerondelModelLibrary::FitRig(USkeletalMeshComponent* Comp, float HeightCm,
 		}
 		if (Ratio == 1.0 && Fix.Equals(FQuat::Identity))
 		{
-			UE_LOG(LogTemp, Log, TEXT("[Aerondel] FitRig %s: no change needed (%s), scale %.3f, %d bones"), *M->GetName(), *How, K, N);
+			UE_LOG(LogTemp, Log, TEXT("[Aerondel] FitRig %s: no change needed (%s), scale %.5f, %d bones"), *M->GetName(), *How, K, N);
 			return;
 		}
 		const double K2 = K / Ratio;
@@ -203,7 +252,7 @@ void UAerondelModelLibrary::FitRig(USkeletalMeshComponent* Comp, float HeightCm,
 			for (const FTransform& T : Cs) Low = FMath::Min(Low, Rot.RotateVector(T.GetLocation() * K2).Z);
 			C->SetRelativeLocation(FVector(0, 0, -HalfHeight - Low + 4.0)); // lowest bone is the ankle/toe: ~4 cm above the sole
 		}
-		UE_LOG(LogTemp, Log, TEXT("[Aerondel] FitRig %s: posed x%.2f of bind pose, scale %.3f -> %.3f, upright fix %.0f deg (%s)"), *M->GetName(), Ratio, K, K2, FMath::RadiansToDegrees(Fix.GetAngle()), *How);
+		UE_LOG(LogTemp, Log, TEXT("[Aerondel] FitRig %s: posed x%.2f of bind pose, scale %.5f -> %.5f, upright fix %.0f deg (%s)"), *M->GetName(), Ratio, K, K2, FMath::RadiansToDegrees(Fix.GetAngle()), *How);
 	};
 	Correct();
 	Comp->GetWorld()->GetTimerManager().SetTimerForNextTick(FTimerDelegate::CreateLambda(Correct));

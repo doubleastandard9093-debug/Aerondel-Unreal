@@ -29,6 +29,10 @@ public:
 	UFUNCTION(BlueprintCallable, Category="Aerondel") void ClosePanel();
 	/** Name of the open panel, or None. */
 	FName GetOpenPanel() const;
+	/** Opens Settings, or closes it if it is already open (F10 / Esc / the on-screen Settings button). */
+	void ToggleSettings();
+	/** Left-click at a viewport position: true (and handled) when it hit the on-screen Settings button. */
+	bool HandleHudClick(const FVector2D& Pos);
 private:
 	void BindPad();
 	void DrawPadMenu(class AAerondelPlayerState* PS);
@@ -39,6 +43,7 @@ private:
 	UFUNCTION() void OnAimStrike(EAimShape Shape, FVector Origin, float YawDeg, int32 Hits);
 	UPROPERTY() TObjectPtr<class UAerondelPanelWidget> Panel;
 	bool bAimBound = false;
+	FVector2D SettingsBtnMin = FVector2D::ZeroVector, SettingsBtnMax = FVector2D::ZeroVector;
 	UFUNCTION() void OnDlg(const FText& Speaker, const TArray<FText>& Lines);
 	UPROPERTY() TObjectPtr<UAerondelHudWidget> Widget;
 	TArray<FText> Messages;

@@ -67,6 +67,20 @@ void AAerondelHUD::OpenPanel(FName PanelName, AActor* Context)
 	Panel->Open(PanelName, Context);
 }
 
+void AAerondelHUD::ToggleSettings()
+{
+	if (GetOpenPanel() == FName(TEXT("pad_settings"))) { ClosePanel(); bMenuOpen = false; return; }
+	OpenPanel(TEXT("pad_settings"), nullptr);
+}
+
+bool AAerondelHUD::HandleHudClick(const FVector2D& Pos)
+{
+	if (SettingsBtnMax.X <= SettingsBtnMin.X) return false;
+	if (Pos.X < SettingsBtnMin.X || Pos.Y < SettingsBtnMin.Y || Pos.X > SettingsBtnMax.X || Pos.Y > SettingsBtnMax.Y) return false;
+	ToggleSettings();
+	return true;
+}
+
 FName AAerondelHUD::GetOpenPanel() const { return Panel && Panel->IsInViewport() ? Panel->GetPanel() : NAME_None; }
 
 void AAerondelHUD::ClosePanel()
@@ -209,6 +223,14 @@ void AAerondelHUD::DrawHUD()
 		const bool bShowing = Panel && Panel->IsInViewport() && Panel->GetPanel() == TEXT("sea");
 		if (Sea->IsAtSea() && !(Panel && Panel->IsInViewport())) OpenPanel(TEXT("sea"), nullptr);
 		else if (!Sea->IsAtSea() && bShowing) ClosePanel();
+	}
+	// Always-visible Settings button (top right). Clicks are routed here by AAerondelPlayerController::OnClick.
+	if (Canvas && PlayerOwner && !PlayerOwner->GetPawn<AAerondelVRPawn>())
+	{
+		const float BW = 150.f, BH = 28.f;
+		SettingsBtnMin = FVector2D(Canvas->ClipX - BW - 12.f, 12.f); SettingsBtnMax = SettingsBtnMin + FVector2D(BW, BH);
+		DrawRect(FLinearColor(0.f, 0.f, 0.f, 0.6f), SettingsBtnMin.X, SettingsBtnMin.Y, BW, BH);
+		DrawText(TEXT("Settings (F10 / Esc)"), FLinearColor(1.f, 0.9f, 0.3f), SettingsBtnMin.X + 10.f, SettingsBtnMin.Y + 6.f, GEngine->GetSmallFont());
 	}
 	if (Widget || !Canvas || !PlayerOwner || PlayerOwner->GetPawn<AAerondelVRPawn>()) return;
 	AAerondelPlayerState* PS = PlayerOwner->GetPlayerState<AAerondelPlayerState>();

@@ -46,6 +46,9 @@ AAerondelCharacter::AAerondelCharacter()
 	SpringArm->SetupAttachment(RootComponent);
 	SpringArm->TargetArmLength = TargetArm;
 	SpringArm->SetRelativeRotation(FRotator(-35, 0, 0));
+	// Pivot at head height so tilting the camera up has room before the boom hits the ground and pulls in.
+	SpringArm->SetRelativeLocation(FVector(0, 0, 60.f));
+	SpringArm->ProbeSize = 8.f;
 	SpringArm->bUsePawnControlRotation = true;
 	SpringArm->bEnableCameraLag = true;
 	SpringArm->CameraLagSpeed = 12.f;
@@ -100,8 +103,8 @@ void AAerondelCharacter::SetupPlayerInputComponent(UInputComponent* Input)
 	if (EIC)
 	{
 		BuildVentureKeys();
-		static const TCHAR* Names[] = { TEXT("overflare"), TEXT("ventures"), TEXT("tether"), TEXT("super"), TEXT("dash") };
-		for (int32 i = 0; i < VentureActions.Num() && i < 5; ++i)
+		static const TCHAR* Names[] = { TEXT("overflare"), TEXT("ventures"), TEXT("tether"), TEXT("super"), TEXT("dash"), TEXT("settings") };
+		for (int32 i = 0; i < VentureActions.Num() && i < 6; ++i)
 		{
 			const FName K(Names[i]);
 			EIC->BindAction(VentureActions[i].Get(), ETriggerEvent::Started, this, &AAerondelCharacter::OnVentureKey, K);
@@ -128,7 +131,7 @@ void AAerondelCharacter::OnLook(const FInputActionValue& V)
 	APlayerController* PC = Cast<APlayerController>(GetController());
 	if (PC && PC->bShowMouseCursor && !bOrbiting) return;
 	AddControllerYawInput(In.X);
-	AddControllerPitchInput(-In.Y);
+	AddControllerPitchInput(-In.Y * 1.5f); // pitch was much slower than yaw to drag; limits are set on the camera manager
 }
 
 void AAerondelCharacter::OnZoom(const FInputActionValue& V)
@@ -242,10 +245,22 @@ void AAerondelCharacter::BuildVentureKeys()
 		VentureActions.Add(A);
 		VentureContext->MapKey(A, Keys[i]);
 	}
+	// Settings on the keyboard: bound here in C++ so it works without re-running Create Input Assets.
+	UInputAction* S = NewObject<UInputAction>(this, FName(TEXT("IA_Settings")));
+	S->ValueType = EInputActionValueType::Boolean;
+	VentureActions.Add(S);
+	VentureContext->MapKey(S, EKeys::F10);
+	VentureContext->MapKey(S, EKeys::Escape);
 }
 
 void AAerondelCharacter::OnVentureKey(FName Key)
 {
+	if (Key == FName(TEXT("settings")))
+	{
+		APlayerController* PC = Cast<APlayerController>(GetController());
+		if (AAerondelHUD* Hud = PC ? Cast<AAerondelHUD>(PC->GetHUD()) : nullptr) Hud->ToggleSettings();
+		return;
+	}
 	if (Key == FName(TEXT("ventures")))
 	{
 		APlayerController* PC = Cast<APlayerController>(GetController());

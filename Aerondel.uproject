@@ -18,11 +18,17 @@
 	"Plugins": [
 		{
 			"Name": "OpenXR",
-			"Enabled": true
+			"Enabled": true,
+			"SupportedTargetPlatforms": [
+				"Android"
+			]
 		},
 		{
 			"Name": "OpenXRHandTracking",
-			"Enabled": true
+			"Enabled": true,
+			"SupportedTargetPlatforms": [
+				"Android"
+			]
 		},
 		{
 			"Name": "EnhancedInput",
@@ -30,7 +36,7 @@
 		},
 		{
 			"Name": "CommonUI",
-			"Enabled": true
+			"Enabled": false
 		},
 		{
 			"Name": "ModelingToolsEditorMode",
@@ -48,11 +54,17 @@
 		},
 		{
 			"Name": "PythonScriptPlugin",
-			"Enabled": true
+			"Enabled": true,
+			"TargetAllowList": [
+				"Editor"
+			]
 		},
 		{
 			"Name": "EditorScriptingUtilities",
-			"Enabled": true
+			"Enabled": true,
+			"TargetAllowList": [
+				"Editor"
+			]
 		},
 		{
 			"Name": "XRBase",

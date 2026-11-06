@@ -1,4 +1,10 @@
 #include "UI/AerondelPanels.h"
+#include "GameFramework/GameUserSettings.h"
+#include "Engine/Engine.h"
+#include "World/AerondelRelevance.h"
+#include "Models/AerondelModelLibrary.h"
+#include "GameFramework/Character.h"
+#include "Components/SkeletalMeshComponent.h"
 #include "Features/CompanionsFeature.h"
 #include "Features/SagaFeature.h"
 #include "Features/HearthFeature.h"
@@ -110,12 +116,50 @@ void FAerondelPanels::Build(UWorld* W, FName Panel, AActor* Ctx, FGPanelModel& M
 		const EAerondelTier Tier = UAerondelScalability::GetSavedTier();
 		static const TCHAR* TierNames[4] = { TEXT("Quest"), TEXT("Low"), TEXT("High"), TEXT("Ultra") };
 		M.Lines.Add(FString::Printf(TEXT("Graphics: %s. Low never loads High assets; Lumen, sky and foliage upgrades are High/Ultra only."), TierNames[(int32)Tier]));
+		{
+			const AerondelRelevance::FBands Bd = AerondelRelevance::ForTier(Tier);
+			M.Lines.Add(FString::Printf(TEXT("Characters and resources: full detail within %.0f m, reduced to %.0f m, asleep beyond (anything you fight or use stays awake)."), Bd.Near / 100.f, Bd.Mid / 100.f));
+		}
 		for (EAerondelTier T : { EAerondelTier::Low, EAerondelTier::High, EAerondelTier::Ultra })
 			Act(M, FString::Printf(TEXT("%sGraphics: %s"), T == Tier ? TEXT("> ") : TEXT(""), TierNames[(int32)T]), [W, T] { UAerondelScalability::SetAndSaveTier(W, T); });
 		if (Tier >= EAerondelTier::High)
 		{
 			const bool bNanite = UAerondelScalability::GetNaniteOptIn();
 			Act(M, FString::Printf(TEXT("Nanite (experimental, restart): %s"), bNanite ? TEXT("on") : TEXT("off")), [bNanite] { UAerondelScalability::SetNaniteOptIn(!bNanite); });
+		}
+		// Window mode + resolution (engine GameUserSettings; saved to GameUserSettings.ini, applied immediately).
+		if (UGameUserSettings* GUS = GEngine ? GEngine->GetGameUserSettings() : nullptr)
+		{
+			const EWindowMode::Type Mode = GUS->GetFullscreenMode();
+			const FIntPoint Res = GUS->GetScreenResolution();
+			static const TCHAR* ModeNames[3] = { TEXT("Fullscreen"), TEXT("Borderless window"), TEXT("Window") };
+			M.Lines.Add(FString::Printf(TEXT("Display: %s, %dx%d (F10 / Esc opens this menu)"), ModeNames[FMath::Clamp((int32)Mode, 0, 2)], Res.X, Res.Y));
+			Act(M, FString::Printf(TEXT("Window mode: %s (change)"), ModeNames[FMath::Clamp((int32)Mode, 0, 2)]), [GUS, Mode]
+			{
+				const EWindowMode::Type Next = Mode == EWindowMode::Windowed ? EWindowMode::WindowedFullscreen : Mode == EWindowMode::WindowedFullscreen ? EWindowMode::Fullscreen : EWindowMode::Windowed;
+				GUS->SetFullscreenMode(Next);
+				if (Next == EWindowMode::WindowedFullscreen) GUS->SetScreenResolution(GUS->GetDesktopResolution());
+				GUS->ApplySettings(false);
+			});
+			static const FIntPoint Presets[] = { FIntPoint(1280, 720), FIntPoint(1600, 900), FIntPoint(1920, 1080), FIntPoint(2560, 1440), FIntPoint(3840, 2160) };
+			const FIntPoint Desk = GUS->GetDesktopResolution();
+			for (const FIntPoint& R : Presets)
+			{
+				if (Desk.X > 0 && (R.X > Desk.X || R.Y > Desk.Y)) continue; // never offer more than the monitor
+				Act(M, FString::Printf(TEXT("%sResolution %dx%d"), R == Res ? TEXT("> ") : TEXT(""), R.X, R.Y), [GUS, R]
+				{
+					if (GUS->GetFullscreenMode() == EWindowMode::WindowedFullscreen) GUS->SetFullscreenMode(EWindowMode::Windowed);
+					GUS->SetScreenResolution(R);
+					GUS->ApplySettings(false);
+				});
+			}
+		}
+		M.Lines.Add(TEXT("Camera: hold right (or middle) mouse and move to look around; wheel zooms."));
+		{
+			const int32 BP = UAerondelModelLibrary::GetBindPoseMode();
+			ACharacter* PlayerChar = Cast<ACharacter>(Pawn);
+			USkeletalMeshComponent* PlayerMesh = PlayerChar ? PlayerChar->GetMesh() : nullptr;
+			Act(M, FString::Printf(TEXT("Debug: player bind pose, no animation (pose test): %s"), BP >= 1 ? TEXT("on") : TEXT("off")), [BP, WeakMesh = TWeakObjectPtr<USkeletalMeshComponent>(PlayerMesh)] { UAerondelModelLibrary::SetBindPoseMode(BP >= 1 ? 0 : 1, WeakMesh.Get()); });
 		}
 		if (UTrueAimFeature* Aim = Sub<UTrueAimFeature>(W))
 			Act(M, FString::Printf(TEXT("True Aim: %s"), Aim->IsOn() ? TEXT("on") : TEXT("off")), [Aim] { Aim->Toggle(); });

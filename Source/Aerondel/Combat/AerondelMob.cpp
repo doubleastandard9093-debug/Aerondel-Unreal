@@ -61,6 +61,11 @@ AAerondelMob::AAerondelMob()
 void AAerondelMob::OnConstruction(const FTransform& Xf)
 {
 	Super::OnConstruction(Xf);
+	ApplyDefinitionShape();
+}
+
+void AAerondelMob::ApplyDefinitionShape()
+{
 	if (!Definition) return;
 	// Placeholder body: a tinted box sized from the data (cube mesh is 100 cm).
 	const FVector S = Definition->BodySize;
@@ -90,6 +95,12 @@ void AAerondelMob::RefreshNameplate()
 void AAerondelMob::BeginPlay()
 {
 	Super::BeginPlay();
+	if (!Definition && !DefinitionId.IsNone())
+	{
+		if (UGameDatabase* Db = UGameDatabase::Get()) Definition = Db->FindMob(DefinitionId);
+		if (Definition) ApplyDefinitionShape();
+		else UE_LOG(LogTemp, Warning, TEXT("[Aerondel] Placement: mob %s has unknown id %s"), *GetName(), *DefinitionId.ToString());
+	}
 	Home = GetActorLocation();
 	Health->SetMax(Definition ? Definition->Hitpoints : 5, true);
 	Health->OnDied.AddDynamic(this, &AAerondelMob::HandleDied);

@@ -3,7 +3,9 @@
 
 ADoor::ADoor()
 {
+	// Tick only while the leaf is swinging (enabled from Interact / BeginPlay when needed).
 	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bStartWithTickEnabled = false;
 	Hinge = CreateDefaultSubobject<USceneComponent>(TEXT("Hinge"));
 	Hinge->SetupAttachment(Root);
 	Mesh->SetupAttachment(Hinge);
@@ -15,6 +17,7 @@ void ADoor::BeginPlay()
 	Super::BeginPlay();
 	bOpen = bStartOpen; Yaw = bOpen ? OpenAngle : 0.f;
 	Hinge->SetRelativeRotation(FRotator(0, Yaw, 0));
+	SetActorTickEnabled(false);
 }
 
 FText ADoor::GetInteractLabel() const { return bOpen ? NSLOCTEXT("Aerondel", "Close", "Close Door") : NSLOCTEXT("Aerondel", "Open", "Open Door"); }
@@ -30,6 +33,7 @@ void ADoor::Interact(AActor* InInstigator)
 		const FVector Local = GetActorTransform().InverseTransformPosition(InInstigator->GetActorLocation());
 		Sign = Local.Y > 0 ? -1.f : 1.f;
 	}
+	SetActorTickEnabled(true);
 }
 
 void ADoor::Tick(float Dt)
@@ -40,5 +44,11 @@ void ADoor::Tick(float Dt)
 	{
 		Yaw = FMath::FInterpConstantTo(Yaw, Target, Dt, SwingSpeed);
 		Hinge->SetRelativeRotation(FRotator(0, Yaw, 0));
+	}
+	else
+	{
+		Yaw = Target;
+		Hinge->SetRelativeRotation(FRotator(0, Yaw, 0));
+		SetActorTickEnabled(false); // idle doors cost nothing
 	}
 }

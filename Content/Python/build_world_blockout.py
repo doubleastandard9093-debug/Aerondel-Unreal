@@ -142,7 +142,8 @@ def run(small=False):
         unreal.log_error("[Aerondel] Could not create " + MAP)
         return
     half = float(w.get("worldHalf", 300))
-    with safe.SafeRun("World blockout", 9, small=small, save_fn=levels.save_current_level) as task:
+    n_nodes = n_mobs = 0  # stays 0 if the run is cancelled -> the packager refuses this World
+    with safe.SafeRun("World blockout", 10, small=small, save_fn=levels.save_current_level) as task:
 
         task.frame("Ground and lighting")
         bst.environment()
@@ -160,9 +161,12 @@ def run(small=False):
         water = mat("Water", (0.15, 0.35, 0.55), 0.1)
         lk = w.get("lake")
         if lk:
-            box("Lake", "Water", (lk["x"], 0.02, lk["z"]), (lk["r"] * 2, 0.04, lk["r"] * 2), water, shape=CYL, collide=False)
+            a = box("Lake", "Water", (lk["x"], 0.02, lk["z"]), (lk["r"] * 2, 0.04, lk["r"] * 2), water, shape=CYL, collide=False)
+            a.static_mesh_component.set_editor_property("can_ever_affect_navigation", False)
         for i, p in enumerate(w.get("ponds", [])):
-            box("Pond_%d" % i, "Water", (p["x"], 0.02, p["z"]), (p["r"] * 2, 0.04, p["r"] * 2), water, shape=CYL, collide=False)
+            a = box("Pond_%d" % i, "Water", (p["x"], 0.02, p["z"]), (p["r"] * 2, 0.04, p["r"] * 2), water, shape=CYL, collide=False)
+            a.static_mesh_component.set_editor_property("can_ever_affect_navigation", False)
+        # shore blockers (invisible, pawn-only) are added with the gameplay placements below
 
         task.frame("Paths")
         dirt = mat("Path", (0.55, 0.45, 0.3), 0.9)
@@ -280,6 +284,11 @@ def run(small=False):
         importlib.reload(build_aerondel_regions)
         build_aerondel_regions.build(w, density=0.4 if small else 1.0)  # climate-region ground, biome props, dig sites, Delver's Descent
 
+        task.frame("Gameplay placements (trees, rocks, fishing, herbs, monsters) + shore blockers")
+        import world_placements
+        importlib.reload(world_placements)
+        n_nodes, n_mobs = world_placements.build(w, small=small)
+
         task.frame("World Partition streaming + save")
         if wpart.is_partitioned():
             wpart.configure_runtime_grid()
@@ -289,4 +298,13 @@ def run(small=False):
             unreal.log_warning("[Aerondel] World map is not partitioned; it will load all at once until converted (Tools > Convert Level).")
         levels.save_current_level()
         wpart.save_all()
-    unreal.log("[Aerondel] World blockout saved to " + MAP)
+    write_build_marker(small, n_nodes, n_mobs)
+    unreal.log("[Aerondel] World blockout saved to " + MAP + (" -- SMALL TEST ONLY, not the whole world" if small else " (FULL world)"))
+
+
+def write_build_marker(small, n_nodes, n_mobs):
+    """Saved/AerondelWorldBuild.json: Tools/package_win64.bat refuses to package a small-test or placement-less World."""
+    path = os.path.join(unreal.Paths.project_saved_dir(), "AerondelWorldBuild.json")
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump({"mode": "small" if small else "full", "nodes": n_nodes, "mobs": n_mobs}, f)
+    unreal.log("[Aerondel] World build marker: " + path)
