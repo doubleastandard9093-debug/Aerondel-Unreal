@@ -2,6 +2,7 @@
 #include "Player/AerondelCharacter.h"
 #include "Data/ResourceNodeDef.h"
 #include "Data/GameDatabase.h"
+#include "World/AerondelScalability.h"
 #include "Data/ItemDef.h"
 #include "Data/SkillDef.h"
 #include "Core/AerondelPlayerState.h"
@@ -33,6 +34,13 @@ void AResourceNode::OnConstruction(const FTransform& Xf)
 void AResourceNode::BeginPlay()
 {
 	Super::BeginPlay();
+	// Low / Quest: hundreds of trees and rocks in the full World; no dynamic shadows from them (High keeps shadows).
+	const EAerondelTier Tier = UAerondelScalability::GetSavedTier();
+	if (Tier == EAerondelTier::Low || Tier == EAerondelTier::Quest)
+	{
+		if (Mesh) Mesh->SetCastShadow(false);
+		if (DepletedMesh) DepletedMesh->SetCastShadow(false);
+	}
 	if (!Definition && !DefinitionId.IsNone())
 	{
 		if (UGameDatabase* Db = UGameDatabase::Get()) Definition = Db->FindResourceNode(DefinitionId);
