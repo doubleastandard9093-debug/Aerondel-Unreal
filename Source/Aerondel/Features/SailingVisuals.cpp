@@ -128,10 +128,13 @@ void ASailingVisuals::Tick(float Dt)
 	UGameInstance* GI = GetGameInstance();
 	USailingFeature* Sea = GI ? GI->GetSubsystem<USailingFeature>() : nullptr;
 	if (!Sea) return;
-	const bool bShow = Sea->IsAtSea() || !Sea->GetMoored().IsNone();
+	const bool bAtSea = Sea->IsAtSea();
+	const bool bShow = bAtSea || !Sea->GetMoored().IsNone();
+	// Ashore with nothing to draw: wake at 4 Hz instead of every frame.
+	PrimaryActorTick.TickInterval = bAtSea ? 0.f : 0.25f;
 	const FSeaBoat Ship = Sea->GetShip();
 	// Helm from the pawn's move input (WASD / left stick): sideways = turn, forward = full sail, back = strike sail.
-	if (Sea->IsAtSea())
+	if (bAtSea)
 		if (APawn* Pawn = UGameplayStatics::GetPlayerPawn(this, 0))
 		{
 			const FVector In = Pawn->GetLastMovementInputVector().GetSafeNormal2D();
@@ -143,7 +146,7 @@ void ASailingVisuals::Tick(float Dt)
 	if (Sea->GetHull() > 0 && Mine.BuiltKind != Sea->GetHull()) BuildShip(Mine, Sea->GetHull(), false);
 	PlaceShip(Mine, Ship.X, Ship.Z, Ship.Yaw, bShow && Sea->GetHull() > 0);
 	// The deck follows your ship while you are at sea; parked far below otherwise.
-	Deck->SetWorldLocationAndRotation(Sea->IsAtSea() ? FVector(Ship.X * 100.f, Ship.Z * 100.f, DeckTopCm - 15.f) : FVector(0, 0, -100000.f),
+	Deck->SetWorldLocationAndRotation(bAtSea ? FVector(Ship.X * 100.f, Ship.Z * 100.f, DeckTopCm - 15.f) : FVector(0, 0, -100000.f),
 		FRotator(0.f, 90.f - FMath::RadiansToDegrees(Ship.Yaw), 0.f));
 
 	const TArray<FSeaBoat> En = Sea->GetEnemies();
@@ -158,16 +161,24 @@ void ASailingVisuals::Tick(float Dt)
 		if (i < En.Num())
 		{
 			if (Foes[i].BuiltKind != En[i].Kind) BuildShip(Foes[i], En[i].Kind, true);
-			PlaceShip(Foes[i], En[i].X, En[i].Z, En[i].Yaw, Sea->IsAtSea());
+			PlaceShip(Foes[i], En[i].X, En[i].Z, En[i].Yaw, bAtSea);
 		}
 		else PlaceShip(Foes[i], 0, 0, 0, false);
 	}
 
-	Balls->ClearInstances();
-	if (Sea->IsAtSea())
-		for (const FCannonball& B : Sea->GetBalls())
-			Balls->AddInstance(FTransform(FRotator::ZeroRotator, FVector(B.Pos.X * 100.f, B.Pos.Z * 100.f, B.Pos.Y * 100.f), FVector(0.35f)), true);
-	ChartMarks->ClearInstances();
-	for (const FTreasureChart& C : Sea->GetCharts())
-		ChartMarks->AddInstance(FTransform(FRotator::ZeroRotator, FVector(C.X * 100.f, C.Z * 100.f, 20.f), FVector(1.2f, 1.2f, 0.05f)), true);
+	// Rebuild ISM lists only when at sea (or once to clear leftovers after docking).
+	if (bAtSea || Balls->GetInstanceCount() > 0)
+	{
+		Balls->ClearInstances();
+		if (bAtSea)
+			for (const FCannonball& B : Sea->GetBalls())
+				Balls->AddInstance(FTransform(FRotator::ZeroRotator, FVector(B.Pos.X * 100.f, B.Pos.Z * 100.f, B.Pos.Y * 100.f), FVector(0.35f)), true);
+	}
+	const TArray<FTreasureChart> Charts = Sea->GetCharts();
+	if (bAtSea || Charts.Num() > 0 || ChartMarks->GetInstanceCount() > 0)
+	{
+		ChartMarks->ClearInstances();
+		for (const FTreasureChart& C : Charts)
+			ChartMarks->AddInstance(FTransform(FRotator::ZeroRotator, FVector(C.X * 100.f, C.Z * 100.f, 20.f), FVector(1.2f, 1.2f, 0.05f)), true);
+	}
 }

@@ -30,19 +30,22 @@ void UAerondelRelevanceSubsystem::Tick(float Dt)
 	AActor* Pending = nullptr; AActor* Target = nullptr;
 	if (AAerondelCharacter* C = Cast<AAerondelCharacter>(P)) { Pending = C->GetPendingInteraction(); if (C->Combat) Target = C->Combat->GetTarget(); }
 	int32 Count[3] = { 0, 0, 0 };
-	for (TActorIterator<AActor> It(W); It; ++It)
+
+	// Typed iterators: avoid walking every actor in the world just to Cast-filter three classes.
+	auto Visit = [&](AActor* A, const AAerondelMob* Mob)
 	{
-		AActor* A = *It;
-		const AAerondelMob* Mob = Cast<AAerondelMob>(A);
-		if (!Mob && !A->IsA<ANpcTalk>() && !A->IsA<AResourceNode>()) continue;
 		const bool bPinned = A == Pending || A == Target || (Mob && Mob->IsEngaged());
 		const EBand Band = Classify(FVector::Dist(Me, A->GetActorLocation()), B, bPinned);
 		++Count[(int32)Band];
 		uint8* Old = Bands.Find(A);
-		if (Old && *Old == (uint8)Band) continue;
+		if (Old && *Old == (uint8)Band) return;
 		Apply(A, Band);
 		Bands.Add(A, (uint8)Band);
-	}
+	};
+	for (TActorIterator<AAerondelMob> It(W); It; ++It) Visit(*It, *It);
+	for (TActorIterator<ANpcTalk> It(W); It; ++It) Visit(*It, nullptr);
+	for (TActorIterator<AResourceNode> It(W); It; ++It) Visit(*It, nullptr);
+
 	if (Count[0] != LastLog[0] || Count[1] != LastLog[1] || Count[2] != LastLog[2])
 	{
 		if (FMath::Abs(Count[2] - LastLog[2]) > 10 || LastLog[0] < 0)
