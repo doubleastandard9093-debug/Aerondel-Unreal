@@ -28,6 +28,8 @@ ENTRIES = [
      "import aerondel_safe, import_lite_models, importlib; importlib.reload(aerondel_safe); importlib.reload(import_lite_models); import_lite_models.run(batch=import_lite_models.BATCH_SMALL)"),
     ("BuildRealismMaterials", "8. Build Realism Materials", "Skin (subsurface), fur/cloth (sheen) and leather/metal masters for rigged bodies; High/Ultra only",
      "import aerondel_safe, build_realism_materials, importlib; importlib.reload(aerondel_safe); importlib.reload(build_realism_materials); build_realism_materials.run()"),
+    ("BuildCharacterLods", "9. Build Character LODs (NPCs/monsters, not the player)", "Adds 2 auto-reduced LODs to shared rigged NPC/monster meshes (LOD0 unchanged); player rig skipped. Run after 7/7b.",
+     "import build_character_lods, importlib; importlib.reload(build_character_lods); build_character_lods.run()"),
     ("RunAll", "Run All setup (1-3 + smooth shapes; NOT the World map)", "Setup steps only; use 0 for the full game world",
      "import aerondel_all, importlib; importlib.reload(aerondel_all); aerondel_all.run()"),
 ]
