@@ -14,6 +14,9 @@ struct FVentureUlt { const TCHAR* Key; const TCHAR* Name; int32 Hits; float Bonu
 /** A saved Lookplate (Kitbash Wardrobe): slot -> look item, slot -> dye name. Up to 8 plates, including weapons. */
 struct FVentureOutfit { bool bUsed = false; TMap<FString, FString> Looks; TMap<FString, FString> Dyes; };
 
+/** Townstead furniture in one owned house. */
+struct FSteadFurn { bool bChest = false; bool bBed = false; TArray<FString> Hooks; };
+
 /** Hidden Reliquary cache site (web metres). */
 struct FVentureRelic { int32 Index = 0; FVector2D Pos = FVector2D::ZeroVector; int32 Tier = 1; };
 
@@ -228,6 +231,15 @@ public:
 	bool CryEquip(const FString& Id);
 	int32 CryWordsOf(const FString& Id) const;
 
+	// ---- group 12: Townsteads (Ventures_Townsteads.cpp) — trains Construction ----
+	bool SteadBuy(const FString& Id);
+	bool SteadPlace(const FString& Id, const FString& Kind);
+	bool SteadRest(const FString& Id);
+	bool SteadStore(const FString& Id, const FString& Item, int32 N = 1);
+	bool SteadTake(const FString& Id, const FString& Item, int32 N = 1);
+	int32 SteadHookSlots() const;
+	int32 SteadBuildMs() const;
+
 protected:
 	UFUNCTION() void HandleMobKilled(UMobDef* Mob);
 
@@ -379,6 +391,16 @@ protected:
 	int32 CryIncoming(int32 Amount) const;
 	bool CryNear(const FString& Id, float& Dist) const;
 	void TabCry(FGPanelModel& M);
+
+	// group 12 internals
+	void ResetStead();
+	void SaveStead(FJsonObject& A) const;
+	void LoadStead(const FJsonObject& A);
+	void TabStead(FGPanelModel& M);
+	FSteadFurn& SteadFurnOf(const FString& Id);
+	TMap<FString, int32>& SteadChestOf(const FString& Id);
+	const FString* SteadHere() const;
+	float SteadLeyBuildBonus() const;
 
 	// group 1 internals
 	void ResetQuick();
@@ -571,6 +593,13 @@ protected:
 	int32 CryUses = 0;
 	int64 CryLastMs = 0;
 	int32 CryValorUntil = 0;
+
+	// Townsteads (web adapt/townsteads.js, save key "steads")
+	TArray<FString> SteadOwned;
+	TMap<FString, TMap<FString, int32>> SteadChests;
+	TMap<FString, FSteadFurn> SteadFurn;
+	int64 SteadBuildBusyMs = 0;
 };
+
 
 
