@@ -66539,6 +66539,15 @@
    "z": -20,
    "town": "Larkhaven",
    "tint": "#3a3a4a"
+  },
+  "trailhand": {
+   "name": "Trailhand Kes",
+   "examine": "She deals a build-a-path game in Emberfold. Ranks must rise, and a card must match the suit or step exactly one rank.",
+   "service": "trail",
+   "x": 46,
+   "z": -21,
+   "town": "Emberfold",
+   "tint": "#c8a040"
   }
  },
  "towns": [

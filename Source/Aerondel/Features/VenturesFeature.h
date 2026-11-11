@@ -396,6 +396,13 @@ public:
 	bool SpirePick(int32 I);
 	bool SpireBuy(const FString& Id);
 
+	// ---- group 25: Trailhand (Ventures_Trailhand.cpp) — not Twenty-One Tides or Crown & Anchor ----
+	bool TrailDeal();
+	bool TrailPlay(int32 HandIndex, int32 Row);
+	void TrailClose();
+	static bool TrailLegal(const TArray<FIntPoint>& RowSuitsRanks, int32 Rank, int32 Suit);
+	bool TrailLive() const { return bTrailLive; }
+
 protected:
 	UFUNCTION() void HandleMobKilled(UMobDef* Mob);
 
@@ -692,6 +699,13 @@ protected:
 	void RaidClearMobs();
 	int32 RaidLive() const;
 
+	void ResetTrail();
+	void SaveTrail(FJsonObject& A) const;
+	void LoadTrail(const FJsonObject& A);
+	void TabTrail(FGPanelModel& M);
+	void TrailSettle(int32 Mult, const FString& Msg);
+	FString TrailCardLabel(int32 Rank, int32 Suit) const;
+
 	// group 1 internals
 	void ResetQuick();
 	void SaveQuick(FJsonObject& A) const;
@@ -983,7 +997,16 @@ protected:
 	int32 RaidHits = 0;
 	int64 RaidLastChip = 0, RaidStartMs = 0;
 	TArray<TWeakObjectPtr<AAerondelMob>> RaidMobs;
+
+	// Trailhand (web adapt/trailhand.js, save key "trail")
+	int32 TrailWins = 0, TrailBest = 0, TrailTokens = 0, TrailBet = 50, TrailSel = -1;
+	bool bTrailLive = false;
+	FString TrailDone;
+	TArray<FIntPoint> TrailHand; // X = rank 0-8, Y = suit 0-3
+	TArray<TArray<FIntPoint>> TrailRows;
+
 };
+
 
 
 
