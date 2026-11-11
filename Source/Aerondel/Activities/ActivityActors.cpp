@@ -94,6 +94,7 @@ void AThieveTarget::Interact(AActor* InInstigator)
 		Msg(FText::Format(LOCTEXT("Caught", "You fail to pick the {0}'s pocket. You've been stunned!"), T->DisplayName));
 		S->Stats->StunUntil = S->Stats->GameTick + T->StunTicks;
 		S->Stats->ApplyPlayerDamage(FMath::Max(1, FMath::FloorToInt(T->FailDamage * (0.5f + FMath::FRand() * 0.5f))), this);
+		if (UVenturesFeature* V = UVenturesFeature::Get(this)) V->FineOnFail(this, T->DisplayName.ToString());
 		return;
 	}
 	for (const FDropEntry& D : T->Loot)

@@ -66620,6 +66620,15 @@
    "z": -16,
    "town": "Larkhaven",
    "tint": "#708090"
+  },
+  "wardfine": {
+   "name": "Wardclerk Penn",
+   "examine": "A failed pocket in town is no longer only a stun. A guard will stop you: pay the fine, wait at the keep, or resist. Unique and quest items are never taken. Larkhaven is always solvable — you can pay, wait, or walk to the bank. A Wary banner may make a town quicker to stop you, but the fine is always payable.",
+   "service": "keep",
+   "x": -8,
+   "z": -4,
+   "town": "Larkhaven",
+   "tint": "#c8b060"
   }
  },
  "towns": [

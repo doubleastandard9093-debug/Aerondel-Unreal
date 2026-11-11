@@ -493,6 +493,19 @@ public:
 	int32 HitShade(AAerondelMob* Mob, int32 Damage);
 	float ShadeNoticeMul() const { return MarkNoticeMul; }
 
+	// ---- group 34: Wardfine (Ventures_Wardfine.cpp) — a town fine, not a prison-crawl; Larkhaven is always solvable ----
+	bool FineOnFail(const AActor* At, const FString& TargetType);
+	bool FinePay(const FString& Town);
+	bool FineWait(const FString& Town);
+	bool FineWake();
+	bool FineResist(const FString& Town);
+	bool FineFlee(const FString& Town);
+	int32 FineOf(const FString& Town) const;
+	int32 FineTotal() const;
+	bool FineUnwelcome(const FString& Town) const;
+	FString TownAt(float X, float Z) const;
+
+
 
 
 
@@ -860,6 +873,15 @@ protected:
 	bool ShadeCloseFight() const;
 	TArray<AAerondelMob*> ShadeFoesNear(float RadiusM) const;
 
+	void ResetKeep();
+	void SaveKeep(FJsonObject& A) const;
+	void LoadKeep(const FJsonObject& A);
+	void TabKeep(FGPanelModel& M);
+	void TickKeep();
+	void DiedKeep(AAerondelMob* Mob, bool bByPlayer);
+	bool FineProtected(const UItemDef* Item) const;
+
+
 
 
 
@@ -1217,6 +1239,17 @@ protected:
 	bool bShadeUnseen = true;
 	int64 ShadeUntilMs = 0;
 	float MarkNoticeMul = 1.f; // Wildmarks may lower this later
+
+	// Wardfine (web adapt/wardfine.js, save key "keep")
+	TMap<FString, int32> KeepFines, KeepHeat;
+	TMap<FString, int64> KeepUnwelcome;
+	TMap<FString, int32> KeepHeld;
+	FString KeepHeldTown, FineStopTown, FineResistTown;
+	int64 KeepJailUntil = 0;
+	bool bFineStop = false;
+	FVector2D FineResistAt = FVector2D::ZeroVector;
+	TWeakObjectPtr<AAerondelMob> FineGuard;
+
 
 
 
