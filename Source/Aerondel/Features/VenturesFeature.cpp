@@ -117,6 +117,7 @@ void UVenturesFeature::ResetState()
 	ResetRaid();
 	ResetSeason();
 	ResetHunt();
+	ResetGuard();
 }
 
 void UVenturesFeature::SaveState(FJsonObject& Out) const
@@ -129,6 +130,7 @@ void UVenturesFeature::SaveState(FJsonObject& Out) const
 	SaveRaid(Out);
 	SaveSeason(Out);
 	SaveHunt(Out);
+	SaveGuard(Out);
 }
 
 void UVenturesFeature::LoadState(const FJsonObject& In)
@@ -142,6 +144,7 @@ void UVenturesFeature::LoadState(const FJsonObject& In)
 	LoadRaid(In);
 	LoadSeason(In);
 	LoadHunt(In);
+	LoadGuard(In);
 }
 
 void UVenturesFeature::OnGameTick()
@@ -152,6 +155,7 @@ void UVenturesFeature::OnGameTick()
 	TickGear();
 	TickRaid();
 	TickHunt();
+	TickGuard();
 }
 
 void UVenturesFeature::OnPlayerDied()
@@ -218,6 +222,7 @@ int32 UVenturesFeature::HookPlayerHit(AAerondelMob* Mob, int32 Damage, AActor* A
 	if (!V || !Mob || !Attacker || !AAerondelPlayerState::FromActor(Attacker)) return Damage;
 	int32 D = V->HitCombat(Mob, FMath::Max(0, Damage));
 	D = V->HitHunt(Mob, D);
+	D = V->HitGuard(Mob, D);
 	const bool bFlareStrike = V->StrikeKind && FCString::Strcmp(V->StrikeKind, TEXT("flare")) == 0;
 	if (D > 0 && !bFlareStrike) V->FlareAdd(1.5f + FMath::Min(4.f, D / (float)FMath::Max(1, Mob->GetMaxHp()) * 25.f));
 	return D;
@@ -255,6 +260,7 @@ bool UVenturesFeature::BuildTabMore(const FString& Tab, FGPanelModel& M)
 	if (Tab == TEXT("hold")) { TabHold(M); return true; }
 	if (Tab == TEXT("chron")) { TabChron(M); return true; }
 	if (Tab == TEXT("hunt")) { TabHunt(M); return true; }
+	if (Tab == TEXT("guard")) { TabGuard(M); return true; }
 	return false;
 }
 
@@ -276,6 +282,7 @@ void UVenturesFeature::OverviewMore(FGPanelModel& M)
 	VAct(M, TEXT("Hearthhold"), [this] { GoTab(TEXT("hold")); });
 	VAct(M, TEXT("Season Chronicle"), [this] { GoTab(TEXT("chron")); });
 	VAct(M, TEXT("Huntwright"), [this] { GoTab(TEXT("hunt")); });
+	VAct(M, TEXT("Guardbreak"), [this] { GoTab(TEXT("guard")); });
 	VAct(M, TEXT("Dash / Glide (C)"), [this] { Dash(); }, true, true);
 }
 
@@ -674,7 +681,7 @@ void UVenturesFeature::RelicFinish(bool bOk)
 
 bool UVenturesFeature::IsVenturePanel(const FString& P)
 {
-	return P.StartsWith(TEXT("ventures")) || P == TEXT("reliquary") || P == TEXT("grafts") || P == TEXT("breach") || P == TEXT("hold") || P == TEXT("hunt");
+	return P.StartsWith(TEXT("ventures")) || P == TEXT("reliquary") || P == TEXT("grafts") || P == TEXT("breach") || P == TEXT("hold") || P == TEXT("hunt") || P == TEXT("guard");
 }
 
 void UVenturesFeature::GoTab(const FString& Tab) const

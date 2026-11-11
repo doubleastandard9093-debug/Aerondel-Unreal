@@ -187,6 +187,15 @@ public:
 	bool HuntCraft(const FString& Boss, const FString& Kind);
 	FString HuntWornSet() const;
 
+	// ---- group 8: Guardbreak (Ventures_Guardbreak.cpp) ----
+	bool GuardRiposte(AAerondelMob* Mob = nullptr);
+	int32 GuardPoiseOf(const AAerondelMob* Mob) const;
+	int32 GuardPoiseMax(const AAerondelMob* Mob) const;
+	bool GuardRiposteOpen(const AAerondelMob* Mob) const;
+	int32 PlayerPoiseMax() const;
+	/** Called from UPlayerStatsComponent after a landed incoming hit. */
+	static void HookPlayerHurt(const UObject* WorldContext, int32 Amount);
+
 protected:
 	UFUNCTION() void HandleMobKilled(UMobDef* Mob);
 
@@ -302,6 +311,14 @@ protected:
 	int32 HitHunt(AAerondelMob* Mob, int32 D);
 	void DiedHunt(AAerondelMob* Mob, bool bByPlayer);
 	void TabHunt(FGPanelModel& M);
+	// group 8 internals
+	void ResetGuard();
+	void SaveGuard(FJsonObject& A) const;
+	void LoadGuard(const FJsonObject& A);
+	void TickGuard();
+	int32 HitGuard(AAerondelMob* Mob, int32 D);
+	void IncomingGuard(int32 Amount);
+	void TabGuard(FGPanelModel& M);
 
 	// group 1 internals
 	void ResetQuick();
@@ -454,4 +471,12 @@ protected:
 	mutable FHuntCarveJob HuntCarveJob;
 	struct FHuntTrackJob { FString Boss; TArray<FVector2D> Marks; int32 At = 0; bool bOn = false; };
 	FHuntTrackJob HuntTrackJob;
+
+	// Guardbreak (web adapt/guardbreak.js, save key "guard")
+	int32 GuardBreaks = 0;
+	int32 GuardRipostes = 0;
+	struct FGuardPoise { float Poise = 0.f; int32 CdUntil = 0; int32 RiposteUntil = 0; bool bUsed = false; };
+	TMap<TWeakObjectPtr<AAerondelMob>, FGuardPoise> GuardPoise;
+	mutable float PlayerPoise = -1.f;
+	int32 PlayerPoiseCd = 0;
 };

@@ -8,6 +8,7 @@
 #include "Quests/QuestComponent.h"
 #include "Combat/HealthComponent.h"
 #include "Data/GameDatabase.h"
+#include "Features/VenturesFeature.h"
 #include "Data/ContentDefs.h"
 #include "Data/ItemDef.h"
 #include "Data/MobDef.h"
@@ -377,6 +378,7 @@ void UPlayerStatsComponent::ApplyPlayerDamage(int32 Amount, AActor* Source)
 	const float Red = (GameTick < WallUntil ? 0.6f : 0.f) + (GameTick < WardUntil ? 0.4f : 0.f); // uncapped (web v21)
 	if (Red > 0.f) Amount = FMath::Max(0, FMath::RoundToInt(Amount * FMath::Max(0.f, 1.f - Red)));
 	S->Health->ApplyDamage(Amount, Source);
+	UVenturesFeature::HookPlayerHurt(this, Amount);
 	if (UEconomyFeature* Econ = UEconomyFeature::Get(this)) Econ->OnPlayerHit();
 	if (S->Health->IsDead()) { HandleDeath(); UAerondelFeature::NotifyPlayerDied(this); }
 }

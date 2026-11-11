@@ -51,6 +51,18 @@ for p in proj["Plugins"]:
     if p["Name"] == "VisualStudioTools" and p.get("Enabled"):
         errs.append("VisualStudioTools is enabled")
 
+guard = open(os.path.join(ROOT, "Source/Aerondel/Features/Ventures_Guardbreak.cpp"), encoding="utf-8").read()
+for name in ("GuardRiposte", "IncomingGuard", "HookPlayerHurt", "Crestbreak"):
+    if name not in guard:
+        errs.append(f"Ventures_Guardbreak.cpp missing {name}")
+feat = open(os.path.join(ROOT, "Source/Aerondel/Features/VenturesFeature.cpp"), encoding="utf-8").read()
+for s in ("ResetGuard()", "HitGuard", "GoTab(TEXT(\"guard\"))"):
+    if s not in feat:
+        errs.append(f"VenturesFeature.cpp missing {s}")
+hurt = open(os.path.join(ROOT, "Source/Aerondel/Core/PlayerStatsComponent.cpp"), encoding="utf-8").read()
+if "HookPlayerHurt" not in hurt:
+    errs.append("PlayerStatsComponent does not call HookPlayerHurt")
+
 if errs:
     for e in errs:
         print("FAIL", e)
