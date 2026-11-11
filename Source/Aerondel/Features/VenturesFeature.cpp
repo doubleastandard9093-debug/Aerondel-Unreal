@@ -145,6 +145,7 @@ void UVenturesFeature::ResetState()
 	ResetShade();
 	ResetKeep();
 	ResetOath();
+	ResetRoad();
 }
 
 void UVenturesFeature::SaveState(FJsonObject& Out) const
@@ -185,6 +186,7 @@ void UVenturesFeature::SaveState(FJsonObject& Out) const
 	SaveShade(Out);
 	SaveKeep(Out);
 	SaveOath(Out);
+	SaveRoad(Out);
 }
 
 void UVenturesFeature::LoadState(const FJsonObject& In)
@@ -226,6 +228,7 @@ void UVenturesFeature::LoadState(const FJsonObject& In)
 	LoadShade(In);
 	LoadKeep(In);
 	LoadOath(In);
+	LoadRoad(In);
 }
 
 void UVenturesFeature::OnGameTick()
@@ -249,6 +252,7 @@ void UVenturesFeature::OnGameTick()
 	TickShade();
 	TickKeep();
 	TickOath();
+	TickRoad();
 }
 
 void UVenturesFeature::OnPlayerDied()
@@ -399,6 +403,7 @@ bool UVenturesFeature::BuildTabMore(const FString& Tab, FGPanelModel& M)
 	if (Tab == TEXT("shade")) { TabShade(M); return true; }
 	if (Tab == TEXT("keep")) { TabKeep(M); return true; }
 	if (Tab == TEXT("oath")) { TabOath(M); return true; }
+	if (Tab == TEXT("road")) { TabRoad(M); return true; }
 	return false;
 }
 
@@ -448,6 +453,7 @@ void UVenturesFeature::OverviewMore(FGPanelModel& M)
 	VAct(M, TEXT("Shadework"), [this] { GoTab(TEXT("shade")); });
 	VAct(M, TEXT("Wardfine"), [this] { GoTab(TEXT("keep")); });
 	VAct(M, TEXT("Oathframe"), [this] { GoTab(TEXT("oath")); });
+	VAct(M, TEXT("Hardroad"), [this] { GoTab(TEXT("road")); });
 	VAct(M, TEXT("Dash / Glide (C)"), [this] { Dash(); }, true, true);
 }
 
@@ -869,7 +875,7 @@ void UVenturesFeature::RelicFinish(bool bOk)
 
 bool UVenturesFeature::IsVenturePanel(const FString& P)
 {
-	return P.StartsWith(TEXT("ventures")) || P == TEXT("reliquary") || P == TEXT("grafts") || P == TEXT("breach") || P == TEXT("hold") || P == TEXT("hunt") || P == TEXT("guard") || P == TEXT("ashkin") || P == TEXT("vocations") || P == TEXT("cries") || P == TEXT("steads") || P == TEXT("ties") || P == TEXT("green") || P == TEXT("facets") || P == TEXT("ley") || P == TEXT("horde") || P == TEXT("marks") || P == TEXT("spire") || P == TEXT("kin") || P == TEXT("climb") || P == TEXT("chem") || P == TEXT("frame") || P == TEXT("raids") || P == TEXT("trail") || P == TEXT("checks") || P == TEXT("banners") || P == TEXT("kits") || P == TEXT("freight") || P == TEXT("camp") || P == TEXT("wyrms") || P == TEXT("veil") || P == TEXT("shade") || P == TEXT("keep") || P == TEXT("oath");
+	return P.StartsWith(TEXT("ventures")) || P == TEXT("reliquary") || P == TEXT("grafts") || P == TEXT("breach") || P == TEXT("hold") || P == TEXT("hunt") || P == TEXT("guard") || P == TEXT("ashkin") || P == TEXT("vocations") || P == TEXT("cries") || P == TEXT("steads") || P == TEXT("ties") || P == TEXT("green") || P == TEXT("facets") || P == TEXT("ley") || P == TEXT("horde") || P == TEXT("marks") || P == TEXT("spire") || P == TEXT("kin") || P == TEXT("climb") || P == TEXT("chem") || P == TEXT("frame") || P == TEXT("raids") || P == TEXT("trail") || P == TEXT("checks") || P == TEXT("banners") || P == TEXT("kits") || P == TEXT("freight") || P == TEXT("camp") || P == TEXT("wyrms") || P == TEXT("veil") || P == TEXT("shade") || P == TEXT("keep") || P == TEXT("oath") || P == TEXT("road");
 }
 
 void UVenturesFeature::GoTab(const FString& Tab) const

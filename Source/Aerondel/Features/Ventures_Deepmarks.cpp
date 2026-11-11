@@ -207,7 +207,8 @@ void UVenturesFeature::MarkFromBreach(bool bHard, const FString& Grade)
 
 float UVenturesFeature::PrayerRegenMul() const
 {
-	return InRunKind(TEXT("marks")) && Run.Mods.Contains(TEXT("hush")) ? 0.35f : 1.f;
+	const float Mark = (InRunKind(TEXT("marks")) && Run.Mods.Contains(TEXT("hush"))) ? 0.35f : 1.f;
+	return Mark * RoadRegenMul();
 }
 
 float UVenturesFeature::PrayerRegenMul(const UObject* WorldContext)

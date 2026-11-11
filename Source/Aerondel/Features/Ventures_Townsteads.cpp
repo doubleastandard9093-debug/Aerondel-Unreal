@@ -173,6 +173,7 @@ bool UVenturesFeature::SteadRest(const FString& Id)
 	const int32 Heal = FMath::Max(1, FMath::RoundToInt(PS->Health->GetMax() * 0.2f));
 	PS->Health->Heal(Heal); if (PS->Stats) PS->Stats->RunEnergy = 100.f;
 	Say(FString::Printf(TEXT("You rest in the %s. (+%d hitpoints, run energy restored.)"), H->Name, Heal));
+	RoadRest(70);
 	return true;
 }
 

@@ -159,6 +159,7 @@ bool UVenturesFeature::CampRest()
 	const int32 Heal = FMath::Max(1, FMath::RoundToInt(PS->Health->GetMax() * 0.2f));
 	PS->Health->Heal(Heal); if (PS->Stats) PS->Stats->RunEnergy = 100.f;
 	Say(FString::Printf(TEXT("You rest at your Waycamp. (+%d hitpoints, run energy restored.)"), Heal));
+	RoadRest(70);
 	return true;
 }
 

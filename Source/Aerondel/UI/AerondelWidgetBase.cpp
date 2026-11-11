@@ -1,4 +1,5 @@
 #include "UI/AerondelWidgetBase.h"
+#include "Features/VenturesFeature.h"
 #include "Core/AerondelPlayerState.h"
 #include "Core/AerondelEvents.h"
 #include "Player/AerondelPlayerController.h"
@@ -74,7 +75,7 @@ void UAerondelInventoryWidget::UseSlot(int32 SlotIndex)
 	if (S.IsEmpty()) return;
 	if (PS->Bank->IsOpen()) { PS->Bank->Deposit(PS->Inventory, S.Item, S.Item->bStackable ? S.Count : 1); return; }
 	if (S.Item->EquipSlot != EEquipSlot::None) { PS->Equipment->EquipFromInventory(SlotIndex); return; }
-	if (S.Item->HealAmount > 0) { PS->Inventory->RemoveFromSlot(SlotIndex, 1); PS->Health->Heal(S.Item->HealAmount); return; }
+	if (S.Item->HealAmount > 0) { PS->Inventory->RemoveFromSlot(SlotIndex, 1); PS->Health->Heal(S.Item->HealAmount); if (UVenturesFeature* V = UVenturesFeature::Get(this)) V->RoadOnConsume(S.Item); return; }
 }
 
 void UAerondelInventoryWidget::DropSlot(int32 SlotIndex)

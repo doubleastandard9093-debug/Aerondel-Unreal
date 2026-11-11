@@ -515,6 +515,18 @@ public:
 	bool OathStepOut(const FString& Why = FString());
 	bool OathSlam();
 
+	// ---- group 36: Hardroad (Ventures_Hardroad.cpp) — optional meters, off by default, never lethal ----
+	bool RoadOn() const { return bRoadOn; }
+	bool RoadToggle(bool bOn);
+	int32 RoadFill(const FString& Kind, int32 N);
+	int32 RoadEat(int32 N = 25);
+	int32 RoadDrink(int32 N = 25);
+	int32 RoadRest(int32 N = 70);
+	float RoadRegenMul() const;
+	static float RoadRegenMul(const UObject* WorldContext);
+	void RoadOnConsume(const UItemDef* Item);
+
+
 
 
 
@@ -899,6 +911,13 @@ protected:
 	void TickOath();
 	void OathApplySpeed(bool bOn);
 	AAerondelMob* OathNearest(float RadiusM) const;
+
+	void ResetRoad();
+	void SaveRoad(FJsonObject& A) const;
+	void LoadRoad(const FJsonObject& A);
+	void TabRoad(FGPanelModel& M);
+	void TickRoad();
+
 
 
 

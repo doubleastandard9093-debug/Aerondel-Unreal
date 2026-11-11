@@ -66638,6 +66638,15 @@
    "z": -12,
    "town": "Larkhaven",
    "tint": "#6a6a75"
+  },
+  "hardroad": {
+   "name": "Roadwise Marla",
+   "examine": "Hardroad is an optional way of travelling. When it is on, hunger, thirst and rest tick slowly. Food still heals, a well or waterskin helps thirst, and a Townstead or Waycamp bed helps rest. If a meter is low, your health, prayer and run energy recover more slowly. The meters never kill you, never strip XP, and never block a skill. You can turn it off at any time. An Oathframe's core still drains either way — that is a frame rule, not a survival rule.",
+   "service": "road",
+   "x": 19,
+   "z": -10,
+   "town": "Larkhaven",
+   "tint": "#c8a060"
   }
  },
  "towns": [
