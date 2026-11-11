@@ -6426,6 +6426,16 @@
    "type": "vessel",
    "vessel": 3,
    "special": "A fine vessel for rare frontier beasts. Needs Hunter 75."
+  },
+  "Limestone": {
+   "value": 3,
+   "type": "resource",
+   "special": "Soft building stone. Cut it into a Stone slab with Crafting, or find a finished slab while mining."
+  },
+  "Stone slab": {
+   "value": 8,
+   "type": "resource",
+   "special": "Cut stone for Freeframe walls and reinforced plates. Crafted from limestone or found while mining."
   }
  },
  "metals": [

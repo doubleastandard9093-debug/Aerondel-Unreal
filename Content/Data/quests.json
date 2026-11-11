@@ -66521,6 +66521,15 @@
    "z": -18,
    "town": "Larkhaven",
    "tint": "#c85a2a"
+  },
+  "freeframe": {
+   "name": "Plotwarden Tess",
+   "examine": "Claimridge is a wild plot north of town. Claim it, then build piece by piece. This is not a town house and not the farm.",
+   "service": "frame",
+   "x": 18,
+   "z": -14,
+   "town": "Larkhaven",
+   "tint": "#8a5a2a"
   }
  },
  "towns": [

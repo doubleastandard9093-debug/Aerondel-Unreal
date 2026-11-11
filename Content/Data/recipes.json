@@ -3119,6 +3119,20 @@
    },
    "output": "Fine vessel",
    "xp": 80
+  },
+  {
+   "station": null,
+   "tool": "hammer",
+   "name": "Cut Stone slab",
+   "cat": "Crafting",
+   "group": "Stonework",
+   "skill": "Crafting",
+   "level": 12,
+   "inputs": {
+    "Limestone": 1
+   },
+   "output": "Stone slab",
+   "xp": 20
   }
  ],
  "potionRecipes": [

@@ -50,7 +50,7 @@ if exists("Source/Aerondel/Features/Ventures_Leychem.cpp"):
 # Freeframe
 if exists("Source/Aerondel/Features/Ventures_Freeframe.cpp"):
     src = read("Source/Aerondel/Features/Ventures_Freeframe.cpp")
-    for name in ("FrameBuy", "Claimridge", "foundation", "frameSettle"):
+    for name in ("FrameBuy", "Claimridge", "foundation", "FrameSettle"):
         if name not in src:
             errs.append(f"Freeframe missing {name}")
     if npcs.get("freeframe", {}).get("service") != "frame":

@@ -41,6 +41,12 @@ struct FKinRec
 	int64 FaintUntil = 0;
 };
 
+struct FFramePiece
+{
+	FString Id, Kind, Tier;
+	int32 Gx = 0, Gz = 0, Rot = 0, Hp = 0;
+};
+
 struct FLeyFire
 {
 	FString Kind, Src;
@@ -279,12 +285,22 @@ public:
 	FString LeyWeather() const;
 	bool LeyIsRain() const;
 	bool LeyIsStorm() const;
-	// Freeframe hooks (stubs until Ventures_Freeframe.cpp lands).
-	bool FrameOn(float X, float Z) const { return false; }
-	bool FrameFlammable(float X, float Z) const { return false; }
-	bool FrameMetal(FVector2D& Out) const { (void)Out; return false; }
-	bool FrameClaimed() const { return false; }
 	bool NearTownHouse(FVector2D WebPos, float RadiusM) const;
+
+	// ---- group 23: Freeframe (Ventures_Freeframe.cpp) — not a Townstead, not Greenstead ----
+	bool FrameOn(float X, float Z) const;
+	bool FrameFlammable(float X, float Z) const;
+	bool FrameMetal(FVector2D& Out) const;
+	bool FrameClaimed() const;
+	bool FrameHome() const;
+	bool FrameBuy();
+	bool FramePlace(const FString& Kind);
+	bool FramePlaceAt(const FString& Kind, int32 Gx, int32 Gz);
+	bool FrameRemove(const FString& Id, const FString& Why = FString());
+	void FrameSettle();
+	bool FrameRepair(const FString& Id);
+	bool FrameDamage(float X, float Z, int32 N);
+	void FrameGo();
 
 	// ---- group 10: Vocations (Ventures_Vocations.cpp) ----
 	bool VocSwap(const FString& Id);
@@ -647,6 +663,20 @@ protected:
 	void TickChem();
 	bool LeyWearingMetal() const;
 
+	void ResetFrame();
+	void SaveFrame(FJsonObject& A) const;
+	void LoadFrame(const FJsonObject& A);
+	void TabFrame(FGPanelModel& M);
+	void TickFrame();
+	void FrameClearMeshes();
+	void FrameShow(const FFramePiece& P);
+	void FrameRebuild();
+	const FFramePiece* FrameAt(int32 Gx, int32 Gz) const;
+	FFramePiece* FrameAtMut(int32 Gx, int32 Gz);
+	int32 FrameCap() const;
+	int32 FrameRange() const;
+	TSet<FIntPoint> FrameSupported() const;
+
 	// group 1 internals
 	void ResetQuick();
 	void SaveQuick(FJsonObject& A) const;
@@ -923,7 +953,14 @@ protected:
 	bool bChemSeen = false;
 	TMap<FIntPoint, FLeyFire> LeyFires;
 	float ChemAcc = 0.f;
+
+	// Freeframe (web adapt/freeframe.js, save key "frame")
+	bool bFrameDeed = false;
+	TArray<FFramePiece> FrameList;
+	int32 FrameNextId = 1;
+	TArray<TObjectPtr<AActor>> FrameMeshes;
 };
+
 
 
 
