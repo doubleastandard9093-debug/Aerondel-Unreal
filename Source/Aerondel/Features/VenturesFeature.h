@@ -1,18 +1,67 @@
 #pragma once
 #include "CoreMinimal.h"
+#include "Engine/HitResult.h"
 #include "Features/AerondelFeature.h"
 #include "VenturesFeature.generated.h"
 
 class UMobDef;
 class AAerondelMob;
 class UItemDef;
+class UNpcDef;
 struct FGPanelModel;
 
 /** One Overflare ultimate per weapon family (web adapt/overflare.js ULTS). */
 struct FVentureUlt { const TCHAR* Key; const TCHAR* Name; int32 Hits; float Bonus; float Radius; };
 
-/** A saved Kitbash Wardrobe outfit: slot -> look item, slot -> dye name. */
+/** A saved Lookplate (Kitbash Wardrobe): slot -> look item, slot -> dye name. Up to 8 plates, including weapons. */
 struct FVentureOutfit { bool bUsed = false; TMap<FString, FString> Looks; TMap<FString, FString> Dyes; };
+
+/** Townstead furniture in one owned house. */
+struct FSteadFurn { bool bChest = false; bool bBed = false; TArray<FString> Hooks; };
+
+/** Town Tie record for one townsfolk (rank 0-5). */
+struct FTieRec { int32 Rank = 0; int64 GiftAt = 0; FString TalkAt; bool bHeart = false; bool bErrand = false; };
+
+struct FGreenPlot { FString Crop; int64 PlantedAt = 0; FString Season; bool bCover = false; };
+struct FGreenAnimal { FString Type; int64 FedAt = 0; bool bReady = false; };
+struct FGreenDecor { FString Id; float X = 0.f; float Z = 0.f; float Rot = 0.f; };
+
+struct FFacetTrail { TWeakObjectPtr<AAerondelMob> Mob; int64 DueMs = 0; };
+
+/** Totals from filled Leyweave nodes (web A.leyFx). */
+struct FLeyFx { float LeyGain = 0.f; float WhirlR = 0.f; float GrowSpeed = 0.f; float BuildSpeed = 0.f; float CryCd = 0.f; int32 Stun = 0; int32 CarveWin = 0; };
+
+/** A Hordewake / Ashspire reward card. */
+struct FRunPick { FString T, Id, From, Name, Desc; };
+
+struct FKinRec
+{
+	FString Id, Species, Name;
+	int32 Level = 1, Xp = 0, Loyalty = 20, Hp = 14;
+	int64 FaintUntil = 0;
+};
+
+struct FFramePiece
+{
+	FString Id, Kind, Tier;
+	int32 Gx = 0, Gz = 0, Rot = 0, Hp = 0;
+};
+
+struct FLeyFire
+{
+	FString Kind, Src;
+	float Heat = 1.f, X = 0.f, Z = 0.f;
+};
+
+struct FKinLive
+{
+	bool bOn = false;
+	FString Id;
+	int32 Hp = 0;
+	int64 NextMs = 0;
+	float Acc = 0.f;
+	TWeakObjectPtr<AActor> Pet;
+};
 
 /** Hidden Reliquary cache site (web metres). */
 struct FVentureRelic { int32 Index = 0; FVector2D Pos = FVector2D::ZeroVector; int32 Tier = 1; };
@@ -35,6 +84,7 @@ public:
 	static constexpr float CapXp = 1.f;
 	static constexpr int32 FlareBuffTicks = 10;
 	static constexpr int32 RodPrice = 150;
+	static constexpr int32 LookPlateCount = 8;
 
 	virtual void Initialize(FSubsystemCollectionBase& Collection) override;
 	virtual FString GetSaveKey() const override { return TEXT("adapt"); }
@@ -59,7 +109,7 @@ public:
 	/** Panel content for "ventures" / "ventures_<tab>" and the Ventures NPC services. False when the panel is not ours. */
 	bool BuildPanel(const FString& Panel, FGPanelModel& M);
 	static bool IsVenturePanel(const FString& Panel);
-	/** Keyboard: overflare (U), tether (L), super (N), dash (C). J (hub) is handled by the character/HUD. */
+	/** Keyboard: overflare (U), tether (L), super (N), dash (C), ashkin (H), wordcry (;), kinbeast (K), climb (,). J (hub) is handled by the character/HUD. */
 	void OnKey(FName Key);
 
 	// ---- shared helpers (web A.*) ----
@@ -90,6 +140,8 @@ public:
 	// ---- Kitbash Wardrobe ----
 	/** Body dye colour for the rig tint (single mesh, so only the body slot shows). */
 	static bool BodyDye(const UObject* WorldContext, FLinearColor& Out);
+	bool WardrobeSavePlate(int32 Index);
+	bool WardrobeApplyPlate(int32 Index);
 
 	// ---- Wayfarer's Ledger ----
 	int32 LedgerCount() const { return Souls.Num() + Rares.Num() + Lore.Num() + Trinkets.Num(); }
@@ -180,6 +232,169 @@ public:
 	/** Dash forward (C); facing a 3 m+ drop it becomes a long glide. */
 	bool Dash();
 	float GlideDrop() const;
+
+	// ---- group 7: Huntwright (Ventures_Huntwright.cpp) — introduces Hunter ----
+	bool HuntCarve(AAerondelMob* Mob = nullptr);
+	bool HuntTrack(const FString& Boss);
+	bool HuntCraft(const FString& Boss, const FString& Kind);
+	FString HuntWornSet() const;
+
+	// ---- group 8: Guardbreak (Ventures_Guardbreak.cpp) ----
+	bool GuardRiposte(AAerondelMob* Mob = nullptr);
+	int32 GuardPoiseOf(const AAerondelMob* Mob) const;
+	int32 GuardPoiseMax(const AAerondelMob* Mob) const;
+	bool GuardRiposteOpen(const AAerondelMob* Mob) const;
+	int32 PlayerPoiseMax() const;
+	/** Called from UPlayerStatsComponent after a landed incoming hit. */
+	static void HookPlayerHurt(const UObject* WorldContext, int32 Amount);
+	/** Flat incoming reduction (Ashkin warder) applied before the hit lands. */
+	static int32 FilterIncoming(const UObject* WorldContext, int32 Amount);
+
+	// ---- group 9: Ashkin (Ventures_Ashkin.cpp) — shared follower cap with later Kinbeasts ----
+	bool AshSummon(const FString& Item = FString());
+	bool AshRecall(const FString& Why = FString(), bool bSilent = false);
+	bool AshCraft(const FString& Id);
+	void AshEquip(const FString& Item);
+	bool AshOut() const;
+	bool KinOut() const;
+	void RecallKin(const FString& Why, bool bSilent = false);
+
+	// ---- group 20: Kinbeasts (Ventures_Kinbeasts.cpp) — shared follower cap with Ashkin ----
+	bool KinThrow();
+	bool KinSend(const FString& Id = FString());
+	bool KinFeed(const FString& Id = FString());
+	bool KinSetActive(const FString& Id);
+	bool KinBuy(const FString& Name);
+
+	// ---- group 21: Freeclimb (Ventures_Freeclimb.cpp) ----
+	bool ClimbBegin();
+	bool Climbing() const;
+	void ClimbEnd(const FString& Why, bool bSafe);
+	bool ClimbLaunch();
+	void TickClimb(float Dt);
+
+	// ---- group 22: Leychemistry (Ventures_Leychem.cpp) ----
+	bool LeyIgnite(float X, float Z, const FString& Kind = TEXT("grass"), const FString& Src = FString());
+	bool LeyExtinguish(float X, float Z);
+	bool LeyOnFire(float X, float Z) const;
+	bool LeyProtected(float X, float Z) const;
+	bool LeyCanBurn(float X, float Z, const FString& Kind = TEXT("grass")) const;
+	void LeyPushWind(float X, float Z, float Fx, float Fz);
+	void LeyStrike(float X, float Z);
+	void LeyOnCry();
+	FString LeyWeather() const;
+	bool LeyIsRain() const;
+	bool LeyIsStorm() const;
+	bool NearTownHouse(FVector2D WebPos, float RadiusM) const;
+
+	// ---- group 23: Freeframe (Ventures_Freeframe.cpp) — not a Townstead, not Greenstead ----
+	bool FrameOn(float X, float Z) const;
+	bool FrameFlammable(float X, float Z) const;
+	bool FrameMetal(FVector2D& Out) const;
+	bool FrameClaimed() const;
+	bool FrameHome() const;
+	bool FrameBuy();
+	bool FramePlace(const FString& Kind);
+	bool FramePlaceAt(const FString& Kind, int32 Gx, int32 Gz);
+	bool FrameRemove(const FString& Id, const FString& Why = FString());
+	void FrameSettle();
+	bool FrameRepair(const FString& Id);
+	bool FrameDamage(float X, float Z, int32 N);
+	void FrameGo();
+
+	// ---- group 24: Holdraids (Ventures_Holdraids.cpp) — never a town house or the farm ----
+	bool RaidStart();
+	bool RaidEnd(bool bWin);
+	bool RaidDelay();
+	bool RaidSkip();
+	bool RaidActive() const;
+
+	// ---- group 10: Vocations (Ventures_Vocations.cpp) ----
+	bool VocSwap(const FString& Id);
+	bool VocClear();
+	bool VocUnlock(const FString& Id);
+	bool VocCan(const FString& Id) const;
+	bool VocUse(const FString& SkillId);
+	bool VocInCombat() const;
+	bool VocHoldActive() const;
+	FString CurrentVoc() const { return VocId; }
+	/** Ley Focus: the next spell spends no runes. */
+	static bool ConsumeVocFocus(const UObject* WorldContext);
+
+	// ---- group 11: Wordcries (Ventures_Wordcries.cpp) ----
+	bool CryLearn(const FString& Id);
+	bool CryUse(const FString& Id = FString());
+	bool CryEquip(const FString& Id);
+	int32 CryWordsOf(const FString& Id) const;
+
+	// ---- group 12: Townsteads (Ventures_Townsteads.cpp) — trains Construction ----
+	bool SteadBuy(const FString& Id);
+	bool SteadPlace(const FString& Id, const FString& Kind);
+	bool SteadRest(const FString& Id);
+	bool SteadStore(const FString& Id, const FString& Item, int32 N = 1);
+	bool SteadTake(const FString& Id, const FString& Item, int32 N = 1);
+	int32 SteadHookSlots() const;
+	int32 SteadBuildMs() const;
+
+	// ---- group 13: Town Ties (Ventures_TownTies.cpp) — not Companion Bond ----
+	bool TieTalk(const FString& Id);
+	bool TieGift(const FString& Id, const FString& Item);
+	bool TieDiscount(const FString& Id) const;
+	/** Modest 5% shop discount when a Friendly+ townsfolk last traded with you. */
+	static float TieBuyDiscount(const UObject* WorldContext);
+
+	// ---- group 14: Greenstead (Ventures_Greenstead.cpp) — trains Farming ----
+	bool GreenBuy();
+	bool GreenGo();
+	void GreenLeave();
+	bool GreenBuySeed(const FString& Seed, int32 N = 1);
+	bool GreenPlant(int32 I, const FString& CropId);
+	bool GreenHarvest(int32 I);
+	bool GreenCover(int32 I);
+	bool GreenBuyAnimal(const FString& Type);
+	bool GreenFeed(int32 I);
+	bool GreenCollect(int32 I);
+	bool GreenPreserve(const FString& Item);
+	bool GreenPlace(const FString& Id);
+	bool GreenPick(int32 I);
+	bool GreenHome() const;
+
+	// ---- group 15: Facet Stones (Ventures_Facets.cpp) — not grafts, not a damage percent ----
+	bool FacetSocket(const FString& Where, const FString& Stone);
+	bool FacetUnsocket(const FString& Where, int32 I);
+	bool FacetInstall();
+	bool FacetOn(const FString& Id) const;
+	static bool FacetOn(const UObject* WorldContext, const FString& Id);
+	float FacetWhirlR() const;
+	/** Metres added to Reaping Whirl (Facets + Leyweave). */
+	static float WhirlBonusM(const UObject* WorldContext);
+	/** Extra stun ticks for a special (Ironroot + Leyweave). */
+	static int32 StunBonusTicks(const UObject* WorldContext, FName Special);
+	static void NoteCombatSpecial(const UObject* WorldContext, FName Special, FName WeaponClass);
+
+	// ---- group 16: Leyweave (Ventures_Leyweave.cpp) — Ley, not Anima ----
+	bool LeyOpen() const;
+	bool LeyPickStart(const FString& Id);
+	bool LeyFill(const FString& Id);
+	bool LeyRefund();
+	bool LeyHas(const FString& Id) const;
+	FLeyFx LeyFx() const;
+
+	// ---- group 17: Hordewake (Ventures_Hordewake.cpp) ----
+	bool HordeStart();
+	bool HordePick(int32 I);
+	void TickHordeFire();
+
+	// ---- group 18: Deepmarks (Ventures_Deepmarks.cpp) ----
+	bool MarkStart(int32 Tier);
+	/** Hush: prayer recovers more slowly inside a Deepmark. */
+	float PrayerRegenMul() const;
+	static float PrayerRegenMul(const UObject* WorldContext);
+
+	// ---- group 19: Ashspire (Ventures_Ashspire.cpp) — not the Chronicle ----
+	bool SpireStart();
+	bool SpirePick(int32 I);
+	bool SpireBuy(const FString& Id);
 
 protected:
 	UFUNCTION() void HandleMobKilled(UMobDef* Mob);
@@ -288,6 +503,194 @@ protected:
 	float XpSeason() const;
 	void HitSeason(AAerondelMob* Mob, int32 D);
 	void TabChron(FGPanelModel& M);
+	// group 7 internals
+	void ResetHunt();
+	void SaveHunt(FJsonObject& A) const;
+	void LoadHunt(const FJsonObject& A);
+	void TickHunt();
+	int32 HitHunt(AAerondelMob* Mob, int32 D);
+	void DiedHunt(AAerondelMob* Mob, bool bByPlayer);
+	void TabHunt(FGPanelModel& M);
+	// group 8 internals
+	void ResetGuard();
+	void SaveGuard(FJsonObject& A) const;
+	void LoadGuard(const FJsonObject& A);
+	void TickGuard();
+	int32 HitGuard(AAerondelMob* Mob, int32 D);
+	void IncomingGuard(int32 Amount);
+	void TabGuard(FGPanelModel& M);
+	// group 9 internals
+	void ResetAsh();
+	void SaveAsh(FJsonObject& A) const;
+	void LoadAsh(const FJsonObject& A);
+	void TickAsh();
+	int32 WardAsh(int32 Amount) const;
+	void TabAsh(FGPanelModel& M);
+
+	// group 10 internals
+	void ResetVoc();
+	void SaveVoc(FJsonObject& A) const;
+	void LoadVoc(const FJsonObject& A);
+	void TickVoc();
+	int32 HitVoc(AAerondelMob* Mob, int32 D);
+	void DiedVoc(AAerondelMob* Mob, bool bByPlayer);
+	int32 VocIncoming(int32 Amount);
+	void VocMarkFight();
+	void VocHop(float Back, float Right);
+	bool ConsumeVocFocus();
+	void TabVoc(FGPanelModel& M);
+
+	// group 11 internals
+	void ResetCry();
+	void SaveCry(FJsonObject& A) const;
+	void LoadCry(const FJsonObject& A);
+	int32 CryIncoming(int32 Amount) const;
+	bool CryNear(const FString& Id, float& Dist) const;
+	void TabCry(FGPanelModel& M);
+
+	// group 12 internals
+	void ResetStead();
+	void SaveStead(FJsonObject& A) const;
+	void LoadStead(const FJsonObject& A);
+	void TabStead(FGPanelModel& M);
+	FSteadFurn& SteadFurnOf(const FString& Id);
+	TMap<FString, int32>& SteadChestOf(const FString& Id);
+	const FString* SteadHere() const;
+	float SteadLeyBuildBonus() const;
+
+	void ResetTie();
+	void SaveTie(FJsonObject& A) const;
+	void LoadTie(const FJsonObject& A);
+	void TabTie(FGPanelModel& M);
+	FTieRec& TieOf(const FString& Id);
+	const UNpcDef* TieNpc(const FString& Id) const;
+	bool TieNear(const FString& Id, float& Dist) const;
+	int32 TieBump(const FString& Id, int32 N);
+	int32 GreenGrewOf(const FString& Item) const;
+	void GreenGrewAdd(const FString& Item, int32 N);
+	void ResetGreen();
+	void SaveGreen(FJsonObject& A) const;
+	void LoadGreen(const FJsonObject& A);
+	void TabGreen(FGPanelModel& M);
+	void TickGreen();
+	void GreenEnsurePlots();
+	int32 GreenPlotN() const;
+	int32 GreenAnimalCap() const;
+	int32 GreenDecorCap() const;
+	int32 GreenGrowMs(const FString& CropId) const;
+	int32 GreenFarmXp(int32 Base, bool bInSeason) const;
+	float GreenLeyGrowBonus() const;
+	int32 GreenCoverCap() const;
+	bool GreenCanSeason(const FString& CropId, bool bCovered) const;
+	bool GreenRipe(int32 I) const;
+
+	void ResetFacet();
+	void SaveFacet(FJsonObject& A) const;
+	void LoadFacet(const FJsonObject& A);
+	void TabFacet(FGPanelModel& M);
+	void TickFacet();
+	int32 HitFacet(AAerondelMob* Mob, int32 D);
+	void DiedFacet(AAerondelMob* Mob, bool bByPlayer);
+	TArray<FString> FacetSocketed() const;
+	FString FacetWeaponKey() const;
+	float FacetDullChance() const;
+	float LeyWhirlBonus() const;
+	int32 LeyStunBonus() const;
+	bool LeyKey(const FString& Id) const;
+	void ResetLey();
+	void SaveLey(FJsonObject& A) const;
+	void LoadLey(const FJsonObject& A);
+	void TabLey(FGPanelModel& M);
+	void DiedLey(AAerondelMob* Mob, bool bByPlayer);
+	FString LeyDefaultStart() const;
+
+	void ResetHorde();
+	void SaveHorde(FJsonObject& A) const;
+	void LoadHorde(const FJsonObject& A);
+	void TabHorde(FGPanelModel& M);
+	void TickHorde();
+	void HordeFinish(bool bWin);
+	void DiedHorde(AAerondelMob* Mob, bool bByPlayer);
+	void HordeSpawn(int32 N);
+	void HordeDeck();
+	void HordeFire(const FString& Id);
+	void HordeStrike(AAerondelMob* M, float Dmg);
+	AAerondelMob* HordeNearest(float R) const;
+	AAerondelMob* HordeFacing() const;
+	int32 HordeCap() const;
+
+	void ResetMark();
+	void SaveMark(FJsonObject& A) const;
+	void LoadMark(const FJsonObject& A);
+	void TabMark(FGPanelModel& M);
+	void TickMark();
+	void MarkFinish(bool bWin);
+	void DiedMark(AAerondelMob* Mob, bool bByPlayer);
+	void MarkSpawnRoom();
+	void MarkFromBreach(bool bHard, const FString& Grade);
+	int32 MarkLevelFor(int32 T) const;
+
+	void ResetSpire();
+	void SaveSpire(FJsonObject& A) const;
+	void LoadSpire(const FJsonObject& A);
+	void TabSpire(FGPanelModel& M);
+	void TickSpire();
+	void SpireFinish(bool bWin);
+	void DiedSpire(AAerondelMob* Mob, bool bByPlayer);
+	int32 HitSpire(AAerondelMob* Mob, int32 D);
+	void SpireSpawnFloor();
+	void SpireEnterFloor();
+	void SpireDeck();
+	void SpireHeal(float Frac);
+	bool SpireHas(const FString& Id) const;
+	float AccSpire() const;
+
+	void ResetKin();
+	void SaveKin(FJsonObject& A) const;
+	void LoadKin(const FJsonObject& A);
+	void TabKin(FGPanelModel& M);
+	void TickKin();
+	int32 KinSoak(int32 Amount);
+	FKinRec* KinRecOf(const FString& Id);
+	float KinKennelMul() const;
+	FString KinBestVessel(int32 NeedTier) const;
+	float KinChance(const AAerondelMob* Mob, const FString& Vessel) const;
+	void KinSpawnPet(FKinRec& R);
+
+	void ResetClimb();
+	void SaveClimb(FJsonObject& A) const;
+	void LoadClimb(const FJsonObject& A);
+	void TabClimb(FGPanelModel& M);
+	bool ClimbProbe(FHitResult& Out) const;
+
+	void ResetChem();
+	void SaveChem(FJsonObject& A) const;
+	void LoadChem(const FJsonObject& A);
+	void TabChem(FGPanelModel& M);
+	void TickChem();
+	bool LeyWearingMetal() const;
+
+	void ResetFrame();
+	void SaveFrame(FJsonObject& A) const;
+	void LoadFrame(const FJsonObject& A);
+	void TabFrame(FGPanelModel& M);
+	void TickFrame();
+	void FrameClearMeshes();
+	void FrameShow(const FFramePiece& P);
+	void FrameRebuild();
+	const FFramePiece* FrameAt(int32 Gx, int32 Gz) const;
+	FFramePiece* FrameAtMut(int32 Gx, int32 Gz);
+	int32 FrameCap() const;
+	int32 FrameRange() const;
+	TSet<FIntPoint> FrameSupported() const;
+
+	void ResetRaids();
+	void SaveRaids(FJsonObject& A) const;
+	void LoadRaids(const FJsonObject& A);
+	void TabRaids(FGPanelModel& M);
+	void TickRaids();
+	void RaidClearMobs();
+	int32 RaidLive() const;
 
 	// group 1 internals
 	void ResetQuick();
@@ -317,7 +720,7 @@ protected:
 
 	// Wardrobe
 	TMap<FString, FString> Dyes;
-	FVentureOutfit Outfits[3];
+	FVentureOutfit Outfits[LookPlateCount];
 
 	// Ledger
 	TArray<FString> Souls, Rares, Lore, Trinkets;
@@ -363,6 +766,23 @@ protected:
 		FVector2D Return = FVector2D(0.0, 10.0);
 		TArray<TWeakObjectPtr<AAerondelMob>> Foes;
 		TWeakObjectPtr<AAerondelMob> Boss;
+		// Hordewake / Deepmarks / Ashspire (live while bOn)
+		int32 Level = 1;
+		int32 Slots = 2;
+		int32 Xp = 0;
+		int32 Haste = 0;
+		int32 Mag = 0;
+		int32 Room = 1;
+		int32 Floor = 1;
+		int32 AshEarned = 0;
+		int64 GoalMs = 0;
+		bool bPaused = false;
+		bool bBound = false;
+		TArray<FString> Weapons;
+		TArray<FString> Mods;
+		TArray<FString> Boons;
+		TArray<FRunPick> Picks;
+		TMap<FString, int64> ShotAt;
 	};
 	FVentureRun Run;
 	struct FTideRegion { FString Name; FVector2D C = FVector2D::ZeroVector; float R = 50.f; FString Camp; FVector2D CampOff = FVector2D::ZeroVector; bool bCamp = false; };
@@ -427,4 +847,147 @@ protected:
 	bool bChronDone = false;
 	// Glidewalk
 	int64 DashReady = 0;
+
+	// Huntwright (web adapt/huntwright.js, save key "hunt")
+	TMap<FString, int32> HuntCarved;
+	TArray<FString> HuntUnlocked;
+	int32 HuntPartsBroken = 0;
+	int32 HuntTracks = 0;
+	struct FHuntPart { FString Id, Item, Label; int32 Hp = 0; int32 Max = 0; };
+	struct FHuntLive { TArray<FHuntPart> Parts; TArray<FString> Broke; int64 CarveUntilMs = 0; bool bCarved = false; };
+	TMap<TWeakObjectPtr<AAerondelMob>, FHuntLive> HuntLive;
+	struct FHuntCarveJob { TWeakObjectPtr<AAerondelMob> Mob; int64 UntilMs = 0; FVector2D Start = FVector2D::ZeroVector; bool bOn = false; };
+	mutable FHuntCarveJob HuntCarveJob;
+	struct FHuntTrackJob { FString Boss; TArray<FVector2D> Marks; int32 At = 0; bool bOn = false; };
+	FHuntTrackJob HuntTrackJob;
+
+	// Guardbreak (web adapt/guardbreak.js, save key "guard")
+	int32 GuardBreaks = 0;
+	int32 GuardRipostes = 0;
+	struct FGuardPoise { float Poise = 0.f; int32 CdUntil = 0; int32 RiposteUntil = 0; bool bUsed = false; };
+	TMap<TWeakObjectPtr<AAerondelMob>, FGuardPoise> GuardPoise;
+	mutable float PlayerPoise = -1.f;
+	int32 PlayerPoiseCd = 0;
+
+	// Ashkin (web adapt/ashkin.js, save key "ashkin")
+	TArray<FString> AshOwned;
+	FString AshEquipped;
+	int64 AshLastUsedMs = 0;
+	struct FAshLive { FString Item, Style, Name; int64 UntilMs = 0; int32 NextTick = 0; bool bOn = false; TWeakObjectPtr<AActor> Spirit; };
+	FAshLive AshLive;
+	/** Filled by Kinbeasts later; Ashkin only reads it for the shared follower cap. */
+	bool bKinOut = false;
+	TArray<FKinRec> KinRoster;
+	TArray<FString> KinSeen;
+	FString KinActive;
+	int32 KinNextId = 1;
+	int64 KinSwapAt = 0;
+	FKinLive KinLive;
+
+	// Vocations (web adapt/vocations.js, save key "voc")
+	FString VocId;
+	TArray<FString> VocUnlocked;
+	TMap<FString, TArray<FString>> VocBars;
+	int32 VocFightLeft = 0;
+	int32 VocBraceUntil = 0;
+	int32 VocHoldUntil = 0;
+	int32 VocSootheUntil = 0;
+	int32 VocReadUntil = 0;
+	bool bVocRetrieve = false;
+	bool bVocFocus = false;
+	bool bVocRiposteArm = false;
+	bool bVocCantProc = false;
+	TMap<FString, int32> VocCd;
+	TWeakObjectPtr<AAerondelMob> VocReadMob;
+
+	// Wordcries (web adapt/wordcries.js, save key "cries")
+	TMap<FString, int32> CryWords;
+	FString CryEquipped;
+	int32 CryUses = 0;
+	int64 CryLastMs = 0;
+	int32 CryValorUntil = 0;
+
+	// Townsteads (web adapt/townsteads.js, save key "steads")
+	TArray<FString> SteadOwned;
+	TMap<FString, TMap<FString, int32>> SteadChests;
+	TMap<FString, FSteadFurn> SteadFurn;
+	int64 SteadBuildBusyMs = 0;
+
+	// Town Ties (web adapt/townties.js, save key "ties")
+	TMap<FString, FTieRec> TieRecs;
+	FString TieShopId;
+
+	// Greenstead (web adapt/greenstead.js, save key "green")
+	bool bGreenDeed = false;
+	TArray<FGreenPlot> GreenPlots;
+	TArray<FGreenAnimal> GreenAnimals;
+	TArray<FGreenDecor> GreenDecor;
+	TMap<FString, int32> GreenGrown;
+
+	// Facet Stones (web adapt/facets.js, save key "facets")
+	TMap<FString, TArray<FString>> FacetOnWeap;
+	TArray<FString> FacetFrame;
+	bool bFacetFrame = false;
+	FString FacetSel;
+	FName FacetLastSpecial = NAME_None;
+	FName FacetLastClass = NAME_None;
+	TArray<FFacetTrail> FacetTrails;
+
+	// Leyweave (web adapt/leyweave.js, save key "ley")
+	TArray<FString> LeyNodes;
+	int32 LeyAmt = 0;
+	int32 LeySpent = 0;
+	FString LeyStart;
+	bool bLeyRec = false;
+
+	// Hordewake (web adapt/hordewake.js, save key "horde")
+	int64 HordeBestTime = 0;
+	int32 HordeBestLevel = 0;
+	int32 HordeRuns = 0;
+	TArray<FString> HordeUnlocks;
+
+	// Deepmarks (web adapt/deepmarks.js, save key "marks")
+	int32 MarkTierUnlocked = 1;
+	TMap<FString, int32> MarkClears;
+	TArray<FString> MarkStash;
+	FString MarkWeekPinn;
+
+	// Ashspire (web adapt/ashspire.js, save key "spire")
+	int32 SpireAsh = 0;
+	TArray<FString> SpireUnlocks;
+	int32 SpireBestFloor = 0;
+	int32 SpireRuns = 0;
+
+	// Freeclimb (web adapt/freeclimb.js, save key "climb")
+	bool bClimbUsed = false;
+	bool bClimbing = false;
+	FVector ClimbNormal = FVector::ZeroVector;
+	float ClimbGrav = 1.f;
+
+	// Leychemistry (web adapt/leychem.js, save key "chem")
+	bool bChemSeen = false;
+	TMap<FIntPoint, FLeyFire> LeyFires;
+	float ChemAcc = 0.f;
+
+	// Freeframe (web adapt/freeframe.js, save key "frame")
+	bool bFrameDeed = false;
+	TArray<FFramePiece> FrameList;
+	int32 FrameNextId = 1;
+	TArray<TObjectPtr<AActor>> FrameMeshes;
+
+	// Holdraids (web adapt/holdraids.js, save key "raids")
+	int64 RaidNext = 0;
+	int32 RaidRuns = 0, RaidSkipped = 0, RaidDelayed = 0;
+	bool bRaidOn = false;
+	bool bRaidWarned = false;
+	int32 RaidHits = 0;
+	int64 RaidLastChip = 0, RaidStartMs = 0;
+	TArray<TWeakObjectPtr<AAerondelMob>> RaidMobs;
 };
+
+
+
+
+
+
+

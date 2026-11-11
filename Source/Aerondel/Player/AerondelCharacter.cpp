@@ -103,8 +103,8 @@ void AAerondelCharacter::SetupPlayerInputComponent(UInputComponent* Input)
 	if (EIC)
 	{
 		BuildVentureKeys();
-		static const TCHAR* Names[] = { TEXT("overflare"), TEXT("ventures"), TEXT("tether"), TEXT("super"), TEXT("dash"), TEXT("settings") };
-		for (int32 i = 0; i < VentureActions.Num() && i < 6; ++i)
+		static const TCHAR* Names[] = { TEXT("overflare"), TEXT("ventures"), TEXT("tether"), TEXT("super"), TEXT("dash"), TEXT("settings"), TEXT("ashkin"), TEXT("wordcry"), TEXT("kinbeast"), TEXT("climb") };
+		for (int32 i = 0; i < VentureActions.Num() && i < UE_ARRAY_COUNT(Names); ++i)
 		{
 			const FName K(Names[i]);
 			EIC->BindAction(VentureActions[i].Get(), ETriggerEvent::Started, this, &AAerondelCharacter::OnVentureKey, K);
@@ -181,6 +181,7 @@ void AAerondelCharacter::CancelInteraction()
 void AAerondelCharacter::Tick(float Dt)
 {
 	Super::Tick(Dt);
+	if (UVenturesFeature* V = UVenturesFeature::Get(this)) V->TickClimb(Dt);
 	if (bRigged && !UAerondelModelLibrary::IsBusy(GetMesh()))
 	{
 		const float V = GetVelocity().Size2D();
@@ -251,6 +252,25 @@ void AAerondelCharacter::BuildVentureKeys()
 	VentureActions.Add(S);
 	VentureContext->MapKey(S, EKeys::F10);
 	VentureContext->MapKey(S, EKeys::Escape);
+	// Ashkin (H): bound here in C++ so it works without re-running Create Input Assets.
+	UInputAction* Ash = NewObject<UInputAction>(this, FName(TEXT("IA_Ashkin")));
+	Ash->ValueType = EInputActionValueType::Boolean;
+	VentureActions.Add(Ash);
+	VentureContext->MapKey(Ash, EKeys::H);
+	UInputAction* Cry = NewObject<UInputAction>(this, FName(TEXT("IA_Wordcry")));
+	Cry->ValueType = EInputActionValueType::Boolean;
+	VentureActions.Add(Cry);
+	VentureContext->MapKey(Cry, EKeys::Semicolon);
+	// Kinbeasts (K): bound here in C++ so it works without re-running Create Input Assets.
+	UInputAction* Kin = NewObject<UInputAction>(this, FName(TEXT("IA_Kinbeast")));
+	Kin->ValueType = EInputActionValueType::Boolean;
+	VentureActions.Add(Kin);
+	VentureContext->MapKey(Kin, EKeys::K);
+	// Freeclimb (,): bound here in C++ so it works without re-running Create Input Assets.
+	UInputAction* Climb = NewObject<UInputAction>(this, FName(TEXT("IA_Climb")));
+	Climb->ValueType = EInputActionValueType::Boolean;
+	VentureActions.Add(Climb);
+	VentureContext->MapKey(Climb, EKeys::Comma);
 }
 
 void AAerondelCharacter::OnVentureKey(FName Key)

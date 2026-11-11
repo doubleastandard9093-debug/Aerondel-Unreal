@@ -99,6 +99,17 @@ bool AResourceNode::Roll(AActor* InInstigator, float Bonus)
 	else S->Inventory->Add(R.Item, R.Count);
 	if (R.Count > 1) Msg(LOCTEXT("Double", "You get an extra one!"));
 	S->Skills->AddXp(Definition->Skill, R.Xp * UAerondelRules::XpMultiplier(S, SkillId));
+	if (Definition->Kind == EResourceKind::Rock)
+	{
+		if (UItemDef* Extra = UAerondelRules::MineSideDrop(R.Item))
+		{
+			if (R.bToBank && S->Bank) S->Bank->Add(Extra, 1, false);
+			else S->Inventory->Add(Extra, 1);
+			Msg(Extra->DisplayName.ToString().Equals(TEXT("Stone slab"))
+				? LOCTEXT("Slab", "You also unearth a stone slab.")
+				: LOCTEXT("Lime", "You also find some limestone."));
+		}
+	}
 	// Web build: resources never run out (SetDepleted stays for Blueprint use).
 	return true;
 }

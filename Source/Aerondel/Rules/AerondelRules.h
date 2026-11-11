@@ -82,6 +82,9 @@ public:
 	UFUNCTION(BlueprintPure, Category="Aerondel|Rules") static bool OwnsToolType(const AAerondelPlayerState* PS, EToolType Type);
 	UFUNCTION(BlueprintPure, Category="Aerondel|Rules") static float SuccessChance(int32 Level, int32 Required);
 	UFUNCTION(BlueprintCallable, Category="Aerondel|Rules") static FGatherResult GatherAttempt(const AAerondelPlayerState* PS, const UResourceNodeDef* Node, float ExtraBonus = 0.f);
+	/** Occasional Mining extras beside the ore (web gameplay.js mineSideDrop). Never from essence rocks. */
+	UFUNCTION(BlueprintPure, Category="Aerondel|Rules") static UItemDef* MineSideDrop(const UItemDef* OreItem);
+
 	UFUNCTION(BlueprintPure, Category="Aerondel|Rules") static float BurnChance(const AAerondelPlayerState* PS, int32 BurnStop, int32 RecipeLevel);
 
 	// ---- Combat ----

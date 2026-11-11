@@ -2,7 +2,7 @@
 #include "Features/SteedsFeature.h"
 #include "Features/SkywingFeature.h"
 
-static const TCHAR* GLookSlots[] = { TEXT("head"), TEXT("body"), TEXT("legs"), TEXT("shield"), TEXT("cape") };
+static const TCHAR* GLookSlots[] = { TEXT("head"), TEXT("body"), TEXT("legs"), TEXT("shield"), TEXT("cape"), TEXT("weapon") };
 
 const TArray<FString>& UStableCodexFeature::Roosts()
 {

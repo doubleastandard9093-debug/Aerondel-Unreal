@@ -45,7 +45,7 @@ namespace VenturesData
 		{ TEXT("Emberglow"), 0xc0401a }, { TEXT("Rimefrost"), 0xa8d8f0 }, { TEXT("Mossbank"), 0x4a7a3a }, { TEXT("Duskviolet"), 0x5a3a8a },
 		{ TEXT("Saltwhite"), 0xe8e4d8 }, { TEXT("Ironsoot"), 0x2a2a2e }, { TEXT("Goldleaf"), 0xd4a830 }, { TEXT("Tidewater"), 0x2a6a8a },
 		{ TEXT("Bloodroot"), 0x7a1a24 }, { TEXT("Ashgrey"), 0x7a7a78 }, { TEXT("Sunflax"), 0xe0c870 }, { TEXT("Nightjet"), 0x14141c } };
-	static const TCHAR* LookSlots[] = { TEXT("head"), TEXT("body"), TEXT("legs"), TEXT("shield"), TEXT("cape") };
+	static const TCHAR* LookSlots[] = { TEXT("head"), TEXT("body"), TEXT("legs"), TEXT("shield"), TEXT("cape"), TEXT("weapon") };
 
 	// Towns in world.json order (web metres).
 	struct FTown { const TCHAR* Name; float X; float Z; };
@@ -116,6 +116,24 @@ void UVenturesFeature::ResetState()
 	ResetGear();
 	ResetRaid();
 	ResetSeason();
+	ResetHunt();
+	ResetGuard();
+	ResetAsh();
+	ResetVoc();
+	ResetCry();
+	ResetStead();
+	ResetTie();
+	ResetGreen();
+	ResetFacet();
+	ResetLey();
+	ResetHorde();
+	ResetMark();
+	ResetSpire();
+	ResetKin();
+	ResetClimb();
+	ResetChem();
+	ResetFrame();
+	ResetRaids();
 }
 
 void UVenturesFeature::SaveState(FJsonObject& Out) const
@@ -127,6 +145,24 @@ void UVenturesFeature::SaveState(FJsonObject& Out) const
 	SaveGear(Out);
 	SaveRaid(Out);
 	SaveSeason(Out);
+	SaveHunt(Out);
+	SaveGuard(Out);
+	SaveAsh(Out);
+	SaveVoc(Out);
+	SaveCry(Out);
+	SaveStead(Out);
+	SaveTie(Out);
+	SaveGreen(Out);
+	SaveFacet(Out);
+	SaveLey(Out);
+	SaveHorde(Out);
+	SaveMark(Out);
+	SaveSpire(Out);
+	SaveKin(Out);
+	SaveClimb(Out);
+	SaveChem(Out);
+	SaveFrame(Out);
+	SaveRaids(Out);
 }
 
 void UVenturesFeature::LoadState(const FJsonObject& In)
@@ -139,6 +175,24 @@ void UVenturesFeature::LoadState(const FJsonObject& In)
 	LoadGear(In);
 	LoadRaid(In);
 	LoadSeason(In);
+	LoadHunt(In);
+	LoadGuard(In);
+	LoadAsh(In);
+	LoadVoc(In);
+	LoadCry(In);
+	LoadStead(In);
+	LoadTie(In);
+	LoadGreen(In);
+	LoadFacet(In);
+	LoadLey(In);
+	LoadHorde(In);
+	LoadMark(In);
+	LoadSpire(In);
+	LoadKin(In);
+	LoadClimb(In);
+	LoadChem(In);
+	LoadFrame(In);
+	LoadRaids(In);
 }
 
 void UVenturesFeature::OnGameTick()
@@ -148,12 +202,26 @@ void UVenturesFeature::OnGameTick()
 	TickZone();
 	TickGear();
 	TickRaid();
+	TickHunt();
+	TickGuard();
+	TickAsh();
+	TickKin();
+	TickChem();
+	TickFrame();
+	TickRaids();
+	TickVoc();
+	TickGreen();
+	TickFacet();
 }
 
 void UVenturesFeature::OnPlayerDied()
 {
 	Puz = FRelicPuzzle();
 	if (Run.bOn) RunEnd(false);
+	AshRecall(TEXT("The Ashkin fades as you fall."), true);
+	RecallKin(TEXT("Your Kinbeast returns as you fall."), true);
+	if (bClimbing) ClimbEnd(TEXT("You fall from the face."), true);
+	VocFightLeft = 0; bVocCantProc = false; bVocFocus = false; bVocRiposteArm = false;
 }
 
 void UVenturesFeature::HandleMobKilled(UMobDef* Mob)
@@ -169,6 +237,11 @@ float UVenturesFeature::AccuracyBonus(const UMobDef* Target) const { return FMat
 float UVenturesFeature::DamageTakenMult(const UMobDef* Source, float HpFrac) const
 {
 	FlareAdd(1.2f); // only called for a hit that lands (Amount > 0)
+	if (HuntCarveJob.bOn)
+	{
+		HuntCarveJob = FHuntCarveJob();
+		Say(TEXT("You are hit and stop carving."));
+	}
 	return (1.f - FMath::Clamp(SumDr(Source), 0.f, CapDr)) * TakenZone();
 }
 float UVenturesFeature::XpBonus(FName SkillId) const { return FMath::Clamp(SumXp(SkillId), 0.f, CapXp); }
@@ -182,7 +255,7 @@ float UVenturesFeature::SumDmg(const UMobDef* Target) const
 }
 float UVenturesFeature::SumAcc(const UMobDef* Target) const
 {
-	float T = AccCombat() + AccGear() + AccRaid() + AccSeason();
+	float T = AccCombat() + AccGear() + AccRaid() + AccSeason() + AccSpire();
 	return T;
 }
 float UVenturesFeature::SumDr(const UMobDef* Source) const
@@ -207,7 +280,12 @@ int32 UVenturesFeature::HookPlayerHit(AAerondelMob* Mob, int32 Damage, AActor* A
 {
 	UVenturesFeature* V = Get(Mob);
 	if (!V || !Mob || !Attacker || !AAerondelPlayerState::FromActor(Attacker)) return Damage;
-	const int32 D = V->HitCombat(Mob, FMath::Max(0, Damage));
+	int32 D = V->HitCombat(Mob, FMath::Max(0, Damage));
+	D = V->HitHunt(Mob, D);
+	D = V->HitGuard(Mob, D);
+	D = V->HitVoc(Mob, D);
+	D = V->HitFacet(Mob, D);
+	D = V->HitSpire(Mob, D);
 	const bool bFlareStrike = V->StrikeKind && FCString::Strcmp(V->StrikeKind, TEXT("flare")) == 0;
 	if (D > 0 && !bFlareStrike) V->FlareAdd(1.5f + FMath::Min(4.f, D / (float)FMath::Max(1, Mob->GetMaxHp()) * 25.f));
 	return D;
@@ -224,6 +302,13 @@ void UVenturesFeature::DiedMore(AAerondelMob* Mob, bool bByPlayer)
 {
 	DiedCombat(Mob, bByPlayer);
 	DiedZone(Mob, bByPlayer);
+	DiedHunt(Mob, bByPlayer);
+	DiedVoc(Mob, bByPlayer);
+	DiedFacet(Mob, bByPlayer);
+	DiedLey(Mob, bByPlayer);
+	DiedHorde(Mob, bByPlayer);
+	DiedMark(Mob, bByPlayer);
+	DiedSpire(Mob, bByPlayer);
 }
 
 bool UVenturesFeature::BuildTabMore(const FString& Tab, FGPanelModel& M)
@@ -243,6 +328,24 @@ bool UVenturesFeature::BuildTabMore(const FString& Tab, FGPanelModel& M)
 	if (Tab == TEXT("attune")) { TabAttune(M); return true; }
 	if (Tab == TEXT("hold")) { TabHold(M); return true; }
 	if (Tab == TEXT("chron")) { TabChron(M); return true; }
+	if (Tab == TEXT("hunt")) { TabHunt(M); return true; }
+	if (Tab == TEXT("guard")) { TabGuard(M); return true; }
+	if (Tab == TEXT("ashkin")) { TabAsh(M); return true; }
+	if (Tab == TEXT("vocations")) { TabVoc(M); return true; }
+	if (Tab == TEXT("cries")) { TabCry(M); return true; }
+	if (Tab == TEXT("steads")) { TabStead(M); return true; }
+	if (Tab == TEXT("ties")) { TabTie(M); return true; }
+	if (Tab == TEXT("green")) { TabGreen(M); return true; }
+	if (Tab == TEXT("facets")) { TabFacet(M); return true; }
+	if (Tab == TEXT("ley")) { TabLey(M); return true; }
+	if (Tab == TEXT("horde")) { TabHorde(M); return true; }
+	if (Tab == TEXT("marks")) { TabMark(M); return true; }
+	if (Tab == TEXT("spire")) { TabSpire(M); return true; }
+	if (Tab == TEXT("kin")) { TabKin(M); return true; }
+	if (Tab == TEXT("climb")) { TabClimb(M); return true; }
+	if (Tab == TEXT("chem")) { TabChem(M); return true; }
+	if (Tab == TEXT("frame")) { TabFrame(M); return true; }
+	if (Tab == TEXT("raids")) { TabRaids(M); return true; }
 	return false;
 }
 
@@ -263,6 +366,24 @@ void UVenturesFeature::OverviewMore(FGPanelModel& M)
 	VAct(M, TEXT("Elemental Attunements (N)"), [this] { GoTab(TEXT("attune")); });
 	VAct(M, TEXT("Hearthhold"), [this] { GoTab(TEXT("hold")); });
 	VAct(M, TEXT("Season Chronicle"), [this] { GoTab(TEXT("chron")); });
+	VAct(M, TEXT("Huntwright"), [this] { GoTab(TEXT("hunt")); });
+	VAct(M, TEXT("Guardbreak"), [this] { GoTab(TEXT("guard")); });
+	VAct(M, TEXT("Ashkin (H)"), [this] { GoTab(TEXT("ashkin")); });
+	VAct(M, TEXT("Vocations"), [this] { GoTab(TEXT("vocations")); });
+	VAct(M, TEXT("Wordcries (;)"), [this] { GoTab(TEXT("cries")); });
+	VAct(M, TEXT("Townsteads"), [this] { GoTab(TEXT("steads")); });
+	VAct(M, TEXT("Town Ties"), [this] { GoTab(TEXT("ties")); });
+	VAct(M, TEXT("Greenstead"), [this] { GoTab(TEXT("green")); });
+	VAct(M, TEXT("Facets"), [this] { GoTab(TEXT("facets")); });
+	VAct(M, TEXT("Leyweave"), [this] { GoTab(TEXT("ley")); });
+	VAct(M, TEXT("Hordewake"), [this] { GoTab(TEXT("horde")); });
+	VAct(M, TEXT("Deepmarks"), [this] { GoTab(TEXT("marks")); });
+	VAct(M, TEXT("Ashspire"), [this] { GoTab(TEXT("spire")); });
+	VAct(M, TEXT("Kinbeasts"), [this] { GoTab(TEXT("kin")); });
+	VAct(M, TEXT("Freeclimb (,)"), [this] { GoTab(TEXT("climb")); });
+	VAct(M, TEXT("Leychemistry"), [this] { GoTab(TEXT("chem")); });
+	VAct(M, TEXT("Freeframe"), [this] { GoTab(TEXT("frame")); });
+	VAct(M, TEXT("Holdraids"), [this] { GoTab(TEXT("raids")); });
 	VAct(M, TEXT("Dash / Glide (C)"), [this] { Dash(); }, true, true);
 }
 
@@ -278,6 +399,10 @@ void UVenturesFeature::OnKey(FName Key)
 	if (Key == FName(TEXT("tether"))) { Tether(); return; }
 	if (Key == FName(TEXT("super"))) { SuperUse(); return; }
 	if (Key == FName(TEXT("dash"))) { Dash(); return; }
+	if (Key == FName(TEXT("ashkin"))) { AshSummon(); return; }
+	if (Key == FName(TEXT("wordcry"))) { CryUse(); return; }
+	if (Key == FName(TEXT("kinbeast"))) { if (KinOut()) RecallKin(FString()); else KinSend(); return; }
+	if (Key == FName(TEXT("climb"))) { ClimbBegin(); return; }
 }
 
 // ---------------------------------------------------------------- helpers
@@ -439,7 +564,7 @@ void UVenturesFeature::LoadQuick(const FJsonObject& A)
 		for (const auto& E : D) for (const FDye& Dy : VenturesData::Dyes) if (E.Value == Dy.Name) Dyes.Add(E.Key, E.Value);
 		const TArray<TSharedPtr<FJsonValue>>* Arr = nullptr;
 		if (W->TryGetArrayField(TEXT("outfits"), Arr) && Arr)
-			for (int32 i = 0; i < FMath::Min(3, Arr->Num()); ++i)
+			for (int32 i = 0; i < FMath::Min(LookPlateCount, Arr->Num()); ++i)
 			{
 				const TSharedPtr<FJsonValue>& V = (*Arr)[i];
 				if (!V.IsValid() || V->Type != EJson::Object) continue;
@@ -491,7 +616,7 @@ void UVenturesFeature::TickQuick()
 					{
 						if (S.IsEmpty()) continue;
 						const EEquipSlot E = S.Item->EquipSlot;
-						if (E == EEquipSlot::Head || E == EEquipSlot::Body || E == EEquipSlot::Legs || E == EEquipSlot::Shield || E == EEquipSlot::Cape) Cx->MarkSeen(S.Item->DisplayName.ToString());
+						if (E == EEquipSlot::Head || E == EEquipSlot::Body || E == EEquipSlot::Legs || E == EEquipSlot::Shield || E == EEquipSlot::Cape || E == EEquipSlot::Weapon) Cx->MarkSeen(S.Item->DisplayName.ToString());
 					}
 	// Reliquary seal timer.
 	if (Puz.bOn && NowMs() > Puz.EndMs) RelicFinish(false);
@@ -571,6 +696,25 @@ void UVenturesFeature::WardrobeApply(const FVentureOutfit& O)
 		for (const TCHAR* S : LookSlots) { const FString* L = O.Looks.Find(S); Cx->SetLook(S, L ? *L : FString()); }
 	Dyes = O.Dyes;
 }
+
+bool UVenturesFeature::WardrobeSavePlate(int32 Index)
+{
+	if (Index < 0 || Index >= LookPlateCount) return false;
+	FVentureOutfit O; O.bUsed = true; O.Dyes = Dyes;
+	if (UStableCodexFeature* C = Feature<UStableCodexFeature>()) for (const TCHAR* S : LookSlots) { const FString L = C->GetLook(S); if (!L.IsEmpty()) O.Looks.Add(S, L); }
+	Outfits[Index] = O;
+	Say(FString::Printf(TEXT("Lookplate %d saved."), Index + 1));
+	return true;
+}
+
+bool UVenturesFeature::WardrobeApplyPlate(int32 Index)
+{
+	if (Index < 0 || Index >= LookPlateCount || !Outfits[Index].bUsed) return false;
+	WardrobeApply(Outfits[Index]);
+	Say(FString::Printf(TEXT("You apply Lookplate %d."), Index + 1));
+	return true;
+}
+
 
 // ---------------------------------------------------------------- Wayfarer's Ledger
 
@@ -661,7 +805,7 @@ void UVenturesFeature::RelicFinish(bool bOk)
 
 bool UVenturesFeature::IsVenturePanel(const FString& P)
 {
-	return P.StartsWith(TEXT("ventures")) || P == TEXT("reliquary") || P == TEXT("grafts") || P == TEXT("breach") || P == TEXT("hold");
+	return P.StartsWith(TEXT("ventures")) || P == TEXT("reliquary") || P == TEXT("grafts") || P == TEXT("breach") || P == TEXT("hold") || P == TEXT("hunt") || P == TEXT("guard") || P == TEXT("ashkin") || P == TEXT("vocations") || P == TEXT("cries") || P == TEXT("steads") || P == TEXT("ties") || P == TEXT("green") || P == TEXT("facets") || P == TEXT("ley") || P == TEXT("horde") || P == TEXT("marks") || P == TEXT("spire") || P == TEXT("kin") || P == TEXT("climb") || P == TEXT("chem") || P == TEXT("frame") || P == TEXT("raids");
 }
 
 void UVenturesFeature::GoTab(const FString& Tab) const
@@ -706,7 +850,7 @@ void UVenturesFeature::TabOverview(FGPanelModel& M)
 	M.Lines.Add(FString::Printf(TEXT("Your Ventures bonuses: +%s damage, +%s accuracy, %s less damage taken, +%s XP."),
 		*Pct(DamageDealtBonus(nullptr)), *Pct(AccuracyBonus(nullptr)), *Pct(FMath::Clamp(SumDr(nullptr), 0.f, CapDr)), *Pct(XpBonus(TEXT("attack")))));
 	struct FT { const TCHAR* Id; const TCHAR* Name; };
-	static const FT T[] = { { TEXT("flare"), TEXT("Overflare (U)") }, { TEXT("wardrobe"), TEXT("Wardrobe") }, { TEXT("ledger"), TEXT("Wayfarer's Ledger") }, { TEXT("reliq"), TEXT("Hidden Reliquaries") } };
+	static const FT T[] = { { TEXT("flare"), TEXT("Overflare (U)") }, { TEXT("wardrobe"), TEXT("Lookplates") }, { TEXT("ledger"), TEXT("Wayfarer's Ledger") }, { TEXT("reliq"), TEXT("Hidden Reliquaries") } };
 	for (const FT& X : T) { const FString Id = X.Id; VAct(M, X.Name, [this, Id] { GoTab(Id); }); }
 	OverviewMore(M);
 }
@@ -725,9 +869,9 @@ void UVenturesFeature::TabFlare(FGPanelModel& M)
 
 void UVenturesFeature::TabWardrobe(FGPanelModel& M)
 {
-	M.Title = TEXT("Kitbash Wardrobe");
-	M.Lines.Add(TEXT("Show any armour you have owned or worn over your real gear, and dye each slot. Stats always come from your real gear."));
-	M.Lines.Add(TEXT("The body dye tints your whole figure; other slot dyes are kept for outfits."));
+	M.Title = TEXT("Lookplates");
+	M.Lines.Add(TEXT("Show any armour or weapon you have owned or worn over your real gear, dye each slot, and save up to 8 Lookplates. Apply a plate in one go. Stats always come from your real gear."));
+	M.Lines.Add(TEXT("The body dye tints your whole figure; other slot dyes are kept for plates."));
 	UStableCodexFeature* Cx = Feature<UStableCodexFeature>();
 	for (const TCHAR* Slot : LookSlots)
 	{
@@ -743,7 +887,7 @@ void UVenturesFeature::TabWardrobe(FGPanelModel& M)
 			for (const FString& I : C->GetSeen()) if (const UItemDef* Def = Db->FindItem(Id(I)))
 			{
 				const EEquipSlot E = Def->EquipSlot;
-				const bool bOk = (S == TEXT("head") && E == EEquipSlot::Head) || (S == TEXT("body") && E == EEquipSlot::Body) || (S == TEXT("legs") && E == EEquipSlot::Legs) || (S == TEXT("shield") && E == EEquipSlot::Shield) || (S == TEXT("cape") && E == EEquipSlot::Cape);
+				const bool bOk = (S == TEXT("head") && E == EEquipSlot::Head) || (S == TEXT("body") && E == EEquipSlot::Body) || (S == TEXT("legs") && E == EEquipSlot::Legs) || (S == TEXT("shield") && E == EEquipSlot::Shield) || (S == TEXT("cape") && E == EEquipSlot::Cape) || (S == TEXT("weapon") && E == EEquipSlot::Weapon);
 				if (bOk) List.Add(I);
 			}
 			if (List.Num() == 0) { Say(TEXT("No looks unlocked for that slot yet.")); return; }
@@ -758,16 +902,16 @@ void UVenturesFeature::TabWardrobe(FGPanelModel& M)
 		});
 		VAct(M, FString::Printf(TEXT("%s: real gear, no dye"), *S), [this, S] { if (UStableCodexFeature* C = Feature<UStableCodexFeature>()) C->SetLook(S, FString()); Dyes.Remove(S); });
 	}
-	for (int32 i = 0; i < 3; ++i)
+	for (int32 i = 0; i < LookPlateCount; ++i)
 	{
-		M.Lines.Add(FString::Printf(TEXT("Outfit %d: %s"), i + 1, Outfits[i].bUsed ? *FString::Printf(TEXT("%d looks, %d dyes"), Outfits[i].Looks.Num(), Outfits[i].Dyes.Num()) : TEXT("empty")));
-		VAct(M, FString::Printf(TEXT("Save outfit %d"), i + 1), [this, i]
+		M.Lines.Add(FString::Printf(TEXT("Lookplate %d: %s"), i + 1, Outfits[i].bUsed ? *FString::Printf(TEXT("%d looks, %d dyes"), Outfits[i].Looks.Num(), Outfits[i].Dyes.Num()) : TEXT("empty")));
+		VAct(M, FString::Printf(TEXT("Save Lookplate %d"), i + 1), [this, i]
 		{
 			FVentureOutfit O; O.bUsed = true; O.Dyes = Dyes;
 			if (UStableCodexFeature* C = Feature<UStableCodexFeature>()) for (const TCHAR* S : LookSlots) { const FString L = C->GetLook(S); if (!L.IsEmpty()) O.Looks.Add(S, L); }
-			Outfits[i] = O; Say(FString::Printf(TEXT("Outfit %d saved."), i + 1));
+			Outfits[i] = O; Say(FString::Printf(TEXT("Lookplate %d saved."), i + 1));
 		});
-		VAct(M, FString::Printf(TEXT("Wear outfit %d"), i + 1), [this, i] { WardrobeApply(Outfits[i]); Say(FString::Printf(TEXT("You change into outfit %d."), i + 1)); }, Outfits[i].bUsed);
+		VAct(M, FString::Printf(TEXT("Apply Lookplate %d"), i + 1), [this, i] { WardrobeApplyPlate(i); }, Outfits[i].bUsed);
 	}
 }
 
