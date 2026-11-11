@@ -20,7 +20,8 @@
   "Glyphcraft",
   "Relicry",
   "Delving",
-  "Swordsmanship"
+  "Swordsmanship",
+  "Hunter"
  ],
  "perks": {
   "Attack": [
@@ -6706,6 +6707,542 @@
     },
     "milestone": true,
     "desc": "+25% XP, +25% Delving tokens"
+   }
+  ],
+  "Hunter": [
+   {
+    "level": 5,
+    "name": "Keen Spur I",
+    "fx": {
+     "trackSpeed": 0.05
+    },
+    "milestone": false,
+    "desc": "tracks resolve 5% faster"
+   },
+   {
+    "level": 10,
+    "name": "Clean Carve I",
+    "fx": {
+     "carveYield": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% parts when you carve a hunt"
+   },
+   {
+    "level": 15,
+    "name": "Keen Spur II",
+    "fx": {
+     "trackSpeed": 0.05
+    },
+    "milestone": false,
+    "desc": "tracks resolve 5% faster"
+   },
+   {
+    "level": 20,
+    "name": "Clean Carve II",
+    "fx": {
+     "carveYield": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% parts when you carve a hunt"
+   },
+   {
+    "level": 25,
+    "name": "Tracker",
+    "fx": {
+     "trackSpeed": 0.4
+    },
+    "milestone": true,
+    "desc": "tracks resolve 40% faster"
+   },
+   {
+    "level": 30,
+    "name": "Clean Carve III",
+    "fx": {
+     "carveYield": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% parts when you carve a hunt"
+   },
+   {
+    "level": 35,
+    "name": "Keen Spur III",
+    "fx": {
+     "trackSpeed": 0.05
+    },
+    "milestone": false,
+    "desc": "tracks resolve 5% faster"
+   },
+   {
+    "level": 40,
+    "name": "Clean Carve IV",
+    "fx": {
+     "carveYield": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% parts when you carve a hunt"
+   },
+   {
+    "level": 45,
+    "name": "Keen Spur IV",
+    "fx": {
+     "trackSpeed": 0.05
+    },
+    "milestone": false,
+    "desc": "tracks resolve 5% faster"
+   },
+   {
+    "level": 50,
+    "name": "Carver",
+    "fx": {
+     "carveYield": 0.4
+    },
+    "milestone": true,
+    "desc": "+40% parts when you carve a hunt"
+   },
+   {
+    "level": 55,
+    "name": "Keen Spur V",
+    "fx": {
+     "trackSpeed": 0.05
+    },
+    "milestone": false,
+    "desc": "tracks resolve 5% faster"
+   },
+   {
+    "level": 60,
+    "name": "Clean Carve V",
+    "fx": {
+     "carveYield": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% parts when you carve a hunt"
+   },
+   {
+    "level": 65,
+    "name": "Keen Spur VI",
+    "fx": {
+     "trackSpeed": 0.05
+    },
+    "milestone": false,
+    "desc": "tracks resolve 5% faster"
+   },
+   {
+    "level": 70,
+    "name": "Clean Carve VI",
+    "fx": {
+     "carveYield": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% parts when you carve a hunt"
+   },
+   {
+    "level": 75,
+    "name": "Beastwise",
+    "fx": {
+     "catchChance": 0.3
+    },
+    "milestone": true,
+    "desc": "+30% chance to bind a Kinbeast"
+   },
+   {
+    "level": 80,
+    "name": "Clean Carve VII",
+    "fx": {
+     "carveYield": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% parts when you carve a hunt"
+   },
+   {
+    "level": 85,
+    "name": "Keen Spur VII",
+    "fx": {
+     "trackSpeed": 0.05
+    },
+    "milestone": false,
+    "desc": "tracks resolve 5% faster"
+   },
+   {
+    "level": 90,
+    "name": "Clean Carve VIII",
+    "fx": {
+     "carveYield": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% parts when you carve a hunt"
+   },
+   {
+    "level": 95,
+    "name": "Keen Spur VIII",
+    "fx": {
+     "trackSpeed": 0.05
+    },
+    "milestone": false,
+    "desc": "tracks resolve 5% faster"
+   },
+   {
+    "level": 99,
+    "name": "Hunter Mastery",
+    "fx": {
+     "carveYield": 0.25,
+     "rarePart": 0.25
+    },
+    "milestone": true,
+    "desc": "+25% parts when you carve a hunt, +25% chance of a rare hunt part"
+   },
+   {
+    "level": 100,
+    "name": "Pathfinder",
+    "fx": {
+     "carveYield": 0.1,
+     "rarePart": 0.05,
+     "catchChance": 0.05
+    },
+    "milestone": true,
+    "desc": "+10% parts when you carve a hunt, +5% chance of a rare hunt part, +5% chance to bind a Kinbeast"
+   },
+   {
+    "level": 125,
+    "name": "Hunter Prowess I",
+    "fx": {
+     "carveYield": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% parts when you carve a hunt"
+   },
+   {
+    "level": 150,
+    "name": "Hunter Prowess II",
+    "fx": {
+     "carveYield": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% parts when you carve a hunt"
+   },
+   {
+    "level": 175,
+    "name": "Hunter Prowess III",
+    "fx": {
+     "carveYield": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% parts when you carve a hunt"
+   },
+   {
+    "level": 200,
+    "name": "Spoor Reader",
+    "fx": {
+     "carveYield": 0.111,
+     "rarePart": 0.0555,
+     "catchChance": 0.0555
+    },
+    "milestone": true,
+    "desc": "+11.1% parts when you carve a hunt, +5.5% chance of a rare hunt part, +5.5% chance to bind a Kinbeast"
+   },
+   {
+    "level": 225,
+    "name": "Hunter Prowess IV",
+    "fx": {
+     "carveYield": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% parts when you carve a hunt"
+   },
+   {
+    "level": 250,
+    "name": "Hunter Prowess V",
+    "fx": {
+     "carveYield": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% parts when you carve a hunt"
+   },
+   {
+    "level": 275,
+    "name": "Hunter Prowess VI",
+    "fx": {
+     "carveYield": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% parts when you carve a hunt"
+   },
+   {
+    "level": 300,
+    "name": "Bonewright",
+    "fx": {
+     "carveYield": 0.122,
+     "rarePart": 0.061,
+     "catchChance": 0.061
+    },
+    "milestone": true,
+    "desc": "+12.2% parts when you carve a hunt, +6.1% chance of a rare hunt part, +6.1% chance to bind a Kinbeast"
+   },
+   {
+    "level": 325,
+    "name": "Hunter Prowess VII",
+    "fx": {
+     "carveYield": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% parts when you carve a hunt"
+   },
+   {
+    "level": 350,
+    "name": "Hunter Prowess VIII",
+    "fx": {
+     "carveYield": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% parts when you carve a hunt"
+   },
+   {
+    "level": 375,
+    "name": "Hunter Prowess IX",
+    "fx": {
+     "carveYield": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% parts when you carve a hunt"
+   },
+   {
+    "level": 400,
+    "name": "Hidewalker",
+    "fx": {
+     "carveYield": 0.1335,
+     "rarePart": 0.0665,
+     "catchChance": 0.0665
+    },
+    "milestone": true,
+    "desc": "+13.4% parts when you carve a hunt, +6.7% chance of a rare hunt part, +6.7% chance to bind a Kinbeast"
+   },
+   {
+    "level": 425,
+    "name": "Hunter Prowess X",
+    "fx": {
+     "carveYield": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% parts when you carve a hunt"
+   },
+   {
+    "level": 450,
+    "name": "Hunter Prowess XI",
+    "fx": {
+     "carveYield": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% parts when you carve a hunt"
+   },
+   {
+    "level": 475,
+    "name": "Hunter Prowess XII",
+    "fx": {
+     "carveYield": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% parts when you carve a hunt"
+   },
+   {
+    "level": 500,
+    "name": "Beastwise",
+    "fx": {
+     "carveYield": 0.1445,
+     "rarePart": 0.072,
+     "catchChance": 0.072
+    },
+    "milestone": true,
+    "desc": "+14.4% parts when you carve a hunt, +7.2% chance of a rare hunt part, +7.2% chance to bind a Kinbeast"
+   },
+   {
+    "level": 525,
+    "name": "Hunter Prowess XIII",
+    "fx": {
+     "carveYield": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% parts when you carve a hunt"
+   },
+   {
+    "level": 550,
+    "name": "Hunter Prowess XIV",
+    "fx": {
+     "carveYield": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% parts when you carve a hunt"
+   },
+   {
+    "level": 575,
+    "name": "Hunter Prowess XV",
+    "fx": {
+     "carveYield": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% parts when you carve a hunt"
+   },
+   {
+    "level": 600,
+    "name": "Packleader",
+    "fx": {
+     "carveYield": 0.1555,
+     "rarePart": 0.078,
+     "catchChance": 0.078
+    },
+    "milestone": true,
+    "desc": "+15.6% parts when you carve a hunt, +7.8% chance of a rare hunt part, +7.8% chance to bind a Kinbeast"
+   },
+   {
+    "level": 625,
+    "name": "Hunter Prowess XVI",
+    "fx": {
+     "carveYield": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% parts when you carve a hunt"
+   },
+   {
+    "level": 650,
+    "name": "Hunter Prowess XVII",
+    "fx": {
+     "carveYield": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% parts when you carve a hunt"
+   },
+   {
+    "level": 675,
+    "name": "Hunter Prowess XVIII",
+    "fx": {
+     "carveYield": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% parts when you carve a hunt"
+   },
+   {
+    "level": 700,
+    "name": "Hornbreaker",
+    "fx": {
+     "carveYield": 0.1665,
+     "rarePart": 0.0835,
+     "catchChance": 0.0835
+    },
+    "milestone": true,
+    "desc": "+16.7% parts when you carve a hunt, +8.3% chance of a rare hunt part, +8.3% chance to bind a Kinbeast"
+   },
+   {
+    "level": 725,
+    "name": "Hunter Prowess XIX",
+    "fx": {
+     "carveYield": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% parts when you carve a hunt"
+   },
+   {
+    "level": 750,
+    "name": "Hunter Prowess XX",
+    "fx": {
+     "carveYield": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% parts when you carve a hunt"
+   },
+   {
+    "level": 775,
+    "name": "Hunter Prowess XXI",
+    "fx": {
+     "carveYield": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% parts when you carve a hunt"
+   },
+   {
+    "level": 800,
+    "name": "Trailmaster",
+    "fx": {
+     "carveYield": 0.178,
+     "rarePart": 0.089,
+     "catchChance": 0.089
+    },
+    "milestone": true,
+    "desc": "+17.8% parts when you carve a hunt, +8.9% chance of a rare hunt part, +8.9% chance to bind a Kinbeast"
+   },
+   {
+    "level": 825,
+    "name": "Hunter Prowess XXII",
+    "fx": {
+     "carveYield": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% parts when you carve a hunt"
+   },
+   {
+    "level": 850,
+    "name": "Hunter Prowess XXIII",
+    "fx": {
+     "carveYield": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% parts when you carve a hunt"
+   },
+   {
+    "level": 875,
+    "name": "Hunter Prowess XXIV",
+    "fx": {
+     "carveYield": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% parts when you carve a hunt"
+   },
+   {
+    "level": 900,
+    "name": "Wild Crown",
+    "fx": {
+     "carveYield": 0.189,
+     "rarePart": 0.0945,
+     "catchChance": 0.0945
+    },
+    "milestone": true,
+    "desc": "+18.9% parts when you carve a hunt, +9.4% chance of a rare hunt part, +9.4% chance to bind a Kinbeast"
+   },
+   {
+    "level": 925,
+    "name": "Hunter Prowess XXV",
+    "fx": {
+     "carveYield": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% parts when you carve a hunt"
+   },
+   {
+    "level": 950,
+    "name": "Hunter Prowess XXVI",
+    "fx": {
+     "carveYield": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% parts when you carve a hunt"
+   },
+   {
+    "level": 975,
+    "name": "Hunter Prowess XXVII",
+    "fx": {
+     "carveYield": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% parts when you carve a hunt"
+   },
+   {
+    "level": 1000,
+    "name": "Hunter Ascendant",
+    "fx": {
+     "carveYield": 0.2,
+     "rarePart": 0.1,
+     "catchChance": 0.1
+    },
+    "milestone": true,
+    "desc": "+20% parts when you carve a hunt, +10% chance of a rare hunt part, +10% chance to bind a Kinbeast"
    }
   ]
  },

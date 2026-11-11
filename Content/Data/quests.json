@@ -66418,6 +66418,14 @@
    "z": 8,
    "town": "Larkhaven",
    "tint": "#4a8a6a"
+  },
+  "huntwright": {
+   "name": "Huntwright Sable",
+   "examine": "Bring her the parts you carve and she will make hunt gear of them. She can also read a trail, if your Hunter is up to it.",
+   "service": "hunt",
+   "x": 16,
+   "z": -13,
+   "tint": "#4a3a2a"
   }
  },
  "towns": [

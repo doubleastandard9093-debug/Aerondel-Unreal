@@ -181,6 +181,12 @@ public:
 	bool Dash();
 	float GlideDrop() const;
 
+	// ---- group 7: Huntwright (Ventures_Huntwright.cpp) — introduces Hunter ----
+	bool HuntCarve(AAerondelMob* Mob = nullptr);
+	bool HuntTrack(const FString& Boss);
+	bool HuntCraft(const FString& Boss, const FString& Kind);
+	FString HuntWornSet() const;
+
 protected:
 	UFUNCTION() void HandleMobKilled(UMobDef* Mob);
 
@@ -288,6 +294,14 @@ protected:
 	float XpSeason() const;
 	void HitSeason(AAerondelMob* Mob, int32 D);
 	void TabChron(FGPanelModel& M);
+	// group 7 internals
+	void ResetHunt();
+	void SaveHunt(FJsonObject& A) const;
+	void LoadHunt(const FJsonObject& A);
+	void TickHunt();
+	int32 HitHunt(AAerondelMob* Mob, int32 D);
+	void DiedHunt(AAerondelMob* Mob, bool bByPlayer);
+	void TabHunt(FGPanelModel& M);
 
 	// group 1 internals
 	void ResetQuick();
@@ -427,4 +441,17 @@ protected:
 	bool bChronDone = false;
 	// Glidewalk
 	int64 DashReady = 0;
+
+	// Huntwright (web adapt/huntwright.js, save key "hunt")
+	TMap<FString, int32> HuntCarved;
+	TArray<FString> HuntUnlocked;
+	int32 HuntPartsBroken = 0;
+	int32 HuntTracks = 0;
+	struct FHuntPart { FString Id, Item, Label; int32 Hp = 0; int32 Max = 0; };
+	struct FHuntLive { TArray<FHuntPart> Parts; TArray<FString> Broke; int64 CarveUntilMs = 0; bool bCarved = false; };
+	TMap<TWeakObjectPtr<AAerondelMob>, FHuntLive> HuntLive;
+	struct FHuntCarveJob { TWeakObjectPtr<AAerondelMob> Mob; int64 UntilMs = 0; FVector2D Start = FVector2D::ZeroVector; bool bOn = false; };
+	mutable FHuntCarveJob HuntCarveJob;
+	struct FHuntTrackJob { FString Boss; TArray<FVector2D> Marks; int32 At = 0; bool bOn = false; };
+	FHuntTrackJob HuntTrackJob;
 };
