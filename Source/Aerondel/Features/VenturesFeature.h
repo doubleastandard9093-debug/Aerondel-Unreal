@@ -302,6 +302,13 @@ public:
 	bool FrameDamage(float X, float Z, int32 N);
 	void FrameGo();
 
+	// ---- group 24: Holdraids (Ventures_Holdraids.cpp) — never a town house or the farm ----
+	bool RaidStart();
+	bool RaidEnd(bool bWin);
+	bool RaidDelay();
+	bool RaidSkip();
+	bool RaidActive() const;
+
 	// ---- group 10: Vocations (Ventures_Vocations.cpp) ----
 	bool VocSwap(const FString& Id);
 	bool VocClear();
@@ -677,6 +684,14 @@ protected:
 	int32 FrameRange() const;
 	TSet<FIntPoint> FrameSupported() const;
 
+	void ResetRaids();
+	void SaveRaids(FJsonObject& A) const;
+	void LoadRaids(const FJsonObject& A);
+	void TabRaids(FGPanelModel& M);
+	void TickRaids();
+	void RaidClearMobs();
+	int32 RaidLive() const;
+
 	// group 1 internals
 	void ResetQuick();
 	void SaveQuick(FJsonObject& A) const;
@@ -959,7 +974,17 @@ protected:
 	TArray<FFramePiece> FrameList;
 	int32 FrameNextId = 1;
 	TArray<TObjectPtr<AActor>> FrameMeshes;
+
+	// Holdraids (web adapt/holdraids.js, save key "raids")
+	int64 RaidNext = 0;
+	int32 RaidRuns = 0, RaidSkipped = 0, RaidDelayed = 0;
+	bool bRaidOn = false;
+	bool bRaidWarned = false;
+	int32 RaidHits = 0;
+	int64 RaidLastChip = 0, RaidStartMs = 0;
+	TArray<TWeakObjectPtr<AAerondelMob>> RaidMobs;
 };
+
 
 
 

@@ -66530,6 +66530,15 @@
    "z": -14,
    "town": "Larkhaven",
    "tint": "#8a5a2a"
+  },
+  "holdraids": {
+   "name": "Ward-captain Rhee",
+   "examine": "If you have claimed a wild plot, occasional raids will try the walls. They are telegraphed; you can delay or skip them. Town houses and the farm are never raided.",
+   "service": "raids",
+   "x": 3,
+   "z": -20,
+   "town": "Larkhaven",
+   "tint": "#3a3a4a"
   }
  },
  "towns": [

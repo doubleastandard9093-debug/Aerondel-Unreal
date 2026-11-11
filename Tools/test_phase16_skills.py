@@ -65,7 +65,7 @@ if exists("Source/Aerondel/Features/Ventures_Freeframe.cpp"):
 # Holdraids
 if exists("Source/Aerondel/Features/Ventures_Holdraids.cpp"):
     src = read("Source/Aerondel/Features/Ventures_Holdraids.cpp")
-    for name in ("RaidStart", "RaidDelay", "RaidSkip", "lastChip", "8000"):
+    for name in ("RaidStart", "RaidDelay", "RaidSkip", "RaidLastChip", "8000"):
         if name not in src:
             errs.append(f"Holdraids missing {name}")
     if npcs.get("holdraids", {}).get("service") != "raids":
