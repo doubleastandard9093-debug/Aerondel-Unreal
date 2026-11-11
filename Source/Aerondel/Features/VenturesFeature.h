@@ -432,6 +432,21 @@ public:
 	int32 KitPoiseBonus() const;
 	FString KitExamine(const FString& Item, const FString& Text) const;
 
+	// ---- group 29: Wayfreight (Ventures_Wayfreight.cpp) — not a new house, not a shared multiplayer stash ----
+	int32 FreightCap() const;
+	bool FreightOwned(const FString& Id) const;
+	bool FreightLinked(const FString& A, const FString& B) const;
+	bool FreightLink(const FString& A, const FString& B);
+	bool FreightUnlink(const FString& A, const FString& B);
+	bool FreightDeposit(const FString& Item, int32 N = 1);
+	bool FreightWithdraw(const FString& Item, int32 N = 1);
+	bool FreightCanPull() const;
+	int32 FreightCount(const FString& Item) const;
+	bool FreightTake(const FString& Item, int32 N);
+	int32 CountWithFreight(const FString& Item) const;
+	bool TakeWithFreight(const FString& Item, int32 N);
+
+
 
 
 protected:
@@ -755,6 +770,13 @@ protected:
 	void TabKits(FGPanelModel& M);
 	FString KitCanTake(const FString& Item, const FString& KitId) const;
 
+	void ResetFreight();
+	void SaveFreight(FJsonObject& A) const;
+	void LoadFreight(const FJsonObject& A);
+	void TabFreight(FGPanelModel& M);
+	FString FreightLineKey(const FString& A, const FString& B) const;
+
+
 
 
 
@@ -1071,6 +1093,14 @@ protected:
 	FString KitSel;
 	// Seasonboard unlocks (filled in Phase 22; empty until then)
 	TSet<FString> ScoreUnlocks;
+
+	// Wayfreight (web adapt/wayfreight.js, save key "freight")
+	TArray<FString> FreightLines; // "a|b" sorted keys
+	TMap<FString, int32> FreightPool;
+	FString FreightPick;
+	// Waycamp ownership (filled in Ventures_Waycamp.cpp)
+	bool bCampOwned = false;
+
 
 
 

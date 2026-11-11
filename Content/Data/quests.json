@@ -66575,6 +66575,15 @@
    "z": -14,
    "town": "Larkhaven",
    "tint": "#c8b080"
+  },
+  "wayfreight": {
+   "name": "Freighter Wend",
+   "examine": "If you own two homes, I can string a freight line between them. Deposit at one, withdraw at the other. The Hold forge can pull from the pool when you are there. This is not a new house, and a Townstead chest stays private until you deposit.",
+   "service": "freight",
+   "x": 25,
+   "z": -16,
+   "town": "Larkhaven",
+   "tint": "#b0a070"
   }
  },
  "towns": [
