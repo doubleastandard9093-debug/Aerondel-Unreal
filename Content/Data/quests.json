@@ -66557,6 +66557,15 @@
    "z": -18,
    "town": "Larkhaven",
    "tint": "#e8d8a8"
+  },
+  "banners": {
+   "name": "Quartermaster Odile",
+   "examine": "She keeps the banners and standing rewards. A Wary banner can be mended here for 250 coins. Larkhaven, the bank and the Saga stay open.",
+   "service": "banners",
+   "x": -63,
+   "z": -75,
+   "town": "Whitecairn",
+   "tint": "#d8d8e0"
   }
  },
  "towns": [

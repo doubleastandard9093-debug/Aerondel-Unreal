@@ -1,5 +1,6 @@
 #include "Activities/ActivityActors.h"
 #include "Features/EconomyFeature.h"
+#include "Features/VenturesFeature.h"
 #include "Core/AerondelPlayerState.h"
 #include "Core/PlayerStatsComponent.h"
 #include "Core/AerondelEvents.h"
@@ -187,6 +188,11 @@ TArray<int32> AShopCounter::VisibleStock(AActor* Player) const
 		}
 		if (!E.RequiresSkill99.IsNone() && S->Skills->GetLevelById(E.RequiresSkill99) < 99) continue;
 		if (E.bRequiresQuestCape && !bQuestCape) continue;
+		if (UVenturesFeature* V = UVenturesFeature::Get(this))
+		{
+			const int32 Price = E.Price > 0 ? E.Price : (E.Item ? FMath::Max(1, E.Item->Value) : 1);
+			if (V->BannerHideStock(ShopId, this, Price)) continue;
+		}
 		Out.Add(i);
 	}
 	return Out;

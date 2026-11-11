@@ -409,6 +409,14 @@ public:
 	void SkillOpenFrom(AActor* Npc);
 	void SkillContinue();
 
+	// ---- group 27: Crossed Banners (Ventures_Banners.cpp) — Larkhaven, the bank and the Saga stay open ----
+	bool BannerWary(FName Faction) const;
+	bool BannerMend(FName Faction);
+	void BannerOnWrit(FName Faction);
+	bool BannerHideStock(FName ShopId, const AActor* Shop, int32 Price) const;
+	FName BannerOpposite(FName Faction) const;
+
+
 protected:
 	UFUNCTION() void HandleMobKilled(UMobDef* Mob);
 
@@ -718,6 +726,13 @@ protected:
 	void TabChecks(FGPanelModel& M);
 	bool SkillQuestReady(const FString& QuestId) const;
 
+	void ResetBanners();
+	void SaveBanners(FJsonObject& A) const;
+	void LoadBanners(const FJsonObject& A);
+	void TabBanners(FGPanelModel& M);
+	FString BannerTownAt(float X, float Z) const;
+
+
 
 	// group 1 internals
 	void ResetQuick();
@@ -1021,6 +1036,11 @@ protected:
 	// Skillwords (web adapt/skillwords.js, save key "checks")
 	TArray<FString> CheckUsed;
 	TWeakObjectPtr<AActor> SkillNpc;
+
+	// Crossed Banners (web adapt/banners.js, save key "banners")
+	TArray<FString> BannerCrosses;
+	TSet<FName> BannerWarySet;
+
 
 
 };
