@@ -122,6 +122,7 @@ void UVenturesFeature::ResetState()
 	ResetVoc();
 	ResetCry();
 	ResetStead();
+	ResetTie();
 }
 
 void UVenturesFeature::SaveState(FJsonObject& Out) const
@@ -139,6 +140,7 @@ void UVenturesFeature::SaveState(FJsonObject& Out) const
 	SaveVoc(Out);
 	SaveCry(Out);
 	SaveStead(Out);
+	SaveTie(Out);
 }
 
 void UVenturesFeature::LoadState(const FJsonObject& In)
@@ -157,6 +159,7 @@ void UVenturesFeature::LoadState(const FJsonObject& In)
 	LoadVoc(In);
 	LoadCry(In);
 	LoadStead(In);
+	LoadTie(In);
 }
 
 void UVenturesFeature::OnGameTick()
@@ -283,6 +286,7 @@ bool UVenturesFeature::BuildTabMore(const FString& Tab, FGPanelModel& M)
 	if (Tab == TEXT("vocations")) { TabVoc(M); return true; }
 	if (Tab == TEXT("cries")) { TabCry(M); return true; }
 	if (Tab == TEXT("steads")) { TabStead(M); return true; }
+	if (Tab == TEXT("ties")) { TabTie(M); return true; }
 	return false;
 }
 
@@ -309,6 +313,7 @@ void UVenturesFeature::OverviewMore(FGPanelModel& M)
 	VAct(M, TEXT("Vocations"), [this] { GoTab(TEXT("vocations")); });
 	VAct(M, TEXT("Wordcries (;)"), [this] { GoTab(TEXT("cries")); });
 	VAct(M, TEXT("Townsteads"), [this] { GoTab(TEXT("steads")); });
+	VAct(M, TEXT("Town Ties"), [this] { GoTab(TEXT("ties")); });
 	VAct(M, TEXT("Dash / Glide (C)"), [this] { Dash(); }, true, true);
 }
 
@@ -728,7 +733,7 @@ void UVenturesFeature::RelicFinish(bool bOk)
 
 bool UVenturesFeature::IsVenturePanel(const FString& P)
 {
-	return P.StartsWith(TEXT("ventures")) || P == TEXT("reliquary") || P == TEXT("grafts") || P == TEXT("breach") || P == TEXT("hold") || P == TEXT("hunt") || P == TEXT("guard") || P == TEXT("ashkin") || P == TEXT("vocations") || P == TEXT("cries") || P == TEXT("steads");
+	return P.StartsWith(TEXT("ventures")) || P == TEXT("reliquary") || P == TEXT("grafts") || P == TEXT("breach") || P == TEXT("hold") || P == TEXT("hunt") || P == TEXT("guard") || P == TEXT("ashkin") || P == TEXT("vocations") || P == TEXT("cries") || P == TEXT("steads") || P == TEXT("ties");
 }
 
 void UVenturesFeature::GoTab(const FString& Tab) const

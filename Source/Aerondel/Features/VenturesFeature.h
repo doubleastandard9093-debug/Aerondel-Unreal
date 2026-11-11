@@ -6,6 +6,7 @@
 class UMobDef;
 class AAerondelMob;
 class UItemDef;
+class UNpcDef;
 struct FGPanelModel;
 
 /** One Overflare ultimate per weapon family (web adapt/overflare.js ULTS). */
@@ -16,6 +17,9 @@ struct FVentureOutfit { bool bUsed = false; TMap<FString, FString> Looks; TMap<F
 
 /** Townstead furniture in one owned house. */
 struct FSteadFurn { bool bChest = false; bool bBed = false; TArray<FString> Hooks; };
+
+/** Town Tie record for one townsfolk (rank 0-5). */
+struct FTieRec { int32 Rank = 0; int64 GiftAt = 0; FString TalkAt; bool bHeart = false; bool bErrand = false; };
 
 /** Hidden Reliquary cache site (web metres). */
 struct FVentureRelic { int32 Index = 0; FVector2D Pos = FVector2D::ZeroVector; int32 Tier = 1; };
@@ -240,6 +244,13 @@ public:
 	int32 SteadHookSlots() const;
 	int32 SteadBuildMs() const;
 
+	// ---- group 13: Town Ties (Ventures_TownTies.cpp) — not Companion Bond ----
+	bool TieTalk(const FString& Id);
+	bool TieGift(const FString& Id, const FString& Item);
+	bool TieDiscount(const FString& Id) const;
+	/** Modest 5% shop discount when a Friendly+ townsfolk last traded with you. */
+	static float TieBuyDiscount(const UObject* WorldContext);
+
 protected:
 	UFUNCTION() void HandleMobKilled(UMobDef* Mob);
 
@@ -401,6 +412,16 @@ protected:
 	TMap<FString, int32>& SteadChestOf(const FString& Id);
 	const FString* SteadHere() const;
 	float SteadLeyBuildBonus() const;
+
+	void ResetTie();
+	void SaveTie(FJsonObject& A) const;
+	void LoadTie(const FJsonObject& A);
+	void TabTie(FGPanelModel& M);
+	FTieRec& TieOf(const FString& Id);
+	const UNpcDef* TieNpc(const FString& Id) const;
+	bool TieNear(const FString& Id, float& Dist) const;
+	int32 TieBump(const FString& Id, int32 N);
+	int32 GreenGrewOf(const FString& Item) const;
 
 	// group 1 internals
 	void ResetQuick();
@@ -599,6 +620,10 @@ protected:
 	TMap<FString, TMap<FString, int32>> SteadChests;
 	TMap<FString, FSteadFurn> SteadFurn;
 	int64 SteadBuildBusyMs = 0;
+
+	// Town Ties (web adapt/townties.js, save key "ties")
+	TMap<FString, FTieRec> TieRecs;
+	FString TieShopId;
 };
 
 

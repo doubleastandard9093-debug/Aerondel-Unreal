@@ -505,7 +505,9 @@ int32 UAerondelRules::SellPrice(const AAerondelPlayerState* PS, const UItemDef* 
 
 int32 UAerondelRules::BuyPrice(const AAerondelPlayerState* PS, int32 Price)
 {
-	return PS ? FMath::Max(1, FMath::CeilToInt(Price * (1.f - QuestFx(PS, TEXT("shopDiscount"))))) : Price;
+	if (!PS) return Price;
+	const float Off = QuestFx(PS, TEXT("shopDiscount")) + UVenturesFeature::TieBuyDiscount(PS);
+	return FMath::Max(1, FMath::CeilToInt(Price * (1.f - Off)));
 }
 
 int32 UAerondelRules::HealAmount(const AAerondelPlayerState* PS, const UItemDef* Food)
