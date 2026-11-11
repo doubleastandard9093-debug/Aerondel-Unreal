@@ -66494,6 +66494,15 @@
    "z": -17,
    "town": "Larkhaven",
    "tint": "#5a7aaa"
+  },
+  "ashspire": {
+   "name": "Spirekeeper Nahl",
+   "examine": "He keeps the Ashspire climb. Leave or fall and the climb is over — you keep the Ash.",
+   "service": "spire",
+   "x": 13,
+   "z": -19,
+   "town": "Larkhaven",
+   "tint": "#c86a3a"
   }
  },
  "towns": [

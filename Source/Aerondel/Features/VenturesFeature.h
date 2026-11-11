@@ -311,6 +311,11 @@ public:
 	float PrayerRegenMul() const;
 	static float PrayerRegenMul(const UObject* WorldContext);
 
+	// ---- group 19: Ashspire (Ventures_Ashspire.cpp) — not the Chronicle ----
+	bool SpireStart();
+	bool SpirePick(int32 I);
+	bool SpireBuy(const FString& Id);
+
 protected:
 	UFUNCTION() void HandleMobKilled(UMobDef* Mob);
 
@@ -544,6 +549,21 @@ protected:
 	void MarkSpawnRoom();
 	void MarkFromBreach(bool bHard, const FString& Grade);
 	int32 MarkLevelFor(int32 T) const;
+
+	void ResetSpire();
+	void SaveSpire(FJsonObject& A) const;
+	void LoadSpire(const FJsonObject& A);
+	void TabSpire(FGPanelModel& M);
+	void TickSpire();
+	void SpireFinish(bool bWin);
+	void DiedSpire(AAerondelMob* Mob, bool bByPlayer);
+	int32 HitSpire(AAerondelMob* Mob, int32 D);
+	void SpireSpawnFloor();
+	void SpireEnterFloor();
+	void SpireDeck();
+	void SpireHeal(float Frac);
+	bool SpireHas(const FString& Id) const;
+	float AccSpire() const;
 
 	// group 1 internals
 	void ResetQuick();
@@ -798,6 +818,12 @@ protected:
 	TMap<FString, int32> MarkClears;
 	TArray<FString> MarkStash;
 	FString MarkWeekPinn;
+
+	// Ashspire (web adapt/ashspire.js, save key "spire")
+	int32 SpireAsh = 0;
+	TArray<FString> SpireUnlocks;
+	int32 SpireBestFloor = 0;
+	int32 SpireRuns = 0;
 };
 
 

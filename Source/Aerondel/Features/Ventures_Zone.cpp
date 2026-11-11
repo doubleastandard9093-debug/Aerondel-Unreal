@@ -193,6 +193,7 @@ void UVenturesFeature::RunEnd(bool bWin)
 	if (Run.Kind == TEXT("vigil")) VigilFinish(bWin);
 	if (Run.Kind == TEXT("horde")) HordeFinish(bWin);
 	if (Run.Kind == TEXT("marks")) MarkFinish(bWin);
+	if (Run.Kind == TEXT("spire")) SpireFinish(bWin);
 	ZonePark();
 	const FString Z = Run.Zone;
 	const FVector2D Back = Run.Return;
@@ -227,6 +228,7 @@ void UVenturesFeature::TickZone()
 			else if (Run.Kind == TEXT("vigil")) VigilStep();
 			else if (Run.Kind == TEXT("horde")) TickHorde();
 			else if (Run.Kind == TEXT("marks")) TickMark();
+			else if (Run.Kind == TEXT("spire")) TickSpire();
 		}
 	}
 	if (TickN % 5 != 0) return;

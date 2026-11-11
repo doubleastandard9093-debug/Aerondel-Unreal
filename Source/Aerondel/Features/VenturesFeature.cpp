@@ -128,6 +128,7 @@ void UVenturesFeature::ResetState()
 	ResetLey();
 	ResetHorde();
 	ResetMark();
+	ResetSpire();
 }
 
 void UVenturesFeature::SaveState(FJsonObject& Out) const
@@ -151,6 +152,7 @@ void UVenturesFeature::SaveState(FJsonObject& Out) const
 	SaveLey(Out);
 	SaveHorde(Out);
 	SaveMark(Out);
+	SaveSpire(Out);
 }
 
 void UVenturesFeature::LoadState(const FJsonObject& In)
@@ -175,6 +177,7 @@ void UVenturesFeature::LoadState(const FJsonObject& In)
 	LoadLey(In);
 	LoadHorde(In);
 	LoadMark(In);
+	LoadSpire(In);
 }
 
 void UVenturesFeature::OnGameTick()
@@ -231,7 +234,7 @@ float UVenturesFeature::SumDmg(const UMobDef* Target) const
 }
 float UVenturesFeature::SumAcc(const UMobDef* Target) const
 {
-	float T = AccCombat() + AccGear() + AccRaid() + AccSeason();
+	float T = AccCombat() + AccGear() + AccRaid() + AccSeason() + AccSpire();
 	return T;
 }
 float UVenturesFeature::SumDr(const UMobDef* Source) const
@@ -261,6 +264,7 @@ int32 UVenturesFeature::HookPlayerHit(AAerondelMob* Mob, int32 Damage, AActor* A
 	D = V->HitGuard(Mob, D);
 	D = V->HitVoc(Mob, D);
 	D = V->HitFacet(Mob, D);
+	D = V->HitSpire(Mob, D);
 	const bool bFlareStrike = V->StrikeKind && FCString::Strcmp(V->StrikeKind, TEXT("flare")) == 0;
 	if (D > 0 && !bFlareStrike) V->FlareAdd(1.5f + FMath::Min(4.f, D / (float)FMath::Max(1, Mob->GetMaxHp()) * 25.f));
 	return D;
@@ -283,6 +287,7 @@ void UVenturesFeature::DiedMore(AAerondelMob* Mob, bool bByPlayer)
 	DiedLey(Mob, bByPlayer);
 	DiedHorde(Mob, bByPlayer);
 	DiedMark(Mob, bByPlayer);
+	DiedSpire(Mob, bByPlayer);
 }
 
 bool UVenturesFeature::BuildTabMore(const FString& Tab, FGPanelModel& M)
@@ -314,6 +319,7 @@ bool UVenturesFeature::BuildTabMore(const FString& Tab, FGPanelModel& M)
 	if (Tab == TEXT("ley")) { TabLey(M); return true; }
 	if (Tab == TEXT("horde")) { TabHorde(M); return true; }
 	if (Tab == TEXT("marks")) { TabMark(M); return true; }
+	if (Tab == TEXT("spire")) { TabSpire(M); return true; }
 	return false;
 }
 
@@ -346,6 +352,7 @@ void UVenturesFeature::OverviewMore(FGPanelModel& M)
 	VAct(M, TEXT("Leyweave"), [this] { GoTab(TEXT("ley")); });
 	VAct(M, TEXT("Hordewake"), [this] { GoTab(TEXT("horde")); });
 	VAct(M, TEXT("Deepmarks"), [this] { GoTab(TEXT("marks")); });
+	VAct(M, TEXT("Ashspire"), [this] { GoTab(TEXT("spire")); });
 	VAct(M, TEXT("Dash / Glide (C)"), [this] { Dash(); }, true, true);
 }
 
@@ -765,7 +772,7 @@ void UVenturesFeature::RelicFinish(bool bOk)
 
 bool UVenturesFeature::IsVenturePanel(const FString& P)
 {
-	return P.StartsWith(TEXT("ventures")) || P == TEXT("reliquary") || P == TEXT("grafts") || P == TEXT("breach") || P == TEXT("hold") || P == TEXT("hunt") || P == TEXT("guard") || P == TEXT("ashkin") || P == TEXT("vocations") || P == TEXT("cries") || P == TEXT("steads") || P == TEXT("ties") || P == TEXT("green") || P == TEXT("facets") || P == TEXT("ley") || P == TEXT("horde") || P == TEXT("marks");
+	return P.StartsWith(TEXT("ventures")) || P == TEXT("reliquary") || P == TEXT("grafts") || P == TEXT("breach") || P == TEXT("hold") || P == TEXT("hunt") || P == TEXT("guard") || P == TEXT("ashkin") || P == TEXT("vocations") || P == TEXT("cries") || P == TEXT("steads") || P == TEXT("ties") || P == TEXT("green") || P == TEXT("facets") || P == TEXT("ley") || P == TEXT("horde") || P == TEXT("marks") || P == TEXT("spire");
 }
 
 void UVenturesFeature::GoTab(const FString& Tab) const
