@@ -6466,6 +6466,11 @@
    "value": 30,
    "type": "kit",
    "special": "A little more player poise, less than a padded collar. A Seasonboard schematic. Not a damage bonus."
+  },
+  "Waycamp kit": {
+   "value": 80,
+   "type": "kit",
+   "special": "A packed camp you can set down in the wild and pack up again. One at a time. Not in a town, not on Greenstead, not on Claimridge."
   }
  },
  "metals": [

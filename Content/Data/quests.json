@@ -66584,6 +66584,15 @@
    "z": -16,
    "town": "Larkhaven",
    "tint": "#b0a070"
+  },
+  "waycamp": {
+   "name": "Campwright Noll",
+   "examine": "I pack a tiny camp you can set down in the wild and pack up again. One at a time. Not in a town, not on the farm, not on Claimridge. Freeframe stays the Construction grind, and raids never come for a Waycamp.",
+   "service": "camp",
+   "x": 27,
+   "z": -18,
+   "town": "Larkhaven",
+   "tint": "#8a6a3a"
   }
  },
  "towns": [

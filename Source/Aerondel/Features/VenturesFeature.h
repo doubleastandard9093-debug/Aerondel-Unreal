@@ -446,6 +446,20 @@ public:
 	int32 CountWithFreight(const FString& Item) const;
 	bool TakeWithFreight(const FString& Item, int32 N);
 
+	// ---- group 30: Waycamp (Ventures_Waycamp.cpp) — one camp in the wild; not Freeframe, not a town house, not the farm ----
+	int32 CampCap() const;
+	FString CampForbidden(float X, float Z) const;
+	bool CampHere() const;
+	bool CampCraft();
+	bool CampPlace();
+	bool CampPlaceAt(float X, float Z);
+	bool CampPack();
+	bool CampRest();
+	bool CampDeposit(const FString& Item, int32 N = 1);
+	bool CampTake(const FString& Item, int32 N = 1);
+	bool CampAdd(const FString& Kind);
+
+
 
 
 
@@ -776,6 +790,12 @@ protected:
 	void TabFreight(FGPanelModel& M);
 	FString FreightLineKey(const FString& A, const FString& B) const;
 
+	void ResetCamp();
+	void SaveCamp(FJsonObject& A) const;
+	void LoadCamp(const FJsonObject& A);
+	void TabCamp(FGPanelModel& M);
+
+
 
 
 
@@ -1100,6 +1120,13 @@ protected:
 	FString FreightPick;
 	// Waycamp ownership (filled in Ventures_Waycamp.cpp)
 	bool bCampOwned = false;
+
+	// Waycamp (web adapt/waycamp.js, save key "camp")
+	bool bCampPlaced = false;
+	float CampX = 0.f, CampZ = 0.f;
+	TMap<FString, int32> CampChest;
+	TArray<FString> CampPieces;
+
 
 
 
