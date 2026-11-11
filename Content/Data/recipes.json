@@ -2902,6 +2902,161 @@
    },
    "output": "Lesser fervent graft",
    "xp": 60
+  },
+  {
+   "station": null,
+   "tool": null,
+   "name": "Cut Twin-cut Facet (Glyphcraft)",
+   "cat": "Glyphcraft",
+   "group": "Facet Stones",
+   "skill": "Glyphcraft",
+   "level": 20,
+   "inputs": {
+    "Dull facet": 1
+   },
+   "output": "Twin-cut Facet",
+   "xp": 45
+  },
+  {
+   "station": null,
+   "tool": "hammer",
+   "name": "Cut Twin-cut Facet (Crafting)",
+   "cat": "Crafting",
+   "group": "Facet Stones",
+   "skill": "Crafting",
+   "level": 20,
+   "inputs": {
+    "Dull facet": 1
+   },
+   "output": "Twin-cut Facet",
+   "xp": 45
+  },
+  {
+   "station": null,
+   "tool": null,
+   "name": "Cut Storm-glass Facet (Glyphcraft)",
+   "cat": "Glyphcraft",
+   "group": "Facet Stones",
+   "skill": "Glyphcraft",
+   "level": 25,
+   "inputs": {
+    "Dull facet": 1
+   },
+   "output": "Storm-glass Facet",
+   "xp": 50
+  },
+  {
+   "station": null,
+   "tool": "hammer",
+   "name": "Cut Storm-glass Facet (Crafting)",
+   "cat": "Crafting",
+   "group": "Facet Stones",
+   "skill": "Crafting",
+   "level": 25,
+   "inputs": {
+    "Dull facet": 1
+   },
+   "output": "Storm-glass Facet",
+   "xp": 50
+  },
+  {
+   "station": null,
+   "tool": null,
+   "name": "Cut Ironroot Facet (Glyphcraft)",
+   "cat": "Glyphcraft",
+   "group": "Facet Stones",
+   "skill": "Glyphcraft",
+   "level": 30,
+   "inputs": {
+    "Dull facet": 1
+   },
+   "output": "Ironroot Facet",
+   "xp": 55
+  },
+  {
+   "station": null,
+   "tool": "hammer",
+   "name": "Cut Ironroot Facet (Crafting)",
+   "cat": "Crafting",
+   "group": "Facet Stones",
+   "skill": "Crafting",
+   "level": 30,
+   "inputs": {
+    "Dull facet": 1
+   },
+   "output": "Ironroot Facet",
+   "xp": 55
+  },
+  {
+   "station": null,
+   "tool": null,
+   "name": "Cut Wide-reap Facet (Glyphcraft)",
+   "cat": "Glyphcraft",
+   "group": "Facet Stones",
+   "skill": "Glyphcraft",
+   "level": 40,
+   "inputs": {
+    "Dull facet": 1
+   },
+   "output": "Wide-reap Facet",
+   "xp": 65
+  },
+  {
+   "station": null,
+   "tool": "hammer",
+   "name": "Cut Wide-reap Facet (Crafting)",
+   "cat": "Crafting",
+   "group": "Facet Stones",
+   "skill": "Crafting",
+   "level": 40,
+   "inputs": {
+    "Dull facet": 1
+   },
+   "output": "Wide-reap Facet",
+   "xp": 65
+  },
+  {
+   "station": null,
+   "tool": null,
+   "name": "Cut Trail-disc Facet (Glyphcraft)",
+   "cat": "Glyphcraft",
+   "group": "Facet Stones",
+   "skill": "Glyphcraft",
+   "level": 45,
+   "inputs": {
+    "Dull facet": 1
+   },
+   "output": "Trail-disc Facet",
+   "xp": 70
+  },
+  {
+   "station": null,
+   "tool": "hammer",
+   "name": "Cut Trail-disc Facet (Crafting)",
+   "cat": "Crafting",
+   "group": "Facet Stones",
+   "skill": "Crafting",
+   "level": 45,
+   "inputs": {
+    "Dull facet": 1
+   },
+   "output": "Trail-disc Facet",
+   "xp": 70
+  },
+  {
+   "station": null,
+   "tool": "hammer",
+   "name": "Craft Facet frame",
+   "cat": "Crafting",
+   "group": "Facet Stones",
+   "skill": "Crafting",
+   "level": 30,
+   "inputs": {
+    "Iron bar": 4,
+    "Dull facet": 1
+   },
+   "output": "Facet frame",
+   "xp": 80
   }
  ],
  "potionRecipes": [

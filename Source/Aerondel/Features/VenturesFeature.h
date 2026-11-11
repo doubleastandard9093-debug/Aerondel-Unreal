@@ -25,6 +25,8 @@ struct FGreenPlot { FString Crop; int64 PlantedAt = 0; FString Season; bool bCov
 struct FGreenAnimal { FString Type; int64 FedAt = 0; bool bReady = false; };
 struct FGreenDecor { FString Id; float X = 0.f; float Z = 0.f; float Rot = 0.f; };
 
+struct FFacetTrail { TWeakObjectPtr<AAerondelMob> Mob; int64 DueMs = 0; };
+
 /** Hidden Reliquary cache site (web metres). */
 struct FVentureRelic { int32 Index = 0; FVector2D Pos = FVector2D::ZeroVector; int32 Tier = 1; };
 
@@ -271,6 +273,19 @@ public:
 	bool GreenPick(int32 I);
 	bool GreenHome() const;
 
+	// ---- group 15: Facet Stones (Ventures_Facets.cpp) — not grafts, not a damage percent ----
+	bool FacetSocket(const FString& Where, const FString& Stone);
+	bool FacetUnsocket(const FString& Where, int32 I);
+	bool FacetInstall();
+	bool FacetOn(const FString& Id) const;
+	static bool FacetOn(const UObject* WorldContext, const FString& Id);
+	float FacetWhirlR() const;
+	/** Metres added to Reaping Whirl (Facets + Leyweave). */
+	static float WhirlBonusM(const UObject* WorldContext);
+	/** Extra stun ticks for a special (Ironroot + Leyweave). */
+	static int32 StunBonusTicks(const UObject* WorldContext, FName Special);
+	static void NoteCombatSpecial(const UObject* WorldContext, FName Special, FName WeaponClass);
+
 protected:
 	UFUNCTION() void HandleMobKilled(UMobDef* Mob);
 
@@ -458,6 +473,20 @@ protected:
 	int32 GreenCoverCap() const;
 	bool GreenCanSeason(const FString& CropId, bool bCovered) const;
 	bool GreenRipe(int32 I) const;
+
+	void ResetFacet();
+	void SaveFacet(FJsonObject& A) const;
+	void LoadFacet(const FJsonObject& A);
+	void TabFacet(FGPanelModel& M);
+	void TickFacet();
+	int32 HitFacet(AAerondelMob* Mob, int32 D);
+	void DiedFacet(AAerondelMob* Mob, bool bByPlayer);
+	TArray<FString> FacetSocketed() const;
+	FString FacetWeaponKey() const;
+	float FacetDullChance() const;
+	float LeyWhirlBonus() const;
+	int32 LeyStunBonus() const;
+	bool LeyKey(const FString& Id) const;
 
 	// group 1 internals
 	void ResetQuick();
@@ -667,6 +696,15 @@ protected:
 	TArray<FGreenAnimal> GreenAnimals;
 	TArray<FGreenDecor> GreenDecor;
 	TMap<FString, int32> GreenGrown;
+
+	// Facet Stones (web adapt/facets.js, save key "facets")
+	TMap<FString, TArray<FString>> FacetOnWeap;
+	TArray<FString> FacetFrame;
+	bool bFacetFrame = false;
+	FString FacetSel;
+	FName FacetLastSpecial = NAME_None;
+	FName FacetLastClass = NAME_None;
+	TArray<FFacetTrail> FacetTrails;
 };
 
 

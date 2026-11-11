@@ -124,6 +124,7 @@ void UVenturesFeature::ResetState()
 	ResetStead();
 	ResetTie();
 	ResetGreen();
+	ResetFacet();
 }
 
 void UVenturesFeature::SaveState(FJsonObject& Out) const
@@ -143,6 +144,7 @@ void UVenturesFeature::SaveState(FJsonObject& Out) const
 	SaveStead(Out);
 	SaveTie(Out);
 	SaveGreen(Out);
+	SaveFacet(Out);
 }
 
 void UVenturesFeature::LoadState(const FJsonObject& In)
@@ -163,6 +165,7 @@ void UVenturesFeature::LoadState(const FJsonObject& In)
 	LoadStead(In);
 	LoadTie(In);
 	LoadGreen(In);
+	LoadFacet(In);
 }
 
 void UVenturesFeature::OnGameTick()
@@ -177,6 +180,7 @@ void UVenturesFeature::OnGameTick()
 	TickAsh();
 	TickVoc();
 	TickGreen();
+	TickFacet();
 }
 
 void UVenturesFeature::OnPlayerDied()
@@ -247,6 +251,7 @@ int32 UVenturesFeature::HookPlayerHit(AAerondelMob* Mob, int32 Damage, AActor* A
 	D = V->HitHunt(Mob, D);
 	D = V->HitGuard(Mob, D);
 	D = V->HitVoc(Mob, D);
+	D = V->HitFacet(Mob, D);
 	const bool bFlareStrike = V->StrikeKind && FCString::Strcmp(V->StrikeKind, TEXT("flare")) == 0;
 	if (D > 0 && !bFlareStrike) V->FlareAdd(1.5f + FMath::Min(4.f, D / (float)FMath::Max(1, Mob->GetMaxHp()) * 25.f));
 	return D;
@@ -265,6 +270,7 @@ void UVenturesFeature::DiedMore(AAerondelMob* Mob, bool bByPlayer)
 	DiedZone(Mob, bByPlayer);
 	DiedHunt(Mob, bByPlayer);
 	DiedVoc(Mob, bByPlayer);
+	DiedFacet(Mob, bByPlayer);
 }
 
 bool UVenturesFeature::BuildTabMore(const FString& Tab, FGPanelModel& M)
@@ -292,6 +298,7 @@ bool UVenturesFeature::BuildTabMore(const FString& Tab, FGPanelModel& M)
 	if (Tab == TEXT("steads")) { TabStead(M); return true; }
 	if (Tab == TEXT("ties")) { TabTie(M); return true; }
 	if (Tab == TEXT("green")) { TabGreen(M); return true; }
+	if (Tab == TEXT("facets")) { TabFacet(M); return true; }
 	return false;
 }
 
@@ -320,6 +327,7 @@ void UVenturesFeature::OverviewMore(FGPanelModel& M)
 	VAct(M, TEXT("Townsteads"), [this] { GoTab(TEXT("steads")); });
 	VAct(M, TEXT("Town Ties"), [this] { GoTab(TEXT("ties")); });
 	VAct(M, TEXT("Greenstead"), [this] { GoTab(TEXT("green")); });
+	VAct(M, TEXT("Facets"), [this] { GoTab(TEXT("facets")); });
 	VAct(M, TEXT("Dash / Glide (C)"), [this] { Dash(); }, true, true);
 }
 
@@ -739,7 +747,7 @@ void UVenturesFeature::RelicFinish(bool bOk)
 
 bool UVenturesFeature::IsVenturePanel(const FString& P)
 {
-	return P.StartsWith(TEXT("ventures")) || P == TEXT("reliquary") || P == TEXT("grafts") || P == TEXT("breach") || P == TEXT("hold") || P == TEXT("hunt") || P == TEXT("guard") || P == TEXT("ashkin") || P == TEXT("vocations") || P == TEXT("cries") || P == TEXT("steads") || P == TEXT("ties") || P == TEXT("green");
+	return P.StartsWith(TEXT("ventures")) || P == TEXT("reliquary") || P == TEXT("grafts") || P == TEXT("breach") || P == TEXT("hold") || P == TEXT("hunt") || P == TEXT("guard") || P == TEXT("ashkin") || P == TEXT("vocations") || P == TEXT("cries") || P == TEXT("steads") || P == TEXT("ties") || P == TEXT("green") || P == TEXT("facets");
 }
 
 void UVenturesFeature::GoTab(const FString& Tab) const

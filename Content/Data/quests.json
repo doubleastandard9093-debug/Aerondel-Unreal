@@ -66458,6 +66458,15 @@
    "x": 48,
    "z": -48,
    "tint": "#f0d080"
+  },
+  "facetier": {
+   "name": "Facetier Vesa",
+   "examine": "She cuts Facet Stones and sockets them into a weapon or a small frame.",
+   "service": "facets",
+   "x": 14.5,
+   "z": -17,
+   "town": "Larkhaven",
+   "tint": "#80c8f0"
   }
  },
  "towns": [

@@ -6368,6 +6368,46 @@
    "type": "food",
    "heal": 8,
    "farm": true
+  },
+  "Dull facet": {
+   "value": 40,
+   "type": "resource",
+   "special": "An uncut Facet Stone. Cut it with Glyphcraft or Crafting."
+  },
+  "Facet frame": {
+   "value": 120,
+   "type": "resource",
+   "special": "A small frame that holds two more Facet Stones beside your weapon."
+  },
+  "Twin-cut Facet": {
+   "value": 90,
+   "type": "facet",
+   "facet": "echo",
+   "special": "A socketed skill lands a second, lighter hit."
+  },
+  "Storm-glass Facet": {
+   "value": 90,
+   "type": "facet",
+   "facet": "frost",
+   "special": "A socketed skill briefly binds the foe in frost."
+  },
+  "Ironroot Facet": {
+   "value": 90,
+   "type": "facet",
+   "facet": "stun",
+   "special": "Stunning skills hold a foe a little longer."
+  },
+  "Wide-reap Facet": {
+   "value": 90,
+   "type": "facet",
+   "facet": "whirl",
+   "special": "Reaping Whirl reaches farther."
+  },
+  "Trail-disc Facet": {
+   "value": 90,
+   "type": "facet",
+   "facet": "trail",
+   "special": "Ricochet or a chakram leaves a short cutting trail."
   }
  },
  "metals": [
