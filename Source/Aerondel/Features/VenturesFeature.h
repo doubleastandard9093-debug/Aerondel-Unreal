@@ -27,6 +27,9 @@ struct FGreenDecor { FString Id; float X = 0.f; float Z = 0.f; float Rot = 0.f; 
 
 struct FFacetTrail { TWeakObjectPtr<AAerondelMob> Mob; int64 DueMs = 0; };
 
+/** Totals from filled Leyweave nodes (web A.leyFx). */
+struct FLeyFx { float LeyGain = 0.f; float WhirlR = 0.f; float GrowSpeed = 0.f; float BuildSpeed = 0.f; float CryCd = 0.f; int32 Stun = 0; int32 CarveWin = 0; };
+
 /** Hidden Reliquary cache site (web metres). */
 struct FVentureRelic { int32 Index = 0; FVector2D Pos = FVector2D::ZeroVector; int32 Tier = 1; };
 
@@ -286,6 +289,14 @@ public:
 	static int32 StunBonusTicks(const UObject* WorldContext, FName Special);
 	static void NoteCombatSpecial(const UObject* WorldContext, FName Special, FName WeaponClass);
 
+	// ---- group 16: Leyweave (Ventures_Leyweave.cpp) — Ley, not Anima ----
+	bool LeyOpen() const;
+	bool LeyPickStart(const FString& Id);
+	bool LeyFill(const FString& Id);
+	bool LeyRefund();
+	bool LeyHas(const FString& Id) const;
+	FLeyFx LeyFx() const;
+
 protected:
 	UFUNCTION() void HandleMobKilled(UMobDef* Mob);
 
@@ -487,6 +498,12 @@ protected:
 	float LeyWhirlBonus() const;
 	int32 LeyStunBonus() const;
 	bool LeyKey(const FString& Id) const;
+	void ResetLey();
+	void SaveLey(FJsonObject& A) const;
+	void LoadLey(const FJsonObject& A);
+	void TabLey(FGPanelModel& M);
+	void DiedLey(AAerondelMob* Mob, bool bByPlayer);
+	FString LeyDefaultStart() const;
 
 	// group 1 internals
 	void ResetQuick();
@@ -705,6 +722,13 @@ protected:
 	FName FacetLastSpecial = NAME_None;
 	FName FacetLastClass = NAME_None;
 	TArray<FFacetTrail> FacetTrails;
+
+	// Leyweave (web adapt/leyweave.js, save key "ley")
+	TArray<FString> LeyNodes;
+	int32 LeyAmt = 0;
+	int32 LeySpent = 0;
+	FString LeyStart;
+	bool bLeyRec = false;
 };
 
 

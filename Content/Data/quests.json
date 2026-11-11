@@ -66467,6 +66467,15 @@
    "z": -17,
    "town": "Larkhaven",
    "tint": "#80c8f0"
+  },
+  "leyweaver": {
+   "name": "Leyweaver Ione",
+   "examine": "She tends the Leyweave. Ley is earned from fights — not Anima.",
+   "service": "ley",
+   "x": 11.5,
+   "z": -14.5,
+   "town": "Larkhaven",
+   "tint": "#a080c8"
   }
  },
  "towns": [

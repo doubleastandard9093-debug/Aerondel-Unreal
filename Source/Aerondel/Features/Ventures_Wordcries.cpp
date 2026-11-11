@@ -98,7 +98,8 @@ bool UVenturesFeature::CryUse(const FString& InId)
 	if (!D) { Say(TEXT("Choose a Wordcry first (Ventures -> Wordcries).")); return false; }
 	const int32 N = CryWordsOf(Id);
 	if (N < 1) { Say(FString::Printf(TEXT("You have not yet learned a word of %s. Study its cry-stone."), D->Name)); return false; }
-	const int64 Wait = (CryLastMs + (int64)D->Cd * 1000) - NowMs();
+	const int64 CdMs = (int64)FMath::RoundToInt(D->Cd * 1000.f * (1.f - LeyFx().CryCd));
+	const int64 Wait = (CryLastMs + FMath::Max<int64>(1000, CdMs)) - NowMs();
 	if (Wait > 0) { Say(FString::Printf(TEXT("%s is still cooling (%llds)."), D->Name, (Wait + 999) / 1000)); return false; }
 	AAerondelPlayerState* PS = GetPS();
 	const int32 Cost = D->Prayer[N - 1];
@@ -110,6 +111,11 @@ bool UVenturesFeature::CryUse(const FString& InId)
 	Words += TEXT("!");
 	Say(FString::Printf(TEXT("You cry %s: %s"), D->Name, *Words));
 	FVector2D P; PlayerWebPos(P);
+	if (LeyKey(TEXT("wordecho")))
+	{
+		for (AAerondelMob* M : MobsNear(P, 3.f + N * 1.5f, 8)) if (M && !M->IsDead()) M->Stun(2);
+		Say(TEXT("The cry echoes and briefly slows nearby foes."));
+	}
 	const float R = 3.f + N * 1.5f; const int32 K = N;
 	if (Id == TEXT("stormheave"))
 	{

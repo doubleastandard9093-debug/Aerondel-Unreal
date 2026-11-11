@@ -103,7 +103,6 @@ int32 UVenturesFeature::SteadBuildMs() const
 	if (const AAerondelPlayerState* PS = GetPS()) Speed = UAerondelRules::Perk(PS, TEXT("construction"), TEXT("buildSpeed"));
 	return FMath::Max(350, FMath::RoundToInt(1600.f / (1.f + Speed)));
 }
-float UVenturesFeature::SteadLeyBuildBonus() const { return 0.f; } // Leyweave (Phase 13) will add buildSpeed.
 
 const FString* UVenturesFeature::SteadHere() const
 {

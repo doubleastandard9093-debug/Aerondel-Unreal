@@ -190,7 +190,7 @@ void UVenturesFeature::DiedHunt(AAerondelMob* Mob, bool bByPlayer)
 	const FString Name = Mob->Definition ? Mob->Definition->DisplayName.ToString() : FString();
 	if (!IsBossy(Mob) && !FindHunt(Name)) return;
 	FHuntLive& Live = HuntLive.FindOrAdd(Mob);
-	Live.CarveUntilMs = NowMs() + 16000;
+	Live.CarveUntilMs = NowMs() + 16000 + LeyFx().CarveWin;
 	Live.bCarved = false;
 	Say(FString::Printf(TEXT("The %s can be carved. Open Ventures -> Huntwright, or stand close and carve."), *Name));
 }
@@ -314,7 +314,8 @@ void UVenturesFeature::TickHunt()
 					const FHuntDef* Def = FindHunt(Name);
 					const AAerondelPlayerState* PS = GetPS();
 					const float Yield = 1.f + UAerondelRules::Perk(PS, TEXT("hunter"), TEXT("carveYield")) + SetCarveHaste(HuntWornSet()) * 0.25f;
-					const float Rare = UAerondelRules::Perk(PS, TEXT("hunter"), TEXT("rarePart"));
+					const bool bRareCarve = LeyKey(TEXT("rarecarve"));
+					const float Rare = UAerondelRules::Perk(PS, TEXT("hunter"), TEXT("rarePart")) * (bRareCarve ? 0.5f : 1.f);
 					const int32 N = FMath::Max(1, FMath::RoundToInt((1.f + (Live->Broke.Num() ? Live->Broke.Num() * 0.35f : 0.f)) * Yield));
 					TArray<FString> Got;
 					if (Def)
@@ -325,6 +326,12 @@ void UVenturesFeature::TickHunt()
 							const FPartDef& Part = Def->Parts[bRare ? Def->NumParts - 1 : FMath::RandRange(0, Def->NumParts - 1)];
 							GiveItem(Part.Item, 1);
 							Got.Add(Part.Item);
+						}
+						if (bRareCarve && Def->NumParts > 0)
+						{
+							const FPartDef& Set = Def->Parts[0];
+							bool bHas = false; for (const FString& G : Got) if (G == Set.Item) { bHas = true; break; }
+							if (!bHas) { GiveItem(Set.Item, 1); Got.Add(Set.Item); }
 						}
 						if (FMath::FRand() < 0.35f) { GiveItem(TEXT("Hunt remnant"), 1); Got.Add(TEXT("Hunt remnant")); }
 						HuntCarved.FindOrAdd(Name)++;

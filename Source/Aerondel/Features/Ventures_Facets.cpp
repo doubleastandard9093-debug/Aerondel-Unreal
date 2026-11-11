@@ -131,9 +131,6 @@ void UVenturesFeature::NoteCombatSpecial(const UObject* WorldContext, FName Spec
 	if (UVenturesFeature* V = Get(WorldContext)) { V->FacetLastSpecial = Special; V->FacetLastClass = WeaponClass; }
 }
 
-float UVenturesFeature::LeyWhirlBonus() const { return 0.f; } // Leyweave fills this
-int32 UVenturesFeature::LeyStunBonus() const { return 0; }
-bool UVenturesFeature::LeyKey(const FString& Id) const { return false; }
 
 float UVenturesFeature::FacetDullChance() const
 {

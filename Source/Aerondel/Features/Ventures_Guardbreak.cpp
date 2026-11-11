@@ -118,7 +118,7 @@ int32 UVenturesFeature::HitGuard(AAerondelMob* Mob, int32 D)
 	const int32 Stun = bBoss ? 1 : 2;
 	if (!(bBoss && IsBroken(Mob))) Mob->Stun(Stun);
 	if (bBoss) Stagger(Mob, 14.f);
-	P.RiposteUntil = TickNow() + (bBoss ? 2 : 5);
+	P.RiposteUntil = TickNow() + (bBoss ? 2 : 5) + (LeyKey(TEXT("stillblade")) ? 2 : 0);
 	P.bUsed = false;
 	const FString Name = Mob->GetDisplayName().ToString();
 	Say(bBoss ? FString::Printf(TEXT("Guardbreak! The %s staggers (Crestbreak is fed)."), *Name)

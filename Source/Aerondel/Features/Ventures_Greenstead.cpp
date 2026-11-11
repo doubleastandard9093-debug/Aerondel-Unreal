@@ -219,9 +219,7 @@ int32 UVenturesFeature::GreenFarmXp(int32 Base, bool bInSeason) const
 	return FMath::RoundToInt(Base * (bInSeason ? 1.25f : 1.f) * (1.f + Bonus));
 }
 
-float UVenturesFeature::GreenLeyGrowBonus() const { return 0.f; } // Leyweave (Phase 13) will add growSpeed.
 
-int32 UVenturesFeature::GreenCoverCap() const { return 1; } // Leyweave seasonkeep adds a second cover later.
 
 bool UVenturesFeature::GreenHome() const
 {
