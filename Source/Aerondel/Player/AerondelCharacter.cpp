@@ -103,7 +103,7 @@ void AAerondelCharacter::SetupPlayerInputComponent(UInputComponent* Input)
 	if (EIC)
 	{
 		BuildVentureKeys();
-		static const TCHAR* Names[] = { TEXT("overflare"), TEXT("ventures"), TEXT("tether"), TEXT("super"), TEXT("dash"), TEXT("settings"), TEXT("ashkin"), TEXT("wordcry"), TEXT("kinbeast") };
+		static const TCHAR* Names[] = { TEXT("overflare"), TEXT("ventures"), TEXT("tether"), TEXT("super"), TEXT("dash"), TEXT("settings"), TEXT("ashkin"), TEXT("wordcry"), TEXT("kinbeast"), TEXT("climb") };
 		for (int32 i = 0; i < VentureActions.Num() && i < UE_ARRAY_COUNT(Names); ++i)
 		{
 			const FName K(Names[i]);
@@ -181,6 +181,7 @@ void AAerondelCharacter::CancelInteraction()
 void AAerondelCharacter::Tick(float Dt)
 {
 	Super::Tick(Dt);
+	if (UVenturesFeature* V = UVenturesFeature::Get(this)) V->TickClimb(Dt);
 	if (bRigged && !UAerondelModelLibrary::IsBusy(GetMesh()))
 	{
 		const float V = GetVelocity().Size2D();
@@ -265,6 +266,11 @@ void AAerondelCharacter::BuildVentureKeys()
 	Kin->ValueType = EInputActionValueType::Boolean;
 	VentureActions.Add(Kin);
 	VentureContext->MapKey(Kin, EKeys::K);
+	// Freeclimb (,): bound here in C++ so it works without re-running Create Input Assets.
+	UInputAction* Climb = NewObject<UInputAction>(this, FName(TEXT("IA_Climb")));
+	Climb->ValueType = EInputActionValueType::Boolean;
+	VentureActions.Add(Climb);
+	VentureContext->MapKey(Climb, EKeys::Comma);
 }
 
 void AAerondelCharacter::OnVentureKey(FName Key)

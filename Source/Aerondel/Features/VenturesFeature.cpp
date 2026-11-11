@@ -130,6 +130,7 @@ void UVenturesFeature::ResetState()
 	ResetMark();
 	ResetSpire();
 	ResetKin();
+	ResetClimb();
 }
 
 void UVenturesFeature::SaveState(FJsonObject& Out) const
@@ -155,6 +156,7 @@ void UVenturesFeature::SaveState(FJsonObject& Out) const
 	SaveMark(Out);
 	SaveSpire(Out);
 	SaveKin(Out);
+	SaveClimb(Out);
 }
 
 void UVenturesFeature::LoadState(const FJsonObject& In)
@@ -181,6 +183,7 @@ void UVenturesFeature::LoadState(const FJsonObject& In)
 	LoadMark(In);
 	LoadSpire(In);
 	LoadKin(In);
+	LoadClimb(In);
 }
 
 void UVenturesFeature::OnGameTick()
@@ -205,6 +208,7 @@ void UVenturesFeature::OnPlayerDied()
 	if (Run.bOn) RunEnd(false);
 	AshRecall(TEXT("The Ashkin fades as you fall."), true);
 	RecallKin(TEXT("Your Kinbeast returns as you fall."), true);
+	if (bClimbing) ClimbEnd(TEXT("You fall from the face."), true);
 	VocFightLeft = 0; bVocCantProc = false; bVocFocus = false; bVocRiposteArm = false;
 }
 
@@ -326,6 +330,7 @@ bool UVenturesFeature::BuildTabMore(const FString& Tab, FGPanelModel& M)
 	if (Tab == TEXT("marks")) { TabMark(M); return true; }
 	if (Tab == TEXT("spire")) { TabSpire(M); return true; }
 	if (Tab == TEXT("kin")) { TabKin(M); return true; }
+	if (Tab == TEXT("climb")) { TabClimb(M); return true; }
 	return false;
 }
 
@@ -360,6 +365,7 @@ void UVenturesFeature::OverviewMore(FGPanelModel& M)
 	VAct(M, TEXT("Deepmarks"), [this] { GoTab(TEXT("marks")); });
 	VAct(M, TEXT("Ashspire"), [this] { GoTab(TEXT("spire")); });
 	VAct(M, TEXT("Kinbeasts"), [this] { GoTab(TEXT("kin")); });
+	VAct(M, TEXT("Freeclimb (,)"), [this] { GoTab(TEXT("climb")); });
 	VAct(M, TEXT("Dash / Glide (C)"), [this] { Dash(); }, true, true);
 }
 
@@ -378,6 +384,7 @@ void UVenturesFeature::OnKey(FName Key)
 	if (Key == FName(TEXT("ashkin"))) { AshSummon(); return; }
 	if (Key == FName(TEXT("wordcry"))) { CryUse(); return; }
 	if (Key == FName(TEXT("kinbeast"))) { if (KinOut()) RecallKin(FString()); else KinSend(); return; }
+	if (Key == FName(TEXT("climb"))) { ClimbBegin(); return; }
 }
 
 // ---------------------------------------------------------------- helpers
@@ -780,7 +787,7 @@ void UVenturesFeature::RelicFinish(bool bOk)
 
 bool UVenturesFeature::IsVenturePanel(const FString& P)
 {
-	return P.StartsWith(TEXT("ventures")) || P == TEXT("reliquary") || P == TEXT("grafts") || P == TEXT("breach") || P == TEXT("hold") || P == TEXT("hunt") || P == TEXT("guard") || P == TEXT("ashkin") || P == TEXT("vocations") || P == TEXT("cries") || P == TEXT("steads") || P == TEXT("ties") || P == TEXT("green") || P == TEXT("facets") || P == TEXT("ley") || P == TEXT("horde") || P == TEXT("marks") || P == TEXT("spire") || P == TEXT("kin");
+	return P.StartsWith(TEXT("ventures")) || P == TEXT("reliquary") || P == TEXT("grafts") || P == TEXT("breach") || P == TEXT("hold") || P == TEXT("hunt") || P == TEXT("guard") || P == TEXT("ashkin") || P == TEXT("vocations") || P == TEXT("cries") || P == TEXT("steads") || P == TEXT("ties") || P == TEXT("green") || P == TEXT("facets") || P == TEXT("ley") || P == TEXT("horde") || P == TEXT("marks") || P == TEXT("spire") || P == TEXT("kin") || P == TEXT("climb");
 }
 
 void UVenturesFeature::GoTab(const FString& Tab) const

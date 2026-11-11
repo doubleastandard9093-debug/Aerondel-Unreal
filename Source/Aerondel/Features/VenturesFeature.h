@@ -1,5 +1,6 @@
 #pragma once
 #include "CoreMinimal.h"
+#include "Engine/HitResult.h"
 #include "Features/AerondelFeature.h"
 #include "VenturesFeature.generated.h"
 
@@ -96,7 +97,7 @@ public:
 	/** Panel content for "ventures" / "ventures_<tab>" and the Ventures NPC services. False when the panel is not ours. */
 	bool BuildPanel(const FString& Panel, FGPanelModel& M);
 	static bool IsVenturePanel(const FString& Panel);
-	/** Keyboard: overflare (U), tether (L), super (N), dash (C), ashkin (H), wordcry (;), kinbeast (K). J (hub) is handled by the character/HUD. */
+	/** Keyboard: overflare (U), tether (L), super (N), dash (C), ashkin (H), wordcry (;), kinbeast (K), climb (,). J (hub) is handled by the character/HUD. */
 	void OnKey(FName Key);
 
 	// ---- shared helpers (web A.*) ----
@@ -252,6 +253,13 @@ public:
 	bool KinFeed(const FString& Id = FString());
 	bool KinSetActive(const FString& Id);
 	bool KinBuy(const FString& Name);
+
+	// ---- group 21: Freeclimb (Ventures_Freeclimb.cpp) ----
+	bool ClimbBegin();
+	bool Climbing() const;
+	void ClimbEnd(const FString& Why, bool bSafe);
+	bool ClimbLaunch();
+	void TickClimb(float Dt);
 
 	// ---- group 10: Vocations (Ventures_Vocations.cpp) ----
 	bool VocSwap(const FString& Id);
@@ -601,6 +609,12 @@ protected:
 	float KinChance(const AAerondelMob* Mob, const FString& Vessel) const;
 	void KinSpawnPet(FKinRec& R);
 
+	void ResetClimb();
+	void SaveClimb(FJsonObject& A) const;
+	void LoadClimb(const FJsonObject& A);
+	void TabClimb(FGPanelModel& M);
+	bool ClimbProbe(FHitResult& Out) const;
+
 	// group 1 internals
 	void ResetQuick();
 	void SaveQuick(FJsonObject& A) const;
@@ -866,7 +880,14 @@ protected:
 	TArray<FString> SpireUnlocks;
 	int32 SpireBestFloor = 0;
 	int32 SpireRuns = 0;
+
+	// Freeclimb (web adapt/freeclimb.js, save key "climb")
+	bool bClimbUsed = false;
+	bool bClimbing = false;
+	FVector ClimbNormal = FVector::ZeroVector;
+	float ClimbGrav = 1.f;
 };
+
 
 
 
