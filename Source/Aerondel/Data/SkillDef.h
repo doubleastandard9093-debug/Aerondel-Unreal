@@ -53,7 +53,7 @@ public:
 	UFUNCTION(BlueprintPure, Category="Aerondel|Skills") static int32 LevelForXp(float Xp, int32 MaxLevel = 99);
 	/** Old-curve XP -> new-curve XP, keeping the level and the fraction through it. Above 99: extra XP x10. */
 	UFUNCTION(BlueprintPure, Category="Aerondel|Skills") static float ConvertXpV1(float Xp);
-	/** Web maxLevelOf: combat skills plus Hunter (and later Construction/Farming) cap at 1000; others use the skill's MaxLevel (99). */
+	/** Web maxLevelOf: combat skills plus Hunter and Construction (and later Farming) cap at 1000; others use the skill's MaxLevel (99). */
 	static int32 MaxLevelFor(const USkillDef* Skill);
 private:
 	static const TArray<int64>& Table();

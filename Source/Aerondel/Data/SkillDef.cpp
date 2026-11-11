@@ -67,7 +67,7 @@ int32 UXpCurve::LevelForXp(float Xp, int32 MaxLevel)
 int32 UXpCurve::MaxLevelFor(const USkillDef* Skill)
 {
 	if (!Skill) return SkillMaxLevel;
-	static const FName Combat[] = { TEXT("attack"), TEXT("strength"), TEXT("defence"), TEXT("hitpoints"), TEXT("ranged"), TEXT("magic"), TEXT("prayer"), TEXT("swordsmanship"), TEXT("hunter") }; // hunter is a high-cap non-combat skill (web HIGH_CAP_SKILLS)
+	static const FName Combat[] = { TEXT("attack"), TEXT("strength"), TEXT("defence"), TEXT("hitpoints"), TEXT("ranged"), TEXT("magic"), TEXT("prayer"), TEXT("swordsmanship"), TEXT("hunter"), TEXT("construction") }; // hunter/construction are high-cap non-combat skills (web HIGH_CAP_SKILLS); farming follows in Phase 12
 	for (const FName& C : Combat) if (Skill->Id == C) return CombatMaxLevel; // FName compare is case-insensitive
 	return FMath::Clamp(Skill->MaxLevel, 1, MaxTableLevel - 1);
 }

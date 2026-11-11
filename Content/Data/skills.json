@@ -21,7 +21,8 @@
   "Relicry",
   "Delving",
   "Swordsmanship",
-  "Hunter"
+  "Hunter",
+  "Construction"
  ],
  "perks": {
   "Attack": [
@@ -7243,6 +7244,544 @@
     },
     "milestone": true,
     "desc": "+20% parts when you carve a hunt, +10% chance of a rare hunt part, +10% chance to bind a Kinbeast"
+   }
+  ],
+  "Construction": [
+   {
+    "level": 5,
+    "name": "Square Stroke I",
+    "fx": {
+     "buildSpeed": 0.05
+    },
+    "milestone": false,
+    "desc": "furnish 5% faster"
+   },
+   {
+    "level": 10,
+    "name": "Steady Joint I",
+    "fx": {
+     "pieceHp": 0.05
+    },
+    "milestone": false,
+    "desc": "placed pieces have +5% HP"
+   },
+   {
+    "level": 15,
+    "name": "Square Stroke II",
+    "fx": {
+     "buildSpeed": 0.05
+    },
+    "milestone": false,
+    "desc": "furnish 5% faster"
+   },
+   {
+    "level": 20,
+    "name": "Steady Joint II",
+    "fx": {
+     "pieceHp": 0.05
+    },
+    "milestone": false,
+    "desc": "placed pieces have +5% HP"
+   },
+   {
+    "level": 25,
+    "name": "Square Frame",
+    "fx": {
+     "pieceCap": 5
+    },
+    "milestone": true,
+    "desc": "+5 piece cap"
+   },
+   {
+    "level": 30,
+    "name": "Steady Joint III",
+    "fx": {
+     "pieceHp": 0.05
+    },
+    "milestone": false,
+    "desc": "placed pieces have +5% HP"
+   },
+   {
+    "level": 35,
+    "name": "Square Stroke III",
+    "fx": {
+     "buildSpeed": 0.05
+    },
+    "milestone": false,
+    "desc": "furnish 5% faster"
+   },
+   {
+    "level": 40,
+    "name": "Steady Joint IV",
+    "fx": {
+     "pieceHp": 0.05
+    },
+    "milestone": false,
+    "desc": "placed pieces have +5% HP"
+   },
+   {
+    "level": 45,
+    "name": "Square Stroke IV",
+    "fx": {
+     "buildSpeed": 0.05
+    },
+    "milestone": false,
+    "desc": "furnish 5% faster"
+   },
+   {
+    "level": 50,
+    "name": "Joiner",
+    "fx": {
+     "buildSpeed": 0.4,
+     "pieceHp": 0.25
+    },
+    "milestone": true,
+    "desc": "furnish 40% faster, placed pieces have +25% HP"
+   },
+   {
+    "level": 55,
+    "name": "Square Stroke V",
+    "fx": {
+     "buildSpeed": 0.05
+    },
+    "milestone": false,
+    "desc": "furnish 5% faster"
+   },
+   {
+    "level": 60,
+    "name": "Steady Joint V",
+    "fx": {
+     "pieceHp": 0.05
+    },
+    "milestone": false,
+    "desc": "placed pieces have +5% HP"
+   },
+   {
+    "level": 65,
+    "name": "Square Stroke VI",
+    "fx": {
+     "buildSpeed": 0.05
+    },
+    "milestone": false,
+    "desc": "furnish 5% faster"
+   },
+   {
+    "level": 70,
+    "name": "Steady Joint VI",
+    "fx": {
+     "pieceHp": 0.05
+    },
+    "milestone": false,
+    "desc": "placed pieces have +5% HP"
+   },
+   {
+    "level": 75,
+    "name": "Mason",
+    "fx": {
+     "supportRange": 0.3,
+     "repairSpeed": 0.4
+    },
+    "milestone": true,
+    "desc": "+30% support range, repairs resolve 40% faster"
+   },
+   {
+    "level": 80,
+    "name": "Steady Joint VII",
+    "fx": {
+     "pieceHp": 0.05
+    },
+    "milestone": false,
+    "desc": "placed pieces have +5% HP"
+   },
+   {
+    "level": 85,
+    "name": "Square Stroke VII",
+    "fx": {
+     "buildSpeed": 0.05
+    },
+    "milestone": false,
+    "desc": "furnish 5% faster"
+   },
+   {
+    "level": 90,
+    "name": "Steady Joint VIII",
+    "fx": {
+     "pieceHp": 0.05
+    },
+    "milestone": false,
+    "desc": "placed pieces have +5% HP"
+   },
+   {
+    "level": 95,
+    "name": "Square Stroke VIII",
+    "fx": {
+     "buildSpeed": 0.05
+    },
+    "milestone": false,
+    "desc": "furnish 5% faster"
+   },
+   {
+    "level": 99,
+    "name": "Construction Mastery",
+    "fx": {
+     "pieceCap": 10,
+     "repairSpeed": 0.25
+    },
+    "milestone": true,
+    "desc": "+10 piece cap, repairs resolve 25% faster"
+   },
+   {
+    "level": 100,
+    "name": "Ridgebeam",
+    "fx": {
+     "pieceCap": 10,
+     "supportRange": 0.1,
+     "repairSpeed": 0.05
+    },
+    "milestone": true,
+    "desc": "+10 piece cap, +10% support range, repairs resolve 5% faster"
+   },
+   {
+    "level": 125,
+    "name": "Construction Prowess I",
+    "fx": {
+     "pieceHp": 0.02
+    },
+    "milestone": false,
+    "desc": "placed pieces have +2% HP"
+   },
+   {
+    "level": 150,
+    "name": "Construction Prowess II",
+    "fx": {
+     "pieceHp": 0.02
+    },
+    "milestone": false,
+    "desc": "placed pieces have +2% HP"
+   },
+   {
+    "level": 175,
+    "name": "Construction Prowess III",
+    "fx": {
+     "pieceHp": 0.02
+    },
+    "milestone": false,
+    "desc": "placed pieces have +2% HP"
+   },
+   {
+    "level": 200,
+    "name": "Joiner's Mark",
+    "fx": {
+     "pieceCap": 11.111,
+     "supportRange": 0.111,
+     "repairSpeed": 0.0555
+    },
+    "milestone": true,
+    "desc": "+11 piece cap, +11.1% support range, repairs resolve 5.5% faster"
+   },
+   {
+    "level": 225,
+    "name": "Construction Prowess IV",
+    "fx": {
+     "pieceHp": 0.02
+    },
+    "milestone": false,
+    "desc": "placed pieces have +2% HP"
+   },
+   {
+    "level": 250,
+    "name": "Construction Prowess V",
+    "fx": {
+     "pieceHp": 0.02
+    },
+    "milestone": false,
+    "desc": "placed pieces have +2% HP"
+   },
+   {
+    "level": 275,
+    "name": "Construction Prowess VI",
+    "fx": {
+     "pieceHp": 0.02
+    },
+    "milestone": false,
+    "desc": "placed pieces have +2% HP"
+   },
+   {
+    "level": 300,
+    "name": "Stonewright",
+    "fx": {
+     "pieceCap": 12.222,
+     "supportRange": 0.122,
+     "repairSpeed": 0.061
+    },
+    "milestone": true,
+    "desc": "+12 piece cap, +12.2% support range, repairs resolve 6.1% faster"
+   },
+   {
+    "level": 325,
+    "name": "Construction Prowess VII",
+    "fx": {
+     "pieceHp": 0.02
+    },
+    "milestone": false,
+    "desc": "placed pieces have +2% HP"
+   },
+   {
+    "level": 350,
+    "name": "Construction Prowess VIII",
+    "fx": {
+     "pieceHp": 0.02
+    },
+    "milestone": false,
+    "desc": "placed pieces have +2% HP"
+   },
+   {
+    "level": 375,
+    "name": "Construction Prowess IX",
+    "fx": {
+     "pieceHp": 0.02
+    },
+    "milestone": false,
+    "desc": "placed pieces have +2% HP"
+   },
+   {
+    "level": 400,
+    "name": "High Frame",
+    "fx": {
+     "pieceCap": 13.3335,
+     "supportRange": 0.1335,
+     "repairSpeed": 0.0665
+    },
+    "milestone": true,
+    "desc": "+13 piece cap, +13.4% support range, repairs resolve 6.7% faster"
+   },
+   {
+    "level": 425,
+    "name": "Construction Prowess X",
+    "fx": {
+     "pieceHp": 0.02
+    },
+    "milestone": false,
+    "desc": "placed pieces have +2% HP"
+   },
+   {
+    "level": 450,
+    "name": "Construction Prowess XI",
+    "fx": {
+     "pieceHp": 0.02
+    },
+    "milestone": false,
+    "desc": "placed pieces have +2% HP"
+   },
+   {
+    "level": 475,
+    "name": "Construction Prowess XII",
+    "fx": {
+     "pieceHp": 0.02
+    },
+    "milestone": false,
+    "desc": "placed pieces have +2% HP"
+   },
+   {
+    "level": 500,
+    "name": "Keepbuilder",
+    "fx": {
+     "pieceCap": 14.4445,
+     "supportRange": 0.1445,
+     "repairSpeed": 0.072
+    },
+    "milestone": true,
+    "desc": "+14 piece cap, +14.4% support range, repairs resolve 7.2% faster"
+   },
+   {
+    "level": 525,
+    "name": "Construction Prowess XIII",
+    "fx": {
+     "pieceHp": 0.02
+    },
+    "milestone": false,
+    "desc": "placed pieces have +2% HP"
+   },
+   {
+    "level": 550,
+    "name": "Construction Prowess XIV",
+    "fx": {
+     "pieceHp": 0.02
+    },
+    "milestone": false,
+    "desc": "placed pieces have +2% HP"
+   },
+   {
+    "level": 575,
+    "name": "Construction Prowess XV",
+    "fx": {
+     "pieceHp": 0.02
+    },
+    "milestone": false,
+    "desc": "placed pieces have +2% HP"
+   },
+   {
+    "level": 600,
+    "name": "Keystone",
+    "fx": {
+     "pieceCap": 15.5555,
+     "supportRange": 0.1555,
+     "repairSpeed": 0.078
+    },
+    "milestone": true,
+    "desc": "+16 piece cap, +15.6% support range, repairs resolve 7.8% faster"
+   },
+   {
+    "level": 625,
+    "name": "Construction Prowess XVI",
+    "fx": {
+     "pieceHp": 0.02
+    },
+    "milestone": false,
+    "desc": "placed pieces have +2% HP"
+   },
+   {
+    "level": 650,
+    "name": "Construction Prowess XVII",
+    "fx": {
+     "pieceHp": 0.02
+    },
+    "milestone": false,
+    "desc": "placed pieces have +2% HP"
+   },
+   {
+    "level": 675,
+    "name": "Construction Prowess XVIII",
+    "fx": {
+     "pieceHp": 0.02
+    },
+    "milestone": false,
+    "desc": "placed pieces have +2% HP"
+   },
+   {
+    "level": 700,
+    "name": "Citadel Hand",
+    "fx": {
+     "pieceCap": 16.6665,
+     "supportRange": 0.1665,
+     "repairSpeed": 0.0835
+    },
+    "milestone": true,
+    "desc": "+17 piece cap, +16.7% support range, repairs resolve 8.3% faster"
+   },
+   {
+    "level": 725,
+    "name": "Construction Prowess XIX",
+    "fx": {
+     "pieceHp": 0.02
+    },
+    "milestone": false,
+    "desc": "placed pieces have +2% HP"
+   },
+   {
+    "level": 750,
+    "name": "Construction Prowess XX",
+    "fx": {
+     "pieceHp": 0.02
+    },
+    "milestone": false,
+    "desc": "placed pieces have +2% HP"
+   },
+   {
+    "level": 775,
+    "name": "Construction Prowess XXI",
+    "fx": {
+     "pieceHp": 0.02
+    },
+    "milestone": false,
+    "desc": "placed pieces have +2% HP"
+   },
+   {
+    "level": 800,
+    "name": "Skybrace",
+    "fx": {
+     "pieceCap": 17.778,
+     "supportRange": 0.178,
+     "repairSpeed": 0.089
+    },
+    "milestone": true,
+    "desc": "+18 piece cap, +17.8% support range, repairs resolve 8.9% faster"
+   },
+   {
+    "level": 825,
+    "name": "Construction Prowess XXII",
+    "fx": {
+     "pieceHp": 0.02
+    },
+    "milestone": false,
+    "desc": "placed pieces have +2% HP"
+   },
+   {
+    "level": 850,
+    "name": "Construction Prowess XXIII",
+    "fx": {
+     "pieceHp": 0.02
+    },
+    "milestone": false,
+    "desc": "placed pieces have +2% HP"
+   },
+   {
+    "level": 875,
+    "name": "Construction Prowess XXIV",
+    "fx": {
+     "pieceHp": 0.02
+    },
+    "milestone": false,
+    "desc": "placed pieces have +2% HP"
+   },
+   {
+    "level": 900,
+    "name": "Worldbeam",
+    "fx": {
+     "pieceCap": 18.889,
+     "supportRange": 0.189,
+     "repairSpeed": 0.0945
+    },
+    "milestone": true,
+    "desc": "+19 piece cap, +18.9% support range, repairs resolve 9.4% faster"
+   },
+   {
+    "level": 925,
+    "name": "Construction Prowess XXV",
+    "fx": {
+     "pieceHp": 0.02
+    },
+    "milestone": false,
+    "desc": "placed pieces have +2% HP"
+   },
+   {
+    "level": 950,
+    "name": "Construction Prowess XXVI",
+    "fx": {
+     "pieceHp": 0.02
+    },
+    "milestone": false,
+    "desc": "placed pieces have +2% HP"
+   },
+   {
+    "level": 975,
+    "name": "Construction Prowess XXVII",
+    "fx": {
+     "pieceHp": 0.02
+    },
+    "milestone": false,
+    "desc": "placed pieces have +2% HP"
+   },
+   {
+    "level": 1000,
+    "name": "Construction Ascendant",
+    "fx": {
+     "pieceCap": 20,
+     "supportRange": 0.2,
+     "repairSpeed": 0.1
+    },
+    "milestone": true,
+    "desc": "+20 piece cap, +20% support range, repairs resolve 10% faster"
    }
   ]
  },
