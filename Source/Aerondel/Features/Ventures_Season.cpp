@@ -219,6 +219,7 @@ float UVenturesFeature::GlideDrop() const
 
 bool UVenturesFeature::Dash()
 {
+	if (OathOn()) return OathSlam();
 	if (Climbing()) { ClimbLaunch(); return true; }
 	const int64 Now = NowMs();
 	if (Now < DashReady) { Say(FString::Printf(TEXT("Dash recharging (%ds)."), (int32)((DashReady - Now + 999) / 1000))); return false; }

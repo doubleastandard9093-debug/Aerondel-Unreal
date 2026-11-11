@@ -82,6 +82,7 @@ int32 UVenturesFeature::PlayerPoiseMax() const
 		}
 	}
 		N += (float)KitPoiseBonus();
+	if (OathOn()) N += 36.f;
 	return FMath::RoundToInt(N);
 }
 

@@ -166,6 +166,7 @@ FText AShopCounter::GetInteractLabel() const
 
 void AShopCounter::Interact(AActor* InInstigator)
 {
+	if (UVenturesFeature* V = UVenturesFeature::Get(this)) if (V->OathOn()) { Msg(LOCTEXT("OathShop", "The shopkeeper asks you to step out of the Oathframe first.")); return; }
 	if (!GetShop()) { Msg(LOCTEXT("Closed", "The shop is closed.")); return; }
 	OnShopOpened.Broadcast(this, InInstigator);
 	if (UAerondelEvents* Ev = UAerondelEvents::Get(this)) Ev->OnServiceRequested.Broadcast(TEXT("shop"), this); // C++ UMG shop panel

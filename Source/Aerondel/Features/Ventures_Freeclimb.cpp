@@ -62,6 +62,7 @@ bool UVenturesFeature::ClimbProbe(FHitResult& Out) const
 
 bool UVenturesFeature::ClimbBegin()
 {
+	if (OathOn()) { Say(TEXT("The Oathframe cannot climb a steep face. Step out first.")); return false; }
 	if (bClimbing) { ClimbEnd(TEXT("You let go."), true); return true; }
 	if (const USkywingFeature* Sk = Feature<USkywingFeature>()) if (Sk->IsFlying()) { Say(TEXT("Land first.")); return false; }
 	AAerondelPlayerState* PS = GetPS();

@@ -66629,6 +66629,15 @@
    "z": -4,
    "town": "Larkhaven",
    "tint": "#c8b060"
+  },
+  "oathframe": {
+   "name": "Framewright Orel",
+   "examine": "At my bench you assemble an Oathframe: a heavy suit you step into. You walk slowly, you cannot fly or climb well, and a slam fills a foe's Guardbreak bar. A hearth-core powers it; when the core runs dry you step out, you do not die. It is not a Path, not a Vocation, and it will not simply make you hit harder. Shops and houses will ask you to step out. The town road is fine.",
+   "service": "oath",
+   "x": 21,
+   "z": -12,
+   "town": "Larkhaven",
+   "tint": "#6a6a75"
   }
  },
  "towns": [

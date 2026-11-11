@@ -505,6 +505,17 @@ public:
 	bool FineUnwelcome(const FString& Town) const;
 	FString TownAt(float X, float Z) const;
 
+	// ---- group 35: Oathframe (Ventures_Oathframe.cpp) — a heavy suit; Dash (C) slams; not a damage percent ----
+	bool OathOn() const { return bOathOn; }
+	int32 OathCore() const { return OathCoreAmt; }
+	bool OathOwned() const { return bOathAssembled; }
+	bool OathAssemble();
+	bool OathCraftCore();
+	bool OathStepIn();
+	bool OathStepOut(const FString& Why = FString());
+	bool OathSlam();
+
+
 
 
 
@@ -880,6 +891,15 @@ protected:
 	void TickKeep();
 	void DiedKeep(AAerondelMob* Mob, bool bByPlayer);
 	bool FineProtected(const UItemDef* Item) const;
+
+	void ResetOath();
+	void SaveOath(FJsonObject& A) const;
+	void LoadOath(const FJsonObject& A);
+	void TabOath(FGPanelModel& M);
+	void TickOath();
+	void OathApplySpeed(bool bOn);
+	AAerondelMob* OathNearest(float RadiusM) const;
+
 
 
 
