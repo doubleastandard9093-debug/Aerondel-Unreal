@@ -526,6 +526,18 @@ public:
 	static float RoadRegenMul(const UObject* WorldContext);
 	void RoadOnConsume(const UItemDef* Item);
 
+	// ---- group 37: Seasonboard (Ventures_Seasonboard.cpp) — season score, not Standing; unlocks the Ash-thread kit ----
+	int32 ScoreOn(const FString& TaskId);
+	FString ScoreClaim(const FString& TierId);
+	bool ScoreBuy(const FString& Item, int32 Price);
+	bool ScoreVendorIn() const;
+	void ScoreRoll();
+	float ClimbDrainMul() const;
+	int32 WardrobeDyeCount() const;
+	FString WardrobeDyeName(int32 Index) const;
+	uint32 WardrobeDyeHex(int32 Index) const;
+
+
 
 
 
@@ -918,6 +930,14 @@ protected:
 	void TabRoad(FGPanelModel& M);
 	void TickRoad();
 
+	void ResetScore();
+	void SaveScore(FJsonObject& A) const;
+	void LoadScore(const FJsonObject& A);
+	void TabScore(FGPanelModel& M);
+	FString ScoreDayKey(int64 Ms) const;
+	FString ScoreWeekKey(int64 Ms) const;
+
+
 
 
 
@@ -1288,6 +1308,23 @@ protected:
 	bool bFineStop = false;
 	FVector2D FineResistAt = FVector2D::ZeroVector;
 	TWeakObjectPtr<AAerondelMob> FineGuard;
+
+	// Oathframe (web adapt/oathframe.js, save key "oath") — bOathOn is never saved
+	bool bOathAssembled = false, bOathOn = false, bOathSpeedOn = false;
+	int32 OathCoreAmt = 0;
+	int64 OathSlamAt = 0, OathLastDrain = 0;
+	float OathSavedWalk = 0.f;
+
+	// Hardroad (web adapt/hardroad.js, save key "road") — off by default, including on old saves
+	bool bRoadOn = false;
+	int32 RoadHunger = 100, RoadThirst = 100, RoadRestAmt = 100;
+	int64 RoadLast = 0;
+
+	// Seasonboard (web adapt/seasonboard.js, save key "score") — owned cosmetics survive a season reset
+	FString ScoreSeasonId, ScoreDay, ScoreWeek;
+	int32 ScoreValue = 0;
+	TArray<FString> ScoreClaimed, ScoreOwned, ScoreDayKeys, ScoreWeekKeys;
+
 
 
 

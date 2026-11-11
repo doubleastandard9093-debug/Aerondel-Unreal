@@ -125,6 +125,7 @@ bool UVenturesFeature::CampPlaceAt(float X, float Z)
 	if (!Why.IsEmpty()) { Say(FString::Printf(TEXT("You cannot place a Waycamp in %s. Find a spot in the wild."), *Why)); return false; }
 	if (!TakeItem(CampItem, 1)) return false;
 	bCampPlaced = true; CampX = X; CampZ = Z;
+	ScoreOn(TEXT("camp"));
 	EnsureBase(CampPieces);
 	GiveXp(TEXT("Construction"), (float)PlaceXp);
 	Say(FString::Printf(TEXT("You set down your Waycamp. Pack it up from Ventures → Waycamp when you want to move it. +%d Construction XP."), PlaceXp));

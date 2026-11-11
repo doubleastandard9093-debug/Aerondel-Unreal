@@ -73,6 +73,7 @@ bool UVenturesFeature::ClimbBegin()
 	if (!ClimbProbe(H)) { Say(TEXT("There is no climbable face ahead.")); return false; }
 	bClimbing = true;
 	bClimbUsed = true;
+	ScoreOn(TEXT("climb"));
 	ClimbNormal = H.Normal;
 	if (UCharacterMovementComponent* M = C->GetCharacterMovement())
 	{
@@ -148,7 +149,7 @@ void UVenturesFeature::TickClimb(float Dt)
 	if (!C || !PS->Stats) { ClimbEnd(FString(), true); return; }
 	if (PS->Stats->RunEnergy <= 0.f) { ClimbEnd(TEXT("You run out of energy and fall — but you land safely enough."), true); return; }
 	const int32 Ag = SkillLevel(TEXT("Agility"));
-	const float Drain = FMath::Max(3.5f, 16.f - Ag / 80.f - UAerondelRules::Perk(PS, FName(TEXT("Agility")), FName(TEXT("climbDrain"))) * 10.f) * Dt;
+	const float Drain = FMath::Max(3.5f, 16.f - Ag / 80.f - UAerondelRules::Perk(PS, FName(TEXT("Agility")), FName(TEXT("climbDrain"))) * 10.f) * Dt * ClimbDrainMul();
 	PS->Stats->RunEnergy = FMath::Max(0.f, PS->Stats->RunEnergy - Drain);
 	const float Speed = (1.7f + Ag / 200.f) * 100.f;
 	FVector Delta = FVector(0.f, 0.f, Speed * Dt);

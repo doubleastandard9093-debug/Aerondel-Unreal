@@ -6471,6 +6471,16 @@
    "value": 80,
    "type": "kit",
    "special": "A packed camp you can set down in the wild and pack up again. One at a time. Not in a town, not on Greenstead, not on Claimridge."
+  },
+  "Ridgewalk soles": {
+   "value": 200,
+   "type": "gear",
+   "special": "A wandering-vendor pair. While you carry them, climbing drains a little less run energy. Not a damage bonus."
+  },
+  "Season flask": {
+   "value": 40,
+   "type": "drink",
+   "special": "A flask from Waresmith Ryn. Drink it to help thirst when Hardroad is on."
   }
  },
  "metals": [

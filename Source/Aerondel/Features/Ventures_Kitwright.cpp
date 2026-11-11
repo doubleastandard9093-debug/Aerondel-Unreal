@@ -54,8 +54,6 @@ namespace VenturesKits
 }
 using namespace VenturesKits;
 
-bool UVenturesFeature::ScoreHas(const FString& Id) const { return ScoreUnlocks.Contains(Id); }
-
 TArray<FString> UVenturesFeature::KitList(const FString& Item) const
 {
 	TArray<FString> Out;

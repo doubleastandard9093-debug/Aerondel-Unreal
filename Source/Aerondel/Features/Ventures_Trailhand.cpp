@@ -85,6 +85,7 @@ void UVenturesFeature::TrailSettle(int32 Mult, const FString& Msg)
 	{
 		GiveCoins(TrailBet + Won);
 		TrailWins++;
+		ScoreOn(TEXT("trail"));
 		TrailTokens++;
 		TrailBest = FMath::Max(TrailBest, Won);
 		TrailDone = Msg + FString::Printf(TEXT(" You win %d coins."), Won);

@@ -146,6 +146,7 @@ void UVenturesFeature::ResetState()
 	ResetKeep();
 	ResetOath();
 	ResetRoad();
+	ResetScore();
 }
 
 void UVenturesFeature::SaveState(FJsonObject& Out) const
@@ -187,6 +188,7 @@ void UVenturesFeature::SaveState(FJsonObject& Out) const
 	SaveKeep(Out);
 	SaveOath(Out);
 	SaveRoad(Out);
+	SaveScore(Out);
 }
 
 void UVenturesFeature::LoadState(const FJsonObject& In)
@@ -229,6 +231,7 @@ void UVenturesFeature::LoadState(const FJsonObject& In)
 	LoadKeep(In);
 	LoadOath(In);
 	LoadRoad(In);
+	LoadScore(In);
 }
 
 void UVenturesFeature::OnGameTick()
@@ -404,6 +407,7 @@ bool UVenturesFeature::BuildTabMore(const FString& Tab, FGPanelModel& M)
 	if (Tab == TEXT("keep")) { TabKeep(M); return true; }
 	if (Tab == TEXT("oath")) { TabOath(M); return true; }
 	if (Tab == TEXT("road")) { TabRoad(M); return true; }
+	if (Tab == TEXT("score")) { TabScore(M); return true; }
 	return false;
 }
 
@@ -454,6 +458,7 @@ void UVenturesFeature::OverviewMore(FGPanelModel& M)
 	VAct(M, TEXT("Wardfine"), [this] { GoTab(TEXT("keep")); });
 	VAct(M, TEXT("Oathframe"), [this] { GoTab(TEXT("oath")); });
 	VAct(M, TEXT("Hardroad"), [this] { GoTab(TEXT("road")); });
+	VAct(M, TEXT("Seasonboard"), [this] { GoTab(TEXT("score")); });
 	VAct(M, TEXT("Dash / Glide (C)"), [this] { Dash(); }, true, true);
 }
 
@@ -756,7 +761,12 @@ bool UVenturesFeature::BodyDye(const UObject* WorldContext, FLinearColor& Out)
 	const UVenturesFeature* V = Get(WorldContext);
 	const FString* D = V ? V->Dyes.Find(TEXT("body")) : nullptr;
 	if (!D) return false;
-	for (const FDye& Dy : VenturesData::Dyes) if (*D == Dy.Name) { Out = FLinearColor(FColor((Dy.Hex >> 16) & 0xff, (Dy.Hex >> 8) & 0xff, Dy.Hex & 0xff)); return true; }
+	for (int32 i = 0; i < V->WardrobeDyeCount(); ++i) if (*D == V->WardrobeDyeName(i))
+	{
+		const uint32 Hex = V->WardrobeDyeHex(i);
+		Out = FLinearColor(FColor((Hex >> 16) & 0xff, (Hex >> 8) & 0xff, Hex & 0xff));
+		return true;
+	}
 	return false;
 }
 
@@ -875,7 +885,7 @@ void UVenturesFeature::RelicFinish(bool bOk)
 
 bool UVenturesFeature::IsVenturePanel(const FString& P)
 {
-	return P.StartsWith(TEXT("ventures")) || P == TEXT("reliquary") || P == TEXT("grafts") || P == TEXT("breach") || P == TEXT("hold") || P == TEXT("hunt") || P == TEXT("guard") || P == TEXT("ashkin") || P == TEXT("vocations") || P == TEXT("cries") || P == TEXT("steads") || P == TEXT("ties") || P == TEXT("green") || P == TEXT("facets") || P == TEXT("ley") || P == TEXT("horde") || P == TEXT("marks") || P == TEXT("spire") || P == TEXT("kin") || P == TEXT("climb") || P == TEXT("chem") || P == TEXT("frame") || P == TEXT("raids") || P == TEXT("trail") || P == TEXT("checks") || P == TEXT("banners") || P == TEXT("kits") || P == TEXT("freight") || P == TEXT("camp") || P == TEXT("wyrms") || P == TEXT("veil") || P == TEXT("shade") || P == TEXT("keep") || P == TEXT("oath") || P == TEXT("road");
+	return P.StartsWith(TEXT("ventures")) || P == TEXT("reliquary") || P == TEXT("grafts") || P == TEXT("breach") || P == TEXT("hold") || P == TEXT("hunt") || P == TEXT("guard") || P == TEXT("ashkin") || P == TEXT("vocations") || P == TEXT("cries") || P == TEXT("steads") || P == TEXT("ties") || P == TEXT("green") || P == TEXT("facets") || P == TEXT("ley") || P == TEXT("horde") || P == TEXT("marks") || P == TEXT("spire") || P == TEXT("kin") || P == TEXT("climb") || P == TEXT("chem") || P == TEXT("frame") || P == TEXT("raids") || P == TEXT("trail") || P == TEXT("checks") || P == TEXT("banners") || P == TEXT("kits") || P == TEXT("freight") || P == TEXT("camp") || P == TEXT("wyrms") || P == TEXT("veil") || P == TEXT("shade") || P == TEXT("keep") || P == TEXT("oath") || P == TEXT("road") || P == TEXT("score");
 }
 
 void UVenturesFeature::GoTab(const FString& Tab) const
@@ -967,8 +977,8 @@ void UVenturesFeature::TabWardrobe(FGPanelModel& M)
 		VAct(M, FString::Printf(TEXT("%s: next dye"), *S), [this, S]
 		{
 			const FString* Now = Dyes.Find(S); int32 Ix = -1;
-			for (int32 i = 0; i < (int32)UE_ARRAY_COUNT(VenturesData::Dyes); ++i) if (Now && *Now == VenturesData::Dyes[i].Name) Ix = i;
-			if (Ix + 1 >= (int32)UE_ARRAY_COUNT(VenturesData::Dyes)) Dyes.Remove(S); else Dyes.Add(S, VenturesData::Dyes[Ix + 1].Name);
+			for (int32 i = 0; i < WardrobeDyeCount(); ++i) if (Now && *Now == WardrobeDyeName(i)) Ix = i;
+			if (Ix + 1 >= WardrobeDyeCount()) Dyes.Remove(S); else Dyes.Add(S, WardrobeDyeName(Ix + 1));
 		});
 		VAct(M, FString::Printf(TEXT("%s: real gear, no dye"), *S), [this, S] { if (UStableCodexFeature* C = Feature<UStableCodexFeature>()) C->SetLook(S, FString()); Dyes.Remove(S); });
 	}

@@ -330,6 +330,7 @@ void UVenturesFeature::TideEnd()
 	for (const TWeakObjectPtr<AAerondelMob>& W : TideWaveMobs) if (W.IsValid()) W->Destroy();
 	TideWaveMobs.Reset();
 	Say(FString::Printf(TEXT("The tide over %s recedes."), *N));
+	ScoreOn(TEXT("tide"));
 }
 
 void UVenturesFeature::TideWave()

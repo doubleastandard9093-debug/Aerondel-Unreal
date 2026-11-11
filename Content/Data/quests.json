@@ -66647,6 +66647,24 @@
    "z": -10,
    "town": "Larkhaven",
    "tint": "#c8a060"
+  },
+  "seasonboard": {
+   "name": "Boardclerk Edda",
+   "examine": "The Seasonboard is a score season. Mine, carve, climb, finish a Tide, place a Waycamp or win a Trailhand hand, and you earn season score — not Standing. Daily Writs still pay Standing. Tiers unlock a Lookplate dye, a kit schematic, and a visit from Waresmith Ryn. Miss a day and nothing is taken from you. There is no paid pass and no other-player ladder.",
+   "service": "score",
+   "x": 17,
+   "z": -8,
+   "town": "Larkhaven",
+   "tint": "#c8a060"
+  },
+  "scorevendor": {
+   "name": "Waresmith Ryn",
+   "examine": "I travel with the season. When the Boardclerk posts my visit, I open a small stall in Larkhaven: Ridgewalk soles that ease a climb, and a Season flask for the road. Nothing I sell is a damage race. Claim the vendor tier on the Seasonboard and I will sell to you.",
+   "service": "score",
+   "x": 15,
+   "z": -6,
+   "town": "Larkhaven",
+   "tint": "#c8a060"
   }
  },
  "towns": [
