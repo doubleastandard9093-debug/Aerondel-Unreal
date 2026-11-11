@@ -66548,6 +66548,15 @@
    "z": -21,
    "town": "Emberfold",
    "tint": "#c8a040"
+  },
+  "skillwords": {
+   "name": "Wordwise Tavian",
+   "examine": "People hear more than Persuade, a Lie or a hard word. If your skill is up to it, say so.",
+   "service": "checks",
+   "x": 21,
+   "z": -18,
+   "town": "Larkhaven",
+   "tint": "#e8d8a8"
   }
  },
  "towns": [

@@ -403,6 +403,12 @@ public:
 	static bool TrailLegal(const TArray<FIntPoint>& RowSuitsRanks, int32 Rank, int32 Suit);
 	bool TrailLive() const { return bTrailLive; }
 
+	// ---- group 26: Skillwords (Ventures_Skillwords.cpp) — Silver Tongue stays Persuade, Lie, Intimidate ----
+	bool SkillTry(const FString& Id);
+	bool SkillHasOpen(FName NpcId) const;
+	void SkillOpenFrom(AActor* Npc);
+	void SkillContinue();
+
 protected:
 	UFUNCTION() void HandleMobKilled(UMobDef* Mob);
 
@@ -706,6 +712,13 @@ protected:
 	void TrailSettle(int32 Mult, const FString& Msg);
 	FString TrailCardLabel(int32 Rank, int32 Suit) const;
 
+	void ResetChecks();
+	void SaveChecks(FJsonObject& A) const;
+	void LoadChecks(const FJsonObject& A);
+	void TabChecks(FGPanelModel& M);
+	bool SkillQuestReady(const FString& QuestId) const;
+
+
 	// group 1 internals
 	void ResetQuick();
 	void SaveQuick(FJsonObject& A) const;
@@ -1004,6 +1017,11 @@ protected:
 	FString TrailDone;
 	TArray<FIntPoint> TrailHand; // X = rank 0-8, Y = suit 0-3
 	TArray<TArray<FIntPoint>> TrailRows;
+
+	// Skillwords (web adapt/skillwords.js, save key "checks")
+	TArray<FString> CheckUsed;
+	TWeakObjectPtr<AActor> SkillNpc;
+
 
 };
 

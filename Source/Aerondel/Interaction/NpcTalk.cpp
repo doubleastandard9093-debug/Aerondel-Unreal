@@ -1,4 +1,5 @@
 #include "Interaction/NpcTalk.h"
+#include "Features/VenturesFeature.h"
 #include "Data/NpcDef.h"
 #include "Core/AerondelPlayerState.h"
 #include "Core/AerondelEvents.h"
@@ -52,6 +53,14 @@ void ANpcTalk::Interact(AActor* InInstigator)
 		if (!To.IsNearlyZero()) SetActorRotation(To.Rotation());
 	}
 	AAerondelPlayerState* S = PS(InInstigator);
+	if (UVenturesFeature* V = UVenturesFeature::Get(this))
+	{
+		if (V->SkillHasOpen(Definition->Id))
+		{
+			V->SkillOpenFrom(this);
+			return;
+		}
+	}
 	if (S && S->Quests->HandleTalk(Definition)) return;
 	if (!Definition->Service.IsNone())
 		if (UAerondelEvents* Ev = UAerondelEvents::Get(this))
