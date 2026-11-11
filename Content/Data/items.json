@@ -6408,6 +6408,24 @@
    "type": "facet",
    "facet": "trail",
    "special": "Ricochet or a chakram leaves a short cutting trail."
+  },
+  "Bind vessel": {
+   "value": 20,
+   "type": "vessel",
+   "vessel": 1,
+   "special": "Throw at a weakened common creature to bind a Kinbeast. Hunter governs the catch."
+  },
+  "Sturdy vessel": {
+   "value": 80,
+   "type": "vessel",
+   "vessel": 2,
+   "special": "A firmer vessel for harder hunts. Needs Hunter 30."
+  },
+  "Fine vessel": {
+   "value": 220,
+   "type": "vessel",
+   "vessel": 3,
+   "special": "A fine vessel for rare frontier beasts. Needs Hunter 75."
   }
  },
  "metals": [

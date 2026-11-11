@@ -12,7 +12,7 @@
 // ============================================================================================
 // Ventures group 9 (web adapt/ashkin.js): temporary Prayer-cost spirits that fight beside you.
 // Not companions (no Bond). Shared follower cap: one companion plus one Ashkin or one Kinbeast,
-// never both a spirit and a pet. Kinbeasts (Phase 15) will set bKinOut / RecallKin.
+// never both a spirit and a pet. Kinbeasts set bKinOut / RecallKin (Ventures_Kinbeasts.cpp).
 // ============================================================================================
 
 namespace VenturesAsh
@@ -66,13 +66,6 @@ void UVenturesFeature::LoadAsh(const FJsonObject& A)
 
 bool UVenturesFeature::AshOut() const { return AshLive.bOn && NowMs() < AshLive.UntilMs; }
 bool UVenturesFeature::KinOut() const { return bKinOut; }
-
-void UVenturesFeature::RecallKin(const FString& Why)
-{
-	if (!bKinOut) return;
-	bKinOut = false;
-	Say(Why.IsEmpty() ? TEXT("Your Kinbeast is recalled.") : Why);
-}
 
 bool UVenturesFeature::AshRecall(const FString& Why, bool bSilent)
 {
@@ -172,6 +165,7 @@ int32 UVenturesFeature::FilterIncoming(const UObject* WorldContext, int32 Amount
 	UVenturesFeature* V = Get(WorldContext);
 	if (!V) return Amount;
 	Amount = V->WardAsh(Amount);
+	Amount = V->KinSoak(Amount);
 	Amount = V->VocIncoming(Amount);
 	Amount = V->CryIncoming(Amount);
 	return Amount;

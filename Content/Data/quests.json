@@ -66503,6 +66503,15 @@
    "z": -19,
    "town": "Larkhaven",
    "tint": "#c86a3a"
+  },
+  "kinbeasts": {
+   "name": "Beastbinder Cal",
+   "examine": "Weaken a wild creature and bind it with a vessel. One Kinbeast or one Ashkin — never both.",
+   "service": "kin",
+   "x": 8,
+   "z": -15,
+   "town": "Larkhaven",
+   "tint": "#6a7a4a"
   }
  },
  "towns": [

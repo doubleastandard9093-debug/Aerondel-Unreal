@@ -33,6 +33,23 @@ struct FLeyFx { float LeyGain = 0.f; float WhirlR = 0.f; float GrowSpeed = 0.f; 
 /** A Hordewake / Ashspire reward card. */
 struct FRunPick { FString T, Id, From, Name, Desc; };
 
+struct FKinRec
+{
+	FString Id, Species, Name;
+	int32 Level = 1, Xp = 0, Loyalty = 20, Hp = 14;
+	int64 FaintUntil = 0;
+};
+
+struct FKinLive
+{
+	bool bOn = false;
+	FString Id;
+	int32 Hp = 0;
+	int64 NextMs = 0;
+	float Acc = 0.f;
+	TWeakObjectPtr<AActor> Pet;
+};
+
 /** Hidden Reliquary cache site (web metres). */
 struct FVentureRelic { int32 Index = 0; FVector2D Pos = FVector2D::ZeroVector; int32 Tier = 1; };
 
@@ -79,7 +96,7 @@ public:
 	/** Panel content for "ventures" / "ventures_<tab>" and the Ventures NPC services. False when the panel is not ours. */
 	bool BuildPanel(const FString& Panel, FGPanelModel& M);
 	static bool IsVenturePanel(const FString& Panel);
-	/** Keyboard: overflare (U), tether (L), super (N), dash (C), ashkin (H), wordcry (;). J (hub) is handled by the character/HUD. */
+	/** Keyboard: overflare (U), tether (L), super (N), dash (C), ashkin (H), wordcry (;), kinbeast (K). J (hub) is handled by the character/HUD. */
 	void OnKey(FName Key);
 
 	// ---- shared helpers (web A.*) ----
@@ -227,7 +244,14 @@ public:
 	void AshEquip(const FString& Item);
 	bool AshOut() const;
 	bool KinOut() const;
-	void RecallKin(const FString& Why);
+	void RecallKin(const FString& Why, bool bSilent = false);
+
+	// ---- group 20: Kinbeasts (Ventures_Kinbeasts.cpp) — shared follower cap with Ashkin ----
+	bool KinThrow();
+	bool KinSend(const FString& Id = FString());
+	bool KinFeed(const FString& Id = FString());
+	bool KinSetActive(const FString& Id);
+	bool KinBuy(const FString& Name);
 
 	// ---- group 10: Vocations (Ventures_Vocations.cpp) ----
 	bool VocSwap(const FString& Id);
@@ -565,6 +589,18 @@ protected:
 	bool SpireHas(const FString& Id) const;
 	float AccSpire() const;
 
+	void ResetKin();
+	void SaveKin(FJsonObject& A) const;
+	void LoadKin(const FJsonObject& A);
+	void TabKin(FGPanelModel& M);
+	void TickKin();
+	int32 KinSoak(int32 Amount);
+	FKinRec* KinRecOf(const FString& Id);
+	float KinKennelMul() const;
+	FString KinBestVessel(int32 NeedTier) const;
+	float KinChance(const AAerondelMob* Mob, const FString& Vessel) const;
+	void KinSpawnPet(FKinRec& R);
+
 	// group 1 internals
 	void ResetQuick();
 	void SaveQuick(FJsonObject& A) const;
@@ -750,6 +786,12 @@ protected:
 	FAshLive AshLive;
 	/** Filled by Kinbeasts later; Ashkin only reads it for the shared follower cap. */
 	bool bKinOut = false;
+	TArray<FKinRec> KinRoster;
+	TArray<FString> KinSeen;
+	FString KinActive;
+	int32 KinNextId = 1;
+	int64 KinSwapAt = 0;
+	FKinLive KinLive;
 
 	// Vocations (web adapt/vocations.js, save key "voc")
 	FString VocId;

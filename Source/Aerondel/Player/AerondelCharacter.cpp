@@ -103,7 +103,7 @@ void AAerondelCharacter::SetupPlayerInputComponent(UInputComponent* Input)
 	if (EIC)
 	{
 		BuildVentureKeys();
-		static const TCHAR* Names[] = { TEXT("overflare"), TEXT("ventures"), TEXT("tether"), TEXT("super"), TEXT("dash"), TEXT("settings"), TEXT("ashkin"), TEXT("wordcry") };
+		static const TCHAR* Names[] = { TEXT("overflare"), TEXT("ventures"), TEXT("tether"), TEXT("super"), TEXT("dash"), TEXT("settings"), TEXT("ashkin"), TEXT("wordcry"), TEXT("kinbeast") };
 		for (int32 i = 0; i < VentureActions.Num() && i < UE_ARRAY_COUNT(Names); ++i)
 		{
 			const FName K(Names[i]);
@@ -260,6 +260,11 @@ void AAerondelCharacter::BuildVentureKeys()
 	Cry->ValueType = EInputActionValueType::Boolean;
 	VentureActions.Add(Cry);
 	VentureContext->MapKey(Cry, EKeys::Semicolon);
+	// Kinbeasts (K): bound here in C++ so it works without re-running Create Input Assets.
+	UInputAction* Kin = NewObject<UInputAction>(this, FName(TEXT("IA_Kinbeast")));
+	Kin->ValueType = EInputActionValueType::Boolean;
+	VentureActions.Add(Kin);
+	VentureContext->MapKey(Kin, EKeys::K);
 }
 
 void AAerondelCharacter::OnVentureKey(FName Key)

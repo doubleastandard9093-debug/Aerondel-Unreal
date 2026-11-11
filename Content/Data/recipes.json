@@ -3057,6 +3057,68 @@
    },
    "output": "Facet frame",
    "xp": 80
+  },
+  {
+   "station": null,
+   "tool": null,
+   "name": "Craft Bind vessel",
+   "cat": "Crafting",
+   "group": "Kinbeasts",
+   "skill": "Crafting",
+   "level": 1,
+   "inputs": {
+    "Logs": 2,
+    "Soft leather": 1
+   },
+   "output": "Bind vessel",
+   "xp": 12
+  },
+  {
+   "station": null,
+   "tool": null,
+   "name": "Craft Bind vessel (Hunter)",
+   "cat": "Crafting",
+   "group": "Kinbeasts",
+   "skill": "Hunter",
+   "level": 1,
+   "inputs": {
+    "Logs": 2,
+    "Bones": 2
+   },
+   "output": "Bind vessel",
+   "xp": 14
+  },
+  {
+   "station": null,
+   "tool": null,
+   "name": "Craft Sturdy vessel",
+   "cat": "Crafting",
+   "group": "Kinbeasts",
+   "skill": "Hunter",
+   "level": 30,
+   "inputs": {
+    "Oak logs": 2,
+    "Hard leather": 1,
+    "Bones": 4
+   },
+   "output": "Sturdy vessel",
+   "xp": 36
+  },
+  {
+   "station": null,
+   "tool": null,
+   "name": "Craft Fine vessel",
+   "cat": "Crafting",
+   "group": "Kinbeasts",
+   "skill": "Hunter",
+   "level": 75,
+   "inputs": {
+    "Yew logs": 2,
+    "Hard leather": 2,
+    "Relic shard": 1
+   },
+   "output": "Fine vessel",
+   "xp": 80
   }
  ],
  "potionRecipes": [
