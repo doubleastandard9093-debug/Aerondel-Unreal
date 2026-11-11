@@ -6286,6 +6286,88 @@
    "type": "ash",
    "ashId": "ranger",
    "special": "Summon a ranger spirit. Costs Prayer; one Ashkin or Kinbeast at a time."
+  },
+  "Potato seed": {
+   "value": 5,
+   "type": "seed"
+  },
+  "Cabbage seed": {
+   "value": 6,
+   "type": "seed"
+  },
+  "Wheat seed": {
+   "value": 5,
+   "type": "seed"
+  },
+  "Tomato seed": {
+   "value": 8,
+   "type": "seed"
+  },
+  "Pumpkin seed": {
+   "value": 10,
+   "type": "seed"
+  },
+  "Winterroot seed": {
+   "value": 8,
+   "type": "seed"
+  },
+  "Potato": {
+   "value": 4,
+   "type": "food",
+   "heal": 3,
+   "farm": true
+  },
+  "Cabbage": {
+   "value": 5,
+   "type": "food",
+   "heal": 3,
+   "farm": true
+  },
+  "Wheat": {
+   "value": 3,
+   "type": "resource",
+   "farm": true
+  },
+  "Tomato": {
+   "value": 6,
+   "type": "food",
+   "heal": 4,
+   "farm": true
+  },
+  "Pumpkin": {
+   "value": 10,
+   "type": "food",
+   "heal": 6,
+   "farm": true
+  },
+  "Winterroot": {
+   "value": 7,
+   "type": "food",
+   "heal": 4,
+   "farm": true
+  },
+  "Egg": {
+   "value": 4,
+   "type": "food",
+   "heal": 2,
+   "farm": true
+  },
+  "Milk": {
+   "value": 5,
+   "type": "food",
+   "heal": 3,
+   "farm": true
+  },
+  "Wool": {
+   "value": 8,
+   "type": "processed",
+   "farm": true
+  },
+  "Farm preserves": {
+   "value": 14,
+   "type": "food",
+   "heal": 8,
+   "farm": true
   }
  },
  "metals": [

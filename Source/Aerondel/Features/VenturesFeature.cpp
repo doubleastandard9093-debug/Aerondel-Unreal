@@ -123,6 +123,7 @@ void UVenturesFeature::ResetState()
 	ResetCry();
 	ResetStead();
 	ResetTie();
+	ResetGreen();
 }
 
 void UVenturesFeature::SaveState(FJsonObject& Out) const
@@ -141,6 +142,7 @@ void UVenturesFeature::SaveState(FJsonObject& Out) const
 	SaveCry(Out);
 	SaveStead(Out);
 	SaveTie(Out);
+	SaveGreen(Out);
 }
 
 void UVenturesFeature::LoadState(const FJsonObject& In)
@@ -160,6 +162,7 @@ void UVenturesFeature::LoadState(const FJsonObject& In)
 	LoadCry(In);
 	LoadStead(In);
 	LoadTie(In);
+	LoadGreen(In);
 }
 
 void UVenturesFeature::OnGameTick()
@@ -173,6 +176,7 @@ void UVenturesFeature::OnGameTick()
 	TickGuard();
 	TickAsh();
 	TickVoc();
+	TickGreen();
 }
 
 void UVenturesFeature::OnPlayerDied()
@@ -287,6 +291,7 @@ bool UVenturesFeature::BuildTabMore(const FString& Tab, FGPanelModel& M)
 	if (Tab == TEXT("cries")) { TabCry(M); return true; }
 	if (Tab == TEXT("steads")) { TabStead(M); return true; }
 	if (Tab == TEXT("ties")) { TabTie(M); return true; }
+	if (Tab == TEXT("green")) { TabGreen(M); return true; }
 	return false;
 }
 
@@ -314,6 +319,7 @@ void UVenturesFeature::OverviewMore(FGPanelModel& M)
 	VAct(M, TEXT("Wordcries (;)"), [this] { GoTab(TEXT("cries")); });
 	VAct(M, TEXT("Townsteads"), [this] { GoTab(TEXT("steads")); });
 	VAct(M, TEXT("Town Ties"), [this] { GoTab(TEXT("ties")); });
+	VAct(M, TEXT("Greenstead"), [this] { GoTab(TEXT("green")); });
 	VAct(M, TEXT("Dash / Glide (C)"), [this] { Dash(); }, true, true);
 }
 
@@ -733,7 +739,7 @@ void UVenturesFeature::RelicFinish(bool bOk)
 
 bool UVenturesFeature::IsVenturePanel(const FString& P)
 {
-	return P.StartsWith(TEXT("ventures")) || P == TEXT("reliquary") || P == TEXT("grafts") || P == TEXT("breach") || P == TEXT("hold") || P == TEXT("hunt") || P == TEXT("guard") || P == TEXT("ashkin") || P == TEXT("vocations") || P == TEXT("cries") || P == TEXT("steads") || P == TEXT("ties");
+	return P.StartsWith(TEXT("ventures")) || P == TEXT("reliquary") || P == TEXT("grafts") || P == TEXT("breach") || P == TEXT("hold") || P == TEXT("hunt") || P == TEXT("guard") || P == TEXT("ashkin") || P == TEXT("vocations") || P == TEXT("cries") || P == TEXT("steads") || P == TEXT("ties") || P == TEXT("green");
 }
 
 void UVenturesFeature::GoTab(const FString& Tab) const

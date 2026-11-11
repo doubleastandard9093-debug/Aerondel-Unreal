@@ -21,6 +21,10 @@ struct FSteadFurn { bool bChest = false; bool bBed = false; TArray<FString> Hook
 /** Town Tie record for one townsfolk (rank 0-5). */
 struct FTieRec { int32 Rank = 0; int64 GiftAt = 0; FString TalkAt; bool bHeart = false; bool bErrand = false; };
 
+struct FGreenPlot { FString Crop; int64 PlantedAt = 0; FString Season; bool bCover = false; };
+struct FGreenAnimal { FString Type; int64 FedAt = 0; bool bReady = false; };
+struct FGreenDecor { FString Id; float X = 0.f; float Z = 0.f; float Rot = 0.f; };
+
 /** Hidden Reliquary cache site (web metres). */
 struct FVentureRelic { int32 Index = 0; FVector2D Pos = FVector2D::ZeroVector; int32 Tier = 1; };
 
@@ -251,6 +255,22 @@ public:
 	/** Modest 5% shop discount when a Friendly+ townsfolk last traded with you. */
 	static float TieBuyDiscount(const UObject* WorldContext);
 
+	// ---- group 14: Greenstead (Ventures_Greenstead.cpp) — trains Farming ----
+	bool GreenBuy();
+	bool GreenGo();
+	void GreenLeave();
+	bool GreenBuySeed(const FString& Seed, int32 N = 1);
+	bool GreenPlant(int32 I, const FString& CropId);
+	bool GreenHarvest(int32 I);
+	bool GreenCover(int32 I);
+	bool GreenBuyAnimal(const FString& Type);
+	bool GreenFeed(int32 I);
+	bool GreenCollect(int32 I);
+	bool GreenPreserve(const FString& Item);
+	bool GreenPlace(const FString& Id);
+	bool GreenPick(int32 I);
+	bool GreenHome() const;
+
 protected:
 	UFUNCTION() void HandleMobKilled(UMobDef* Mob);
 
@@ -422,6 +442,22 @@ protected:
 	bool TieNear(const FString& Id, float& Dist) const;
 	int32 TieBump(const FString& Id, int32 N);
 	int32 GreenGrewOf(const FString& Item) const;
+	void GreenGrewAdd(const FString& Item, int32 N);
+	void ResetGreen();
+	void SaveGreen(FJsonObject& A) const;
+	void LoadGreen(const FJsonObject& A);
+	void TabGreen(FGPanelModel& M);
+	void TickGreen();
+	void GreenEnsurePlots();
+	int32 GreenPlotN() const;
+	int32 GreenAnimalCap() const;
+	int32 GreenDecorCap() const;
+	int32 GreenGrowMs(const FString& CropId) const;
+	int32 GreenFarmXp(int32 Base, bool bInSeason) const;
+	float GreenLeyGrowBonus() const;
+	int32 GreenCoverCap() const;
+	bool GreenCanSeason(const FString& CropId, bool bCovered) const;
+	bool GreenRipe(int32 I) const;
 
 	// group 1 internals
 	void ResetQuick();
@@ -624,6 +660,13 @@ protected:
 	// Town Ties (web adapt/townties.js, save key "ties")
 	TMap<FString, FTieRec> TieRecs;
 	FString TieShopId;
+
+	// Greenstead (web adapt/greenstead.js, save key "green")
+	bool bGreenDeed = false;
+	TArray<FGreenPlot> GreenPlots;
+	TArray<FGreenAnimal> GreenAnimals;
+	TArray<FGreenDecor> GreenDecor;
+	TMap<FString, int32> GreenGrown;
 };
 
 

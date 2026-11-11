@@ -458,9 +458,10 @@ void UVenturesFeature::TabAttune(FGPanelModel& M)
 bool UVenturesFeature::HoldHome() const
 {
 	FVector2D P;
-	if (Run.bOn || !bHoldOwned || !PlayerWebPos(P)) return false;
+	if (Run.bOn || !PlayerWebPos(P)) return false;
 	const FVector2D C = ZoneC(TEXT("hold"));
-	return FMath::Abs(P.X - C.X) < 20.0 && FMath::Abs(P.Y - C.Y) < 16.0;
+	const bool bOnPad = FMath::Abs(P.X - C.X) < 20.0 && FMath::Abs(P.Y - C.Y) < 16.0;
+	return bOnPad && (bHoldOwned || bGreenDeed);
 }
 
 void UVenturesFeature::HoldGo()

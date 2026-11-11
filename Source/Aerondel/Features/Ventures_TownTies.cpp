@@ -64,8 +64,6 @@ namespace VenturesTies
 }
 using namespace VenturesTies;
 
-int32 UVenturesFeature::GreenGrewOf(const FString& Item) const { return 0; } // Greenstead fills this in
-
 void UVenturesFeature::ResetTie()
 {
 	TieRecs.Reset();
