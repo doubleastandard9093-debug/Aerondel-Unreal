@@ -502,7 +502,7 @@ protected:
 	TArray<FString> AshOwned;
 	FString AshEquipped;
 	int64 AshLastUsedMs = 0;
-	struct FAshLive { FString Item, Style, Name; int64 UntilMs = 0; int32 NextTick = 0; bool bOn = false; };
+	struct FAshLive { FString Item, Style, Name; int64 UntilMs = 0; int32 NextTick = 0; bool bOn = false; TWeakObjectPtr<AActor> Spirit; };
 	FAshLive AshLive;
 	/** Filled by Kinbeasts later; Ashkin only reads it for the shared follower cap. */
 	bool bKinOut = false;

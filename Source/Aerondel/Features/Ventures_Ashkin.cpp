@@ -1,4 +1,6 @@
 #include "Features/VenturesFeature.h"
+#include "Features/AshkinSpirit.h"
+#include "Engine/World.h"
 #include "UI/AerondelPanels.h"
 #include "Core/AerondelPlayerState.h"
 #include "Core/PlayerStatsComponent.h"
@@ -75,6 +77,7 @@ void UVenturesFeature::RecallKin(const FString& Why)
 bool UVenturesFeature::AshRecall(const FString& Why, bool bSilent)
 {
 	if (!AshLive.bOn) return false;
+	if (AActor* S = AshLive.Spirit.Get()) S->Destroy();
 	AshLive = FAshLive();
 	if (!bSilent) Say(Why.IsEmpty() ? TEXT("The Ashkin fades.") : Why);
 	return true;
@@ -113,6 +116,17 @@ bool UVenturesFeature::AshSummon(const FString& InItem)
 	AshLive.UntilMs = NowMs() + Def->DurMs;
 	AshLive.NextTick = TickNow();
 	AshLive.bOn = true;
+	if (UWorld* World = GetWorld())
+	{
+		APawn* Pawn = PS->GetPawn();
+		FActorSpawnParameters Sp; Sp.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+		const FVector At = Pawn ? (Pawn->GetActorLocation() + Pawn->GetActorRightVector() * -80.f + FVector(0.f, 0.f, 110.f)) : FVector::ZeroVector;
+		if (AAshkinSpirit* Spirit = World->SpawnActor<AAshkinSpirit>(At, FRotator::ZeroRotator, Sp))
+		{
+			Spirit->Setup(Pawn, Def->Style);
+			AshLive.Spirit = Spirit;
+		}
+	}
 	Say(FString::Printf(TEXT("You call forth %s. They will fade in %ds. One Ashkin or Kinbeast at a time."), Def->Name, Def->DurMs / 1000));
 	return true;
 }
