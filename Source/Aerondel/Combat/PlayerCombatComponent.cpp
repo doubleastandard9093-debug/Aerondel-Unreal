@@ -17,6 +17,7 @@
 #include "GameFramework/Pawn.h"
 #include "EngineUtils.h"
 #include "Features/TrueAimFeature.h"
+#include "Features/VenturesFeature.h"
 #include "Engine/GameInstance.h"
 
 #define LOCTEXT_NAMESPACE "AerondelCombat"
@@ -94,9 +95,10 @@ bool UPlayerCombatComponent::CastAt(AAerondelMob* Mob, USpellDef* Spell)
 	AAerondelPlayerState* S = PS();
 	FText Why;
 	if (!UAerondelRules::CanCast(S, Spell, Why)) { Msg(Why); return false; }
-	const bool bSaved = FMath::FRand() < UAerondelRules::Perk(S, TEXT("magic"), TEXT("runeSave"));
+	const bool bFocus = UVenturesFeature::ConsumeVocFocus(S);
+	const bool bSaved = bFocus || FMath::FRand() < UAerondelRules::Perk(S, TEXT("magic"), TEXT("runeSave"));
 	if (!bSaved) for (const TPair<UItemDef*, int32>& R : UAerondelRules::RuneCost(S, Spell)) S->Inventory->Remove(R.Key, R.Value);
-	else Msg(LOCTEXT("RuneSave", "Your magic saves your runes."));
+	else Msg(bFocus ? LOCTEXT("LeyFocus", "Ley Focus: the spell spends no runes.") : LOCTEXT("RuneSave", "Your magic saves your runes."));
 	const UMobDef* Def = Mob->Definition;
 	int32 Dmg = 0;
 	if (FMath::FRand() < UAerondelRules::MagicAccuracy(S, Def))
@@ -143,9 +145,13 @@ int32 UPlayerCombatComponent::MagicKit(AAerondelMob* Mob, USpellDef* Spell)
 	const UAbilityDef* A = Db->FindAbility(St->QueuedAbility);
 	if (!A || A->Style != TEXT("magic")) return 0;
 	const FName Special = St->ConsumeQueuedAbility(); // starts the cooldown
-	for (const FRuneCost& R : A->Runes)
-		if (S->Inventory->CountOf(R.Rune) < R.Amount) { Msg(FText::Format(LOCTEXT("KitRunes", "Not enough runes for {0}."), A->DisplayName)); return 0; }
-	for (const FRuneCost& R : A->Runes) S->Inventory->Remove(R.Rune, R.Amount);
+	const bool bKitFocus = UVenturesFeature::ConsumeVocFocus(S);
+	if (!bKitFocus)
+	{
+		for (const FRuneCost& R : A->Runes)
+			if (S->Inventory->CountOf(R.Rune) < R.Amount) { Msg(FText::Format(LOCTEXT("KitRunes", "Not enough runes for {0}."), A->DisplayName)); return 0; }
+		for (const FRuneCost& R : A->Runes) S->Inventory->Remove(R.Rune, R.Amount);
+	}
 	Msg(FText::Format(LOCTEXT("Kit", "{0}!"), A->DisplayName));
 	const int32 Mh = UAerondelRules::MagicMaxHit(S, Spell);
 	int32 Extra = 0;

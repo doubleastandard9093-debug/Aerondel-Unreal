@@ -210,6 +210,18 @@ public:
 	bool KinOut() const;
 	void RecallKin(const FString& Why);
 
+	// ---- group 10: Vocations (Ventures_Vocations.cpp) ----
+	bool VocSwap(const FString& Id);
+	bool VocClear();
+	bool VocUnlock(const FString& Id);
+	bool VocCan(const FString& Id) const;
+	bool VocUse(const FString& SkillId);
+	bool VocInCombat() const;
+	bool VocHoldActive() const;
+	FString CurrentVoc() const { return VocId; }
+	/** Ley Focus: the next spell spends no runes. */
+	static bool ConsumeVocFocus(const UObject* WorldContext);
+
 protected:
 	UFUNCTION() void HandleMobKilled(UMobDef* Mob);
 
@@ -340,6 +352,19 @@ protected:
 	void TickAsh();
 	int32 WardAsh(int32 Amount) const;
 	void TabAsh(FGPanelModel& M);
+
+	// group 10 internals
+	void ResetVoc();
+	void SaveVoc(FJsonObject& A) const;
+	void LoadVoc(const FJsonObject& A);
+	void TickVoc();
+	int32 HitVoc(AAerondelMob* Mob, int32 D);
+	void DiedVoc(AAerondelMob* Mob, bool bByPlayer);
+	int32 VocIncoming(int32 Amount);
+	void VocMarkFight();
+	void VocHop(float Back, float Right);
+	bool ConsumeVocFocus();
+	void TabVoc(FGPanelModel& M);
 
 	// group 1 internals
 	void ResetQuick();
@@ -509,4 +534,21 @@ protected:
 	FAshLive AshLive;
 	/** Filled by Kinbeasts later; Ashkin only reads it for the shared follower cap. */
 	bool bKinOut = false;
+
+	// Vocations (web adapt/vocations.js, save key "voc")
+	FString VocId;
+	TArray<FString> VocUnlocked;
+	TMap<FString, TArray<FString>> VocBars;
+	int32 VocFightLeft = 0;
+	int32 VocBraceUntil = 0;
+	int32 VocHoldUntil = 0;
+	int32 VocSootheUntil = 0;
+	int32 VocReadUntil = 0;
+	bool bVocRetrieve = false;
+	bool bVocFocus = false;
+	bool bVocRiposteArm = false;
+	bool bVocCantProc = false;
+	TMap<FString, int32> VocCd;
+	TWeakObjectPtr<AAerondelMob> VocReadMob;
 };
+

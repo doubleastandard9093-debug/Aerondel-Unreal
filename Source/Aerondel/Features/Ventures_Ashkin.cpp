@@ -169,8 +169,11 @@ int32 UVenturesFeature::WardAsh(int32 Amount) const
 
 int32 UVenturesFeature::FilterIncoming(const UObject* WorldContext, int32 Amount)
 {
-	const UVenturesFeature* V = Get(WorldContext);
-	return V ? V->WardAsh(Amount) : Amount;
+	UVenturesFeature* V = Get(WorldContext);
+	if (!V) return Amount;
+	Amount = V->WardAsh(Amount);
+	Amount = V->VocIncoming(Amount);
+	return Amount;
 }
 
 void UVenturesFeature::TickAsh()

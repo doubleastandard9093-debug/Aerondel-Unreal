@@ -142,6 +142,7 @@ bool UVenturesFeature::GuardRiposte(AAerondelMob* Mob)
 void UVenturesFeature::IncomingGuard(int32 Amount)
 {
 	if (Amount <= 0) return;
+	if (VocHoldActive()) { PlayerPoiseCd = 0; return; }
 	const int32 Max = PlayerPoiseMax();
 	if (PlayerPoise < 0.f) PlayerPoise = (float)Max;
 	const AAerondelPlayerState* PS = GetPS();
@@ -159,7 +160,7 @@ void UVenturesFeature::IncomingGuard(int32 Amount)
 
 void UVenturesFeature::HookPlayerHurt(const UObject* WorldContext, int32 Amount)
 {
-	if (UVenturesFeature* V = Get(WorldContext)) V->IncomingGuard(Amount);
+	if (UVenturesFeature* V = Get(WorldContext)) { V->VocMarkFight(); V->IncomingGuard(Amount); }
 }
 
 void UVenturesFeature::TickGuard()
