@@ -66611,6 +66611,15 @@
    "z": -32,
    "town": "Highcrest",
    "tint": "#d0c8e8"
+  },
+  "shadework": {
+   "name": "Shadeguide Vess",
+   "examine": "Leave a foe's notice — a roll, a corner, or simply starting from out of combat — and you are unseen for a short window. The first strike in that window is a Shade hit: a modest extra, and a much larger fill of their Guardbreak bar. Bosses and Colossi only feel a little of it, so you cannot lock them. This is not a sneak through town, and it does not replace a pickpocket, Stillwatch or True Aim.",
+   "service": "shade",
+   "x": 31,
+   "z": -16,
+   "town": "Larkhaven",
+   "tint": "#708090"
   }
  },
  "towns": [

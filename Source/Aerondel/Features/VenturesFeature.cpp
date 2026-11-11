@@ -142,6 +142,7 @@ void UVenturesFeature::ResetState()
 	ResetCamp();
 	ResetWyrms();
 	ResetVeil();
+	ResetShade();
 }
 
 void UVenturesFeature::SaveState(FJsonObject& Out) const
@@ -179,6 +180,7 @@ void UVenturesFeature::SaveState(FJsonObject& Out) const
 	SaveCamp(Out);
 	SaveWyrms(Out);
 	SaveVeil(Out);
+	SaveShade(Out);
 }
 
 void UVenturesFeature::LoadState(const FJsonObject& In)
@@ -217,6 +219,7 @@ void UVenturesFeature::LoadState(const FJsonObject& In)
 	LoadCamp(In);
 	LoadWyrms(In);
 	LoadVeil(In);
+	LoadShade(In);
 }
 
 void UVenturesFeature::OnGameTick()
@@ -237,6 +240,7 @@ void UVenturesFeature::OnGameTick()
 	TickGreen();
 	TickFacet();
 	TickWyrm();
+	TickShade();
 }
 
 void UVenturesFeature::OnPlayerDied()
@@ -312,6 +316,7 @@ int32 UVenturesFeature::HookPlayerHit(AAerondelMob* Mob, int32 Damage, AActor* A
 	D = V->HitFacet(Mob, D);
 	D = V->HitSpire(Mob, D);
 	D = V->HitVeil(Mob, D);
+	D = V->HitShade(Mob, D);
 	const bool bFlareStrike = V->StrikeKind && FCString::Strcmp(V->StrikeKind, TEXT("flare")) == 0;
 	if (D > 0 && !bFlareStrike) V->FlareAdd(1.5f + FMath::Min(4.f, D / (float)FMath::Max(1, Mob->GetMaxHp()) * 25.f));
 	return D;
@@ -382,6 +387,7 @@ bool UVenturesFeature::BuildTabMore(const FString& Tab, FGPanelModel& M)
 	if (Tab == TEXT("camp")) { TabCamp(M); return true; }
 	if (Tab == TEXT("wyrms")) { TabWyrms(M); return true; }
 	if (Tab == TEXT("veil")) { TabVeil(M); return true; }
+	if (Tab == TEXT("shade")) { TabShade(M); return true; }
 	return false;
 }
 
@@ -428,6 +434,7 @@ void UVenturesFeature::OverviewMore(FGPanelModel& M)
 	VAct(M, TEXT("Waycamp"), [this] { GoTab(TEXT("camp")); });
 	VAct(M, TEXT("Skywyrms"), [this] { GoTab(TEXT("wyrms")); });
 	VAct(M, TEXT("Veilcraft"), [this] { GoTab(TEXT("veil")); });
+	VAct(M, TEXT("Shadework"), [this] { GoTab(TEXT("shade")); });
 	VAct(M, TEXT("Dash / Glide (C)"), [this] { Dash(); }, true, true);
 }
 
@@ -849,7 +856,7 @@ void UVenturesFeature::RelicFinish(bool bOk)
 
 bool UVenturesFeature::IsVenturePanel(const FString& P)
 {
-	return P.StartsWith(TEXT("ventures")) || P == TEXT("reliquary") || P == TEXT("grafts") || P == TEXT("breach") || P == TEXT("hold") || P == TEXT("hunt") || P == TEXT("guard") || P == TEXT("ashkin") || P == TEXT("vocations") || P == TEXT("cries") || P == TEXT("steads") || P == TEXT("ties") || P == TEXT("green") || P == TEXT("facets") || P == TEXT("ley") || P == TEXT("horde") || P == TEXT("marks") || P == TEXT("spire") || P == TEXT("kin") || P == TEXT("climb") || P == TEXT("chem") || P == TEXT("frame") || P == TEXT("raids") || P == TEXT("trail") || P == TEXT("checks") || P == TEXT("banners") || P == TEXT("kits") || P == TEXT("freight") || P == TEXT("camp") || P == TEXT("wyrms") || P == TEXT("veil");
+	return P.StartsWith(TEXT("ventures")) || P == TEXT("reliquary") || P == TEXT("grafts") || P == TEXT("breach") || P == TEXT("hold") || P == TEXT("hunt") || P == TEXT("guard") || P == TEXT("ashkin") || P == TEXT("vocations") || P == TEXT("cries") || P == TEXT("steads") || P == TEXT("ties") || P == TEXT("green") || P == TEXT("facets") || P == TEXT("ley") || P == TEXT("horde") || P == TEXT("marks") || P == TEXT("spire") || P == TEXT("kin") || P == TEXT("climb") || P == TEXT("chem") || P == TEXT("frame") || P == TEXT("raids") || P == TEXT("trail") || P == TEXT("checks") || P == TEXT("banners") || P == TEXT("kits") || P == TEXT("freight") || P == TEXT("camp") || P == TEXT("wyrms") || P == TEXT("veil") || P == TEXT("shade");
 }
 
 void UVenturesFeature::GoTab(const FString& Tab) const

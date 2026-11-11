@@ -482,6 +482,18 @@ public:
 	bool VeilNight() const { return VeilWorn(TEXT("night")); }
 	int32 HitVeil(AAerondelMob* Mob, int32 Damage);
 
+	// ---- group 33: Shadework (Ventures_Shadework.cpp) — a short unseen window, not a stealth sim ----
+	bool ShadeUnseen() const { return bShadeUnseen; }
+	bool ShadeHidePip() const { return bShadeHidePip; }
+	void ShadeSetHidePip(bool bHide);
+	bool ShadeEnter();
+	bool ShadeNotice();
+	bool ShadeBreakLine();
+	bool ShadeArmed(const AAerondelMob* Mob) const;
+	int32 HitShade(AAerondelMob* Mob, int32 Damage);
+	float ShadeNoticeMul() const { return MarkNoticeMul; }
+
+
 
 
 
@@ -837,6 +849,18 @@ protected:
 	void SyncSoulPouch();
 	FString VeilLessonFrom(const FString& Item) const;
 
+	void ResetShade();
+	void SaveShade(FJsonObject& A) const;
+	void LoadShade(const FJsonObject& A);
+	void TabShade(FGPanelModel& M);
+	void TickShade();
+	float ShadeNoticeRange() const;
+	int64 ShadeWindowMs() const;
+	AAerondelMob* ShadeSeer() const;
+	bool ShadeCloseFight() const;
+	TArray<AAerondelMob*> ShadeFoesNear(float RadiusM) const;
+
+
 
 
 
@@ -1185,6 +1209,15 @@ protected:
 	TMap<FString, FString> VeilOn;
 	FString VeilSelItem, VeilSelFx;
 	int32 VeilFrostTick = -999, VeilStunTick = -999;
+
+	// Shadework (web adapt/shadework.js, save key "shade") — mid-fight unseen is not saved
+	int32 ShadeHits = 0;
+	int32 ShadeUnseenSecs = 0;
+	bool bShadeHidePip = false;
+	bool bShadeUnseen = true;
+	int64 ShadeUntilMs = 0;
+	float MarkNoticeMul = 1.f; // Wildmarks may lower this later
+
 
 
 
