@@ -6268,6 +6268,24 @@
     "Defence": 165,
     "Hunter": 30
    }
+  },
+  "Ember ash": {
+   "value": 80,
+   "type": "ash",
+   "ashId": "shades",
+   "special": "Summon a brief pack of shades. Costs Prayer; one Ashkin or Kinbeast at a time."
+  },
+  "Bulwark ash": {
+   "value": 240,
+   "type": "ash",
+   "ashId": "ward",
+   "special": "Summon a shield-bearer spirit. Costs Prayer; one Ashkin or Kinbeast at a time."
+  },
+  "Longshot ash": {
+   "value": 260,
+   "type": "ash",
+   "ashId": "ranger",
+   "special": "Summon a ranger spirit. Costs Prayer; one Ashkin or Kinbeast at a time."
   }
  },
  "metals": [

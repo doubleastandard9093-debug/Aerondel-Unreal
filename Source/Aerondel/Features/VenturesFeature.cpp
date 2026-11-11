@@ -118,6 +118,7 @@ void UVenturesFeature::ResetState()
 	ResetSeason();
 	ResetHunt();
 	ResetGuard();
+	ResetAsh();
 }
 
 void UVenturesFeature::SaveState(FJsonObject& Out) const
@@ -131,6 +132,7 @@ void UVenturesFeature::SaveState(FJsonObject& Out) const
 	SaveSeason(Out);
 	SaveHunt(Out);
 	SaveGuard(Out);
+	SaveAsh(Out);
 }
 
 void UVenturesFeature::LoadState(const FJsonObject& In)
@@ -145,6 +147,7 @@ void UVenturesFeature::LoadState(const FJsonObject& In)
 	LoadSeason(In);
 	LoadHunt(In);
 	LoadGuard(In);
+	LoadAsh(In);
 }
 
 void UVenturesFeature::OnGameTick()
@@ -156,12 +159,14 @@ void UVenturesFeature::OnGameTick()
 	TickRaid();
 	TickHunt();
 	TickGuard();
+	TickAsh();
 }
 
 void UVenturesFeature::OnPlayerDied()
 {
 	Puz = FRelicPuzzle();
 	if (Run.bOn) RunEnd(false);
+	AshRecall(TEXT("The Ashkin fades as you fall."), true);
 }
 
 void UVenturesFeature::HandleMobKilled(UMobDef* Mob)
@@ -261,6 +266,7 @@ bool UVenturesFeature::BuildTabMore(const FString& Tab, FGPanelModel& M)
 	if (Tab == TEXT("chron")) { TabChron(M); return true; }
 	if (Tab == TEXT("hunt")) { TabHunt(M); return true; }
 	if (Tab == TEXT("guard")) { TabGuard(M); return true; }
+	if (Tab == TEXT("ashkin")) { TabAsh(M); return true; }
 	return false;
 }
 
@@ -283,6 +289,7 @@ void UVenturesFeature::OverviewMore(FGPanelModel& M)
 	VAct(M, TEXT("Season Chronicle"), [this] { GoTab(TEXT("chron")); });
 	VAct(M, TEXT("Huntwright"), [this] { GoTab(TEXT("hunt")); });
 	VAct(M, TEXT("Guardbreak"), [this] { GoTab(TEXT("guard")); });
+	VAct(M, TEXT("Ashkin (H)"), [this] { GoTab(TEXT("ashkin")); });
 	VAct(M, TEXT("Dash / Glide (C)"), [this] { Dash(); }, true, true);
 }
 
@@ -298,6 +305,7 @@ void UVenturesFeature::OnKey(FName Key)
 	if (Key == FName(TEXT("tether"))) { Tether(); return; }
 	if (Key == FName(TEXT("super"))) { SuperUse(); return; }
 	if (Key == FName(TEXT("dash"))) { Dash(); return; }
+	if (Key == FName(TEXT("ashkin"))) { AshSummon(); return; }
 }
 
 // ---------------------------------------------------------------- helpers
@@ -681,7 +689,7 @@ void UVenturesFeature::RelicFinish(bool bOk)
 
 bool UVenturesFeature::IsVenturePanel(const FString& P)
 {
-	return P.StartsWith(TEXT("ventures")) || P == TEXT("reliquary") || P == TEXT("grafts") || P == TEXT("breach") || P == TEXT("hold") || P == TEXT("hunt") || P == TEXT("guard");
+	return P.StartsWith(TEXT("ventures")) || P == TEXT("reliquary") || P == TEXT("grafts") || P == TEXT("breach") || P == TEXT("hold") || P == TEXT("hunt") || P == TEXT("guard") || P == TEXT("ashkin");
 }
 
 void UVenturesFeature::GoTab(const FString& Tab) const

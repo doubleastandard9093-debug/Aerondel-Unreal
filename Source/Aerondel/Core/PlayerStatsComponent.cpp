@@ -377,6 +377,7 @@ void UPlayerStatsComponent::ApplyPlayerDamage(int32 Amount, AActor* Source)
 	if (Mob && Mob->IsWithered()) Amount = FMath::Max(1, FMath::FloorToInt(Amount * 0.7f));
 	const float Red = (GameTick < WallUntil ? 0.6f : 0.f) + (GameTick < WardUntil ? 0.4f : 0.f); // uncapped (web v21)
 	if (Red > 0.f) Amount = FMath::Max(0, FMath::RoundToInt(Amount * FMath::Max(0.f, 1.f - Red)));
+	Amount = UVenturesFeature::FilterIncoming(this, Amount);
 	S->Health->ApplyDamage(Amount, Source);
 	UVenturesFeature::HookPlayerHurt(this, Amount);
 	if (UEconomyFeature* Econ = UEconomyFeature::Get(this)) Econ->OnPlayerHit();

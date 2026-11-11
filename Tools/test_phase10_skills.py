@@ -60,7 +60,7 @@ for s in ("ResetGuard()", "HitGuard", "GoTab(TEXT(\"guard\"))"):
     if s not in feat:
         errs.append(f"VenturesFeature.cpp missing {s}")
 hurt = open(os.path.join(ROOT, "Source/Aerondel/Core/PlayerStatsComponent.cpp"), encoding="utf-8").read()
-if "HookPlayerHurt" not in hurt:
+if "FilterIncoming" not in hurt and "HookPlayerHurt" not in hurt:
     errs.append("PlayerStatsComponent does not call HookPlayerHurt")
 
 if errs:

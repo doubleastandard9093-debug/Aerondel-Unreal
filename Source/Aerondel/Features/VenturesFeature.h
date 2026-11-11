@@ -195,6 +195,17 @@ public:
 	int32 PlayerPoiseMax() const;
 	/** Called from UPlayerStatsComponent after a landed incoming hit. */
 	static void HookPlayerHurt(const UObject* WorldContext, int32 Amount);
+	/** Flat incoming reduction (Ashkin warder) applied before the hit lands. */
+	static int32 FilterIncoming(const UObject* WorldContext, int32 Amount);
+
+	// ---- group 9: Ashkin (Ventures_Ashkin.cpp) — shared follower cap with later Kinbeasts ----
+	bool AshSummon(const FString& Item = FString());
+	bool AshRecall(const FString& Why = FString(), bool bSilent = false);
+	bool AshCraft(const FString& Id);
+	void AshEquip(const FString& Item);
+	bool AshOut() const;
+	bool KinOut() const;
+	void RecallKin(const FString& Why);
 
 protected:
 	UFUNCTION() void HandleMobKilled(UMobDef* Mob);
@@ -319,6 +330,13 @@ protected:
 	int32 HitGuard(AAerondelMob* Mob, int32 D);
 	void IncomingGuard(int32 Amount);
 	void TabGuard(FGPanelModel& M);
+	// group 9 internals
+	void ResetAsh();
+	void SaveAsh(FJsonObject& A) const;
+	void LoadAsh(const FJsonObject& A);
+	void TickAsh();
+	int32 WardAsh(int32 Amount) const;
+	void TabAsh(FGPanelModel& M);
 
 	// group 1 internals
 	void ResetQuick();
@@ -479,4 +497,13 @@ protected:
 	TMap<TWeakObjectPtr<AAerondelMob>, FGuardPoise> GuardPoise;
 	mutable float PlayerPoise = -1.f;
 	int32 PlayerPoiseCd = 0;
+
+	// Ashkin (web adapt/ashkin.js, save key "ashkin")
+	TArray<FString> AshOwned;
+	FString AshEquipped;
+	int64 AshLastUsedMs = 0;
+	struct FAshLive { FString Item, Style, Name; int64 UntilMs = 0; int32 NextTick = 0; bool bOn = false; };
+	FAshLive AshLive;
+	/** Filled by Kinbeasts later; Ashkin only reads it for the shared follower cap. */
+	bool bKinOut = false;
 };
