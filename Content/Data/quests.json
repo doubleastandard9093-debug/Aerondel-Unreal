@@ -66476,6 +66476,15 @@
    "z": -14.5,
    "town": "Larkhaven",
    "tint": "#a080c8"
+  },
+  "hordewake": {
+   "name": "Wakekeeper Brin",
+   "examine": "She keeps the Hordewake arena. You move; the weapons fire on their own.",
+   "service": "horde",
+   "x": 16,
+   "z": -16,
+   "town": "Larkhaven",
+   "tint": "#c85a4a"
   }
  },
  "towns": [

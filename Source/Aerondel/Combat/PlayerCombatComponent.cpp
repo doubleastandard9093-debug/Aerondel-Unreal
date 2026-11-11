@@ -367,6 +367,7 @@ void UPlayerCombatComponent::BonusHit(AAerondelMob* Mob, const FText& Label)
 void UPlayerCombatComponent::TickComponent(float Dt, ELevelTick TickType, FActorComponentTickFunction* Fn)
 {
 	Super::TickComponent(Dt, TickType, Fn);
+	if (UVenturesFeature* V = UVenturesFeature::Get(GetOwner())) V->TickHordeFire();
 	Cooldown -= Dt;
 	AAerondelMob* Mob = Target.Get();
 	if (!Mob) return;

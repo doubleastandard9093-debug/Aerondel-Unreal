@@ -30,6 +30,9 @@ struct FFacetTrail { TWeakObjectPtr<AAerondelMob> Mob; int64 DueMs = 0; };
 /** Totals from filled Leyweave nodes (web A.leyFx). */
 struct FLeyFx { float LeyGain = 0.f; float WhirlR = 0.f; float GrowSpeed = 0.f; float BuildSpeed = 0.f; float CryCd = 0.f; int32 Stun = 0; int32 CarveWin = 0; };
 
+/** A Hordewake / Ashspire reward card. */
+struct FRunPick { FString T, Id, From, Name, Desc; };
+
 /** Hidden Reliquary cache site (web metres). */
 struct FVentureRelic { int32 Index = 0; FVector2D Pos = FVector2D::ZeroVector; int32 Tier = 1; };
 
@@ -297,6 +300,11 @@ public:
 	bool LeyHas(const FString& Id) const;
 	FLeyFx LeyFx() const;
 
+	// ---- group 17: Hordewake (Ventures_Hordewake.cpp) ----
+	bool HordeStart();
+	bool HordePick(int32 I);
+	void TickHordeFire();
+
 protected:
 	UFUNCTION() void HandleMobKilled(UMobDef* Mob);
 
@@ -505,6 +513,21 @@ protected:
 	void DiedLey(AAerondelMob* Mob, bool bByPlayer);
 	FString LeyDefaultStart() const;
 
+	void ResetHorde();
+	void SaveHorde(FJsonObject& A) const;
+	void LoadHorde(const FJsonObject& A);
+	void TabHorde(FGPanelModel& M);
+	void TickHorde();
+	void HordeFinish(bool bWin);
+	void DiedHorde(AAerondelMob* Mob, bool bByPlayer);
+	void HordeSpawn(int32 N);
+	void HordeDeck();
+	void HordeFire(const FString& Id);
+	void HordeStrike(AAerondelMob* M, float Dmg);
+	AAerondelMob* HordeNearest(float R) const;
+	AAerondelMob* HordeFacing() const;
+	int32 HordeCap() const;
+
 	// group 1 internals
 	void ResetQuick();
 	void SaveQuick(FJsonObject& A) const;
@@ -579,6 +602,23 @@ protected:
 		FVector2D Return = FVector2D(0.0, 10.0);
 		TArray<TWeakObjectPtr<AAerondelMob>> Foes;
 		TWeakObjectPtr<AAerondelMob> Boss;
+		// Hordewake / Deepmarks / Ashspire (live while bOn)
+		int32 Level = 1;
+		int32 Slots = 2;
+		int32 Xp = 0;
+		int32 Haste = 0;
+		int32 Mag = 0;
+		int32 Room = 1;
+		int32 Floor = 1;
+		int32 AshEarned = 0;
+		int64 GoalMs = 0;
+		bool bPaused = false;
+		bool bBound = false;
+		TArray<FString> Weapons;
+		TArray<FString> Mods;
+		TArray<FString> Boons;
+		TArray<FRunPick> Picks;
+		TMap<FString, int64> ShotAt;
 	};
 	FVentureRun Run;
 	struct FTideRegion { FString Name; FVector2D C = FVector2D::ZeroVector; float R = 50.f; FString Camp; FVector2D CampOff = FVector2D::ZeroVector; bool bCamp = false; };
@@ -729,6 +769,12 @@ protected:
 	int32 LeySpent = 0;
 	FString LeyStart;
 	bool bLeyRec = false;
+
+	// Hordewake (web adapt/hordewake.js, save key "horde")
+	int64 HordeBestTime = 0;
+	int32 HordeBestLevel = 0;
+	int32 HordeRuns = 0;
+	TArray<FString> HordeUnlocks;
 };
 
 
