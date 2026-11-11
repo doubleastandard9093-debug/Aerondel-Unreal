@@ -22,7 +22,8 @@
   "Delving",
   "Swordsmanship",
   "Hunter",
-  "Construction"
+  "Construction",
+  "Farming"
  ],
  "perks": {
   "Attack": [
@@ -7782,6 +7783,542 @@
     },
     "milestone": true,
     "desc": "+20 piece cap, +20% support range, repairs resolve 10% faster"
+   }
+  ],
+  "Farming": [
+   {
+    "level": 5,
+    "name": "Green Thumb I",
+    "fx": {
+     "farmYield": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% farm yield"
+   },
+   {
+    "level": 10,
+    "name": "Early Harvest I",
+    "fx": {
+     "growSpeed": 0.05
+    },
+    "milestone": false,
+    "desc": "crops grow 5% faster"
+   },
+   {
+    "level": 15,
+    "name": "Green Thumb II",
+    "fx": {
+     "farmYield": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% farm yield"
+   },
+   {
+    "level": 20,
+    "name": "Early Harvest II",
+    "fx": {
+     "growSpeed": 0.05
+    },
+    "milestone": false,
+    "desc": "crops grow 5% faster"
+   },
+   {
+    "level": 25,
+    "name": "Cropwise",
+    "fx": {
+     "cropQuality": 0.25
+    },
+    "milestone": true,
+    "desc": "+25% crop quality"
+   },
+   {
+    "level": 30,
+    "name": "Early Harvest III",
+    "fx": {
+     "growSpeed": 0.05
+    },
+    "milestone": false,
+    "desc": "crops grow 5% faster"
+   },
+   {
+    "level": 35,
+    "name": "Green Thumb III",
+    "fx": {
+     "farmYield": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% farm yield"
+   },
+   {
+    "level": 40,
+    "name": "Early Harvest IV",
+    "fx": {
+     "growSpeed": 0.05
+    },
+    "milestone": false,
+    "desc": "crops grow 5% faster"
+   },
+   {
+    "level": 45,
+    "name": "Green Thumb IV",
+    "fx": {
+     "farmYield": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% farm yield"
+   },
+   {
+    "level": 50,
+    "name": "Homestead",
+    "fx": {
+     "animalCap": 5
+    },
+    "milestone": true,
+    "desc": "+5 farm animal slots"
+   },
+   {
+    "level": 55,
+    "name": "Green Thumb V",
+    "fx": {
+     "farmYield": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% farm yield"
+   },
+   {
+    "level": 60,
+    "name": "Early Harvest V",
+    "fx": {
+     "growSpeed": 0.05
+    },
+    "milestone": false,
+    "desc": "crops grow 5% faster"
+   },
+   {
+    "level": 65,
+    "name": "Green Thumb VI",
+    "fx": {
+     "farmYield": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% farm yield"
+   },
+   {
+    "level": 70,
+    "name": "Early Harvest VI",
+    "fx": {
+     "growSpeed": 0.05
+    },
+    "milestone": false,
+    "desc": "crops grow 5% faster"
+   },
+   {
+    "level": 75,
+    "name": "Bumper Crop",
+    "fx": {
+     "farmYield": 0.4
+    },
+    "milestone": true,
+    "desc": "+40% farm yield"
+   },
+   {
+    "level": 80,
+    "name": "Early Harvest VII",
+    "fx": {
+     "growSpeed": 0.05
+    },
+    "milestone": false,
+    "desc": "crops grow 5% faster"
+   },
+   {
+    "level": 85,
+    "name": "Green Thumb VII",
+    "fx": {
+     "farmYield": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% farm yield"
+   },
+   {
+    "level": 90,
+    "name": "Early Harvest VIII",
+    "fx": {
+     "growSpeed": 0.05
+    },
+    "milestone": false,
+    "desc": "crops grow 5% faster"
+   },
+   {
+    "level": 95,
+    "name": "Green Thumb VIII",
+    "fx": {
+     "farmYield": 0.05
+    },
+    "milestone": false,
+    "desc": "+5% farm yield"
+   },
+   {
+    "level": 99,
+    "name": "Farming Mastery",
+    "fx": {
+     "farmYield": 0.25,
+     "rareCrop": 0.25
+    },
+    "milestone": true,
+    "desc": "+25% farm yield, +25% chance of a rare crop"
+   },
+   {
+    "level": 100,
+    "name": "Harvestlord",
+    "fx": {
+     "farmYield": 0.1,
+     "rareCrop": 0.05,
+     "animalCap": 5
+    },
+    "milestone": true,
+    "desc": "+10% farm yield, +5% chance of a rare crop, +5 farm animal slots"
+   },
+   {
+    "level": 125,
+    "name": "Farming Prowess I",
+    "fx": {
+     "farmYield": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% farm yield"
+   },
+   {
+    "level": 150,
+    "name": "Farming Prowess II",
+    "fx": {
+     "farmYield": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% farm yield"
+   },
+   {
+    "level": 175,
+    "name": "Farming Prowess III",
+    "fx": {
+     "farmYield": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% farm yield"
+   },
+   {
+    "level": 200,
+    "name": "Greenward",
+    "fx": {
+     "farmYield": 0.111,
+     "rareCrop": 0.0555,
+     "animalCap": 5.5555
+    },
+    "milestone": true,
+    "desc": "+11.1% farm yield, +5.5% chance of a rare crop, +6 farm animal slots"
+   },
+   {
+    "level": 225,
+    "name": "Farming Prowess IV",
+    "fx": {
+     "farmYield": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% farm yield"
+   },
+   {
+    "level": 250,
+    "name": "Farming Prowess V",
+    "fx": {
+     "farmYield": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% farm yield"
+   },
+   {
+    "level": 275,
+    "name": "Farming Prowess VI",
+    "fx": {
+     "farmYield": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% farm yield"
+   },
+   {
+    "level": 300,
+    "name": "Soilking",
+    "fx": {
+     "farmYield": 0.122,
+     "rareCrop": 0.061,
+     "animalCap": 6.111
+    },
+    "milestone": true,
+    "desc": "+12.2% farm yield, +6.1% chance of a rare crop, +6 farm animal slots"
+   },
+   {
+    "level": 325,
+    "name": "Farming Prowess VII",
+    "fx": {
+     "farmYield": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% farm yield"
+   },
+   {
+    "level": 350,
+    "name": "Farming Prowess VIII",
+    "fx": {
+     "farmYield": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% farm yield"
+   },
+   {
+    "level": 375,
+    "name": "Farming Prowess IX",
+    "fx": {
+     "farmYield": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% farm yield"
+   },
+   {
+    "level": 400,
+    "name": "Acremaster",
+    "fx": {
+     "farmYield": 0.1335,
+     "rareCrop": 0.0665,
+     "animalCap": 6.6665
+    },
+    "milestone": true,
+    "desc": "+13.4% farm yield, +6.7% chance of a rare crop, +7 farm animal slots"
+   },
+   {
+    "level": 425,
+    "name": "Farming Prowess X",
+    "fx": {
+     "farmYield": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% farm yield"
+   },
+   {
+    "level": 450,
+    "name": "Farming Prowess XI",
+    "fx": {
+     "farmYield": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% farm yield"
+   },
+   {
+    "level": 475,
+    "name": "Farming Prowess XII",
+    "fx": {
+     "farmYield": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% farm yield"
+   },
+   {
+    "level": 500,
+    "name": "Fieldcrown",
+    "fx": {
+     "farmYield": 0.1445,
+     "rareCrop": 0.072,
+     "animalCap": 7.222
+    },
+    "milestone": true,
+    "desc": "+14.4% farm yield, +7.2% chance of a rare crop, +7 farm animal slots"
+   },
+   {
+    "level": 525,
+    "name": "Farming Prowess XIII",
+    "fx": {
+     "farmYield": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% farm yield"
+   },
+   {
+    "level": 550,
+    "name": "Farming Prowess XIV",
+    "fx": {
+     "farmYield": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% farm yield"
+   },
+   {
+    "level": 575,
+    "name": "Farming Prowess XV",
+    "fx": {
+     "farmYield": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% farm yield"
+   },
+   {
+    "level": 600,
+    "name": "Orchardhand",
+    "fx": {
+     "farmYield": 0.1555,
+     "rareCrop": 0.078,
+     "animalCap": 7.778
+    },
+    "milestone": true,
+    "desc": "+15.6% farm yield, +7.8% chance of a rare crop, +8 farm animal slots"
+   },
+   {
+    "level": 625,
+    "name": "Farming Prowess XVI",
+    "fx": {
+     "farmYield": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% farm yield"
+   },
+   {
+    "level": 650,
+    "name": "Farming Prowess XVII",
+    "fx": {
+     "farmYield": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% farm yield"
+   },
+   {
+    "level": 675,
+    "name": "Farming Prowess XVIII",
+    "fx": {
+     "farmYield": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% farm yield"
+   },
+   {
+    "level": 700,
+    "name": "Barnlord",
+    "fx": {
+     "farmYield": 0.1665,
+     "rareCrop": 0.0835,
+     "animalCap": 8.3335
+    },
+    "milestone": true,
+    "desc": "+16.7% farm yield, +8.3% chance of a rare crop, +8 farm animal slots"
+   },
+   {
+    "level": 725,
+    "name": "Farming Prowess XIX",
+    "fx": {
+     "farmYield": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% farm yield"
+   },
+   {
+    "level": 750,
+    "name": "Farming Prowess XX",
+    "fx": {
+     "farmYield": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% farm yield"
+   },
+   {
+    "level": 775,
+    "name": "Farming Prowess XXI",
+    "fx": {
+     "farmYield": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% farm yield"
+   },
+   {
+    "level": 800,
+    "name": "Seasonwright",
+    "fx": {
+     "farmYield": 0.178,
+     "rareCrop": 0.089,
+     "animalCap": 8.889
+    },
+    "milestone": true,
+    "desc": "+17.8% farm yield, +8.9% chance of a rare crop, +9 farm animal slots"
+   },
+   {
+    "level": 825,
+    "name": "Farming Prowess XXII",
+    "fx": {
+     "farmYield": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% farm yield"
+   },
+   {
+    "level": 850,
+    "name": "Farming Prowess XXIII",
+    "fx": {
+     "farmYield": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% farm yield"
+   },
+   {
+    "level": 875,
+    "name": "Farming Prowess XXIV",
+    "fx": {
+     "farmYield": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% farm yield"
+   },
+   {
+    "level": 900,
+    "name": "Harvestcrown",
+    "fx": {
+     "farmYield": 0.189,
+     "rareCrop": 0.0945,
+     "animalCap": 9.4445
+    },
+    "milestone": true,
+    "desc": "+18.9% farm yield, +9.4% chance of a rare crop, +9 farm animal slots"
+   },
+   {
+    "level": 925,
+    "name": "Farming Prowess XXV",
+    "fx": {
+     "farmYield": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% farm yield"
+   },
+   {
+    "level": 950,
+    "name": "Farming Prowess XXVI",
+    "fx": {
+     "farmYield": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% farm yield"
+   },
+   {
+    "level": 975,
+    "name": "Farming Prowess XXVII",
+    "fx": {
+     "farmYield": 0.02
+    },
+    "milestone": false,
+    "desc": "+2% farm yield"
+   },
+   {
+    "level": 1000,
+    "name": "Farming Ascendant",
+    "fx": {
+     "farmYield": 0.2,
+     "rareCrop": 0.1,
+     "animalCap": 10
+    },
+    "milestone": true,
+    "desc": "+20% farm yield, +10% chance of a rare crop, +10 farm animal slots"
    }
   ]
  },
