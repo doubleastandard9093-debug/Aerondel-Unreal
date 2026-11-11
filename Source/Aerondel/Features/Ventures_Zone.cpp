@@ -192,6 +192,7 @@ void UVenturesFeature::RunEnd(bool bWin)
 	if (Run.Kind == TEXT("breach")) BreachFinish(bWin);
 	if (Run.Kind == TEXT("vigil")) VigilFinish(bWin);
 	if (Run.Kind == TEXT("horde")) HordeFinish(bWin);
+	if (Run.Kind == TEXT("marks")) MarkFinish(bWin);
 	ZonePark();
 	const FString Z = Run.Zone;
 	const FVector2D Back = Run.Return;
@@ -207,7 +208,9 @@ void UVenturesFeature::RunEnd(bool bWin)
 
 float UVenturesFeature::TakenZone() const
 {
-	return Run.bOn && Run.Kind == TEXT("breach") && Run.Mod == TEXT("frenzy") ? 1.3f : 1.f;
+	if (Run.bOn && Run.Kind == TEXT("breach") && Run.Mod == TEXT("frenzy")) return 1.3f;
+	if (InRunKind(TEXT("marks")) && Run.Mods.Contains(TEXT("frenzy"))) return 1.12f;
+	return 1.f;
 }
 
 // ---------------------------------------------------------------- tick / kills
@@ -223,6 +226,7 @@ void UVenturesFeature::TickZone()
 			if (Run.Kind == TEXT("breach")) BreachStep();
 			else if (Run.Kind == TEXT("vigil")) VigilStep();
 			else if (Run.Kind == TEXT("horde")) TickHorde();
+			else if (Run.Kind == TEXT("marks")) TickMark();
 		}
 	}
 	if (TickN % 5 != 0) return;
@@ -494,6 +498,7 @@ void UVenturesFeature::BreachFinish(bool bWin)
 	if (Grade == TEXT("S") || Run.bHard || FMath::FRand() < 0.35f) BonusDrop(nullptr, TEXT("the breach"));
 	BreachClearGear(Run.Mode);
 	ChronBreach();
+	MarkFromBreach(Run.bHard, Grade);
 }
 
 void UVenturesFeature::TabBreach(FGPanelModel& M)

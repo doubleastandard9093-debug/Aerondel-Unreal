@@ -305,6 +305,12 @@ public:
 	bool HordePick(int32 I);
 	void TickHordeFire();
 
+	// ---- group 18: Deepmarks (Ventures_Deepmarks.cpp) ----
+	bool MarkStart(int32 Tier);
+	/** Hush: prayer recovers more slowly inside a Deepmark. */
+	float PrayerRegenMul() const;
+	static float PrayerRegenMul(const UObject* WorldContext);
+
 protected:
 	UFUNCTION() void HandleMobKilled(UMobDef* Mob);
 
@@ -527,6 +533,17 @@ protected:
 	AAerondelMob* HordeNearest(float R) const;
 	AAerondelMob* HordeFacing() const;
 	int32 HordeCap() const;
+
+	void ResetMark();
+	void SaveMark(FJsonObject& A) const;
+	void LoadMark(const FJsonObject& A);
+	void TabMark(FGPanelModel& M);
+	void TickMark();
+	void MarkFinish(bool bWin);
+	void DiedMark(AAerondelMob* Mob, bool bByPlayer);
+	void MarkSpawnRoom();
+	void MarkFromBreach(bool bHard, const FString& Grade);
+	int32 MarkLevelFor(int32 T) const;
 
 	// group 1 internals
 	void ResetQuick();
@@ -775,6 +792,12 @@ protected:
 	int32 HordeBestLevel = 0;
 	int32 HordeRuns = 0;
 	TArray<FString> HordeUnlocks;
+
+	// Deepmarks (web adapt/deepmarks.js, save key "marks")
+	int32 MarkTierUnlocked = 1;
+	TMap<FString, int32> MarkClears;
+	TArray<FString> MarkStash;
+	FString MarkWeekPinn;
 };
 
 

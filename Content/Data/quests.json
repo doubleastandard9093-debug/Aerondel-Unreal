@@ -66485,6 +66485,15 @@
    "z": -16,
    "town": "Larkhaven",
    "tint": "#c85a4a"
+  },
+  "deepmarks": {
+   "name": "Markwarden Sera",
+   "examine": "She tends a climbing ladder of instanced rooms. A Breach clear can leave a low-tier mark.",
+   "service": "marks",
+   "x": 10,
+   "z": -17,
+   "town": "Larkhaven",
+   "tint": "#5a7aaa"
   }
  },
  "towns": [

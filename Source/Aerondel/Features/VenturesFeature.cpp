@@ -127,6 +127,7 @@ void UVenturesFeature::ResetState()
 	ResetFacet();
 	ResetLey();
 	ResetHorde();
+	ResetMark();
 }
 
 void UVenturesFeature::SaveState(FJsonObject& Out) const
@@ -149,6 +150,7 @@ void UVenturesFeature::SaveState(FJsonObject& Out) const
 	SaveFacet(Out);
 	SaveLey(Out);
 	SaveHorde(Out);
+	SaveMark(Out);
 }
 
 void UVenturesFeature::LoadState(const FJsonObject& In)
@@ -172,6 +174,7 @@ void UVenturesFeature::LoadState(const FJsonObject& In)
 	LoadFacet(In);
 	LoadLey(In);
 	LoadHorde(In);
+	LoadMark(In);
 }
 
 void UVenturesFeature::OnGameTick()
@@ -279,6 +282,7 @@ void UVenturesFeature::DiedMore(AAerondelMob* Mob, bool bByPlayer)
 	DiedFacet(Mob, bByPlayer);
 	DiedLey(Mob, bByPlayer);
 	DiedHorde(Mob, bByPlayer);
+	DiedMark(Mob, bByPlayer);
 }
 
 bool UVenturesFeature::BuildTabMore(const FString& Tab, FGPanelModel& M)
@@ -309,6 +313,7 @@ bool UVenturesFeature::BuildTabMore(const FString& Tab, FGPanelModel& M)
 	if (Tab == TEXT("facets")) { TabFacet(M); return true; }
 	if (Tab == TEXT("ley")) { TabLey(M); return true; }
 	if (Tab == TEXT("horde")) { TabHorde(M); return true; }
+	if (Tab == TEXT("marks")) { TabMark(M); return true; }
 	return false;
 }
 
@@ -340,6 +345,7 @@ void UVenturesFeature::OverviewMore(FGPanelModel& M)
 	VAct(M, TEXT("Facets"), [this] { GoTab(TEXT("facets")); });
 	VAct(M, TEXT("Leyweave"), [this] { GoTab(TEXT("ley")); });
 	VAct(M, TEXT("Hordewake"), [this] { GoTab(TEXT("horde")); });
+	VAct(M, TEXT("Deepmarks"), [this] { GoTab(TEXT("marks")); });
 	VAct(M, TEXT("Dash / Glide (C)"), [this] { Dash(); }, true, true);
 }
 
@@ -759,7 +765,7 @@ void UVenturesFeature::RelicFinish(bool bOk)
 
 bool UVenturesFeature::IsVenturePanel(const FString& P)
 {
-	return P.StartsWith(TEXT("ventures")) || P == TEXT("reliquary") || P == TEXT("grafts") || P == TEXT("breach") || P == TEXT("hold") || P == TEXT("hunt") || P == TEXT("guard") || P == TEXT("ashkin") || P == TEXT("vocations") || P == TEXT("cries") || P == TEXT("steads") || P == TEXT("ties") || P == TEXT("green") || P == TEXT("facets") || P == TEXT("ley") || P == TEXT("horde");
+	return P.StartsWith(TEXT("ventures")) || P == TEXT("reliquary") || P == TEXT("grafts") || P == TEXT("breach") || P == TEXT("hold") || P == TEXT("hunt") || P == TEXT("guard") || P == TEXT("ashkin") || P == TEXT("vocations") || P == TEXT("cries") || P == TEXT("steads") || P == TEXT("ties") || P == TEXT("green") || P == TEXT("facets") || P == TEXT("ley") || P == TEXT("horde") || P == TEXT("marks");
 }
 
 void UVenturesFeature::GoTab(const FString& Tab) const

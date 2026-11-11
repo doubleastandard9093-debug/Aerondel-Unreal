@@ -107,7 +107,7 @@ void UPlayerStatsComponent::GameTickFn()
 		if (PrayerPoints <= 0.f) { ActivePrayers.Reset(); Msg(LOCTEXT("PrayerOut", "You have run out of prayer points. Recharge them at an altar.")); }
 		bDirty = true;
 	}
-	const float PpRegen = UAerondelRules::Perk(S, TEXT("prayer"), TEXT("ppRegen")) + UAerondelRules::QuestFx(S, TEXT("ppRegen"));
+	const float PpRegen = (UAerondelRules::Perk(S, TEXT("prayer"), TEXT("ppRegen")) + UAerondelRules::QuestFx(S, TEXT("ppRegen"))) * UVenturesFeature::PrayerRegenMul(this);
 	const float PpMax = UAerondelRules::MaxPrayerPoints(S);
 	if (PpRegen > 0.f && PrayerPoints < PpMax) { PrayerPoints = FMath::Min(PpMax, PrayerPoints + PpRegen); bDirty = true; }
 	// Effect timers.
