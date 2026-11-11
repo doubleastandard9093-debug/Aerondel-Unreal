@@ -265,6 +265,20 @@ FGatherResult UAerondelRules::GatherAttempt(const AAerondelPlayerState* PS, cons
 	return R;
 }
 
+UItemDef* UAerondelRules::MineSideDrop(const UItemDef* OreItem)
+{
+	if (!OreItem) return nullptr;
+	const FString N = OreItem->DisplayName.ToString();
+	if (N.IsEmpty() || N.Contains(TEXT("essence"), ESearchCase::IgnoreCase) || N == TEXT("Glyph essence") || N == TEXT("Clear essence")) return nullptr;
+	const float R = Rand();
+	const TCHAR* Name = nullptr;
+	if (R < 0.04f) Name = TEXT("Stone slab");
+	else if (R < 0.14f) Name = TEXT("Limestone");
+	else return nullptr;
+	return Db() ? Db()->FindItem(UAerondelFeature::Id(Name)) : nullptr;
+}
+
+
 float UAerondelRules::BurnChance(const AAerondelPlayerState* PS, int32 BurnStop, int32 RecipeLevel)
 {
 	if (BurnStop <= 0) return 0.f;
