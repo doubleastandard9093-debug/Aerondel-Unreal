@@ -45,7 +45,7 @@ namespace VenturesData
 		{ TEXT("Emberglow"), 0xc0401a }, { TEXT("Rimefrost"), 0xa8d8f0 }, { TEXT("Mossbank"), 0x4a7a3a }, { TEXT("Duskviolet"), 0x5a3a8a },
 		{ TEXT("Saltwhite"), 0xe8e4d8 }, { TEXT("Ironsoot"), 0x2a2a2e }, { TEXT("Goldleaf"), 0xd4a830 }, { TEXT("Tidewater"), 0x2a6a8a },
 		{ TEXT("Bloodroot"), 0x7a1a24 }, { TEXT("Ashgrey"), 0x7a7a78 }, { TEXT("Sunflax"), 0xe0c870 }, { TEXT("Nightjet"), 0x14141c } };
-	static const TCHAR* LookSlots[] = { TEXT("head"), TEXT("body"), TEXT("legs"), TEXT("shield"), TEXT("cape") };
+	static const TCHAR* LookSlots[] = { TEXT("head"), TEXT("body"), TEXT("legs"), TEXT("shield"), TEXT("cape"), TEXT("weapon") };
 
 	// Towns in world.json order (web metres).
 	struct FTown { const TCHAR* Name; float X; float Z; };
@@ -467,7 +467,7 @@ void UVenturesFeature::LoadQuick(const FJsonObject& A)
 		for (const auto& E : D) for (const FDye& Dy : VenturesData::Dyes) if (E.Value == Dy.Name) Dyes.Add(E.Key, E.Value);
 		const TArray<TSharedPtr<FJsonValue>>* Arr = nullptr;
 		if (W->TryGetArrayField(TEXT("outfits"), Arr) && Arr)
-			for (int32 i = 0; i < FMath::Min(3, Arr->Num()); ++i)
+			for (int32 i = 0; i < FMath::Min(LookPlateCount, Arr->Num()); ++i)
 			{
 				const TSharedPtr<FJsonValue>& V = (*Arr)[i];
 				if (!V.IsValid() || V->Type != EJson::Object) continue;
@@ -519,7 +519,7 @@ void UVenturesFeature::TickQuick()
 					{
 						if (S.IsEmpty()) continue;
 						const EEquipSlot E = S.Item->EquipSlot;
-						if (E == EEquipSlot::Head || E == EEquipSlot::Body || E == EEquipSlot::Legs || E == EEquipSlot::Shield || E == EEquipSlot::Cape) Cx->MarkSeen(S.Item->DisplayName.ToString());
+						if (E == EEquipSlot::Head || E == EEquipSlot::Body || E == EEquipSlot::Legs || E == EEquipSlot::Shield || E == EEquipSlot::Cape || E == EEquipSlot::Weapon) Cx->MarkSeen(S.Item->DisplayName.ToString());
 					}
 	// Reliquary seal timer.
 	if (Puz.bOn && NowMs() > Puz.EndMs) RelicFinish(false);
@@ -599,6 +599,25 @@ void UVenturesFeature::WardrobeApply(const FVentureOutfit& O)
 		for (const TCHAR* S : LookSlots) { const FString* L = O.Looks.Find(S); Cx->SetLook(S, L ? *L : FString()); }
 	Dyes = O.Dyes;
 }
+
+bool UVenturesFeature::WardrobeSavePlate(int32 Index)
+{
+	if (Index < 0 || Index >= LookPlateCount) return false;
+	FVentureOutfit O; O.bUsed = true; O.Dyes = Dyes;
+	if (UStableCodexFeature* C = Feature<UStableCodexFeature>()) for (const TCHAR* S : LookSlots) { const FString L = C->GetLook(S); if (!L.IsEmpty()) O.Looks.Add(S, L); }
+	Outfits[Index] = O;
+	Say(FString::Printf(TEXT("Lookplate %d saved."), Index + 1));
+	return true;
+}
+
+bool UVenturesFeature::WardrobeApplyPlate(int32 Index)
+{
+	if (Index < 0 || Index >= LookPlateCount || !Outfits[Index].bUsed) return false;
+	WardrobeApply(Outfits[Index]);
+	Say(FString::Printf(TEXT("You apply Lookplate %d."), Index + 1));
+	return true;
+}
+
 
 // ---------------------------------------------------------------- Wayfarer's Ledger
 
@@ -734,7 +753,7 @@ void UVenturesFeature::TabOverview(FGPanelModel& M)
 	M.Lines.Add(FString::Printf(TEXT("Your Ventures bonuses: +%s damage, +%s accuracy, %s less damage taken, +%s XP."),
 		*Pct(DamageDealtBonus(nullptr)), *Pct(AccuracyBonus(nullptr)), *Pct(FMath::Clamp(SumDr(nullptr), 0.f, CapDr)), *Pct(XpBonus(TEXT("attack")))));
 	struct FT { const TCHAR* Id; const TCHAR* Name; };
-	static const FT T[] = { { TEXT("flare"), TEXT("Overflare (U)") }, { TEXT("wardrobe"), TEXT("Wardrobe") }, { TEXT("ledger"), TEXT("Wayfarer's Ledger") }, { TEXT("reliq"), TEXT("Hidden Reliquaries") } };
+	static const FT T[] = { { TEXT("flare"), TEXT("Overflare (U)") }, { TEXT("wardrobe"), TEXT("Lookplates") }, { TEXT("ledger"), TEXT("Wayfarer's Ledger") }, { TEXT("reliq"), TEXT("Hidden Reliquaries") } };
 	for (const FT& X : T) { const FString Id = X.Id; VAct(M, X.Name, [this, Id] { GoTab(Id); }); }
 	OverviewMore(M);
 }
@@ -753,9 +772,9 @@ void UVenturesFeature::TabFlare(FGPanelModel& M)
 
 void UVenturesFeature::TabWardrobe(FGPanelModel& M)
 {
-	M.Title = TEXT("Kitbash Wardrobe");
-	M.Lines.Add(TEXT("Show any armour you have owned or worn over your real gear, and dye each slot. Stats always come from your real gear."));
-	M.Lines.Add(TEXT("The body dye tints your whole figure; other slot dyes are kept for outfits."));
+	M.Title = TEXT("Lookplates");
+	M.Lines.Add(TEXT("Show any armour or weapon you have owned or worn over your real gear, dye each slot, and save up to 8 Lookplates. Apply a plate in one go. Stats always come from your real gear."));
+	M.Lines.Add(TEXT("The body dye tints your whole figure; other slot dyes are kept for plates."));
 	UStableCodexFeature* Cx = Feature<UStableCodexFeature>();
 	for (const TCHAR* Slot : LookSlots)
 	{
@@ -771,7 +790,7 @@ void UVenturesFeature::TabWardrobe(FGPanelModel& M)
 			for (const FString& I : C->GetSeen()) if (const UItemDef* Def = Db->FindItem(Id(I)))
 			{
 				const EEquipSlot E = Def->EquipSlot;
-				const bool bOk = (S == TEXT("head") && E == EEquipSlot::Head) || (S == TEXT("body") && E == EEquipSlot::Body) || (S == TEXT("legs") && E == EEquipSlot::Legs) || (S == TEXT("shield") && E == EEquipSlot::Shield) || (S == TEXT("cape") && E == EEquipSlot::Cape);
+				const bool bOk = (S == TEXT("head") && E == EEquipSlot::Head) || (S == TEXT("body") && E == EEquipSlot::Body) || (S == TEXT("legs") && E == EEquipSlot::Legs) || (S == TEXT("shield") && E == EEquipSlot::Shield) || (S == TEXT("cape") && E == EEquipSlot::Cape) || (S == TEXT("weapon") && E == EEquipSlot::Weapon);
 				if (bOk) List.Add(I);
 			}
 			if (List.Num() == 0) { Say(TEXT("No looks unlocked for that slot yet.")); return; }
@@ -786,16 +805,16 @@ void UVenturesFeature::TabWardrobe(FGPanelModel& M)
 		});
 		VAct(M, FString::Printf(TEXT("%s: real gear, no dye"), *S), [this, S] { if (UStableCodexFeature* C = Feature<UStableCodexFeature>()) C->SetLook(S, FString()); Dyes.Remove(S); });
 	}
-	for (int32 i = 0; i < 3; ++i)
+	for (int32 i = 0; i < LookPlateCount; ++i)
 	{
-		M.Lines.Add(FString::Printf(TEXT("Outfit %d: %s"), i + 1, Outfits[i].bUsed ? *FString::Printf(TEXT("%d looks, %d dyes"), Outfits[i].Looks.Num(), Outfits[i].Dyes.Num()) : TEXT("empty")));
-		VAct(M, FString::Printf(TEXT("Save outfit %d"), i + 1), [this, i]
+		M.Lines.Add(FString::Printf(TEXT("Lookplate %d: %s"), i + 1, Outfits[i].bUsed ? *FString::Printf(TEXT("%d looks, %d dyes"), Outfits[i].Looks.Num(), Outfits[i].Dyes.Num()) : TEXT("empty")));
+		VAct(M, FString::Printf(TEXT("Save Lookplate %d"), i + 1), [this, i]
 		{
 			FVentureOutfit O; O.bUsed = true; O.Dyes = Dyes;
 			if (UStableCodexFeature* C = Feature<UStableCodexFeature>()) for (const TCHAR* S : LookSlots) { const FString L = C->GetLook(S); if (!L.IsEmpty()) O.Looks.Add(S, L); }
-			Outfits[i] = O; Say(FString::Printf(TEXT("Outfit %d saved."), i + 1));
+			Outfits[i] = O; Say(FString::Printf(TEXT("Lookplate %d saved."), i + 1));
 		});
-		VAct(M, FString::Printf(TEXT("Wear outfit %d"), i + 1), [this, i] { WardrobeApply(Outfits[i]); Say(FString::Printf(TEXT("You change into outfit %d."), i + 1)); }, Outfits[i].bUsed);
+		VAct(M, FString::Printf(TEXT("Apply Lookplate %d"), i + 1), [this, i] { WardrobeApplyPlate(i); }, Outfits[i].bUsed);
 	}
 }
 

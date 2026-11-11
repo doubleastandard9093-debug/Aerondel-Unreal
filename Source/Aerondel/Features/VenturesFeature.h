@@ -11,7 +11,7 @@ struct FGPanelModel;
 /** One Overflare ultimate per weapon family (web adapt/overflare.js ULTS). */
 struct FVentureUlt { const TCHAR* Key; const TCHAR* Name; int32 Hits; float Bonus; float Radius; };
 
-/** A saved Kitbash Wardrobe outfit: slot -> look item, slot -> dye name. */
+/** A saved Lookplate (Kitbash Wardrobe): slot -> look item, slot -> dye name. Up to 8 plates, including weapons. */
 struct FVentureOutfit { bool bUsed = false; TMap<FString, FString> Looks; TMap<FString, FString> Dyes; };
 
 /** Hidden Reliquary cache site (web metres). */
@@ -35,6 +35,7 @@ public:
 	static constexpr float CapXp = 1.f;
 	static constexpr int32 FlareBuffTicks = 10;
 	static constexpr int32 RodPrice = 150;
+	static constexpr int32 LookPlateCount = 8;
 
 	virtual void Initialize(FSubsystemCollectionBase& Collection) override;
 	virtual FString GetSaveKey() const override { return TEXT("adapt"); }
@@ -90,6 +91,8 @@ public:
 	// ---- Kitbash Wardrobe ----
 	/** Body dye colour for the rig tint (single mesh, so only the body slot shows). */
 	static bool BodyDye(const UObject* WorldContext, FLinearColor& Out);
+	bool WardrobeSavePlate(int32 Index);
+	bool WardrobeApplyPlate(int32 Index);
 
 	// ---- Wayfarer's Ledger ----
 	int32 LedgerCount() const { return Souls.Num() + Rares.Num() + Lore.Num() + Trinkets.Num(); }
@@ -366,7 +369,7 @@ protected:
 
 	// Wardrobe
 	TMap<FString, FString> Dyes;
-	FVentureOutfit Outfits[3];
+	FVentureOutfit Outfits[LookPlateCount];
 
 	// Ledger
 	TArray<FString> Souls, Rares, Lore, Trinkets;

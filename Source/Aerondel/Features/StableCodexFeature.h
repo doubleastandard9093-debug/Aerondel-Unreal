@@ -15,7 +15,7 @@ struct FCodexMount
 };
 
 /** Stable Codex (WoW round): every mount in one list, Skyrook flights between the five roosts (straight arc, 34 m/s,
- *  26 m high, min 2.5 s), and a wardrobe that overrides the look of head/body/legs/shield/cape with any item seen. */
+ *  26 m high, min 2.5 s), and a wardrobe that overrides the look of head/body/legs/shield/cape/weapon with any item seen. */
 UCLASS()
 class AERONDEL_API UStableCodexFeature : public UAerondelFeature
 {
@@ -34,7 +34,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category="Aerondel|Codex") bool StartFlight(const FString& Roost);
 	UFUNCTION(BlueprintPure, Category="Aerondel|Codex") static float FlightSeconds(float DistanceM) { return FMath::Max(2.5f, DistanceM / 34.f); }
 	UFUNCTION(BlueprintCallable, Category="Aerondel|Codex") void MarkSeen(const FString& Item) { if (Seen.Num() < 400) Seen.AddUnique(Item); }
-	/** Slot: head, body, legs, shield, cape. Empty item clears the look. */
+	/** Slot: head, body, legs, shield, cape, weapon. Empty item clears the look. Stats always come from real gear. */
 	UFUNCTION(BlueprintCallable, Category="Aerondel|Codex") bool SetLook(const FString& Slot, const FString& Item);
 	const TArray<FString>& GetSeen() const { return Seen; }
 	UFUNCTION(BlueprintPure, Category="Aerondel|Codex") FString GetLook(const FString& Slot) const { const FString* L = Looks.Find(Slot); return L ? *L : FString(); }
