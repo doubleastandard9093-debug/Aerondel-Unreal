@@ -66593,6 +66593,15 @@
    "z": -18,
    "town": "Larkhaven",
    "tint": "#8a6a3a"
+  },
+  "skywyrms": {
+   "name": "Wyrmwatcher Cald",
+   "examine": "Now and then a Skywyrm is sighted over the high wilds. You can go to it or let it pass. It is one foe, not a Colossus, and not Ashwyrm on the Contested Wilds route. A kill yields a soul for the veil bench, and a little Hunter or Prayer. There is never more than one sighting at a time.",
+   "service": "wyrms",
+   "x": 29,
+   "z": -20,
+   "town": "Larkhaven",
+   "tint": "#6a8a4a"
   }
  },
  "towns": [

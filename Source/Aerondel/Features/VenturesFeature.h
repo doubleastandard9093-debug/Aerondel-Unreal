@@ -459,6 +459,19 @@ public:
 	bool CampTake(const FString& Item, int32 N = 1);
 	bool CampAdd(const FString& Kind);
 
+	// ---- group 31: Skywyrms (Ventures_Skywyrms.cpp) — optional wild flyers; not a Colossus, not Ashwyrm ----
+	int32 WyrmSouls() const;
+	int32 WyrmGrantSoul(int32 N = 1);
+	bool WyrmSpendSoul(int32 N = 1);
+	bool WyrmOffer();
+	bool WyrmPass();
+	bool WyrmFight();
+	bool WyrmGo();
+	bool WyrmLeave();
+	bool WyrmActive() const;
+	bool WyrmOffered() const { return bWyrmOffered; }
+
+
 
 
 
@@ -795,6 +808,16 @@ protected:
 	void LoadCamp(const FJsonObject& A);
 	void TabCamp(FGPanelModel& M);
 
+	void ResetWyrms();
+	void SaveWyrms(FJsonObject& A) const;
+	void LoadWyrms(const FJsonObject& A);
+	void TabWyrms(FGPanelModel& M);
+	void TickWyrm();
+	void DiedWyrm(AAerondelMob* Mob, bool bByPlayer);
+	void WyrmClearLive();
+	int32 WyrmPickRegion() const;
+
+
 
 
 
@@ -1126,6 +1149,15 @@ protected:
 	float CampX = 0.f, CampZ = 0.f;
 	TMap<FString, int32> CampChest;
 	TArray<FString> CampPieces;
+
+	// Skywyrms (web adapt/skywyrms.js, save key "wyrms")
+	int32 WyrmSeen = 0, WyrmSoulCount = 0, WyrmBest = 0;
+	int64 WyrmLast = 0, WyrmNext = 0, WyrmOfferUntil = 0, WyrmFightStart = 0;
+	bool bWyrmOffered = false;
+	int32 WyrmRegion = -1;
+	TWeakObjectPtr<AAerondelMob> WyrmLive;
+	TWeakObjectPtr<AAerondelMob> WyrmAtt;
+
 
 
 
