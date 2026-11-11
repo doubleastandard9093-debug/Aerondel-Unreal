@@ -120,6 +120,7 @@ void UVenturesFeature::ResetState()
 	ResetGuard();
 	ResetAsh();
 	ResetVoc();
+	ResetCry();
 }
 
 void UVenturesFeature::SaveState(FJsonObject& Out) const
@@ -135,6 +136,7 @@ void UVenturesFeature::SaveState(FJsonObject& Out) const
 	SaveGuard(Out);
 	SaveAsh(Out);
 	SaveVoc(Out);
+	SaveCry(Out);
 }
 
 void UVenturesFeature::LoadState(const FJsonObject& In)
@@ -151,6 +153,7 @@ void UVenturesFeature::LoadState(const FJsonObject& In)
 	LoadGuard(In);
 	LoadAsh(In);
 	LoadVoc(In);
+	LoadCry(In);
 }
 
 void UVenturesFeature::OnGameTick()
@@ -275,6 +278,7 @@ bool UVenturesFeature::BuildTabMore(const FString& Tab, FGPanelModel& M)
 	if (Tab == TEXT("guard")) { TabGuard(M); return true; }
 	if (Tab == TEXT("ashkin")) { TabAsh(M); return true; }
 	if (Tab == TEXT("vocations")) { TabVoc(M); return true; }
+	if (Tab == TEXT("cries")) { TabCry(M); return true; }
 	return false;
 }
 
@@ -299,6 +303,7 @@ void UVenturesFeature::OverviewMore(FGPanelModel& M)
 	VAct(M, TEXT("Guardbreak"), [this] { GoTab(TEXT("guard")); });
 	VAct(M, TEXT("Ashkin (H)"), [this] { GoTab(TEXT("ashkin")); });
 	VAct(M, TEXT("Vocations"), [this] { GoTab(TEXT("vocations")); });
+	VAct(M, TEXT("Wordcries (;)"), [this] { GoTab(TEXT("cries")); });
 	VAct(M, TEXT("Dash / Glide (C)"), [this] { Dash(); }, true, true);
 }
 
@@ -315,6 +320,7 @@ void UVenturesFeature::OnKey(FName Key)
 	if (Key == FName(TEXT("super"))) { SuperUse(); return; }
 	if (Key == FName(TEXT("dash"))) { Dash(); return; }
 	if (Key == FName(TEXT("ashkin"))) { AshSummon(); return; }
+	if (Key == FName(TEXT("wordcry"))) { CryUse(); return; }
 }
 
 // ---------------------------------------------------------------- helpers
@@ -717,7 +723,7 @@ void UVenturesFeature::RelicFinish(bool bOk)
 
 bool UVenturesFeature::IsVenturePanel(const FString& P)
 {
-	return P.StartsWith(TEXT("ventures")) || P == TEXT("reliquary") || P == TEXT("grafts") || P == TEXT("breach") || P == TEXT("hold") || P == TEXT("hunt") || P == TEXT("guard") || P == TEXT("ashkin") || P == TEXT("vocations");
+	return P.StartsWith(TEXT("ventures")) || P == TEXT("reliquary") || P == TEXT("grafts") || P == TEXT("breach") || P == TEXT("hold") || P == TEXT("hunt") || P == TEXT("guard") || P == TEXT("ashkin") || P == TEXT("vocations") || P == TEXT("cries");
 }
 
 void UVenturesFeature::GoTab(const FString& Tab) const

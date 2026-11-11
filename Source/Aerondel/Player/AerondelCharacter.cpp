@@ -103,7 +103,7 @@ void AAerondelCharacter::SetupPlayerInputComponent(UInputComponent* Input)
 	if (EIC)
 	{
 		BuildVentureKeys();
-		static const TCHAR* Names[] = { TEXT("overflare"), TEXT("ventures"), TEXT("tether"), TEXT("super"), TEXT("dash"), TEXT("settings"), TEXT("ashkin") };
+		static const TCHAR* Names[] = { TEXT("overflare"), TEXT("ventures"), TEXT("tether"), TEXT("super"), TEXT("dash"), TEXT("settings"), TEXT("ashkin"), TEXT("wordcry") };
 		for (int32 i = 0; i < VentureActions.Num() && i < UE_ARRAY_COUNT(Names); ++i)
 		{
 			const FName K(Names[i]);
@@ -256,6 +256,10 @@ void AAerondelCharacter::BuildVentureKeys()
 	Ash->ValueType = EInputActionValueType::Boolean;
 	VentureActions.Add(Ash);
 	VentureContext->MapKey(Ash, EKeys::H);
+	UInputAction* Cry = NewObject<UInputAction>(this, FName(TEXT("IA_Wordcry")));
+	Cry->ValueType = EInputActionValueType::Boolean;
+	VentureActions.Add(Cry);
+	VentureContext->MapKey(Cry, EKeys::Semicolon);
 }
 
 void AAerondelCharacter::OnVentureKey(FName Key)

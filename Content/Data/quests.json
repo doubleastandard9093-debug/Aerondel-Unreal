@@ -66426,6 +66426,38 @@
    "x": 16,
    "z": -13,
    "tint": "#4a3a2a"
+  },
+  "crystone_stormheave": {
+   "name": "Stormheave cry-stone",
+   "examine": "A weathered cry-stone. The word Storm is cut shallowest.",
+   "service": "cries",
+   "x": 36,
+   "z": -70,
+   "tint": "#c8d0e0"
+  },
+  "crystone_rimehold": {
+   "name": "Rimehold cry-stone",
+   "examine": "A weathered cry-stone. The word Rime is cut shallowest.",
+   "service": "cries",
+   "x": -42,
+   "z": -92,
+   "tint": "#a8d8f0"
+  },
+  "crystone_windstride": {
+   "name": "Windstride cry-stone",
+   "examine": "A weathered cry-stone. The word Wind is cut shallowest.",
+   "service": "cries",
+   "x": 88,
+   "z": 18,
+   "tint": "#d0e8c8"
+  },
+  "crystone_heartencry": {
+   "name": "Heartencry cry-stone",
+   "examine": "A weathered cry-stone. The word Heart is cut shallowest.",
+   "service": "cries",
+   "x": 48,
+   "z": -48,
+   "tint": "#f0d080"
   }
  },
  "towns": [

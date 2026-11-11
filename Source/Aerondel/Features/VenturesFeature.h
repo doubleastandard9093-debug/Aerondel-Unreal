@@ -60,7 +60,7 @@ public:
 	/** Panel content for "ventures" / "ventures_<tab>" and the Ventures NPC services. False when the panel is not ours. */
 	bool BuildPanel(const FString& Panel, FGPanelModel& M);
 	static bool IsVenturePanel(const FString& Panel);
-	/** Keyboard: overflare (U), tether (L), super (N), dash (C). J (hub) is handled by the character/HUD. */
+	/** Keyboard: overflare (U), tether (L), super (N), dash (C), ashkin (H), wordcry (;). J (hub) is handled by the character/HUD. */
 	void OnKey(FName Key);
 
 	// ---- shared helpers (web A.*) ----
@@ -222,6 +222,12 @@ public:
 	/** Ley Focus: the next spell spends no runes. */
 	static bool ConsumeVocFocus(const UObject* WorldContext);
 
+	// ---- group 11: Wordcries (Ventures_Wordcries.cpp) ----
+	bool CryLearn(const FString& Id);
+	bool CryUse(const FString& Id = FString());
+	bool CryEquip(const FString& Id);
+	int32 CryWordsOf(const FString& Id) const;
+
 protected:
 	UFUNCTION() void HandleMobKilled(UMobDef* Mob);
 
@@ -365,6 +371,14 @@ protected:
 	void VocHop(float Back, float Right);
 	bool ConsumeVocFocus();
 	void TabVoc(FGPanelModel& M);
+
+	// group 11 internals
+	void ResetCry();
+	void SaveCry(FJsonObject& A) const;
+	void LoadCry(const FJsonObject& A);
+	int32 CryIncoming(int32 Amount) const;
+	bool CryNear(const FString& Id, float& Dist) const;
+	void TabCry(FGPanelModel& M);
 
 	// group 1 internals
 	void ResetQuick();
@@ -550,5 +564,13 @@ protected:
 	bool bVocCantProc = false;
 	TMap<FString, int32> VocCd;
 	TWeakObjectPtr<AAerondelMob> VocReadMob;
+
+	// Wordcries (web adapt/wordcries.js, save key "cries")
+	TMap<FString, int32> CryWords;
+	FString CryEquipped;
+	int32 CryUses = 0;
+	int64 CryLastMs = 0;
+	int32 CryValorUntil = 0;
 };
+
 

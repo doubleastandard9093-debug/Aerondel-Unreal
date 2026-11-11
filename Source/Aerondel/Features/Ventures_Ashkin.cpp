@@ -173,6 +173,7 @@ int32 UVenturesFeature::FilterIncoming(const UObject* WorldContext, int32 Amount
 	if (!V) return Amount;
 	Amount = V->WardAsh(Amount);
 	Amount = V->VocIncoming(Amount);
+	Amount = V->CryIncoming(Amount);
 	return Amount;
 }
 
