@@ -1,4 +1,5 @@
 #include "Features/SkywingFeature.h"
+#include "Features/VenturesFeature.h"
 #include "Features/StandingFeature.h"
 #include "Core/AerondelPlayerState.h"
 #include "Core/PlayerStatsComponent.h"
@@ -17,6 +18,7 @@ bool USkywingFeature::CheckUnlock()
 bool USkywingFeature::ToggleFlight()
 {
 	if (!CheckUnlock()) { Say(TEXT("Skywing needs Agility 70 and Exalted standing with a faction.")); return false; }
+	if (!bFlying) if (const UVenturesFeature* V = UVenturesFeature::Get(this)) if (V->OathOn()) { Say(TEXT("The Oathframe cannot Skywing. Step out first.")); return false; }
 	bFlying = !bFlying;
 	if (bFlying) { ++Flights; HeightM = CruiseM; }
 	return true;

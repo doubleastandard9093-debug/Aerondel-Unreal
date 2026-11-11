@@ -6436,6 +6436,76 @@
    "value": 8,
    "type": "resource",
    "special": "Cut stone for Freeframe walls and reinforced plates. Crafted from limestone or found while mining."
+  },
+  "Longhaft kit": {
+   "value": 40,
+   "type": "kit",
+   "special": "A little more melee reach, a little slower. Not a damage bonus. Fit it to a worn melee weapon at Kitwright Osha."
+  },
+  "Hush-string kit": {
+   "value": 40,
+   "type": "kit",
+   "special": "A quieter setup and a little less ranged reach. Fit it to a worn ranged weapon at Kitwright Osha."
+  },
+  "Lamp-rim kit": {
+   "value": 40,
+   "type": "kit",
+   "special": "A short cone of light. On Low this is a pip, not a new mesh or lamp draw."
+  },
+  "Padded collar kit": {
+   "value": 50,
+   "type": "kit",
+   "special": "A little more player poise. Ordinary scratches still will not stagger you."
+  },
+  "Watch-sight kit": {
+   "value": 55,
+   "type": "kit",
+   "special": "Stillwatch focus fills a little faster. It does not add damage."
+  },
+  "Ash-thread kit": {
+   "value": 30,
+   "type": "kit",
+   "special": "A little more player poise, less than a padded collar. A Seasonboard schematic. Not a damage bonus."
+  },
+  "Waycamp kit": {
+   "value": 80,
+   "type": "kit",
+   "special": "A packed camp you can set down in the wild and pack up again. One at a time. Not in a town, not on Greenstead, not on Claimridge."
+  },
+  "Ridgewalk soles": {
+   "value": 200,
+   "type": "gear",
+   "special": "A wandering-vendor pair. While you carry them, climbing drains a little less run energy. Not a damage bonus."
+  },
+  "Season flask": {
+   "value": 40,
+   "type": "drink",
+   "special": "A flask from Waresmith Ryn. Drink it to help thirst when Hardroad is on."
+  },
+  "Wildmark tonic": {
+   "value": 40,
+   "type": "tonic",
+   "special": "A drafted tonic. Drink it from Ventures → Wildmarks to take one mark, if you have room."
+  },
+  "Mark-hush tonic": {
+   "value": 30,
+   "type": "tonic",
+   "special": "Quiets every Wildmark you carry for a short time. They stay on you."
+  },
+  "Mark-clear tonic": {
+   "value": 55,
+   "type": "tonic",
+   "special": "Lifts one Wildmark. Ysolde's quirk remedy will not do this."
+  },
+  "Ash-totem": {
+   "value": 35,
+   "type": "kit",
+   "special": "A carved totem. Use it in the wilds to gather or begin an Ashfall. It will not fire on a town, Greenstead or Claimridge."
+  },
+  "Ash crystal": {
+   "value": 60,
+   "type": "resource",
+   "special": "A rare crystal that can appear during an Ashfall. Not a Sealed Geode."
   }
  },
  "metals": [

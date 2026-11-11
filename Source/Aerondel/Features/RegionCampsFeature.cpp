@@ -1,4 +1,5 @@
 #include "Features/RegionCampsFeature.h"
+#include "Features/VenturesFeature.h"
 #include "Combat/AerondelMob.h"
 #include "Data/GameDatabase.h"
 #include "Data/ContentDefs.h"
@@ -53,8 +54,10 @@ void URegionCampsFeature::Raise(FCamp& C)
 	if (!W || !Db) return;
 	for (const FCampMob& M : C.Mobs)
 	{
-		UMobDef* Def = Db->FindMob(Id(M.Type));
-		if (!Def) { UE_LOG(LogTemp, Warning, TEXT("[Aerondel] RegionCamps: no mob '%s' (%s)"), *M.Type, *C.Name); continue; }
+		FString Type = M.Type;
+		if (const UVenturesFeature* V = UVenturesFeature::Get(this)) Type = V->AshSwapName(Type, M.Pos.X, M.Pos.Y);
+		UMobDef* Def = Db->FindMob(Id(Type));
+		if (!Def) { UE_LOG(LogTemp, Warning, TEXT("[Aerondel] RegionCamps: no mob '%s' (%s)"), *Type, *C.Name); continue; }
 		FVector At = WebToWorld(M.Pos.X, M.Pos.Y);
 		FHitResult Hit;
 		if (W->LineTraceSingleByChannel(Hit, WebToWorld(M.Pos.X, M.Pos.Y, 200.0), WebToWorld(M.Pos.X, M.Pos.Y, -200.0), ECC_Visibility)) At = Hit.ImpactPoint;
@@ -65,6 +68,7 @@ void URegionCampsFeature::Raise(FCamp& C)
 		A->Definition = Def;
 		A->WanderRadius = FMath::Max(100.f, M.Roam * 100.f); // web metres -> cm
 		A->FinishSpawning(Xf);
+		if (UVenturesFeature* V = UVenturesFeature::Get(this)) V->AshMarkMob(A);
 		C.Live.Add(A);
 	}
 }

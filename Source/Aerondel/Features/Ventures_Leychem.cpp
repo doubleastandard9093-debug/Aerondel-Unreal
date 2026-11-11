@@ -160,7 +160,7 @@ void UVenturesFeature::TickChem()
 	if (LeyIsRain())
 	{
 		TArray<FLeyFire> List; LeyFires.GenerateValueArray(List);
-		for (const FLeyFire& F : List) if (FMath::FRand() < 0.7f) LeyExtinguish(F.X, F.Z);
+		for (const FLeyFire& F : List) if (FMath::FRand() < 0.7f * LeyRainMul()) LeyExtinguish(F.X, F.Z);
 	}
 	TArray<FLeyFire> List; LeyFires.GenerateValueArray(List);
 	int32 Grew = 0;
@@ -174,7 +174,7 @@ void UVenturesFeature::TickChem()
 		Live->Heat -= 0.15f;
 		if (Live->Heat <= 0.f) { LeyExtinguish(F.X, F.Z); continue; }
 		const int32 D = FMath::RandRange(0, 3);
-		if (FMath::FRand() < 0.45f && LeyIgnite(F.X + Dir[D][0], F.Z + Dir[D][1], Live->Kind, TEXT("spread"))) Grew++;
+		if (FMath::FRand() < 0.45f * LeySpreadMul() && LeyIgnite(F.X + Dir[D][0], F.Z + Dir[D][1], Live->Kind, TEXT("spread"))) Grew++;
 	}
 	if (LeyIsStorm() && FMath::FRand() < 0.08f)
 	{

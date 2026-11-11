@@ -497,10 +497,10 @@ void UVenturesFeature::HoldUp(const FString& Building)
 	int32& L = HoldLv.FindOrAdd(Building);
 	if (L >= 3) return;
 	const FCost& C = B->Cost[L];
-	if (Coins() < C.Gold || CountItem(C.I1) < C.N1 || (C.I2 && CountItem(C.I2) < C.N2)) { Say(FString::Printf(TEXT("Upgrade needs %s in your pack."), *CostText(C))); return; }
+	if (Coins() < C.Gold || CountWithFreight(C.I1) < C.N1 || (C.I2 && CountWithFreight(C.I2) < C.N2)) { Say(FString::Printf(TEXT("Upgrade needs %s in your pack%s."), *CostText(C), FreightCanPull() ? TEXT(" or the freight pool") : TEXT(""))); return; }
 	TakeCoins(C.Gold);
-	TakeItem(C.I1, C.N1);
-	if (C.I2) TakeItem(C.I2, C.N2);
+	TakeWithFreight(C.I1, C.N1);
+	if (C.I2) TakeWithFreight(C.I2, C.N2);
 	++L;
 	GiveXp(TEXT("Crafting"), 500.f * L);
 	Say(FString::Printf(TEXT("%s upgraded to level %d."), B->Name, L));

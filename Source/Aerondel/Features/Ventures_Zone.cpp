@@ -311,6 +311,17 @@ void UVenturesFeature::TideStart(int32 RegionIndex)
 {
 	if (!bTideLoaded) LoadTideRegions();
 	if (!TideRegions.Num()) { TideNext = NowMs() + TideGapMs(); return; }
+	if (bAshActive)
+	{
+		auto AshBusyRegion = [this](int32 I) { return TideRegions.IsValidIndex(I) && AshActiveIn(TideRegions[I].Name); };
+		if (!TideRegions.IsValidIndex(RegionIndex) || AshBusyRegion(RegionIndex))
+		{
+			TArray<int32> Opts;
+			for (int32 i = 0; i < TideRegions.Num(); ++i) if (!AshBusyRegion(i)) Opts.Add(i);
+			if (!Opts.Num()) { TideNext = NowMs() + TideGapMs(); return; }
+			RegionIndex = Opts[FMath::RandRange(0, Opts.Num() - 1)];
+		}
+	}
 	TideRegion = TideRegions.IsValidIndex(RegionIndex) ? RegionIndex : FMath::RandRange(0, TideRegions.Num() - 1);
 	TideUntil = NowMs() + 10 * 60000;
 	TideStacks = 0;
@@ -330,6 +341,7 @@ void UVenturesFeature::TideEnd()
 	for (const TWeakObjectPtr<AAerondelMob>& W : TideWaveMobs) if (W.IsValid()) W->Destroy();
 	TideWaveMobs.Reset();
 	Say(FString::Printf(TEXT("The tide over %s recedes."), *N));
+	ScoreOn(TEXT("tide"));
 }
 
 void UVenturesFeature::TideWave()

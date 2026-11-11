@@ -335,6 +335,7 @@ void UVenturesFeature::TickHunt()
 						}
 						if (FMath::FRand() < 0.35f) { GiveItem(TEXT("Hunt remnant"), 1); Got.Add(TEXT("Hunt remnant")); }
 						HuntCarved.FindOrAdd(Name)++;
+						ScoreOn(TEXT("hunt"));
 					}
 					else
 					{

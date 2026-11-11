@@ -310,13 +310,21 @@ int32 UAerondelRules::AttackSpeedTicks(const AAerondelPlayerState* PS)
 {
 	const UItemDef* W = Worn(PS, EEquipSlot::Weapon);
 	const FCombatStyle* S = CurrentStyle(PS);
-	return FMath::Max(2, (W ? W->AttackSpeedTicks : 4) + (S ? S->SpeedTicks : 0));
+	int32 T = (W ? W->AttackSpeedTicks : 4) + (S ? S->SpeedTicks : 0);
+	if (const UVenturesFeature* V = UVenturesFeature::Get(PS)) T += V->KitSpeedBonus(IsRanged(PS));
+	return FMath::Max(2, T);
 }
 
 float UAerondelRules::AttackRangeTiles(const AAerondelPlayerState* PS)
 {
-	if (IsRanged(PS)) { const FCombatStyle* S = CurrentStyle(PS); return 7.f + (S ? S->RangeTiles : 0.f); }
-	return 1.6f;
+	float R = 1.6f;
+	if (IsRanged(PS)) { const FCombatStyle* S = CurrentStyle(PS); R = 7.f + (S ? S->RangeTiles : 0.f); }
+	if (const UVenturesFeature* V = UVenturesFeature::Get(PS))
+	{
+		R += V->KitRangeBonus(IsRanged(PS));
+		if (IsRanged(PS) && V->KitHush()) R = FMath::Max(4.f, R);
+	}
+	return R;
 }
 
 float UAerondelRules::HitChance(float A, float D)

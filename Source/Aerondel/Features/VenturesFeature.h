@@ -396,6 +396,184 @@ public:
 	bool SpirePick(int32 I);
 	bool SpireBuy(const FString& Id);
 
+	// ---- group 25: Trailhand (Ventures_Trailhand.cpp) — not Twenty-One Tides or Crown & Anchor ----
+	bool TrailDeal();
+	bool TrailPlay(int32 HandIndex, int32 Row);
+	void TrailClose();
+	static bool TrailLegal(const TArray<FIntPoint>& RowSuitsRanks, int32 Rank, int32 Suit);
+	bool TrailLive() const { return bTrailLive; }
+
+	// ---- group 26: Skillwords (Ventures_Skillwords.cpp) — Silver Tongue stays Persuade, Lie, Intimidate ----
+	bool SkillTry(const FString& Id);
+	bool SkillHasOpen(FName NpcId) const;
+	void SkillOpenFrom(AActor* Npc);
+	void SkillContinue();
+
+	// ---- group 27: Crossed Banners (Ventures_Banners.cpp) — Larkhaven, the bank and the Saga stay open ----
+	bool BannerWary(FName Faction) const;
+	bool BannerMend(FName Faction);
+	void BannerOnWrit(FName Faction);
+	bool BannerHideStock(FName ShopId, const AActor* Shop, int32 Price) const;
+	FName BannerOpposite(FName Faction) const;
+
+	// ---- group 28: Kitwright (Ventures_Kitwright.cpp) — kits are tools, not grafts or a damage percent ----
+	bool ScoreHas(const FString& Id) const;
+	TArray<FString> KitList(const FString& Item) const;
+	bool KitHas(const FString& KitId) const;
+	bool KitOnItem(const FString& Item, const FString& KitId) const;
+	bool KitHush() const { return KitHas(TEXT("hush")); }
+	bool KitLamp() const { return KitHas(TEXT("lamp")); }
+	bool KitCraft(const FString& KitId);
+	bool KitAttach(const FString& Item, const FString& KitId);
+	bool KitRemove(const FString& Item, int32 Index);
+	float KitRangeBonus(bool bRanged) const;
+	int32 KitSpeedBonus(bool bRanged) const;
+	float KitFocusMul() const { return KitHas(TEXT("sight")) ? 1.2f : 1.f; }
+	int32 KitPoiseBonus() const;
+	FString KitExamine(const FString& Item, const FString& Text) const;
+
+	// ---- group 29: Wayfreight (Ventures_Wayfreight.cpp) — not a new house, not a shared multiplayer stash ----
+	int32 FreightCap() const;
+	bool FreightOwned(const FString& Id) const;
+	bool FreightLinked(const FString& A, const FString& B) const;
+	bool FreightLink(const FString& A, const FString& B);
+	bool FreightUnlink(const FString& A, const FString& B);
+	bool FreightDeposit(const FString& Item, int32 N = 1);
+	bool FreightWithdraw(const FString& Item, int32 N = 1);
+	bool FreightCanPull() const;
+	int32 FreightCount(const FString& Item) const;
+	bool FreightTake(const FString& Item, int32 N);
+	int32 CountWithFreight(const FString& Item) const;
+	bool TakeWithFreight(const FString& Item, int32 N);
+
+	// ---- group 30: Waycamp (Ventures_Waycamp.cpp) — one camp in the wild; not Freeframe, not a town house, not the farm ----
+	int32 CampCap() const;
+	FString CampForbidden(float X, float Z) const;
+	bool CampHere() const;
+	bool CampCraft();
+	bool CampPlace();
+	bool CampPlaceAt(float X, float Z);
+	bool CampPack();
+	bool CampRest();
+	bool CampDeposit(const FString& Item, int32 N = 1);
+	bool CampTake(const FString& Item, int32 N = 1);
+	bool CampAdd(const FString& Kind);
+
+	// ---- group 31: Skywyrms (Ventures_Skywyrms.cpp) — optional wild flyers; not a Colossus, not Ashwyrm ----
+	int32 WyrmSouls() const;
+	int32 WyrmGrantSoul(int32 N = 1);
+	bool WyrmSpendSoul(int32 N = 1);
+	bool WyrmOffer();
+	bool WyrmPass();
+	bool WyrmFight();
+	bool WyrmGo();
+	bool WyrmLeave();
+	bool WyrmActive() const;
+	bool WyrmOffered() const { return bWyrmOffered; }
+
+	// ---- group 32: Veilcraft (Ventures_Veilcraft.cpp) — named lessons, not a Facet, graft, kit or damage percent ----
+	bool VeilUnmake(const FString& Item);
+	bool VeilBind(const FString& Item, const FString& EffectId);
+	bool VeilUnbind(const FString& Item);
+	FString VeilOnItem(const FString& Item) const;
+	bool VeilWorn(const FString& EffectId) const;
+	bool VeilHush() const { return VeilWorn(TEXT("hush")); }
+	bool VeilLamp() const { return VeilWorn(TEXT("lamp")) || KitLamp() || MarkActive(TEXT("nighteye")); }
+	bool VeilNight() const { return VeilWorn(TEXT("night")); }
+	int32 HitVeil(AAerondelMob* Mob, int32 Damage);
+
+	// ---- group 33: Shadework (Ventures_Shadework.cpp) — a short unseen window, not a stealth sim ----
+	bool ShadeUnseen() const { return bShadeUnseen; }
+	bool ShadeHidePip() const { return bShadeHidePip; }
+	void ShadeSetHidePip(bool bHide);
+	bool ShadeEnter();
+	bool ShadeNotice();
+	bool ShadeBreakLine();
+	bool ShadeArmed(const AAerondelMob* Mob) const;
+	int32 HitShade(AAerondelMob* Mob, int32 Damage);
+	float ShadeNoticeMul() const { return MarkNoticeMul; }
+
+	// ---- group 34: Wardfine (Ventures_Wardfine.cpp) — a town fine, not a prison-crawl; Larkhaven is always solvable ----
+	bool FineOnFail(const AActor* At, const FString& TargetType);
+	bool FinePay(const FString& Town);
+	bool FineWait(const FString& Town);
+	bool FineWake();
+	bool FineResist(const FString& Town);
+	bool FineFlee(const FString& Town);
+	int32 FineOf(const FString& Town) const;
+	int32 FineTotal() const;
+	bool FineUnwelcome(const FString& Town) const;
+	FString TownAt(float X, float Z) const;
+
+	// ---- group 35: Oathframe (Ventures_Oathframe.cpp) — a heavy suit; Dash (C) slams; not a damage percent ----
+	bool OathOn() const { return bOathOn; }
+	int32 OathCore() const { return OathCoreAmt; }
+	bool OathOwned() const { return bOathAssembled; }
+	bool OathAssemble();
+	bool OathCraftCore();
+	bool OathStepIn();
+	bool OathStepOut(const FString& Why = FString());
+	bool OathSlam();
+
+	// ---- group 36: Hardroad (Ventures_Hardroad.cpp) — optional meters, off by default, never lethal ----
+	bool RoadOn() const { return bRoadOn; }
+	bool RoadToggle(bool bOn);
+	int32 RoadFill(const FString& Kind, int32 N);
+	int32 RoadEat(int32 N = 25);
+	int32 RoadDrink(int32 N = 25);
+	int32 RoadRest(int32 N = 70);
+	float RoadRegenMul() const;
+	static float RoadRegenMul(const UObject* WorldContext);
+	void RoadOnConsume(const UItemDef* Item);
+
+	// ---- group 37: Seasonboard (Ventures_Seasonboard.cpp) — season score, not Standing; unlocks the Ash-thread kit ----
+	int32 ScoreOn(const FString& TaskId);
+	FString ScoreClaim(const FString& TierId);
+	bool ScoreBuy(const FString& Item, int32 Price);
+	bool ScoreVendorIn() const;
+	void ScoreRoll();
+	float ClimbDrainMul() const;
+	int32 WardrobeDyeCount() const;
+	FString WardrobeDyeName(int32 Index) const;
+	uint32 WardrobeDyeHex(int32 Index) const;
+
+	// ---- group 38: Wildmarks (Ventures_Wildmarks.cpp) — held marks, not Quirks, not a damage percent ----
+	bool MarkActive(const FString& Id) const;
+	bool MarkGrant(const FString& Id);
+	bool MarkHush();
+	bool MarkClear(const FString& Id);
+	bool MarkDraft(const FString& Id);
+	float LeySpreadMul() const;
+	float LeyRainMul() const;
+
+	// ---- group 39: Ashfall (Ventures_Ashfall.cpp) — skippable wild Ley flare; save key "ash", never "flare" ----
+	bool AshOffer();
+	bool AshBegin();
+	bool AshGo();
+	bool AshPass();
+	void AshEnd(const FString& Why);
+	bool AshCall();
+	bool AshGather();
+	bool AshCarve();
+	bool AshActive() const { return bAshActive; }
+	bool AshActiveIn(const FString& Name) const;
+	FString AshForbidden(float X, float Z) const;
+	FString AshSwapName(const FString& Type, float X, float Z) const;
+	void AshMarkMob(AAerondelMob* Mob);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 protected:
 	UFUNCTION() void HandleMobKilled(UMobDef* Mob);
 
@@ -692,6 +870,111 @@ protected:
 	void RaidClearMobs();
 	int32 RaidLive() const;
 
+	void ResetTrail();
+	void SaveTrail(FJsonObject& A) const;
+	void LoadTrail(const FJsonObject& A);
+	void TabTrail(FGPanelModel& M);
+	void TrailSettle(int32 Mult, const FString& Msg);
+	FString TrailCardLabel(int32 Rank, int32 Suit) const;
+
+	void ResetChecks();
+	void SaveChecks(FJsonObject& A) const;
+	void LoadChecks(const FJsonObject& A);
+	void TabChecks(FGPanelModel& M);
+	bool SkillQuestReady(const FString& QuestId) const;
+
+	void ResetBanners();
+	void SaveBanners(FJsonObject& A) const;
+	void LoadBanners(const FJsonObject& A);
+	void TabBanners(FGPanelModel& M);
+	FString BannerTownAt(float X, float Z) const;
+
+	void ResetKits();
+	void SaveKits(FJsonObject& A) const;
+	void LoadKits(const FJsonObject& A);
+	void TabKits(FGPanelModel& M);
+	FString KitCanTake(const FString& Item, const FString& KitId) const;
+
+	void ResetFreight();
+	void SaveFreight(FJsonObject& A) const;
+	void LoadFreight(const FJsonObject& A);
+	void TabFreight(FGPanelModel& M);
+	FString FreightLineKey(const FString& A, const FString& B) const;
+
+	void ResetCamp();
+	void SaveCamp(FJsonObject& A) const;
+	void LoadCamp(const FJsonObject& A);
+	void TabCamp(FGPanelModel& M);
+
+	void ResetWyrms();
+	void SaveWyrms(FJsonObject& A) const;
+	void LoadWyrms(const FJsonObject& A);
+	void TabWyrms(FGPanelModel& M);
+	void TickWyrm();
+	void DiedWyrm(AAerondelMob* Mob, bool bByPlayer);
+	void WyrmClearLive();
+	int32 WyrmPickRegion() const;
+
+	void ResetVeil();
+	void SaveVeil(FJsonObject& A) const;
+	void LoadVeil(const FJsonObject& A);
+	void TabVeil(FGPanelModel& M);
+	void DiedVeil(AAerondelMob* Mob, bool bByPlayer);
+	void SyncSoulPouch();
+	FString VeilLessonFrom(const FString& Item) const;
+
+	void ResetShade();
+	void SaveShade(FJsonObject& A) const;
+	void LoadShade(const FJsonObject& A);
+	void TabShade(FGPanelModel& M);
+	void TickShade();
+	float ShadeNoticeRange() const;
+	int64 ShadeWindowMs() const;
+	AAerondelMob* ShadeSeer() const;
+	bool ShadeCloseFight() const;
+	TArray<AAerondelMob*> ShadeFoesNear(float RadiusM) const;
+
+	void ResetKeep();
+	void SaveKeep(FJsonObject& A) const;
+	void LoadKeep(const FJsonObject& A);
+	void TabKeep(FGPanelModel& M);
+	void TickKeep();
+	void DiedKeep(AAerondelMob* Mob, bool bByPlayer);
+	bool FineProtected(const UItemDef* Item) const;
+
+	void ResetOath();
+	void SaveOath(FJsonObject& A) const;
+	void LoadOath(const FJsonObject& A);
+	void TabOath(FGPanelModel& M);
+	void TickOath();
+	void OathApplySpeed(bool bOn);
+	AAerondelMob* OathNearest(float RadiusM) const;
+
+	void ResetRoad();
+	void SaveRoad(FJsonObject& A) const;
+	void LoadRoad(const FJsonObject& A);
+	void TabRoad(FGPanelModel& M);
+	void TickRoad();
+
+	void ResetScore();
+	void SaveScore(FJsonObject& A) const;
+	void LoadScore(const FJsonObject& A);
+	void TabScore(FGPanelModel& M);
+	FString ScoreDayKey(int64 Ms) const;
+	FString ScoreWeekKey(int64 Ms) const;
+
+
+
+
+
+
+
+
+
+
+
+
+
 	// group 1 internals
 	void ResetQuick();
 	void SaveQuick(FJsonObject& A) const;
@@ -983,7 +1266,110 @@ protected:
 	int32 RaidHits = 0;
 	int64 RaidLastChip = 0, RaidStartMs = 0;
 	TArray<TWeakObjectPtr<AAerondelMob>> RaidMobs;
+
+	// Trailhand (web adapt/trailhand.js, save key "trail")
+	int32 TrailWins = 0, TrailBest = 0, TrailTokens = 0, TrailBet = 50, TrailSel = -1;
+	bool bTrailLive = false;
+	FString TrailDone;
+	TArray<FIntPoint> TrailHand; // X = rank 0-8, Y = suit 0-3
+	TArray<TArray<FIntPoint>> TrailRows;
+
+	// Skillwords (web adapt/skillwords.js, save key "checks")
+	TArray<FString> CheckUsed;
+	TWeakObjectPtr<AActor> SkillNpc;
+
+	// Crossed Banners (web adapt/banners.js, save key "banners")
+	TArray<FString> BannerCrosses;
+	TSet<FName> BannerWarySet;
+
+	// Kitwright (web adapt/kitwright.js, save key "kits")
+	TMap<FString, FString> KitOn; // item display name -> comma-separated kit ids (max 2)
+	TArray<FString> KitOwned;
+	FString KitSel;
+	// Seasonboard unlocks (filled in Phase 22; empty until then)
+	TSet<FString> ScoreUnlocks;
+
+	// Wayfreight (web adapt/wayfreight.js, save key "freight")
+	TArray<FString> FreightLines; // "a|b" sorted keys
+	TMap<FString, int32> FreightPool;
+	FString FreightPick;
+	// Waycamp ownership (filled in Ventures_Waycamp.cpp)
+	bool bCampOwned = false;
+
+	// Waycamp (web adapt/waycamp.js, save key "camp")
+	bool bCampPlaced = false;
+	float CampX = 0.f, CampZ = 0.f;
+	TMap<FString, int32> CampChest;
+	TArray<FString> CampPieces;
+
+	// Skywyrms (web adapt/skywyrms.js, save key "wyrms")
+	int32 WyrmSeen = 0, WyrmSoulCount = 0, WyrmBest = 0;
+	int64 WyrmLast = 0, WyrmNext = 0, WyrmOfferUntil = 0, WyrmFightStart = 0;
+	bool bWyrmOffered = false;
+	int32 WyrmRegion = -1;
+	TWeakObjectPtr<AAerondelMob> WyrmLive;
+	TWeakObjectPtr<AAerondelMob> WyrmAtt;
+
+	// Veilcraft (web adapt/veilcraft.js, save key "veil") — owns the soul pouch; wyrms.souls is a mirror
+	int32 VeilSoulCount = 0, VeilLesser = 0;
+	TArray<FString> VeilKnown;
+	TMap<FString, FString> VeilOn;
+	FString VeilSelItem, VeilSelFx;
+	int32 VeilFrostTick = -999, VeilStunTick = -999;
+
+	// Shadework (web adapt/shadework.js, save key "shade") — mid-fight unseen is not saved
+	int32 ShadeHits = 0;
+	int32 ShadeUnseenSecs = 0;
+	bool bShadeHidePip = false;
+	bool bShadeUnseen = true;
+	int64 ShadeUntilMs = 0;
+	float MarkNoticeMul = 1.f; // Wildmarks may lower this later
+
+	// Wardfine (web adapt/wardfine.js, save key "keep")
+	TMap<FString, int32> KeepFines, KeepHeat;
+	TMap<FString, int64> KeepUnwelcome;
+	TMap<FString, int32> KeepHeld;
+	FString KeepHeldTown, FineStopTown, FineResistTown;
+	int64 KeepJailUntil = 0;
+	bool bFineStop = false;
+	FVector2D FineResistAt = FVector2D::ZeroVector;
+	TWeakObjectPtr<AAerondelMob> FineGuard;
+
+	// Oathframe (web adapt/oathframe.js, save key "oath") — bOathOn is never saved
+	bool bOathAssembled = false, bOathOn = false, bOathSpeedOn = false;
+	int32 OathCoreAmt = 0;
+	int64 OathSlamAt = 0, OathLastDrain = 0;
+	float OathSavedWalk = 0.f;
+
+	// Hardroad (web adapt/hardroad.js, save key "road") — off by default, including on old saves
+	bool bRoadOn = false;
+	int32 RoadHunger = 100, RoadThirst = 100, RoadRestAmt = 100;
+	int64 RoadLast = 0;
+
+	// Seasonboard (web adapt/seasonboard.js, save key "score") — owned cosmetics survive a season reset
+	FString ScoreSeasonId, ScoreDay, ScoreWeek;
+	int32 ScoreValue = 0;
+	TArray<FString> ScoreClaimed, ScoreOwned, ScoreDayKeys, ScoreWeekKeys;
+
+	// Wildmarks (web adapt/wildmarks.js, save key "blight") — Ysolde's quirk remedy does not clear these
+	TArray<FString> MarkHeld;
+	int64 MarkHushUntil = 0;
+	bool bMarkSwimOn = false;
+	float MarkSwimSaved = 0.f;
+
+
+
+
+
+
+
+
+
+
+
+
 };
+
 
 
 
