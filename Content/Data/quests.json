@@ -66665,6 +66665,15 @@
    "z": -6,
    "town": "Larkhaven",
    "tint": "#c8a060"
+  },
+  "wildmarks": {
+   "name": "Markwise Calla",
+   "examine": "A Wildmark is a mark the wild leaves on you: a downside and a boon together. Night-eye, fire-kindled, deep-lung. You can take one from an Ashfall, a marked foe, or a drafted tonic. Two is plenty; three is the most. My hush tonic quiets them for a time; the clear tonic lifts one. Ysolde still treats habit-quirks, not these.",
+   "service": "blight",
+   "x": 13,
+   "z": -10,
+   "town": "Larkhaven",
+   "tint": "#c8a060"
   }
  },
  "towns": [

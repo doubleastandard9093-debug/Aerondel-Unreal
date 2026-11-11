@@ -478,7 +478,7 @@ public:
 	FString VeilOnItem(const FString& Item) const;
 	bool VeilWorn(const FString& EffectId) const;
 	bool VeilHush() const { return VeilWorn(TEXT("hush")); }
-	bool VeilLamp() const { return VeilWorn(TEXT("lamp")) || KitLamp(); }
+	bool VeilLamp() const { return VeilWorn(TEXT("lamp")) || KitLamp() || MarkActive(TEXT("nighteye")); }
 	bool VeilNight() const { return VeilWorn(TEXT("night")); }
 	int32 HitVeil(AAerondelMob* Mob, int32 Damage);
 
@@ -536,6 +536,16 @@ public:
 	int32 WardrobeDyeCount() const;
 	FString WardrobeDyeName(int32 Index) const;
 	uint32 WardrobeDyeHex(int32 Index) const;
+
+	// ---- group 38: Wildmarks (Ventures_Wildmarks.cpp) — held marks, not Quirks, not a damage percent ----
+	bool MarkActive(const FString& Id) const;
+	bool MarkGrant(const FString& Id);
+	bool MarkHush();
+	bool MarkClear(const FString& Id);
+	bool MarkDraft(const FString& Id);
+	float LeySpreadMul() const;
+	float LeyRainMul() const;
+
 
 
 
@@ -1324,6 +1334,13 @@ protected:
 	FString ScoreSeasonId, ScoreDay, ScoreWeek;
 	int32 ScoreValue = 0;
 	TArray<FString> ScoreClaimed, ScoreOwned, ScoreDayKeys, ScoreWeekKeys;
+
+	// Wildmarks (web adapt/wildmarks.js, save key "blight") — Ysolde's quirk remedy does not clear these
+	TArray<FString> MarkHeld;
+	int64 MarkHushUntil = 0;
+	bool bMarkSwimOn = false;
+	float MarkSwimSaved = 0.f;
+
 
 
 

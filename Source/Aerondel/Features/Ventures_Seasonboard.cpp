@@ -151,7 +151,9 @@ bool UVenturesFeature::ScoreBuy(const FString& Item, int32 Price)
 
 float UVenturesFeature::ClimbDrainMul() const
 {
-	return CountItem(TEXT("Ridgewalk soles")) > 0 ? 0.9f : 1.f;
+	float M = CountItem(TEXT("Ridgewalk soles")) > 0 ? 0.9f : 1.f;
+	if (MarkActive(TEXT("deeplung"))) M *= 0.75f;
+	return M;
 }
 
 int32 UVenturesFeature::WardrobeDyeCount() const

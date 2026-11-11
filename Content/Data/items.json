@@ -6481,6 +6481,21 @@
    "value": 40,
    "type": "drink",
    "special": "A flask from Waresmith Ryn. Drink it to help thirst when Hardroad is on."
+  },
+  "Wildmark tonic": {
+   "value": 40,
+   "type": "tonic",
+   "special": "A drafted tonic. Drink it from Ventures → Wildmarks to take one mark, if you have room."
+  },
+  "Mark-hush tonic": {
+   "value": 30,
+   "type": "tonic",
+   "special": "Quiets every Wildmark you carry for a short time. They stay on you."
+  },
+  "Mark-clear tonic": {
+   "value": 55,
+   "type": "tonic",
+   "special": "Lifts one Wildmark. Ysolde's quirk remedy will not do this."
   }
  },
  "metals": [
