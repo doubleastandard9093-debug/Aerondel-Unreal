@@ -6496,6 +6496,16 @@
    "value": 55,
    "type": "tonic",
    "special": "Lifts one Wildmark. Ysolde's quirk remedy will not do this."
+  },
+  "Ash-totem": {
+   "value": 35,
+   "type": "kit",
+   "special": "A carved totem. Use it in the wilds to gather or begin an Ashfall. It will not fire on a town, Greenstead or Claimridge."
+  },
+  "Ash crystal": {
+   "value": 60,
+   "type": "resource",
+   "special": "A rare crystal that can appear during an Ashfall. Not a Sealed Geode."
   }
  },
  "metals": [

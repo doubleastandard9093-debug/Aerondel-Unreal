@@ -180,6 +180,17 @@ bool UPlayerStatsComponent::Consume(int32 InventorySlot)
 	if (!S) return false;
 	UItemDef* Item = S->Inventory->GetSlot(InventorySlot).Item;
 	if (!Item) return false;
+	if (Item->DisplayName.ToString() == TEXT("Ash-totem"))
+	{
+		if (UVenturesFeature* V = UVenturesFeature::Get(this))
+		{
+			if (!V->AshCall()) return false;
+			S->Inventory->RemoveFromSlot(InventorySlot, 1);
+			OnChanged.Broadcast();
+			return true;
+		}
+		return false;
+	}
 	const UGameDatabase* Db = UGameDatabase::Get();
 	if (const UPotionDef* P = Db ? Db->FindPotionForItem(Item) : nullptr)
 	{

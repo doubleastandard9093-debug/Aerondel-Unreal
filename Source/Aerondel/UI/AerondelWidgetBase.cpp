@@ -74,6 +74,11 @@ void UAerondelInventoryWidget::UseSlot(int32 SlotIndex)
 	const FItemStack S = PS->Inventory->GetSlot(SlotIndex);
 	if (S.IsEmpty()) return;
 	if (PS->Bank->IsOpen()) { PS->Bank->Deposit(PS->Inventory, S.Item, S.Item->bStackable ? S.Count : 1); return; }
+	if (S.Item->DisplayName.ToString() == TEXT("Ash-totem"))
+	{
+		if (UVenturesFeature* V = UVenturesFeature::Get(this)) { if (V->AshCall()) PS->Inventory->RemoveFromSlot(SlotIndex, 1); }
+		return;
+	}
 	if (S.Item->EquipSlot != EEquipSlot::None) { PS->Equipment->EquipFromInventory(SlotIndex); return; }
 	if (S.Item->HealAmount > 0) { PS->Inventory->RemoveFromSlot(SlotIndex, 1); PS->Health->Heal(S.Item->HealAmount); if (UVenturesFeature* V = UVenturesFeature::Get(this)) V->RoadOnConsume(S.Item); return; }
 }

@@ -66674,6 +66674,15 @@
    "z": -10,
    "town": "Larkhaven",
    "tint": "#c8a060"
+  },
+  "ashfall": {
+   "name": "Ashwatcher Bren",
+   "examine": "An Ashfall is a short Ley flare in the high wilds. You will get a warning: begin it, or let it pass — nothing is owed if you walk away. For a few minutes that wild region changes its spawns, may raise a Wildmark chance, may show an Ash crystal, and may attract a Skywyrm. It will not settle on a town, a Townstead, Greenstead or Claimridge. It is not a Burst Tide and not a siege. On a phone it is a sky tint and a spawn swap, not a blast. You can also carve an Ash-totem to call one when you are ready.",
+   "service": "ash",
+   "x": 33,
+   "z": -14,
+   "town": "Larkhaven",
+   "tint": "#c8a060"
   }
  },
  "towns": [

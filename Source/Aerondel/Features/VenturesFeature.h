@@ -546,6 +546,22 @@ public:
 	float LeySpreadMul() const;
 	float LeyRainMul() const;
 
+	// ---- group 39: Ashfall (Ventures_Ashfall.cpp) — skippable wild Ley flare; save key "ash", never "flare" ----
+	bool AshOffer();
+	bool AshBegin();
+	bool AshGo();
+	bool AshPass();
+	void AshEnd(const FString& Why);
+	bool AshCall();
+	bool AshGather();
+	bool AshCarve();
+	bool AshActive() const { return bAshActive; }
+	bool AshActiveIn(const FString& Name) const;
+	FString AshForbidden(float X, float Z) const;
+	FString AshSwapName(const FString& Type, float X, float Z) const;
+	void AshMarkMob(AAerondelMob* Mob);
+
+
 
 
 
