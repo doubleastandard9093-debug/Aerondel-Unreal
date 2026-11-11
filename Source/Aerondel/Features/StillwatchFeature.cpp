@@ -1,4 +1,5 @@
 #include "Features/StillwatchFeature.h"
+#include "Features/VenturesFeature.h"
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/Pawn.h"
 #include "Engine/World.h"
@@ -41,4 +42,11 @@ void UStillwatchFeature::LoadState(const FJsonObject& In)
 	Meter = FMath::Clamp((float)JNum(In, TEXT("meter")), 0.f, Max); Uses = FMath::Max(0, (int32)JInt(In, TEXT("uses")));
 	const FString S = JStr(In, TEXT("spot"));
 	Spot = S == TEXT("legs") ? EWeakSpot::Legs : S == TEXT("arms") ? EWeakSpot::Arms : EWeakSpot::Head;
+}
+
+bool UStillwatchFeature::AddFocus(float N)
+{
+	if (const UVenturesFeature* V = UVenturesFeature::Get(this)) N *= V->KitFocusMul();
+	Meter = FMath::Min(Max, Meter + N);
+	return Meter >= Max;
 }

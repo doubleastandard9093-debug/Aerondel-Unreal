@@ -66566,6 +66566,15 @@
    "z": -75,
    "town": "Whitecairn",
    "tint": "#d8d8e0"
+  },
+  "kitwright": {
+   "name": "Kitwright Osha",
+   "examine": "I fit kits to a worn blade or plate: a longer haft, a hush-string, a lamp-rim, a padded collar, a watch-sight. They change how the piece behaves. They are not grafts, and they will not simply make it hit harder.",
+   "service": "kits",
+   "x": 23,
+   "z": -14,
+   "town": "Larkhaven",
+   "tint": "#c8b080"
   }
  },
  "towns": [

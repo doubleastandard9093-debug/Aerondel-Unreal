@@ -416,6 +416,23 @@ public:
 	bool BannerHideStock(FName ShopId, const AActor* Shop, int32 Price) const;
 	FName BannerOpposite(FName Faction) const;
 
+	// ---- group 28: Kitwright (Ventures_Kitwright.cpp) — kits are tools, not grafts or a damage percent ----
+	bool ScoreHas(const FString& Id) const;
+	TArray<FString> KitList(const FString& Item) const;
+	bool KitHas(const FString& KitId) const;
+	bool KitOnItem(const FString& Item, const FString& KitId) const;
+	bool KitHush() const { return KitHas(TEXT("hush")); }
+	bool KitLamp() const { return KitHas(TEXT("lamp")); }
+	bool KitCraft(const FString& KitId);
+	bool KitAttach(const FString& Item, const FString& KitId);
+	bool KitRemove(const FString& Item, int32 Index);
+	float KitRangeBonus(bool bRanged) const;
+	int32 KitSpeedBonus(bool bRanged) const;
+	float KitFocusMul() const { return KitHas(TEXT("sight")) ? 1.2f : 1.f; }
+	int32 KitPoiseBonus() const;
+	FString KitExamine(const FString& Item, const FString& Text) const;
+
+
 
 protected:
 	UFUNCTION() void HandleMobKilled(UMobDef* Mob);
@@ -732,6 +749,13 @@ protected:
 	void TabBanners(FGPanelModel& M);
 	FString BannerTownAt(float X, float Z) const;
 
+	void ResetKits();
+	void SaveKits(FJsonObject& A) const;
+	void LoadKits(const FJsonObject& A);
+	void TabKits(FGPanelModel& M);
+	FString KitCanTake(const FString& Item, const FString& KitId) const;
+
+
 
 
 	// group 1 internals
@@ -1040,6 +1064,14 @@ protected:
 	// Crossed Banners (web adapt/banners.js, save key "banners")
 	TArray<FString> BannerCrosses;
 	TSet<FName> BannerWarySet;
+
+	// Kitwright (web adapt/kitwright.js, save key "kits")
+	TMap<FString, FString> KitOn; // item display name -> comma-separated kit ids (max 2)
+	TArray<FString> KitOwned;
+	FString KitSel;
+	// Seasonboard unlocks (filled in Phase 22; empty until then)
+	TSet<FString> ScoreUnlocks;
+
 
 
 

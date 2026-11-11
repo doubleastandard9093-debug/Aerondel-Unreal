@@ -6436,6 +6436,36 @@
    "value": 8,
    "type": "resource",
    "special": "Cut stone for Freeframe walls and reinforced plates. Crafted from limestone or found while mining."
+  },
+  "Longhaft kit": {
+   "value": 40,
+   "type": "kit",
+   "special": "A little more melee reach, a little slower. Not a damage bonus. Fit it to a worn melee weapon at Kitwright Osha."
+  },
+  "Hush-string kit": {
+   "value": 40,
+   "type": "kit",
+   "special": "A quieter setup and a little less ranged reach. Fit it to a worn ranged weapon at Kitwright Osha."
+  },
+  "Lamp-rim kit": {
+   "value": 40,
+   "type": "kit",
+   "special": "A short cone of light. On Low this is a pip, not a new mesh or lamp draw."
+  },
+  "Padded collar kit": {
+   "value": 50,
+   "type": "kit",
+   "special": "A little more player poise. Ordinary scratches still will not stagger you."
+  },
+  "Watch-sight kit": {
+   "value": 55,
+   "type": "kit",
+   "special": "Stillwatch focus fills a little faster. It does not add damage."
+  },
+  "Ash-thread kit": {
+   "value": 30,
+   "type": "kit",
+   "special": "A little more player poise, less than a padded collar. A Seasonboard schematic. Not a damage bonus."
   }
  },
  "metals": [
