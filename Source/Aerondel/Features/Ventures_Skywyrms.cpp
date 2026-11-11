@@ -43,22 +43,24 @@ int32 UVenturesFeature::WyrmPickRegion() const
 	return FMath::RandRange(0, (int32)UE_ARRAY_COUNT(Regions) - 1);
 }
 
-int32 UVenturesFeature::WyrmSouls() const { return WyrmSoulCount; }
+int32 UVenturesFeature::WyrmSouls() const { return VeilSoulCount; }
 
 int32 UVenturesFeature::WyrmGrantSoul(int32 N)
 {
 	N = FMath::Max(0, N);
-	const int32 Before = WyrmSoulCount;
-	WyrmSoulCount = FMath::Min(SoulCap, WyrmSoulCount + N);
-	if (WyrmSoulCount > WyrmBest) WyrmBest = WyrmSoulCount;
-	return WyrmSoulCount - Before;
+	const int32 Before = VeilSoulCount;
+	VeilSoulCount = FMath::Min(SoulCap, VeilSoulCount + N);
+	if (VeilSoulCount > WyrmBest) WyrmBest = VeilSoulCount;
+	SyncSoulPouch();
+	return VeilSoulCount - Before;
 }
 
 bool UVenturesFeature::WyrmSpendSoul(int32 N)
 {
 	N = FMath::Max(1, N);
-	if (WyrmSoulCount < N) return false;
-	WyrmSoulCount -= N;
+	if (VeilSoulCount < N) return false;
+	VeilSoulCount -= N;
+	SyncSoulPouch();
 	return true;
 }
 

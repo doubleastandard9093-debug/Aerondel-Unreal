@@ -471,6 +471,18 @@ public:
 	bool WyrmActive() const;
 	bool WyrmOffered() const { return bWyrmOffered; }
 
+	// ---- group 32: Veilcraft (Ventures_Veilcraft.cpp) — named lessons, not a Facet, graft, kit or damage percent ----
+	bool VeilUnmake(const FString& Item);
+	bool VeilBind(const FString& Item, const FString& EffectId);
+	bool VeilUnbind(const FString& Item);
+	FString VeilOnItem(const FString& Item) const;
+	bool VeilWorn(const FString& EffectId) const;
+	bool VeilHush() const { return VeilWorn(TEXT("hush")); }
+	bool VeilLamp() const { return VeilWorn(TEXT("lamp")) || KitLamp(); }
+	bool VeilNight() const { return VeilWorn(TEXT("night")); }
+	int32 HitVeil(AAerondelMob* Mob, int32 Damage);
+
+
 
 
 
@@ -817,6 +829,15 @@ protected:
 	void WyrmClearLive();
 	int32 WyrmPickRegion() const;
 
+	void ResetVeil();
+	void SaveVeil(FJsonObject& A) const;
+	void LoadVeil(const FJsonObject& A);
+	void TabVeil(FGPanelModel& M);
+	void DiedVeil(AAerondelMob* Mob, bool bByPlayer);
+	void SyncSoulPouch();
+	FString VeilLessonFrom(const FString& Item) const;
+
+
 
 
 
@@ -1157,6 +1178,14 @@ protected:
 	int32 WyrmRegion = -1;
 	TWeakObjectPtr<AAerondelMob> WyrmLive;
 	TWeakObjectPtr<AAerondelMob> WyrmAtt;
+
+	// Veilcraft (web adapt/veilcraft.js, save key "veil") — owns the soul pouch; wyrms.souls is a mirror
+	int32 VeilSoulCount = 0, VeilLesser = 0;
+	TArray<FString> VeilKnown;
+	TMap<FString, FString> VeilOn;
+	FString VeilSelItem, VeilSelFx;
+	int32 VeilFrostTick = -999, VeilStunTick = -999;
+
 
 
 

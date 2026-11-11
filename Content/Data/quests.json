@@ -66602,6 +66602,15 @@
    "z": -20,
    "town": "Larkhaven",
    "tint": "#6a8a4a"
+  },
+  "veilcraft": {
+   "name": "Veilwright Ise",
+   "examine": "At my veil bench you may unmake a non-unique kit-bearing piece to learn its named effect — the item is destroyed, the lesson stays. Bind that lesson onto a plain weapon or armour with a Skywyrm soul, or a lesser bright soul, plus a little essence. One binding per item. You can unbind later. This is not a Facet, not a graft, and not a kit, and it will not simply make the piece hit harder. Uniques keep their identity.",
+   "service": "veil",
+   "x": 118,
+   "z": -32,
+   "town": "Highcrest",
+   "tint": "#d0c8e8"
   }
  },
  "towns": [
