@@ -39,7 +39,7 @@ if exists("Source/Aerondel/Features/Ventures_Freeclimb.cpp"):
 # Leychemistry
 if exists("Source/Aerondel/Features/Ventures_Leychem.cpp"):
     src = read("Source/Aerondel/Features/Ventures_Leychem.cpp")
-    for name in ("LeyIgnite", "LeyPushWind", "leyProtected", "Rowan" if False else "rain"):
+    for name in ("LeyIgnite", "LeyPushWind", "LeyProtected", "rain"):
         if name not in src and name != "Rowan":
             errs.append(f"Leychem missing {name}")
     if npcs.get("leychem", {}).get("service") != "chem":

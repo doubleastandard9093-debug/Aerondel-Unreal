@@ -35,6 +35,12 @@ namespace VenturesStead
 }
 using namespace VenturesStead;
 
+bool UVenturesFeature::NearTownHouse(FVector2D WebPos, float RadiusM) const
+{
+	for (const FHouse& H : Houses) if (FVector2D::Distance(WebPos, FVector2D(H.X, H.Z)) < RadiusM) return true;
+	return false;
+}
+
 void UVenturesFeature::ResetStead() { SteadOwned.Reset(); SteadChests.Reset(); SteadFurn.Reset(); SteadBuildBusyMs = 0; }
 
 void UVenturesFeature::SaveStead(FJsonObject& A) const

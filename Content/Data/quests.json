@@ -66512,6 +66512,15 @@
    "z": -15,
    "town": "Larkhaven",
    "tint": "#6a7a4a"
+  },
+  "leychem": {
+   "name": "Leychemist Rowan",
+   "examine": "Fire, wind and metal listen to a few simple rules. Rain puts fire out. Town houses and the farm will not quietly burn down.",
+   "service": "chem",
+   "x": 5,
+   "z": -18,
+   "town": "Larkhaven",
+   "tint": "#c85a2a"
   }
  },
  "towns": [

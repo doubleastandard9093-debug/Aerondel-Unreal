@@ -41,6 +41,12 @@ struct FKinRec
 	int64 FaintUntil = 0;
 };
 
+struct FLeyFire
+{
+	FString Kind, Src;
+	float Heat = 1.f, X = 0.f, Z = 0.f;
+};
+
 struct FKinLive
 {
 	bool bOn = false;
@@ -260,6 +266,25 @@ public:
 	void ClimbEnd(const FString& Why, bool bSafe);
 	bool ClimbLaunch();
 	void TickClimb(float Dt);
+
+	// ---- group 22: Leychemistry (Ventures_Leychem.cpp) ----
+	bool LeyIgnite(float X, float Z, const FString& Kind = TEXT("grass"), const FString& Src = FString());
+	bool LeyExtinguish(float X, float Z);
+	bool LeyOnFire(float X, float Z) const;
+	bool LeyProtected(float X, float Z) const;
+	bool LeyCanBurn(float X, float Z, const FString& Kind = TEXT("grass")) const;
+	void LeyPushWind(float X, float Z, float Fx, float Fz);
+	void LeyStrike(float X, float Z);
+	void LeyOnCry();
+	FString LeyWeather() const;
+	bool LeyIsRain() const;
+	bool LeyIsStorm() const;
+	// Freeframe hooks (stubs until Ventures_Freeframe.cpp lands).
+	bool FrameOn(float X, float Z) const { return false; }
+	bool FrameFlammable(float X, float Z) const { return false; }
+	bool FrameMetal(FVector2D& Out) const { (void)Out; return false; }
+	bool FrameClaimed() const { return false; }
+	bool NearTownHouse(FVector2D WebPos, float RadiusM) const;
 
 	// ---- group 10: Vocations (Ventures_Vocations.cpp) ----
 	bool VocSwap(const FString& Id);
@@ -615,6 +640,13 @@ protected:
 	void TabClimb(FGPanelModel& M);
 	bool ClimbProbe(FHitResult& Out) const;
 
+	void ResetChem();
+	void SaveChem(FJsonObject& A) const;
+	void LoadChem(const FJsonObject& A);
+	void TabChem(FGPanelModel& M);
+	void TickChem();
+	bool LeyWearingMetal() const;
+
 	// group 1 internals
 	void ResetQuick();
 	void SaveQuick(FJsonObject& A) const;
@@ -886,7 +918,13 @@ protected:
 	bool bClimbing = false;
 	FVector ClimbNormal = FVector::ZeroVector;
 	float ClimbGrav = 1.f;
+
+	// Leychemistry (web adapt/leychem.js, save key "chem")
+	bool bChemSeen = false;
+	TMap<FIntPoint, FLeyFire> LeyFires;
+	float ChemAcc = 0.f;
 };
+
 
 
 

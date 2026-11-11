@@ -144,6 +144,7 @@ bool UVenturesFeature::CryUse(const FString& InId)
 			PS->Health->Heal(FMath::Max(1, FMath::RoundToInt(PS->Health->GetMax() * (0.04f * K))));
 		Say(TEXT("Heartencry steels you and your companion."));
 	}
+	LeyOnCry();
 	return true;
 }
 
