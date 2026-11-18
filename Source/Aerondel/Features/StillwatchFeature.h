@@ -29,7 +29,7 @@ public:
 	virtual void ResetState() override { Meter = 0.f; Uses = 0; Spot = EWeakSpot::Head; }
 
 	/** Returns true when the meter is full. */
-	UFUNCTION(BlueprintCallable, Category="Aerondel|Stillwatch") bool AddFocus(float N) { Meter = FMath::Min(Max, Meter + N); return Meter >= Max; }
+	UFUNCTION(BlueprintCallable, Category="Aerondel|Stillwatch") bool AddFocus(float N);
 	UFUNCTION(BlueprintCallable, Category="Aerondel|Stillwatch") bool Trigger(bool bVsBoss);
 	UFUNCTION(BlueprintCallable, Category="Aerondel|Stillwatch") void SetSpot(EWeakSpot S) { Spot = S; }
 	UFUNCTION(BlueprintPure, Category="Aerondel|Stillwatch") EWeakSpot GetSpot() const { return Spot; }

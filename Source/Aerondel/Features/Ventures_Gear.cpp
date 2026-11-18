@@ -34,7 +34,7 @@ namespace VenturesGear
 	}
 
 	struct FPerk { const TCHAR* Key; const TCHAR* Name; const TCHAR* Stat; float V; const TCHAR* Desc; };
-	static const FPerk Perks[] = {
+	static const FPerk GearPerks[] = {
 		{ TEXT("honed"), TEXT("Honed"), TEXT("dmg"), 0.03f, TEXT("+3% damage") },
 		{ TEXT("steady"), TEXT("Steady"), TEXT("acc"), 0.04f, TEXT("+4% accuracy") },
 		{ TEXT("warded"), TEXT("Warded"), TEXT("dr"), 0.03f, TEXT("3% less damage taken") },
@@ -43,14 +43,14 @@ namespace VenturesGear
 		{ TEXT("kindled"), TEXT("Kindled"), TEXT("flare"), 0.1f, TEXT("+10% Overflare gain") },
 		{ TEXT("brutal"), TEXT("Brutal"), TEXT("stag"), 0.15f, TEXT("+15% stagger") },
 	};
-	static const FPerk* FindPerk(const FString& K) { for (const FPerk& P : Perks) if (K == P.Key) return &P; return nullptr; }
+	static const FPerk* FindPerk(const FString& K) { for (const FPerk& P : GearPerks) if (K == P.Key) return &P; return nullptr; }
 	static TArray<FString> RollPerks()
 	{
-		const int32 N = (int32)UE_ARRAY_COUNT(Perks);
+		const int32 N = (int32)UE_ARRAY_COUNT(GearPerks);
 		const int32 A = FMath::RandRange(0, N - 1);
 		int32 B = FMath::RandRange(0, N - 2);
 		if (B >= A) ++B;
-		return { FString(Perks[A].Key), FString(Perks[B].Key) };
+		return { FString(GearPerks[A].Key), FString(GearPerks[B].Key) };
 	}
 
 	// 19-node hex board (q, r) with |q|,|r|,|q+r| <= 2, in web order.
@@ -336,7 +336,7 @@ void UVenturesFeature::AscentSet(const FString& N, int32 Slot, const FString& K)
 	while (R.Num() < 2) R.Add(RollPerks()[0]);
 	R[Slot] = K;
 	if (R[0] == R[1])
-		for (const FPerk& P : Perks) if (K != P.Key) { R[1 - Slot] = P.Key; break; }
+		for (const FPerk& P : GearPerks) if (K != P.Key) { R[1 - Slot] = P.Key; break; }
 	AscentRolls.Add(N, R);
 }
 
@@ -497,8 +497,8 @@ void UVenturesFeature::TabAscent(FGPanelModel& M)
 		for (int32 Slot = 0; Slot < 2; ++Slot)
 		{
 			const FString CurK = R->IsValidIndex(Slot) ? (*R)[Slot] : FString();
-			const int32 Ix = FMath::Max(0, [&]{ for (int32 k = 0; k < (int32)UE_ARRAY_COUNT(Perks); ++k) if (CurK == Perks[k].Key) return k; return 0; }());
-			const FString NextK = Perks[(Ix + 1) % (int32)UE_ARRAY_COUNT(Perks)].Key;
+			const int32 Ix = FMath::Max(0, [&]{ for (int32 k = 0; k < (int32)UE_ARRAY_COUNT(GearPerks); ++k) if (CurK == GearPerks[k].Key) return k; return 0; }());
+			const FString NextK = GearPerks[(Ix + 1) % (int32)UE_ARRAY_COUNT(GearPerks)].Key;
 			VAct4(M, FString::Printf(TEXT("Perk %d: next choice (%s)"), Slot + 1, FindPerk(NextK)->Name), [this, N, Slot, NextK] { AscentSet(N, Slot, NextK); });
 		}
 	M.Lines.Add(bPat ? FString(TEXT("Pattern known: choose perks exactly.")) : FString(TEXT("Dismantle 5 spare copies to learn the pattern.")));

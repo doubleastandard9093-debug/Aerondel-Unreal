@@ -13,7 +13,7 @@
 
 namespace VenturesHorde
 {
-	static const TCHAR* Foes[] = { TEXT("Goblin"), TEXT("Wolf"), TEXT("Ashen raider"), TEXT("Sand Reaver"), TEXT("Ember Imp"), TEXT("Magma Brute") };
+	static const TCHAR* HordeFoes[] = { TEXT("Goblin"), TEXT("Wolf"), TEXT("Ashen raider"), TEXT("Sand Reaver"), TEXT("Ember Imp"), TEXT("Magma Brute") };
 	static constexpr int64 GoalMs = 8 * 60 * 1000;
 	struct FWeap { const TCHAR* Id; const TCHAR* Name; const TCHAR* Desc; int32 Ms; bool bCombo = false; };
 	static const FWeap Weaps[] = {
@@ -79,8 +79,8 @@ int32 UVenturesFeature::HordeCap() const
 void UVenturesFeature::HordeSpawn(int32 N)
 {
 	const int32 Room = HordeCap() - ZoneAlive().Num();
-	const int32 Idx = FMath::Clamp((Run.L + Run.Level * 8) / 80, 0, (int32)UE_ARRAY_COUNT(Foes) - 1);
-	const FString Type = Foes[Idx];
+	const int32 Idx = FMath::Clamp((Run.L + Run.Level * 8) / 80, 0, (int32)UE_ARRAY_COUNT(HordeFoes) - 1);
+	const FString Type = HordeFoes[Idx];
 	for (int32 i = 0; i < FMath::Min(N, Room); ++i)
 	{
 		const float A = FMath::FRand() * 2.f * PI;

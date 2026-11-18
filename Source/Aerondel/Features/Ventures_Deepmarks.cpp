@@ -12,9 +12,9 @@
 
 namespace VenturesMarks
 {
-	static const TCHAR* Foes[] = { TEXT("Ashen raider"), TEXT("Sand Reaver"), TEXT("Canopy Stalker"), TEXT("Magma Brute"), TEXT("Ember Imp"), TEXT("Rime Wraith"), TEXT("Thornback Prowler"), TEXT("Hoarfrost Stalker"), TEXT("Murk Leech"), TEXT("Glass Scorpion"), TEXT("Voidborn Knight") };
+	static const TCHAR* DeepFoes[] = { TEXT("Ashen raider"), TEXT("Sand Reaver"), TEXT("Canopy Stalker"), TEXT("Magma Brute"), TEXT("Ember Imp"), TEXT("Rime Wraith"), TEXT("Thornback Prowler"), TEXT("Hoarfrost Stalker"), TEXT("Murk Leech"), TEXT("Glass Scorpion"), TEXT("Voidborn Knight") };
 	struct FMod { const TCHAR* Id; const TCHAR* Name; const TCHAR* Desc; };
-	static const FMod Mods[] = {
+	static const FMod DeepMods[] = {
 		{ TEXT("burning"),  TEXT("Burning ground"),  TEXT("You lose a little health every few ticks.") },
 		{ TEXT("shielded"), TEXT("Elites shielded"), TEXT("Foes take a little more killing (more health, not more damage).") },
 		{ TEXT("frenzy"),   TEXT("Frenzy"),          TEXT("Foes wind up a little faster — they do not hit much harder.") },
@@ -22,9 +22,9 @@ namespace VenturesMarks
 		{ TEXT("hush"),     TEXT("Hush"),            TEXT("Prayer feels slower to recover in this mark (rules, not raw damage).") },
 		{ TEXT("drift"),    TEXT("Drift"),           TEXT("Foes wander in from a wider angle.") },
 	};
-	static const FMod* FindModId(const FString& Id) { for (const FMod& M : Mods) if (Id == M.Id) return &M; return nullptr; }
+	static const FMod* FindModId(const FString& Id) { for (const FMod& M : DeepMods) if (Id == M.Id) return &M; return nullptr; }
 	static constexpr int32 MaxTier = 14;
-	static int32 Gate(int32 T) { return T <= 4 ? 500 : T <= 8 ? 750 : 1000; }
+	static int32 DeepGate(int32 T) { return T <= 4 ? 500 : T <= 8 ? 750 : 1000; }
 	static int32 ModsFor(int32 T) { return T <= 4 ? 2 : T <= 8 ? 3 : 4; }
 	static bool NeedLumen(int32 T) { return T >= 11; }
 	static FString WeekKey()
@@ -34,7 +34,7 @@ namespace VenturesMarks
 		D -= FTimespan::FromDays(Dow);
 		return FString::Printf(TEXT("%04d-%02d-%02d"), D.GetYear(), D.GetMonth(), D.GetDay());
 	}
-	static const TCHAR* PickFoe() { return Foes[FMath::RandRange(0, (int32)UE_ARRAY_COUNT(Foes) - 1)]; }
+	static const TCHAR* DeepPickFoe() { return DeepFoes[FMath::RandRange(0, (int32)UE_ARRAY_COUNT(DeepFoes) - 1)]; }
 	static void VAct18(FGPanelModel& M, const FString& L, TFunction<void()> F, bool bEnabled = true, bool bClose = false)
 	{ FGPanelAction A; A.Label = L; A.Run = MoveTemp(F); A.bEnabled = bEnabled; A.bClose = bClose; M.Actions.Add(MoveTemp(A)); }
 }
@@ -71,7 +71,7 @@ void UVenturesFeature::LoadMark(const FJsonObject& A)
 		for (const auto& E : C->Values)
 		{
 			const int32 T = FCString::Atoi(*E.Key);
-			if (T >= 1 && T <= MaxTier && E.Value.IsValid()) MarkClears.Add(E.Key, FMath::Max(0, (int32)E.Value->AsNumber()));
+			if (T >= 1 && T <= MaxTier && E.Value.IsValid()) MarkClears.Add(FString(*E.Key), FMath::Max(0, (int32)E.Value->AsNumber()));
 		}
 	if (const TArray<TSharedPtr<FJsonValue>>* St = nullptr; S->TryGetArrayField(TEXT("stash"), St) && St)
 		for (const TSharedPtr<FJsonValue>& V : *St)
@@ -102,7 +102,7 @@ void UVenturesFeature::MarkSpawnRoom()
 	for (AAerondelMob* M : ZoneAlive()) if (M) M->Destroy();
 	Run.Foes.Reset();
 	const int32 N = Run.Room == 3 ? 1 : (Run.Room == 1 ? 4 : 5);
-	const FString Type = Run.Room == 3 ? TEXT("Voidborn Knight") : PickFoe();
+	const FString Type = Run.Room == 3 ? TEXT("Voidborn Knight") : DeepPickFoe();
 	const float HpMul = (Run.Mods.Contains(TEXT("shielded")) ? 1.4f : 1.f) * (Run.Room == 3 ? 1.8f : 1.f);
 	const int32 Room = CapFoes(15) - ZoneAlive().Num();
 	const float Spread = Run.Mods.Contains(TEXT("drift")) ? 6.f : 4.f;
@@ -117,14 +117,14 @@ void UVenturesFeature::MarkSpawnRoom()
 bool UVenturesFeature::MarkStart(int32 Tier)
 {
 	const int32 T = FMath::Clamp(Tier, 1, MaxTier);
-	if (VLevel() < Gate(T)) { Say(FString::Printf(TEXT("Deepmarks of this height open at an average combat level of %d."), Gate(T))); return false; }
+	if (VLevel() < DeepGate(T)) { Say(FString::Printf(TEXT("Deepmarks of this height open at an average combat level of %d."), DeepGate(T))); return false; }
 	if (NeedLumen(T) && !LumenOn()) { Say(TEXT("Tiers past 1000 need Lumen Rise (a combat skill at 1000).")); return false; }
 	if (T > MarkTierUnlocked) { Say(TEXT("You have not opened this Deepmark height yet.")); return false; }
 	const int32 I = MarkStash.Find(FString::Printf(TEXT("t%d"), T));
 	if (I == INDEX_NONE) { Say(TEXT("You need a mark of this height in your stash. Breach clears can award a low-tier mark.")); return false; }
 	if (!RunStart(TEXT("marks"), TEXT("marks"))) { return false; }
 	MarkStash.RemoveAt(I);
-	TArray<FString> Keys; for (const FMod& M : Mods) Keys.Add(M.Id);
+	TArray<FString> Keys; for (const FMod& M : DeepMods) Keys.Add(M.Id);
 	Run.Mods.Reset();
 	while (Run.Mods.Num() < ModsFor(T) && Keys.Num())
 	{
@@ -172,7 +172,7 @@ void UVenturesFeature::DiedMark(AAerondelMob* Mob, bool bByPlayer)
 	if (Run.Mods.Contains(TEXT("echo")) && FMath::FRand() < 0.25f && ZoneAlive().Num() < CapFoes(15))
 	{
 		const float HpMul = Run.Mods.Contains(TEXT("shielded")) ? 1.4f : 0.8f;
-		ZoneSpawn(TEXT("marks"), PickFoe(), (FMath::FRand() - 0.5f) * 8.f, -4.f, (float)Run.L, HpMul);
+		ZoneSpawn(TEXT("marks"), DeepPickFoe(), (FMath::FRand() - 0.5f) * 8.f, -4.f, (float)Run.L, HpMul);
 	}
 }
 
@@ -207,7 +207,8 @@ void UVenturesFeature::MarkFromBreach(bool bHard, const FString& Grade)
 
 float UVenturesFeature::PrayerRegenMul() const
 {
-	return InRunKind(TEXT("marks")) && Run.Mods.Contains(TEXT("hush")) ? 0.35f : 1.f;
+	const float Mark = (InRunKind(TEXT("marks")) && Run.Mods.Contains(TEXT("hush"))) ? 0.35f : 1.f;
+	return Mark * RoadRegenMul();
 }
 
 float UVenturesFeature::PrayerRegenMul(const UObject* WorldContext)
@@ -235,8 +236,8 @@ void UVenturesFeature::TabMark(FGPanelModel& M)
 	{
 		const int32 N = Have.FindRef(FString::Printf(TEXT("t%d"), T));
 		const int32 Cl = MarkClears.FindRef(FString::FromInt(T));
-		const bool bLock = VLevel() < Gate(T) || (NeedLumen(T) && !LumenOn());
-		M.Lines.Add(FString::Printf(TEXT("Height %d — cleared %d · marks %d · opens at %d%s"), T, Cl, N, Gate(T), NeedLumen(T) ? TEXT(" + Lumen") : TEXT("")));
+		const bool bLock = VLevel() < DeepGate(T) || (NeedLumen(T) && !LumenOn());
+		M.Lines.Add(FString::Printf(TEXT("Height %d — cleared %d · marks %d · opens at %d%s"), T, Cl, N, DeepGate(T), NeedLumen(T) ? TEXT(" + Lumen") : TEXT("")));
 		VAct18(M, FString::Printf(TEXT("Enter height %d"), T), [this, T] { MarkStart(T); }, N > 0 && !bLock && !Run.bOn, true);
 	}
 }

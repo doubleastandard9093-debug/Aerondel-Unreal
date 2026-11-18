@@ -1,5 +1,6 @@
 #include "Features/WritsFeature.h"
 #include "Features/StandingFeature.h"
+#include "Features/VenturesFeature.h"
 #include "Features/ArenaFeature.h"
 #include "Core/AerondelEvents.h"
 #include "Data/MobDef.h"
@@ -73,10 +74,19 @@ FString UWritsFeature::Label(const FWrit& W)
 
 void UWritsFeature::Reward(const FWrit& W, bool bWeekly)
 {
+	if (UVenturesFeature* V = UVenturesFeature::Get(this))
+	{
+		if (V->BannerWary(W.Faction))
+		{
+			Say(TEXT("The banner will not honor this writ while they are Wary. Mend the banner (250 coins) and new writs will pay again. Larkhaven, the bank and the Saga stay open."));
+			return;
+		}
+	}
 	if (UStandingFeature* St = Feature<UStandingFeature>()) St->AddRep(W.Faction, bWeekly ? 80 : 20);
 	GiveCoins(bWeekly ? 2000 : 150);
 	if (bWeekly) { if (UArenaFeature* A = Feature<UArenaFeature>()) A->AddTokens(10); ++WeeklyDone; } else ++Done;
 	Say(FString::Printf(TEXT("%s done: %s."), bWeekly ? TEXT("Great deed") : TEXT("Writ"), *Label(W)));
+	if (UVenturesFeature* V = UVenturesFeature::Get(this)) V->BannerOnWrit(W.Faction);
 }
 
 void UWritsFeature::Progress(bool bKill, const FString& Target, int32 N)
