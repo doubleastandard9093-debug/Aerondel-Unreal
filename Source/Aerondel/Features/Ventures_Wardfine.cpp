@@ -14,7 +14,7 @@
 
 namespace VenturesKeep
 {
-	static constexpr float TownR = 16.f, FleeR = 28.f;
+	static constexpr float KeepTownR = 16.f, FleeR = 28.f;
 	static constexpr int64 WaitMs = 1400, UnwelcomeMs = 10ll * 60 * 1000;
 	struct FKeep { const TCHAR* Town; float X, Z, CX, CZ; };
 	static const FKeep Keeps[] = {
@@ -47,10 +47,10 @@ using namespace VenturesKeep;
 FString UVenturesFeature::TownAt(float X, float Z) const
 {
 	const FKeep* Best = nullptr;
-	float Bd = TownR;
+	float Bd = KeepTownR;
 	for (const FKeep& K : Keeps)
 	{
-		const float D = FMath::Hypot(X - K.X, Z - K.Z);
+		const float D = FMath::Sqrt(FMath::Square(X - K.X) + FMath::Square(Z - K.Z));
 		if (D < Bd) { Bd = D; Best = &K; }
 	}
 	return Best ? FString(Best->Town) : FString();
@@ -101,7 +101,7 @@ void UVenturesFeature::LoadKeep(const FJsonObject& A)
 	KeepHeldTown = JStr(*S, TEXT("heldTown"));
 	KeepJailUntil = JInt(*S, TEXT("jailUntil"));
 	if (const TSharedPtr<FJsonObject> U = JObj(*S, TEXT("unwelcome")))
-		for (const auto& P : U->Values) KeepUnwelcome.Add(P.Key, JInt(*U, *P.Key));
+		for (const auto& P : U->Values) KeepUnwelcome.Add(FString(*P.Key), JInt(*U, *P.Key));
 	// A mid-wait save should wake on load, like the web onReady path.
 	if (KeepJailUntil) FineWake();
 }

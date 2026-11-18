@@ -13,10 +13,10 @@
 
 namespace VenturesWyrms
 {
-	static constexpr int32 SoulCap = 8, HunterXp = 30, PrayerXp = 8;
-	static constexpr int64 CadenceMin = 18ll * 60 * 1000, CadenceSpan = 10ll * 60 * 1000, WarnMs = 3ll * 60 * 1000, FightMs = 8ll * 60 * 1000;
-	struct FReg { const TCHAR* Id; const TCHAR* Name; float X, Z; };
-	static const FReg Regions[] = {
+	static constexpr int32 WyrmSoulCap = 8, HunterXp = 30, PrayerXp = 8;
+	static constexpr int64 WyrmCadenceMin = 18ll * 60 * 1000, WyrmCadenceSpan = 10ll * 60 * 1000, WyrmWarnMs = 3ll * 60 * 1000, FightMs = 8ll * 60 * 1000;
+	struct FWyrmReg { const TCHAR* Id; const TCHAR* Name; float X, Z; };
+	static const FWyrmReg WyrmRegions[] = {
 		{ TEXT("rimeholt"),    TEXT("Rimeholt Tundra"),      -240.f, -347.f },
 		{ TEXT("skyreach"),    TEXT("Skyreach Highlands"),    245.f, -342.f },
 		{ TEXT("ashveil"),     TEXT("Ashveil Wastes"),        365.f, -132.f },
@@ -40,7 +40,7 @@ using namespace VenturesWyrms;
 
 int32 UVenturesFeature::WyrmPickRegion() const
 {
-	return FMath::RandRange(0, (int32)UE_ARRAY_COUNT(Regions) - 1);
+	return FMath::RandRange(0, (int32)UE_ARRAY_COUNT(WyrmRegions) - 1);
 }
 
 int32 UVenturesFeature::WyrmSouls() const { return VeilSoulCount; }
@@ -49,7 +49,7 @@ int32 UVenturesFeature::WyrmGrantSoul(int32 N)
 {
 	N = FMath::Max(0, N);
 	const int32 Before = VeilSoulCount;
-	VeilSoulCount = FMath::Min(SoulCap, VeilSoulCount + N);
+	VeilSoulCount = FMath::Min(WyrmSoulCap, VeilSoulCount + N);
 	if (VeilSoulCount > WyrmBest) WyrmBest = VeilSoulCount;
 	SyncSoulPouch();
 	return VeilSoulCount - Before;
@@ -102,14 +102,14 @@ void UVenturesFeature::SaveWyrms(FJsonObject& A) const
 void UVenturesFeature::LoadWyrms(const FJsonObject& A)
 {
 	const TSharedPtr<FJsonObject> S = JObj(A, TEXT("wyrms"));
-	if (!S) { WyrmNext = NowMs() + CadenceMin + (int64)(FMath::FRand() * (double)CadenceSpan); return; }
+	if (!S) { WyrmNext = NowMs() + WyrmCadenceMin + (int64)(FMath::FRand() * (double)WyrmCadenceSpan); return; }
 	WyrmSeen = (int32)JInt(*S, TEXT("seen"));
-	WyrmSoulCount = FMath::Clamp((int32)JInt(*S, TEXT("souls")), 0, SoulCap);
+	WyrmSoulCount = FMath::Clamp((int32)JInt(*S, TEXT("souls")), 0, WyrmSoulCap);
 	WyrmLast = JInt(*S, TEXT("last"));
 	WyrmBest = (int32)JInt(*S, TEXT("best"));
 	WyrmNext = JInt(*S, TEXT("next"));
 	if (WyrmSoulCount > WyrmBest) WyrmBest = WyrmSoulCount;
-	if (!WyrmNext) WyrmNext = (WyrmLast ? WyrmLast + CadenceMin : NowMs() + CadenceMin) + (int64)(FMath::FRand() * (double)CadenceSpan);
+	if (!WyrmNext) WyrmNext = (WyrmLast ? WyrmLast + WyrmCadenceMin : NowMs() + WyrmCadenceMin) + (int64)(FMath::FRand() * (double)WyrmCadenceSpan);
 }
 
 bool UVenturesFeature::WyrmOffer()
@@ -117,11 +117,11 @@ bool UVenturesFeature::WyrmOffer()
 	if (WyrmActive() || bWyrmOffered) return false;
 	WyrmRegion = WyrmPickRegion();
 	bWyrmOffered = true;
-	WyrmOfferUntil = NowMs() + WarnMs;
+	WyrmOfferUntil = NowMs() + WyrmWarnMs;
 	++WyrmSeen;
 	WyrmLast = NowMs();
-	WyrmNext = NowMs() + CadenceMin + (int64)(FMath::FRand() * (double)CadenceSpan);
-	const FReg& R = Regions[FMath::Clamp(WyrmRegion, 0, (int32)UE_ARRAY_COUNT(Regions) - 1)];
+	WyrmNext = NowMs() + WyrmCadenceMin + (int64)(FMath::FRand() * (double)WyrmCadenceSpan);
+	const FWyrmReg& R = WyrmRegions[FMath::Clamp(WyrmRegion, 0, (int32)UE_ARRAY_COUNT(WyrmRegions) - 1)];
 	Say(FString::Printf(TEXT("A Skywyrm is sighted over %s. You can fly or travel to it, or leave it. Ventures → Skywyrms."), R.Name));
 	return true;
 }
@@ -130,7 +130,7 @@ bool UVenturesFeature::WyrmPass()
 {
 	if (WyrmActive()) { Say(TEXT("The Skywyrm is already on the ground. Fight or walk away; it will leave in time.")); return false; }
 	if (!bWyrmOffered) return false;
-	const FReg& R = Regions[FMath::Clamp(WyrmRegion, 0, (int32)UE_ARRAY_COUNT(Regions) - 1)];
+	const FWyrmReg& R = WyrmRegions[FMath::Clamp(WyrmRegion, 0, (int32)UE_ARRAY_COUNT(WyrmRegions) - 1)];
 	bWyrmOffered = false;
 	WyrmOfferUntil = 0;
 	Say(FString::Printf(TEXT("You let the Skywyrm over %s pass. It was not a Colossus, and nothing is owed."), R.Name));
@@ -141,7 +141,7 @@ bool UVenturesFeature::WyrmFight()
 {
 	if (WyrmActive()) { Say(TEXT("A Skywyrm is already circling. There is never more than one at a time.")); return false; }
 	if (WyrmRegion < 0) WyrmRegion = WyrmPickRegion();
-	const FReg& R = Regions[FMath::Clamp(WyrmRegion, 0, (int32)UE_ARRAY_COUNT(Regions) - 1)];
+	const FWyrmReg& R = WyrmRegions[FMath::Clamp(WyrmRegion, 0, (int32)UE_ARRAY_COUNT(WyrmRegions) - 1)];
 	const bool bLow = IsLow();
 	int32 L = FMath::Max(25, CombatLevel() + (LumenOn() ? 8 : 0));
 	int32 Hp = 750, MaxHit = 80, Att = 60, Def = 55, Lvl = 79;
@@ -169,7 +169,7 @@ bool UVenturesFeature::WyrmFight()
 bool UVenturesFeature::WyrmGo()
 {
 	if (!bWyrmOffered) { Say(TEXT("No Skywyrm is sighted right now.")); return false; }
-	const FReg& R = Regions[FMath::Clamp(WyrmRegion, 0, (int32)UE_ARRAY_COUNT(Regions) - 1)];
+	const FWyrmReg& R = WyrmRegions[FMath::Clamp(WyrmRegion, 0, (int32)UE_ARRAY_COUNT(WyrmRegions) - 1)];
 	TeleportPlayer(FVector2D(R.X, R.Z));
 	return WyrmFight();
 }
@@ -201,8 +201,8 @@ void UVenturesFeature::DiedWyrm(AAerondelMob* Mob, bool bByPlayer)
 		GiveXp(TEXT("Hunter"), (float)HunterXp);
 		GiveXp(TEXT("Prayer"), (float)PrayerXp);
 	}
-	if (Gained) Say(FString::Printf(TEXT("The Skywyrm falls. A soul settles in your pouch (%d/%d). +%d Hunter, +%d Prayer. This was not a Colossus chest."), WyrmSouls(), SoulCap, HunterXp, PrayerXp));
-	else if (bByPlayer) Say(FString::Printf(TEXT("The Skywyrm falls, but your soul pouch is full (%d)."), SoulCap));
+	if (Gained) Say(FString::Printf(TEXT("The Skywyrm falls. A soul settles in your pouch (%d/%d). +%d Hunter, +%d Prayer. This was not a Colossus chest."), WyrmSouls(), WyrmSoulCap, HunterXp, PrayerXp));
+	else if (bByPlayer) Say(FString::Printf(TEXT("The Skywyrm falls, but your soul pouch is full (%d)."), WyrmSoulCap));
 	if (AAerondelMob* A = WyrmAtt.Get()) A->Destroy();
 	WyrmAtt.Reset();
 	WyrmLive.Reset();
@@ -213,16 +213,16 @@ void UVenturesFeature::TabWyrms(FGPanelModel& M)
 {
 	M.Title = TEXT("Skywyrms");
 	M.Lines.Add(TEXT("Occasional flyers over the wilds. Fighting is optional. A kill yields a soul for Veilcraft, a little Hunter or Prayer, and nothing like a Colossus chest. Ashwyrm stays a Colossus on the Contested Wilds. At most one sighting at a time."));
-	M.Lines.Add(FString::Printf(TEXT("Soul pouch: %d/%d · Sightings: %d"), WyrmSouls(), SoulCap, WyrmSeen));
+	M.Lines.Add(FString::Printf(TEXT("Soul pouch: %d/%d · Sightings: %d"), WyrmSouls(), WyrmSoulCap, WyrmSeen));
 	if (WyrmActive())
 	{
-		const FReg& R = Regions[FMath::Clamp(WyrmRegion, 0, (int32)UE_ARRAY_COUNT(Regions) - 1)];
+		const FWyrmReg& R = WyrmRegions[FMath::Clamp(WyrmRegion, 0, (int32)UE_ARRAY_COUNT(WyrmRegions) - 1)];
 		M.Lines.Add(FString::Printf(TEXT("A Skywyrm is down over %s. Walk away if you want — it will leave in time."), R.Name));
 		VAct31(M, TEXT("Let it leave"), [this] { WyrmLeave(); });
 	}
 	else if (bWyrmOffered)
 	{
-		const FReg& R = Regions[FMath::Clamp(WyrmRegion, 0, (int32)UE_ARRAY_COUNT(Regions) - 1)];
+		const FWyrmReg& R = WyrmRegions[FMath::Clamp(WyrmRegion, 0, (int32)UE_ARRAY_COUNT(WyrmRegions) - 1)];
 		M.Lines.Add(FString::Printf(TEXT("A Skywyrm is sighted over %s. You can go to it, or let it pass. Nothing is owed if you leave it."), R.Name));
 		VAct31(M, TEXT("Go"), [this] { WyrmGo(); }, true, true);
 		VAct31(M, TEXT("Not now"), [this] { WyrmPass(); });

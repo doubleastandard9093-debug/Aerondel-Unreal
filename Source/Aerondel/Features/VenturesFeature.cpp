@@ -48,15 +48,15 @@ namespace VenturesData
 	static const TCHAR* LookSlots[] = { TEXT("head"), TEXT("body"), TEXT("legs"), TEXT("shield"), TEXT("cape"), TEXT("weapon") };
 
 	// Towns in world.json order (web metres).
-	struct FTown { const TCHAR* Name; float X; float Z; };
-	static const FTown Towns[] = {
+	struct FVdTown { const TCHAR* Name; float X; float Z; };
+	static const FVdTown VdTowns[] = {
 		{ TEXT("Larkhaven"), 0, 0 }, { TEXT("Emberfold"), 50, -24 }, { TEXT("Saltreach"), -80, 60 }, { TEXT("Highcrest"), 120, -40 },
 		{ TEXT("Whitecairn"), -60, -80 }, { TEXT("Thistlewell"), 40, 90 }, { TEXT("Rimeholt"), -250, -355 }, { TEXT("Cragmoor Lodge"), 235, -350 },
 		{ TEXT("Cinderpost"), 355, -140 }, { TEXT("Mirage Well"), 360, 120 }, { TEXT("Vinehollow"), 210, 360 }, { TEXT("Bogwatch"), -360, 185 },
 		{ TEXT("Ashgate Post"), 540, 0 }, { TEXT("Briarwatch"), 380, 400 }, { TEXT("Thunderhold"), -390, 400 }, { TEXT("Lanternmoor"), -545, -10 },
 		{ TEXT("Mirrorsand Rest"), -410, -440 }, { TEXT("Slagwatch"), 0, -545 }, { TEXT("Last Light Bastion"), 420, -430 },
 		{ TEXT("Snarlwick"), 190, 40 }, { TEXT("Gorrumhold"), -200, -30 }, { TEXT("Sylvaranth"), 30, 230 } };
-	static constexpr int32 NumTowns = (int32)UE_ARRAY_COUNT(Towns);
+	static constexpr int32 NumTowns = (int32)UE_ARRAY_COUNT(VdTowns);
 
 	static const TCHAR* Souls[] = { TEXT("Cinder Warden"), TEXT("Bramble Colossus"), TEXT("Glacier Behemoth"), TEXT("Peak Warlord"), TEXT("Bog Revenant"),
 		TEXT("Dune Tyrant"), TEXT("Molten Archon"), TEXT("Voidborn Knight"), TEXT("Sunderlord Vexmar"), TEXT("Captain Saltgrave"), TEXT("Stonehorn"), TEXT("Frostmaw"), TEXT("Ashwyrm") };
@@ -83,8 +83,8 @@ namespace VenturesData
 	static const TCHAR* Runes[] = { TEXT("Triangle"), TEXT("Diamond"), TEXT("Circle"), TEXT("Cross") };
 	static const FVector2D RelicOff[] = { FVector2D(-16, -12), FVector2D(18, -10), FVector2D(-14, 16), FVector2D(15, 17) };
 
-	static FVector2D LoreStone(int32 i) { return FVector2D(Towns[i].X + 7.f, Towns[i].Z + 5.f); }
-	static FString Pct(float F) { return FString::Printf(TEXT("%d%%"), FMath::RoundToInt(F * 100.f)); }
+	static FVector2D LoreStone(int32 i) { return FVector2D(VdTowns[i].X + 7.f, VdTowns[i].Z + 5.f); }
+	static FString VdPct(float F) { return FString::Printf(TEXT("%d%%"), FMath::RoundToInt(F * 100.f)); }
 }
 using namespace VenturesData;
 
@@ -147,8 +147,8 @@ void UVenturesFeature::ResetState()
 	ResetOath();
 	ResetRoad();
 	ResetScore();
-	ResetMark();
-	ResetAsh();
+	ResetBlight();
+	ResetAshfall();
 }
 
 void UVenturesFeature::SaveState(FJsonObject& Out) const
@@ -191,8 +191,8 @@ void UVenturesFeature::SaveState(FJsonObject& Out) const
 	SaveOath(Out);
 	SaveRoad(Out);
 	SaveScore(Out);
-	SaveMark(Out);
-	SaveAsh(Out);
+	SaveBlight(Out);
+	SaveAshfall(Out);
 }
 
 void UVenturesFeature::LoadState(const FJsonObject& In)
@@ -236,8 +236,8 @@ void UVenturesFeature::LoadState(const FJsonObject& In)
 	LoadOath(In);
 	LoadRoad(In);
 	LoadScore(In);
-	LoadMark(In);
-	LoadAsh(In);
+	LoadBlight(In);
+	LoadAshfall(In);
 }
 
 void UVenturesFeature::OnGameTick()
@@ -262,8 +262,8 @@ void UVenturesFeature::OnGameTick()
 	TickKeep();
 	TickOath();
 	TickRoad();
-	TickMark();
-	TickAsh();
+	TickBlight();
+	TickAshfall();
 }
 
 void UVenturesFeature::OnPlayerDied()
@@ -364,7 +364,7 @@ void UVenturesFeature::DiedMore(AAerondelMob* Mob, bool bByPlayer)
 	DiedMark(Mob, bByPlayer);
 	DiedSpire(Mob, bByPlayer);
 	DiedWyrm(Mob, bByPlayer);
-	DiedAsh(Mob, bByPlayer);
+	DiedAshfall(Mob, bByPlayer);
 	DiedVeil(Mob, bByPlayer);
 	DiedKeep(Mob, bByPlayer);
 }
@@ -417,8 +417,8 @@ bool UVenturesFeature::BuildTabMore(const FString& Tab, FGPanelModel& M)
 	if (Tab == TEXT("oath")) { TabOath(M); return true; }
 	if (Tab == TEXT("road")) { TabRoad(M); return true; }
 	if (Tab == TEXT("score")) { TabScore(M); return true; }
-	if (Tab == TEXT("blight")) { TabMark(M); return true; }
-	if (Tab == TEXT("ash")) { TabAsh(M); return true; }
+	if (Tab == TEXT("blight")) { TabBlight(M); return true; }
+	if (Tab == TEXT("ash")) { TabAshfall(M); return true; }
 	return false;
 }
 
@@ -830,7 +830,7 @@ const TArray<FVentureRelic>& UVenturesFeature::Relics() const
 	if (R.Num() == 0)
 		for (int32 i = 0; i < 16; ++i)
 		{
-			const FTown& T = Towns[i % NumTowns];
+			const FVdTown& T = VdTowns[i % NumTowns];
 			const FVector2D O = RelicOff[((i / NumTowns) % 4 + (i % 2)) % 4];
 			FVentureRelic S; S.Index = i; S.Pos = FVector2D(T.X + O.X, T.Z + O.Y); S.Tier = 1 + (i % 3);
 			R.Add(S);
@@ -941,7 +941,7 @@ void UVenturesFeature::TabOverview(FGPanelModel& M)
 	M.Title = TEXT("Ventures");
 	M.Lines.Add(TEXT("New systems inspired by other games, reworked for Aerondel. Press J to open and close this window."));
 	M.Lines.Add(FString::Printf(TEXT("Your Ventures bonuses: +%s damage, +%s accuracy, %s less damage taken, +%s XP."),
-		*Pct(DamageDealtBonus(nullptr)), *Pct(AccuracyBonus(nullptr)), *Pct(FMath::Clamp(SumDr(nullptr), 0.f, CapDr)), *Pct(XpBonus(TEXT("attack")))));
+		*VdPct(DamageDealtBonus(nullptr)), *VdPct(AccuracyBonus(nullptr)), *VdPct(FMath::Clamp(SumDr(nullptr), 0.f, CapDr)), *VdPct(XpBonus(TEXT("attack")))));
 	struct FT { const TCHAR* Id; const TCHAR* Name; };
 	static const FT T[] = { { TEXT("flare"), TEXT("Overflare (U)") }, { TEXT("wardrobe"), TEXT("Lookplates") }, { TEXT("ledger"), TEXT("Wayfarer's Ledger") }, { TEXT("reliq"), TEXT("Hidden Reliquaries") } };
 	for (const FT& X : T) { const FString Id = X.Id; VAct(M, X.Name, [this, Id] { GoTab(Id); }); }
@@ -1020,7 +1020,7 @@ void UVenturesFeature::TabLedger(FGPanelModel& M)
 	List(TEXT("Lore stones"), Lore, NumLore);
 	List(TEXT("Village trinkets"), Trinkets, (int32)UE_ARRAY_COUNT(Villages));
 	FString Missing;
-	for (int32 i = 0; i < NumLore; ++i) if (!Lore.Contains(FString::Printf(TEXT("lore%d"), i))) Missing += FString::Printf(TEXT("%s%s"), Missing.IsEmpty() ? TEXT("") : TEXT(", "), Towns[i].Name);
+	for (int32 i = 0; i < NumLore; ++i) if (!Lore.Contains(FString::Printf(TEXT("lore%d"), i))) Missing += FString::Printf(TEXT("%s%s"), Missing.IsEmpty() ? TEXT("") : TEXT(", "), VdTowns[i].Name);
 	if (!Missing.IsEmpty()) M.Lines.Add(TEXT("Lore stones still to read stand just south-east of: ") + Missing);
 	M.Lines.Add(TEXT("Souls: frontier bosses, Captain Saltgrave and the Colossi. Trinkets: walk into Snarlwick, Gorrumhold and Sylvaranth."));
 }

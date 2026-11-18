@@ -16,7 +16,7 @@
 namespace VenturesChecks
 {
 	struct FHook { const TCHAR* Id; const TCHAR* Skill; int32 Need; const TCHAR* Giver; const TCHAR* Quest; const TCHAR* Text; const TCHAR* Pass; const TCHAR* Fail; int32 Gold; int32 Xp; };
-	static const FHook Hooks[] = {
+	static const FHook CheckHooks[] = {
 		{ TEXT("hilda_pie"), TEXT("Farming"), 15, TEXT("hilda"), TEXT("hilda_pie"), TEXT("Offer a better berry bed for her garden"), TEXT("Oh! That would keep the birds off. Take this for the advice."), TEXT("I know my own garden, dear. Come back when you have grown a few beds of your own."), 40, 80 },
 		{ TEXT("bram_brew"), TEXT("Herbalism"), 20, TEXT("bram"), TEXT("bram_brew"), TEXT("Name the bitter in last season's mash"), TEXT("Nightshade? You have a good nose. Here is a little extra."), TEXT("I would rather not guess at bitters with a stranger."), 50, 80 },
 		{ TEXT("thurgo_steel"), TEXT("Smithing"), 30, TEXT("thurgo"), TEXT("thurgo_steel"), TEXT("Point out the hairline crack in the bloom"), TEXT("So there is. I had missed it. Take a coin for the eye."), TEXT("The bloom is fine. Do not tell a smith his fire."), 80, 120 },
@@ -26,7 +26,7 @@ namespace VenturesChecks
 	};
 	static const FHook* FindHook(const FString& Id)
 	{
-		for (const FHook& H : Hooks) if (Id == H.Id) return &H;
+		for (const FHook& H : CheckHooks) if (Id == H.Id) return &H;
 		return nullptr;
 	}
 	static bool GiverMatch(const FHook& H, FName NpcId)
@@ -78,7 +78,7 @@ bool UVenturesFeature::SkillQuestReady(const FString& QuestId) const
 
 bool UVenturesFeature::SkillHasOpen(FName NpcId) const
 {
-	for (const FHook& H : Hooks)
+	for (const FHook& H : CheckHooks)
 	{
 		if (!GiverMatch(H, NpcId)) continue;
 		if (CheckUsed.Contains(H.Id)) continue;
@@ -136,7 +136,7 @@ void UVenturesFeature::TabChecks(FGPanelModel& M)
 	M.Lines.Add(TEXT("Dialogue lines gated by skills you already have. Silver Tongue stays the three social checks (Persuade, Lie and Intimidate). A miss is a short refusal and does not spend the hook or lock a quest."));
 	ANpcTalk* Talk = Cast<ANpcTalk>(SkillNpc.Get());
 	const FName Talking = (Talk && Talk->Definition) ? Talk->Definition->Id : NAME_None;
-	for (const FHook& H : Hooks)
+	for (const FHook& H : CheckHooks)
 	{
 		const bool bUsed = CheckUsed.Contains(H.Id);
 		const int32 Lv = SkillLevel(H.Skill);

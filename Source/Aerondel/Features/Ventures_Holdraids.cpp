@@ -10,12 +10,12 @@
 
 namespace VenturesRaids
 {
-	static constexpr float PlotX = 22.f, PlotZ = 78.f, PlotHalf = 12.f, Grid = 1.5f;
+	static constexpr float RaidsPlotX = 22.f, RaidsPlotZ = 78.f, RaidsPlotHalf = 12.f, RaidsGrid = 1.5f;
 	static constexpr int64 DelayMs = 8 * 60 * 1000;
-	static constexpr int64 WarnMs = 45 * 1000;
+	static constexpr int64 RaidsWarnMs = 45 * 1000;
 	static constexpr int64 ChipMs = 8000;
-	static const TCHAR* Foes[] = { TEXT("Goblin"), TEXT("Wolf"), TEXT("Ashen raider"), TEXT("Sand Reaver") };
-	static bool GfxLow()
+	static const TCHAR* RaidsFoes[] = { TEXT("Goblin"), TEXT("Wolf"), TEXT("Ashen raider"), TEXT("Sand Reaver") };
+	static bool RaidsGfxLow()
 	{
 		const EAerondelTier T = UAerondelScalability::GetSavedTier();
 		return T == EAerondelTier::Low || T == EAerondelTier::Quest;
@@ -72,12 +72,12 @@ bool UVenturesFeature::RaidStart()
 	if (!FrameClaimed()) { Say(TEXT("Raids only come for a claimed wild plot. Claim Claimridge first. Town houses and the farm are never raided.")); return false; }
 	if (bRaidOn) { Say(TEXT("A raid is already on the plot.")); return false; }
 	const int32 L = VLevel();
-	const int32 N = FMath::Min(CapFoes(15), GfxLow() ? 6 : 10);
+	const int32 N = FMath::Min(CapFoes(15), RaidsGfxLow() ? 6 : 10);
 	for (int32 i = 0; i < N; ++i)
 	{
-		const TCHAR* Type = Foes[FMath::Min((int32)UE_ARRAY_COUNT(Foes) - 1, L / 80 + (int32)(i * 0.2f))];
-		const float A = (float)i / (float)N * 2.f * PI, Rad = PlotHalf + 2.f;
-		const FVector2D P(PlotX + FMath::Cos(A) * Rad, PlotZ + FMath::Sin(A) * Rad);
+		const TCHAR* Type = RaidsFoes[FMath::Min((int32)UE_ARRAY_COUNT(RaidsFoes) - 1, L / 80 + (int32)(i * 0.2f))];
+		const float A = (float)i / (float)N * 2.f * PI, Rad = RaidsPlotHalf + 2.f;
+		const FVector2D P(RaidsPlotX + FMath::Cos(A) * Rad, RaidsPlotZ + FMath::Sin(A) * Rad);
 		const int32 Hp = 20 + L * 3;
 		if (AAerondelMob* M = SpawnTunedMob(Type, P, Type, Hp, FMath::Max(2, L / 8), 4 + L / 10, 4 + L / 10, FMath::Max(1, L), 1.f, false))
 			RaidMobs.Add(M);
@@ -135,7 +135,7 @@ void UVenturesFeature::TickRaids()
 	if (!FrameClaimed()) return;
 	const int64 Now = NowMs();
 	if (RaidNext <= 0) RaidNext = Now + DelayMs + (int64)(FMath::FRand() * DelayMs);
-	if (!bRaidOn && !bRaidWarned && Now > RaidNext - WarnMs && Now < RaidNext)
+	if (!bRaidOn && !bRaidWarned && Now > RaidNext - RaidsWarnMs && Now < RaidNext)
 	{
 		bRaidWarned = true;
 		Say(TEXT("A Holdraid is gathering on Claimridge. You can delay or skip it from Ventures → Holdraids."));
@@ -147,7 +147,7 @@ void UVenturesFeature::TickRaids()
 	if (FrameList.Num() && Live && Now - RaidLastChip >= ChipMs)
 	{
 		const FFramePiece& P = FrameList[0];
-		FrameDamage(PlotX + P.Gx * Grid, PlotZ + P.Gz * Grid, 1);
+		FrameDamage(RaidsPlotX + P.Gx * RaidsGrid, RaidsPlotZ + P.Gz * RaidsGrid, 1);
 		RaidHits++;
 		RaidLastChip = Now;
 	}

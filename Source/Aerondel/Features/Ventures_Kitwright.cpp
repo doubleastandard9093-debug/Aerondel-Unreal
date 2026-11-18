@@ -22,7 +22,7 @@ namespace VenturesKits
 		const TCHAR* Desc; bool bMelee; bool bRanged; bool bSeason;
 		FIn Inputs[4]; FIn Refund[4];
 	};
-	static const FKit Kits[] = {
+	static const FKit KitDefs[] = {
 		{ TEXT("longhaft"), TEXT("Longhaft kit"), TEXT("weapon"), TEXT("Smithing"), 10, 40,
 			TEXT("A little more melee reach, a little slower. Not a damage bonus."), true, false, false,
 			{ { TEXT("Logs"), 3 }, { TEXT("Iron bar"), 1 } }, { { TEXT("Logs"), 2 }, { TEXT("Iron bar"), 1 } } },
@@ -44,10 +44,10 @@ namespace VenturesKits
 	};
 	static const FKit* FindKit(const FString& Id)
 	{
-		for (const FKit& K : Kits) if (Id == K.Id) return &K;
+		for (const FKit& K : KitDefs) if (Id == K.Id) return &K;
 		return nullptr;
 	}
-	static FString ItemName(const UItemDef* I) { return I ? I->DisplayName.ToString() : FString(); }
+	static FString KitItemName(const UItemDef* I) { return I ? I->DisplayName.ToString() : FString(); }
 	static bool IsArmourSlot(EEquipSlot S) { return S == EEquipSlot::Head || S == EEquipSlot::Body || S == EEquipSlot::Legs || S == EEquipSlot::Shield; }
 	static void VAct28(FGPanelModel& M, const FString& L, TFunction<void()> F, bool bEnabled = true, bool bClose = false)
 	{ FGPanelAction A; A.Label = L; A.Run = MoveTemp(F); A.bEnabled = bEnabled; A.bClose = bClose; M.Actions.Add(MoveTemp(A)); }
@@ -67,7 +67,7 @@ bool UVenturesFeature::KitHas(const FString& KitId) const
 	const AAerondelPlayerState* PS = GetPS();
 	if (!PS || !PS->Equipment) return false;
 	for (const auto& P : PS->Equipment->GetAll())
-		if (P.Value && KitList(ItemName(P.Value)).Contains(KitId)) return true;
+		if (P.Value && KitList(KitItemName(P.Value)).Contains(KitId)) return true;
 	return false;
 }
 
@@ -141,7 +141,7 @@ void UVenturesFeature::LoadKits(const FJsonObject& A)
 			if (P.Value.IsValid() && P.Value->TryGetArray(Arr) && Arr)
 				for (const auto& V : *Arr) if (V.IsValid() && V->Type == EJson::String) Ids.AddUnique(V->AsString());
 			if (Ids.Num() > KitSlots) Ids.SetNum(KitSlots);
-			if (Ids.Num()) KitOn.Add(P.Key, FString::Join(Ids, TEXT(",")));
+			if (Ids.Num()) KitOn.Add(FString(*P.Key), FString::Join(Ids, TEXT(",")));
 		}
 }
 
@@ -184,7 +184,7 @@ bool UVenturesFeature::KitAttach(const FString& Item, const FString& KitId)
 	bool bWorn = false;
 	if (const AAerondelPlayerState* PS = GetPS())
 		if (PS->Equipment)
-			for (const auto& P : PS->Equipment->GetAll()) if (P.Value && ItemName(P.Value) == Item) { bWorn = true; break; }
+			for (const auto& P : PS->Equipment->GetAll()) if (P.Value && KitItemName(P.Value) == Item) { bWorn = true; break; }
 	if (!bWorn) { Say(TEXT("Wear the item first.")); return false; }
 	if (CountItem(K->Name) < 1) { Say(FString::Printf(TEXT("You do not have a %s."), K->Name)); return false; }
 	const FString Why = KitCanTake(Item, KitId);
@@ -216,7 +216,7 @@ void UVenturesFeature::TabKits(FGPanelModel& M)
 	M.Title = TEXT("Kitwright");
 	M.Lines.Add(TEXT("Up to two kits on a worn weapon or armour piece. Kits change how the piece behaves. They are not grafts or Facets, and they do not add a damage percent. Frontier uniques cannot take a kit."));
 	M.Lines.Add(TEXT("Craft"));
-	for (const FKit& K : Kits)
+	for (const FKit& K : KitDefs)
 	{
 		if (K.bSeason && !ScoreHas(TEXT("kit-ashthread"))) continue;
 		FString Have;
@@ -226,7 +226,7 @@ void UVenturesFeature::TabKits(FGPanelModel& M)
 	}
 	M.Lines.Add(TEXT("Held kits"));
 	bool bHeld = false;
-	for (const FKit& K : Kits)
+	for (const FKit& K : KitDefs)
 	{
 		const int32 N = CountItem(K.Name);
 		if (N <= 0) continue;
@@ -243,7 +243,7 @@ void UVenturesFeature::TabKits(FGPanelModel& M)
 			{
 				if (!P.Value) continue;
 				bWorn = true;
-				const FString It = ItemName(P.Value);
+				const FString It = KitItemName(P.Value);
 				const TArray<FString> Ids = KitList(It);
 				M.Lines.Add(FString::Printf(TEXT("%s  %d/%d%s"), *It, Ids.Num(), KitSlots, *KitExamine(It, FString())));
 				for (int32 i = 0; i < Ids.Num(); ++i)

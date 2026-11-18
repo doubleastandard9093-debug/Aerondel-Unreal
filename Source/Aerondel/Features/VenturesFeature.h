@@ -543,6 +543,7 @@ public:
 	bool MarkHush();
 	bool MarkClear(const FString& Id);
 	bool MarkDraft(const FString& Id);
+	bool MarkBrew(const FString& Item);
 	float LeySpreadMul() const;
 	float LeyRainMul() const;
 
@@ -560,6 +561,8 @@ public:
 	FString AshForbidden(float X, float Z) const;
 	FString AshSwapName(const FString& Type, float X, float Z) const;
 	void AshMarkMob(AAerondelMob* Mob);
+	bool AshInRegion(int32 Region, float X, float Z) const;
+	int32 AshPickRegion() const;
 
 
 
@@ -963,6 +966,21 @@ protected:
 	FString ScoreDayKey(int64 Ms) const;
 	FString ScoreWeekKey(int64 Ms) const;
 
+	// group 38 internals (Wildmarks, save key "blight") — not the Deepmarks *Mark internals
+	void ResetBlight();
+	void SaveBlight(FJsonObject& A) const;
+	void LoadBlight(const FJsonObject& A);
+	void TabBlight(FGPanelModel& M);
+	void TickBlight();
+
+	// group 39 internals (Ashfall, save key "ash") — not the Ashkin *Ash internals
+	void ResetAshfall();
+	void SaveAshfall(FJsonObject& A) const;
+	void LoadAshfall(const FJsonObject& A);
+	void TabAshfall(FGPanelModel& M);
+	void TickAshfall();
+	void DiedAshfall(AAerondelMob* Mob, bool bByPlayer);
+
 
 
 
@@ -1343,6 +1361,7 @@ protected:
 
 	// Hardroad (web adapt/hardroad.js, save key "road") — off by default, including on old saves
 	bool bRoadOn = false;
+	bool bRoadHideHud = false;
 	int32 RoadHunger = 100, RoadThirst = 100, RoadRestAmt = 100;
 	int64 RoadLast = 0;
 
@@ -1356,6 +1375,14 @@ protected:
 	int64 MarkHushUntil = 0;
 	bool bMarkSwimOn = false;
 	float MarkSwimSaved = 0.f;
+
+	// Ashfall (web adapt/ashfall.js, save key "ash") — a flare in progress is never saved
+	int32 AshSeen = 0;
+	int64 AshLast = 0, AshNext = 0, AshUntil = 0, AshOfferUntil = 0;
+	int32 AshRegion = -1;
+	bool bAshOffered = false, bAshActive = false, bAshNode = false, bAshWyrm = false;
+	float AshNodeX = 0.f, AshNodeZ = 0.f;
+	TArray<TWeakObjectPtr<AAerondelMob>> AshMarked;
 
 
 

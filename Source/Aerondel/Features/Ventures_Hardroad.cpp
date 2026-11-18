@@ -11,8 +11,8 @@
 
 namespace VenturesRoad
 {
-	static constexpr int32 MeterMax = 100, Low = 30;
-	static constexpr int64 DrainMs = 45000;
+	static constexpr int32 MeterMax = 100, RoadLow = 30;
+	static constexpr int64 RoadDrainMs = 45000;
 	static void VAct36(FGPanelModel& M, const FString& L, TFunction<void()> F, bool bEnabled = true, bool bClose = false)
 	{ FGPanelAction A; A.Label = L; A.Run = MoveTemp(F); A.bEnabled = bEnabled; A.bClose = bClose; M.Actions.Add(MoveTemp(A)); }
 }
@@ -54,8 +54,8 @@ float UVenturesFeature::RoadRegenMul() const
 {
 	if (!bRoadOn) return 1.f;
 	const int32 L = FMath::Min3(RoadHunger, RoadThirst, RoadRestAmt);
-	if (L >= Low) return 1.f;
-	return 0.5f + 0.5f * ((float)L / (float)Low); // at 0, half speed — never a full stop, never lethal
+	if (L >= RoadLow) return 1.f;
+	return 0.5f + 0.5f * ((float)L / (float)RoadLow); // at 0, half speed — never a full stop, never lethal
 }
 
 float UVenturesFeature::RoadRegenMul(const UObject* WorldContext)
@@ -121,9 +121,9 @@ void UVenturesFeature::TickRoad()
 	const int64 Now = NowMs();
 	if (!RoadLast) { RoadLast = Now; return; }
 	const int64 Span = Now - RoadLast;
-	if (Span < DrainMs) return;
-	const int32 Steps = (int32)(Span / DrainMs);
-	RoadLast += (int64)Steps * DrainMs;
+	if (Span < RoadDrainMs) return;
+	const int32 Steps = (int32)(Span / RoadDrainMs);
+	RoadLast += (int64)Steps * RoadDrainMs;
 	RoadHunger = FMath::Max(0, RoadHunger - Steps);
 	RoadThirst = FMath::Max(0, RoadThirst - Steps);
 	RoadRestAmt = FMath::Max(0, RoadRestAmt - Steps);

@@ -8,9 +8,9 @@
 
 namespace VenturesTrail
 {
-	static constexpr int32 BetMin = 10, BetMax = 500, Len = 3, Rows = 3, HandN = 5, DeckN = 36;
+	static constexpr int32 BetMin = 10, BetMax = 500, TrailLen = 3, Rows = 3, HandN = 5, DeckN = 36;
 	static const TCHAR* Suits[] = { TEXT("Sun"), TEXT("Moon"), TEXT("Star"), TEXT("Spark") };
-	static const TCHAR* Marks[] = { TEXT("1"), TEXT("2"), TEXT("3"), TEXT("4"), TEXT("5"), TEXT("6"), TEXT("7"), TEXT("8"), TEXT("9") };
+	static const TCHAR* TrailMarks[] = { TEXT("1"), TEXT("2"), TEXT("3"), TEXT("4"), TEXT("5"), TEXT("6"), TEXT("7"), TEXT("8"), TEXT("9") };
 	static void VAct25(FGPanelModel& M, const FString& L, TFunction<void()> F, bool bEnabled = true, bool bClose = false)
 	{ FGPanelAction A; A.Label = L; A.Run = MoveTemp(F); A.bEnabled = bEnabled; A.bClose = bClose; M.Actions.Add(MoveTemp(A)); }
 }
@@ -19,14 +19,14 @@ using namespace VenturesTrail;
 FString UVenturesFeature::TrailCardLabel(int32 Rank, int32 Suit) const
 {
 	const int32 R = FMath::Clamp(Rank, 0, 8), S = FMath::Clamp(Suit, 0, 3);
-	return FString(Marks[R]) + TEXT("-") + Suits[S];
+	return FString(TrailMarks[R]) + TEXT("-") + Suits[S];
 }
 
 bool UVenturesFeature::TrailLegal(const TArray<FIntPoint>& Row, int32 Rank, int32 Suit)
 {
 	if (Rank < 0 || Rank > 8 || Suit < 0 || Suit > 3) return false;
 	if (Row.Num() <= 0) return true;
-	if (Row.Num() >= Len) return false;
+	if (Row.Num() >= TrailLen) return false;
 	const FIntPoint Last = Row.Last();
 	if (Rank <= Last.X) return false;
 	return Suit == Last.Y || Rank == Last.X + 1;
@@ -113,7 +113,7 @@ bool UVenturesFeature::TrailPlay(int32 HandIndex, int32 Row)
 	TrailHand.RemoveAt(HandIndex);
 	TrailSel = -1;
 	bool bFull = true;
-	for (const TArray<FIntPoint>& R : TrailRows) if (R.Num() < Len) bFull = false;
+	for (const TArray<FIntPoint>& R : TrailRows) if (R.Num() < TrailLen) bFull = false;
 	if (bFull)
 	{
 		bool bSuited = true;
@@ -140,7 +140,7 @@ void UVenturesFeature::TabTrail(FGPanelModel& M)
 	{
 		for (int32 r = 0; r < TrailRows.Num(); ++r)
 		{
-			FString Line = FString::Printf(TEXT("Trail %d (%d/%d):"), r + 1, TrailRows[r].Num(), Len);
+			FString Line = FString::Printf(TEXT("Trail %d (%d/%d):"), r + 1, TrailRows[r].Num(), TrailLen);
 			for (const FIntPoint& C : TrailRows[r]) Line += TEXT(" ") + TrailCardLabel(C.X, C.Y);
 			if (TrailRows[r].Num() == 0) Line += TEXT(" (empty)");
 			M.Lines.Add(Line);

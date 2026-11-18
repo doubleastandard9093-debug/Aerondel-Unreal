@@ -14,12 +14,12 @@
 
 namespace VenturesCamp
 {
-	static constexpr int32 TownR = 16, PlaceXp = 15, CraftXp = 40, CraftLvl = 8, PieceCapLow = 8, PieceCapHigh = 12;
-	static constexpr float CampR = 4.f, PlotX = 22.f, PlotZ = 78.f, PlotHalf = 12.f;
+	static constexpr int32 CampTownR = 16, PlaceXp = 15, CraftXp = 40, CraftLvl = 8, PieceCapLow = 8, PieceCapHigh = 12;
+	static constexpr float CampR = 4.f, CampPlotX = 22.f, CampPlotZ = 78.f, CampPlotHalf = 12.f;
 	static const TCHAR* CampItem = TEXT("Waycamp kit");
 	static const TCHAR* BasePieces[] = { TEXT("bed"), TEXT("chest"), TEXT("bench"), TEXT("fire"), TEXT("lantern") };
-	struct FTown { const TCHAR* Name; float X, Z; };
-	static const FTown Towns[] = {
+	struct FCampTown { const TCHAR* Name; float X, Z; };
+	static const FCampTown CampTowns[] = {
 		{ TEXT("Larkhaven"), 0.f, 0.f }, { TEXT("Emberfold"), 50.f, -24.f }, { TEXT("Saltreach"), -80.f, 60.f },
 		{ TEXT("Highcrest"), 120.f, -40.f }, { TEXT("Whitecairn"), -60.f, -80.f }
 	};
@@ -44,11 +44,11 @@ int32 UVenturesFeature::CampCap() const
 
 FString UVenturesFeature::CampForbidden(float X, float Z) const
 {
-	for (const FTown& T : Towns)
-		if (FMath::Hypot(X - T.X, Z - T.Z) < TownR) return T.Name;
+	for (const FCampTown& T : CampTowns)
+		if (FMath::Sqrt(FMath::Square(X - T.X) + FMath::Square(Z - T.Z)) < CampTownR) return T.Name;
 	const FVector2D Hold = ZoneC(TEXT("hold"));
 	if (FMath::Abs(X - Hold.X) < 20.f && FMath::Abs(Z - Hold.Y) < 16.f) return TEXT("Greenstead");
-	if (FMath::Abs(X - PlotX) <= PlotHalf && FMath::Abs(Z - PlotZ) <= PlotHalf) return TEXT("Claimridge");
+	if (FMath::Abs(X - CampPlotX) <= CampPlotHalf && FMath::Abs(Z - CampPlotZ) <= CampPlotHalf) return TEXT("Claimridge");
 	return FString();
 }
 
@@ -56,7 +56,7 @@ bool UVenturesFeature::CampHere() const
 {
 	if (!bCampPlaced) return false;
 	FVector2D P; if (!PlayerWebPos(P)) return false;
-	return FMath::Hypot(P.X - CampX, P.Y - CampZ) < CampR + 0.5f;
+	return FMath::Sqrt(FMath::Square(P.X - CampX) + FMath::Square(P.Y - CampZ)) < CampR + 0.5f;
 }
 
 void UVenturesFeature::ResetCamp()

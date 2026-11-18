@@ -18,9 +18,9 @@
 
 namespace VenturesVeil
 {
-	static constexpr int32 SoulCap = 8, BindEssence = 2, UnbindGold = 25;
-	struct FFx { const TCHAR* Id; const TCHAR* Name; const TCHAR* Kit; const TCHAR* Desc; };
-	static const FFx Effects[] = {
+	static constexpr int32 VeilSoulCap = 8, BindEssence = 2, UnbindGold = 25;
+	struct FVeilFx { const TCHAR* Id; const TCHAR* Name; const TCHAR* Kit; const TCHAR* Desc; };
+	static const FVeilFx VeilEffects[] = {
 		{ TEXT("frost"), TEXT("Frost bind"), TEXT("longhaft"), TEXT("A brief chill on a hit that delays the foe a little. Not a damage percent.") },
 		{ TEXT("stun"),  TEXT("Longer hitch"), TEXT("collar"), TEXT("A slightly longer stun hitch on a hit, with a cooldown. Bosses feel it less.") },
 		{ TEXT("night"), TEXT("Night-sight"), TEXT("sight"), TEXT("You read worn gear and dim ground a little more clearly.") },
@@ -28,13 +28,13 @@ namespace VenturesVeil
 		{ TEXT("lamp"),  TEXT("Veil lamp"), TEXT("lamp"), TEXT("A short cone of light, like a lamp-rim, with no extra mesh on Low.") },
 	};
 	static const TCHAR* LesserBosses[] = { TEXT("Cinder Warden"), TEXT("Thornback Prowler"), TEXT("Peak Warlord") };
-	static const FFx* FindFx(const FString& Id) { for (const FFx& E : Effects) if (Id == E.Id) return &E; return nullptr; }
+	static const FVeilFx* FindFx(const FString& Id) { for (const FVeilFx& E : VeilEffects) if (Id == E.Id) return &E; return nullptr; }
 	static const TCHAR* EffectForKit(const FString& Kit)
 	{
-		for (const FFx& E : Effects) if (Kit == E.Kit) return E.Id;
+		for (const FVeilFx& E : VeilEffects) if (Kit == E.Kit) return E.Id;
 		return nullptr;
 	}
-	static FString ItemName(const UItemDef* I) { return I ? I->DisplayName.ToString() : FString(); }
+	static FString VeilItemName(const UItemDef* I) { return I ? I->DisplayName.ToString() : FString(); }
 	static bool IsGear(const UItemDef* I)
 	{
 		if (!I) return false;
@@ -54,7 +54,7 @@ using namespace VenturesVeil;
 
 void UVenturesFeature::SyncSoulPouch()
 {
-	VeilSoulCount = FMath::Clamp(VeilSoulCount, 0, SoulCap);
+	VeilSoulCount = FMath::Clamp(VeilSoulCount, 0, VeilSoulCap);
 	WyrmSoulCount = VeilSoulCount;
 }
 
@@ -87,15 +87,15 @@ void UVenturesFeature::LoadVeil(const FJsonObject& A)
 	if (S)
 	{
 		VeilKnown = JStrArr(*S, TEXT("known"));
-		VeilSoulCount = FMath::Clamp((int32)JInt(*S, TEXT("souls")), 0, SoulCap);
-		VeilLesser = FMath::Clamp((int32)JInt(*S, TEXT("lesser")), 0, SoulCap);
+		VeilSoulCount = FMath::Clamp((int32)JInt(*S, TEXT("souls")), 0, VeilSoulCap);
+		VeilLesser = FMath::Clamp((int32)JInt(*S, TEXT("lesser")), 0, VeilSoulCap);
 		if (const TSharedPtr<FJsonObject> On = JObj(*S, TEXT("on")))
 			for (const auto& P : On->Values)
 				if (P.Value.IsValid() && P.Value->Type == EJson::String)
-					if (FindFx(P.Value->AsString())) VeilOn.Add(P.Key, P.Value->AsString());
+					if (FindFx(P.Value->AsString())) VeilOn.Add(FString(*P.Key), P.Value->AsString());
 	}
 	// Skywyrms may already have loaded a pouch; Veilcraft owns it and takes the higher count.
-	VeilSoulCount = FMath::Clamp(FMath::Max(VeilSoulCount, WyrmSoulCount), 0, SoulCap);
+	VeilSoulCount = FMath::Clamp(FMath::Max(VeilSoulCount, WyrmSoulCount), 0, VeilSoulCap);
 	SyncSoulPouch();
 }
 
@@ -110,7 +110,7 @@ bool UVenturesFeature::VeilWorn(const FString& EffectId) const
 	const AAerondelPlayerState* PS = GetPS();
 	if (!PS || !PS->Equipment) return false;
 	for (const auto& P : PS->Equipment->GetAll())
-		if (P.Value && VeilOnItem(ItemName(P.Value)) == EffectId) return true;
+		if (P.Value && VeilOnItem(VeilItemName(P.Value)) == EffectId) return true;
 	return false;
 }
 
@@ -131,7 +131,7 @@ bool UVenturesFeature::VeilUnmake(const FString& Item)
 	AAerondelPlayerState* PS = GetPS();
 	if (PS && PS->Equipment)
 		for (const auto& P : PS->Equipment->GetAll())
-			if (P.Value && ItemName(P.Value) == Item) { bWorn = true; WornSlot = P.Key; break; }
+			if (P.Value && VeilItemName(P.Value) == Item) { bWorn = true; WornSlot = P.Key; break; }
 	if (CountItem(Item) < 1 && !bWorn) { Say(TEXT("You do not have that item.")); return false; }
 	const FString Lesson = VeilLessonFrom(Item);
 	if (Lesson.IsEmpty()) { Say(TEXT("That item has no kit and no bound veil to learn from.")); return false; }
@@ -140,14 +140,14 @@ bool UVenturesFeature::VeilUnmake(const FString& Item)
 	KitOn.Remove(Item);
 	VeilOn.Remove(Item);
 	VeilKnown.AddUnique(Lesson);
-	const FFx* E = FindFx(Lesson);
+	const FVeilFx* E = FindFx(Lesson);
 	Say(FString::Printf(TEXT("The %s comes apart. You keep the lesson: %s. The item is gone."), *Item, E ? E->Name : *Lesson));
 	return true;
 }
 
 bool UVenturesFeature::VeilBind(const FString& Item, const FString& EffectId)
 {
-	const FFx* E = FindFx(EffectId); if (!E) return false;
+	const FVeilFx* E = FindFx(EffectId); if (!E) return false;
 	if (!VeilKnown.Contains(EffectId)) { Say(TEXT("You have not learned that lesson yet.")); return false; }
 	const UGameDatabase* Db = UGameDatabase::Get();
 	const UItemDef* I = Db ? Db->FindItem(AerondelId::FromName(Item)) : nullptr;
@@ -157,7 +157,7 @@ bool UVenturesFeature::VeilBind(const FString& Item, const FString& EffectId)
 	bool bWorn = false;
 	if (const AAerondelPlayerState* PS = GetPS())
 		if (PS->Equipment)
-			for (const auto& P : PS->Equipment->GetAll()) if (P.Value && ItemName(P.Value) == Item) { bWorn = true; break; }
+			for (const auto& P : PS->Equipment->GetAll()) if (P.Value && VeilItemName(P.Value) == Item) { bWorn = true; break; }
 	if (CountItem(Item) < 1 && !bWorn) { Say(TEXT("You do not have that item.")); return false; }
 	if (CountItem(TEXT("Clear essence")) < BindEssence) { Say(FString::Printf(TEXT("You need %d Clear essence to bind a veil."), BindEssence)); return false; }
 	FString Paid;
@@ -180,7 +180,7 @@ bool UVenturesFeature::VeilUnbind(const FString& Item)
 	if (Id.IsEmpty()) { Say(TEXT("Nothing is bound to that item.")); return false; }
 	if (!TakeCoins(UnbindGold)) { Say(FString::Printf(TEXT("Unbinding costs %d coins. The lesson stays known."), UnbindGold)); return false; }
 	VeilOn.Remove(Item);
-	const FFx* E = FindFx(Id);
+	const FVeilFx* E = FindFx(Id);
 	Say(FString::Printf(TEXT("You unbind %s from the %s. The lesson stays with you."), E ? E->Name : *Id, *Item));
 	return true;
 }
@@ -209,25 +209,25 @@ void UVenturesFeature::DiedVeil(AAerondelMob* Mob, bool bByPlayer)
 	bool bLesser = false;
 	for (const TCHAR* B : LesserBosses) if (Name == B) { bLesser = true; break; }
 	if (!bLesser) return;
-	if (FMath::FRand() >= 0.25f || VeilLesser >= SoulCap) return;
+	if (FMath::FRand() >= 0.25f || VeilLesser >= VeilSoulCap) return;
 	++VeilLesser;
-	Say(FString::Printf(TEXT("A lesser bright soul settles in your pouch (%d/%d)."), VeilLesser, SoulCap));
+	Say(FString::Printf(TEXT("A lesser bright soul settles in your pouch (%d/%d)."), VeilLesser, VeilSoulCap));
 }
 
 void UVenturesFeature::TabVeil(FGPanelModel& M)
 {
 	M.Title = TEXT("Veilcraft");
 	M.Lines.Add(TEXT("Unmake a non-unique kit-bearing item to learn its named effect — the item is destroyed, you keep the lesson. Bind a lesson onto a plain piece with a soul and 2 Clear essence. One effect per item. Not a Facet, not a graft, not a kit, and not a damage percent. Uniques cannot be unmade."));
-	M.Lines.Add(FString::Printf(TEXT("Souls: %d/%d · Lesser bright souls: %d/%d"), WyrmSouls(), SoulCap, VeilLesser, SoulCap));
+	M.Lines.Add(FString::Printf(TEXT("Souls: %d/%d · Lesser bright souls: %d/%d"), WyrmSouls(), VeilSoulCap, VeilLesser, VeilSoulCap));
 	M.Lines.Add(TEXT("Known lessons"));
 	if (!VeilKnown.Num()) M.Lines.Add(TEXT("Unmake a kit-bearing item to learn a lesson."));
 	for (const FString& Id : VeilKnown)
 	{
-		const FFx* E = FindFx(Id); if (!E) continue;
+		const FVeilFx* E = FindFx(Id); if (!E) continue;
 		const bool bOn = VeilSelFx == Id;
 		VAct32(M, FString::Printf(TEXT("%s%s"), bOn ? TEXT("● ") : TEXT(""), E->Name), [this, Id] { VeilSelFx = (VeilSelFx == Id) ? FString() : Id; });
 	}
-	if (const FFx* E = FindFx(VeilSelFx)) M.Lines.Add(E->Desc);
+	if (const FVeilFx* E = FindFx(VeilSelFx)) M.Lines.Add(E->Desc);
 	M.Lines.Add(TEXT("Your gear"));
 	TSet<FString> Seen;
 	auto AddGear = [&](const FString& Name, const UItemDef* I)
@@ -245,13 +245,13 @@ void UVenturesFeature::TabVeil(FGPanelModel& M)
 	};
 	if (const AAerondelPlayerState* PS = GetPS())
 	{
-		if (PS->Equipment) for (const auto& P : PS->Equipment->GetAll()) if (P.Value) AddGear(ItemName(P.Value), P.Value);
-		if (PS->Inventory) for (const FItemStack& Sl : PS->Inventory->GetSlots()) if (!Sl.IsEmpty() && Sl.Item) AddGear(ItemName(Sl.Item), Sl.Item);
+		if (PS->Equipment) for (const auto& P : PS->Equipment->GetAll()) if (P.Value) AddGear(VeilItemName(P.Value), P.Value);
+		if (PS->Inventory) for (const FItemStack& Sl : PS->Inventory->GetSlots()) if (!Sl.IsEmpty() && Sl.Item) AddGear(VeilItemName(Sl.Item), Sl.Item);
 	}
 	if (!Seen.Num()) M.Lines.Add(TEXT("Wear or carry a weapon or armour piece."));
 	if (!VeilSelItem.IsEmpty() && !VeilSelFx.IsEmpty() && VeilOnItem(VeilSelItem).IsEmpty())
 	{
-		const FFx* E = FindFx(VeilSelFx);
+		const FVeilFx* E = FindFx(VeilSelFx);
 		VAct32(M, FString::Printf(TEXT("Bind %s onto %s"), E ? E->Name : *VeilSelFx, *VeilSelItem),
 			[this] { VeilBind(VeilSelItem, VeilSelFx); });
 	}

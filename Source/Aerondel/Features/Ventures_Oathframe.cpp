@@ -18,8 +18,8 @@
 namespace VenturesOath
 {
 	static constexpr int32 CoreMax = 100, PoiseBonus = 36;
-	static constexpr int64 DrainMs = 4000, SlamCd = 8000;
-	static constexpr float Speed = 0.55f, SlamR = 2.8f;
+	static constexpr int64 OathDrainMs = 4000, SlamCd = 8000;
+	static constexpr float OathSpeedMul = 0.55f, OathSlamR = 2.8f;
 	static void VAct35(FGPanelModel& M, const FString& L, TFunction<void()> F, bool bEnabled = true, bool bClose = false)
 	{ FGPanelAction A; A.Label = L; A.Run = MoveTemp(F); A.bEnabled = bEnabled; A.bClose = bClose; M.Actions.Add(MoveTemp(A)); }
 }
@@ -61,8 +61,8 @@ void UVenturesFeature::OathApplySpeed(bool bOn)
 	ACharacter* C = PS ? Cast<ACharacter>(PS->GetPawn()) : nullptr;
 	UCharacterMovementComponent* M = C ? C->GetCharacterMovement() : nullptr;
 	if (!M) return;
-	if (bOn && !bOathSpeedOn) { OathSavedWalk = M->MaxWalkSpeed; M->MaxWalkSpeed = OathSavedWalk * Speed; bOathSpeedOn = true; }
-	else if (bOn && bOathSpeedOn) M->MaxWalkSpeed = OathSavedWalk * Speed;
+	if (bOn && !bOathSpeedOn) { OathSavedWalk = M->MaxWalkSpeed; M->MaxWalkSpeed = OathSavedWalk * OathSpeedMul; bOathSpeedOn = true; }
+	else if (bOn && bOathSpeedOn) M->MaxWalkSpeed = OathSavedWalk * OathSpeedMul;
 	else if (!bOn && bOathSpeedOn) { M->MaxWalkSpeed = OathSavedWalk; bOathSpeedOn = false; }
 }
 
@@ -138,7 +138,7 @@ bool UVenturesFeature::OathSlam()
 	if (!bOathOn) { Say(TEXT("Step into the Oathframe first.")); return false; }
 	if (NowMs() < OathSlamAt) { Say(TEXT("The slam is still recovering.")); return false; }
 	OathSlamAt = NowMs() + SlamCd;
-	AAerondelMob* Best = OathNearest(SlamR);
+	AAerondelMob* Best = OathNearest(OathSlamR);
 	if (!Best) { Say(TEXT("The shoulder-check finds no one close enough.")); return true; }
 	const bool bBoss = IsBossy(Best);
 	FGuardPoise& P = GuardPoise.FindOrAdd(Best);
@@ -156,10 +156,10 @@ void UVenturesFeature::TickOath()
 	if (!bOathOn) { if (bOathSpeedOn) OathApplySpeed(false); return; }
 	OathApplySpeed(true);
 	const int64 Now = NowMs();
-	if (Now - OathLastDrain >= DrainMs)
+	if (Now - OathLastDrain >= OathDrainMs)
 	{
-		const int32 Steps = FMath::Max(1, (int32)((Now - OathLastDrain) / DrainMs));
-		OathLastDrain += (int64)Steps * DrainMs;
+		const int32 Steps = FMath::Max(1, (int32)((Now - OathLastDrain) / OathDrainMs));
+		OathLastDrain += (int64)Steps * OathDrainMs;
 		OathCoreAmt = FMath::Max(0, OathCoreAmt - Steps);
 		if (OathCoreAmt <= 0) OathStepOut(TEXT("The hearth-core runs dry. You step out safely — you do not fall."));
 	}

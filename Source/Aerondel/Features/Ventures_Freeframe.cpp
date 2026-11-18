@@ -14,8 +14,8 @@
 
 namespace VenturesFrame
 {
-	static constexpr float PlotX = 22.f, PlotZ = 78.f, PlotHalf = 12.f, Grid = 1.5f;
-	static constexpr int32 DeedGold = 3000;
+	static constexpr float FramePlotX = 22.f, FramePlotZ = 78.f, FramePlotHalf = 12.f, FrameGrid = 1.5f;
+	static constexpr int32 FrameDeedGold = 3000;
 	struct FKind
 	{
 		const TCHAR* Id; const TCHAR* Name;
@@ -23,7 +23,7 @@ namespace VenturesFrame
 		int32 Xp, Hp, Lvl; bool bWood, bThatch, bMetal, bSupport; const TCHAR* Tier;
 		float R, G, B; float HeightM;
 	};
-	static const FKind Kinds[] = {
+	static const FKind FrameKinds[] = {
 		{ TEXT("foundation"), TEXT("Foundation"),        TEXT("Logs"), 4, nullptr, 0, 28, 40, 1,  true,  false, false, true,  TEXT("wood"),       0.54f, 0.35f, 0.16f, 0.4f },
 		{ TEXT("wall"),       TEXT("Wall"),              TEXT("Logs"), 3, nullptr, 0, 22, 28, 1,  true,  false, false, false, TEXT("wood"),       0.54f, 0.35f, 0.16f, 1.6f },
 		{ TEXT("floor"),      TEXT("Floor"),             TEXT("Logs"), 3, nullptr, 0, 22, 24, 1,  true,  false, false, false, TEXT("wood"),       0.54f, 0.35f, 0.16f, 0.4f },
@@ -32,13 +32,13 @@ namespace VenturesFrame
 		{ TEXT("stonewall"),  TEXT("Stone wall"),        TEXT("Stone slab"), 2, TEXT("Logs"), 1, 36, 50, 40, false, false, false, false, TEXT("stone"),      0.48f, 0.48f, 0.45f, 1.6f },
 		{ TEXT("plate"),      TEXT("Reinforced plate"),  TEXT("Iron bar"), 2, TEXT("Stone slab"), 1, 48, 70, 70, false, false, true,  false, TEXT("reinforced"), 0.54f, 0.54f, 0.59f, 1.6f },
 	};
-	static const FKind* FindKind(const FString& Id) { for (const FKind& K : Kinds) if (Id == K.Id) return &K; return nullptr; }
-	static bool InPlot(float X, float Z) { return FMath::Abs(X - PlotX) <= PlotHalf && FMath::Abs(Z - PlotZ) <= PlotHalf; }
-	static int32 GxOf(float X) { return FMath::RoundToInt((X - PlotX) / Grid); }
-	static int32 GzOf(float Z) { return FMath::RoundToInt((Z - PlotZ) / Grid); }
-	static float WorldX(int32 Gx) { return PlotX + Gx * Grid; }
-	static float WorldZ(int32 Gz) { return PlotZ + Gz * Grid; }
-	static bool GfxLow()
+	static const FKind* FindKind(const FString& Id) { for (const FKind& K : FrameKinds) if (Id == K.Id) return &K; return nullptr; }
+	static bool InPlot(float X, float Z) { return FMath::Abs(X - FramePlotX) <= FramePlotHalf && FMath::Abs(Z - FramePlotZ) <= FramePlotHalf; }
+	static int32 GxOf(float X) { return FMath::RoundToInt((X - FramePlotX) / FrameGrid); }
+	static int32 GzOf(float Z) { return FMath::RoundToInt((Z - FramePlotZ) / FrameGrid); }
+	static float WorldX(int32 Gx) { return FramePlotX + Gx * FrameGrid; }
+	static float WorldZ(int32 Gz) { return FramePlotZ + Gz * FrameGrid; }
+	static bool FrameGfxLow()
 	{
 		const EAerondelTier T = UAerondelScalability::GetSavedTier();
 		return T == EAerondelTier::Low || T == EAerondelTier::Quest;
@@ -69,7 +69,7 @@ FFramePiece* UVenturesFeature::FrameAtMut(int32 Gx, int32 Gz)
 int32 UVenturesFeature::FrameCap() const
 {
 	const int32 Soft = 20 + SkillLevel(TEXT("Construction")) / 40 + FMath::RoundToInt(UAerondelRules::Perk(GetPS(), FName(TEXT("Construction")), FName(TEXT("pieceCap"))));
-	return FMath::Min(GfxLow() ? 28 : 48, Soft);
+	return FMath::Min(FrameGfxLow() ? 28 : 48, Soft);
 }
 
 int32 UVenturesFeature::FrameRange() const
@@ -223,8 +223,8 @@ bool UVenturesFeature::FrameMetal(FVector2D& Out) const
 bool UVenturesFeature::FrameBuy()
 {
 	if (bFrameDeed) { Say(TEXT("You already hold the Claimridge deed.")); return true; }
-	if (Coins() < DeedGold) { Say(FString::Printf(TEXT("The Claimridge deed costs %d coins."), DeedGold)); return false; }
-	TakeCoins(DeedGold);
+	if (Coins() < FrameDeedGold) { Say(FString::Printf(TEXT("The Claimridge deed costs %d coins."), FrameDeedGold)); return false; }
+	TakeCoins(FrameDeedGold);
 	bFrameDeed = true;
 	Say(TEXT("You claim Claimridge, a wild plot north of Larkhaven. Build here — not in town, not on the farm. Buying the deed does not train Construction; placing pieces does."));
 	return true;
@@ -241,7 +241,7 @@ bool UVenturesFeature::FramePlaceAt(const FString& Kind, int32 Gx, int32 Gz)
 	const FKind* Def = FindKind(Kind); if (!Def) return false;
 	if (!bFrameDeed) { Say(TEXT("Claim the wild plot first.")); return false; }
 	if (SkillLevel(TEXT("Construction")) < Def->Lvl) { Say(FString::Printf(TEXT("You need Construction %d to place a %s."), Def->Lvl, Def->Name)); return false; }
-	if (FMath::Abs(Gx * Grid) > PlotHalf || FMath::Abs(Gz * Grid) > PlotHalf) { Say(TEXT("That is outside the claimed plot.")); return false; }
+	if (FMath::Abs(Gx * FrameGrid) > FramePlotHalf || FMath::Abs(Gz * FrameGrid) > FramePlotHalf) { Say(TEXT("That is outside the claimed plot.")); return false; }
 	if (FrameList.Num() >= FrameCap()) { Say(FString::Printf(TEXT("The plot holds %d pieces at your Construction."), FrameCap())); return false; }
 	for (const FFramePiece& P : FrameList) if (P.Gx == Gx && P.Gz == Gz && P.Kind == Kind) { Say(TEXT("That cell already has one.")); return false; }
 	if (!Def->bSupport)
@@ -336,7 +336,7 @@ bool UVenturesFeature::FrameDamage(float X, float Z, int32 N)
 void UVenturesFeature::FrameGo()
 {
 	if (!bFrameDeed && !FrameBuy()) return;
-	TeleportPlayer(FVector2D(PlotX, PlotZ + 2.f));
+	TeleportPlayer(FVector2D(FramePlotX, FramePlotZ + 2.f));
 }
 
 void UVenturesFeature::TickFrame()
@@ -351,8 +351,8 @@ void UVenturesFeature::TabFrame(FGPanelModel& M)
 	if (!bFrameDeed)
 	{
 		M.Title = TEXT("Claimridge");
-		M.Lines.Add(FString::Printf(TEXT("A wild plot north of Larkhaven for freeform building. Town houses are storage; the farm is for growing. The deed is %d coins and does not train Construction — placing pieces does."), DeedGold));
-		VAct23(M, FString::Printf(TEXT("Claim the plot (%d coins)"), DeedGold), [this] { FrameBuy(); }, Coins() >= DeedGold);
+		M.Lines.Add(FString::Printf(TEXT("A wild plot north of Larkhaven for freeform building. Town houses are storage; the farm is for growing. The deed is %d coins and does not train Construction — placing pieces does."), FrameDeedGold));
+		VAct23(M, FString::Printf(TEXT("Claim the plot (%d coins)"), FrameDeedGold), [this] { FrameBuy(); }, Coins() >= FrameDeedGold);
 		return;
 	}
 	M.Title = FString::Printf(TEXT("Freeframe · Construction %d · %d/%d pieces"), Con, FrameList.Num(), FrameCap());
@@ -363,7 +363,7 @@ void UVenturesFeature::TabFrame(FGPanelModel& M)
 	VAct23(M, TEXT("Travel to Claimridge"), [this] { FrameGo(); }, true, true);
 	if (bHere)
 	{
-		for (const FKind& K : Kinds)
+		for (const FKind& K : FrameKinds)
 			VAct23(M, FString::Printf(TEXT("Place %s (Con %d)"), K.Name, K.Lvl), [this, Id = FString(K.Id)] { FramePlace(Id); }, Con >= K.Lvl && FrameList.Num() < FrameCap());
 	}
 	for (const FFramePiece& P : FrameList)

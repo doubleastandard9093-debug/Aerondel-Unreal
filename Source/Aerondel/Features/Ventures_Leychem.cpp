@@ -15,17 +15,17 @@
 
 namespace VenturesChem
 {
-	static constexpr float Cell = 2.f;
+	static constexpr float ChemCell = 2.f;
 	static FIntPoint KeyOf(float X, float Z)
 	{
-		return FIntPoint(FMath::RoundToInt(X / Cell) * (int32)Cell, FMath::RoundToInt(Z / Cell) * (int32)Cell);
+		return FIntPoint(FMath::RoundToInt(X / ChemCell) * (int32)ChemCell, FMath::RoundToInt(Z / ChemCell) * (int32)ChemCell);
 	}
-	static bool GfxLow()
+	static bool ChemGfxLow()
 	{
 		const EAerondelTier T = UAerondelScalability::GetSavedTier();
 		return T == EAerondelTier::Low || T == EAerondelTier::Quest;
 	}
-	static int32 FireCap() { return GfxLow() ? 8 : 24; }
+	static int32 FireCap() { return ChemGfxLow() ? 8 : 24; }
 	static void VAct22(FGPanelModel& M, const FString& L, TFunction<void()> F, bool bEnabled = true, bool bClose = false)
 	{ FGPanelAction A; A.Label = L; A.Run = MoveTemp(F); A.bEnabled = bEnabled; A.bClose = bClose; M.Actions.Add(MoveTemp(A)); }
 }
@@ -110,7 +110,7 @@ void UVenturesFeature::LeyPushWind(float X, float Z, float Fx, float Fz)
 	for (const FLeyFire& F : List)
 	{
 		if (FVector2D::Distance(FVector2D(F.X, F.Z), FVector2D(X, Z)) > 10.f) continue;
-		LeyIgnite(F.X + FMath::Sign(Fx) * Cell, F.Z + FMath::Sign(Fz) * Cell, F.Kind, TEXT("wind"));
+		LeyIgnite(F.X + FMath::Sign(Fx) * ChemCell, F.Z + FMath::Sign(Fz) * ChemCell, F.Kind, TEXT("wind"));
 	}
 }
 
@@ -164,7 +164,7 @@ void UVenturesFeature::TickChem()
 	}
 	TArray<FLeyFire> List; LeyFires.GenerateValueArray(List);
 	int32 Grew = 0;
-	const int32 MaxGrow = GfxLow() ? 1 : 2;
+	const int32 MaxGrow = ChemGfxLow() ? 1 : 2;
 	static const int32 Dir[4][2] = { {2, 0}, {-2, 0}, {0, 2}, {0, -2} };
 	for (FLeyFire& F : List)
 	{

@@ -23,8 +23,8 @@ namespace VenturesBanners
 		{ TEXT("weapons"), TEXT("circle") }, { TEXT("general3"), TEXT("circle") }, { TEXT("runes"), TEXT("circle") },
 		{ TEXT("armour"), TEXT("lantern") }, { TEXT("herb2"), TEXT("lantern") }
 	};
-	struct FTown { const TCHAR* Name; float X, Z; };
-	static const FTown Towns[] = {
+	struct FBannerTown { const TCHAR* Name; float X, Z; };
+	static const FBannerTown BannerTowns[] = {
 		{ TEXT("Larkhaven"), 0.f, 0.f }, { TEXT("Emberfold"), 50.f, -24.f }, { TEXT("Saltreach"), -80.f, 60.f },
 		{ TEXT("Highcrest"), 120.f, -40.f }, { TEXT("Whitecairn"), -60.f, -80.f }
 	};
@@ -43,9 +43,9 @@ FString UVenturesFeature::BannerTownAt(float X, float Z) const
 {
 	const TCHAR* Best = TEXT("Larkhaven");
 	float Bd = 1e12f;
-	for (const FTown& T : Towns)
+	for (const FBannerTown& T : BannerTowns)
 	{
-		const float D = FMath::Hypot(X - T.X, Z - T.Z);
+		const float D = FMath::Sqrt(FMath::Square(X - T.X) + FMath::Square(Z - T.Z));
 		if (D < Bd) { Bd = D; Best = T.Name; }
 	}
 	return Best;

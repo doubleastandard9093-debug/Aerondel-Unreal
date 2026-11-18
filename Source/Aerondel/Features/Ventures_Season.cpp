@@ -16,8 +16,8 @@
 
 namespace VenturesSeason
 {
-	struct FChapter { const TCHAR* Season; const TCHAR* Title; const TCHAR* Steps[4]; const TCHAR* Artifact; };
-	static const FChapter Chapters[] = {
+	struct FSeasonChapter { const TCHAR* Season; const TCHAR* Title; const TCHAR* Steps[4]; const TCHAR* Artifact; };
+	static const FSeasonChapter Chapters[] = {
 		{ TEXT("spring"), TEXT("The Thawbound Pact"), { TEXT("Wake the river spirits: defeat 25 foes"), TEXT("Break a boss crest or slay a boss"), TEXT("Clear a Breach Run"), TEXT("Finish a Burst Tide") }, TEXT("Bloomward Seal") },
 		{ TEXT("summer"), TEXT("Embers of Solmere"), { TEXT("Drive back the sun-touched: defeat 25 foes"), TEXT("Slay a boss"), TEXT("Clear a Breach Run"), TEXT("Finish a Burst Tide") }, TEXT("Sunforged Seal") },
 		{ TEXT("autumn"), TEXT("The Harrowing Lanterns"), { TEXT("Gather the lantern-wraiths: defeat 25 foes"), TEXT("Slay a boss"), TEXT("Clear a Breach Run"), TEXT("Finish a Burst Tide") }, TEXT("Harvestmoon Seal") },
@@ -39,7 +39,7 @@ namespace VenturesSeason
 		const int32 M = FDateTime::Now().GetMonth() - 1; // JS getMonth: 0-11, local time
 		return M >= 2 && M <= 4 ? TEXT("spring") : M >= 5 && M <= 7 ? TEXT("summer") : M >= 8 && M <= 10 ? TEXT("autumn") : TEXT("winter");
 	}
-	static const FChapter& Chapter() { const FString S = RealSeason(); for (const FChapter& C : Chapters) if (S == C.Season) return C; return Chapters[1]; }
+	static const FSeasonChapter& Chapter() { const FString S = RealSeason(); for (const FSeasonChapter& C : Chapters) if (S == C.Season) return C; return Chapters[1]; }
 	static FString ChronKey() { return FString::Printf(TEXT("%s-%d"), *RealSeason(), FDateTime::Now().GetYear()); }
 }
 using namespace VenturesSeason;
@@ -109,7 +109,7 @@ void UVenturesFeature::ChronGain(float N)
 	ChronCheck();
 	if (ChronLv >= 20) return;
 	ChronXp += N;
-	const FChapter& Ch = Chapter();
+	const FSeasonChapter& Ch = Chapter();
 	while (ChronLv < 20 && ChronXp >= ChronFor(ChronLv))
 	{
 		ChronXp -= ChronFor(ChronLv);
@@ -128,7 +128,7 @@ void UVenturesFeature::ChronStep(int32 I, int32 N)
 	if (Cur != I) return;
 	ChronSteps[I] = FMath::Min(ChronNeed[I], ChronSteps[I] + N);
 	if (ChronSteps[I] < ChronNeed[I]) return;
-	const FChapter& Ch = Chapter();
+	const FSeasonChapter& Ch = Chapter();
 	ChronGain(80.f);
 	Say(FString::Printf(TEXT("Chronicle - %s: \"%s\" complete."), Ch.Title, Ch.Steps[I]));
 	if (I == 3)
@@ -170,7 +170,7 @@ void UVenturesFeature::HitSeason(AAerondelMob* Mob, int32 D)
 void UVenturesFeature::TabChron(FGPanelModel& M)
 {
 	ChronCheck();
-	const FChapter& Ch = Chapter();
+	const FSeasonChapter& Ch = Chapter();
 	FString S = Ch.Season;
 	S[0] = FChar::ToUpper(S[0]);
 	M.Title = FString::Printf(TEXT("%s chapter: %s"), *S, Ch.Title);
