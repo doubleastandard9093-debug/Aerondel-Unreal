@@ -38,9 +38,9 @@ void UAerondelFeature::Deinitialize()
 	Super::Deinitialize();
 }
 
-TArray<UAerondelFeature*> UAerondelFeature::AllFor(const UGameInstance* GI)
+FAerondelFeatureList UAerondelFeature::AllFor(const UGameInstance* GI)
 {
-	TArray<UAerondelFeature*> Out;
+	FAerondelFeatureList Out;
 	for (const TWeakObjectPtr<UAerondelFeature>& P : AerondelFeatureRegistry::All)
 		if (UAerondelFeature* F = P.Get()) if (F->GetGameInstance() == GI) Out.Add(F);
 	return Out;
