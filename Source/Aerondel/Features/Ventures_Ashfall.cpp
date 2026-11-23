@@ -56,8 +56,8 @@ using namespace VenturesAshfall;
 
 FString UVenturesFeature::AshForbidden(float X, float Z) const
 {
-	for (const VenturesTowns::FTownPt& T : VenturesTowns::All) // every town (the web flare only checks the five main ones; see review notes)
-		if (VenturesTowns::Dist(T, X, Z) < AshfallTownR) return T.Name;
+	for (int32 i = 0; i < VenturesTowns::NumMain; ++i) // the five main towns only, same as web MAIN_TOWNS
+		if (VenturesTowns::Dist(VenturesTowns::All[i], X, Z) < AshfallTownR) return VenturesTowns::All[i].Name;
 	if (NearTownHouse(FVector2D(X, Z), 8.f)) return TEXT("a Townstead");
 	const FVector2D Hold = ZoneC(TEXT("hold"));
 	if (FMath::Abs(X - Hold.X) < 20.f && FMath::Abs(Z - Hold.Y) < 16.f) return TEXT("Greenstead");
