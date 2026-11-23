@@ -48,6 +48,13 @@ void UAerondelRelevanceSubsystem::Tick(float Dt)
 	for (TActorIterator<ANpcTalk> It(W); It; ++It) Visit(*It, nullptr);
 	for (TActorIterator<AResourceNode> It(W); It; ++It) Visit(*It, nullptr);
 
+	if (++PrunePass >= 20)
+	{
+		PrunePass = 0;
+		for (auto It = Bands.CreateIterator(); It; ++It) if (!It.Key().IsValid()) It.RemoveCurrent();
+		for (auto It = BaseTick.CreateIterator(); It; ++It) if (!It.Key().IsValid()) It.RemoveCurrent();
+	}
+
 	if (Count[0] != LastLog[0] || Count[1] != LastLog[1] || Count[2] != LastLog[2])
 	{
 		if (FMath::Abs(Count[2] - LastLog[2]) > 10 || LastLog[0] < 0)

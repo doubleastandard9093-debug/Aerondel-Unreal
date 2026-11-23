@@ -49,4 +49,5 @@ private:
 	TMap<TWeakObjectPtr<AActor>, uint8> Bands;      // last band applied per actor
 	TMap<TWeakObjectPtr<AActor>, float> BaseTick;   // original actor tick interval
 	int32 LastLog[3] = { -1, -1, -1 };
+	int32 PrunePass = 0;                            // every ~10 s, drop entries for actors that are gone (streamed out / destroyed)
 };
