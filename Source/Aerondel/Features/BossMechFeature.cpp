@@ -3,6 +3,7 @@
 #include "Core/PlayerStatsComponent.h"
 #include "Combat/HealthComponent.h"
 #include "Combat/AerondelMob.h"
+#include "Combat/AerondelMobRegistry.h"
 #include "Data/MobDef.h"
 #include "Rules/AerondelRules.h"
 #include "EngineUtils.h"
@@ -30,9 +31,9 @@ void UBossMechFeature::OnGameTick()
 		const AAerondelMob* M = It.Key().Get();
 		if (!M || M->IsDead() || (M->GetState() != EMobState::Chase && M->GetState() != EMobState::Attack)) { if (TeleBoss == It.Key()) TeleBoss = nullptr; It.RemoveCurrent(); }
 	}
-	for (TActorIterator<AAerondelMob> It(W); It; ++It)
+	FAerondelMobList LiveMobs; AerondelMobs::Live(W, LiveMobs);
+	for (AAerondelMob* M : LiveMobs)
 	{
-		AAerondelMob* M = *It;
 		if (!IsDataBoss(M) || M->IsDead() || (M->GetState() != EMobState::Chase && M->GetState() != EMobState::Attack)) continue;
 		FState* S = States.Find(M);
 		if (!S) { S = &States.Add(M); S->Style = M->Definition->bRanged ? EBossStyle::Ranged : EBossStyle::Melee; S->NextSwitch = Tick + SwitchEvery; S->NextSlam = Tick + 5; }

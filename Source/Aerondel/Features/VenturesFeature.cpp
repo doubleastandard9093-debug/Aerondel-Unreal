@@ -6,6 +6,7 @@
 #include "Core/AerondelPlayerState.h"
 #include "Core/PlayerStatsComponent.h"
 #include "Combat/AerondelMob.h"
+#include "Combat/AerondelMobRegistry.h"
 #include "Combat/PlayerCombatComponent.h"
 #include "Rules/AerondelRules.h"
 #include "Inventory/InventoryComponent.h"
@@ -536,9 +537,9 @@ TArray<AAerondelMob*> UVenturesFeature::MobsNear(FVector2D WebPos, float RadiusM
 	UGameInstance* GI = GetGameInstance(); UWorld* W = GI ? GI->GetWorld() : nullptr;
 	if (!W) return Out;
 	const FVector C = WebToWorld(WebPos.X, WebPos.Y);
-	for (TActorIterator<AAerondelMob> It(W); It; ++It)
+	FAerondelMobList LiveMobs; AerondelMobs::Live(W, LiveMobs);
+	for (AAerondelMob* M : LiveMobs)
 	{
-		AAerondelMob* M = *It;
 		if (!M || M->IsDead() || M->IsHidden()) continue;
 		if (FVector::Dist2D(M->GetActorLocation(), C) < RadiusM * 100.f) { Out.Add(M); if (Out.Num() >= Cap) break; }
 	}

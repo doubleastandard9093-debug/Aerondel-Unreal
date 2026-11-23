@@ -3,6 +3,7 @@
 #include "UI/AerondelPanels.h"
 #include "Core/AerondelPlayerState.h"
 #include "Combat/AerondelMob.h"
+#include "Combat/AerondelMobRegistry.h"
 #include "GameFramework/Character.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "EngineUtils.h"
@@ -74,9 +75,9 @@ AAerondelMob* UVenturesFeature::OathNearest(float RadiusM) const
 	if (!W || !Pawn) return nullptr;
 	AAerondelMob* Best = nullptr;
 	float Bd = RadiusM * 100.f;
-	for (TActorIterator<AAerondelMob> It(W); It; ++It)
+	FAerondelMobList LiveMobs; AerondelMobs::Live(W, LiveMobs);
+	for (AAerondelMob* M : LiveMobs)
 	{
-		AAerondelMob* M = *It;
 		if (!M || M->IsDead()) continue;
 		const float D = FVector::Dist2D(M->GetActorLocation(), Pawn->GetActorLocation());
 		if (D < Bd) { Bd = D; Best = M; }
