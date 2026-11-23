@@ -1,5 +1,6 @@
 #pragma once
 #include "CoreMinimal.h"
+#include "Engine/GameInstance.h"
 #include "Tickable.h"
 #include "Features/AerondelFeature.h"
 #include "SailingFeature.generated.h"

@@ -1,4 +1,5 @@
 #include "Features/SiegeFeature.h"
+#include "Dom/JsonObject.h"
 #include "Features/ArenaFeature.h"
 #include "Features/CompanionsFeature.h"
 #include "Features/DelvesFeature.h"

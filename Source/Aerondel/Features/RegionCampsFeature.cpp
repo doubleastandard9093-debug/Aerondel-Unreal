@@ -1,4 +1,5 @@
 #include "Features/RegionCampsFeature.h"
+#include "Engine/HitResult.h"
 #include "Features/VenturesFeature.h"
 #include "Combat/AerondelMob.h"
 #include "Data/GameDatabase.h"

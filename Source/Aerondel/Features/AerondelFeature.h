@@ -1,11 +1,12 @@
 #pragma once
 #include "CoreMinimal.h"
 #include "Subsystems/GameInstanceSubsystem.h"
-#include "Dom/JsonObject.h"
-#include "Engine/GameInstance.h"
+#include "Templates/Casts.h"
 #include "AerondelFeature.generated.h"
 
 class AAerondelPlayerState;
+class UGameInstance;
+class FJsonObject;
 class UMobDef;
 class AAerondelMob;
 class UAerondelFeature;
@@ -83,7 +84,9 @@ protected:
 	AAerondelMob* SpawnTunedMob(const FString& Base, FVector2D WebPos, const FString& Name, int32 Hp, int32 MaxHit, int32 Att, int32 Def, int32 Level, float Scale = 1.f, bool bBoss = false) const;
 	/** Moves the player pawn to a web position (instance entry/exit). */
 	void TeleportPlayer(FVector2D WebPos) const;
-	template<class T> T* Feature() const { UGameInstance* GI = GetGameInstance(); return GI ? GI->GetSubsystem<T>() : nullptr; }
+	/** Sibling feature of this game instance (GameInstance.h stays out of this header: the lookup lives in FeatureOfClass). */
+	template<class T> T* Feature() const { return Cast<T>(FeatureOfClass(T::StaticClass())); }
+	UGameInstanceSubsystem* FeatureOfClass(UClass* Class) const;
 
 	// JSON helpers (missing keys keep defaults, like the web normalize* functions).
 	static int64 JInt(const FJsonObject& O, const TCHAR* Key, int64 Def = 0);

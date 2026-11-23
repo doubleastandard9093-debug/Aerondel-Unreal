@@ -1,4 +1,5 @@
 #include "Features/ErrandsFeature.h"
+#include "Dom/JsonObject.h"
 #include "Features/CompanionsFeature.h"
 #include "Features/StandingFeature.h"
 #include "Features/HearthFeature.h"

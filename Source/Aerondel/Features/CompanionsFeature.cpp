@@ -1,4 +1,5 @@
 #include "Features/CompanionsFeature.h"
+#include "Dom/JsonObject.h"
 #include "Core/AerondelEvents.h"
 #include "Data/MobDef.h"
 #include "Dom/JsonValue.h"

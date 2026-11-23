@@ -1,4 +1,6 @@
 #include "Features/VenturesFeature.h"
+#include "Engine/GameInstance.h"
+#include "Engine/HitResult.h"
 #include "UI/AerondelPanels.h"
 #include "Core/AerondelPlayerState.h"
 #include "Inventory/EquipmentComponent.h"

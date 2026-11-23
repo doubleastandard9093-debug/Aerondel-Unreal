@@ -1,4 +1,5 @@
 #include "Features/BossMechFeature.h"
+#include "Engine/GameInstance.h"
 #include "Core/AerondelPlayerState.h"
 #include "Core/PlayerStatsComponent.h"
 #include "Combat/HealthComponent.h"

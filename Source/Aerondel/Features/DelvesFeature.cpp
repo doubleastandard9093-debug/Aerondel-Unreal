@@ -1,4 +1,5 @@
 #include "Features/DelvesFeature.h"
+#include "Dom/JsonObject.h"
 #include "Core/AerondelEvents.h"
 #include "Core/AerondelPlayerState.h"
 #include "Combat/HealthComponent.h"

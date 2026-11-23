@@ -1,4 +1,5 @@
 #include "Features/VenturesFeature.h"
+#include "Dom/JsonObject.h"
 #include "UI/AerondelPanels.h"
 #include "Core/AerondelPlayerState.h"
 #include "Combat/AerondelMob.h"

@@ -1,4 +1,5 @@
 #include "Features/VenturesFeature.h"
+#include "Dom/JsonObject.h"
 #include "Features/VenturesTowns.h"
 #include "Features/StableCodexFeature.h"
 #include "UI/AerondelPanels.h"

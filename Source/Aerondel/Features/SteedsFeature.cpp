@@ -1,4 +1,5 @@
 #include "Features/SteedsFeature.h"
+#include "Dom/JsonObject.h"
 #include "Core/AerondelEvents.h"
 #include "Data/SkillDef.h"
 

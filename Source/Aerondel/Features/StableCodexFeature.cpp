@@ -1,4 +1,5 @@
 #include "Features/StableCodexFeature.h"
+#include "Dom/JsonObject.h"
 #include "Features/SteedsFeature.h"
 #include "Features/SkywingFeature.h"
 

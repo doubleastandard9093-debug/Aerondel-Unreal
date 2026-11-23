@@ -1,4 +1,5 @@
 #include "Features/SeasonalEventsFeature.h"
+#include "Engine/GameInstance.h"
 #include "Core/AerondelEvents.h"
 #include "Data/MobDef.h"
 #include "Data/SkillDef.h"

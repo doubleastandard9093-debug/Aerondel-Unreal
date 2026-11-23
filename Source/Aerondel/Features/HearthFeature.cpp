@@ -1,4 +1,5 @@
 #include "Features/HearthFeature.h"
+#include "Dom/JsonObject.h"
 #include "Features/CompanionsFeature.h"
 #include "Core/AerondelEvents.h"
 #include "Data/MobDef.h"
