@@ -55,7 +55,7 @@ namespace VenturesKin
 		return nullptr;
 	}
 	static int32 NeedFor(int32 Lv) { return 40 + Lv * 14; }
-	static int32 MaxHp(int32 Level) { return 10 + Level * 4; }
+	static int32 KinMaxHp(int32 Level) { return 10 + Level * 4; }
 	static void VAct20(FGPanelModel& M, const FString& L, TFunction<void()> F, bool bEnabled = true, bool bClose = false)
 	{ FGPanelAction A; A.Label = L; A.Run = MoveTemp(F); A.bEnabled = bEnabled; A.bClose = bClose; M.Actions.Add(MoveTemp(A)); }
 }
@@ -145,7 +145,7 @@ void UVenturesFeature::LoadKin(const FJsonObject& A)
 			R.Level = FMath::Clamp((int32)JInt(*O, TEXT("level"), 1), 1, 1000);
 			R.Xp = FMath::Max(0, (int32)JInt(*O, TEXT("xp")));
 			R.Loyalty = FMath::Clamp((int32)JInt(*O, TEXT("loyalty"), 20), 0, 100);
-			R.Hp = FMath::Max(0, (int32)JInt(*O, TEXT("hp"), MaxHp(R.Level)));
+			R.Hp = FMath::Max(0, (int32)JInt(*O, TEXT("hp"), KinMaxHp(R.Level)));
 			R.FaintUntil = FMath::Max((int64)0, JInt(*O, TEXT("faintUntil")));
 			KinRoster.Add(R);
 		}
@@ -247,7 +247,7 @@ bool UVenturesFeature::KinThrow()
 	R.Level = 1;
 	R.Xp = 0;
 	R.Loyalty = 20;
-	R.Hp = MaxHp(1);
+	R.Hp = KinMaxHp(1);
 	if (KinRoster.Num() < 40) KinRoster.Add(R);
 	if (KinActive.IsEmpty()) KinActive = R.Id;
 	GiveXp(TEXT("Hunter"), 28.f + Sp->Hun);
@@ -266,7 +266,7 @@ bool UVenturesFeature::KinSend(const FString& InId)
 	if (NowMs() < KinSwapAt && bFight) { Say(TEXT("You can only swap out of a fight, or after a short wait.")); return false; }
 	if (R->FaintUntil && NowMs() < R->FaintUntil) { Say(FString::Printf(TEXT("%s is still gathering itself."), *R->Name)); return false; }
 	if (AshOut()) AshRecall(TEXT("The Ashkin fades so your Kinbeast can come forth."));
-	if (R->Hp <= 0) R->Hp = MaxHp(R->Level);
+	if (R->Hp <= 0) R->Hp = KinMaxHp(R->Level);
 	KinActive = R->Id;
 	KinSwapAt = NowMs() + 15000;
 	KinLive = FKinLive();
@@ -304,14 +304,14 @@ bool UVenturesFeature::KinFeed(const FString& InId)
 	const int32 Gain = FMath::RoundToInt((6 + R->Level / 20) * PerkB * KinKennelMul());
 	R->Xp += Gain;
 	R->Loyalty = FMath::Min(100, R->Loyalty + 4);
-	R->Hp = FMath::Min(MaxHp(R->Level), R->Hp + FMath::Max(2, FMath::RoundToInt(MaxHp(R->Level) * 0.15f)));
+	R->Hp = FMath::Min(KinMaxHp(R->Level), R->Hp + FMath::Max(2, FMath::RoundToInt(KinMaxHp(R->Level) * 0.15f)));
 	if (bKinOut && KinLive.Id == R->Id) KinLive.Hp = R->Hp;
 	int32 Up = 0;
 	while (R->Level < 1000 && R->Xp >= NeedFor(R->Level))
 	{
 		R->Xp -= NeedFor(R->Level);
 		R->Level++;
-		R->Hp = MaxHp(R->Level);
+		R->Hp = KinMaxHp(R->Level);
 		if (bKinOut && KinLive.Id == R->Id) KinLive.Hp = R->Hp;
 		Up++;
 	}
@@ -362,7 +362,7 @@ void UVenturesFeature::TickKin()
 		{
 			R->Xp -= NeedFor(R->Level);
 			R->Level++;
-			R->Hp = MaxHp(R->Level);
+			R->Hp = KinMaxHp(R->Level);
 			KinLive.Hp = R->Hp;
 			Say(FString::Printf(TEXT("%s grows to level %d."), *R->Name, R->Level));
 		}
