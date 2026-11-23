@@ -1,4 +1,5 @@
 #include "Features/VenturesFeature.h"
+#include "Features/VenturesTowns.h"
 #include "UI/AerondelPanels.h"
 #include "Core/AerondelPlayerState.h"
 #include "Core/PlayerStatsComponent.h"
@@ -18,11 +19,6 @@ namespace VenturesCamp
 	static constexpr float CampR = 4.f, CampPlotX = 22.f, CampPlotZ = 78.f, CampPlotHalf = 12.f;
 	static const TCHAR* CampItem = TEXT("Waycamp kit");
 	static const TCHAR* BasePieces[] = { TEXT("bed"), TEXT("chest"), TEXT("bench"), TEXT("fire"), TEXT("lantern") };
-	struct FCampTown { const TCHAR* Name; float X, Z; };
-	static const FCampTown CampTowns[] = {
-		{ TEXT("Larkhaven"), 0.f, 0.f }, { TEXT("Emberfold"), 50.f, -24.f }, { TEXT("Saltreach"), -80.f, 60.f },
-		{ TEXT("Highcrest"), 120.f, -40.f }, { TEXT("Whitecairn"), -60.f, -80.f }
-	};
 	struct FExtra { const TCHAR* Id; const TCHAR* Name; int32 Logs; int32 Xp; };
 	static const FExtra Extras[] = {
 		{ TEXT("stool"), TEXT("Stool"), 1, 5 }, { TEXT("crate"), TEXT("Crate"), 1, 5 }, { TEXT("rack"), TEXT("Rack"), 1, 5 }
@@ -44,8 +40,8 @@ int32 UVenturesFeature::CampCap() const
 
 FString UVenturesFeature::CampForbidden(float X, float Z) const
 {
-	for (const FCampTown& T : CampTowns)
-		if (FMath::Sqrt(FMath::Square(X - T.X) + FMath::Square(Z - T.Z)) < CampTownR) return T.Name;
+	for (int32 i = 0; i < VenturesTowns::NumMain; ++i)
+		if (VenturesTowns::Dist(VenturesTowns::All[i], X, Z) < CampTownR) return VenturesTowns::All[i].Name;
 	const FVector2D Hold = ZoneC(TEXT("hold"));
 	if (FMath::Abs(X - Hold.X) < 20.f && FMath::Abs(Z - Hold.Y) < 16.f) return TEXT("Greenstead");
 	if (FMath::Abs(X - CampPlotX) <= CampPlotHalf && FMath::Abs(Z - CampPlotZ) <= CampPlotHalf) return TEXT("Claimridge");

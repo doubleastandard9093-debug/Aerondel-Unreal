@@ -72,6 +72,9 @@ if exists("Source/Aerondel/Features/Ventures_Wayfreight.cpp"):
 
 if exists("Source/Aerondel/Features/Ventures_Waycamp.cpp"):
     src = read("Source/Aerondel/Features/Ventures_Waycamp.cpp")
+    # Town coordinates live in the shared VenturesTowns.h table (main towns first) since the cleanup pass.
+    if "VenturesTowns.h" in src and exists("Source/Aerondel/Features/VenturesTowns.h"):
+        src += read("Source/Aerondel/Features/VenturesTowns.h")
     for name in ("CampCraft", "CampPlace", "CampPack", "CampRest", "Larkhaven", "Claimridge", "Greenstead"):
         if name not in src:
             errs.append(f"Waycamp missing {name}")

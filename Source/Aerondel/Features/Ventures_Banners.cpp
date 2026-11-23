@@ -1,4 +1,5 @@
 #include "Features/VenturesFeature.h"
+#include "Features/VenturesTowns.h"
 #include "Features/StandingFeature.h"
 #include "UI/AerondelPanels.h"
 #include "Dom/JsonObject.h"
@@ -23,11 +24,6 @@ namespace VenturesBanners
 		{ TEXT("weapons"), TEXT("circle") }, { TEXT("general3"), TEXT("circle") }, { TEXT("runes"), TEXT("circle") },
 		{ TEXT("armour"), TEXT("lantern") }, { TEXT("herb2"), TEXT("lantern") }
 	};
-	struct FBannerTown { const TCHAR* Name; float X, Z; };
-	static const FBannerTown BannerTowns[] = {
-		{ TEXT("Larkhaven"), 0.f, 0.f }, { TEXT("Emberfold"), 50.f, -24.f }, { TEXT("Saltreach"), -80.f, 60.f },
-		{ TEXT("Highcrest"), 120.f, -40.f }, { TEXT("Whitecairn"), -60.f, -80.f }
-	};
 	static bool IsSafe(FName ShopId)
 	{
 		const FString S = ShopId.ToString();
@@ -43,9 +39,10 @@ FString UVenturesFeature::BannerTownAt(float X, float Z) const
 {
 	const TCHAR* Best = TEXT("Larkhaven");
 	float Bd = 1e12f;
-	for (const FBannerTown& T : BannerTowns)
+	for (int32 i = 0; i < VenturesTowns::NumMain; ++i)
 	{
-		const float D = FMath::Sqrt(FMath::Square(X - T.X) + FMath::Square(Z - T.Z));
+		const VenturesTowns::FTownPt& T = VenturesTowns::All[i];
+		const float D = VenturesTowns::Dist(T, X, Z);
 		if (D < Bd) { Bd = D; Best = T.Name; }
 	}
 	return Best;
