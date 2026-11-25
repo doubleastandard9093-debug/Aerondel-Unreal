@@ -20,6 +20,7 @@
 #include "Engine/World.h"
 #include "GameFramework/PlayerController.h"
 #include "UObject/ConstructorHelpers.h"
+#include "Engine/HitResult.h"
 
 AAerondelVRPawn::AAerondelVRPawn()
 {

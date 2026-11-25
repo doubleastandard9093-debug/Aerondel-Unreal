@@ -141,9 +141,9 @@ int32 UVenturesFeature::HitHunt(AAerondelMob* Mob, int32 D)
 		}
 		else
 		{
-			for (const TCHAR* Id : { TEXT("crest"), TEXT("core") })
+			for (const TCHAR* InId : { TEXT("crest"), TEXT("core") })
 			{
-				FHuntPart P; P.Id = Id; P.Item = TEXT("Hunt remnant"); P.Label = Id;
+				FHuntPart P; P.Id = InId; P.Item = TEXT("Hunt remnant"); P.Label = InId;
 				P.Hp = P.Max = FMath::Max(8, FMath::RoundToInt(MaxHp * 0.18f));
 				N.Parts.Add(P);
 			}

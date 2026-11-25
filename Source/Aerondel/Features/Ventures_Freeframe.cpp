@@ -273,14 +273,14 @@ bool UVenturesFeature::FramePlaceAt(const FString& Kind, int32 Gx, int32 Gz)
 	return true;
 }
 
-bool UVenturesFeature::FrameRemove(const FString& Id, const FString& Why)
+bool UVenturesFeature::FrameRemove(const FString& InId, const FString& Why)
 {
-	const int32 I = FrameList.IndexOfByPredicate([&](const FFramePiece& P) { return P.Id == Id; });
+	const int32 I = FrameList.IndexOfByPredicate([&](const FFramePiece& P) { return P.Id == InId; });
 	if (I < 0) return false;
 	const FString Name = FindKind(FrameList[I].Kind) ? FindKind(FrameList[I].Kind)->Name : TEXT("piece");
 	FrameList.RemoveAt(I);
 	for (int32 M = FrameMeshes.Num() - 1; M >= 0; --M)
-		if (AFreeframePiece* A = Cast<AFreeframePiece>(FrameMeshes[M])) if (A->PieceId == Id) { A->Destroy(); FrameMeshes.RemoveAt(M); }
+		if (AFreeframePiece* A = Cast<AFreeframePiece>(FrameMeshes[M])) if (A->PieceId == InId) { A->Destroy(); FrameMeshes.RemoveAt(M); }
 	if (!Why.IsEmpty()) Say(FString::Printf(TEXT("%s: %s"), *Name, *Why));
 	FrameSettle();
 	return true;
@@ -299,19 +299,19 @@ void UVenturesFeature::FrameSettle()
 			Fall.Add(P.Id);
 		}
 	}
-	for (const FString& Id : Fall)
+	for (const FString& InId : Fall)
 	{
-		const int32 I = FrameList.IndexOfByPredicate([&](const FFramePiece& P) { return P.Id == Id; });
+		const int32 I = FrameList.IndexOfByPredicate([&](const FFramePiece& P) { return P.Id == InId; });
 		if (I >= 0) FrameList.RemoveAt(I);
 		for (int32 M = FrameMeshes.Num() - 1; M >= 0; --M)
-			if (AFreeframePiece* A = Cast<AFreeframePiece>(FrameMeshes[M])) if (A->PieceId == Id) { A->Destroy(); FrameMeshes.RemoveAt(M); }
+			if (AFreeframePiece* A = Cast<AFreeframePiece>(FrameMeshes[M])) if (A->PieceId == InId) { A->Destroy(); FrameMeshes.RemoveAt(M); }
 	}
 }
 
-bool UVenturesFeature::FrameRepair(const FString& Id)
+bool UVenturesFeature::FrameRepair(const FString& InId)
 {
 	FFramePiece* P = nullptr;
-	for (FFramePiece& R : FrameList) if (R.Id == Id) { P = &R; break; }
+	for (FFramePiece& R : FrameList) if (R.Id == InId) { P = &R; break; }
 	if (!P) return false;
 	const FKind* Def = FindKind(P->Kind); if (!Def) return false;
 	if (CountItem(Def->MatA) < 1) { Say(FString::Printf(TEXT("You need %s to repair that."), Def->MatA)); return false; }
@@ -364,12 +364,12 @@ void UVenturesFeature::TabFrame(FGPanelModel& M)
 	if (bHere)
 	{
 		for (const FKind& K : Kinds)
-			VAct23(M, FString::Printf(TEXT("Place %s (Con %d)"), K.Name, K.Lvl), [this, Id = FString(K.Id)] { FramePlace(Id); }, Con >= K.Lvl && FrameList.Num() < FrameCap());
+			VAct23(M, FString::Printf(TEXT("Place %s (Con %d)"), K.Name, K.Lvl), [this, InId = FString(K.Id)] { FramePlace(InId); }, Con >= K.Lvl && FrameList.Num() < FrameCap());
 	}
 	for (const FFramePiece& P : FrameList)
 	{
 		const FKind* K = FindKind(P.Kind);
 		M.Lines.Add(FString::Printf(TEXT("%s at %d,%d — %d hp"), K ? K->Name : *P.Kind, P.Gx, P.Gz, P.Hp));
-		VAct23(M, FString::Printf(TEXT("Repair %s"), K ? K->Name : *P.Id), [this, Id = P.Id] { FrameRepair(Id); });
+		VAct23(M, FString::Printf(TEXT("Repair %s"), K ? K->Name : *P.Id), [this, InId = P.Id] { FrameRepair(InId); });
 	}
 }

@@ -9,6 +9,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/Pawn.h"
 #include "EngineUtils.h"
+#include "Engine/HitResult.h"
 
 static const TCHAR* GHighMaster = TEXT("/Game/Gielinor/Materials/High/M_TintHigh.M_TintHigh");
 

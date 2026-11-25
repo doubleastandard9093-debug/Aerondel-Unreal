@@ -124,9 +124,9 @@ bool UVenturesFeature::AshSummon(const FString& InItem)
 	return true;
 }
 
-bool UVenturesFeature::AshCraft(const FString& Id)
+bool UVenturesFeature::AshCraft(const FString& InId)
 {
-	const FAshDef* Def = FindAshId(Id);
+	const FAshDef* Def = FindAshId(InId);
 	if (!Def) return false;
 	if (SkillLevel(TEXT("Prayer")) < Def->PrayerLvl) { Say(FString::Printf(TEXT("You need Prayer %d."), Def->PrayerLvl)); return false; }
 	if (Coins() < Def->Gold) { Say(FString::Printf(TEXT("That costs %d coins."), Def->Gold)); return false; }
@@ -213,9 +213,9 @@ void UVenturesFeature::TabAsh(FGPanelModel& M)
 			D.Prayer, D.DurMs / 1000, D.Desc, D.MatAN, D.MatA,
 			D.MatB ? *FString::Printf(TEXT(", %d %s"), D.MatBN, D.MatB) : TEXT(""),
 			D.Gold));
-		const FString Id = D.Id, Item = D.Item;
+		const FString InId = D.Id, Item = D.Item;
 		if (bHave) VAct9(M, bEq ? FString::Printf(TEXT("%s (equipped)"), D.Item) : FString::Printf(TEXT("Equip %s"), D.Item), [this, Item] { AshEquip(Item); });
-		else VAct9(M, FString::Printf(TEXT("Bind %s"), D.Item), [this, Id] { AshCraft(Id); }, !bLock);
+		else VAct9(M, FString::Printf(TEXT("Bind %s"), D.Item), [this, InId] { AshCraft(InId); }, !bLock);
 	}
 	VAct9(M, AshOut() ? TEXT("Recall (H)") : TEXT("Summon (H)"), [this] { AshSummon(); }, true, true);
 }

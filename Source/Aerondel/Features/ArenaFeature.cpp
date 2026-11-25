@@ -65,7 +65,7 @@ int32 UArenaFeature::RateDuel(int32 OppRating, bool bWin)
 
 FString UArenaFeature::Buy(FName ShopId)
 {
-	struct FS { const TCHAR* Id; int32 Cost; int32 Rank; };
+	struct FS { const TCHAR* InId; int32 Cost; int32 Rank; };
 	static const FS Shop[] = { { TEXT("cape"), 60, 0 }, { TEXT("band"), 120, 3 }, { TEXT("watch"), 25, 0 }, { TEXT("tutor"), 15, 0 } };
 	const FS* S = nullptr; for (const FS& X : Shop) if (ShopId == FName(X.Id)) S = &X;
 	if (!S) return TEXT("Unknown item.");

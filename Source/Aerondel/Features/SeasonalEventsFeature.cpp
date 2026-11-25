@@ -100,10 +100,10 @@ void USeasonalEventsFeature::RefreshDecor()
 	for (TActorIterator<AActor> It(W); It; ++It)
 	{
 		AActor* A = *It; if (A->Tags.Num() == 0) continue;
-		FString Id; bool bFull = false;
-		for (const FName& Tag : A->Tags) { const FString S = Tag.ToString(); if (S.StartsWith(Prefix)) Id = S.Mid(Prefix.Len()); else if (S == TEXT("festival_full")) bFull = true; }
-		if (Id.IsEmpty()) continue;
-		const bool bHide = !Act.Contains(Id) || (bFull && bLight);
+		FString InId; bool bFull = false;
+		for (const FName& Tag : A->Tags) { const FString S = Tag.ToString(); if (S.StartsWith(Prefix)) InId = S.Mid(Prefix.Len()); else if (S == TEXT("festival_full")) bFull = true; }
+		if (InId.IsEmpty()) continue;
+		const bool bHide = !Act.Contains(InId) || (bFull && bLight);
 		if (A->IsHidden() != bHide) { A->SetActorHiddenInGame(bHide); A->SetActorEnableCollision(!bHide); }
 	}
 }

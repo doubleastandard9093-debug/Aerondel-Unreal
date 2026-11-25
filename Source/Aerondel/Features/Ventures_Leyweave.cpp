@@ -152,7 +152,7 @@ void UVenturesFeature::SaveLey(FJsonObject& A) const
 {
 	TSharedRef<FJsonObject> S = MakeShared<FJsonObject>();
 	TArray<TSharedPtr<FJsonValue>> N;
-	for (const FString& Id : LeyNodes) N.Add(MakeShared<FJsonValueString>(Id));
+	for (const FString& InId : LeyNodes) N.Add(MakeShared<FJsonValueString>(InId));
 	S->SetArrayField(TEXT("nodes"), N);
 	S->SetNumberField(TEXT("ley"), LeyAmt);
 	S->SetNumberField(TEXT("spent"), LeySpent);
@@ -174,25 +174,25 @@ void UVenturesFeature::LoadLey(const FJsonObject& A)
 		for (const TSharedPtr<FJsonValue>& V : *N)
 		{
 			if (!V.IsValid() || V->Type != EJson::String) continue;
-			const FString Id = V->AsString();
-			if (FindNode(Id) && !LeyNodes.Contains(Id)) LeyNodes.Add(Id);
+			const FString InId = V->AsString();
+			if (FindNode(InId) && !LeyNodes.Contains(InId)) LeyNodes.Add(InId);
 		}
 	}
 }
 
 bool UVenturesFeature::LeyOpen() const { return CombatLevel() >= 50; }
 
-bool UVenturesFeature::LeyKey(const FString& Id) const
+bool UVenturesFeature::LeyKey(const FString& InId) const
 {
 	if (!LeyNodes.Contains(TEXT("start"))) return false;
-	for (const FNode& N : Web().Nodes) if (N.Key == Id && LeyNodes.Contains(N.Id)) return true;
+	for (const FNode& N : Web().Nodes) if (N.Key == InId && LeyNodes.Contains(N.Id)) return true;
 	return false;
 }
 
-bool UVenturesFeature::LeyHas(const FString& Id) const
+bool UVenturesFeature::LeyHas(const FString& InId) const
 {
 	if (!LeyNodes.Contains(TEXT("start"))) return false;
-	for (const FNode& N : Web().Nodes) if (N.Fx == Id && LeyNodes.Contains(N.Id)) return true;
+	for (const FNode& N : Web().Nodes) if (N.Fx == InId && LeyNodes.Contains(N.Id)) return true;
 	return false;
 }
 
@@ -200,9 +200,9 @@ FLeyFx UVenturesFeature::LeyFx() const
 {
 	FLeyFx Fx;
 	if (!LeyNodes.Contains(TEXT("start"))) return Fx;
-	for (const FString& Id : LeyNodes)
+	for (const FString& InId : LeyNodes)
 	{
-		const FNode* N = FindNode(Id); if (!N) continue;
+		const FNode* N = FindNode(InId); if (!N) continue;
 		if (N->Fx == TEXT("ley") || N->Fx == TEXT("ley-sight")) Fx.LeyGain += N->Kind == TEXT("notable") ? 1.f : 0.2f;
 		if (N->Fx == TEXT("wide-guard")) Fx.WhirlR += 0.5f;
 		if (N->Fx == TEXT("iron-hold") || N->Fx == TEXT("stun") || N->Fx == TEXT("kindsteel")) Fx.Stun += (N->Kind == TEXT("key") || N->Kind == TEXT("notable")) ? 1 : 0;
@@ -235,36 +235,36 @@ FString UVenturesFeature::LeyDefaultStart() const
 	return TEXT("wanderer");
 }
 
-bool UVenturesFeature::LeyPickStart(const FString& Id)
+bool UVenturesFeature::LeyPickStart(const FString& InId)
 {
 	if (!LeyOpen()) { Say(TEXT("The Leyweave opens at combat level 50.")); return false; }
-	if (!IsStart(Id)) return false;
+	if (!IsStart(InId)) return false;
 	if (!LeyStart.IsEmpty() && LeyNodes.Num()) { Say(TEXT("Refund the weave at a bank before choosing a new start.")); return false; }
-	LeyStart = Id;
+	LeyStart = InId;
 	if (!LeyNodes.Contains(TEXT("start"))) LeyNodes.Add(TEXT("start"));
-	FString Name = Id;
-	for (const auto& S : Starts) if (Id == S[0]) Name = S[1];
+	FString Name = InId;
+	for (const auto& S : Starts) if (InId == S[0]) Name = S[1];
 	Say(FString::Printf(TEXT("You begin the Leyweave as a %s."), *Name));
 	return true;
 }
 
-bool UVenturesFeature::LeyFill(const FString& Id)
+bool UVenturesFeature::LeyFill(const FString& InId)
 {
 	if (!LeyOpen()) { Say(TEXT("The Leyweave opens at combat level 50.")); return false; }
-	const FNode* N = FindNode(Id); if (!N) return false;
+	const FNode* N = FindNode(InId); if (!N) return false;
 	if (LeyStart.IsEmpty()) { if (!LeyPickStart(LeyDefaultStart())) return false; }
-	if (LeyNodes.Contains(Id)) return false;
-	if (Id != TEXT("start") && !LeyNodes.Contains(TEXT("start"))) { if (!LeyFill(TEXT("start"))) return false; }
-	if (Id != TEXT("start"))
+	if (LeyNodes.Contains(InId)) return false;
+	if (InId != TEXT("start") && !LeyNodes.Contains(TEXT("start"))) { if (!LeyFill(TEXT("start"))) return false; }
+	if (InId != TEXT("start"))
 	{
-		const TArray<FString>* L = Web().Links.Find(Id);
+		const TArray<FString>* L = Web().Links.Find(InId);
 		bool bAdj = false; if (L) for (const FString& X : *L) if (LeyNodes.Contains(X)) { bAdj = true; break; }
 		if (!bAdj) { Say(TEXT("Fill a node next to one you already have, starting at the Ley Heart.")); return false; }
 	}
-	const int32 Need = Id == TEXT("start") ? 50 : FMath::Min(1000, 50 + N->Ring * 80);
+	const int32 Need = InId == TEXT("start") ? 50 : FMath::Min(1000, 50 + N->Ring * 80);
 	if (CombatLevel() < Need) { Say(FString::Printf(TEXT("That ring of the weave opens at combat level %d."), Need)); return false; }
 	if (LeyAmt < N->Cost) { Say(FString::Printf(TEXT("That node costs %d Ley (you have %d)."), N->Cost, LeyAmt)); return false; }
-	LeyAmt -= N->Cost; LeySpent += N->Cost; LeyNodes.Add(Id);
+	LeyAmt -= N->Cost; LeySpent += N->Cost; LeyNodes.Add(InId);
 	Say(N->Kind == TEXT("key") ? FString::Printf(TEXT("Keystone: %s. %s"), *N->Name, *N->Desc) : FString::Printf(TEXT("You path through %s."), *N->Name));
 	return true;
 }
@@ -302,7 +302,7 @@ void UVenturesFeature::TabLey(FGPanelModel& M)
 	for (const auto& S : Starts)
 	{
 		const bool bOn = LeyStart == S[0];
-		VAct16(M, FString::Printf(TEXT("%s%s"), bOn ? TEXT("• Start: ") : TEXT("Begin as "), S[1]), [this, Id = FString(S[0])] { LeyPickStart(Id); });
+		VAct16(M, FString::Printf(TEXT("%s%s"), bOn ? TEXT("• Start: ") : TEXT("Begin as "), S[1]), [this, InId = FString(S[0])] { LeyPickStart(InId); });
 	}
 	VAct16(M, bLeyRec ? TEXT("• Recommended path on") : TEXT("Recommended path"), [this] { bLeyRec = !bLeyRec; });
 	VAct16(M, TEXT("Refund (500 coins, 70% Ley returns)"), [this] { LeyRefund(); });
@@ -317,7 +317,7 @@ void UVenturesFeature::TabLey(FGPanelModel& M)
 		{
 			const TArray<FString> Path = Shortest(TEXT("start"), FirstKey->Id);
 			FString Next;
-			for (const FString& Id : Path) if (!LeyNodes.Contains(Id)) { Next = Id; break; }
+			for (const FString& InId : Path) if (!LeyNodes.Contains(InId)) { Next = InId; break; }
 			if (Next.IsEmpty()) M.Lines.Add(FString::Printf(TEXT("Recommended path complete (%s)."), *FirstKey->Name));
 			else if (const FNode* N = FindNode(Next))
 			{
@@ -334,7 +334,7 @@ void UVenturesFeature::TabLey(FGPanelModel& M)
 		if (!bAdj) if (const TArray<FString>* L = Web().Links.Find(N.Id)) for (const FString& X : *L) if (LeyNodes.Contains(X)) { bAdj = true; break; }
 		if (!bAdj) continue;
 		if (N.Kind == TEXT("small") && Shown >= 10) continue;
-		VAct16(M, FString::Printf(TEXT("Fill %s (%d Ley, ring %d)"), *N.Name, N.Cost, N.Ring), [this, Id = N.Id] { LeyFill(Id); });
+		VAct16(M, FString::Printf(TEXT("Fill %s (%d Ley, ring %d)"), *N.Name, N.Cost, N.Ring), [this, InId = N.Id] { LeyFill(InId); });
 		++Shown;
 		if (Shown >= 16) break;
 	}

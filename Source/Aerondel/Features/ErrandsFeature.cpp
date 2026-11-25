@@ -8,8 +8,8 @@ const TArray<FErrandDef>& UErrandsFeature::Defs()
 {
 	static TArray<FErrandDef> D;
 	if (D.Num()) return D;
-	auto Add = [](const TCHAR* Id, const TCHAR* Name, int32 Mins, const TCHAR* Skill, int32 Xp, TMap<FString, int32> Items, const TCHAR* Fac, int32 Rep)
-	{ FErrandDef& E = D.AddDefaulted_GetRef(); E.Id = Id; E.Name = Name; E.Minutes = Mins; E.Skill = Skill; E.Xp = Xp; E.Items = MoveTemp(Items); E.Faction = Fac; E.Rep = Rep; };
+	auto Add = [](const TCHAR* InId, const TCHAR* Name, int32 Mins, const TCHAR* Skill, int32 Xp, TMap<FString, int32> Items, const TCHAR* Fac, int32 Rep)
+	{ FErrandDef& E = D.AddDefaulted_GetRef(); E.Id = InId; E.Name = Name; E.Minutes = Mins; E.Skill = Skill; E.Xp = Xp; E.Items = MoveTemp(Items); E.Faction = Fac; E.Rep = Rep; };
 	Add(TEXT("e_copper"), TEXT("Dig copper at the east mine"), 15, TEXT("Mining"), 120, { { TEXT("Copper ore"), 12 } }, TEXT("watch"), 10);
 	Add(TEXT("e_logs"), TEXT("Cut firewood for the Watch"), 20, TEXT("Woodcutting"), 140, { { TEXT("Logs"), 15 } }, TEXT("watch"), 12);
 	Add(TEXT("e_shrimp"), TEXT("Net shrimp off the docks"), 20, TEXT("Fishing"), 140, { { TEXT("Raw shrimp"), 15 } }, TEXT("mariners"), 12);

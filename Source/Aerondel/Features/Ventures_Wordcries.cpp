@@ -59,31 +59,31 @@ void UVenturesFeature::LoadCry(const FJsonObject& A)
 	CryLastMs = JInt(*S, TEXT("last"));
 }
 
-int32 UVenturesFeature::CryWordsOf(const FString& Id) const { return FMath::Clamp(CryWords.FindRef(Id), 0, 3); }
+int32 UVenturesFeature::CryWordsOf(const FString& InId) const { return FMath::Clamp(CryWords.FindRef(InId), 0, 3); }
 
-bool UVenturesFeature::CryNear(const FString& Id, float& Dist) const
+bool UVenturesFeature::CryNear(const FString& InId, float& Dist) const
 {
-	const FCryDef* D = FindCry(Id);
+	const FCryDef* D = FindCry(InId);
 	FVector2D P; if (!D || !PlayerWebPos(P)) return false;
 	Dist = FVector2D::Distance(P, FVector2D(D->X, D->Z));
 	return Dist < 3.4f;
 }
 
-bool UVenturesFeature::CryLearn(const FString& Id)
+bool UVenturesFeature::CryLearn(const FString& InId)
 {
-	const FCryDef* D = FindCry(Id); if (!D) return false;
+	const FCryDef* D = FindCry(InId); if (!D) return false;
 	float Dist = 0.f;
-	if (!CryNear(Id, Dist)) { Say(FString::Printf(TEXT("Study the %s cry-stone first (at %.0f, %.0f)."), D->Name, D->X, D->Z)); return false; }
-	const int32 N = CryWordsOf(Id);
+	if (!CryNear(InId, Dist)) { Say(FString::Printf(TEXT("Study the %s cry-stone first (at %.0f, %.0f)."), D->Name, D->X, D->Z)); return false; }
+	const int32 N = CryWordsOf(InId);
 	if (N >= 3) { Say(FString::Printf(TEXT("You already know every word of %s."), D->Name)); return false; }
-	CryWords.Add(Id, N + 1);
-	if (CryEquipped.IsEmpty()) CryEquipped = Id;
+	CryWords.Add(InId, N + 1);
+	if (CryEquipped.IsEmpty()) CryEquipped = InId;
 	Say(FString::Printf(TEXT("You learn \"%s\" of %s (%d/3)."), D->Words[N], D->Name, N + 1));
 	return true;
 }
 
-bool UVenturesFeature::CryEquip(const FString& Id)
-{ if (CryWordsOf(Id) < 1) return false; CryEquipped = Id; return true; }
+bool UVenturesFeature::CryEquip(const FString& InId)
+{ if (CryWordsOf(InId) < 1) return false; CryEquipped = InId; return true; }
 
 int32 UVenturesFeature::CryIncoming(int32 Amount) const
 {
@@ -93,10 +93,10 @@ int32 UVenturesFeature::CryIncoming(int32 Amount) const
 
 bool UVenturesFeature::CryUse(const FString& InId)
 {
-	FString Id = InId.IsEmpty() ? CryEquipped : InId;
-	const FCryDef* D = FindCry(Id);
+	FString InId = InId.IsEmpty() ? CryEquipped : InId;
+	const FCryDef* D = FindCry(InId);
 	if (!D) { Say(TEXT("Choose a Wordcry first (Ventures -> Wordcries).")); return false; }
-	const int32 N = CryWordsOf(Id);
+	const int32 N = CryWordsOf(InId);
 	if (N < 1) { Say(FString::Printf(TEXT("You have not yet learned a word of %s. Study its cry-stone."), D->Name)); return false; }
 	const int64 CdMs = (int64)FMath::RoundToInt(D->Cd * 1000.f * (1.f - LeyFx().CryCd));
 	const int64 Wait = (CryLastMs + FMath::Max<int64>(1000, CdMs)) - NowMs();
@@ -105,7 +105,7 @@ bool UVenturesFeature::CryUse(const FString& InId)
 	const int32 Cost = D->Prayer[N - 1];
 	if (!PS || !PS->Stats || PS->Stats->PrayerPoints < Cost) { Say(FString::Printf(TEXT("You need %d Prayer points for %s."), Cost, D->Name)); return false; }
 	PS->Stats->PrayerPoints -= Cost;
-	CryLastMs = NowMs(); ++CryUses; CryEquipped = Id;
+	CryLastMs = NowMs(); ++CryUses; CryEquipped = InId;
 	FString Words = D->Words[0];
 	for (int32 i = 1; i < N; ++i) { Words += TEXT("! "); Words += D->Words[i]; }
 	Words += TEXT("!");
@@ -117,7 +117,7 @@ bool UVenturesFeature::CryUse(const FString& InId)
 		Say(TEXT("The cry echoes and briefly slows nearby foes."));
 	}
 	const float R = 3.f + N * 1.5f; const int32 K = N;
-	if (Id == TEXT("stormheave"))
+	if (InId == TEXT("stormheave"))
 	{
 		APawn* Pawn = PS->GetPawn();
 		for (AAerondelMob* M : MobsNear(P, R, 8))
@@ -129,15 +129,15 @@ bool UVenturesFeature::CryUse(const FString& InId)
 			M->Stun(K);
 		}
 	}
-	else if (Id == TEXT("rimehold"))
+	else if (InId == TEXT("rimehold"))
 	{
 		for (AAerondelMob* M : MobsNear(P, R, 8)) if (M && !M->IsDead()) M->Stun(1 + K);
 	}
-	else if (Id == TEXT("windstride"))
+	else if (InId == TEXT("windstride"))
 	{
 		if (APawn* Pawn = PS->GetPawn()) Pawn->SetActorLocation(Pawn->GetActorLocation() + Pawn->GetActorForwardVector() * ((3.f + K * 2.f) * 100.f), true);
 	}
-	else if (Id == TEXT("heartencry"))
+	else if (InId == TEXT("heartencry"))
 	{
 		CryValorUntil = TickNow() + 8 + K * 4;
 		if (PS->Health && PS->Health->GetCurrent() > 0)
@@ -161,12 +161,12 @@ void UVenturesFeature::TabCry(FGPanelModel& M)
 		M.Lines.Add(FString::Printf(TEXT("%s — %d/3%s. %s Words: %s. Cost %d Prayer. Cry-stone at %.0f, %.0f%s."),
 			D.Name, N, CryEquipped == D.Id ? TEXT(" · equipped") : TEXT(""), D.Desc, *Known,
 			N ? D.Prayer[N - 1] : D.Prayer[0], D.X, D.Z, bNear ? TEXT(" · you are here") : TEXT("")));
-		const FString Id = D.Id;
-		if (bNear && N < 3) VAct11(M, FString::Printf(TEXT("Learn %s"), D.Words[N]), [this, Id] { CryLearn(Id); });
+		const FString InId = D.Id;
+		if (bNear && N < 3) VAct11(M, FString::Printf(TEXT("Learn %s"), D.Words[N]), [this, InId] { CryLearn(InId); });
 		if (N > 0)
 		{
-			VAct11(M, CryEquipped == D.Id ? FString::Printf(TEXT("%s (equipped)"), D.Name) : FString::Printf(TEXT("Equip %s"), D.Name), [this, Id] { CryEquip(Id); });
-			VAct11(M, FString::Printf(TEXT("Cry %s (;)"), D.Name), [this, Id] { CryUse(Id); }, true, true);
+			VAct11(M, CryEquipped == D.Id ? FString::Printf(TEXT("%s (equipped)"), D.Name) : FString::Printf(TEXT("Equip %s"), D.Name), [this, InId] { CryEquip(InId); });
+			VAct11(M, FString::Printf(TEXT("Cry %s (;)"), D.Name), [this, InId] { CryUse(InId); }, true, true);
 		}
 	}
 }
