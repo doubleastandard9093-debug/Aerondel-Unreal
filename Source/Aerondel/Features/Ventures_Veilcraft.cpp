@@ -101,7 +101,7 @@ void UVenturesFeature::LoadVeil(const FJsonObject& A)
 
 FString UVenturesFeature::VeilOnItem(const FString& Item) const
 {
-	if (const FString* Id = VeilOn.Find(Item)) return *Id;
+	if (const FString* InId = VeilOn.Find(Item)) return *InId;
 	return FString();
 }
 
@@ -118,7 +118,7 @@ FString UVenturesFeature::VeilLessonFrom(const FString& Item) const
 {
 	if (const FString Bound = VeilOnItem(Item); !Bound.IsEmpty()) return Bound;
 	for (const FString& Kit : KitList(Item))
-		if (const TCHAR* Id = EffectForKit(Kit)) return Id;
+		if (const TCHAR* InId = EffectForKit(Kit)) return InId;
 	return FString();
 }
 
@@ -176,12 +176,12 @@ bool UVenturesFeature::VeilBind(const FString& Item, const FString& EffectId)
 
 bool UVenturesFeature::VeilUnbind(const FString& Item)
 {
-	const FString Id = VeilOnItem(Item);
-	if (Id.IsEmpty()) { Say(TEXT("Nothing is bound to that item.")); return false; }
+	const FString InId = VeilOnItem(Item);
+	if (InId.IsEmpty()) { Say(TEXT("Nothing is bound to that item.")); return false; }
 	if (!TakeCoins(UnbindGold)) { Say(FString::Printf(TEXT("Unbinding costs %d coins. The lesson stays known."), UnbindGold)); return false; }
 	VeilOn.Remove(Item);
-	const FVeilFx* E = FindFx(Id);
-	Say(FString::Printf(TEXT("You unbind %s from the %s. The lesson stays with you."), E ? E->Name : *Id, *Item));
+	const FVeilFx* E = FindFx(InId);
+	Say(FString::Printf(TEXT("You unbind %s from the %s. The lesson stays with you."), E ? E->Name : *InId, *Item));
 	return true;
 }
 
@@ -221,11 +221,11 @@ void UVenturesFeature::TabVeil(FGPanelModel& M)
 	M.Lines.Add(FString::Printf(TEXT("Souls: %d/%d · Lesser bright souls: %d/%d"), WyrmSouls(), VeilSoulCap, VeilLesser, VeilSoulCap));
 	M.Lines.Add(TEXT("Known lessons"));
 	if (!VeilKnown.Num()) M.Lines.Add(TEXT("Unmake a kit-bearing item to learn a lesson."));
-	for (const FString& Id : VeilKnown)
+	for (const FString& InId : VeilKnown)
 	{
-		const FVeilFx* E = FindFx(Id); if (!E) continue;
-		const bool bOn = VeilSelFx == Id;
-		VAct32(M, FString::Printf(TEXT("%s%s"), bOn ? TEXT("● ") : TEXT(""), E->Name), [this, Id] { VeilSelFx = (VeilSelFx == Id) ? FString() : Id; });
+		const FVeilFx* E = FindFx(InId); if (!E) continue;
+		const bool bOn = VeilSelFx == InId;
+		VAct32(M, FString::Printf(TEXT("%s%s"), bOn ? TEXT("● ") : TEXT(""), E->Name), [this, InId] { VeilSelFx = (VeilSelFx == InId) ? FString() : InId; });
 	}
 	if (const FVeilFx* E = FindFx(VeilSelFx)) M.Lines.Add(E->Desc);
 	M.Lines.Add(TEXT("Your gear"));

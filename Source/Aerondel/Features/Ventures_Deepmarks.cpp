@@ -77,10 +77,10 @@ void UVenturesFeature::LoadMark(const FJsonObject& A)
 		for (const TSharedPtr<FJsonValue>& V : *St)
 			if (V.IsValid() && V->Type == EJson::String)
 			{
-				const FString Id = V->AsString();
+				const FString InId = V->AsString();
 				int32 T = 0;
-				if (Id.StartsWith(TEXT("t")) && Id.Len() <= 3) T = FCString::Atoi(*Id.Mid(1));
-				if (T >= 1 && T <= MaxTier && MarkStash.Num() < 24) MarkStash.Add(Id);
+				if (InId.StartsWith(TEXT("t")) && InId.Len() <= 3) T = FCString::Atoi(*InId.Mid(1));
+				if (T >= 1 && T <= MaxTier && MarkStash.Num() < 24) MarkStash.Add(InId);
 			}
 	MarkWeekPinn = JStr(*S, TEXT("weekPinn"));
 }
@@ -136,7 +136,7 @@ bool UVenturesFeature::MarkStart(int32 Tier)
 	Run.Room = 1;
 	Run.Kills = 0;
 	MarkSpawnRoom();
-	TArray<FString> Names; for (const FString& Id : Run.Mods) if (const FMod* M = FindModId(Id)) Names.Add(M->Name);
+	TArray<FString> Names; for (const FString& InId : Run.Mods) if (const FMod* M = FindModId(InId)) Names.Add(M->Name);
 	Say(FString::Printf(TEXT("Deepmark height %d. %s. Three rooms, one at a time."), T, *FString::Join(Names, TEXT(" · "))));
 	return true;
 }
@@ -185,9 +185,9 @@ void UVenturesFeature::MarkFinish(bool bWin)
 	MarkStash.Add(FString::Printf(TEXT("t%d"), T));
 	if (T < MaxTier && FMath::FRand() < 0.7f) MarkStash.Add(FString::Printf(TEXT("t%d"), T + 1));
 	if (MarkStash.Num() > 24) MarkStash.SetNum(24);
-	const int32 Coins = FMath::RoundToInt(120 + Run.L * 3 + T * 20);
-	GiveCoins(Coins);
-	Say(FString::Printf(TEXT("Deepmark height %d is clear. +%d coins. A mark returns to your stash."), T, Coins));
+	const int32 CoinAmt = 120 + Run.L * 3 + T * 20;
+	GiveCoins(CoinAmt);
+	Say(FString::Printf(TEXT("Deepmark height %d is clear. +%d coins. A mark returns to your stash."), T, CoinAmt));
 	const FString W = WeekKey();
 	if (T >= 5 && MarkWeekPinn != W)
 	{
@@ -222,7 +222,7 @@ void UVenturesFeature::TabMark(FGPanelModel& M)
 	if (InRunKind(TEXT("marks")))
 	{
 		M.Title = FString::Printf(TEXT("Height %d · room %d/3"), Run.Level, Run.Room);
-		for (const FString& Id : Run.Mods) if (const FMod* Md = FindModId(Id)) M.Lines.Add(FString::Printf(TEXT("%s — %s"), Md->Name, Md->Desc));
+		for (const FString& InId : Run.Mods) if (const FMod* Md = FindModId(InId)) M.Lines.Add(FString::Printf(TEXT("%s — %s"), Md->Name, Md->Desc));
 		M.Lines.Add(FString::Printf(TEXT("Foes %d/%d"), ZoneAlive().Num(), CapFoes(15)));
 		VAct18(M, TEXT("Abandon run"), [this] { RunEnd(false); }, true, true);
 		return;
