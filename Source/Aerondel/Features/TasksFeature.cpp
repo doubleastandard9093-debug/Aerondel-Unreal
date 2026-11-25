@@ -101,7 +101,7 @@ float UTasksFeature::DamageDealtBonus(const UMobDef* Target) const
 
 FString UTasksFeature::Buy(FName ShopId)
 {
-	struct FS { const TCHAR* InId; int32 Cost; bool bUnlock; const TCHAR* Item; int32 Qty; int32 Drowned; };
+	struct FS { const TCHAR* Id; int32 Cost; bool bUnlock; const TCHAR* Item; int32 Qty; int32 Drowned; };
 	static const FS Shop[] = {
 		{ TEXT("insight"), 200, true, nullptr, 0, 0 }, { TEXT("ring"), 150, false, TEXT("Hunter's ring"), 1, 0 }, { TEXT("fire"), 25, false, TEXT("Fire rune"), 100, 0 },
 		{ TEXT("lamp"), 60, false, nullptr, 0, 0 }, { TEXT("reefward"), 300, false, TEXT("Reefward amulet"), 1, 2 }, { TEXT("reefbane"), 400, true, nullptr, 0, 3 },

@@ -849,7 +849,7 @@ void UVenturesFeature::TabOverview(FGPanelModel& M)
 	M.Lines.Add(TEXT("New systems inspired by other games, reworked for Aerondel. Press J to open and close this window."));
 	M.Lines.Add(FString::Printf(TEXT("Your Ventures bonuses: +%s damage, +%s accuracy, %s less damage taken, +%s XP."),
 		*Pct(DamageDealtBonus(nullptr)), *Pct(AccuracyBonus(nullptr)), *Pct(FMath::Clamp(SumDr(nullptr), 0.f, CapDr)), *Pct(XpBonus(TEXT("attack")))));
-	struct FT { const TCHAR* InId; const TCHAR* Name; };
+	struct FT { const TCHAR* Id; const TCHAR* Name; };
 	static const FT T[] = { { TEXT("flare"), TEXT("Overflare (U)") }, { TEXT("wardrobe"), TEXT("Lookplates") }, { TEXT("ledger"), TEXT("Wayfarer's Ledger") }, { TEXT("reliq"), TEXT("Hidden Reliquaries") } };
 	for (const FT& X : T) { const FString InId = X.Id; VAct(M, X.Name, [this, InId] { GoTab(InId); }); }
 	OverviewMore(M);

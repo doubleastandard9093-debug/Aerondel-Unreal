@@ -703,6 +703,21 @@ for f, t in clean.items():
         mems = inherited_members(cls) if cls else set()
         if not mems:
             continue
+        # Fields of a function-local struct/class are not function-scope
+        # declarations (and are not C4458). Blank their bodies before scanning.
+        body_scan = body
+        def _blank_local_types(src):
+            out = list(src)
+            for tm in re.finditer(r'\b(?:struct|class|enum(?:\s+class)?)\s+\w*\s*\{', src):
+                brace = src.find('{', tm.start())
+                if brace < 0:
+                    continue
+                inner, end = extract_body(src, brace)
+                for i in range(brace, end):
+                    if out[i] != '\n':
+                        out[i] = ' '
+            return ''.join(out)
+        body_scan = _blank_local_types(body)
         declared = []  # (kind, name, pos)
         if params.strip() and params.strip() != 'void':
             for part in params.split(','):
@@ -719,12 +734,12 @@ for f, t in clean.items():
                             'TArray', 'TMap', 'TSet', 'TOptional', 'TFunction', 'TSharedPtr',
                             'TSharedRef', 'TWeakObjectPtr', 'TObjectPtr', 'TSubclassOf'):
                         declared.append(('parameter', n, start))
-        for m in LAMBDA_RE.finditer(body):
+        for m in LAMBDA_RE.finditer(body_scan):
             declared.append(('lambda', m.group(1), body_start + m.start()))
-        for m in COND_DECL.finditer(body):
+        for m in COND_DECL.finditer(body_scan):
             if m.group(1) not in KW:
                 declared.append(('local', m.group(1), body_start + m.start()))
-        blob = '{\n' + body
+        blob = '{\n' + body_scan
         for m in STMT_LOCAL.finditer(blob):
             n = m.group(4)
             if n in KW or n == meth:
