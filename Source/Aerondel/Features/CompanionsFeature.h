@@ -68,7 +68,7 @@ public:
 
 	/** Co-op party (web main.js): every recruited companion can follow at once. Active is the lead; Party holds the rest. */
 	UFUNCTION(BlueprintPure, Category="Aerondel|Party") TArray<FName> GetPartyIds() const;
-	UFUNCTION(BlueprintPure, Category="Aerondel|Party") bool InParty(FName InId) const { return Active == Id || Party.Contains(InId); }
+	UFUNCTION(BlueprintPure, Category="Aerondel|Party") bool InParty(FName InId) const { return Active == InId || Party.Contains(InId); }
 	UFUNCTION(BlueprintCallable, Category="Aerondel|Party") void TogglePartyMember(FName InId);
 	/** Call every recruited companion to your side. */
 	UFUNCTION(BlueprintCallable, Category="Aerondel|Party") FString CallWholeParty();

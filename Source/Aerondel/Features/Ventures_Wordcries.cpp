@@ -93,10 +93,10 @@ int32 UVenturesFeature::CryIncoming(int32 Amount) const
 
 bool UVenturesFeature::CryUse(const FString& InId)
 {
-	FString InId = InId.IsEmpty() ? CryEquipped : InId;
-	const FCryDef* D = FindCry(InId);
+	FString LocalId = InId.IsEmpty() ? CryEquipped : InId;
+	const FCryDef* D = FindCry(LocalId);
 	if (!D) { Say(TEXT("Choose a Wordcry first (Ventures -> Wordcries).")); return false; }
-	const int32 N = CryWordsOf(InId);
+	const int32 N = CryWordsOf(LocalId);
 	if (N < 1) { Say(FString::Printf(TEXT("You have not yet learned a word of %s. Study its cry-stone."), D->Name)); return false; }
 	const int64 CdMs = (int64)FMath::RoundToInt(D->Cd * 1000.f * (1.f - LeyFx().CryCd));
 	const int64 Wait = (CryLastMs + FMath::Max<int64>(1000, CdMs)) - NowMs();
@@ -105,7 +105,7 @@ bool UVenturesFeature::CryUse(const FString& InId)
 	const int32 Cost = D->Prayer[N - 1];
 	if (!PS || !PS->Stats || PS->Stats->PrayerPoints < Cost) { Say(FString::Printf(TEXT("You need %d Prayer points for %s."), Cost, D->Name)); return false; }
 	PS->Stats->PrayerPoints -= Cost;
-	CryLastMs = NowMs(); ++CryUses; CryEquipped = InId;
+	CryLastMs = NowMs(); ++CryUses; CryEquipped = LocalId;
 	FString Words = D->Words[0];
 	for (int32 i = 1; i < N; ++i) { Words += TEXT("! "); Words += D->Words[i]; }
 	Words += TEXT("!");
@@ -117,7 +117,7 @@ bool UVenturesFeature::CryUse(const FString& InId)
 		Say(TEXT("The cry echoes and briefly slows nearby foes."));
 	}
 	const float R = 3.f + N * 1.5f; const int32 K = N;
-	if (InId == TEXT("stormheave"))
+	if (LocalId == TEXT("stormheave"))
 	{
 		APawn* Pawn = PS->GetPawn();
 		for (AAerondelMob* M : MobsNear(P, R, 8))
@@ -129,15 +129,15 @@ bool UVenturesFeature::CryUse(const FString& InId)
 			M->Stun(K);
 		}
 	}
-	else if (InId == TEXT("rimehold"))
+	else if (LocalId == TEXT("rimehold"))
 	{
 		for (AAerondelMob* M : MobsNear(P, R, 8)) if (M && !M->IsDead()) M->Stun(1 + K);
 	}
-	else if (InId == TEXT("windstride"))
+	else if (LocalId == TEXT("windstride"))
 	{
 		if (APawn* Pawn = PS->GetPawn()) Pawn->SetActorLocation(Pawn->GetActorLocation() + Pawn->GetActorForwardVector() * ((3.f + K * 2.f) * 100.f), true);
 	}
-	else if (InId == TEXT("heartencry"))
+	else if (LocalId == TEXT("heartencry"))
 	{
 		CryValorUntil = TickNow() + 8 + K * 4;
 		if (PS->Health && PS->Health->GetCurrent() > 0)

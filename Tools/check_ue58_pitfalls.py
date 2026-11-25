@@ -9,6 +9,11 @@
   * A local, parameter, or lambda in a method that hides a class member — MSVC C4458.
   * A .cpp that dereferences a type (UNpcDef, FJsonObject, UGameInstance, FHitResult,
     and project U/A/F types) without including the header that defines it.
+  * A local that redeclares a parameter name — MSVC C2082 (and later assignment
+    to that const parameter, C2678).
+  * Leftover bare `Id` used as a value or comparand inside a method of a
+    UAerondelFeature subclass. After an `Id` parameter is renamed to `InId`,
+    a leftover `Id` binds to the static UAerondelFeature::Id function (MSVC C2678).
 
 Usage: python3 Tools/check_ue58_pitfalls.py [Source/Aerondel]
 """
@@ -756,6 +761,385 @@ for f, t in clean.items():
                 bad.append(f'{rel(f)}:{ln}: {kind} `{n}` hides {cls}::{n} (UE 5.8 C4458); rename the {kind}')
 
 
+
+# ===== 5. local redeclares a parameter (C2082) =====
+# ===== 6. leftover bare Id in UAerondelFeature methods (C2678) =====
+
+def param_names(params):
+    names = []
+    if not params or not params.strip() or params.strip() == 'void':
+        return names
+    for part in params.split(','):
+        raw = part.strip()
+        if not raw or raw == '...':
+            continue
+        if '=' in raw:
+            raw = raw[:raw.index('=')].strip()
+        ids = re.findall(r'\b([A-Za-z_]\w*)\b', raw)
+        if not ids:
+            continue
+        n = ids[-1]
+        if n not in KW and n not in INT_TYPES and n not in FLOAT_TYPES and n not in (
+                'FString', 'FName', 'FText', 'FVector', 'FVector2D', 'TCHAR',
+                'TArray', 'TMap', 'TSet', 'TOptional', 'TFunction', 'TSharedPtr',
+                'TSharedRef', 'TWeakObjectPtr', 'TObjectPtr', 'TSubclassOf'):
+            names.append(n)
+    return names
+
+
+def blank_local_types(src):
+    out = list(src)
+    for tm in re.finditer(r'\b(?:struct|class|enum(?:\s+class)?)\s+\w*\s*\{', src):
+        brace = src.find('{', tm.start())
+        if brace < 0:
+            continue
+        _inner, end = extract_body(src, brace)
+        for i in range(brace, end):
+            if out[i] != '\n':
+                out[i] = ' '
+    return ''.join(out)
+
+
+def skip_ws(s, i):
+    n = len(s)
+    while i < n and s[i] in ' \t\r\n':
+        i += 1
+    return i
+
+
+def skip_balanced(s, i, open_ch='(', close_ch=')'):
+    """s[i] is open_ch. Return index just after the matching close_ch."""
+    d = 0
+    n = len(s)
+    while i < n:
+        c = s[i]
+        if c == '"':
+            i += 1
+            while i < n and s[i] != '"':
+                if s[i] == '\\':
+                    i += 1
+                i += 1
+            i += 1
+            continue
+        if c == open_ch:
+            d += 1
+        elif c == close_ch:
+            d -= 1
+            i += 1
+            if d == 0:
+                return i
+            continue
+        i += 1
+    return i
+
+
+def is_aerondel_feature(cls):
+    if not cls:
+        return False
+    if cls == 'UAerondelFeature':
+        return True
+    seen = set()
+    stack = [cls]
+    while stack:
+        c = stack.pop()
+        if c in seen:
+            continue
+        seen.add(c)
+        if c == 'UAerondelFeature':
+            return True
+        stack.extend(bases.get(c, ()))
+    return False
+
+
+def iter_inline_methods(text, class_brace):
+    """Yield (meth, params, body, body_start, span_start) for inline methods in a class."""
+    body, class_end = extract_body(text, class_brace)
+    base = class_brace + 1
+    i, n = 0, len(body)
+    while i < n:
+        c = body[i]
+        if c == '"':
+            i += 1
+            while i < n and body[i] != '"':
+                if body[i] == '\\':
+                    i += 1
+                i += 1
+            i += 1
+            continue
+        # skip UFUNCTION / UPROPERTY / GENERATED_BODY macros
+        um = re.match(r'(?:UFUNCTION|UPROPERTY|UCLASS|USTRUCT|UENUM|GENERATED_BODY|GENERATED_UCLASS_BODY)\b', body[i:])
+        if um:
+            i += um.end()
+            i = skip_ws(body, i)
+            if i < n and body[i] == '(':
+                i = skip_balanced(body, i)
+            continue
+        # skip nested type bodies
+        nm = re.match(r'(?:struct|class|enum(?:\s+class)?|namespace)\b', body[i:])
+        if nm:
+            j = skip_ws(body, i + nm.end())
+            # optional name
+            mm = re.match(r'\w+', body[j:])
+            if mm:
+                j = skip_ws(body, j + mm.end())
+            # inheritance
+            if j < n and body[j] == ':':
+                j += 1
+                while j < n and body[j] not in '{;':
+                    j += 1
+            if j < n and body[j] == '{':
+                _inner, end = extract_body(body, j)
+                i = end
+                continue
+            i += 1
+            continue
+        # method: Name ( params ) qualifiers { or ;
+        m = re.match(r'(\w+)\s*\(', body[i:])
+        if m and m.group(1) not in KW:
+            name = m.group(1)
+            span_start = base + i
+            paren = i + m.end() - 1
+            close = skip_balanced(body, paren)
+            params = body[paren + 1:close - 1]
+            k = skip_ws(body, close)
+            while k < n:
+                qm = re.match(r'(?:const|override|final|volatile|noexcept)\b', body[k:])
+                if qm:
+                    k = skip_ws(body, k + qm.end())
+                    continue
+                break
+            if k < n and body[k] == '{':
+                meth_body, end = extract_body(body, k)
+                body_start = base + k + 1
+                yield (name, params, meth_body, body_start, span_start)
+                i = end
+                continue
+        i += 1
+
+
+SKIP_FUN = KW | {
+    'UFUNCTION', 'UPROPERTY', 'UCLASS', 'USTRUCT', 'UENUM', 'UINTERFACE',
+    'GENERATED_BODY', 'GENERATED_UCLASS_BODY', 'GENERATED_USTRUCT_BODY',
+    'IMPLEMENT_MODULE', 'IMPLEMENT_PRIMARY_GAME_MODULE',
+    'DEFINE_LOG_CATEGORY', 'DEFINE_LOG_CATEGORY_STATIC',
+    'DECLARE_LOG_CATEGORY_EXTERN', 'PRAGMA_DISABLE_DEPRECATION_WARNINGS',
+    'PRAGMA_ENABLE_DEPRECATION_WARNINGS',
+}
+
+def all_func_spans(f, t):
+    """Class::Method spans, plus inline class methods, plus file-scope functions.
+
+    FREE_DEF can mistake a UFUNCTION(...) bool Foo(...) { } line for a free
+    function named UFUNCTION; those are dropped so the real inline method
+    (with its class) is used instead.
+    """
+    raw = [s for s in func_span_map(t) if s[3] not in SKIP_FUN]
+    # Prefer qualified out-of-line methods, then inline methods, then true free functions.
+    spans = [s for s in raw if s[2]]
+    covered = [(s[0], s[1]) for s in spans]
+    for m in CLASS_RE.finditer(t):
+        brace = t.rfind('{', 0, m.end())
+        if brace < 0:
+            continue
+        cls = m.group(2)
+        for name, params, body, body_start, span_start in iter_inline_methods(t, brace):
+            if name in SKIP_FUN:
+                continue
+            if any(a <= span_start < b for a, b in covered):
+                continue
+            end = body_start + len(body) + 1
+            spans.append((span_start, end, cls, name, params, body_start, body))
+            covered.append((span_start, end))
+    for s in raw:
+        if s[2]:
+            continue
+        if any(a <= s[0] < b or a <= (s[5] or s[0]) < b for a, b in covered):
+            continue
+        spans.append(s)
+        covered.append((s[0], s[1]))
+    return spans
+
+
+def stmt_locals(body_scan):
+    """Yield (name, rel_pos) for statement-start and condition locals in a body."""
+    blob = '{\n' + body_scan
+    for m in STMT_LOCAL.finditer(blob):
+        n = m.group(4)
+        if n in KW:
+            continue
+        rel_pos = m.start(4) - 2
+        if rel_pos < 0:
+            rel_pos = 0
+        yield n, rel_pos
+    for m in COND_DECL.finditer(body_scan):
+        n = m.group(1)
+        if n in KW:
+            continue
+        yield n, m.start()
+
+
+CAP_ID = re.compile(r'(?:\[|,)\s*(?:&)?Id\s*(?:=|,|\])')
+BARE_ID = re.compile(r'(?<![:.>])\bId\b')
+ID_DECL_PREFIX = re.compile(
+    r'(?:FString|FName|FText|auto|int32|const FString|const FName|'
+    r'(?:const\s+)?TCHAR\s*\*+)\s+$'
+)
+
+
+def in_string(text, pos):
+    i = 0
+    while i < pos:
+        if text[i] == '"':
+            i += 1
+            while i < pos and i < len(text):
+                if text[i] == '\\':
+                    i += 2
+                    continue
+                if text[i] == '"':
+                    i += 1
+                    break
+                i += 1
+            else:
+                return True
+            continue
+        i += 1
+    return False
+
+
+def lambda_bodies_capturing_id(body):
+    """Return (start, end) ranges of lambda bodies whose capture list binds Id."""
+    out = []
+    i, n = 0, len(body)
+    while i < n:
+        if body[i] == '"':
+            i += 1
+            while i < n and body[i] != '"':
+                if body[i] == '\\':
+                    i += 1
+                i += 1
+            i += 1
+            continue
+        if body[i] == '[':
+            cap_start = i
+            try:
+                cap_end = skip_balanced(body, i, '[', ']')
+            except Exception:
+                i += 1
+                continue
+            cap = body[cap_start:cap_end]
+            k = skip_ws(body, cap_end)
+            if k < n and body[k] == '(':
+                k = skip_ws(body, skip_balanced(body, k))
+            while k < n:
+                qm = re.match(r'(?:mutable|constexpr|consteval|noexcept|const)\b', body[k:])
+                if qm:
+                    k = skip_ws(body, k + qm.end())
+                    continue
+                if body.startswith('->', k):
+                    k = skip_ws(body, k + 2)
+                    while k < n and (body[k].isalnum() or body[k] in '_: \t*&'):
+                        k += 1
+                    if k < n and body[k] == '<':
+                        k = skip_balanced(body, k, '<', '>')
+                    k = skip_ws(body, k)
+                    continue
+                break
+            if k < n and body[k] == '{' and CAP_ID.search(cap):
+                # Include the capture list so `Id = ...` in `[this, Id = F.Id]`
+                # is treated as a binding, not a leftover bare Id.
+                _inner, end = extract_body(body, k)
+                out.append((cap_start, end))
+            i += 1
+            continue
+        i += 1
+    return out
+
+
+def id_is_bound_at(params, body, pos, extra_ranges):
+    if 'Id' in param_names(params):
+        return True
+    for a, b in extra_ranges:
+        if a <= pos < b:
+            return True
+    return False
+
+
+# 5. local redeclares a parameter
+for f, t in clean.items():
+    for start, end, cls, meth, params, body_start, body in all_func_spans(f, t):
+        pnames = set(param_names(params))
+        if not pnames:
+            continue
+        body_scan = blank_local_types(body)
+        seen = set()
+        for n, rel_pos in stmt_locals(body_scan):
+            if n not in pnames:
+                continue
+            if n == meth:
+                continue
+            key = (n, rel_pos)
+            if key in seen:
+                continue
+            seen.add(key)
+            pos = body_start + rel_pos
+            ln = line_of(t, pos) if 0 <= pos < len(t) else line_of(t, start)
+            src = t.splitlines()[ln - 1].strip() if 0 < ln <= len(t.splitlines()) else ''
+            who = f'{cls}::{meth}' if cls else meth
+            bad.append(
+                f'{rel(f)}:{ln}: local `{n}` redeclares a parameter of {who} '
+                f'(UE 5.8 C2082); rename the local (e.g. LocalId) — {src}'
+            )
+
+
+# 6. leftover bare Id as a value in UAerondelFeature subclass methods
+for f, t in clean.items():
+    for start, end, cls, meth, params, body_start, body in all_func_spans(f, t):
+        if meth == 'Id':
+            continue
+        if not is_aerondel_feature(cls):
+            continue
+        # A data member named Id on this class can legitimately be written/read
+        # without qualification; only flag when Id would bind to the static function.
+        mems = inherited_members(cls) if cls else set()
+        # UAerondelFeature::Id is a function, recorded as a member by record_class?
+        # If a *data* member Id exists on a subclass, skip. We treat 'Id' in
+        # members as the static function (or a field). If the class declares a
+        # field Id, field_ty will have it.
+        has_id_field = bool(cls and (cls, 'Id') in field_ty)
+        if has_id_field:
+            continue
+        bound_ranges = lambda_bodies_capturing_id(body)
+        # locals named Id bind from their declaration to the end of the body
+        body_scan = blank_local_types(body)
+        for n, rel_pos in stmt_locals(body_scan):
+            if n == 'Id':
+                bound_ranges.append((rel_pos, len(body)))
+        for m in BARE_ID.finditer(body):
+            pos = m.start()
+            if in_string(body, pos):
+                continue
+            after = body[m.end():]
+            # Id( — call to the static helper, fine
+            if after.lstrip().startswith('('):
+                continue
+            # declaration of a local/field named Id
+            before = body[max(0, pos - 80):pos]
+            if ID_DECL_PREFIX.search(before):
+                continue
+            if id_is_bound_at(params, body, pos, bound_ranges):
+                continue
+            # leftover value / comparand
+            abspos = body_start + pos
+            ln = line_of(t, abspos) if 0 <= abspos < len(t) else line_of(t, start)
+            src = t.splitlines()[ln - 1].strip() if 0 < ln <= len(t.splitlines()) else ''
+            who = f'{cls}::{meth}' if cls else meth
+            bad.append(
+                f'{rel(f)}:{ln}: leftover bare `Id` in {who} binds to '
+                f'UAerondelFeature::Id (UE 5.8 C2678); use the InId parameter '
+                f'or a local — {src}'
+            )
+
+
 # ===== 4. incomplete types / missing includes =====
 def uses_need(text, typ):
     if typ == 'FJsonObject':
@@ -799,5 +1183,5 @@ if out:
     print('\n'.join(out))
     print(f'\n{len(out)} UE 5.8 pitfall(s) found')
     sys.exit(1)
-print('OK: no UE 5.8 pitfalls found (integer RoundToInt, TCHAR* TEXT compares, member shadows, missing complete-type includes)')
+print('OK: no UE 5.8 pitfalls found (integer RoundToInt, TCHAR* TEXT compares, member shadows, missing complete-type includes, param redecls, leftover bare Id)')
 sys.exit(0)
