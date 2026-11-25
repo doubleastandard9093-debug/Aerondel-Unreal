@@ -404,7 +404,7 @@ public:
 	bool TrailLive() const { return bTrailLive; }
 
 	// ---- group 26: Skillwords (Ventures_Skillwords.cpp) — Silver Tongue stays Persuade, Lie, Intimidate ----
-	bool SkillTry(const FString& Id);
+	bool SkillTry(const FString& InId);
 	bool SkillHasOpen(FName NpcId) const;
 	void SkillOpenFrom(AActor* Npc);
 	void SkillContinue();
@@ -417,7 +417,7 @@ public:
 	FName BannerOpposite(FName Faction) const;
 
 	// ---- group 28: Kitwright (Ventures_Kitwright.cpp) — kits are tools, not grafts or a damage percent ----
-	bool ScoreHas(const FString& Id) const;
+	bool ScoreHas(const FString& InId) const;
 	TArray<FString> KitList(const FString& Item) const;
 	bool KitHas(const FString& KitId) const;
 	bool KitOnItem(const FString& Item, const FString& KitId) const;
@@ -434,7 +434,7 @@ public:
 
 	// ---- group 29: Wayfreight (Ventures_Wayfreight.cpp) — not a new house, not a shared multiplayer stash ----
 	int32 FreightCap() const;
-	bool FreightOwned(const FString& Id) const;
+	bool FreightOwned(const FString& InId) const;
 	bool FreightLinked(const FString& A, const FString& B) const;
 	bool FreightLink(const FString& A, const FString& B);
 	bool FreightUnlink(const FString& A, const FString& B);
@@ -538,11 +538,11 @@ public:
 	uint32 WardrobeDyeHex(int32 Index) const;
 
 	// ---- group 38: Wildmarks (Ventures_Wildmarks.cpp) — held marks, not Quirks, not a damage percent ----
-	bool MarkActive(const FString& Id) const;
-	bool MarkGrant(const FString& Id);
+	bool MarkActive(const FString& InId) const;
+	bool MarkGrant(const FString& InId);
 	bool MarkHush();
-	bool MarkClear(const FString& Id);
-	bool MarkDraft(const FString& Id);
+	bool MarkClear(const FString& InId);
+	bool MarkDraft(const FString& InId);
 	bool MarkBrew(const FString& Item);
 	float LeySpreadMul() const;
 	float LeyRainMul() const;

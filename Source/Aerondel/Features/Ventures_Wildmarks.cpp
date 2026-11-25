@@ -55,20 +55,20 @@ void UVenturesFeature::LoadBlight(const FJsonObject& A)
 	MarkHushUntil = (int64)JInt(*S, TEXT("hushUntil"));
 }
 
-bool UVenturesFeature::MarkActive(const FString& Id) const
+bool UVenturesFeature::MarkActive(const FString& InId) const
 {
-	if (!MarkHeld.Contains(Id)) return false;
+	if (!MarkHeld.Contains(InId)) return false;
 	if (MarkHushUntil > 0 && NowMs() < MarkHushUntil) return false;
-	return FindWildmark(Id) != nullptr;
+	return FindWildmark(InId) != nullptr;
 }
 
-bool UVenturesFeature::MarkGrant(const FString& Id)
+bool UVenturesFeature::MarkGrant(const FString& InId)
 {
-	if (!FindWildmark(Id)) return false;
-	if (MarkHeld.Contains(Id)) { Say(TEXT("You already carry that Wildmark.")); return false; }
+	if (!FindWildmark(InId)) return false;
+	if (MarkHeld.Contains(InId)) { Say(TEXT("You already carry that Wildmark.")); return false; }
 	if (MarkHeld.Num() >= WildCap) { Say(TEXT("You already carry three Wildmarks. Clear one first. Two is the comfortable number.")); return false; }
-	MarkHeld.Add(Id);
-	const FMark* M = FindWildmark(Id);
+	MarkHeld.Add(InId);
+	const FMark* M = FindWildmark(InId);
 	Say(FString::Printf(TEXT("A Wildmark settles: %s. %s This is not a Quirk, and it is not a damage percent."), M->Name, M->Line));
 	if (MarkHeld.Num() == 2) Say(TEXT("Two Wildmarks is a comfortable load."));
 	if (MarkHeld.Num() == 3) Say(TEXT("Three is the cap. A Mark-clear tonic will lift one."));
@@ -85,23 +85,23 @@ bool UVenturesFeature::MarkHush()
 	return true;
 }
 
-bool UVenturesFeature::MarkClear(const FString& Id)
+bool UVenturesFeature::MarkClear(const FString& InId)
 {
-	if (!MarkHeld.Contains(Id)) { Say(TEXT("You are not carrying that mark.")); return false; }
+	if (!MarkHeld.Contains(InId)) { Say(TEXT("You are not carrying that mark.")); return false; }
 	if (CountItem(TEXT("Mark-clear tonic")) < 1) { Say(TEXT("You need a Mark-clear tonic. Ysolde's quirk remedy will not do this.")); return false; }
 	if (!TakeItem(TEXT("Mark-clear tonic"), 1)) return false;
-	MarkHeld.Remove(Id);
+	MarkHeld.Remove(InId);
 	Say(TEXT("The Wildmark lifts. Ysolde's quirk remedy cannot do this."));
 	return true;
 }
 
-bool UVenturesFeature::MarkDraft(const FString& Id)
+bool UVenturesFeature::MarkDraft(const FString& InId)
 {
 	if (CountItem(TEXT("Wildmark tonic")) < 1) { Say(TEXT("You need a Wildmark tonic to draft a mark.")); return false; }
-	if (MarkHeld.Contains(Id)) { Say(TEXT("You already carry that Wildmark.")); return false; }
+	if (MarkHeld.Contains(InId)) { Say(TEXT("You already carry that Wildmark.")); return false; }
 	if (MarkHeld.Num() >= WildCap) { Say(TEXT("You already carry three Wildmarks. Clear one first.")); return false; }
 	if (!TakeItem(TEXT("Wildmark tonic"), 1)) return false;
-	return MarkGrant(Id);
+	return MarkGrant(InId);
 }
 
 bool UVenturesFeature::MarkBrew(const FString& Item)
@@ -156,11 +156,11 @@ void UVenturesFeature::TabBlight(FGPanelModel& M)
 	const bool bHush = MarkHushUntil > 0 && NowMs() < MarkHushUntil;
 	if (bHush) M.Lines.Add(FString::Printf(TEXT("Hushed for about %d more minutes. The marks are still on you."), FMath::Max(1, (int32)((MarkHushUntil - NowMs() + 59999) / 60000))));
 	M.Lines.Add(FString::Printf(TEXT("Carrying %d/%d"), MarkHeld.Num(), WildCap));
-	for (const FString& Id : MarkHeld)
+	for (const FString& InId : MarkHeld)
 	{
-		const FMark* K = FindWildmark(Id);
-		M.Lines.Add(FString::Printf(TEXT("• %s%s — %s"), K ? K->Name : *Id, (bHush ? TEXT(" (hushed)") : TEXT("")), K ? K->Line : TEXT("")));
-		VAct38(M, FString::Printf(TEXT("Clear %s (tonic)"), K ? K->Name : *Id), [this, Id] { MarkClear(Id); }, CountItem(TEXT("Mark-clear tonic")) > 0);
+		const FMark* K = FindWildmark(InId);
+		M.Lines.Add(FString::Printf(TEXT("• %s%s — %s"), K ? K->Name : *InId, (bHush ? TEXT(" (hushed)") : TEXT("")), K ? K->Line : TEXT("")));
+		VAct38(M, FString::Printf(TEXT("Clear %s (tonic)"), K ? K->Name : *InId), [this, InId] { MarkClear(InId); }, CountItem(TEXT("Mark-clear tonic")) > 0);
 	}
 	if (MarkHeld.Num()) VAct38(M, TEXT("Hush all (tonic)"), [this] { MarkHush(); }, CountItem(TEXT("Mark-hush tonic")) > 0 && !bHush);
 	M.Lines.Add(TEXT("Draft a mark"));
@@ -168,7 +168,7 @@ void UVenturesFeature::TabBlight(FGPanelModel& M)
 	for (const FMark& K : WildMarks)
 	{
 		if (MarkHeld.Contains(K.Id)) continue;
-		VAct38(M, FString::Printf(TEXT("Draft %s"), K.Name), [this, Id = FString(K.Id)] { MarkDraft(Id); }, CountItem(TEXT("Wildmark tonic")) > 0 && MarkHeld.Num() < WildCap);
+		VAct38(M, FString::Printf(TEXT("Draft %s"), K.Name), [this, InId = FString(K.Id)] { MarkDraft(InId); }, CountItem(TEXT("Wildmark tonic")) > 0 && MarkHeld.Num() < WildCap);
 	}
 	M.Lines.Add(TEXT("Brew"));
 	VAct38(M, TEXT("Brew Wildmark tonic (Herbalism 20)"), [this] { MarkBrew(TEXT("Wildmark tonic")); });

@@ -75,9 +75,9 @@ void UVenturesFeature::ScoreRoll()
 	if (ScoreWeek != W) { ScoreWeek = W; ScoreWeekKeys.Reset(); }
 }
 
-bool UVenturesFeature::ScoreHas(const FString& Id) const
+bool UVenturesFeature::ScoreHas(const FString& InId) const
 {
-	return ScoreOwned.Contains(Id) || ScoreClaimed.Contains(Id) || ScoreUnlocks.Contains(Id);
+	return ScoreOwned.Contains(InId) || ScoreClaimed.Contains(InId) || ScoreUnlocks.Contains(InId);
 }
 
 void UVenturesFeature::SaveScore(FJsonObject& A) const
@@ -102,8 +102,8 @@ void UVenturesFeature::LoadScore(const FJsonObject& A)
 	ScoreValue = FMath::Max(0, (int32)JInt(*S, TEXT("score")));
 	ScoreClaimed = JStrArr(*S, TEXT("claimed"));
 	ScoreOwned = JStrArr(*S, TEXT("owned"));
-	for (const FString& Id : ScoreClaimed) ScoreOwned.AddUnique(Id);
-	for (const FString& Id : ScoreOwned) ScoreUnlocks.Add(Id);
+	for (const FString& InId : ScoreClaimed) ScoreOwned.AddUnique(InId);
+	for (const FString& InId : ScoreOwned) ScoreUnlocks.Add(InId);
 	ScoreDay = JStr(*S, TEXT("day"));
 	ScoreWeek = JStr(*S, TEXT("week"));
 	ScoreDayKeys = JStrArr(*S, TEXT("dayKeys"));

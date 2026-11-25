@@ -240,7 +240,7 @@ void UVenturesFeature::TabCamp(FGPanelModel& M)
 					}
 			M.Lines.Add(TEXT("Add a piece"));
 			for (const FExtra& E : Extras)
-				VAct30(M, FString::Printf(TEXT("%s (1 Log)"), E.Name), [this, Id = FString(E.Id)] { CampAdd(Id); });
+				VAct30(M, FString::Printf(TEXT("%s (1 Log)"), E.Name), [this, InId = FString(E.Id)] { CampAdd(InId); });
 		}
 	}
 }

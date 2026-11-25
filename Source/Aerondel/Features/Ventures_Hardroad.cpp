@@ -42,10 +42,10 @@ void UVenturesFeature::LoadRoad(const FJsonObject& A)
 	const TSharedPtr<FJsonObject> S = JObj(A, TEXT("road"));
 	if (!S) { bRoadOn = false; RoadHunger = RoadThirst = RoadRestAmt = MeterMax; return; } // old saves stay off
 	bRoadOn = JBool(*S, TEXT("on"));
-	auto Meter = [&](const TCHAR* K) { const int32 V = S->HasField(K) ? (int32)JInt(*S, K, MeterMax) : MeterMax; return FMath::Clamp(V, 0, MeterMax); };
-	RoadHunger = Meter(TEXT("hunger"));
-	RoadThirst = Meter(TEXT("thirst"));
-	RoadRestAmt = Meter(TEXT("rest"));
+	auto ReadMeter = [&](const TCHAR* K) { const int32 V = S->HasField(K) ? (int32)JInt(*S, K, MeterMax) : MeterMax; return FMath::Clamp(V, 0, MeterMax); };
+	RoadHunger = ReadMeter(TEXT("hunger"));
+	RoadThirst = ReadMeter(TEXT("thirst"));
+	RoadRestAmt = ReadMeter(TEXT("rest"));
 	bRoadHideHud = JBool(*S, TEXT("hideHud"));
 	RoadLast = NowMs();
 }

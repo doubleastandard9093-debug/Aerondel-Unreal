@@ -317,8 +317,8 @@ void UVenturesFeature::DiedAshfall(AAerondelMob* Mob, bool bByPlayer)
 	if (!bMarked) return;
 	if (FMath::FRand() > 0.2f) return;
 	TArray<FString> Opts;
-	for (const TCHAR* Id : { TEXT("nighteye"), TEXT("kindled"), TEXT("deeplung") })
-		if (!MarkHeld.Contains(Id)) Opts.Add(Id);
+	for (const TCHAR* InId : { TEXT("nighteye"), TEXT("kindled"), TEXT("deeplung") })
+		if (!MarkHeld.Contains(InId)) Opts.Add(InId);
 	if (!Opts.Num()) return;
 	if (MarkGrant(Opts[FMath::RandRange(0, Opts.Num() - 1)]))
 		Say(TEXT("The marked foe leaves a Wildmark on you."));
