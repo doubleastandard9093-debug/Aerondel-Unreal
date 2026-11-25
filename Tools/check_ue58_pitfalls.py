@@ -1045,8 +1045,10 @@ def lambda_bodies_capturing_id(body):
                     continue
                 break
             if k < n and body[k] == '{' and CAP_ID.search(cap):
+                # Include the capture list so `Id = ...` in `[this, Id = F.Id]`
+                # is treated as a binding, not a leftover bare Id.
                 _inner, end = extract_body(body, k)
-                out.append((k + 1, end - 1))
+                out.append((cap_start, end))
             i += 1
             continue
         i += 1
