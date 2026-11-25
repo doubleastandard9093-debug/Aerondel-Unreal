@@ -68,8 +68,8 @@ public:
 
 	/** Co-op party (web main.js): every recruited companion can follow at once. Active is the lead; Party holds the rest. */
 	UFUNCTION(BlueprintPure, Category="Aerondel|Party") TArray<FName> GetPartyIds() const;
-	UFUNCTION(BlueprintPure, Category="Aerondel|Party") bool InParty(FName Id) const { return Active == Id || Party.Contains(Id); }
-	UFUNCTION(BlueprintCallable, Category="Aerondel|Party") void TogglePartyMember(FName Id);
+	UFUNCTION(BlueprintPure, Category="Aerondel|Party") bool InParty(FName InId) const { return Active == Id || Party.Contains(InId); }
+	UFUNCTION(BlueprintCallable, Category="Aerondel|Party") void TogglePartyMember(FName InId);
 	/** Call every recruited companion to your side. */
 	UFUNCTION(BlueprintCallable, Category="Aerondel|Party") FString CallWholeParty();
 	UFUNCTION(BlueprintPure, Category="Aerondel|Party") float PartyGuard() const;
@@ -77,18 +77,18 @@ public:
 	UFUNCTION(BlueprintPure, Category="Aerondel|Party") static FVector2D FormationSlot(int32 Slot);
 
 	static const TArray<FCompanionDef>& Defs();
-	static const FCompanionDef* Def(FName Id);
+	static const FCompanionDef* Def(FName InId);
 
-	UFUNCTION(BlueprintPure, Category="Aerondel|Companions") FCompanionState GetState(FName Id) const { const FCompanionState* S = States.Find(Id); return S ? *S : FCompanionState(); }
+	UFUNCTION(BlueprintPure, Category="Aerondel|Companions") FCompanionState GetState(FName InId) const { const FCompanionState* S = States.Find(InId); return S ? *S : FCompanionState(); }
 	UFUNCTION(BlueprintPure, Category="Aerondel|Companions") FName GetActive() const { return Active; }
-	UFUNCTION(BlueprintCallable, Category="Aerondel|Companions") void StartRecruit(FName Id);
+	UFUNCTION(BlueprintCallable, Category="Aerondel|Companions") void StartRecruit(FName InId);
 	/** Hand in recruit items / finish a kill task. Returns true when recruited. */
-	UFUNCTION(BlueprintCallable, Category="Aerondel|Companions") bool TryRecruit(FName Id);
-	UFUNCTION(BlueprintCallable, Category="Aerondel|Companions") bool SetActive(FName Id);
+	UFUNCTION(BlueprintCallable, Category="Aerondel|Companions") bool TryRecruit(FName InId);
+	UFUNCTION(BlueprintCallable, Category="Aerondel|Companions") bool SetActive(FName InId);
 	UFUNCTION(BlueprintCallable, Category="Aerondel|Companions") void SendHome() { Active = NAME_None; }
 	/** Give one gift item (+1 bond, +2 for a liked gift; 10 min cooldown). */
-	UFUNCTION(BlueprintCallable, Category="Aerondel|Companions") bool Gift(FName Id, const FString& ItemName);
-	UFUNCTION(BlueprintCallable, Category="Aerondel|Companions") int32 AddBond(FName Id, int32 N);
+	UFUNCTION(BlueprintCallable, Category="Aerondel|Companions") bool Gift(FName InId, const FString& ItemName);
+	UFUNCTION(BlueprintCallable, Category="Aerondel|Companions") int32 AddBond(FName InId, int32 N);
 	/** Words of Choice: record a picked tone (alignment) and let the follower react. */
 	UFUNCTION(BlueprintCallable, Category="Aerondel|Choices") void RecordTone(EWheelTone Tone);
 	UFUNCTION(BlueprintPure, Category="Aerondel|Choices") int32 GetAlignment(EWheelTone Tone) const { return Alignment[(int32)Tone]; }
@@ -97,7 +97,7 @@ public:
 	UFUNCTION(BlueprintPure, Category="Aerondel|Companions") int32 AssistEvery() const;
 	UFUNCTION(BlueprintPure, Category="Aerondel|Companions") int32 ActiveBond() const;
 
-	FCompanionState* Find(FName Id) { return States.Find(Id); }
+	FCompanionState* Find(FName InId) { return States.Find(InId); }
 	static FString ToneName(EWheelTone T) { return T == EWheelTone::Kind ? TEXT("kind") : T == EWheelTone::Firm ? TEXT("firm") : TEXT("cunning"); }
 
 private:
@@ -107,7 +107,7 @@ private:
 	UPROPERTY() TArray<FName> Party;
 	UPROPERTY() TMap<FName, TObjectPtr<AActor>> Followers;
 	int32 PartyTick = 0;
-	float OneXpBonus(FName Id, FName SkillId) const;
+	float OneXpBonus(FName InId, FName SkillId) const;
 	void SyncFollowers();
 	int32 Alignment[3] = { 0, 0, 0 };
 };

@@ -52,7 +52,7 @@ void UVenturesFeature::SaveSpire(FJsonObject& A) const
 	TSharedRef<FJsonObject> S = MakeShared<FJsonObject>();
 	S->SetNumberField(TEXT("currency"), SpireAsh);
 	TArray<TSharedPtr<FJsonValue>> U;
-	for (const FString& Id : SpireUnlocks) U.Add(MakeShared<FJsonValueString>(Id));
+	for (const FString& InId : SpireUnlocks) U.Add(MakeShared<FJsonValueString>(InId));
 	S->SetArrayField(TEXT("unlocks"), U);
 	S->SetNumberField(TEXT("bestFloor"), SpireBestFloor);
 	S->SetNumberField(TEXT("runs"), SpireRuns);
@@ -77,9 +77,9 @@ void UVenturesFeature::SpireHeal(float Frac)
 		PS->Health->Heal(FMath::Max(1, FMath::RoundToInt(PS->Health->GetMax() * Frac)));
 }
 
-bool UVenturesFeature::SpireHas(const FString& Id) const
+bool UVenturesFeature::SpireHas(const FString& InId) const
 {
-	return InRunKind(TEXT("spire")) && Run.Boons.Contains(Id);
+	return InRunKind(TEXT("spire")) && Run.Boons.Contains(InId);
 }
 
 void UVenturesFeature::SpireSpawnFloor()
@@ -160,7 +160,7 @@ bool UVenturesFeature::SpirePick(int32 I)
 		if (C.Id == TEXT("gift"))
 		{
 			TArray<FString> Pool;
-			for (const FBoon& B : Boons) if (!Run.Boons.Contains(B.Id) && B.Id != TEXT("sip")) Pool.Add(B.Id);
+			for (const FBoon& B : Boons) if (!Run.Boons.Contains(B.Id) && FCString::Strcmp(B.Id, TEXT("sip")) != 0) Pool.Add(B.Id);
 			if (Pool.Num()) Run.Boons.Add(Pool[FMath::RandRange(0, Pool.Num() - 1)]);
 		}
 		if (C.Id == TEXT("ash")) Run.AshEarned += 2;
@@ -172,12 +172,12 @@ bool UVenturesFeature::SpirePick(int32 I)
 	return true;
 }
 
-bool UVenturesFeature::SpireBuy(const FString& Id)
+bool UVenturesFeature::SpireBuy(const FString& InId)
 {
-	const FUnlock* U = FindUnlock(Id); if (!U) return false;
-	if (SpireUnlocks.Contains(Id)) { Say(TEXT("You already have that.")); return false; }
+	const FUnlock* U = FindUnlock(InId); if (!U) return false;
+	if (SpireUnlocks.Contains(InId)) { Say(TEXT("You already have that.")); return false; }
 	if (SpireAsh < U->Cost) { Say(FString::Printf(TEXT("That costs %d Ash."), U->Cost)); return false; }
-	SpireAsh -= U->Cost; SpireUnlocks.Add(Id);
+	SpireAsh -= U->Cost; SpireUnlocks.Add(InId);
 	Say(FString::Printf(TEXT("Unlock: %s."), U->Name));
 	return true;
 }
@@ -252,7 +252,7 @@ void UVenturesFeature::TabSpire(FGPanelModel& M)
 	if (InRunKind(TEXT("spire")))
 	{
 		M.Title = FString::Printf(TEXT("Ashspire · floor %d/%d · %s"), Run.Floor, Floors, *Run.Mode);
-		if (Run.Boons.Num()) { TArray<FString> N; for (const FString& Id : Run.Boons) if (const FBoon* B = FindBoon(Id)) N.Add(B->Name); M.Lines.Add(TEXT("Boons: ") + FString::Join(N, TEXT(", "))); }
+		if (Run.Boons.Num()) { TArray<FString> N; for (const FString& InId : Run.Boons) if (const FBoon* B = FindBoon(InId)) N.Add(B->Name); M.Lines.Add(TEXT("Boons: ") + FString::Join(N, TEXT(", "))); }
 		M.Lines.Add(FString::Printf(TEXT("Foes %d/%d"), ZoneAlive().Num(), CapFoes(15)));
 		VAct19(M, TEXT("Leave the climb (it cannot be resumed)"), [this] { RunEnd(false); }, true, true);
 		return;
@@ -263,7 +263,7 @@ void UVenturesFeature::TabSpire(FGPanelModel& M)
 	{
 		const bool bHave = SpireUnlocks.Contains(U.Id);
 		M.Lines.Add(FString::Printf(TEXT("%s (%d Ash) — %s%s"), U.Name, U.Cost, U.Desc, bHave ? TEXT(" (owned)") : TEXT("")));
-		if (!bHave) VAct19(M, FString::Printf(TEXT("Unlock %s"), U.Name), [this, Id = FString(U.Id)] { SpireBuy(Id); }, SpireAsh >= U.Cost);
+		if (!bHave) VAct19(M, FString::Printf(TEXT("Unlock %s"), U.Name), [this, InId = FString(U.Id)] { SpireBuy(InId); }, SpireAsh >= U.Cost);
 	}
 	VAct19(M, TEXT("Start the climb"), [this] { SpireStart(); }, !Run.bOn, true);
 }

@@ -105,44 +105,44 @@ void UVenturesFeature::LoadTie(const FJsonObject& A)
 	}
 }
 
-FTieRec& UVenturesFeature::TieOf(const FString& Id)
+FTieRec& UVenturesFeature::TieOf(const FString& InId)
 {
-	if (FTieRec* R = TieRecs.Find(Id)) return *R;
-	return TieRecs.Add(Id, FTieRec());
+	if (FTieRec* R = TieRecs.Find(InId)) return *R;
+	return TieRecs.Add(InId, FTieRec());
 }
 
-const UNpcDef* UVenturesFeature::TieNpc(const FString& Id) const
+const UNpcDef* UVenturesFeature::TieNpc(const FString& InId) const
 {
 	const UGameDatabase* Db = UGameDatabase::Get();
-	if (!Db || IsCompanion(Id)) return nullptr;
-	return Db->FindNpc(FName(*Id));
+	if (!Db || IsCompanion(InId)) return nullptr;
+	return Db->FindNpc(FName(*InId));
 }
 
-bool UVenturesFeature::TieNear(const FString& Id, float& Dist) const
+bool UVenturesFeature::TieNear(const FString& InId, float& Dist) const
 {
-	const UNpcDef* N = TieNpc(Id);
+	const UNpcDef* N = TieNpc(InId);
 	FVector2D P; if (!N || !N->bHasHome || !PlayerWebPos(P)) return false;
 	Dist = FVector2D::Distance(P, N->Home);
 	return Dist < 3.4f;
 }
 
-int32 UVenturesFeature::TieBump(const FString& Id, int32 N)
+int32 UVenturesFeature::TieBump(const FString& InId, int32 N)
 {
-	FTieRec& R = TieOf(Id);
+	FTieRec& R = TieOf(InId);
 	const int32 Was = R.Rank;
 	R.Rank = FMath::Clamp(R.Rank + N, 0, TieMax);
-	const UNpcDef* Npc = TieNpc(Id);
-	const FString Name = Npc ? Npc->DisplayName.ToString() : Id;
+	const UNpcDef* Npc = TieNpc(InId);
+	const FString Name = Npc ? Npc->DisplayName.ToString() : InId;
 	if (R.Rank >= 2 && Was < 2) Say(FString::Printf(TEXT("%s will give you a modest shop discount when you trade with them."), *Name));
 	if (R.Rank >= 4 && !R.bHeart) { R.bHeart = true; Say(FString::Printf(TEXT("%s shares a short, private word with you. You have become close."), *Name)); }
 	if (R.Rank >= 3) R.bErrand = true;
 	return R.Rank;
 }
 
-bool UVenturesFeature::TieDiscount(const FString& Id) const
+bool UVenturesFeature::TieDiscount(const FString& InId) const
 {
-	const FTieRec* R = TieRecs.Find(Id);
-	return TieNpc(Id) && R && R->Rank >= 2;
+	const FTieRec* R = TieRecs.Find(InId);
+	return TieNpc(InId) && R && R->Rank >= 2;
 }
 
 float UVenturesFeature::TieBuyDiscount(const UObject* WorldContext)
@@ -152,31 +152,31 @@ float UVenturesFeature::TieBuyDiscount(const UObject* WorldContext)
 	return 0.05f;
 }
 
-bool UVenturesFeature::TieTalk(const FString& Id)
+bool UVenturesFeature::TieTalk(const FString& InId)
 {
-	const UNpcDef* N = TieNpc(Id); if (!N) return false;
+	const UNpcDef* N = TieNpc(InId); if (!N) return false;
 	float Dist = 0.f;
-	if (!TieNear(Id, Dist)) { Say(FString::Printf(TEXT("Stand closer to %s to talk."), *N->DisplayName.ToString())); return false; }
-	FTieRec& R = TieOf(Id);
+	if (!TieNear(InId, Dist)) { Say(FString::Printf(TEXT("Stand closer to %s to talk."), *N->DisplayName.ToString())); return false; }
+	FTieRec& R = TieOf(InId);
 	const FString Day = TodayUtc();
 	if (R.TalkAt == Day) { Say(FString::Printf(TEXT("%s already had a proper chat with you today."), *N->DisplayName.ToString())); return false; }
 	R.TalkAt = Day;
-	const int32 Rank = TieBump(Id, 1);
+	const int32 Rank = TieBump(InId, 1);
 	Say(FString::Printf(TEXT("You talk with %s. Town Tie: %s (%d/%d)."), *N->DisplayName.ToString(), Ranks[Rank], Rank, TieMax));
-	if (R.Rank >= 2) TieShopId = Id;
+	if (R.Rank >= 2) TieShopId = InId;
 	return true;
 }
 
-bool UVenturesFeature::TieGift(const FString& Id, const FString& Item)
+bool UVenturesFeature::TieGift(const FString& InId, const FString& Item)
 {
-	const UNpcDef* N = TieNpc(Id); if (!N) return false;
+	const UNpcDef* N = TieNpc(InId); if (!N) return false;
 	float Dist = 0.f;
-	if (!TieNear(Id, Dist)) { Say(FString::Printf(TEXT("Stand closer to %s to give a gift."), *N->DisplayName.ToString())); return false; }
+	if (!TieNear(InId, Dist)) { Say(FString::Printf(TEXT("Stand closer to %s to give a gift."), *N->DisplayName.ToString())); return false; }
 	if (CountItem(Item) < 1) { Say(FString::Printf(TEXT("You do not have a %s."), *Item)); return false; }
-	FTieRec& R = TieOf(Id);
+	FTieRec& R = TieOf(InId);
 	if (NowMs() - R.GiftAt < GiftMs) { Say(FString::Printf(TEXT("%s already received a gift recently. Try again in a little while."), *N->DisplayName.ToString())); return false; }
 	const TCHAR* const* Love = nullptr; const TCHAR* const* Hate = nullptr;
-	LoveHate(Id, N->DisplayName.ToString(), Love, Hate);
+	LoveHate(InId, N->DisplayName.ToString(), Love, Hate);
 	const bool bGrown = GreenGrewOf(Item) > 0;
 	static const TCHAR* Produce[] = { TEXT("Potato"), TEXT("Cabbage"), TEXT("Wheat"), TEXT("Tomato"), TEXT("Pumpkin"), TEXT("Winterroot"), TEXT("Egg"), TEXT("Milk"), TEXT("Wool"), TEXT("Farm preserves"), nullptr };
 	const bool bProduce = Match(Item, Produce);
@@ -189,7 +189,7 @@ bool UVenturesFeature::TieGift(const FString& Id, const FString& Item)
 	if (Kind == EGiftKind::Hate) { Say(FString::Printf(TEXT("%s does not care for the %s. (Town Tie unchanged.)"), *Name, *Item)); return true; }
 	if (Kind == EGiftKind::Love || Kind == EGiftKind::LovePlus)
 	{
-		const int32 Rank = TieBump(Id, 1);
+		const int32 Rank = TieBump(InId, 1);
 		FString Extra;
 		if (bGrown) Extra = TEXT(" — especially since you grew it");
 		else if (Kind == EGiftKind::LovePlus && bProduce) Extra = TEXT(" — they like farm produce");
@@ -198,7 +198,7 @@ bool UVenturesFeature::TieGift(const FString& Id, const FString& Item)
 		Say(Msg);
 	}
 	else Say(FString::Printf(TEXT("%s accepts the %s politely. Town Tie stays at %s (%d/%d)."), *Name, *Item, Ranks[R.Rank], R.Rank, TieMax));
-	if (R.Rank >= 2) TieShopId = Id;
+	if (R.Rank >= 2) TieShopId = InId;
 	return true;
 }
 
@@ -212,24 +212,24 @@ void UVenturesFeature::TabTie(FGPanelModel& M)
 	if (Db) for (const UNpcDef* N : Db->Npcs)
 	{
 		if (!N) continue;
-		const FString Id = N->Id.IsNone() ? N->GetFName().ToString() : N->Id.ToString();
-		if (IsCompanion(Id)) continue;
+		const FString InId = N->Id.IsNone() ? N->GetFName().ToString() : N->Id.ToString();
+		if (IsCompanion(InId)) continue;
 		float Dist = 0.f;
-		if (TieNear(Id, Dist)) Near.Add(N);
-		else if (TieRecs.Contains(Id)) Met.Add(N);
+		if (TieNear(InId, Dist)) Near.Add(N);
+		else if (TieRecs.Contains(InId)) Met.Add(N);
 	}
 	if (Near.Num() == 0 && Met.Num() == 0) M.Lines.Add(TEXT("Talk to townsfolk in Larkhaven, Emberfold, Saltreach, Highcrest or Whitecairn to start a Tie."));
 	auto Row = [&](const UNpcDef* N, bool bHere)
 	{
-		const FString Id = N->Id.IsNone() ? N->GetFName().ToString() : N->Id.ToString();
-		const FTieRec* R = TieRecs.Find(Id);
+		const FString InId = N->Id.IsNone() ? N->GetFName().ToString() : N->Id.ToString();
+		const FTieRec* R = TieRecs.Find(InId);
 		const int32 Rank = R ? R->Rank : 0;
 		M.Lines.Add(FString::Printf(TEXT("%s — %s (%d/%d)%s%s%s"), *N->DisplayName.ToString(), Ranks[Rank], Rank, TieMax,
 			(R && R->Rank >= 2) ? TEXT(" · shop discount") : TEXT(""),
 			(R && R->bHeart) ? TEXT(" · close") : TEXT(""),
 			bHere ? TEXT(" · you are here") : TEXT("")));
 		if (!bHere) return;
-		VAct13(M, FString::Printf(TEXT("Chat with %s"), *N->DisplayName.ToString()), [this, Id] { TieTalk(Id); });
+		VAct13(M, FString::Printf(TEXT("Chat with %s"), *N->DisplayName.ToString()), [this, InId] { TieTalk(InId); });
 		if (const AAerondelPlayerState* PS = GetPS()) if (PS->Inventory)
 		{
 			int32 Shown = 0;
@@ -237,11 +237,11 @@ void UVenturesFeature::TabTie(FGPanelModel& M)
 			{
 				if (St.IsEmpty() || Shown >= 8) continue;
 				const FString Item = St.Item->DisplayName.ToString();
-				VAct13(M, FString::Printf(TEXT("Give %s to %s"), *Item, *N->DisplayName.ToString()), [this, Id, Item] { TieGift(Id, Item); });
+				VAct13(M, FString::Printf(TEXT("Give %s to %s"), *Item, *N->DisplayName.ToString()), [this, InId, Item] { TieGift(InId, Item); });
 				++Shown;
 			}
 		}
-		if (R && R->Rank >= 2) VAct13(M, FString::Printf(TEXT("Trade with %s (Friendly discount)"), *N->DisplayName.ToString()), [this, Id] { TieShopId = Id; Say(TEXT("Your Friendly discount will apply the next time you buy from a shop.")); });
+		if (R && R->Rank >= 2) VAct13(M, FString::Printf(TEXT("Trade with %s (Friendly discount)"), *N->DisplayName.ToString()), [this, InId] { TieShopId = InId; Say(TEXT("Your Friendly discount will apply the next time you buy from a shop.")); });
 	};
 	for (const UNpcDef* N : Near) Row(N, true);
 	for (const UNpcDef* N : Met) Row(N, false);
