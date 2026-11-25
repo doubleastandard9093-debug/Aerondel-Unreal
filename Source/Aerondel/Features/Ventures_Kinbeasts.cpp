@@ -257,8 +257,8 @@ bool UVenturesFeature::KinThrow()
 
 bool UVenturesFeature::KinSend(const FString& InId)
 {
-	FString InId = InId.IsEmpty() ? KinActive : InId;
-	FKinRec* R = KinRecOf(InId);
+	FString LocalId = InId.IsEmpty() ? KinActive : InId;
+	FKinRec* R = KinRecOf(LocalId);
 	if (!R) { Say(TEXT("Choose a Kinbeast first.")); return false; }
 	if (bKinOut && KinLive.Id == R->Id) { RecallKin(TEXT("You recall your Kinbeast.")); return true; }
 	if (bKinOut) RecallKin(TEXT("You recall the Kinbeast that was out."));
@@ -281,10 +281,10 @@ bool UVenturesFeature::KinSend(const FString& InId)
 
 bool UVenturesFeature::KinFeed(const FString& InId)
 {
-	FString InId = InId;
-	if (InId.IsEmpty() && bKinOut) InId = KinLive.Id;
-	if (InId.IsEmpty()) InId = KinActive;
-	FKinRec* R = KinRecOf(InId);
+	FString LocalId = InId;
+	if (LocalId.IsEmpty() && bKinOut) LocalId = KinLive.Id;
+	if (LocalId.IsEmpty()) LocalId = KinActive;
+	FKinRec* R = KinRecOf(LocalId);
 	if (!R) return false;
 	FString Food;
 	if (AAerondelPlayerState* PS = GetPS()) if (PS->Inventory)
