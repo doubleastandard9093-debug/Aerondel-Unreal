@@ -61,9 +61,9 @@ namespace VenturesKin
 }
 using namespace VenturesKin;
 
-FKinRec* UVenturesFeature::KinRecOf(const FString& Id)
+FKinRec* UVenturesFeature::KinRecOf(const FString& InId)
 {
-	for (FKinRec& R : KinRoster) if (R.Id == Id) return &R;
+	for (FKinRec& R : KinRoster) if (R.Id == InId) return &R;
 	return nullptr;
 }
 
@@ -113,7 +113,7 @@ void UVenturesFeature::SaveKin(FJsonObject& A) const
 	}
 	S->SetArrayField(TEXT("roster"), Rost);
 	TArray<TSharedPtr<FJsonValue>> Seen;
-	for (const FString& Id : KinSeen) Seen.Add(MakeShared<FJsonValueString>(Id));
+	for (const FString& InId : KinSeen) Seen.Add(MakeShared<FJsonValueString>(InId));
 	S->SetArrayField(TEXT("seen"), Seen);
 	S->SetStringField(TEXT("active"), KinActive);
 	S->SetNumberField(TEXT("nextId"), KinNextId);
@@ -257,8 +257,8 @@ bool UVenturesFeature::KinThrow()
 
 bool UVenturesFeature::KinSend(const FString& InId)
 {
-	FString Id = InId.IsEmpty() ? KinActive : InId;
-	FKinRec* R = KinRecOf(Id);
+	FString InId = InId.IsEmpty() ? KinActive : InId;
+	FKinRec* R = KinRecOf(InId);
 	if (!R) { Say(TEXT("Choose a Kinbeast first.")); return false; }
 	if (bKinOut && KinLive.Id == R->Id) { RecallKin(TEXT("You recall your Kinbeast.")); return true; }
 	if (bKinOut) RecallKin(TEXT("You recall the Kinbeast that was out."));
@@ -281,10 +281,10 @@ bool UVenturesFeature::KinSend(const FString& InId)
 
 bool UVenturesFeature::KinFeed(const FString& InId)
 {
-	FString Id = InId;
-	if (Id.IsEmpty() && bKinOut) Id = KinLive.Id;
-	if (Id.IsEmpty()) Id = KinActive;
-	FKinRec* R = KinRecOf(Id);
+	FString InId = InId;
+	if (InId.IsEmpty() && bKinOut) InId = KinLive.Id;
+	if (InId.IsEmpty()) InId = KinActive;
+	FKinRec* R = KinRecOf(InId);
 	if (!R) return false;
 	FString Food;
 	if (AAerondelPlayerState* PS = GetPS()) if (PS->Inventory)
@@ -320,10 +320,10 @@ bool UVenturesFeature::KinFeed(const FString& InId)
 	return true;
 }
 
-bool UVenturesFeature::KinSetActive(const FString& Id)
+bool UVenturesFeature::KinSetActive(const FString& InId)
 {
-	if (!KinRecOf(Id)) return false;
-	KinActive = Id;
+	if (!KinRecOf(InId)) return false;
+	KinActive = InId;
 	return true;
 }
 
@@ -416,12 +416,12 @@ void UVenturesFeature::TabKin(FGPanelModel& M)
 			*R.Name, Sp ? Sp->Name : TEXT("?"), R.Level, R.Loyalty,
 			bOn ? TEXT(" · active") : TEXT(""),
 			bOut ? TEXT(" · out") : TEXT("")));
-		if (!bOn) VAct20(M, FString::Printf(TEXT("Set %s active"), *R.Name), [this, Id = R.Id] { KinSetActive(Id); });
-		VAct20(M, bOut ? FString::Printf(TEXT("Recall %s"), *R.Name) : FString::Printf(TEXT("Send %s out"), *R.Name), [this, Id = R.Id] { KinSend(Id); });
-		VAct20(M, FString::Printf(TEXT("Feed %s"), *R.Name), [this, Id = R.Id] { KinFeed(Id); });
+		if (!bOn) VAct20(M, FString::Printf(TEXT("Set %s active"), *R.Name), [this, InId = R.Id] { KinSetActive(InId); });
+		VAct20(M, bOut ? FString::Printf(TEXT("Recall %s"), *R.Name) : FString::Printf(TEXT("Send %s out"), *R.Name), [this, InId = R.Id] { KinSend(InId); });
+		VAct20(M, FString::Printf(TEXT("Feed %s"), *R.Name), [this, InId = R.Id] { KinFeed(InId); });
 	}
 	TArray<FString> SeenN;
-	for (const FString& Id : KinSeen) if (const FSpecies* Sp = FindSp(Id)) SeenN.Add(Sp->Name);
+	for (const FString& InId : KinSeen) if (const FSpecies* Sp = FindSp(InId)) SeenN.Add(Sp->Name);
 	M.Lines.Add(FString::Printf(TEXT("Seen in the field: %s."), SeenN.Num() ? *FString::Join(SeenN, TEXT(", ")) : TEXT("none yet")));
 	M.Lines.Add(FString::Printf(TEXT("Vessels: Bind %d · Sturdy %d · Fine %d. The Hearthhold kennel and Greenstead care speed training a little."),
 		CountItem(TEXT("Bind vessel")), CountItem(TEXT("Sturdy vessel")), CountItem(TEXT("Fine vessel"))));

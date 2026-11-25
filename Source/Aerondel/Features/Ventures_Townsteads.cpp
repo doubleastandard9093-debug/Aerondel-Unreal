@@ -68,7 +68,7 @@ void UVenturesFeature::SaveStead(FJsonObject& A) const
 void UVenturesFeature::LoadStead(const FJsonObject& A)
 {
 	const TSharedPtr<FJsonObject> S = JObj(A, TEXT("steads")); if (!S) return;
-	for (const FString& Id : JStrArr(*S, TEXT("owned"))) if (FindHouse(Id) && SteadOwned.Num() < 12) SteadOwned.AddUnique(Id);
+	for (const FString& InId : JStrArr(*S, TEXT("owned"))) if (FindHouse(InId) && SteadOwned.Num() < 12) SteadOwned.AddUnique(InId);
 	if (TSharedPtr<FJsonObject> Chests = JObj(*S, TEXT("chests")))
 		for (const auto& E : Chests->Values)
 		{
@@ -90,10 +90,10 @@ void UVenturesFeature::LoadStead(const FJsonObject& A)
 		}
 }
 
-FSteadFurn& UVenturesFeature::SteadFurnOf(const FString& Id)
-{ if (FSteadFurn* F = SteadFurn.Find(Id)) return *F; return SteadFurn.Add(Id, FSteadFurn()); }
-TMap<FString, int32>& UVenturesFeature::SteadChestOf(const FString& Id)
-{ if (TMap<FString, int32>* B = SteadChests.Find(Id)) return *B; return SteadChests.Add(Id, TMap<FString, int32>()); }
+FSteadFurn& UVenturesFeature::SteadFurnOf(const FString& InId)
+{ if (FSteadFurn* F = SteadFurn.Find(InId)) return *F; return SteadFurn.Add(InId, FSteadFurn()); }
+TMap<FString, int32>& UVenturesFeature::SteadChestOf(const FString& InId)
+{ if (TMap<FString, int32>* B = SteadChests.Find(InId)) return *B; return SteadChests.Add(InId, TMap<FString, int32>()); }
 
 int32 UVenturesFeature::SteadHookSlots() const
 {
@@ -116,13 +116,13 @@ const FString* UVenturesFeature::SteadHere() const
 	const FHouse* Best = nullptr; float Bd = 3.4f;
 	for (const FHouse& H : Houses) { const float D = FVector2D::Distance(P, FVector2D(H.X, H.Z)); if (D < Bd) { Bd = D; Best = &H; } }
 	if (!Best) return nullptr;
-	static FString Id; Id = Best->Id; return &Id;
+	static FString InId; InId = Best->Id; return &InId;
 }
 
-bool UVenturesFeature::SteadBuy(const FString& Id)
+bool UVenturesFeature::SteadBuy(const FString& InId)
 {
-	const FHouse* H = FindHouse(Id); if (!H) return false;
-	if (SteadOwned.Contains(Id)) { Say(FString::Printf(TEXT("You already own the %s."), H->Name)); return false; }
+	const FHouse* H = FindHouse(InId); if (!H) return false;
+	if (SteadOwned.Contains(InId)) { Say(FString::Printf(TEXT("You already own the %s."), H->Name)); return false; }
 	if (Coins() < H->Gold) { Say(FString::Printf(TEXT("The %s costs %d coins."), H->Name, H->Gold)); return false; }
 	if (H->Rep > 0)
 	{
@@ -131,16 +131,16 @@ bool UVenturesFeature::SteadBuy(const FString& Id)
 		if (Rep < H->Rep) { Say(FString::Printf(TEXT("You need %d standing with that town to buy the %s."), H->Rep, H->Name)); return false; }
 	}
 	if (!TakeCoins(H->Gold)) return false;
-	SteadOwned.Add(Id); SteadFurnOf(Id); SteadChestOf(Id);
+	SteadOwned.Add(InId); SteadFurnOf(InId); SteadChestOf(InId);
 	Say(FString::Printf(TEXT("You buy the %s as a Townstead. It is for storage — a chest, a bed and hooks — not a farm or a workshop."), H->Name));
 	return true;
 }
 
-bool UVenturesFeature::SteadPlace(const FString& Id, const FString& Kind)
+bool UVenturesFeature::SteadPlace(const FString& InId, const FString& Kind)
 {
-	const FHouse* H = FindHouse(Id);
-	if (!H || !SteadOwned.Contains(Id)) { Say(TEXT("You do not own this house.")); return false; }
-	FSteadFurn& F = SteadFurnOf(Id);
+	const FHouse* H = FindHouse(InId);
+	if (!H || !SteadOwned.Contains(InId)) { Say(TEXT("You do not own this house.")); return false; }
+	FSteadFurn& F = SteadFurnOf(InId);
 	const bool bChest = Kind == TEXT("chest"), bBed = Kind == TEXT("bed"), bHook = Kind == TEXT("hook");
 	if (!bChest && !bBed && !bHook) return false;
 	if ((bChest && F.bChest) || (bBed && F.bBed)) { Say(FString::Printf(TEXT("This house already has a %s."), *Kind)); return false; }
@@ -164,11 +164,11 @@ bool UVenturesFeature::SteadPlace(const FString& Id, const FString& Kind)
 	return true;
 }
 
-bool UVenturesFeature::SteadRest(const FString& Id)
+bool UVenturesFeature::SteadRest(const FString& InId)
 {
-	const FHouse* H = FindHouse(Id);
-	if (!H || !SteadOwned.Contains(Id)) return false;
-	if (!SteadFurnOf(Id).bBed) { Say(TEXT("Place a bed first.")); return false; }
+	const FHouse* H = FindHouse(InId);
+	if (!H || !SteadOwned.Contains(InId)) return false;
+	if (!SteadFurnOf(InId).bBed) { Say(TEXT("Place a bed first.")); return false; }
 	AAerondelPlayerState* PS = GetPS(); if (!PS || !PS->Health) return false;
 	const int32 Heal = FMath::Max(1, FMath::RoundToInt(PS->Health->GetMax() * 0.2f));
 	PS->Health->Heal(Heal); if (PS->Stats) PS->Stats->RunEnergy = 100.f;
@@ -177,15 +177,15 @@ bool UVenturesFeature::SteadRest(const FString& Id)
 	return true;
 }
 
-bool UVenturesFeature::SteadStore(const FString& Id, const FString& Item, int32 N)
+bool UVenturesFeature::SteadStore(const FString& InId, const FString& Item, int32 N)
 {
-	if (!SteadOwned.Contains(Id) || !SteadFurnOf(Id).bChest) { Say(TEXT("Place a chest first.")); return false; }
+	if (!SteadOwned.Contains(InId) || !SteadFurnOf(InId).bChest) { Say(TEXT("Place a chest first.")); return false; }
 	if (N <= 0 || CountItem(Item) < N || !TakeItem(Item, N)) return false;
-	SteadChestOf(Id).FindOrAdd(Item) += N; return true;
+	SteadChestOf(InId).FindOrAdd(Item) += N; return true;
 }
-bool UVenturesFeature::SteadTake(const FString& Id, const FString& Item, int32 N)
+bool UVenturesFeature::SteadTake(const FString& InId, const FString& Item, int32 N)
 {
-	TMap<FString, int32>& Bag = SteadChestOf(Id);
+	TMap<FString, int32>& Bag = SteadChestOf(InId);
 	int32* Have = Bag.Find(Item); if (!Have || *Have < N) return false;
 	*Have -= N; if (*Have <= 0) Bag.Remove(Item);
 	GiveItem(Item, N); return true;
@@ -203,21 +203,21 @@ void UVenturesFeature::TabStead(FGPanelModel& M)
 		const FString Need = H.Rep ? FString::Printf(TEXT(" and %d standing"), H.Rep) : FString();
 		M.Lines.Add(FString::Printf(TEXT("%s — %s%s%s"), H.Name, H.Town, bHere ? TEXT(" · you are here") : TEXT(""),
 			bOwn ? TEXT(" · owned") : *FString::Printf(TEXT(" · %d coins%s"), H.Gold, *Need)));
-		const FString Id = H.Id;
-		if (!bOwn) { VAct12(M, FString::Printf(TEXT("Buy %s (%d coins)"), H.Name, H.Gold), [this, Id] { SteadBuy(Id); }); continue; }
-		FSteadFurn& F = SteadFurnOf(Id); TMap<FString, int32>& Bag = SteadChestOf(Id);
+		const FString InId = H.Id;
+		if (!bOwn) { VAct12(M, FString::Printf(TEXT("Buy %s (%d coins)"), H.Name, H.Gold), [this, InId] { SteadBuy(InId); }); continue; }
+		FSteadFurn& F = SteadFurnOf(InId); TMap<FString, int32>& Bag = SteadChestOf(InId);
 		FString Stored; for (const auto& I : Bag) { if (!Stored.IsEmpty()) Stored += TEXT(", "); Stored += FString::Printf(TEXT("%d %s"), I.Value, *I.Key); }
 		M.Lines.Add(FString::Printf(TEXT("Chest %s · Bed %s · Hooks %d/%d%s"), F.bChest ? TEXT("placed") : TEXT("not placed"), F.bBed ? TEXT("placed") : TEXT("not placed"),
 			F.Hooks.Num(), SteadHookSlots(), Stored.IsEmpty() ? TEXT("") : *FString::Printf(TEXT(" · stored: %s"), *Stored)));
-		if (!F.bChest) VAct12(M, TEXT("Place chest (5 Logs)"), [this, Id] { SteadPlace(Id, TEXT("chest")); });
-		if (!F.bBed) VAct12(M, TEXT("Place bed (4 Logs)"), [this, Id] { SteadPlace(Id, TEXT("bed")); });
-		VAct12(M, TEXT("Add hook (2 Logs, 1 Iron bar)"), [this, Id] { SteadPlace(Id, TEXT("hook")); }, F.Hooks.Num() < SteadHookSlots());
-		if (F.bBed) VAct12(M, TEXT("Rest"), [this, Id] { SteadRest(Id); }, true, true);
+		if (!F.bChest) VAct12(M, TEXT("Place chest (5 Logs)"), [this, InId] { SteadPlace(InId, TEXT("chest")); });
+		if (!F.bBed) VAct12(M, TEXT("Place bed (4 Logs)"), [this, InId] { SteadPlace(InId, TEXT("bed")); });
+		VAct12(M, TEXT("Add hook (2 Logs, 1 Iron bar)"), [this, InId] { SteadPlace(InId, TEXT("hook")); }, F.Hooks.Num() < SteadHookSlots());
+		if (F.bBed) VAct12(M, TEXT("Rest"), [this, InId] { SteadRest(InId); }, true, true);
 		if (F.bChest)
 		{
 			if (const AAerondelPlayerState* PS = GetPS()) if (PS->Inventory)
-			{ int32 Shown = 0; for (const FItemStack& St : PS->Inventory->GetSlots()) { if (St.IsEmpty() || Shown >= 8) continue; const FString Item = St.Item->DisplayName.ToString(); VAct12(M, FString::Printf(TEXT("Store %s"), *Item), [this, Id, Item] { SteadStore(Id, Item, 1); }); ++Shown; } }
-			for (const auto& I : Bag) { const FString Item = I.Key; VAct12(M, FString::Printf(TEXT("Take %s"), *Item), [this, Id, Item] { SteadTake(Id, Item, 1); }); }
+			{ int32 Shown = 0; for (const FItemStack& St : PS->Inventory->GetSlots()) { if (St.IsEmpty() || Shown >= 8) continue; const FString Item = St.Item->DisplayName.ToString(); VAct12(M, FString::Printf(TEXT("Store %s"), *Item), [this, InId, Item] { SteadStore(InId, Item, 1); }); ++Shown; } }
+			for (const auto& I : Bag) { const FString Item = I.Key; VAct12(M, FString::Printf(TEXT("Take %s"), *Item), [this, InId, Item] { SteadTake(InId, Item, 1); }); }
 		}
 		if (F.Hooks.Num())
 		{

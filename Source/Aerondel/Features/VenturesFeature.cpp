@@ -939,7 +939,7 @@ void UVenturesFeature::TabOverview(FGPanelModel& M)
 		*VdPct(DamageDealtBonus(nullptr)), *VdPct(AccuracyBonus(nullptr)), *VdPct(FMath::Clamp(SumDr(nullptr), 0.f, CapDr)), *VdPct(XpBonus(TEXT("attack")))));
 	struct FT { const TCHAR* Id; const TCHAR* Name; };
 	static const FT T[] = { { TEXT("flare"), TEXT("Overflare (U)") }, { TEXT("wardrobe"), TEXT("Lookplates") }, { TEXT("ledger"), TEXT("Wayfarer's Ledger") }, { TEXT("reliq"), TEXT("Hidden Reliquaries") } };
-	for (const FT& X : T) { const FString Id = X.Id; VAct(M, X.Name, [this, Id] { GoTab(Id); }); }
+	for (const FT& X : T) { const FString InId = X.Id; VAct(M, X.Name, [this, InId] { GoTab(InId); }); }
 	OverviewMore(M);
 }
 

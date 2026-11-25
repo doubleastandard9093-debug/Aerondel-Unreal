@@ -13,6 +13,7 @@
 #include "GameFramework/PlayerStart.h"
 #include "Kismet/GameplayStatics.h"
 #include "XR/AerondelVRPawn.h"
+#include "Engine/HitResult.h"
 
 AAerondelPlayerController::AAerondelPlayerController()
 {

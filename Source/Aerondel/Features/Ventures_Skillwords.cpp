@@ -8,6 +8,7 @@
 #include "Data/QuestDef.h"
 #include "Data/AerondelTypes.h"
 #include "Dom/JsonObject.h"
+#include "Data/NpcDef.h"
 
 // Ventures group 26 (web adapt/skillwords.js): dialogue lines gated by Farming, Herbalism,
 // Smithing, Agility, Hunter or Construction. A miss is a short refusal and does not spend
@@ -52,7 +53,7 @@ void UVenturesFeature::SaveChecks(FJsonObject& A) const
 {
 	TSharedRef<FJsonObject> S = MakeShared<FJsonObject>();
 	TArray<TSharedPtr<FJsonValue>> Used;
-	for (const FString& Id : CheckUsed) Used.Add(MakeShared<FJsonValueString>(Id));
+	for (const FString& InId : CheckUsed) Used.Add(MakeShared<FJsonValueString>(InId));
 	S->SetArrayField(TEXT("used"), Used);
 	A.SetObjectField(TEXT("checks"), S);
 }
@@ -109,11 +110,11 @@ void UVenturesFeature::SkillContinue()
 			Ev->OnDialogue.Broadcast(N->Definition->DisplayName, { N->Definition->IdleLines[0] });
 }
 
-bool UVenturesFeature::SkillTry(const FString& Id)
+bool UVenturesFeature::SkillTry(const FString& InId)
 {
-	const FHook* H = FindHook(Id);
+	const FHook* H = FindHook(InId);
 	if (!H) { Say(TEXT("I have nothing to add.")); return false; }
-	if (CheckUsed.Contains(Id)) { Say(TEXT("We already spoke of that.")); return false; }
+	if (CheckUsed.Contains(InId)) { Say(TEXT("We already spoke of that.")); return false; }
 	if (H->Quest && !SkillQuestReady(H->Quest)) { Say(TEXT("That line opens once the related quest is on your journal.")); return false; }
 	const int32 Lv = SkillLevel(H->Skill);
 	if (Lv < H->Need)
@@ -122,7 +123,7 @@ bool UVenturesFeature::SkillTry(const FString& Id)
 		Say(H->Fail);
 		return false; // hook stays open; Silver Tongue is unchanged
 	}
-	CheckUsed.Add(Id);
+	CheckUsed.Add(InId);
 	GiveCoins(H->Gold);
 	GiveXp(H->Skill, (float)H->Xp);
 	Say(FString::Printf(TEXT("%s %s (%d coins)."), H->Pass, TEXT(""), H->Gold));

@@ -47,11 +47,11 @@ int32 UVenturesFeature::FreightCap() const
 	return UAerondelScalability::GetSavedTier() <= EAerondelTier::Low ? LineCapLow : LineCapHigh;
 }
 
-bool UVenturesFeature::FreightOwned(const FString& Id) const
+bool UVenturesFeature::FreightOwned(const FString& InId) const
 {
-	const FHome* H = FindHome(Id); if (!H) return false;
+	const FHome* H = FindHome(InId); if (!H) return false;
 	const FString K = H->Kind;
-	if (K == TEXT("stead")) return SteadOwned.Contains(Id);
+	if (K == TEXT("stead")) return SteadOwned.Contains(InId);
 	if (K == TEXT("hold")) return bHoldOwned;
 	if (K == TEXT("green")) return bGreenDeed;
 	if (K == TEXT("frame")) return FrameClaimed();

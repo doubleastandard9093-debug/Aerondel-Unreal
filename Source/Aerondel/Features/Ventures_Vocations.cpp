@@ -77,10 +77,10 @@ void UVenturesFeature::LoadVoc(const FJsonObject& A)
 {
 	const TSharedPtr<FJsonObject> S = JObj(A, TEXT("voc"));
 	if (!S) return;
-	for (const FString& Id : JStrArr(*S, TEXT("unlocked"))) if (FindVoc(Id) && VocUnlocked.Num() < 8) VocUnlocked.AddUnique(Id);
+	for (const FString& InId : JStrArr(*S, TEXT("unlocked"))) if (FindVoc(InId) && VocUnlocked.Num() < 8) VocUnlocked.AddUnique(InId);
 	if (!VocUnlocked.Contains(TEXT("warder"))) VocUnlocked.Insert(TEXT("warder"), 0);
-	const FString Id = JStr(*S, TEXT("id"));
-	if (FindVoc(Id) && VocUnlocked.Contains(Id)) VocId = Id;
+	const FString InId = JStr(*S, TEXT("id"));
+	if (FindVoc(InId) && VocUnlocked.Contains(InId)) VocId = InId;
 	if (TSharedPtr<FJsonObject> Bars = JObj(*S, TEXT("bars")))
 		for (const auto& E : Bars->Values)
 			if (FindVoc(FString(*E.Key)) && E.Value.IsValid() && E.Value->Type == EJson::Array)
@@ -97,25 +97,25 @@ bool UVenturesFeature::VocInCombat() const
 	if (const AAerondelMob* T = CurrentTarget()) if (!T->IsDead()) return true;
 	return false;
 }
-bool UVenturesFeature::VocCan(const FString& Id) const
+bool UVenturesFeature::VocCan(const FString& InId) const
 {
-	const FVocDef* D = FindVoc(Id); if (!D) return false;
+	const FVocDef* D = FindVoc(InId); if (!D) return false;
 	return !D->UnlockSkill || SkillLevel(D->UnlockSkill) >= D->UnlockLvl;
 }
-bool UVenturesFeature::VocUnlock(const FString& Id)
+bool UVenturesFeature::VocUnlock(const FString& InId)
 {
-	const FVocDef* D = FindVoc(Id);
-	if (!D || VocUnlocked.Contains(Id)) return false;
-	if (!VocCan(Id)) { Say(FString::Printf(TEXT("You need %s %d to take the %s job."), D->UnlockSkill, D->UnlockLvl, D->Name)); return false; }
-	VocUnlocked.Add(Id); Say(FString::Printf(TEXT("You unlock the %s vocation."), D->Name)); return true;
+	const FVocDef* D = FindVoc(InId);
+	if (!D || VocUnlocked.Contains(InId)) return false;
+	if (!VocCan(InId)) { Say(FString::Printf(TEXT("You need %s %d to take the %s job."), D->UnlockSkill, D->UnlockLvl, D->Name)); return false; }
+	VocUnlocked.Add(InId); Say(FString::Printf(TEXT("You unlock the %s vocation."), D->Name)); return true;
 }
-bool UVenturesFeature::VocSwap(const FString& Id)
+bool UVenturesFeature::VocSwap(const FString& InId)
 {
-	const FVocDef* D = FindVoc(Id); if (!D) return false;
+	const FVocDef* D = FindVoc(InId); if (!D) return false;
 	if (VocInCombat()) { Say(TEXT("You cannot change vocation in a fight. Step out of combat first.")); return false; }
-	if (!VocUnlocked.Contains(Id) && !VocUnlock(Id)) return false;
-	if (!VocUnlocked.Contains(Id)) return false;
-	VocId = Id;
+	if (!VocUnlocked.Contains(InId) && !VocUnlock(InId)) return false;
+	if (!VocUnlocked.Contains(InId)) return false;
+	VocId = InId;
 	Say(FString::Printf(TEXT("You take up the %s vocation. Path is still your role; Stance is still your discipline pair."), D->Name));
 	return true;
 }
@@ -271,10 +271,10 @@ void UVenturesFeature::TabVoc(FGPanelModel& M)
 		const FString Need = D.UnlockSkill ? FString::Printf(TEXT("%s %d"), D.UnlockSkill, D.UnlockLvl) : FString(TEXT("free"));
 		M.Lines.Add(FString::Printf(TEXT("%s — %s. Likes the %s Path. Passive: %s"), D.Name,
 			bOn ? TEXT("active") : bHave ? TEXT("unlocked") : bCan ? *FString::Printf(TEXT("can unlock (%s)"), *Need) : *FString::Printf(TEXT("locked (%s)"), *Need), D.Hint, D.Pass));
-		const FString Id = D.Id;
+		const FString InId = D.Id;
 		if (bOn) VAct10(M, FString::Printf(TEXT("%s (active)"), D.Name), [] {});
-		else if (bHave) VAct10(M, FString::Printf(TEXT("Swap to %s"), D.Name), [this, Id] { VocSwap(Id); }, !VocInCombat());
-		else VAct10(M, FString::Printf(TEXT("Unlock %s"), D.Name), [this, Id] { VocUnlock(Id); }, bCan);
+		else if (bHave) VAct10(M, FString::Printf(TEXT("Swap to %s"), D.Name), [this, InId] { VocSwap(InId); }, !VocInCombat());
+		else VAct10(M, FString::Printf(TEXT("Unlock %s"), D.Name), [this, InId] { VocUnlock(InId); }, bCan);
 	}
 	if (!VocId.IsEmpty()) VAct10(M, TEXT("Clear vocation"), [this] { VocClear(); }, !VocInCombat());
 	if (!VocId.IsEmpty())
@@ -285,8 +285,8 @@ void UVenturesFeature::TabVoc(FGPanelModel& M)
 			if (VocId != S.Voc) continue;
 			const bool bReady = !VocCd.Contains(S.Id) || TickNow() >= VocCd.FindChecked(S.Id);
 			M.Lines.Add(FString::Printf(TEXT("%s — %s"), S.Name, S.Desc));
-			const FString Id = S.Id;
-			VAct10(M, bReady ? FString(S.Name) : FString::Printf(TEXT("%s (cooling)"), S.Name), [this, Id] { VocUse(Id); }, bReady);
+			const FString InId = S.Id;
+			VAct10(M, bReady ? FString(S.Name) : FString::Printf(TEXT("%s (cooling)"), S.Name), [this, InId] { VocUse(InId); }, bReady);
 		}
 	}
 }

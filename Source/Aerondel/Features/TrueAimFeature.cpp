@@ -31,12 +31,12 @@ void UTrueAimFeature::SetOn(bool bNewOn)
 
 bool UTrueAimFeature::Toggle() { SetOn(!bOn); return bOn; }
 
-EAimShape UTrueAimFeature::ShapeFor(FName Id)
+EAimShape UTrueAimFeature::ShapeFor(FName InId)
 {
 	static const TMap<FName, EAimShape> M = {
 		{ TEXT("power"), EAimShape::Line }, { TEXT("snipe"), EAimShape::Line }, { TEXT("rend"), EAimShape::Line }, { TEXT("puncture"), EAimShape::Line },
 		{ TEXT("volley"), EAimShape::Cone }, { TEXT("flurry"), EAimShape::Cone }, { TEXT("bash"), EAimShape::Circle }, { TEXT("challenge"), EAimShape::Circle } };
-	const EAimShape* S = M.Find(Id);
+	const EAimShape* S = M.Find(InId);
 	return S ? *S : EAimShape::Cone;
 }
 

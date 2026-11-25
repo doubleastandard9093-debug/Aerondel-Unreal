@@ -36,8 +36,8 @@ const TArray<FSeaIsland>& USailingFeature::Islands()
 	static TArray<FSeaIsland> L;
 	if (L.Num() == 0)
 	{
-		auto Add = [](const TCHAR* Id, const TCHAR* Name, float X, float Z, float R, bool bPort, float Dx, float Dz)
-		{ FSeaIsland I; I.Id = Id; I.Name = Name; I.X = X; I.Z = Z; I.R = R; I.bPort = bPort; I.Dock = FVector2D(Dx, Dz); L.Add(I); };
+		auto Add = [](const TCHAR* InId, const TCHAR* Name, float X, float Z, float R, bool bPort, float Dx, float Dz)
+		{ FSeaIsland I; I.Id = InId; I.Name = Name; I.X = X; I.Z = Z; I.R = R; I.bPort = bPort; I.Dock = FVector2D(Dx, Dz); L.Add(I); };
 		Add(TEXT("gullrest"), TEXT("Gullrest"), -70.f, 960.f, 26.f, true, -70.f, 932.f);
 		Add(TEXT("brineholt"), TEXT("Brineholt"), 80.f, 1030.f, 24.f, true, 54.f, 1030.f);
 		Add(TEXT("reef"), TEXT("Wreckers' Reef"), 10.f, 1120.f, 22.f, false, 10.f, 1096.f);
@@ -103,7 +103,7 @@ bool USailingFeature::Officer(const TCHAR* Trait) const
 {
 	const UCompanionsFeature* C = Feature<UCompanionsFeature>();
 	if (!C) return false;
-	for (FName Id : Officers) if (const TCHAR* Tr = TraitOf(Id)) if (FCString::Strcmp(Tr, Trait) == 0 && C->GetActive() == Id) return true;
+	for (FName InId : Officers) if (const TCHAR* Tr = TraitOf(InId)) if (FCString::Strcmp(Tr, Trait) == 0 && C->GetActive() == InId) return true;
 	return false;
 }
 
@@ -159,11 +159,11 @@ FString USailingFeature::HireDeckhand()
 	++Crew; return FString::Printf(TEXT("A strong back for the guns. %d aboard; each one reloads the broadsides faster."), Crew);
 }
 
-FString USailingFeature::ToggleOfficer(FName Id)
+FString USailingFeature::ToggleOfficer(FName InId)
 {
 	const UCompanionsFeature* C = Feature<UCompanionsFeature>();
-	if (!TraitOf(Id) || !C || !C->GetState(Id).bRecruited) return TEXT("Only companions sworn to you can serve as officers.");
-	if (Officers.Contains(Id)) Officers.Remove(Id); else Officers.Add(Id);
+	if (!TraitOf(InId) || !C || !C->GetState(InId).bRecruited) return TEXT("Only companions sworn to you can serve as officers.");
+	if (Officers.Contains(InId)) Officers.Remove(InId); else Officers.Add(InId);
 	return TEXT("Done.");
 }
 

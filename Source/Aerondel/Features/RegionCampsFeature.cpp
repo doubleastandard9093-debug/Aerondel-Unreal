@@ -11,6 +11,7 @@
 #include "Dom/JsonValue.h"
 #include "Serialization/JsonReader.h"
 #include "Serialization/JsonSerializer.h"
+#include "Engine/HitResult.h"
 
 void URegionCampsFeature::LoadCamps()
 {
