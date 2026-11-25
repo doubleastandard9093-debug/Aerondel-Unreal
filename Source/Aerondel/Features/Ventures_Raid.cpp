@@ -604,19 +604,19 @@ void UVenturesFeature::TabHold(FGPanelModel& M)
 		{
 			if (!Cf->GetState(D.Id).bRecruited) continue;
 			++Crew;
-			const FName Id = D.Id;
-			if (const FHoldTrip* T = HoldTrips.Find(Id))
+			const FName InId = D.Id;
+			if (const FHoldTrip* T = HoldTrips.Find(InId))
 			{
 				const FTrip* Tr = FindTrip(T->Kind);
 				const int64 N = NowMs();
-				if (N >= T->Back) { M.Lines.Add(FString::Printf(TEXT("%s - %s: back!"), *D.Name, Tr ? Tr->Name : TEXT(""))); VAct5(M, FString::Printf(TEXT("Collect %s's haul"), *D.Name), [this, Id] { HoldCollect(Id); }); }
+				if (N >= T->Back) { M.Lines.Add(FString::Printf(TEXT("%s - %s: back!"), *D.Name, Tr ? Tr->Name : TEXT(""))); VAct5(M, FString::Printf(TEXT("Collect %s's haul"), *D.Name), [this, InId] { HoldCollect(InId); }); }
 				else M.Lines.Add(FString::Printf(TEXT("%s - %s: %lld min"), *D.Name, Tr ? Tr->Name : TEXT(""), (long long)((T->Back - N + 59999) / 60000)));
 			}
 			else
 				for (const FTrip& Tr : Trips)
 				{
 					const FString TK = Tr.Key;
-					VAct5(M, FString::Printf(TEXT("Send %s: %s (%dm)"), *D.Name, Tr.Name, Tr.Mins), [this, Id, TK] { HoldSend(Id, TK); });
+					VAct5(M, FString::Printf(TEXT("Send %s: %s (%dm)"), *D.Name, Tr.Name, Tr.Mins), [this, InId, TK] { HoldSend(InId, TK); });
 				}
 		}
 	if (!Crew) M.Lines.Add(TEXT("Recruit companions first (Bonds)."));

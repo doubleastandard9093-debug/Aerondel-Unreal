@@ -120,7 +120,7 @@ void UVenturesFeature::SaveKits(FJsonObject& A) const
 	{
 		TArray<FString> Ids; P.Value.ParseIntoArray(Ids, TEXT(","), true);
 		TArray<TSharedPtr<FJsonValue>> Arr;
-		for (const FString& Id : Ids) Arr.Add(MakeShared<FJsonValueString>(Id));
+		for (const FString& InId : Ids) Arr.Add(MakeShared<FJsonValueString>(InId));
 		On->SetArrayField(P.Key, Arr);
 	}
 	S->SetObjectField(TEXT("on"), On);
@@ -201,10 +201,10 @@ bool UVenturesFeature::KitRemove(const FString& Item, int32 Index)
 {
 	TArray<FString> Ids = KitList(Item);
 	if (!Ids.IsValidIndex(Index)) return false;
-	const FString Id = Ids[Index];
+	const FString InId = Ids[Index];
 	Ids.RemoveAt(Index);
 	if (Ids.Num()) KitOn.Add(Item, FString::Join(Ids, TEXT(","))); else KitOn.Remove(Item);
-	const FKit* K = FindKit(Id); if (!K) return true;
+	const FKit* K = FindKit(InId); if (!K) return true;
 	GiveItem(K->Name, 1);
 	for (const FIn& In : K->Refund) if (In.Item) GiveItem(In.Item, In.N);
 	Say(FString::Printf(TEXT("You remove the %s. Most of the parts come back."), K->Name));

@@ -50,8 +50,8 @@ FString UVenturesFeature::BannerTownAt(float X, float Z) const
 
 FName UVenturesFeature::BannerOpposite(FName Faction) const
 {
-	const FString Id = Faction.ToString().ToLower();
-	for (const auto& P : Pairs) if (Id == P.Key) return FName(P.Value);
+	const FString InId = Faction.ToString().ToLower();
+	for (const auto& P : Pairs) if (InId == P.Key) return FName(P.Value);
 	return NAME_None;
 }
 

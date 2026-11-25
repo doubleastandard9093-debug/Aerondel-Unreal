@@ -97,16 +97,16 @@ TArray<FString> UVenturesFeature::FacetSocketed() const
 	return Out;
 }
 
-bool UVenturesFeature::FacetOn(const FString& Id) const
+bool UVenturesFeature::FacetOn(const FString& InId) const
 {
-	for (const FString& N : FacetSocketed()) if (const FFacet* S = FindStone(N)) if (Id == S->Id) return true;
+	for (const FString& N : FacetSocketed()) if (const FFacet* S = FindStone(N)) if (InId == S->Id) return true;
 	return false;
 }
 
-bool UVenturesFeature::FacetOn(const UObject* WorldContext, const FString& Id)
+bool UVenturesFeature::FacetOn(const UObject* WorldContext, const FString& InId)
 {
 	const UVenturesFeature* V = Get(WorldContext);
-	return V && V->FacetOn(Id);
+	return V && V->FacetOn(InId);
 }
 
 float UVenturesFeature::FacetWhirlR() const { return FacetOn(TEXT("whirl")) ? 2.f : 0.f; }
@@ -126,9 +126,9 @@ int32 UVenturesFeature::StunBonusTicks(const UObject* WorldContext, FName Specia
 	return N;
 }
 
-void UVenturesFeature::NoteCombatSpecial(const UObject* WorldContext, FName Special, FName WeaponClass)
+void UVenturesFeature::NoteCombatSpecial(const UObject* WorldContext, FName Special, FName InWeaponClass)
 {
-	if (UVenturesFeature* V = Get(WorldContext)) { V->FacetLastSpecial = Special; V->FacetLastClass = WeaponClass; }
+	if (UVenturesFeature* V = Get(WorldContext)) { V->FacetLastSpecial = Special; V->FacetLastClass = InWeaponClass; }
 }
 
 

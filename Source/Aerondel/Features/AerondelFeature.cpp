@@ -24,6 +24,7 @@
 #include "Data/MobDef.h"
 #include "UObject/Package.h"
 #include "CollisionQueryParams.h"
+#include "Engine/HitResult.h"
 
 namespace AerondelFeatureRegistry { static TArray<TWeakObjectPtr<UAerondelFeature>> All; }
 

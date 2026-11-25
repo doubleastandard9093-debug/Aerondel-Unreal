@@ -149,9 +149,9 @@ void UVenturesFeature::LoadGreen(const FJsonObject& A)
 		{
 			if (!V.IsValid() || V->Type != EJson::Object) continue;
 			const TSharedPtr<FJsonObject> J = V->AsObject();
-			const FString Id = JStr(*J, TEXT("id"));
-			if (!FindDecor(Id)) continue;
-			FGreenDecor D; D.Id = Id; D.X = (float)JNum(*J, TEXT("x")); D.Z = (float)JNum(*J, TEXT("z")); D.Rot = (float)JNum(*J, TEXT("rot"));
+			const FString InId = JStr(*J, TEXT("id"));
+			if (!FindDecor(InId)) continue;
+			FGreenDecor D; D.Id = InId; D.X = (float)JNum(*J, TEXT("x")); D.Z = (float)JNum(*J, TEXT("z")); D.Rot = (float)JNum(*J, TEXT("rot"));
 			GreenDecor.Add(D);
 			if (GreenDecor.Num() >= 80) break;
 		}
@@ -385,13 +385,13 @@ bool UVenturesFeature::GreenPreserve(const FString& Item)
 	return true;
 }
 
-bool UVenturesFeature::GreenPlace(const FString& Id)
+bool UVenturesFeature::GreenPlace(const FString& InId)
 {
-	const FDecor* D = FindDecor(Id); if (!D) return false;
+	const FDecor* D = FindDecor(InId); if (!D) return false;
 	if (GreenDecor.Num() >= GreenDecorCap()) { Say(FString::Printf(TEXT("The farm only holds %d décor pieces."), GreenDecorCap())); return false; }
 	if (CountItem(D->M1) < D->N1 || (D->M2 && CountItem(D->M2) < D->N2)) { Say(FString::Printf(TEXT("You need %d %s%s."), D->N1, D->M1, D->M2 ? *FString::Printf(TEXT(" and %d %s"), D->N2, D->M2) : TEXT(""))); return false; }
 	TakeItem(D->M1, D->N1); if (D->M2) TakeItem(D->M2, D->N2);
-	FGreenDecor Rec; Rec.Id = Id;
+	FGreenDecor Rec; Rec.Id = InId;
 	const int32 Slot = GreenDecor.Num();
 	Rec.X = -10.f + (Slot % 5) * 1.4f; Rec.Z = 0.f + (Slot / 5) * 1.4f;
 	GreenDecor.Add(Rec);
@@ -442,7 +442,7 @@ void UVenturesFeature::TabGreen(FGPanelModel& M)
 		const FCrop* C = FindCrop(P.Crop);
 		FString St = !C ? TEXT("empty") : GreenRipe(I) ? TEXT("ready") : FString::Printf(TEXT("growing (~%ds)"), FMath::Max(1, (int32)((GreenGrowMs(P.Crop) - (NowMs() - P.PlantedAt)) / 1000)));
 		M.Lines.Add(FString::Printf(TEXT("Plot %d — %s%s"), I + 1, C ? *FString::Printf(TEXT("%s · %s"), C->Name, *St) : TEXT("empty"), P.bCover ? TEXT(" · covered") : TEXT("")));
-		if (!C) { for (const FCrop& X : Crops) VAct14(M, FString::Printf(TEXT("Plant %s on plot %d"), X.Name, I + 1), [this, I, Id = FString(X.Id)] { GreenPlant(I, Id); }); }
+		if (!C) { for (const FCrop& X : Crops) VAct14(M, FString::Printf(TEXT("Plant %s on plot %d"), X.Name, I + 1), [this, I, InId = FString(X.Id)] { GreenPlant(I, InId); }); }
 		else if (GreenRipe(I)) VAct14(M, FString::Printf(TEXT("Harvest plot %d"), I + 1), [this, I] { GreenHarvest(I); });
 		if (SkillLevel(TEXT("Farming")) >= 50) VAct14(M, FString::Printf(TEXT("%s on plot %d"), P.bCover ? TEXT("Remove cover") : TEXT("Winter cover"), I + 1), [this, I] { GreenCover(I); });
 	}
@@ -457,7 +457,7 @@ void UVenturesFeature::TabGreen(FGPanelModel& M)
 		if (bReady) VAct14(M, FString::Printf(TEXT("Collect %s"), D->Produce), [this, I] { GreenCollect(I); });
 		else VAct14(M, FString::Printf(TEXT("Feed %s %s"), D->Name, D->Feed), [this, I] { GreenFeed(I); });
 	}
-	for (const FAnimal& A : Animals) VAct14(M, FString::Printf(TEXT("Buy a %s (%d coins, Farming %d)"), A.Name, A.Gold, A.Lvl), [this, Id = FString(A.Id)] { GreenBuyAnimal(Id); });
+	for (const FAnimal& A : Animals) VAct14(M, FString::Printf(TEXT("Buy a %s (%d coins, Farming %d)"), A.Name, A.Gold, A.Lvl), [this, InId = FString(A.Id)] { GreenBuyAnimal(InId); });
 	M.Lines.Add(TEXT("Preserves (Farming, not Cooking)"));
 	static const TCHAR* Jar[] = { TEXT("Potato"), TEXT("Cabbage"), TEXT("Tomato"), TEXT("Pumpkin"), TEXT("Winterroot"), TEXT("Egg"), TEXT("Milk"), nullptr };
 	int32 Jars = 0;
@@ -467,7 +467,7 @@ void UVenturesFeature::TabGreen(FGPanelModel& M)
 	for (const FDecor& D : Decors)
 	{
 		const FString Need = D.M2 ? FString::Printf(TEXT("%d %s, %d %s"), D.N1, D.M1, D.N2, D.M2) : FString::Printf(TEXT("%d %s"), D.N1, D.M1);
-		VAct14(M, FString::Printf(TEXT("Place %s (%s)"), D.Name, *Need), [this, Id = FString(D.Id)] { GreenPlace(Id); });
+		VAct14(M, FString::Printf(TEXT("Place %s (%s)"), D.Name, *Need), [this, InId = FString(D.Id)] { GreenPlace(InId); });
 	}
 	for (int32 I = 0; I < GreenDecor.Num(); ++I)
 	{

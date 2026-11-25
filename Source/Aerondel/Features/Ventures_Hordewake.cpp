@@ -53,7 +53,7 @@ void UVenturesFeature::SaveHorde(FJsonObject& A) const
 	S->SetNumberField(TEXT("bestLevel"), HordeBestLevel);
 	S->SetNumberField(TEXT("runs"), HordeRuns);
 	TArray<TSharedPtr<FJsonValue>> U;
-	for (const FString& Id : HordeUnlocks) U.Add(MakeShared<FJsonValueString>(Id));
+	for (const FString& InId : HordeUnlocks) U.Add(MakeShared<FJsonValueString>(InId));
 	S->SetArrayField(TEXT("unlocks"), U);
 	A.SetObjectField(TEXT("horde"), S);
 }
@@ -125,31 +125,31 @@ void UVenturesFeature::HordeStrike(AAerondelMob* M, float Dmg)
 	if (M && !M->IsDead() && M->GetHp() > 0) Strike(M, 0.25f, Dmg, TEXT("horde"));
 }
 
-void UVenturesFeature::HordeFire(const FString& Id)
+void UVenturesFeature::HordeFire(const FString& InId)
 {
-	const FWeap* W = FindWeap(Id); if (!W) return;
+	const FWeap* W = FindWeap(InId); if (!W) return;
 	const int64 Now = NowMs();
 	const float Haste = 1.f - FMath::Min(0.35f, Run.Haste * 0.08f);
-	const int64* Last = Run.ShotAt.Find(Id);
+	const int64* Last = Run.ShotAt.Find(InId);
 	if (Last && Now - *Last < (int64)(W->Ms * Haste)) return;
-	Run.ShotAt.Add(Id, Now);
+	Run.ShotAt.Add(InId, Now);
 	FVector2D P; PlayerWebPos(P);
 	const float Reach = 3.2f + Run.Mag * 0.4f;
-	if (Id == TEXT("blade") || Id == TEXT("orbitflare"))
+	if (InId == TEXT("blade") || InId == TEXT("orbitflare"))
 	{
 		for (AAerondelMob* M : ZoneAlive())
 		{
 			const FVector L = M->GetActorLocation();
 			const float D = FVector2D::Distance(P, FVector2D(L.X / 100.0, L.Y / 100.0));
-			if (D < (Id == TEXT("orbitflare") ? 5.f + Run.Mag * 0.3f : Reach)) HordeStrike(M, -0.15f);
+			if (D < (InId == TEXT("orbitflare") ? 5.f + Run.Mag * 0.3f : Reach)) HordeStrike(M, -0.15f);
 		}
-		if (Id == TEXT("orbitflare")) if (AAerondelMob* M = HordeNearest(10.f)) HordeStrike(M, -0.25f);
+		if (InId == TEXT("orbitflare")) if (AAerondelMob* M = HordeNearest(10.f)) HordeStrike(M, -0.25f);
 	}
-	else if (Id == TEXT("bow") || Id == TEXT("seeker"))
+	else if (InId == TEXT("bow") || InId == TEXT("seeker"))
 	{
 		AAerondelMob* M = HordeFacing();
 		if (M) HordeStrike(M, -0.15f);
-		if (Id == TEXT("seeker"))
+		if (InId == TEXT("seeker"))
 		{
 			int32 C = 0;
 			for (AAerondelMob* Q : ZoneAlive())
@@ -164,7 +164,7 @@ void UVenturesFeature::HordeFire(const FString& Id)
 	{
 		AAerondelMob* M = HordeNearest(11.f);
 		if (M) HordeStrike(M, -0.15f);
-		if (Id == TEXT("stormrod"))
+		if (InId == TEXT("stormrod"))
 			for (AAerondelMob* Q : ZoneAlive()) if (Q != M) { HordeStrike(Q, -0.3f); break; }
 	}
 }
@@ -173,13 +173,13 @@ void UVenturesFeature::HordeDeck()
 {
 	TArray<FRunPick> Opts;
 	TSet<FString> Have;
-	for (const FString& Id : Run.Weapons) Have.Add(Id);
-	for (const TCHAR* Id : { TEXT("wand"), TEXT("blade"), TEXT("bow") })
-		if (!Have.Contains(Id) && Run.Weapons.Num() < Run.Slots)
-			if (const FWeap* W = FindWeap(Id)) { FRunPick P; P.T = TEXT("wep"); P.Id = Id; P.Name = W->Name; P.Desc = TEXT("Add this weapon. It fires on its own."); Opts.Add(P); }
-	for (const FString& Id : Run.Weapons)
-		if (const FWeap* W = FindWeap(Id)) if (!W->bCombo)
-		{ FRunPick P; P.T = TEXT("haste"); P.Id = Id; P.Name = FString::Printf(TEXT("Tune %s"), W->Name); P.Desc = TEXT("It fires a little more often."); Opts.Add(P); }
+	for (const FString& InId : Run.Weapons) Have.Add(InId);
+	for (const TCHAR* InId : { TEXT("wand"), TEXT("blade"), TEXT("bow") })
+		if (!Have.Contains(InId) && Run.Weapons.Num() < Run.Slots)
+			if (const FWeap* W = FindWeap(InId)) { FRunPick P; P.T = TEXT("wep"); P.Id = InId; P.Name = W->Name; P.Desc = TEXT("Add this weapon. It fires on its own."); Opts.Add(P); }
+	for (const FString& InId : Run.Weapons)
+		if (const FWeap* W = FindWeap(InId)) if (!W->bCombo)
+		{ FRunPick P; P.T = TEXT("haste"); P.Id = InId; P.Name = FString::Printf(TEXT("Tune %s"), W->Name); P.Desc = TEXT("It fires a little more often."); Opts.Add(P); }
 	auto Combo = [&](const TCHAR* A, const TCHAR* B, const TCHAR* Out)
 	{
 		if (Have.Contains(A) && Have.Contains(B) && !Have.Contains(Out))
@@ -242,7 +242,7 @@ bool UVenturesFeature::HordePick(int32 I)
 void UVenturesFeature::TickHordeFire()
 {
 	if (!InRunKind(TEXT("horde")) || Run.bPaused) return;
-	for (const FString& Id : Run.Weapons) HordeFire(Id);
+	for (const FString& InId : Run.Weapons) HordeFire(InId);
 }
 
 void UVenturesFeature::TickHorde()
@@ -283,9 +283,9 @@ void UVenturesFeature::HordeFinish(bool bWin)
 		if (!HordeUnlocks.Contains(TEXT("blade"))) { HordeUnlocks.Add(TEXT("blade")); Say(TEXT("Unlock: you will start the next Hordewake with an Orbit Blade.")); }
 		else if (!HordeUnlocks.Contains(TEXT("slot")) && Run.Level >= 6) { HordeUnlocks.Add(TEXT("slot")); Say(TEXT("Unlock: a third weapon slot in Hordewake.")); }
 		else if (!HordeUnlocks.Contains(TEXT("bow"))) { HordeUnlocks.Add(TEXT("bow")); Say(TEXT("Unlock: you can start with a Quick Bow.")); }
-		const int32 Coins = FMath::RoundToInt(80 + Run.L * 2 + Run.Kills * 3);
-		GiveCoins(Coins);
-		Say(FString::Printf(TEXT("Hordewake held for %ds (level %d). +%d coins."), FMath::RoundToInt(T / 1000.f), Run.Level, Coins));
+		const int32 CoinAmt = 80 + Run.L * 2 + Run.Kills * 3;
+		GiveCoins(CoinAmt);
+		Say(FString::Printf(TEXT("Hordewake held for %ds (level %d). +%d coins."), FMath::RoundToInt(T / 1000.f), Run.Level, CoinAmt));
 	}
 	else Say(FString::Printf(TEXT("Hordewake ends at level %d. The overworld is as you left it."), Run.Level));
 }
@@ -308,7 +308,7 @@ void UVenturesFeature::TabHorde(FGPanelModel& M)
 		const int64 Left = FMath::Max<int64>(0, (Run.GoalMs > 0 ? Run.GoalMs : GoalMs) - (NowMs() - Run.StartMs));
 		M.Title = FString::Printf(TEXT("Hordewake · %llds · lv %d"), (Left + 999) / 1000, Run.Level);
 		TArray<FString> Names;
-		for (const FString& Id : Run.Weapons) if (const FWeap* W = FindWeap(Id)) Names.Add(W->Name);
+		for (const FString& InId : Run.Weapons) if (const FWeap* W = FindWeap(InId)) Names.Add(W->Name);
 		M.Lines.Add(FString::Printf(TEXT("Weapons: %s · kills %d · foes %d/%d"), *FString::Join(Names, TEXT(", ")), Run.Kills, ZoneAlive().Num(), HordeCap()));
 		VAct17(M, TEXT("Abandon run"), [this] { RunEnd(false); }, true, true);
 		return;
@@ -316,7 +316,7 @@ void UVenturesFeature::TabHorde(FGPanelModel& M)
 	M.Title = FString::Printf(TEXT("Hordewake · best %s · runs %d"), HordeBestLevel ? *FString::Printf(TEXT("level %d"), HordeBestLevel) : TEXT("—"), HordeRuns);
 	M.Lines.Add(TEXT("A short horde arena. You move; your weapons fire on their own. Pick a reward as you level. Some weapons combine into a stronger form. Waves scale with you, but a low-level run stays fair. At most 20 foes on Low. This is not a Proving Grounds duel and not a Burst Tide."));
 	TArray<FString> Un;
-	for (const FString& Id : HordeUnlocks) Un.Add(UnlockText(Id));
+	for (const FString& InId : HordeUnlocks) Un.Add(UnlockText(InId));
 	M.Lines.Add(FString::Printf(TEXT("Unlocks: %s"), Un.Num() ? *FString::Join(Un, TEXT(" · ")) : TEXT("none yet. Survive a run to earn a starting blade.")));
 	VAct17(M, TEXT("Start Hordewake"), [this] { HordeStart(); }, !Run.bOn, true);
 }

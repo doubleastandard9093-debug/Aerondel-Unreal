@@ -199,7 +199,7 @@ public:
 	// ---- group 9: Ashkin (Ventures_Ashkin.cpp) — shared follower cap with later Kinbeasts ----
 	bool AshSummon(const FString& Item = FString());
 	bool AshRecall(const FString& Why = FString(), bool bSilent = false);
-	bool AshCraft(const FString& Id);
+	bool AshCraft(const FString& InId);
 	void AshEquip(const FString& Item);
 	bool AshOut() const;
 	bool KinOut() const;
@@ -207,9 +207,9 @@ public:
 
 	// ---- group 20: Kinbeasts (Ventures_Kinbeasts.cpp) — shared follower cap with Ashkin ----
 	bool KinThrow();
-	bool KinSend(const FString& Id = FString());
-	bool KinFeed(const FString& Id = FString());
-	bool KinSetActive(const FString& Id);
+	bool KinSend(const FString& InId = FString());
+	bool KinFeed(const FString& InId = FString());
+	bool KinSetActive(const FString& InId);
 	bool KinBuy(const FString& Name);
 
 	// ---- group 21: Freeclimb (Ventures_Freeclimb.cpp) ----
@@ -242,9 +242,9 @@ public:
 	bool FrameBuy();
 	bool FramePlace(const FString& Kind);
 	bool FramePlaceAt(const FString& Kind, int32 Gx, int32 Gz);
-	bool FrameRemove(const FString& Id, const FString& Why = FString());
+	bool FrameRemove(const FString& InId, const FString& Why = FString());
 	void FrameSettle();
-	bool FrameRepair(const FString& Id);
+	bool FrameRepair(const FString& InId);
 	bool FrameDamage(float X, float Z, int32 N);
 	void FrameGo();
 
@@ -256,10 +256,10 @@ public:
 	bool RaidActive() const;
 
 	// ---- group 10: Vocations (Ventures_Vocations.cpp) ----
-	bool VocSwap(const FString& Id);
+	bool VocSwap(const FString& InId);
 	bool VocClear();
-	bool VocUnlock(const FString& Id);
-	bool VocCan(const FString& Id) const;
+	bool VocUnlock(const FString& InId);
+	bool VocCan(const FString& InId) const;
 	bool VocUse(const FString& SkillId);
 	bool VocInCombat() const;
 	bool VocHoldActive() const;
@@ -268,24 +268,24 @@ public:
 	static bool ConsumeVocFocus(const UObject* WorldContext);
 
 	// ---- group 11: Wordcries (Ventures_Wordcries.cpp) ----
-	bool CryLearn(const FString& Id);
-	bool CryUse(const FString& Id = FString());
-	bool CryEquip(const FString& Id);
-	int32 CryWordsOf(const FString& Id) const;
+	bool CryLearn(const FString& InId);
+	bool CryUse(const FString& InId = FString());
+	bool CryEquip(const FString& InId);
+	int32 CryWordsOf(const FString& InId) const;
 
 	// ---- group 12: Townsteads (Ventures_Townsteads.cpp) — trains Construction ----
-	bool SteadBuy(const FString& Id);
-	bool SteadPlace(const FString& Id, const FString& Kind);
-	bool SteadRest(const FString& Id);
-	bool SteadStore(const FString& Id, const FString& Item, int32 N = 1);
-	bool SteadTake(const FString& Id, const FString& Item, int32 N = 1);
+	bool SteadBuy(const FString& InId);
+	bool SteadPlace(const FString& InId, const FString& Kind);
+	bool SteadRest(const FString& InId);
+	bool SteadStore(const FString& InId, const FString& Item, int32 N = 1);
+	bool SteadTake(const FString& InId, const FString& Item, int32 N = 1);
 	int32 SteadHookSlots() const;
 	int32 SteadBuildMs() const;
 
 	// ---- group 13: Town Ties (Ventures_TownTies.cpp) — not Companion Bond ----
-	bool TieTalk(const FString& Id);
-	bool TieGift(const FString& Id, const FString& Item);
-	bool TieDiscount(const FString& Id) const;
+	bool TieTalk(const FString& InId);
+	bool TieGift(const FString& InId, const FString& Item);
+	bool TieDiscount(const FString& InId) const;
 	/** Modest 5% shop discount when a Friendly+ townsfolk last traded with you. */
 	static float TieBuyDiscount(const UObject* WorldContext);
 
@@ -301,7 +301,7 @@ public:
 	bool GreenFeed(int32 I);
 	bool GreenCollect(int32 I);
 	bool GreenPreserve(const FString& Item);
-	bool GreenPlace(const FString& Id);
+	bool GreenPlace(const FString& InId);
 	bool GreenPick(int32 I);
 	bool GreenHome() const;
 
@@ -309,21 +309,21 @@ public:
 	bool FacetSocket(const FString& Where, const FString& Stone);
 	bool FacetUnsocket(const FString& Where, int32 I);
 	bool FacetInstall();
-	bool FacetOn(const FString& Id) const;
-	static bool FacetOn(const UObject* WorldContext, const FString& Id);
+	bool FacetOn(const FString& InId) const;
+	static bool FacetOn(const UObject* WorldContext, const FString& InId);
 	float FacetWhirlR() const;
 	/** Metres added to Reaping Whirl (Facets + Leyweave). */
 	static float WhirlBonusM(const UObject* WorldContext);
 	/** Extra stun ticks for a special (Ironroot + Leyweave). */
 	static int32 StunBonusTicks(const UObject* WorldContext, FName Special);
-	static void NoteCombatSpecial(const UObject* WorldContext, FName Special, FName WeaponClass);
+	static void NoteCombatSpecial(const UObject* WorldContext, FName Special, FName InWeaponClass);
 
 	// ---- group 16: Leyweave (Ventures_Leyweave.cpp) — Ley, not Anima ----
 	bool LeyOpen() const;
-	bool LeyPickStart(const FString& Id);
-	bool LeyFill(const FString& Id);
+	bool LeyPickStart(const FString& InId);
+	bool LeyFill(const FString& InId);
 	bool LeyRefund();
-	bool LeyHas(const FString& Id) const;
+	bool LeyHas(const FString& InId) const;
 	FLeyFx LeyFx() const;
 
 	// ---- group 17: Hordewake (Ventures_Hordewake.cpp) ----
@@ -340,7 +340,7 @@ public:
 	// ---- group 19: Ashspire (Ventures_Ashspire.cpp) — not the Chronicle ----
 	bool SpireStart();
 	bool SpirePick(int32 I);
-	bool SpireBuy(const FString& Id);
+	bool SpireBuy(const FString& InId);
 
 	// ---- group 25: Trailhand (Ventures_Trailhand.cpp) — not Twenty-One Tides or Crown & Anchor ----
 	bool TrailDeal();
@@ -350,7 +350,7 @@ public:
 	bool TrailLive() const { return bTrailLive; }
 
 	// ---- group 26: Skillwords (Ventures_Skillwords.cpp) — Silver Tongue stays Persuade, Lie, Intimidate ----
-	bool SkillTry(const FString& Id);
+	bool SkillTry(const FString& InId);
 	bool SkillHasOpen(FName NpcId) const;
 	void SkillOpenFrom(AActor* Npc);
 	void SkillContinue();
@@ -363,7 +363,7 @@ public:
 	FName BannerOpposite(FName Faction) const;
 
 	// ---- group 28: Kitwright (Ventures_Kitwright.cpp) — kits are tools, not grafts or a damage percent ----
-	bool ScoreHas(const FString& Id) const;
+	bool ScoreHas(const FString& InId) const;
 	TArray<FString> KitList(const FString& Item) const;
 	bool KitHas(const FString& KitId) const;
 	bool KitOnItem(const FString& Item, const FString& KitId) const;
@@ -380,7 +380,7 @@ public:
 
 	// ---- group 29: Wayfreight (Ventures_Wayfreight.cpp) — not a new house, not a shared multiplayer stash ----
 	int32 FreightCap() const;
-	bool FreightOwned(const FString& Id) const;
+	bool FreightOwned(const FString& InId) const;
 	bool FreightLinked(const FString& A, const FString& B) const;
 	bool FreightLink(const FString& A, const FString& B);
 	bool FreightUnlink(const FString& A, const FString& B);
@@ -484,11 +484,11 @@ public:
 	uint32 WardrobeDyeHex(int32 Index) const;
 
 	// ---- group 38: Wildmarks (Ventures_Wildmarks.cpp) — held marks, not Quirks, not a damage percent ----
-	bool MarkActive(const FString& Id) const;
-	bool MarkGrant(const FString& Id);
+	bool MarkActive(const FString& InId) const;
+	bool MarkGrant(const FString& InId);
 	bool MarkHush();
-	bool MarkClear(const FString& Id);
-	bool MarkDraft(const FString& Id);
+	bool MarkClear(const FString& InId);
+	bool MarkDraft(const FString& InId);
 	bool MarkBrew(const FString& Item);
 	float LeySpreadMul() const;
 	float LeyRainMul() const;
@@ -672,7 +672,7 @@ protected:
 	void SaveCry(FJsonObject& A) const;
 	void LoadCry(const FJsonObject& A);
 	int32 CryIncoming(int32 Amount) const;
-	bool CryNear(const FString& Id, float& Dist) const;
+	bool CryNear(const FString& InId, float& Dist) const;
 	void TabCry(FGPanelModel& M);
 
 	// group 12 internals
@@ -680,8 +680,8 @@ protected:
 	void SaveStead(FJsonObject& A) const;
 	void LoadStead(const FJsonObject& A);
 	void TabStead(FGPanelModel& M);
-	FSteadFurn& SteadFurnOf(const FString& Id);
-	TMap<FString, int32>& SteadChestOf(const FString& Id);
+	FSteadFurn& SteadFurnOf(const FString& InId);
+	TMap<FString, int32>& SteadChestOf(const FString& InId);
 	const FString* SteadHere() const;
 	float SteadLeyBuildBonus() const;
 
@@ -689,10 +689,10 @@ protected:
 	void SaveTie(FJsonObject& A) const;
 	void LoadTie(const FJsonObject& A);
 	void TabTie(FGPanelModel& M);
-	FTieRec& TieOf(const FString& Id);
-	const UNpcDef* TieNpc(const FString& Id) const;
-	bool TieNear(const FString& Id, float& Dist) const;
-	int32 TieBump(const FString& Id, int32 N);
+	FTieRec& TieOf(const FString& InId);
+	const UNpcDef* TieNpc(const FString& InId) const;
+	bool TieNear(const FString& InId, float& Dist) const;
+	int32 TieBump(const FString& InId, int32 N);
 	int32 GreenGrewOf(const FString& Item) const;
 	void GreenGrewAdd(const FString& Item, int32 N);
 	void ResetGreen();
@@ -723,7 +723,7 @@ protected:
 	float FacetDullChance() const;
 	float LeyWhirlBonus() const;
 	int32 LeyStunBonus() const;
-	bool LeyKey(const FString& Id) const;
+	bool LeyKey(const FString& InId) const;
 	void ResetLey();
 	void SaveLey(FJsonObject& A) const;
 	void LoadLey(const FJsonObject& A);
@@ -740,7 +740,7 @@ protected:
 	void DiedHorde(AAerondelMob* Mob, bool bByPlayer);
 	void HordeSpawn(int32 N);
 	void HordeDeck();
-	void HordeFire(const FString& Id);
+	void HordeFire(const FString& InId);
 	void HordeStrike(AAerondelMob* M, float Dmg);
 	AAerondelMob* HordeNearest(float R) const;
 	AAerondelMob* HordeFacing() const;
@@ -769,7 +769,7 @@ protected:
 	void SpireEnterFloor();
 	void SpireDeck();
 	void SpireHeal(float Frac);
-	bool SpireHas(const FString& Id) const;
+	bool SpireHas(const FString& InId) const;
 	float AccSpire() const;
 
 	void ResetKin();
@@ -778,7 +778,7 @@ protected:
 	void TabKin(FGPanelModel& M);
 	void TickKin();
 	int32 KinSoak(int32 Amount);
-	FKinRec* KinRecOf(const FString& Id);
+	FKinRec* KinRecOf(const FString& InId);
 	float KinKennelMul() const;
 	FString KinBestVessel(int32 NeedTier) const;
 	float KinChance(const AAerondelMob* Mob, const FString& Vessel) const;

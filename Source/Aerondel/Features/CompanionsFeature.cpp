@@ -15,10 +15,10 @@ const TArray<FCompanionDef>& UCompanionsFeature::Defs()
 {
 	static TArray<FCompanionDef> D;
 	if (D.Num()) return D;
-	auto Add = [](FName Id, const TCHAR* Name, const TCHAR* Role, TArray<FString> Skills, EWheelTone Likes, TArray<FString> Gifts, const TCHAR* Style, FVector2D Pos) -> FCompanionDef&
+	auto Add = [](FName InId, const TCHAR* Name, const TCHAR* Role, TArray<FString> Skills, EWheelTone Likes, TArray<FString> Gifts, const TCHAR* Style, FVector2D Pos) -> FCompanionDef&
 	{
 		FCompanionDef& C = D.AddDefaulted_GetRef();
-		C.Id = Id; C.Name = Name; C.Role = Role; C.Skills = MoveTemp(Skills); C.Likes = Likes; C.GiftWords = MoveTemp(Gifts); C.Style = Style; C.WebPos = Pos;
+		C.Id = InId; C.Name = Name; C.Role = Role; C.Skills = MoveTemp(Skills); C.Likes = Likes; C.GiftWords = MoveTemp(Gifts); C.Style = Style; C.WebPos = Pos;
 		return C;
 	};
 	FCompanionDef& T = Add(TEXT("tamsin"), TEXT("Tamsin the Squire"), TEXT("Squire"), { TEXT("Attack"), TEXT("Defence") }, EWheelTone::Kind, { TEXT("Cooked "), TEXT("Bread"), TEXT("Cake"), TEXT("Pie"), TEXT("Stew") }, TEXT("melee"), FVector2D(7, -11));
@@ -32,7 +32,7 @@ const TArray<FCompanionDef>& UCompanionsFeature::Defs()
 	return D;
 }
 
-const FCompanionDef* UCompanionsFeature::Def(FName Id) { return Defs().FindByPredicate([Id](const FCompanionDef& C) { return C.Id == Id; }); }
+const FCompanionDef* UCompanionsFeature::Def(FName InId) { return Defs().FindByPredicate([InId](const FCompanionDef& C) { return C.Id == InId; }); }
 
 void UCompanionsFeature::Initialize(FSubsystemCollectionBase& Collection)
 {

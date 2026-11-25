@@ -9,7 +9,7 @@ const TArray<FFactionDef>& UStandingFeature::Factions()
 {
 	static TArray<FFactionDef> D;
 	if (D.Num()) return D;
-	auto Add = [](FName Id, const TCHAR* Name, TArray<FString> Towns, TArray<FString> Skills) { FFactionDef& F = D.AddDefaulted_GetRef(); F.Id = Id; F.Name = Name; F.Towns = MoveTemp(Towns); F.Skills = MoveTemp(Skills); };
+	auto Add = [](FName InId, const TCHAR* Name, TArray<FString> Towns, TArray<FString> Skills) { FFactionDef& F = D.AddDefaulted_GetRef(); F.Id = InId; F.Name = Name; F.Towns = MoveTemp(Towns); F.Skills = MoveTemp(Skills); };
 	Add(TEXT("watch"), TEXT("Larkhaven Watch"), { TEXT("Larkhaven"), TEXT("Emberfold"), TEXT("Wilds") }, { TEXT("Attack"), TEXT("Defence"), TEXT("Strength"), TEXT("Hitpoints") });
 	Add(TEXT("mariners"), TEXT("Saltreach Mariners"), { TEXT("Saltreach") }, { TEXT("Fishing"), TEXT("Cooking"), TEXT("Ranged") });
 	Add(TEXT("circle"), TEXT("Highcrest Arcane Circle"), { TEXT("Highcrest") }, { TEXT("Magic"), TEXT("Glyphcraft"), TEXT("Herbalism") });
