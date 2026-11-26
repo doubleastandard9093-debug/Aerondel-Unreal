@@ -8,7 +8,7 @@ SCAL = open(os.path.join(ROOT, "Config/DefaultScalability.ini"), encoding="utf-8
 CPP = open(os.path.join(ROOT, "Source/Aerondel/World/AerondelScalability.cpp"), encoding="utf-8").read()
 UPROJECT = json.load(open(os.path.join(ROOT, "Aerondel.uproject"), encoding="utf-8"))
 BUILD_BAT = open(os.path.join(ROOT, "Build.bat"), encoding="utf-8").read()
-FORBIDDEN = ["r.DynamicGlobalIlluminationMethod", "r.ReflectionMethod", "r.AntiAliasingMethod", "r.Nanite"]
+FORBIDDEN = ["r.DynamicGlobalIlluminationMethod", "r.ReflectionMethod", "r.AntiAliasingMethod", "r.Nanite", "r.TSR.Velocity.WeightClampingSampleCount"]
 
 
 def low_block():

@@ -13,7 +13,7 @@ import json
 import math
 import os
 import unreal
-from aerondel_util import ROOT, mat, eal
+from aerondel_util import ROOT, mat, eal, open_or_create_map
 import aerondel_safe as safe
 import build_starter_town as bst
 import world_partition as wpart
@@ -136,10 +136,12 @@ def build_towns(w):
 def run(small=False):
     """small=True: quick 'small test' (first few of each category, no signpost text) to check the machine copes."""
     w = load_world()
-    if eal.does_asset_exist(MAP):
-        eal.delete_asset(MAP)
-    if not wpart.new_partitioned_level(MAP, levels):  # World Partition: actors stream in 128 m cells
-        unreal.log_error("[Aerondel] Could not create " + MAP)
+    if not isinstance(w, dict):
+        unreal.log_error("[Aerondel] world.json did not load as an object")
+        return
+    # Idempotent: load the existing World Partition map and rebuild actors (delete+NewLevel fails once the asset exists).
+    if not open_or_create_map(MAP, levels, partitioned=True, create_partitioned=wpart.new_partitioned_level):
+        unreal.log_error("[Aerondel] Could not open or create " + MAP)
         return
     half = float(w.get("worldHalf", 300))
     n_nodes = n_mobs = 0  # stays 0 if the run is cancelled -> the packager refuses this World
@@ -253,8 +255,10 @@ def run(small=False):
                                 ("Hold", 270, (0.3, 0.26, 0.2), (0.5, 0.4, 0.28))):
             fl, ed = mat("Venture%sFloor" % zid, fc), mat("Venture%sEdge" % zid, ec)
             box("Venture_%s_Floor" % zid, "FeatureSites/Ventures", (-1000, 0.05, zz), (28, 0.1, 28), fl)
-            for i, (w, d, dx, dz) in enumerate(((28, 0.6, 0, -14), (28, 0.6, 0, 14), (0.6, 28, -14, 0), (0.6, 28, 14, 0))):
-                box("Venture_%s_Wall_%d" % (zid, i), "FeatureSites/Ventures", (-1000 + dx, 0.8, zz + dz), (w, 1.6, d), ed)
+            # Wall width/depth must not be named `w`: that would shadow the world dict
+            # and make later build_towns(w) / regions / placements receive a float.
+            for i, (ww, dd, dx, dz) in enumerate(((28, 0.6, 0, -14), (28, 0.6, 0, 14), (0.6, 28, -14, 0), (0.6, 28, 14, 0))):
+                box("Venture_%s_Wall_%d" % (zid, i), "FeatureSites/Ventures", (-1000 + dx, 0.8, zz + dz), (ww, 1.6, dd), ed)
         node = mat("BreachNode", (0.8, 0.3, 1.0))
         for i, (dx, dz) in enumerate(((-8, -6), (8, -6), (0, -11))):
             box("Venture_Breach_Node_%d" % i, "FeatureSites/Ventures", (-1000 + dx, 0.5, 205 + dz), (1.2, 1, 1.2), node)
