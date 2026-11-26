@@ -125,6 +125,17 @@ again — completed chunks are skipped and a partial in-flight chunk is retried.
 that progress file (and optionally the World map) and run **0L** again. Close other apps first; expect
 several GB of editor memory.
 
+### Player and Lite rigs (7 / 7b)
+
+The Adventurer (and rigged NPCs/monsters) come from **Aerondel > 7. Import Lite Models** or **7b** (10 models per run). **0L does not import them.** After a C++ change to rig fitting, or to pick up new Interchange options (scene-node bake, shared skeleton, additive clips cleared):
+
+1. Close PIE.
+2. In the Content Browser delete `/Game/Aerondel/Models/Rigged/adventurer` (and any other rigged or character folders you want refreshed).
+3. Remove those names from `Saved/Aerondel/lite_import_done.json` (or delete the file to reimport everything).
+4. Run **7** or **7b**, wait for `rigs.json` to finish writing, then **File > Refresh Visual Studio Project** is not required — just press Play (or call `UAerondelModelLibrary.ReloadRigTable` if the editor was already in PIE).
+
+If a clip's skeleton does not match the mesh, or the clip is additive, the character now holds its bind (reference) pose instead of a folded "looking at the sky" pose, and an invalid rig falls back to the greybox capsule. Service objects with no rig mapping (cry-stones, the banner rack, …) keep their placeholder mesh; the "no rig mapped" line is logged once per id. Mesh rotation is `pitch` / `yaw` / `roll` in `Content/Data/rigs.json` (defaults 0, -90, 0) and can be overridden per rig. Bind-pose diagnostic: `aerondel.Rig.BindPose 1` or `-AerondelBindPose`.
+
 ## Aerondel update (events, guilds, villages, quests)
 `Content/Data/aerondel_update.json` mirrors Lite's goblin village Snarlwick (190,40), ogre village Gorrumhold (-200,-30),
 quest-warded elven town Sylvaranth (30,230; unlocked by `moonlit_ward`), generated NPCs/waymarks and the ~1,120 generated quests.

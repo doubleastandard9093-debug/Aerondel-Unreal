@@ -23,12 +23,20 @@ void ANpcTalk::BeginPlay()
 	if (!Definition && !NpcId.IsNone())
 		if (const UGameDatabase* Db = UGameDatabase::Get()) Definition = Db->FindNpc(NpcId);
 	if (Definition) DisplayName = Definition->DisplayName;
-	const bool bRig = Definition && UAerondelModelLibrary::ApplyRig(Rig, TEXT("npc:") + Definition->Id.ToString());
+	bool bRig = Definition && UAerondelModelLibrary::ApplyRig(Rig, TEXT("npc:") + Definition->Id.ToString());
+	if (bRig && !UAerondelModelLibrary::FitRig(Rig, 172.f, 0.f))
+	{
+		UAerondelModelLibrary::ClearRig(Rig);
+		bRig = false;
+	}
 	UE_LOG(LogTemp, Log, TEXT("[Aerondel] Spawn npc %s (%s): rig %s"), *GetName(), Definition ? *Definition->Id.ToString() : TEXT("no definition"), bRig ? TEXT("applied") : TEXT("FAILED, placeholder mesh"));
 	if (bRig)
 	{
-		UAerondelModelLibrary::FitRig(Rig, 172.f, 0.f);
 		if (Mesh) Mesh->SetVisibility(false);
+	}
+	else if (Mesh)
+	{
+		Mesh->SetVisibility(true);
 	}
 }
 
