@@ -11,13 +11,178 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PY = os.path.join(ROOT, "Content", "Python")
 DATA = os.path.join(ROOT, "Content", "Data")
 
+# Every /Game or /Engine path passed to the mock editor APIs: (op, path)
+RECORDED_PATHS = []
+CREATED_ASSETS = {}
+
 
 def _world_json():
     with open(os.path.join(DATA, "world.json"), encoding="utf-8") as f:
         return json.load(f)
 
 
+def _record(op, path):
+    if isinstance(path, str) and (path.startswith("/Game") or path.startswith("/Engine")):
+        RECORDED_PATHS.append((op, path))
+
+
+class _UObject:
+    """Stand-in for UObject / actors / components / data assets."""
+
+    def __init__(self, *a, **k):
+        self._props = dict(k)
+        self.tags = []
+        self.static_mesh_component = self
+        self.text_render = self
+        self.root_component = self
+
+    def set_editor_property(self, k, v):
+        self._props[k] = v
+
+    def get_editor_property(self, k):
+        if k not in self._props:
+            if k == "tint":
+                self._props[k] = types.SimpleNamespace(r=0.5, g=0.4, b=0.3)
+            elif k in ("mesh", "depleted_mesh", "static_mesh_component", "text_render",
+                       "root_component", "default_key_mappings"):
+                self._props[k] = _UObject()
+            else:
+                self._props[k] = _UObject()
+        return self._props[k]
+
+    def set_static_mesh(self, *a, **k):
+        pass
+
+    def set_material(self, idx, material):
+        if material is None:
+            raise AssertionError("set_material called with None (unhandled None material)")
+
+    def set_relative_location(self, *a, **k):
+        pass
+
+    def set_relative_rotation(self, *a, **k):
+        pass
+
+    def set_relative_scale3d(self, *a, **k):
+        pass
+
+    def set_world_scale3d(self, *a, **k):
+        pass
+
+    def set_actor_scale3d(self, *a, **k):
+        pass
+
+    def set_actor_location(self, *a, **k):
+        pass
+
+    def set_actor_rotation(self, *a, **k):
+        pass
+
+    def set_collision_profile_name(self, *a, **k):
+        pass
+
+    def set_collision_enabled(self, *a, **k):
+        pass
+
+    def set_collision_response_to_channel(self, *a, **k):
+        pass
+
+    def set_collision_response_to_all_channels(self, *a, **k):
+        pass
+
+    def set_visibility(self, *a, **k):
+        pass
+
+    def set_hidden_in_game(self, *a, **k):
+        pass
+
+    def set_cast_shadow(self, *a, **k):
+        pass
+
+    def set_mobility(self, *a, **k):
+        pass
+
+    def setup_attachment(self, *a, **k):
+        pass
+
+    def register_component(self):
+        pass
+
+    def get_component_by_class(self, *a, **k):
+        return self
+
+    def add_component(self, *a, **k):
+        return _UObject()
+
+    def rerun_construction_scripts(self):
+        pass
+
+    def setup(self, *a, **k):
+        pass
+
+    def add_instances(self, *a, **k):
+        pass
+
+    def get_class(self):
+        return types.SimpleNamespace(get_name=lambda: type(self).__name__)
+
+    def get_folder_path(self):
+        return self._props.get("folder", "")
+
+    def get_actor_label(self):
+        return self._props.get("label", type(self).__name__)
+
+    def set_actor_label(self, t):
+        self._props["label"] = t
+
+    def set_folder_path(self, f):
+        self._props["folder"] = f
+
+    def get_path_name(self):
+        return "/Game/Dummy.Dummy"
+
+    def get_name(self):
+        return type(self).__name__
+
+    def get_outer(self):
+        return self
+
+    def modify(self, *a, **k):
+        pass
+
+    def __bool__(self):
+        return True
+
+    def __iter__(self):
+        return iter(())
+
+    def __getitem__(self, i):
+        return self
+
+    def __getattr__(self, name):
+        if name.startswith("_"):
+            raise AttributeError(name)
+
+        def _fn(*a, **k):
+            return self
+
+        return _fn
+
+
+def _uclass(name):
+    return type(name, (_UObject,), {})
+
+
+def _enum(*names):
+    ns = types.SimpleNamespace()
+    for n in names:
+        setattr(ns, n, n)
+    return ns
+
+
 class _Dummy:
+    """Kept for a few leftover call sites; prefer _UObject."""
+
     def __init__(self, *a, **k):
         self._a, self._k = a, k
 
@@ -36,15 +201,12 @@ class _Dummy:
         return self
 
 
-def _enum(*names):
-    ns = types.SimpleNamespace()
-    for n in names:
-        setattr(ns, n, n)
-    return ns
-
-
 def _install_unreal():
     """A minimal `unreal` stand-in so Content/Python modules can be imported outside the editor."""
+    RECORDED_PATHS.clear()
+    CREATED_ASSETS.clear()
+    os.makedirs(os.path.join(ROOT, "Saved"), exist_ok=True)
+
     u = types.ModuleType("unreal")
 
     class _Paths:
@@ -56,25 +218,46 @@ def _install_unreal():
         def project_saved_dir():
             return os.path.join(ROOT, "Saved") + os.sep
 
+        @staticmethod
+        def project_dir():
+            return ROOT + os.sep
+
     class _EAL:
         existing = set()
 
         @classmethod
         def does_asset_exist(cls, path):
+            _record("does_asset_exist", path)
             return path in cls.existing
 
         @classmethod
         def delete_asset(cls, path):
+            _record("delete_asset", path)
             cls.existing.discard(path)
+            CREATED_ASSETS.pop(path, None)
             return True
 
         @classmethod
         def load_asset(cls, path):
-            return _Dummy("asset", path)
+            _record("load_asset", path)
+            return CREATED_ASSETS.get(path) or _UObject()
 
         @classmethod
         def save_loaded_asset(cls, asset, only_if_is_dirty=False):
             return True
+
+    class _AssetTools:
+        @staticmethod
+        def create_asset(name, folder, cls, factory=None):
+            path = "%s/%s" % (folder, name)
+            _record("create_asset", path)
+            try:
+                obj = cls()
+            except Exception:
+                obj = _UObject()
+            _EAL.existing.add(path)
+            CREATED_ASSETS[path] = obj
+            return obj
 
     class _Levels:
         def __init__(self):
@@ -82,16 +265,40 @@ def _install_unreal():
             self.created = []
 
         def load_level(self, path):
+            _record("load_level", path)
             self.loaded.append(path)
             return True
 
+        def load_map(self, path):
+            return self.load_level(path)
+
         def new_level(self, path, partitioned=False):
+            _record("new_level", path)
             self.created.append((path, partitioned))
+            _EAL.existing.add(path)
+            return True
+
+        def new_level_from_template(self, path, tmpl):
+            _record("new_level_from_template", path)
+            _record("new_level_from_template_tmpl", tmpl)
+            self.created.append((path, "template"))
             _EAL.existing.add(path)
             return True
 
         def save_current_level(self):
             return True
+
+        def editor_set_viewport_realtime(self, on):
+            pass
+
+        def get_editor_world(self):
+            return _UObject()
+
+        def set_level_viewport_realtime(self, on):
+            pass
+
+        def set_lods(self, *a, **k):
+            pass
 
     class _Actors:
         def get_all_level_actors(self):
@@ -101,7 +308,12 @@ def _install_unreal():
             return True
 
         def spawn_actor_from_class(self, cls, loc, rot=None):
-            return _Dummy("actor", cls, loc)
+            try:
+                a = cls()
+            except Exception:
+                a = _UObject()
+            a.static_mesh_component = a
+            return a
 
     class _Subsys:
         levels = _Levels()
@@ -110,73 +322,239 @@ def _install_unreal():
         @classmethod
         def get(cls, typ):
             name = typ if isinstance(typ, str) else getattr(typ, "__name__", str(typ))
-            if "Level" in name:
-                return cls.levels
             if "Actor" in name:
                 return cls.actors
-            return _Dummy(name)
+            if "Level" in name or "Editor" in name or "StaticMesh" in name:
+                return cls.levels
+            return _UObject()
 
     def get_editor_subsystem(typ):
         return _Subsys.get(typ)
 
+    def load_asset(path):
+        return _EAL.load_asset(path)
+
+    def new_object(cls, outer=None, *a, **k):
+        try:
+            return cls()
+        except Exception:
+            return _UObject()
+
+    class _MEL:
+        @staticmethod
+        def create_material_expression(*a, **k):
+            return _UObject()
+
+        @staticmethod
+        def connect_material_property(*a, **k):
+            pass
+
+        @staticmethod
+        def recompile_material(*a, **k):
+            pass
+
+        @staticmethod
+        def set_material_instance_vector_parameter_value(*a, **k):
+            pass
+
+        @staticmethod
+        def set_material_instance_scalar_parameter_value(*a, **k):
+            pass
+
+        @staticmethod
+        def update_material_instance(*a, **k):
+            pass
+
+        @staticmethod
+        def connect_material_expressions(*a, **k):
+            pass
+
+        @staticmethod
+        def layout_material_expressions(*a, **k):
+            pass
+
+    class _EditorLevelLibrary:
+        @staticmethod
+        def get_editor_world():
+            return _UObject()
+
+        @staticmethod
+        def save_current_level():
+            return True
+
+        @staticmethod
+        def load_level(path):
+            _record("ell_load_level", path)
+            return True
+
+    class _ScopedSlowTask:
+        def __init__(self, *a, **k):
+            pass
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *a):
+            return False
+
+        def make_dialog(self, *a, **k):
+            pass
+
+        def make_dialog_delayed(self, *a, **k):
+            pass
+
+        def enter_progress_frame(self, *a, **k):
+            pass
+
+        def should_cancel(self):
+            return False
+
+    def _passthru(*a, **k):
+        return a[0] if a else _UObject()
+
+    class _GeomNew:
+        @staticmethod
+        def create_new_static_mesh_asset_from_mesh(dm, path, copts=None):
+            _record("geom_create", path)
+            sm = u.StaticMesh()
+            _EAL.existing.add(path)
+            CREATED_ASSETS[path] = sm
+            return (sm, True)
+
+    class _GeomPrims:
+        append_cylinder = staticmethod(_passthru)
+        append_sphere_lat_long = staticmethod(_passthru)
+        append_cone = staticmethod(_passthru)
+        append_box = staticmethod(_passthru)
+
+    class _GeomNormals:
+        @staticmethod
+        def compute_split_normals(*a, **k):
+            pass
+
+    class _GeomModel:
+        @staticmethod
+        def apply_mesh_bevel(*a, **k):
+            pass
+
+        @staticmethod
+        def apply_bevel(*a, **k):
+            pass
+
     u.Paths = _Paths
     u.EditorAssetLibrary = _EAL
-    u.AssetToolsHelpers = types.SimpleNamespace(get_asset_tools=lambda: _Dummy("tools"))
+    u.AssetToolsHelpers = types.SimpleNamespace(get_asset_tools=lambda: _AssetTools())
     u.get_editor_subsystem = get_editor_subsystem
+    u.load_asset = load_asset
+    u.new_object = new_object
     u.log = u.log_warning = u.log_error = lambda *a, **k: None
+    class _LinearColor:
+        def __init__(self, r=0, g=0, b=0, a=1, *rest, **k):
+            self.r = r
+            self.g = g
+            self.b = b
+            self.a = a
+            self.R = r
+            self.G = g
+            self.B = b
+            self.A = a
+
     u.Name = lambda x: x
     u.Text = lambda x: x
     u.Vector = lambda *a: a
     u.Rotator = lambda *a: a
-    u.Color = lambda **k: k
-    u.LinearColor = lambda *a: a
-    u.SystemLibrary = types.SimpleNamespace(execute_console_command=lambda *a, **k: None)
-    # Class names referenced at import / spawn time.
+    u.Color = _LinearColor
+    u.LinearColor = _LinearColor
+    u.SystemLibrary = types.SimpleNamespace(
+        execute_console_command=lambda *a, **k: None,
+        get_console_variable_float_value=lambda *a, **k: 0.0,
+        collect_garbage=lambda *a, **k: None,
+    )
+    u.EditorLoadingAndSavingUtils = types.SimpleNamespace(
+        save_dirty_packages=lambda *a, **k: True,
+        save_packages=lambda *a, **k: True,
+    )
+    u.MaterialEditingLibrary = _MEL
+    u.EditorLevelLibrary = _EditorLevelLibrary
+    u.ScopedSlowTask = _ScopedSlowTask
+    u.GeometryScript_NewAssetUtils = _GeomNew
+    u.GeometryScript_AssetUtils = type("GeometryScript_AssetUtils", (), {})
+    u.GeometryScript_Primitives = _GeomPrims
+    u.GeometryScript_Normals = _GeomNormals
+    u.GeometryScript_MeshModeling = _GeomModel
+
     for name in (
         "QuestPlaceVolume", "TextRenderActor", "StaticMeshActor", "PlayerStart",
         "NavMeshBoundsVolume", "BankChest", "ShopCounter", "NpcTalk", "PointLight",
         "DirectionalLight", "SkyLight", "SkyAtmosphere", "ExponentialHeightFog",
         "PostProcessVolume", "Material", "MaterialFactoryNew", "MaterialInstanceConstant",
-        "MaterialInstanceConstantFactoryNew", "MaterialEditingLibrary", "DataAssetFactory",
+        "MaterialInstanceConstantFactoryNew", "DataAssetFactory",
         "DynamicMesh", "GeometryScriptPrimitiveOptions", "Transform",
         "GeometryScriptCreateNewStaticMeshAssetOptions", "GeometryScriptCalculateNormalsOptions",
-        "GeometryScriptSplitNormalsOptions", "GeometryScript_Normals",
-        "GeometryScript_Primitives", "GeometryScript_NewAssetUtils", "GeometryScript_AssetUtils",
+        "GeometryScriptSplitNormalsOptions",
         "StaticMesh", "StaticMeshEditorSubsystem", "EditorScriptingMeshReductionOptions",
         "EditorScriptingMeshReductionSettings", "LevelEditorSubsystem", "EditorActorSubsystem",
-        "UnrealEditorSubsystem", "EditorLevelLibrary", "AerondelGameMode",
-        "GeometryScript_MeshModeling",
+        "UnrealEditorSubsystem", "AerondelGameMode",
+        "AerondelPropInstances", "Door", "Station", "ResourceNode", "PointLightComponent",
+        "InputAction", "InputAction_Factory", "InputMappingContext", "InputMappingContext_Factory",
+        "InputModifierSwizzleAxis", "InputModifierNegate", "InputModifierDeadZone",
+        "InputModifierScalar", "EnhancedActionKeyMapping", "Key",
+        "SkillDef", "ItemDef", "ResourceNodeDef", "RecipeDef", "NpcDef", "MobDef",
+        "GameDatabase", "QuestDef", "QuestStep", "ItemAmount", "DropEntry", "XpReward",
+        "SoftObjectPath",
     ):
-        setattr(u, name, type(name, (), {}))
+        setattr(u, name, _uclass(name))
+
     u.HorizTextAligment = _enum("EHTA_CENTER")
     u.ComponentMobility = _enum("MOVABLE", "STATIC")
     u.StationType = _enum("RANGE", "FURNACE", "ANVIL", "FIRE")
     u.GeometryScriptPrimitiveOriginMode = _enum("CENTER", "BASE")
-    u.MaterialProperty = _enum("MP_BASE_COLOR", "MP_ROUGHNESS", "MP_METALLIC")
+    u.MaterialProperty = _enum(
+        "MP_BASE_COLOR", "MP_ROUGHNESS", "MP_METALLIC", "MP_SPECULAR",
+        "MP_NORMAL", "MP_SUBSURFACE_COLOR", "MP_CUSTOM_DATA0",
+    )
+    u.MaterialShadingModel = _enum("MSM_SUBSURFACE_PROFILE", "MSM_SUBSURFACE", "MSM_CLOTH")
     u.InputActionValueType = _enum("BOOLEAN", "AXIS1D", "AXIS2D", "AXIS3D")
+    u.InputAxisSwizzle = _enum("YXZ", "XZY", "ZYX")
+    u.ToolType = _enum("NONE", "AXE", "PICKAXE", "FISHING_NET", "HAMMER", "TINDERBOX")
+    u.EquipSlot = _enum("NONE", "WEAPON", "HEAD", "BODY", "SHIELD", "LEGS", "FEET")
+    u.ResourceKind = _enum("TREE", "ROCK", "FISHING_SPOT", "HERB")
+    u.QuestStepType = _enum("TALK", "KILL", "GATHER", "DELIVER")
+    u.CollisionChannel = _enum("ECC_VISIBILITY", "ECC_PAWN", "ECC_WORLD_STATIC")
+    u.CollisionResponseType = _enum("ECR_IGNORE", "ECR_BLOCK", "ECR_OVERLAP")
+    u.CollisionEnabled = _enum("QUERY_ONLY", "QUERY_AND_PHYSICS", "NO_COLLISION")
+    u.RuntimeGenerationType = _enum("DYNAMIC", "STATIC", "DYNAMIC_MODIFIERS_ONLY")
+
     u._EAL = _EAL
     u._Subsys = _Subsys
+    u._AssetTools = _AssetTools
 
     def __getattr__(name):
-        obj = type(name, (), {})
+        obj = _uclass(name)
         setattr(u, name, obj)
         return obj
+
     u.__getattr__ = __getattr__
     sys.modules["unreal"] = u
     return u
+
+
+_BUILDER_MODULES = (
+    "aerondel_util", "aerondel_safe", "build_starter_town", "world_partition",
+    "build_world_blockout", "aerondel_full_world", "build_smooth_shapes",
+    "build_relic_dungeon", "build_aerondel_regions", "world_placements",
+    "create_input_assets", "generate_starter_data", "build_high_fidelity",
+    "build_festival_decor", "aerondel_all", "build_realism_materials",
+    "import_lite_models", "build_character_lods",
+)
 
 
 def _import_builders():
     _install_unreal()
     if PY not in sys.path:
         sys.path.insert(0, PY)
-    # Re-import if a previous test left stale modules.
     for name in list(sys.modules):
-        if name in (
-            "aerondel_util", "aerondel_safe", "build_starter_town", "world_partition",
-            "build_world_blockout", "aerondel_full_world", "build_smooth_shapes",
-            "build_relic_dungeon", "build_aerondel_regions", "world_placements",
-        ):
+        if name in _BUILDER_MODULES:
             del sys.modules[name]
     import aerondel_util  # noqa: F401
     import build_world_blockout
@@ -190,6 +568,16 @@ def _import_builders():
         build_starter_town,
         build_relic_dungeon,
     )
+
+
+def _assert_recorded_paths_valid(test):
+    import aerondel_util as util
+    bad = []
+    for op, path in RECORDED_PATHS:
+        if " " in path or not util.is_valid_asset_path(path):
+            bad.append((op, path))
+    test.assertFalse(bad, "invalid asset paths (spaces or illegal characters):\n  " +
+                     "\n  ".join("%s %s" % (op, p) for op, p in bad[:30]))
 
 
 class EditorBuilders(unittest.TestCase):
@@ -279,6 +667,86 @@ class EditorBuilders(unittest.TestCase):
         self.assertIs(fn, unreal.GeometryScript_NewAssetUtils.create_new_static_mesh_asset_from_mesh)
         # Missing names fall through without raising until none remain.
         self.assertIsNone(smooth._first_attr(("GeometryScript_AssetUtils", "no_such_fn")))
+
+    def test_safe_asset_name_and_path(self):
+        util, *_ = _import_builders()
+        self.assertEqual(util.safe_asset_name("Copper rocks"), "Copper_rocks")
+        self.assertEqual(util.safe_asset_name("Ore_Copper rocks"), "Ore_Copper_rocks")
+        self.assertEqual(util.safe_asset_name("Founders' Week"), "Founders_Week")
+        self.assertEqual(util.safe_asset_name("Tin  rocks!!"), "Tin_rocks")
+        self.assertEqual(util.safe_asset_name("123abc"), "_123abc")
+        self.assertEqual(util.safe_asset_name(""), "Asset")
+        self.assertEqual(util.safe_asset_name(None), "Asset")
+        self.assertEqual(util.safe_asset_name("Already_Safe"), "Already_Safe")
+        self.assertEqual(
+            util.safe_asset_path("/Game/Gielinor/Materials/MI_Ore_Copper rocks"),
+            "/Game/Gielinor/Materials/MI_Ore_Copper_rocks",
+        )
+        self.assertEqual(
+            util.safe_asset_path("/Engine/BasicShapes/Cube.Cube"),
+            "/Engine/BasicShapes/Cube.Cube",
+        )
+        self.assertTrue(util.is_valid_asset_path("/Game/Gielinor/Materials/MI_Ore_Copper_rocks"))
+        self.assertTrue(util.is_valid_asset_path("/Engine/BasicShapes/Cube.Cube"))
+        self.assertFalse(util.is_valid_asset_path("/Game/Gielinor/Materials/MI_Ore_Copper rocks"))
+        self.assertFalse(util.is_valid_asset_path(""))
+        self.assertFalse(util.is_valid_asset_path("MI_Ore_Copper_rocks"))
+
+    def test_mat_sanitizes_display_names_and_falls_back_on_none(self):
+        """Regression: mat('Ore_Copper rocks') used to build a path with a space, create_asset
+        returned None, and mi.set_editor_property crashed."""
+        util, *_ = _import_builders()
+        import unreal
+        RECORDED_PATHS.clear()
+        mi = util.mat("Ore_Copper rocks", (0.75, 0.45, 0.3), 0.6)
+        self.assertIsNotNone(mi)
+        game_paths = [p for _, p in RECORDED_PATHS]
+        self.assertTrue(
+            any(p == "/Game/Gielinor/Materials/MI_Ore_Copper_rocks" for p in game_paths),
+            "expected sanitized MI path, got: %s" % game_paths,
+        )
+        self.assertFalse(any(" " in p for p in game_paths))
+        # Same sanitized key shares the cache.
+        self.assertIs(util.mat("Ore_Copper_rocks", (0.1, 0.1, 0.1)), mi)
+
+        # create_asset returns None for new MIs: mat() must not crash, must return a fallback.
+        util._MAT_CACHE.clear()
+        util._FALLBACK_MAT = None
+        orig = util.asset_tools.create_asset
+
+        def selective(name, folder, cls, factory=None):
+            if str(name).startswith("MI_"):
+                return None
+            return orig(name, folder, cls, factory)
+
+        util.asset_tools.create_asset = selective
+        fb = util.mat("Ore_Tin rocks", (0.7, 0.7, 0.68), 0.6)
+        self.assertIsNotNone(fb)
+        util.set_props(None, foo=1)  # must not raise
+        util.save(None)
+
+    def test_builders_emit_only_valid_asset_paths(self):
+        """Run as much of the editor builders as the mock allows; every /Game and /Engine
+        path must be a legal UE name, and helpers must not dereference None."""
+        util, blockout, smooth, town, dungeon = _import_builders()
+        import time
+        time.sleep = lambda *a, **k: None
+        import aerondel_all
+        import build_festival_decor
+
+        RECORDED_PATHS.clear()
+        aerondel_all.run()
+        blockout.run(small=False)
+        dungeon.run()
+        build_festival_decor.run()
+        self.assertTrue(
+            any(p.endswith("/MI_Ore_Copper_rocks") or p.endswith("MI_Ore_Copper_rocks")
+                for _, p in RECORDED_PATHS),
+            "starter town should have requested the sanitized copper-ore material",
+        )
+        _assert_recorded_paths_valid(self)
+        # A create_asset / load_or_create / geom create should have actually produced objects.
+        self.assertTrue(CREATED_ASSETS, "expected the mock to create at least one asset")
 
 
 if __name__ == "__main__":

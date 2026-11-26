@@ -8,7 +8,7 @@ Triangle budget (per mesh): cylinder 48 sides ~ 0.4k, sphere 32x20 ~ 1.2k, cone 
 bevelled cube ~ 0.3k. Each mesh also gets 2 auto-reduced LODs so far objects stay cheap on an iGPU.
 """
 import unreal
-from aerondel_util import ROOT, eal
+from aerondel_util import ROOT, eal, safe_asset_path
 
 FOLDER = ROOT + "/Meshes/Smooth"
 SHAPES = {
@@ -101,7 +101,7 @@ def _build(name, append):
         G.GeometryScript_Normals.compute_split_normals(dm, G.GeometryScriptSplitNormalsOptions(split_by_opening_angle=True, opening_angle_deg=40.0), nopts)
     except Exception as e:  # older API names: keep the primitive's own normals
         unreal.log_warning(f"[Aerondel] {name}: split normals skipped ({e})")
-    path = FOLDER + "/" + name
+    path = safe_asset_path(FOLDER + "/" + name)
     if eal.does_asset_exist(path):
         eal.delete_asset(path)
     copts = G.GeometryScriptCreateNewStaticMeshAssetOptions()
