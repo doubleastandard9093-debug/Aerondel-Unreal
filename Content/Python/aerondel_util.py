@@ -93,6 +93,123 @@ def set_props(obj, **props):
     return obj
 
 
+_MISSING_API = set()
+
+
+def try_call(obj, name, *args, default=None, warn=True, **kwargs):
+    """Call obj.name(*args, **kwargs) if it exists. A missing 5.8 API logs once and returns default (never raises)."""
+    if obj is None:
+        return default
+    fn = getattr(obj, name, None)
+    if not callable(fn):
+        if warn:
+            key = (getattr(type(obj), "__name__", "?"), name)
+            if key not in _MISSING_API:
+                _MISSING_API.add(key)
+                unreal.log_warning("[Aerondel] %s has no %s(); skipped" % key)
+        return default
+    try:
+        return fn(*args, **kwargs)
+    except Exception as e:  # noqa: BLE001
+        if warn:
+            unreal.log_warning("[Aerondel] %s.%s() failed: %s" % (getattr(type(obj), "__name__", "?"), name, e))
+        return default
+
+
+def _invoke(obj, name, *args, **kwargs):
+    """True if obj.name was present and the call returned (even when the return value is None)."""
+    if obj is None:
+        return False
+    fn = getattr(obj, name, None)
+    if not callable(fn):
+        return False
+    try:
+        fn(*args, **kwargs)
+        return True
+    except TypeError:
+        return False
+    except Exception as e:  # noqa: BLE001
+        unreal.log_warning("[Aerondel] %s.%s() failed: %s" % (getattr(type(obj), "__name__", "?"), name, e))
+        return False
+
+
+def component_by_class(actor, cls):
+    """Actor.get_component_by_class, or None if the API / component is missing."""
+    return try_call(actor, "get_component_by_class", cls, default=None)
+
+
+def editor_world():
+    """Best-effort editor UWorld (UnrealEditorSubsystem, then EditorLevelLibrary)."""
+    try:
+        sub = unreal.get_editor_subsystem(unreal.UnrealEditorSubsystem)
+        w = try_call(sub, "get_editor_world", default=None, warn=False)
+        if w:
+            return w
+    except Exception:  # noqa: BLE001
+        pass
+    return try_call(getattr(unreal, "EditorLevelLibrary", None), "get_editor_world", default=None)
+
+
+def save_level():
+    """Best-effort save of the current editor level (LevelEditorSubsystem, then EditorLevelLibrary)."""
+    try:
+        levels = unreal.get_editor_subsystem(unreal.LevelEditorSubsystem)
+        if _invoke(levels, "save_current_level"):
+            return True
+    except Exception:  # noqa: BLE001
+        pass
+    return _invoke(getattr(unreal, "EditorLevelLibrary", None), "save_current_level")
+
+
+def refresh_actor(actor):
+    """Re-run construction after setting properties (e.g. AerondelMob.Definition -> ApplyDefinitionShape).
+
+    UE 5.8 Python does not expose Actor.rerun_construction_scripts. Try that name if present, then
+    EditorActorSubsystem / EditorLevelLibrary equivalents, then post_edit_change(), then a no-op so a
+    missing API never aborts the build.
+    """
+    if actor is None:
+        return False
+    if _invoke(actor, "rerun_construction_scripts"):
+        return True
+    owners = []
+    try:
+        owners.append(unreal.get_editor_subsystem(unreal.EditorActorSubsystem))
+    except Exception:  # noqa: BLE001
+        pass
+    for attr in ("EditorLevelLibrary", "EditorLevelUtils"):
+        owners.append(getattr(unreal, attr, None))
+    for owner in owners:
+        if owner is None:
+            continue
+        for name in (
+            "rerun_construction_scripts",
+            "rerun_construction_scripts_for_actors",
+            "rerun_actor_construction_scripts",
+        ):
+            fn = getattr(owner, name, None)
+            if not callable(fn):
+                continue
+            for args in ((actor,), ([actor],)):
+                try:
+                    fn(*args)
+                    return True
+                except TypeError:
+                    continue
+                except Exception as e:  # noqa: BLE001
+                    unreal.log_warning("[Aerondel] %s.%s() failed: %s" % (getattr(type(owner), "__name__", "?"), name, e))
+                    break
+    if _invoke(actor, "post_edit_change"):
+        return True
+    if _invoke(actor, "apply_definition_shape"):
+        return True
+    key = ("refresh_actor", "noop")
+    if key not in _MISSING_API:
+        _MISSING_API.add(key)
+        unreal.log_warning("[Aerondel] refresh_actor: no construction-script refresh API; actor will update on load/PIE")
+    return False
+
+
 def color(r, g, b, a=1.0):
     return unreal.LinearColor(r, g, b, a)
 
@@ -192,14 +309,11 @@ def _class_name(actor):
 def clear_generated_level_actors():
     """Destroy previously generated actors in the current level, keeping World Settings / partition bookkeeping."""
     actors = unreal.get_editor_subsystem(unreal.EditorActorSubsystem)
-    for a in list(actors.get_all_level_actors() or []):
+    for a in list(try_call(actors, "get_all_level_actors", default=None) or []):
         cls = _class_name(a)
         if any(s in cls for s in _KEEP_ACTOR_CLASSES):
             continue
-        try:
-            actors.destroy_actor(a)
-        except Exception:
-            pass
+        try_call(actors, "destroy_actor", a, warn=False)
 
 
 def _try_load_level(levels, path):

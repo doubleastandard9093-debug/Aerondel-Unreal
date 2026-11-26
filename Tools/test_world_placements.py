@@ -61,7 +61,15 @@ class EditorBuild(unittest.TestCase):
         bst = types.SimpleNamespace(CONE="c", SPHERE="s", CYL="y", V=lambda x, y, z: (x, y, z), mesh=lambda *a: None,
                                     set_mesh=lambda *a, **k: None, label=lambda a, *r: a,
                                     spawn=lambda cls, loc, rot=None: spawned.append(Obj(cls)) or spawned[-1])
-        util = types.SimpleNamespace(mat=lambda *a: None)
+        def try_call(obj, name, *args, default=None, warn=True, **kwargs):
+            fn = getattr(obj, name, None)
+            if not callable(fn):
+                return default
+            try:
+                return fn(*args, **kwargs)
+            except Exception:
+                return default
+        util = types.SimpleNamespace(mat=lambda *a: None, try_call=try_call)
         with mock.patch.object(wp, "unreal", fake), mock.patch.dict(sys.modules, {"build_starter_town": bst, "aerondel_util": util}):
             n, m = wp.build(W)
         self.assertEqual(n, len(P["nodes"])); self.assertEqual(m, len(P["mobs"]))

@@ -13,7 +13,7 @@ import json
 import math
 import os
 import unreal
-from aerondel_util import ROOT, mat, eal, open_or_create_map
+from aerondel_util import ROOT, mat, eal, open_or_create_map, try_call
 import aerondel_safe as safe
 import build_starter_town as bst
 import world_partition as wpart
@@ -57,7 +57,7 @@ def place_volume(place_id, x, z, size=12.0, display=None):
     v.set_editor_property("place_id", unreal.Name(place_id))
     if display:
         v.set_editor_property("display_name", display)
-    v.set_actor_scale3d(unreal.Vector(size / 8.0, size / 8.0, 1.0))  # default box extent is 8 m wide
+    try_call(v, "set_actor_scale3d", unreal.Vector(size / 8.0, size / 8.0, 1.0))  # default box extent is 8 m wide
     return label(v, "Place_" + place_id, "Places")
 
 
@@ -82,7 +82,7 @@ def text3d(name, folder, x, y, z, text, size=60.0, yaw=0.0, rgb=(255, 236, 180))
         except Exception:
             pass  # left-aligned is fine
         c.set_editor_property("text_render_color", unreal.Color(r=rgb[0], g=rgb[1], b=rgb[2], a=255))
-        c.set_collision_profile_name("NoCollision")
+        try_call(c, "set_collision_profile_name", "NoCollision")
         label(a, "%s_%d" % (name, i), folder)
 
 
@@ -149,12 +149,12 @@ def run(small=False):
 
         task.frame("Ground and lighting")
         bst.environment()
-        for a in actors.get_all_level_actors():  # replace the starter-town ground/fences with a world-sized one
-            if a.get_folder_path() == "Environment" and a.get_actor_label() in ("Ground", "Town square", "Fence N", "Fence S", "Fence W", "NavMeshBounds", "PlayerStart"):
-                actors.destroy_actor(a)
+        for a in (try_call(actors, "get_all_level_actors", default=None) or []):  # replace the starter-town ground/fences with a world-sized one
+            if try_call(a, "get_folder_path", default="", warn=False) == "Environment" and try_call(a, "get_actor_label", default="", warn=False) in ("Ground", "Town square", "Fence N", "Fence S", "Fence W", "NavMeshBounds", "PlayerStart"):
+                try_call(actors, "destroy_actor", a)
         box("Ground", "Environment", (0, -0.05, 0), (half * 2, 0.1, half * 2), mat("Grass", (0.3, 0.45, 0.2), 0.95))
         nav = spawn(unreal.NavMeshBoundsVolume, V(0, 2, 0))
-        nav.set_actor_scale3d(unreal.Vector(half, half, 10))
+        try_call(nav, "set_actor_scale3d", unreal.Vector(half, half, 10))
         label(nav, "NavMeshBounds", "Environment")
         sp = w.get("spawn", {"x": 0, "z": 0})
         label(spawn(unreal.PlayerStart, V(sp["x"], 1.0, sp["z"])), "PlayerStart", "Environment")
@@ -164,10 +164,12 @@ def run(small=False):
         lk = w.get("lake")
         if lk:
             a = box("Lake", "Water", (lk["x"], 0.02, lk["z"]), (lk["r"] * 2, 0.04, lk["r"] * 2), water, shape=CYL, collide=False)
-            a.static_mesh_component.set_editor_property("can_ever_affect_navigation", False)
+            if a and getattr(a, "static_mesh_component", None):
+                a.static_mesh_component.set_editor_property("can_ever_affect_navigation", False)
         for i, p in enumerate(w.get("ponds", [])):
             a = box("Pond_%d" % i, "Water", (p["x"], 0.02, p["z"]), (p["r"] * 2, 0.04, p["r"] * 2), water, shape=CYL, collide=False)
-            a.static_mesh_component.set_editor_property("can_ever_affect_navigation", False)
+            if a and getattr(a, "static_mesh_component", None):
+                a.static_mesh_component.set_editor_property("can_ever_affect_navigation", False)
         # shore blockers (invisible, pawn-only) are added with the gameplay placements below
 
         task.frame("Paths")
