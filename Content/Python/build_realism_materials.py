@@ -11,7 +11,7 @@ tier is High or Ultra, keeping each slot's original colour/texture. Low/Quest ne
 All masters are cheap: no extra textures beyond the model's own, the detail normal is two procedural noise taps on UV0.
 """
 import unreal
-from aerondel_util import ROOT, asset_tools, eal, color, save
+from aerondel_util import ROOT, eal, color, save, create_asset
 
 DIR = ROOT + "/Materials/Real"
 MEL = unreal.MaterialEditingLibrary
@@ -50,7 +50,10 @@ def _skin_profile():
     fac = getattr(unreal, "SubsurfaceProfileFactory", None)
     if fac is None:
         return None
-    sp = asset_tools.create_asset("SP_AerondelSkin", DIR, unreal.SubsurfaceProfile, fac())
+    sp = create_asset("SP_AerondelSkin", DIR, unreal.SubsurfaceProfile, fac())
+    if not sp:
+        unreal.log_warning("[Aerondel] could not create SP_AerondelSkin")
+        return None
     save(sp)
     return sp
 
@@ -59,7 +62,10 @@ def _master(kind):
     path = DIR + "/M_Real" + kind
     if eal.does_asset_exist(path):
         eal.delete_asset(path)
-    m = asset_tools.create_asset("M_Real" + kind, DIR, unreal.Material, unreal.MaterialFactoryNew())
+    m = create_asset("M_Real" + kind, DIR, unreal.Material, unreal.MaterialFactoryNew())
+    if not m:
+        unreal.log_warning("[Aerondel] could not create M_Real%s" % kind)
+        return None
     E = unreal
     tint = _e(m, E.MaterialExpressionVectorParameter, -1100, -300, parameter_name="Tint", default_value=color(1, 1, 1))
     tex = _e(m, E.MaterialExpressionTextureSampleParameter2D, -1100, -120, parameter_name="BaseTex", texture=unreal.load_asset(WHITE))
@@ -126,7 +132,13 @@ def run():
             path = DIR + "/MI_Real_" + kind
             if eal.does_asset_exist(path):
                 eal.delete_asset(path)
-            mi = asset_tools.create_asset("MI_Real_" + kind, DIR, unreal.MaterialInstanceConstant, unreal.MaterialInstanceConstantFactoryNew())
+            mi = create_asset("MI_Real_" + kind, DIR, unreal.MaterialInstanceConstant, unreal.MaterialInstanceConstantFactoryNew())
+            if not mi:
+                unreal.log_warning("[Aerondel] could not create MI_Real_%s" % kind)
+                continue
+            if not masters.get(mk):
+                unreal.log_warning("[Aerondel] missing master for MI_Real_%s" % kind)
+                continue
             mi.set_editor_property("parent", masters[mk])
             for name, v in (("Roughness", r), ("Metallic", me), ("Specular", sp), ("DetailStrength", ds), ("DetailScale", sc), ("Sheen", sh)):
                 MEL.set_material_instance_scalar_parameter_value(mi, name, v)

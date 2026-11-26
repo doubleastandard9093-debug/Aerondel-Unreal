@@ -19,6 +19,7 @@ import re
 import time
 import unreal
 import aerondel_safe as safe
+from aerondel_util import safe_asset_name
 
 DEST = "/Game/Aerondel/Models"
 CLIP = {
@@ -272,7 +273,7 @@ def run(batch=None):
         with safe.SafeRun("Importing Lite models" + (" (batch of %d)" % batch if batch else ""), len(files) + len(statics)) as task:
             for g, d, f in files:
                 key = os.path.splitext(f)[0]
-                folder = "%s/%s/%s" % (DEST, d, key)
+                folder = "%s/%s/%s" % (DEST, safe_asset_name(d), safe_asset_name(key))
                 mesh, anims = _scan_rig(folder)
                 if mesh:
                     skipped += 1  # already imported (by an earlier, maybe crashed, run): keep it, just map it
@@ -302,7 +303,7 @@ def run(batch=None):
             if not stopped:
                 for g, d, f in statics:
                     key = os.path.splitext(f)[0].lower()
-                    folder = "%s/%s" % (DEST, d)
+                    folder = "%s/%s" % (DEST, safe_asset_name(d))
                     tag = "%s/%s" % (g, f)
                     names = _static_names(folder)
                     if tag in done or any(n == key or n == "sm_" + key or n.startswith(key + "_") or n.startswith("sm_" + key + "_") for n in names):

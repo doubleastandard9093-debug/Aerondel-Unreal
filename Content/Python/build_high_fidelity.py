@@ -8,7 +8,7 @@ Nothing on the Low or Quest path references this asset: AAerondelHighDetail soft
 Run from the editor: py build_high_fidelity.py (or import and call run()).
 """
 import unreal
-from aerondel_util import ROOT, asset_tools, eal, save, color
+from aerondel_util import ROOT, eal, save, color, create_asset
 
 PATH = ROOT + "/Materials/High/M_TintHigh"
 
@@ -24,7 +24,10 @@ def run():
     mel = unreal.MaterialEditingLibrary
     if eal.does_asset_exist(PATH):
         eal.delete_asset(PATH)
-    mat = asset_tools.create_asset("M_TintHigh", ROOT + "/Materials/High", unreal.Material, unreal.MaterialFactoryNew())
+    mat = create_asset("M_TintHigh", ROOT + "/Materials/High", unreal.Material, unreal.MaterialFactoryNew())
+    if not mat:
+        unreal.log_warning("[Aerondel] could not create " + PATH)
+        return
     E = unreal
     col = _e(mat, E.MaterialExpressionVectorParameter, -1200, -200, parameter_name="Color", default_value=color(0.8, 0.8, 0.8))
     rough = _e(mat, E.MaterialExpressionScalarParameter, -1200, 200, parameter_name="Roughness", default_value=0.8)
