@@ -15,6 +15,7 @@ While a SafeRun is active:
 import math
 import time
 import unreal
+from aerondel_util import editor_world, try_call
 
 BATCH = 40              # spawns between breathers
 CELL_CM = 12800.0       # World Partition cell (world_partition.CELL_SIZE_CM)
@@ -35,16 +36,13 @@ _active = None
 
 def _cmd(c):
     try:
-        unreal.SystemLibrary.execute_console_command(unreal.EditorLevelLibrary.get_editor_world(), c)
+        try_call(unreal.SystemLibrary, "execute_console_command", editor_world(), c)
     except Exception as e:
         unreal.log_warning("[Aerondel] console '%s' failed: %s" % (c, e))
 
 
 def _get(name):
-    try:
-        return unreal.SystemLibrary.get_console_variable_float_value(name)
-    except Exception:
-        return None
+    return try_call(unreal.SystemLibrary, "get_console_variable_float_value", name, default=None, warn=False)
 
 
 def _set_realtime(on):
@@ -128,7 +126,7 @@ class SafeRun:
     def breathe(self, save=False):
         self._check()
         try:
-            unreal.SystemLibrary.collect_garbage()
+            try_call(unreal.SystemLibrary, "collect_garbage", warn=False)
         except Exception:
             pass
         self.task.enter_progress_frame(0, "%s: %d actors placed" % (self.title, self.count))
