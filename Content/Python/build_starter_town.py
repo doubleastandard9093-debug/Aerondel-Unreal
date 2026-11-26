@@ -78,7 +78,8 @@ def box(name, folder, center, size, material, shape=CUBE, yaw=0.0, collide=True,
     c = a.static_mesh_component
     c.set_static_mesh(mesh(shape, _smooth_ok(shape, size)))
     c.set_world_scale3d(unreal.Vector(size[0], size[2], size[1]))
-    c.set_material(0, material)
+    if material is not None:
+        c.set_material(0, material)
     if not collide:
         c.set_collision_profile_name("NoCollision")
     return label(a, name, folder)
@@ -110,7 +111,8 @@ def set_mesh(comp, shape, scale, material, rel=(0, 0, 0)):
     comp.set_static_mesh(mesh(shape, _smooth_ok(shape, scale)))
     comp.set_relative_scale3d(unreal.Vector(*scale))
     comp.set_relative_location(unreal.Vector(*rel), False, False)
-    comp.set_material(0, material)
+    if material is not None:
+        comp.set_material(0, material)
 
 
 # ---------------------------------------------------------------- buildings
