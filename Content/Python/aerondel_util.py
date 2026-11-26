@@ -336,18 +336,22 @@ def _try_load_level(levels, path):
     return False
 
 
-def open_or_create_map(path, levels, partitioned=False, create_partitioned=None):
+def open_or_create_map(path, levels, partitioned=False, create_partitioned=None, clear=True):
     """Open `path` if it already exists (and clear generated actors); otherwise create it.
 
     Delete-then-NewLevel fails in UE once /Game/Gielinor/Maps/StarterTown (or World, RelicDungeon)
     is already on disk. Loading and rebuilding actors is the idempotent path.
+    Set clear=False to keep existing actors (laptop resume).
     Returns True if the editor's current level is `path` and ready to spawn into.
     """
     path = safe_asset_path(path)
     if eal.does_asset_exist(path):
         if _try_load_level(levels, path):
-            clear_generated_level_actors()
-            unreal.log("[Aerondel] Loaded existing " + path + " (rebuilding actors)")
+            if clear:
+                clear_generated_level_actors()
+                unreal.log("[Aerondel] Loaded existing " + path + " (rebuilding actors)")
+            else:
+                unreal.log("[Aerondel] Loaded existing " + path + " (keeping actors, resume)")
             return True
         unreal.log_warning("[Aerondel] Could not load existing " + path + "; trying delete and recreate")
         try:
