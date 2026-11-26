@@ -30,8 +30,12 @@ public:
 	static void SetBindPoseMode(int32 Mode, USkeletalMeshComponent* PlayerMesh);
 	UFUNCTION(BlueprintCallable, Category="Aerondel|Models") static void ReloadRigTable();
 	/** Scales the applied mesh to HeightCm (largest of height / 0.6 x length for quadrupeds), puts its feet at -HalfHeight
-	 *  and turns it by the rigs.json "yaw" (default -90: imported glTF characters face +Y). */
-	UFUNCTION(BlueprintCallable, Category="Aerondel|Models") static void FitRig(USkeletalMeshComponent* Comp, float HeightCm, float HalfHeight);
+	 *  and turns it by the rigs.json pitch/yaw/roll (yaw default -90: imported glTF characters face +Y). Humanoid bind
+	 *  poses that do not stand on +Z are rotated upright from the reference skeleton, not from a possibly folded clip.
+	 *  Returns false if the mesh is unusable so the caller can show the greybox body instead. */
+	UFUNCTION(BlueprintCallable, Category="Aerondel|Models") static bool FitRig(USkeletalMeshComponent* Comp, float HeightCm, float HalfHeight);
+	/** Stops animation, clears the skeletal mesh and rig tags, so a placeholder capsule/box can be shown. */
+	UFUNCTION(BlueprintCallable, Category="Aerondel|Models") static void ClearRig(USkeletalMeshComponent* Comp);
 	/** Largest extent of the skeleton's bone positions: reference pose (Posed = nullptr) or that component's current pose. */
 	static double BoneExtent(const USkeletalMesh* Mesh, const USkeletalMeshComponent* Posed);
 	/** High/Ultra only: swaps each material slot for a dynamic instance of the matching realism master
