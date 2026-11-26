@@ -42,7 +42,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="VR|Comfort") float SnapAngle = 45.f;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="VR|Comfort") float SmoothTurnDegPerSec = 120.f;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="VR|Comfort") float MoveSpeed = 300.f; // cm/s
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="VR|Comfort") bool bVignette = true;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="VR|Comfort", meta=(ScriptName="bVignetteEnabled")) bool bVignette = true;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="VR|Comfort") float VignetteMax = 1.2f;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="VR|Teleport") float TeleportLaunchSpeed = 900.f;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="VR|UI") TSubclassOf<class UUserWidget> WristWidgetClass;

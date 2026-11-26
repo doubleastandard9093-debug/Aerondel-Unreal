@@ -5,7 +5,7 @@ SCAL = open(os.path.join(ROOT, "Config/DefaultScalability.ini"), encoding="utf-8
 ENG = open(os.path.join(ROOT, "Config/DefaultEngine.ini"), encoding="utf-8").read()
 CPP = open(os.path.join(ROOT, "Source/Aerondel/World/AerondelScalability.cpp"), encoding="utf-8").read()
 # Not scalability cvars: an ensure in the cook (ExitCode 25) if they appear in DefaultScalability.ini.
-FORBIDDEN = ["r.DynamicGlobalIlluminationMethod", "r.ReflectionMethod", "r.AntiAliasingMethod", "r.Nanite"]  # r.Shadow.Virtual.Enable IS a ShadowQuality cvar (cooked fine)
+FORBIDDEN = ["r.DynamicGlobalIlluminationMethod", "r.ReflectionMethod", "r.AntiAliasingMethod", "r.Nanite", "r.TSR.Velocity.WeightClampingSampleCount"]  # r.Shadow.Virtual.Enable IS a ShadowQuality cvar (cooked fine)
 
 
 def low_block():
@@ -22,6 +22,10 @@ class Graphics(unittest.TestCase):
     def test_nanite_off_in_engine(self):
         self.assertRegex(ENG, r"(?m)^\s*r\.Nanite\.ProjectEnabled\s*=\s*False")
         self.assertRegex(ENG, r"(?m)^\s*r\.Nanite\s*=\s*0")
+
+    def test_tsr_weight_clamping_lives_in_engine_ini(self):
+        # ECVF_RenderThreadSafe only — an ensure if this stays in DefaultScalability.ini.
+        self.assertRegex(ENG, r"(?m)^\s*r\.TSR\.Velocity\.WeightClampingSampleCount\s*=")
     def test_low_has_no_lumen_or_heavy_effects(self):
         low = low_block()
         self.assertTrue(low, "Low case not found")
