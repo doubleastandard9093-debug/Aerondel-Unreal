@@ -2,6 +2,7 @@
 #include "Components/SkeletalMeshComponent.h"
 #include "Engine/SkeletalMesh.h"
 #include "Animation/AnimSequence.h"
+#include "Animation/Skeleton.h"
 #include "Materials/MaterialInstanceDynamic.h"
 #include "Materials/MaterialInterface.h"
 #include "Engine/Texture.h"
@@ -24,18 +25,87 @@ static TAutoConsoleVariable<int32> CVarAerondelBindPose(TEXT("aerondel.Rig.BindP
 
 namespace AerondelRigs
 {
-	struct FRig { FString Mesh; TMap<FName, FString> Anims; };
+	struct FRig { FString Mesh; TMap<FName, FString> Anims; TOptional<float> Yaw, Pitch, Roll; };
 	static bool bLoaded = false;
 	static TMap<FString, FRig> Rigs;
 	static TMap<FString, FString> Monsters, Npcs;
 	static FString Player;
-	static float Yaw = -90.f;
+	static float Yaw = -90.f, Pitch = 0.f, Roll = 0.f;
 	static const FName StateTag(TEXT("AerondelAnim:"));
+	static TSet<FString> MissingWarned, AnimWarned;
+
+	static FRotator RotationFor(const FRig* Rig)
+	{
+		return FRotator(
+			Rig && Rig->Pitch.IsSet() ? Rig->Pitch.GetValue() : Pitch,
+			Rig && Rig->Yaw.IsSet() ? Rig->Yaw.GetValue() : Yaw,
+			Rig && Rig->Roll.IsSet() ? Rig->Roll.GetValue() : Roll);
+	}
+
+	static const FRig* RigOn(const USkeletalMeshComponent* Comp)
+	{
+		if (!Comp) return nullptr;
+		for (const FName& T : Comp->ComponentTags)
+		{
+			const FString S = T.ToString();
+			if (S.StartsWith(TEXT("AerondelRig:"))) return Rigs.Find(S.Mid(12));
+		}
+		return nullptr;
+	}
+
+	static void StripTags(USkeletalMeshComponent* Comp, bool bRig, bool bAnim)
+	{
+		Comp->ComponentTags.RemoveAll([bRig, bAnim](const FName& T)
+		{
+			const FString S = T.ToString();
+			return (bRig && S.StartsWith(TEXT("AerondelRig:"))) || (bAnim && S.StartsWith(TEXT("AerondelAnim:")));
+		});
+	}
+
+	static void HoldRefPose(USkeletalMeshComponent* Comp, const TCHAR* Why)
+	{
+		if (!Comp) return;
+		Comp->Stop();
+		Comp->SetAnimation(nullptr);
+		StripTags(Comp, false, true);
+		Comp->ComponentTags.Add(FName(TEXT("AerondelAnim:bindpose")));
+		Comp->RefreshBoneTransforms();
+		if (!Why) return;
+		FString Id = Comp->GetName();
+		for (const FName& T : Comp->ComponentTags)
+		{
+			const FString S = T.ToString();
+			if (S.StartsWith(TEXT("AerondelRig:"))) { Id = S.Mid(12); break; }
+		}
+		const FString Key = Id + TEXT(":") + Why;
+		if (!AnimWarned.Contains(Key))
+		{
+			AnimWarned.Add(Key);
+			UE_LOG(LogTemp, Warning, TEXT("[Aerondel] %s: holding reference pose (%s)"), *Id, Why);
+		}
+	}
+
+	static bool AnimUsable(const UAnimSequence* Seq, const USkeletalMesh* Mesh, FString& Why)
+	{
+		if (!Seq || !Mesh) { Why = TEXT("missing asset"); return false; }
+		if (Seq->GetAdditiveAnimType() != AAT_None) { Why = TEXT("additive clip with no base pose"); return false; }
+		const USkeleton* AnimSkel = Seq->GetSkeleton();
+		const USkeleton* MeshSkel = Mesh->GetSkeleton();
+		if (!AnimSkel || !MeshSkel) { Why = TEXT("sequence or mesh has no skeleton"); return false; }
+		if (AnimSkel != MeshSkel)
+		{
+			Why = FString::Printf(TEXT("anim skeleton '%s' != mesh skeleton '%s'"), *AnimSkel->GetName(), *MeshSkel->GetName());
+			return false;
+		}
+		return true;
+	}
 
 	static void Load()
 	{
 		if (bLoaded) return;
 		bLoaded = true; Rigs.Reset(); Monsters.Reset(); Npcs.Reset(); Player.Reset();
+		MissingWarned.Reset(); AnimWarned.Reset();
+		Yaw = -90.f; Pitch = 0.f; Roll = 0.f;
 		FString Text;
 		if (!FFileHelper::LoadFileToString(Text, *FPaths::Combine(FPaths::ProjectContentDir(), TEXT("Data"), TEXT("rigs.json")))) return;
 		TSharedPtr<FJsonObject> Root; const TSharedRef<TJsonReader<>> R = TJsonReaderFactory<>::Create(Text);
@@ -48,6 +118,10 @@ namespace AerondelRigs
 				FRig Rig; (*RO)->TryGetStringField(TEXT("mesh"), Rig.Mesh);
 				const TSharedPtr<FJsonObject>* A = nullptr;
 				if ((*RO)->TryGetObjectField(TEXT("anims"), A)) for (const auto& Q : (*A)->Values) { FString S; if (Q.Value.IsValid() && Q.Value->TryGetString(S)) Rig.Anims.Add(FName(*FString(*Q.Key)), S); }
+				double RY = 0, RP = 0, RR = 0;
+				if ((*RO)->TryGetNumberField(TEXT("yaw"), RY)) Rig.Yaw = (float)RY;
+				if ((*RO)->TryGetNumberField(TEXT("pitch"), RP)) Rig.Pitch = (float)RP;
+				if ((*RO)->TryGetNumberField(TEXT("roll"), RR)) Rig.Roll = (float)RR;
 				if (!Rig.Mesh.IsEmpty()) Rigs.Add(FString(*P.Key), Rig);
 			}
 		auto Map = [&Root](const TCHAR* Field, TMap<FString, FString>& Out)
@@ -57,8 +131,12 @@ namespace AerondelRigs
 		};
 		Map(TEXT("monsters"), Monsters); Map(TEXT("npcs"), Npcs);
 		Root->TryGetStringField(TEXT("player"), Player);
-		double Y = -90.0; if (Root->TryGetNumberField(TEXT("yaw"), Y)) Yaw = (float)Y;
-		UE_LOG(LogTemp, Log, TEXT("[Aerondel] rigs.json: %d rigs, %d monster mappings, %d npc mappings"), Rigs.Num(), Monsters.Num(), Npcs.Num());
+		double Y = -90.0, Pch = 0.0, Rl = 0.0;
+		if (Root->TryGetNumberField(TEXT("yaw"), Y)) Yaw = (float)Y;
+		if (Root->TryGetNumberField(TEXT("pitch"), Pch)) Pitch = (float)Pch;
+		if (Root->TryGetNumberField(TEXT("roll"), Rl)) Roll = (float)Rl;
+		UE_LOG(LogTemp, Log, TEXT("[Aerondel] rigs.json: %d rigs, %d monster mappings, %d npc mappings, rotation P%.1f Y%.1f R%.1f"),
+			Rigs.Num(), Monsters.Num(), Npcs.Num(), Pitch, Yaw, Roll);
 	}
 }
 
@@ -94,17 +172,44 @@ void UAerondelModelLibrary::SetBindPoseMode(int32 Mode, USkeletalMeshComponent* 
 	SetAnimState(PlayerMesh, TEXT("idle")); // re-evaluates: holds the bind pose when on, restarts idle when off
 }
 
+void UAerondelModelLibrary::ClearRig(USkeletalMeshComponent* Comp)
+{
+	if (!Comp) return;
+	Comp->Stop();
+	Comp->SetAnimation(nullptr);
+	Comp->SetSkeletalMeshAsset(nullptr);
+	AerondelRigs::StripTags(Comp, true, true);
+}
+
 bool UAerondelModelLibrary::ApplyRig(USkeletalMeshComponent* Comp, const FString& Key)
 {
 	if (!Comp) return false;
 	const FString K = ResolveKey(Key);
 	const AerondelRigs::FRig* Rig = AerondelRigs::Rigs.Find(K);
-	if (!Rig) { UE_LOG(LogTemp, Warning, TEXT("[Aerondel] ApplyRig %s: no rig mapped (resolved '%s')"), *Key, *K); return false; }
+	if (!Rig)
+	{
+		ClearRig(Comp);
+		if (!AerondelRigs::MissingWarned.Contains(Key))
+		{
+			AerondelRigs::MissingWarned.Add(Key);
+			UE_LOG(LogTemp, Warning, TEXT("[Aerondel] ApplyRig %s: no rig mapped (resolved '%s') — using placeholder (later misses for this id are Verbose)"), *Key, *K);
+		}
+		else
+		{
+			UE_LOG(LogTemp, Verbose, TEXT("[Aerondel] ApplyRig %s: no rig mapped (resolved '%s')"), *Key, *K);
+		}
+		return false;
+	}
 	USkeletalMesh* Mesh = LoadObject<USkeletalMesh>(nullptr, *Rig->Mesh);
-	if (!Mesh) { UE_LOG(LogTemp, Warning, TEXT("[Aerondel] ApplyRig %s: mesh %s did not load"), *Key, *Rig->Mesh); return false; }
+	if (!Mesh)
+	{
+		ClearRig(Comp);
+		UE_LOG(LogTemp, Warning, TEXT("[Aerondel] ApplyRig %s: mesh %s did not load"), *Key, *Rig->Mesh);
+		return false;
+	}
 	Comp->SetSkeletalMeshAsset(Mesh);
 	Comp->SetAnimationMode(EAnimationMode::AnimationSingleNode);
-	Comp->ComponentTags.RemoveAll([](const FName& T) { return T.ToString().StartsWith(TEXT("AerondelRig:")) || T.ToString().StartsWith(TEXT("AerondelAnim:")); });
+	AerondelRigs::StripTags(Comp, true, true);
 	Comp->ComponentTags.Add(FName(*(TEXT("AerondelRig:") + K)));
 	const EAerondelTier Tier = UAerondelScalability::GetSavedTier();
 	const bool bLow = Tier == EAerondelTier::Low || Tier == EAerondelTier::Quest;
@@ -149,113 +254,163 @@ void UAerondelModelLibrary::SetAnimState(USkeletalMeshComponent* Comp, FName Sta
 	const FString* Path = Rig->Anims.Find(State);
 	if (!Path && State == FName(TEXT("run"))) Path = Rig->Anims.Find(TEXT("walk"));
 	if (!Path) Path = Rig->Anims.Find(TEXT("idle"));
-	if (!Path) return;
+	if (!Path)
+	{
+		AerondelRigs::HoldRefPose(Comp, TEXT("no clip for this state"));
+		return;
+	}
 	UAnimSequence* Seq = LoadObject<UAnimSequence>(nullptr, **Path);
-	if (!Seq) return;
-	Comp->ComponentTags.RemoveAll([](const FName& T) { return T.ToString().StartsWith(TEXT("AerondelAnim:")); });
+	FString Why;
+	if (!AerondelRigs::AnimUsable(Seq, Comp->GetSkeletalMeshAsset(), Why))
+	{
+		AerondelRigs::HoldRefPose(Comp, *Why);
+		return;
+	}
+	AerondelRigs::StripTags(Comp, false, true);
 	Comp->ComponentTags.Add(FName(*(TEXT("AerondelAnim:") + State.ToString())));
 	const bool bLoop = !bOneShot;
 	Comp->PlayAnimation(Seq, bLoop);
 }
 
-void UAerondelModelLibrary::FitRig(USkeletalMeshComponent* Comp, float HeightCm, float HalfHeight)
+static TArray<FTransform> ComponentSpaceRefPose(const USkeletalMesh* Mesh)
+{
+	TArray<FTransform> Cs;
+	if (!Mesh) return Cs;
+	const FReferenceSkeleton& Ref = Mesh->GetRefSkeleton();
+	const int32 N = Ref.GetNum();
+	const TArray<FTransform>& Local = Ref.GetRefBonePose();
+	Cs.SetNum(N);
+	for (int32 i = 0; i < N; ++i)
+	{
+		const int32 P = Ref.GetParentIndex(i);
+		Cs[i] = P >= 0 ? Local[i] * Cs[P] : Local[i];
+	}
+	return Cs;
+}
+
+// Rotate a humanoid so feet->head in the BIND pose points at +Z. Using the bind pose (not a playing
+// clip) avoids folding a mismatched animation into the upright estimate. Quadrupeds and already-upright
+// humans return Identity.
+static FQuat BindUprightFix(const USkeletalMesh* Mesh)
+{
+	if (!Mesh) return FQuat::Identity;
+	const FReferenceSkeleton& Ref = Mesh->GetRefSkeleton();
+	const TArray<FTransform> Cs = ComponentSpaceRefPose(Mesh);
+	const int32 N = Ref.GetNum();
+	if (N < 3 || Cs.Num() != N) return FQuat::Identity;
+	int32 Head = INDEX_NONE; bool bHands = false; FVector Feet = FVector::ZeroVector; int32 NF = 0;
+	for (int32 i = 0; i < N; ++i)
+	{
+		const FString B = Ref.GetBoneName(i).ToString().ToLower();
+		if (B.Contains(TEXT("hand")) || B.Contains(TEXT("arm"))) bHands = true;
+		if (Head == INDEX_NONE && B.Contains(TEXT("head")) && !B.Contains(TEXT("end")) && !B.Contains(TEXT("top"))) Head = i;
+		if (B.Contains(TEXT("foot")) || B.Contains(TEXT("toe")) || B.Contains(TEXT("ankle"))) { Feet += Cs[i].GetLocation(); ++NF; }
+	}
+	if (!bHands || Head == INDEX_NONE) return FQuat::Identity;
+	FVector CP = FVector::ZeroVector; for (int32 i = 0; i < N; ++i) CP += Cs[i].GetLocation(); CP /= N;
+	const FVector Up = (Cs[Head].GetLocation() - (NF ? Feet / NF : CP)).GetSafeNormal();
+	if (Up.IsNearlyZero() || FVector::DotProduct(Up, FVector::UpVector) >= 0.94) return FQuat::Identity;
+	return FQuat::FindBetweenNormals(Up, FVector::UpVector);
+}
+
+static bool IsHumanoidMesh(const USkeletalMesh* Mesh)
+{
+	if (!Mesh) return false;
+	const FReferenceSkeleton& Ref = Mesh->GetRefSkeleton();
+	bool bHands = false, bHead = false;
+	for (int32 i = 0; i < Ref.GetNum(); ++i)
+	{
+		const FString B = Ref.GetBoneName(i).ToString().ToLower();
+		if (B.Contains(TEXT("hand")) || B.Contains(TEXT("arm"))) bHands = true;
+		if (B.Contains(TEXT("head")) && !B.Contains(TEXT("end")) && !B.Contains(TEXT("top"))) bHead = true;
+	}
+	return bHands && bHead;
+}
+
+bool UAerondelModelLibrary::FitRig(USkeletalMeshComponent* Comp, float HeightCm, float HalfHeight)
 {
 	USkeletalMesh* Mesh = Comp ? Comp->GetSkeletalMeshAsset() : nullptr;
-	if (!Mesh) { UE_LOG(LogTemp, Warning, TEXT("[Aerondel] FitRig: no skeletal mesh on %s"), Comp ? *Comp->GetPathName() : TEXT("null")); return; }
+	if (!Mesh) { UE_LOG(LogTemp, Warning, TEXT("[Aerondel] FitRig: no skeletal mesh on %s"), Comp ? *Comp->GetPathName() : TEXT("null")); return false; }
 	const FBox B = Mesh->GetBounds().GetBox();
 	const FVector S = B.GetSize();
-	if (S.Z < 1.0) return;
-	// Quadrupeds (longer than tall) fit their length to 1/0.6 of the target so a wolf is not a pony.
-	const double Len = FMath::Max(S.X, S.Y);
-	const double K = Len > S.Z * 1.3 ? (HeightCm / 0.6) / Len : HeightCm / S.Z;
-	Comp->SetRelativeScale3D(FVector(K));
-	Comp->SetRelativeLocation(FVector(0, 0, -HalfHeight - B.Min.Z * K));
-	Comp->SetRelativeRotation(FRotator(0, AerondelRigs::Yaw, 0));
-	// glTF rigs (Kenney / Quaternius) often carry a x100 armature scale in their clips that the bind-pose bounds above
-	// don't see, so the posed body renders far bigger than HeightCm. Once the first pose is evaluated, compare the
-	// skeleton's posed extent with its reference extent and undo the difference.
 	const double RefExtent = BoneExtent(Mesh, nullptr);
-	if (RefExtent <= KINDA_SMALL_NUMBER || !Comp->GetWorld()) { UE_LOG(LogTemp, Warning, TEXT("[Aerondel] FitRig %s: no usable skeleton, bind-pose fit only"), *Mesh->GetName()); return; }
+	// A lying-down or metre-scale import can have S.Z < 1 cm (the old early-out), so use the longest
+	// bound / bone extent. Humanoids are never treated as quadrupeds just because they are on their back.
+	double HeightAxis = FMath::Max3(S.X, S.Y, S.Z);
+	if (S.Z >= HeightAxis * 0.75) HeightAxis = S.Z;
+	if (HeightAxis < 1.0 && RefExtent > 1.0) HeightAxis = RefExtent;
+	if (HeightAxis < 1.0)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("[Aerondel] FitRig %s: unusable bounds (%.2f x %.2f x %.2f, bone extent %.2f)"), *Mesh->GetName(), S.X, S.Y, S.Z, RefExtent);
+		return false;
+	}
+	const double Len = FMath::Max(S.X, S.Y);
+	const bool bQuad = !IsHumanoidMesh(Mesh) && S.Z >= 1.0 && Len > S.Z * 1.3;
+	const double K = bQuad ? (HeightCm / 0.6) / Len : HeightCm / HeightAxis;
+	const FQuat BindFix = BindUprightFix(Mesh);
+	const FQuat Rot = AerondelRigs::RotationFor(AerondelRigs::RigOn(Comp)).Quaternion() * BindFix;
+	Comp->SetRelativeScale3D(FVector(K));
+	Comp->SetRelativeRotation(Rot);
+	{
+		const TArray<FTransform> BindCs = ComponentSpaceRefPose(Mesh);
+		double Low = TNumericLimits<double>::Max();
+		if (BindCs.Num() >= 3)
+		{
+			for (const FTransform& T : BindCs) Low = FMath::Min(Low, Rot.RotateVector(T.GetLocation() * K).Z);
+		}
+		if (Low < TNumericLimits<double>::Max() / 2)
+			Comp->SetRelativeLocation(FVector(0, 0, -HalfHeight - Low + 4.0));
+		else
+			Comp->SetRelativeLocation(FVector(0, 0, -HalfHeight - B.Min.Z * K));
+	}
+	if (BindFix.GetAngle() > KINDA_SMALL_NUMBER)
+	{
+		UE_LOG(LogTemp, Log, TEXT("[Aerondel] FitRig %s: bind-pose upright fix %.0f deg, scale %.5f, rot P%.1f Y%.1f R%.1f"),
+			*Mesh->GetName(), FMath::RadiansToDegrees(BindFix.GetAngle()), K, Rot.Rotator().Pitch, Rot.Rotator().Yaw, Rot.Rotator().Roll);
+	}
+	if (RefExtent <= KINDA_SMALL_NUMBER || !Comp->GetWorld()) return true;
 	TWeakObjectPtr<USkeletalMeshComponent> Weak(Comp);
-	auto Correct = [Weak, RefExtent, K, HalfHeight, MinZ = B.Min.Z]()
+	auto Correct = [Weak, RefExtent, K, HalfHeight, Rot]()
 	{
 		USkeletalMeshComponent* C = Weak.Get();
 		if (!C || !C->GetSkeletalMeshAsset()) return;
 		C->TickAnimation(0.f, false);
 		C->RefreshBoneTransforms();
 		USkeletalMesh* M = C->GetSkeletalMeshAsset();
-		const double Posed = BoneExtent(M, C);
+		const double Posed = UAerondelModelLibrary::BoneExtent(M, C);
 		if (Posed <= KINDA_SMALL_NUMBER) return;
 		double Ratio = Posed / RefExtent;
+		FString Anim = TEXT("none");
+		for (const FName& T : C->ComponentTags) if (T.ToString().StartsWith(TEXT("AerondelAnim:"))) Anim = T.ToString().Mid(13);
 		{
-			FString Anim = TEXT("none");
-			for (const FName& T : C->ComponentTags) if (T.ToString().StartsWith(TEXT("AerondelAnim:"))) Anim = T.ToString().Mid(13);
 			const FVector MS = M->GetBounds().GetBox().GetSize();
 			UE_LOG(LogTemp, Log, TEXT("[Aerondel] RigDiag %s: mesh bounds %.1f x %.1f x %.1f, bind bone extent %.2f, posed bone extent %.2f (x%.2f), anim %s, fit scale %.5f"),
 				*M->GetName(), MS.X, MS.Y, MS.Z, RefExtent, Posed, Posed / RefExtent, *Anim, K);
 		}
-		if (Ratio > 0.7 && Ratio < 1.45) Ratio = 1.0;
-		// Absolute upright check. Interchange often bakes the glTF Y-up -> Z-up turn into BOTH the bind pose and the clips,
-		// so comparing posed vs bind pose sees no difference while the body still lies on its back. Instead measure the
-		// humanoid's own up direction (feet -> head bones) in component space and turn it to +Z. Quadrupeds (no hand/arm
-		// bones) keep the old relative check, since their head points forward, not up.
-		FQuat Fix = FQuat::Identity;
-		const FReferenceSkeleton& Ref = M->GetRefSkeleton();
-		const TArray<FTransform>& Cs = C->GetComponentSpaceTransforms();
-		const int32 N = Ref.GetNum();
-		FString How = TEXT("none");
-		if (N >= 3 && Cs.Num() == N)
+		// Folded / bunched clip: posed skeleton collapses vs the bind pose. Drop the clip rather than
+		// leave a crumpled body. The bind-pose upright rotation already on the component is kept.
+		if (Ratio < 0.35 && Anim != TEXT("bindpose"))
 		{
-			int32 Head = INDEX_NONE; bool bHands = false; FVector Feet = FVector::ZeroVector; int32 NF = 0;
-			for (int32 i = 0; i < N; ++i)
-			{
-				const FString B = Ref.GetBoneName(i).ToString().ToLower();
-				if (B.Contains(TEXT("hand")) || B.Contains(TEXT("arm"))) bHands = true;
-				if (Head == INDEX_NONE && B.Contains(TEXT("head")) && !B.Contains(TEXT("end")) && !B.Contains(TEXT("top"))) Head = i;
-				if (B.Contains(TEXT("foot")) || B.Contains(TEXT("toe")) || B.Contains(TEXT("ankle"))) { Feet += Cs[i].GetLocation(); ++NF; }
-			}
-			FVector CP = FVector::ZeroVector; for (int32 i = 0; i < N; ++i) CP += Cs[i].GetLocation(); CP /= N;
-			if (bHands && Head != INDEX_NONE)
-			{
-				const FVector Up = (Cs[Head].GetLocation() - (NF ? Feet / NF : CP)).GetSafeNormal();
-				if (!Up.IsNearlyZero() && FVector::DotProduct(Up, FVector::UpVector) < 0.94) { Fix = FQuat::FindBetweenNormals(Up, FVector::UpVector); How = TEXT("humanoid head"); }
-				else How = TEXT("humanoid ok");
-			}
-			else
-			{
-				TArray<FVector> R; R.SetNum(N);
-				const TArray<FTransform>& Local = Ref.GetRefBonePose();
-				TArray<FTransform> T; T.SetNum(N);
-				for (int32 i = 0; i < N; ++i) { const int32 P = Ref.GetParentIndex(i); T[i] = P >= 0 ? Local[i] * T[P] : Local[i]; R[i] = T[i].GetLocation(); }
-				int32 H = 0; FVector CR = FVector::ZeroVector;
-				for (int32 i = 0; i < N; ++i) { if (R[i].Z > R[H].Z) H = i; CR += R[i]; }
-				CR /= N;
-				const FVector RefUp = (R[H] - CR).GetSafeNormal();
-				const FVector PosUp = (Cs[H].GetLocation() - CP).GetSafeNormal();
-				if (!RefUp.IsNearlyZero() && !PosUp.IsNearlyZero() && FVector::DotProduct(RefUp, PosUp) < 0.8) { Fix = FQuat::FindBetweenNormals(PosUp, RefUp); How = TEXT("vs bind pose"); }
-				else How = TEXT("quadruped ok");
-			}
-		}
-		if (Ratio == 1.0 && Fix.Equals(FQuat::Identity))
-		{
-			UE_LOG(LogTemp, Log, TEXT("[Aerondel] FitRig %s: no change needed (%s), scale %.5f, %d bones"), *M->GetName(), *How, K, N);
+			AerondelRigs::HoldRefPose(C, TEXT("posed skeleton bunched vs bind pose"));
+			C->TickAnimation(0.f, false);
+			C->RefreshBoneTransforms();
 			return;
 		}
+		if (Ratio > 0.7 && Ratio < 1.45) Ratio = 1.0;
+		if (Ratio == 1.0) return;
+		// glTF clips often carry a x100 armature scale the bind-pose bounds don't see.
 		const double K2 = K / Ratio;
-		const FQuat Rot = FRotator(0, AerondelRigs::Yaw, 0).Quaternion() * Fix;
 		C->SetRelativeScale3D(FVector(K2));
-		C->SetRelativeRotation(Rot);
-		if (Fix.Equals(FQuat::Identity)) C->SetRelativeLocation(FVector(0, 0, -HalfHeight - MinZ * K2 * Ratio));
-		else
-		{
-			double Low = TNumericLimits<double>::Max();
-			for (const FTransform& T : Cs) Low = FMath::Min(Low, Rot.RotateVector(T.GetLocation() * K2).Z);
-			C->SetRelativeLocation(FVector(0, 0, -HalfHeight - Low + 4.0)); // lowest bone is the ankle/toe: ~4 cm above the sole
-		}
-		UE_LOG(LogTemp, Log, TEXT("[Aerondel] FitRig %s: posed x%.2f of bind pose, scale %.5f -> %.5f, upright fix %.0f deg (%s)"), *M->GetName(), Ratio, K, K2, FMath::RadiansToDegrees(Fix.GetAngle()), *How);
+		const TArray<FTransform>& Cs = C->GetComponentSpaceTransforms();
+		double Low = TNumericLimits<double>::Max();
+		for (const FTransform& T : Cs) Low = FMath::Min(Low, Rot.RotateVector(T.GetLocation() * K2).Z);
+		if (Low < TNumericLimits<double>::Max() / 2)
+			C->SetRelativeLocation(FVector(0, 0, -HalfHeight - Low + 4.0));
+		UE_LOG(LogTemp, Log, TEXT("[Aerondel] FitRig %s: posed x%.2f of bind pose, scale %.5f -> %.5f"), *M->GetName(), Ratio, K, K2);
 	};
 	Correct();
 	Comp->GetWorld()->GetTimerManager().SetTimerForNextTick(FTimerDelegate::CreateLambda(Correct));
+	return true;
 }
 
 double UAerondelModelLibrary::BoneExtent(const USkeletalMesh* Mesh, const USkeletalMeshComponent* Posed)
