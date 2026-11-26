@@ -114,7 +114,17 @@ class _UObject:
     def add_component(self, *a, **k):
         return _UObject()
 
-    def rerun_construction_scripts(self):
+    # Intentionally no rerun_construction_scripts: UE 5.8 Python Actor lacks it.
+    def post_edit_change(self, *a, **k):
+        self._props["post_edit_change"] = True
+
+    def get_world_settings(self):
+        return self
+
+    def set_actor_hidden_in_game(self, *a, **k):
+        pass
+
+    def set_text(self, *a, **k):
         pass
 
     def setup(self, *a, **k):
@@ -158,15 +168,6 @@ class _UObject:
 
     def __getitem__(self, i):
         return self
-
-    def __getattr__(self, name):
-        if name.startswith("_"):
-            raise AttributeError(name)
-
-        def _fn(*a, **k):
-            return self
-
-        return _fn
 
 
 def _uclass(name):
@@ -747,6 +748,69 @@ class EditorBuilders(unittest.TestCase):
         _assert_recorded_paths_valid(self)
         # A create_asset / load_or_create / geom create should have actually produced objects.
         self.assertTrue(CREATED_ASSETS, "expected the mock to create at least one asset")
+        # Spawned actors (including AerondelMob) must not grow a fake rerun_construction_scripts.
+        import unreal
+        mob = unreal.AerondelMob()
+        self.assertFalse(hasattr(mob, "rerun_construction_scripts"))
+
+    def test_refresh_actor_fallbacks_when_rerun_is_missing(self):
+        """UE 5.8: Actor.rerun_construction_scripts is absent; refresh_actor must not crash."""
+        util, *_ = _import_builders()
+        import unreal
+
+        class Bare:
+            pass
+
+        self.assertFalse(hasattr(Bare(), "rerun_construction_scripts"))
+        self.assertFalse(util.refresh_actor(Bare()))  # no-op
+        self.assertFalse(util.refresh_actor(None))
+
+        class WithRerun:
+            def __init__(self):
+                self.called = []
+
+            def rerun_construction_scripts(self):
+                self.called.append("rerun")
+
+        a = WithRerun()
+        self.assertTrue(util.refresh_actor(a))
+        self.assertEqual(a.called, ["rerun"])
+
+        class WithPost:
+            def __init__(self):
+                self.called = []
+
+            def post_edit_change(self):
+                self.called.append("post")
+
+        a = WithPost()
+        self.assertFalse(hasattr(a, "rerun_construction_scripts"))
+        self.assertTrue(util.refresh_actor(a))
+        self.assertEqual(a.called, ["post"])
+
+        # Default mock actors also lack rerun; post_edit_change is the fallback.
+        actor = unreal.AerondelMob()
+        self.assertFalse(hasattr(actor, "rerun_construction_scripts"))
+        self.assertTrue(util.refresh_actor(actor))
+        self.assertTrue(actor._props.get("post_edit_change"))
+
+    def test_no_direct_rerun_construction_scripts_outside_util(self):
+        """Builders must go through refresh_actor, not call the missing 5.8 method directly."""
+        for name in os.listdir(PY):
+            if not name.endswith(".py") or name == "aerondel_util.py":
+                continue
+            with open(os.path.join(PY, name), encoding="utf-8") as fh:
+                src = fh.read()
+            self.assertNotIn(
+                ".rerun_construction_scripts(", src,
+                "%s still calls rerun_construction_scripts directly" % name,
+            )
+        with open(os.path.join(PY, "aerondel_util.py"), encoding="utf-8") as fh:
+            util_src = fh.read()
+        self.assertIn("def refresh_actor", util_src)
+        with open(os.path.join(PY, "build_starter_town.py"), encoding="utf-8") as fh:
+            town = fh.read()
+        self.assertIn("refresh_actor(", town)
 
 
 if __name__ == "__main__":

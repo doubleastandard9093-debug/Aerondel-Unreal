@@ -67,7 +67,7 @@ def wander_cm(roam_m):
 # ---------------------------------------------------------------- editor side
 def build(world, small=False):
     import build_starter_town as bst
-    from aerondel_util import mat
+    from aerondel_util import mat, try_call
     data = load(unreal.Paths.project_content_dir())
     nodes, mobs = plan(data, small)
     shapes = {"CONE": bst.CONE, "SPHERE": bst.SPHERE, "CYL": bst.CYL}
@@ -77,11 +77,11 @@ def build(world, small=False):
         c = a.static_mesh_component
         c.set_static_mesh(bst.mesh(bst.CYL, False))
         c.set_world_scale3d(unreal.Vector(dia, dia, h))
-        c.set_collision_enabled(unreal.CollisionEnabled.QUERY_ONLY)
-        c.set_collision_response_to_all_channels(unreal.CollisionResponseType.ECR_IGNORE)
-        c.set_collision_response_to_channel(unreal.CollisionChannel.ECC_PAWN, unreal.CollisionResponseType.ECR_BLOCK)
+        try_call(c, "set_collision_enabled", unreal.CollisionEnabled.QUERY_ONLY)
+        try_call(c, "set_collision_response_to_all_channels", unreal.CollisionResponseType.ECR_IGNORE)
+        try_call(c, "set_collision_response_to_channel", unreal.CollisionChannel.ECC_PAWN, unreal.CollisionResponseType.ECR_BLOCK)
         c.set_editor_property("can_ever_affect_navigation", True)  # carves the navmesh: click-to-move never paths across water
-        a.set_actor_hidden_in_game(True)
+        try_call(a, "set_actor_hidden_in_game", True)
         bst.label(a, name, "Water")
 
     made_nodes = 0
@@ -95,8 +95,8 @@ def build(world, small=False):
         m = a.get_editor_property("mesh")
         bst.set_mesh(m, shapes[shape], scale, mat("Node_" + n["type"], rgb, 0.3 if n["type"] == "fish" else 0.8), rel=(0, 0, relz))
         if n["type"] == "fish":
-            m.set_collision_profile_name("OverlapAllDynamic")  # never blocks walking; still clickable
-            m.set_collision_response_to_channel(unreal.CollisionChannel.ECC_VISIBILITY, unreal.CollisionResponseType.ECR_BLOCK)
+            try_call(m, "set_collision_profile_name", "OverlapAllDynamic")  # never blocks walking; still clickable
+            try_call(m, "set_collision_response_to_channel", unreal.CollisionChannel.ECC_VISIBILITY, unreal.CollisionResponseType.ECR_BLOCK)
             m.set_editor_property("can_ever_affect_navigation", False)
         a.set_editor_property("range", FISH_RANGE_CM if n["type"] == "fish" else rng)
         bst.label(a, "%s (%s)" % ("Fishing spot" if n["type"] == "fish" else n["kind"], n["def"]), folder)
