@@ -49,7 +49,15 @@ def _set(obj, **kv):
 def _pipeline(skeletal):
     """Interchange generic pipeline: skeletal mesh + all animations into one per-rig skeleton (each rig imports into its
     own folder, so the skeleton is shared by that rig's mesh and clips), smooth recomputed normals, no Nanite, no
-    per-asset materials explosion (one material per glTF material)."""
+    per-asset materials explosion (one material per glTF material).
+
+    Axis / scale: the glTF translator already maps glTF Y-up to UE Z-up. Quaternius/Kenney files still
+    carry a CharacterArmature node at -90 deg X with scale 100 that is *not* a skin joint; bake_meshes
+    folds that node into the skeletal mesh and its clips so bind pose and animations share one space.
+    use_t0_as_ref_pose stays OFF: these glTFs list Death as animation[0], so T0 would rebind the mesh
+    to a corpse pose (bent, looking at the sky). force_front_x_axis / convert_scene are set when the
+    property exists (FBX-style translators); _set no-ops them on glTF.
+    """
     p = unreal.InterchangeGenericAssetsPipeline()
     mesh = p.get_editor_property("mesh_pipeline")
     _set(mesh, import_static_meshes=not skeletal, import_skeletal_meshes=skeletal, combine_skeletal_meshes=True,
@@ -57,11 +65,14 @@ def _pipeline(skeletal):
          recompute_tangents=True, use_mikk_t_space=True, compute_weighted_normals=True, generate_lightmap_u_vs=not skeletal)
     common = p.get_editor_property("common_meshes_properties")
     _set(common, recompute_normals=True, recompute_tangents=True, use_mikk_t_space=True, compute_weighted_normals=True,
-         keep_sections_separate=False)
+         keep_sections_separate=False, bake_meshes=True, bake_pivot_meshes=True)
     common_sk = p.get_editor_property("common_skeletal_meshes_and_animations_properties")
-    _set(common_sk, import_only_animations=False, convert_static_mesh_to_skeletal_mesh=False)
+    _set(common_sk, import_only_animations=False, convert_static_mesh_to_skeletal_mesh=False,
+         use_t0_as_ref_pose=False, try_auto_select_skeleton=True)
     anim = p.get_editor_property("animation_pipeline")
     _set(anim, import_animations=skeletal, import_bone_tracks=True, import_custom_attribute=False)
+    # Present on FBX import data / some pipeline versions; ignored when missing.
+    _set(p, convert_scene=True, convert_scene_unit=True, force_front_x_axis=True)
     return p
 
 
@@ -121,6 +132,48 @@ def tune_mesh(path):
     except Exception:
         pass
     unreal.EditorAssetLibrary.save_loaded_asset(m)
+
+
+def _additive_none():
+    enum = getattr(unreal, "AdditiveAnimationType", None) or getattr(unreal, "EAdditiveAnimationType", None)
+    if enum is None:
+        return 0
+    return getattr(enum, "AAT_NONE", None) or getattr(enum, "NONE", 0)
+
+
+def tune_anims(folder, mesh_path):
+    """Point every imported clip at the folder's skeleton and strip additive mode.
+
+    A clip imported against a different skeleton (or marked additive with no base pose) is what
+    folds the Adventurer into a bunched, sky-facing pose at runtime. Missing properties are skipped.
+    """
+    mesh = unreal.load_asset(mesh_path) if mesh_path else None
+    skel = None
+    if mesh:
+        try:
+            skel = mesh.get_editor_property("skeleton")
+        except Exception:
+            skel = getattr(mesh, "skeleton", None)
+    none = _additive_none()
+    for a in assets_in(folder):
+        if _cls(a) != "AnimSequence":
+            continue
+        seq = unreal.load_asset(obj_path(a))
+        if not seq:
+            continue
+        if skel:
+            try:
+                seq.set_editor_property("skeleton", skel)
+            except Exception:
+                pass
+        try:
+            seq.set_editor_property("additive_anim_type", none)
+        except Exception:
+            pass
+        try:
+            unreal.EditorAssetLibrary.save_loaded_asset(seq)
+        except Exception:
+            pass
 
 
 # Extra import-only throttles for 128 MB iGPUs (2 s TDR): no parallel compiles, small texture pool, no realtime thumbnails.
@@ -239,6 +292,8 @@ def _write_rigs(root, rigs):
             rigs[alias] = rigs[target]
     out = {
         "yaw": rmap.get("yaw", -90),
+        "pitch": rmap.get("pitch", 0),
+        "roll": rmap.get("roll", 0),
         "rigs": rigs,
         "player": rmap.get("player", "adventurer"),
         "monsters": {k: v for k, v in rmap.get("monsters", {}).items() if v in rigs},
@@ -294,6 +349,8 @@ def run(batch=None):
                     tune_mesh(mesh)
                     imported += 1
                     _flush()
+                if mesh:
+                    tune_anims(folder, mesh)
                 done.add("%s/%s" % (g, f))
                 _save_done(done)
                 states = {s: pick(anims, s) for s in CLIP}

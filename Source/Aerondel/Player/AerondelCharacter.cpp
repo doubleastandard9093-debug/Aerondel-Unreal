@@ -207,13 +207,21 @@ void AAerondelCharacter::BeginPlay()
 	if (USkeletalMeshComponent* Sk = GetMesh())
 	{
 		bRigged = UAerondelModelLibrary::ApplyRig(Sk, TEXT("player"));
+		if (bRigged && !UAerondelModelLibrary::FitRig(Sk, 178.f, GetCapsuleComponent()->GetUnscaledCapsuleHalfHeight()))
+		{
+			UAerondelModelLibrary::ClearRig(Sk);
+			bRigged = false;
+		}
 		UE_LOG(LogTemp, Log, TEXT("[Aerondel] Spawn player %s: rig %s"), *GetName(), bRigged ? TEXT("applied") : TEXT("FAILED, placeholder body"));
 		if (bRigged)
 		{
-			UAerondelModelLibrary::FitRig(Sk, 178.f, GetCapsuleComponent()->GetUnscaledCapsuleHalfHeight());
 			Sk->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 			if (PlaceholderBody) PlaceholderBody->SetVisibility(false);
 			GetWorldTimerManager().SetTimer(GearTintTimer, this, &AAerondelCharacter::RefreshGearTint, 1.f, true);
+		}
+		else if (PlaceholderBody)
+		{
+			PlaceholderBody->SetVisibility(true);
 		}
 	}
 }
