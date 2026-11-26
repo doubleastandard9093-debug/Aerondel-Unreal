@@ -65,24 +65,29 @@ def wander_cm(roam_m):
 
 
 # ---------------------------------------------------------------- editor side
-def build(world, small=False):
+def build(world, small=False, nodes=None, mobs=None, shores=True):
     import build_starter_town as bst
     from aerondel_util import mat, try_call
     data = load(unreal.Paths.project_content_dir())
-    nodes, mobs = plan(data, small)
+    all_nodes, all_mobs = plan(data, small)
+    if nodes is None:
+        nodes = all_nodes
+    if mobs is None:
+        mobs = all_mobs
     shapes = {"CONE": bst.CONE, "SPHERE": bst.SPHERE, "CYL": bst.CYL}
 
-    for name, x, z, dia, h in shore_blockers(world):
-        a = bst.spawn(unreal.StaticMeshActor, bst.V(x, h / 2, z))
-        c = a.static_mesh_component
-        c.set_static_mesh(bst.mesh(bst.CYL, False))
-        c.set_world_scale3d(unreal.Vector(dia, dia, h))
-        try_call(c, "set_collision_enabled", unreal.CollisionEnabled.QUERY_ONLY)
-        try_call(c, "set_collision_response_to_all_channels", unreal.CollisionResponseType.ECR_IGNORE)
-        try_call(c, "set_collision_response_to_channel", unreal.CollisionChannel.ECC_PAWN, unreal.CollisionResponseType.ECR_BLOCK)
-        c.set_editor_property("can_ever_affect_navigation", True)  # carves the navmesh: click-to-move never paths across water
-        try_call(a, "set_actor_hidden_in_game", True)
-        bst.label(a, name, "Water")
+    if shores:
+        for name, x, z, dia, h in shore_blockers(world):
+            a = bst.spawn(unreal.StaticMeshActor, bst.V(x, h / 2, z))
+            c = a.static_mesh_component
+            c.set_static_mesh(bst.mesh(bst.CYL, False))
+            c.set_world_scale3d(unreal.Vector(dia, dia, h))
+            try_call(c, "set_collision_enabled", unreal.CollisionEnabled.QUERY_ONLY)
+            try_call(c, "set_collision_response_to_all_channels", unreal.CollisionResponseType.ECR_IGNORE)
+            try_call(c, "set_collision_response_to_channel", unreal.CollisionChannel.ECC_PAWN, unreal.CollisionResponseType.ECR_BLOCK)
+            c.set_editor_property("can_ever_affect_navigation", True)  # carves the navmesh: click-to-move never paths across water
+            try_call(a, "set_actor_hidden_in_game", True)
+            bst.label(a, name, "Water")
 
     made_nodes = 0
     for n in nodes:

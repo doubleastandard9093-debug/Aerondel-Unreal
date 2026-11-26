@@ -43,6 +43,8 @@ class _UObject:
         if k not in self._props:
             if k == "tint":
                 self._props[k] = types.SimpleNamespace(r=0.5, g=0.4, b=0.3)
+            elif k == "tags":
+                self._props[k] = []
             elif k in ("mesh", "depleted_mesh", "static_mesh_component", "text_render",
                        "root_component", "default_key_mappings"):
                 self._props[k] = _UObject()
@@ -302,10 +304,15 @@ def _install_unreal():
             pass
 
     class _Actors:
+        def __init__(self):
+            self.level_actors = []
+
         def get_all_level_actors(self):
-            return []
+            return list(self.level_actors)
 
         def destroy_actor(self, a):
+            if a in self.level_actors:
+                self.level_actors.remove(a)
             return True
 
         def spawn_actor_from_class(self, cls, loc, rot=None):
@@ -314,6 +321,7 @@ def _install_unreal():
             except Exception:
                 a = _UObject()
             a.static_mesh_component = a
+            self.level_actors.append(a)
             return a
 
     class _Subsys:
@@ -546,7 +554,7 @@ _BUILDER_MODULES = (
     "build_relic_dungeon", "build_aerondel_regions", "world_placements",
     "create_input_assets", "generate_starter_data", "build_high_fidelity",
     "build_festival_decor", "aerondel_all", "build_realism_materials",
-    "import_lite_models", "build_character_lods",
+    "import_lite_models", "build_character_lods", "aerondel_laptop",
 )
 
 
@@ -811,6 +819,176 @@ class EditorBuilders(unittest.TestCase):
         with open(os.path.join(PY, "build_starter_town.py"), encoding="utf-8") as fh:
             town = fh.read()
         self.assertIn("refresh_actor(", town)
+
+    def test_open_or_create_map_clear_false_keeps_actors(self):
+        util, *_ = _import_builders()
+        import unreal
+        levels = unreal._Subsys.levels
+        actors = unreal._Subsys.actors
+        path = "/Game/Gielinor/Maps/World"
+        unreal._EAL.existing.clear()
+        levels.loaded.clear(); levels.created.clear()
+        self.assertTrue(util.open_or_create_map(path, levels))
+        marker = actors.spawn_actor_from_class(unreal.StaticMeshActor, (0, 0, 0))
+        self.assertIn(marker, actors.level_actors)
+        levels.loaded.clear(); levels.created.clear()
+        self.assertTrue(util.open_or_create_map(path, levels, clear=False))
+        self.assertIn(marker, actors.level_actors)
+        self.assertEqual(levels.created, [])
+        levels.loaded.clear(); levels.created.clear()
+        self.assertTrue(util.open_or_create_map(path, levels, clear=True))
+        self.assertNotIn(marker, actors.level_actors)
+
+    def test_laptop_chunks_cover_every_region_and_placement(self):
+        _import_builders()
+        import aerondel_laptop as laptop
+        import world_placements as wp
+        w = _world_json()
+        with open(os.path.join(DATA, "placements.json"), encoding="utf-8") as fh:
+            placements = json.load(fh)
+        nodes, mobs = wp.plan(placements, small=False)
+        regions = list(w.get("regions") or [])
+        ids = laptop.chunk_ids(len(regions), len(nodes), len(mobs))
+        self.assertIn("setup", ids)
+        self.assertIn("world_base", ids)
+        self.assertIn("shores", ids)
+        self.assertIn("finalize", ids)
+        self.assertTrue(any(i.startswith("regions_") for i in ids))
+        self.assertTrue(any(i.startswith("placements_") for i in ids))
+        r_sl = laptop.region_slices(regions)
+        self.assertEqual(sum(len(s) for s in r_sl), len(regions))
+        p_sl = laptop.placement_slices(nodes, mobs)
+        self.assertEqual(sum(len(n) + len(m) for n, m in p_sl), len(nodes) + len(mobs))
+        self.assertEqual(len(r_sl), len([i for i in ids if i.startswith("regions_")]))
+        self.assertEqual(len(p_sl), len([i for i in ids if i.startswith("placements_")]))
+        # Gameplay coverage is complete (not the 4s small-test cap).
+        self.assertGreaterEqual(len(regions), 14)
+        self.assertGreaterEqual(len(nodes), 200)
+        self.assertGreaterEqual(len(mobs), 100)
+
+    def _clear_laptop_files(self):
+        saved = os.path.join(ROOT, "Saved")
+        os.makedirs(saved, exist_ok=True)
+        for name in ("AerondelLaptopProgress.json", "AerondelWorldBuild.json"):
+            path = os.path.join(saved, name)
+            if os.path.exists(path):
+                os.remove(path)
+
+    def test_laptop_build_and_resume(self):
+        """Mock run of 0L: skips high-fidelity, writes a laptop marker, resumes skipped chunks."""
+        util, blockout, *_ = _import_builders()
+        import time
+        time.sleep = lambda *a, **k: None
+        import aerondel_laptop as laptop
+        import aerondel_all
+        import build_high_fidelity
+        self._clear_laptop_files()
+
+        hf_calls = []
+        orig_hf = build_high_fidelity.run
+        build_high_fidelity.run = lambda *a, **k: hf_calls.append(True)
+
+        orig_all = aerondel_all.run
+        all_flags = []
+
+        def wrapped_all(include_high_fidelity=True):
+            all_flags.append(include_high_fidelity)
+            return orig_all(include_high_fidelity=include_high_fidelity)
+
+        import importlib
+        orig_reload = importlib.reload
+
+        def reload(m):
+            out = orig_reload(m)
+            if getattr(out, "__name__", None) == "aerondel_all":
+                out.run = wrapped_all
+            return out
+
+        importlib.reload = reload
+        laptop.importlib.reload = reload
+        aerondel_all.run = wrapped_all
+        laptop.aerondel_all.run = wrapped_all
+
+        laptop.run()
+        self.assertEqual(hf_calls, [])
+        self.assertEqual(all_flags, [False])
+        prog_path = os.path.join(ROOT, "Saved", "AerondelLaptopProgress.json")
+        mark_path = os.path.join(ROOT, "Saved", "AerondelWorldBuild.json")
+        with open(prog_path, encoding="utf-8") as fh:
+            progress = json.load(fh)
+        with open(mark_path, encoding="utf-8") as fh:
+            marker = json.load(fh)
+        self.assertEqual(progress["status"], "complete")
+        import world_placements as wp
+        nodes, mobs = wp.plan(wp.load(os.path.join(ROOT, "Content") + os.sep), small=False)
+        w = blockout.load_world()
+        ids = laptop.chunk_ids(len(w.get("regions") or []), len(nodes), len(mobs))
+        self.assertEqual(progress["done"], ids)
+        self.assertEqual(marker["mode"], "laptop")
+        self.assertTrue(marker.get("laptop"))
+        self.assertEqual(marker["nodes"], len(nodes))
+        self.assertEqual(marker["mobs"], len(mobs))
+        self.assertIn("high_fidelity", marker.get("skipped") or [])
+
+        # Resume: pretend only setup + world_base finished; world_base must not run again.
+        progress["status"] = "in_progress"
+        progress["done"] = ["setup", "world_base"]
+        progress["in_progress"] = "regions_00"
+        with open(prog_path, "w", encoding="utf-8") as fh:
+            json.dump(progress, fh)
+        if os.path.exists(mark_path):
+            os.remove(mark_path)
+
+        base_calls = []
+        orig_base = blockout.build_world_base
+
+        def wrapped_base(*a, **k):
+            base_calls.append(True)
+            return orig_base(*a, **k)
+
+        blockout.build_world_base = wrapped_base
+        laptop.blockout.build_world_base = wrapped_base
+        all_flags.clear()
+        laptop.run()
+        self.assertEqual(base_calls, [])
+        self.assertEqual(all_flags, [])  # setup already done
+        with open(prog_path, encoding="utf-8") as fh:
+            progress = json.load(fh)
+        with open(mark_path, encoding="utf-8") as fh:
+            marker = json.load(fh)
+        self.assertEqual(progress["status"], "complete")
+        self.assertEqual(progress["done"], ids)
+        self.assertEqual(marker["mode"], "laptop")
+        self._clear_laptop_files()
+
+    def test_packager_allows_laptop_but_refuses_small(self):
+        with open(os.path.join(ROOT, "Tools", "package_win64.bat"), encoding="utf-8") as fh:
+            bat = fh.read()
+        self.assertIn("mode -eq 'laptop'", bat)
+        self.assertIn("mode -eq 'small'", bat)
+        self.assertIn("0L", bat)
+
+        def allowed(mode, nodes, mobs):
+            if nodes < 1 or mobs < 1 or mode == "small":
+                return False
+            return mode in ("full", "laptop")
+
+        self.assertTrue(allowed("laptop", 284, 159))
+        self.assertTrue(allowed("full", 284, 159))
+        self.assertFalse(allowed("small", 10, 10))
+        self.assertFalse(allowed("laptop", 0, 10))
+        self.assertFalse(allowed("partial", 284, 159))
+
+    def test_menu_lists_laptop_entry(self):
+        with open(os.path.join(PY, "init_unreal.py"), encoding="utf-8") as fh:
+            src = fh.read()
+        self.assertIn("BuildFullWorldLaptop", src)
+        self.assertIn("0L. BUILD FULL WORLD - LAPTOP", src)
+        self.assertIn("aerondel_full_world.run_laptop()", src)
+        with open(os.path.join(PY, "aerondel_full_world.py"), encoding="utf-8") as fh:
+            full = fh.read()
+        self.assertIn("def run_laptop", full)
+        self.assertIn("build_world_blockout.run(small=False)", full)
 
 
 if __name__ == "__main__":

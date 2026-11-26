@@ -7,7 +7,10 @@ import build_starter_town
 import build_high_fidelity
 
 
-def run():
-    for m in (create_input_assets, generate_starter_data, build_smooth_shapes, build_starter_town, build_high_fidelity):
+def run(include_high_fidelity=True):
+    steps = [create_input_assets, generate_starter_data, build_smooth_shapes, build_starter_town]
+    if include_high_fidelity:
+        steps.append(build_high_fidelity)
+    for m in steps:
         importlib.reload(m)
         m.run()

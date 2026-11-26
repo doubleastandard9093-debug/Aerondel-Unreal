@@ -60,6 +60,16 @@ def data(kind, name):
 def label(actor, text, folder):
     try_call(actor, "set_actor_label", text)
     try_call(actor, "set_folder_path", folder)
+    tag = safe.current_chunk_tag()
+    if tag and actor is not None:
+        try:
+            tags = list(actor.get_editor_property("tags") or [])
+            token = unreal.Name("laptop_chunk:" + tag)
+            if token not in tags and str(token) not in [str(x) for x in tags]:
+                tags.append(token)
+                actor.set_editor_property("tags", tags)
+        except Exception:  # noqa: BLE001
+            pass
     return actor
 
 

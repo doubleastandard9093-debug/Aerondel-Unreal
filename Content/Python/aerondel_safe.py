@@ -32,6 +32,7 @@ LOW_CVARS = {
 }
 
 _active = None
+_chunk_tag = None
 
 
 def _cmd(c):
@@ -65,7 +66,34 @@ def active():
 
 def save_dirty():
     """Save every dirty package (used between import batches)."""
-    unreal.EditorLoadingAndSavingUtils.save_dirty_packages(True, True)
+    try:
+        try_call(unreal.EditorLoadingAndSavingUtils, "save_dirty_packages", True, True)
+    except Exception as e:  # noqa: BLE001
+        unreal.log_warning("[Aerondel] save_dirty_packages failed: %s" % e)
+
+
+def current_chunk_tag():
+    """Laptop-build chunk id applied to newly labelled actors, or None."""
+    return _chunk_tag
+
+
+class chunk_scope:
+    """Tag every actor labelled inside this block with laptop_chunk:<name> for resumable rebuilds."""
+
+    def __init__(self, name):
+        self.name = name
+        self.prev = None
+
+    def __enter__(self):
+        global _chunk_tag
+        self.prev = _chunk_tag
+        _chunk_tag = self.name
+        return self
+
+    def __exit__(self, *a):
+        global _chunk_tag
+        _chunk_tag = self.prev
+        return False
 
 
 def tick(n=1):
@@ -93,14 +121,17 @@ class Cancelled(Exception):
 
 
 class SafeRun:
-    def __init__(self, title, total_frames=1, small=False, save_fn=None):
+    def __init__(self, title, total_frames=1, small=False, save_fn=None, cvar_overrides=None):
         self.title, self.total, self.small, self.save_fn = title, max(1, total_frames), small, save_fn
+        self.cvars = dict(LOW_CVARS)
+        if cvar_overrides:
+            self.cvars.update(cvar_overrides)
         self.count, self.since, self.cells, self.skipped, self.task, self.saved = 0, 0, {}, 0, None, {}
         self.cancelled = False
 
     def __enter__(self):
         global _active
-        for k, v in LOW_CVARS.items():
+        for k, v in self.cvars.items():
             self.saved[k] = _get(k)
             _cmd("%s %s" % (k, v))
         _set_realtime(False)
