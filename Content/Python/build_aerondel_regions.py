@@ -28,9 +28,11 @@ def _rgb(hexv):
     return ((h >> 16 & 255) / 255.0, (h >> 8 & 255) / 255.0, (h & 255) / 255.0)
 
 
-def build(w, density=1.0):
-    regions, biomes = w.get("regions", []), w.get("biomes", {})
-    for R in safe.limit(regions):
+def build(w, density=1.0, regions=None):
+    all_regions, biomes = w.get("regions", []), w.get("biomes", {})
+    if regions is None:
+        regions = list(safe.limit(all_regions))
+    for R in regions:
         b = biomes.get(R["biome"], {})
         rid, folder = R["name"].replace(" ", "_"), "Regions/" + R["name"]
         tint = b.get("map", b.get("tint", 0x808080))

@@ -6,6 +6,8 @@ MENU_OWNER = "AerondelTools"
 ENTRIES = [
     ("BuildFullWorld", "0. BUILD FULL GAME WORLD (all steps + whole World map)", "Runs 1-3 + smooth shapes + high fidelity, then the FULL World map with every tree, rock, fishing spot and monster. Use this before packaging.",
      "import aerondel_full_world, importlib; importlib.reload(aerondel_full_world); aerondel_full_world.run()"),
+    ("BuildFullWorldLaptop", "0L. BUILD FULL WORLD - LAPTOP (slim, low memory)", "Same complete world (every town, region, tree, rock, fish, monster) in saved, resumable chunks. Low editor scalability, no high-fidelity/realism/decor/HLOD. For 8 GB / Intel UHD laptops. Re-run to resume after a crash.",
+     "import aerondel_full_world, importlib; importlib.reload(aerondel_full_world); aerondel_full_world.run_laptop()"),
     ("CreateInputAssets", "1. Create Input Assets", "Enhanced Input actions + desktop/XR mapping contexts",
      "import create_input_assets, importlib; importlib.reload(create_input_assets); create_input_assets.run()"),
     ("GenerateStarterData", "2. Generate Starter Data", "Skills, items, nodes, recipes, NPCs, mobs, Granny's Pie, GameDatabase",
