@@ -25,6 +25,70 @@ def smooth_path(engine_path):
     return p if p and eal.does_asset_exist(p) else None
 
 
+def _first_attr(*owners_and_names):
+    """Return the first existing attribute among (owner, name) pairs. owner may be a module/class or a name on `unreal`."""
+    for owner, name in owners_and_names:
+        if isinstance(owner, str):
+            owner = getattr(unreal, owner, None)
+        if owner is None:
+            continue
+        fn = getattr(owner, name, None)
+        if fn is not None:
+            return fn
+    return None
+
+
+def _create_static_mesh_asset(dm, path, copts):
+    """UE 5.8 moved this off GeometryScript_AssetUtils onto GeometryScript_NewAssetUtils; try both, plus a _v2 alias."""
+    fn = _first_attr(
+        ("GeometryScript_NewAssetUtils", "create_new_static_mesh_asset_from_mesh_v2"),
+        ("GeometryScript_NewAssetUtils", "create_new_static_mesh_asset_from_mesh"),
+        ("GeometryScript_AssetUtils", "create_new_static_mesh_asset_from_mesh_v2"),
+        ("GeometryScript_AssetUtils", "create_new_static_mesh_asset_from_mesh"),
+    )
+    if fn is None:
+        raise AttributeError(
+            "create_new_static_mesh_asset_from_mesh* not on GeometryScript_NewAssetUtils or GeometryScript_AssetUtils"
+        )
+    return fn(dm, path, copts)
+
+
+def _append_bevel_cube(d, o, x, origin):
+    """Bevelled 100 cm cube. UE 5.8 has no append_rounded_rectangle_box; try older names, then box + optional bevel, then a plain box."""
+    P = getattr(unreal, "GeometryScript_Primitives", None)
+    fn = _first_attr(
+        (P, "append_rounded_rectangle_box"),
+        (P, "append_rounded_box"),
+        (P, "append_round_box"),
+    )
+    if fn:
+        return fn(d, o, x, 100.0, 100.0, 100.0, 3.0, 0, 0, 0, 3, origin)
+    box_fn = _first_attr((P, "append_box"), (d, "append_box"))
+    if not box_fn:
+        raise AttributeError("append_box / append_rounded_rectangle_box not available")
+    # Library style (mesh first) vs DynamicMesh method style.
+    try:
+        box_fn(d, o, x, 100.0, 100.0, 100.0, 0, 0, 0, origin)
+    except TypeError:
+        box_fn(o, x, 100.0, 100.0, 100.0, 0, 0, 0, origin)
+    bevel = _first_attr(
+        ("GeometryScript_MeshModeling", "apply_mesh_bevel"),
+        ("GeometryScript_MeshModeling", "apply_bevel"),
+        (P, "apply_mesh_bevel"),
+    )
+    if bevel:
+        try:
+            bevel(d, 3.0, 3)
+        except TypeError:
+            try:
+                bevel(d, 3.0)
+            except Exception:
+                pass
+        except Exception:
+            pass
+    return d
+
+
 def _build(name, append):
     G = unreal
     dm = G.DynamicMesh()
@@ -45,7 +109,7 @@ def _build(name, append):
     copts.set_editor_property("enable_recompute_tangents", True)
     copts.set_editor_property("enable_nanite", False)
     copts.set_editor_property("enable_collision", True)
-    res = G.GeometryScript_AssetUtils.create_new_static_mesh_asset_from_mesh(dm, path, copts)
+    res = _create_static_mesh_asset(dm, path, copts)
     sm = res[0] if isinstance(res, (tuple, list)) else res
     if not isinstance(sm, unreal.StaticMesh):
         raise RuntimeError("asset not created")
@@ -65,14 +129,14 @@ def _build(name, append):
 
 
 def run():
-    P = unreal.GeometryScript_Primitives
+    P = getattr(unreal, "GeometryScript_Primitives", None)
     C = unreal.GeometryScriptPrimitiveOriginMode.CENTER
     jobs = [
         ("SM_SmoothCylinder", lambda d, o, x: P.append_cylinder(d, o, x, 50.0, 100.0, 48, 1, True, C)),
         ("SM_SmoothSphere", lambda d, o, x: P.append_sphere_lat_long(d, o, x, 50.0, 20, 32, C)),
         ("SM_SmoothCone", lambda d, o, x: P.append_cone(d, o, x, 50.0, 0.0, 100.0, 48, 4, True, C)),
-        # 3 cm bevel with 3 rounding steps; builders only use it for props/walls up to ~8 m so the bevel never balloons.
-        ("SM_BevelCube", lambda d, o, x: P.append_rounded_rectangle_box(d, o, x, 100.0, 100.0, 100.0, 3.0, 0, 0, 0, 3, C)),
+        # 3 cm bevel with 3 rounding steps when the API exists; otherwise a centred 100 cm box (still replaces the engine cube).
+        ("SM_BevelCube", lambda d, o, x: _append_bevel_cube(d, o, x, C)),
     ]
     ok = 0
     for name, fn in jobs:
