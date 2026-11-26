@@ -9,7 +9,7 @@ import math
 import os
 import unreal
 import aerondel_safe as safe
-from aerondel_util import mat
+from aerondel_util import mat, try_call, save_level
 from build_starter_town import box, actors, CUBE, CYL, SPHERE, CONE
 
 FULL, LOW = 14, 6
@@ -40,20 +40,21 @@ def piece(E, i, x, z, folder, mats):
     for a in [p for p in parts if p]:
         tags = [unreal.Name("festival:" + E["id"])] + ([unreal.Name("festival_full")] if i >= LOW else [])
         a.set_editor_property("tags", tags)
-        a.static_mesh_component.set_editor_property("cast_shadow", False)
+        if getattr(a, "static_mesh_component", None):
+            a.static_mesh_component.set_editor_property("cast_shadow", False)
 
 
 def run():
     path = os.path.join(unreal.Paths.project_content_dir(), "Data", "events.json")
     events = json.load(open(path, encoding="utf-8"))["events"]
-    for a in actors.get_all_level_actors():
-        if str(a.get_folder_path()).startswith("Festival"):
-            actors.destroy_actor(a)
-    with safe.SafeRun("Festival decor", len(events), save_fn=unreal.EditorLevelLibrary.save_current_level) as task:
+    for a in (try_call(actors, "get_all_level_actors", default=None) or []):
+        if str(try_call(a, "get_folder_path", default="", warn=False) or "").startswith("Festival"):
+            try_call(actors, "destroy_actor", a)
+    with safe.SafeRun("Festival decor", len(events), save_fn=save_level) as task:
         for k, E in enumerate(events):
             task.frame(E["name"])
             _event(k, E)
-    unreal.EditorLevelLibrary.save_current_level()
+    save_level()
     unreal.log("[Aerondel] Festival decor placed for %d events (hidden at runtime unless the event is running)." % len(events))
 
 
