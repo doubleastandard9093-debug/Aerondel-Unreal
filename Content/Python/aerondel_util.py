@@ -74,3 +74,83 @@ def mat(name, rgb, rough=0.8, metal=0.0):
     save(mi)
     _MAT_CACHE[name] = mi
     return mi
+
+
+# ---------- maps ----------
+_KEEP_ACTOR_CLASSES = (
+    "WorldSettings", "WorldPartition", "WorldDataLayers", "AbstractNavData",
+    "WorldPartitionMiniMap", "LevelInstance",
+)
+
+
+def _class_name(actor):
+    try:
+        return actor.get_class().get_name()
+    except Exception:
+        return ""
+
+
+def clear_generated_level_actors():
+    """Destroy previously generated actors in the current level, keeping World Settings / partition bookkeeping."""
+    actors = unreal.get_editor_subsystem(unreal.EditorActorSubsystem)
+    for a in list(actors.get_all_level_actors() or []):
+        cls = _class_name(a)
+        if any(s in cls for s in _KEEP_ACTOR_CLASSES):
+            continue
+        try:
+            actors.destroy_actor(a)
+        except Exception:
+            pass
+
+
+def _try_load_level(levels, path):
+    """Best-effort load of an existing map. LevelEditorSubsystem.load_level is UE 5; fall back if the name differs."""
+    errors = []
+    for fn in (
+        lambda: levels.load_level(path),
+        lambda: getattr(levels, "load_map")(path) if hasattr(levels, "load_map") else None,
+        lambda: unreal.EditorLevelLibrary.load_level(path) if hasattr(unreal, "EditorLevelLibrary") else None,
+    ):
+        try:
+            result = fn()
+        except Exception as e:  # noqa: BLE001
+            errors.append(str(e))
+            continue
+        if result:
+            return True
+    if errors:
+        unreal.log_warning("[Aerondel] load_level(%s) failed: %s" % (path, "; ".join(errors[-2:])))
+    return False
+
+
+def open_or_create_map(path, levels, partitioned=False, create_partitioned=None):
+    """Open `path` if it already exists (and clear generated actors); otherwise create it.
+
+    Delete-then-NewLevel fails in UE once /Game/Gielinor/Maps/StarterTown (or World, RelicDungeon)
+    is already on disk. Loading and rebuilding actors is the idempotent path.
+    Returns True if the editor's current level is `path` and ready to spawn into.
+    """
+    if eal.does_asset_exist(path):
+        if _try_load_level(levels, path):
+            clear_generated_level_actors()
+            unreal.log("[Aerondel] Loaded existing " + path + " (rebuilding actors)")
+            return True
+        unreal.log_warning("[Aerondel] Could not load existing " + path + "; trying delete and recreate")
+        try:
+            eal.delete_asset(path)
+        except Exception as e:  # noqa: BLE001
+            unreal.log_warning("[Aerondel] delete_asset(%s) failed: %s" % (path, e))
+            if eal.does_asset_exist(path) and _try_load_level(levels, path):
+                clear_generated_level_actors()
+                return True
+            return False
+    if partitioned and create_partitioned:
+        return bool(create_partitioned(path, levels))
+    try:
+        ok = levels.new_level(path, True) if partitioned else levels.new_level(path)
+    except TypeError:
+        ok = levels.new_level(path)
+    if ok:
+        return True
+    unreal.log_error("[Aerondel] Could not create " + path)
+    return False

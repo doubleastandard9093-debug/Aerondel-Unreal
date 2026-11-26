@@ -7,7 +7,7 @@ NavMeshBoundsVolume, sun/sky/skylight/fog, PlayerStart. Saved to /Game/Gielinor/
 Run "Generate Starter Data" first.
 """
 import unreal
-from aerondel_util import ROOT, mat, eal
+from aerondel_util import ROOT, mat, eal, open_or_create_map
 import aerondel_safe as safe
 
 MAP = ROOT + "/Maps/StarterTown"
@@ -255,10 +255,9 @@ def environment():
 
 
 def run(small=False):
-    if eal.does_asset_exist(MAP):
-        eal.delete_asset(MAP)
-    if not levels.new_level(MAP):
-        unreal.log_error("[Aerondel] Could not create " + MAP)
+    # Idempotent: load the existing level and replace generated actors (NewLevel fails if the map already exists).
+    if not open_or_create_map(MAP, levels):
+        unreal.log_error("[Aerondel] Could not open or create " + MAP)
         return
 
     with safe.SafeRun("Building Larkhaven", 6, small=small, save_fn=levels.save_current_level) as task:
