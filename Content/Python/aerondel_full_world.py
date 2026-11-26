@@ -14,3 +14,10 @@ def run():
         importlib.reload(m)
     aerondel_all.run()                      # input assets, starter data, smooth shapes, StarterTown, high fidelity
     build_world_blockout.run(small=False)   # the whole web world + placements -> /Game/Gielinor/Maps/World
+
+
+def run_laptop():
+    """0L. Full gameplay coverage in saved, resumable chunks for a low-memory laptop. See aerondel_laptop.py."""
+    import aerondel_laptop
+    importlib.reload(aerondel_laptop)
+    aerondel_laptop.run()

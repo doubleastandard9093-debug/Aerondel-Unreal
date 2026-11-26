@@ -25,7 +25,7 @@ The in-game world is called **Aerondel**; every town, NPC, monster, item, skill,
 | UI | `UAerondelWidgetBase` → HUD / Inventory / Skills / QuestLog C++ bases for UMG; `AAerondelHUD` Canvas fallback so it's playable before any widget exists |
 | Save | `UAerondelSaveGame` + `UAerondelSaveSubsystem` (autosave every 60 s and on quit, content referenced by stable ids) |
 | Graphics | `UAerondelScalability` tiers Quest / Low / High / Ultra; desktop Lumen + Nanite + VSM + TSR; Quest mobile forward + MSAA 4x + multiview + Vulkan + foveation |
-| Editor | `Content/Python`: **Aerondel** menu with Create Input Assets, Generate Starter Data, Build Starter Town, Run All |
+| Editor | `Content/Python`: **Aerondel** menu with 0 / 0L (full or laptop world), Create Input Assets, Generate Starter Data, Build Starter Town, Run All |
 
 ## First-time setup (Windows PC)
 
@@ -101,6 +101,29 @@ tier shrinks the range at runtime (Android 160 m, Low 256 m, High 384 m, Ultra 5
 `AerondelScalability.cpp`. To grow the map, add coordinates to `Content/Data/world.json` and re-run
 the blockout; new areas stream automatically. Optional: Build > Build HLODs for distant proxies.
 If the log says the map isn't partitioned, open it and use Tools > Convert Level, then re-run.
+
+### Laptop / low-memory build (0L)
+
+On an 8 GB Intel UHD laptop (for example an ASUS Vivobook Go 15), use
+**Aerondel > 0L. BUILD FULL WORLD - LAPTOP (slim, low memory)** instead of **0**.
+
+It places the same complete world (every town, region, resource node and monster — gameplay works)
+but in saved, resumable chunks: after each chunk it saves the level and packages, collects garbage
+and drops references. Editor scalability is forced to Low for the session (`sg.* 0`,
+`r.ScreenPercentage 50`, `t.MaxFPS 30`, realtime viewport off, Lumen / VSM / volumetric fog / DFAO
+off via console only — no Default*.ini or Nanite changes) and restored afterwards. World Partition's
+editor loading range is lowered while placing and set back to the shipped 384 m range at the end.
+
+Optional heavy steps are skipped: high-fidelity and realism materials, festival decor, HLODs, and
+Lite model import unless you already ran **7** / **7b**. Decorative biome props use instanced meshes
+at lower density; gameplay placements are not thinned. The packager accepts a laptop build (`mode=laptop`
+in `Saved/AerondelWorldBuild.json`) with a log note about those skipped optionals; it still refuses
+the **4s** small-test map.
+
+Progress lives in `Saved/AerondelLaptopProgress.json`. If the editor crashes mid-way, run **0L**
+again — completed chunks are skipped and a partial in-flight chunk is retried. To start over, delete
+that progress file (and optionally the World map) and run **0L** again. Close other apps first; expect
+several GB of editor memory.
 
 ## Aerondel update (events, guilds, villages, quests)
 `Content/Data/aerondel_update.json` mirrors Lite's goblin village Snarlwick (190,40), ogre village Gorrumhold (-200,-30),
