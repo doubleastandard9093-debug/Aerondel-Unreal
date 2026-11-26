@@ -22,9 +22,9 @@ rem Refuse to package a World that is only the small test or has no gameplay pla
 rem Override (not recommended):  set AERONDEL_ALLOW_PARTIAL=1
 set "MARK=C:\Dev\Aerondel-Unreal\Saved\AerondelWorldBuild.json"
 if not "%AERONDEL_ALLOW_PARTIAL%"=="1" (
-  powershell -NoProfile -Command "$m = Get-Content -Raw '%MARK%' -ErrorAction Stop | ConvertFrom-Json; if ($m.mode -ne 'full' -or $m.nodes -lt 1 -or $m.mobs -lt 1) { Write-Host ('[Aerondel] World build is mode=' + $m.mode + ' nodes=' + $m.nodes + ' mobs=' + $m.mobs); exit 2 }" || (
+  powershell -NoProfile -Command "$m = Get-Content -Raw '%MARK%' -ErrorAction Stop | ConvertFrom-Json; if ($m.nodes -lt 1 -or $m.mobs -lt 1 -or $m.mode -eq 'small') { Write-Host ('[Aerondel] World build is mode=' + $m.mode + ' nodes=' + $m.nodes + ' mobs=' + $m.mobs); exit 2 }; if ($m.mode -eq 'laptop') { Write-Host '[Aerondel] Packaging a laptop world build (full coverage; high-fidelity materials, festival decor and HLODs were skipped).' }; if ($m.mode -ne 'full' -and $m.mode -ne 'laptop') { Write-Host ('[Aerondel] World build is mode=' + $m.mode); exit 2 }" || (
     echo [Aerondel] The World map is missing, partial ^(small test^) or has no trees/rocks/fishing/monsters.
-    echo [Aerondel] In the editor run  Aerondel ^> 0. BUILD FULL GAME WORLD  ^(or 4. Build World Blockout^), save, close the editor, then rerun this.
+    echo [Aerondel] In the editor run  Aerondel ^> 0. BUILD FULL GAME WORLD  or  0L. BUILD FULL WORLD - LAPTOP  ^(or 4. Build World Blockout^), save, close the editor, then rerun this.
     exit /b 2
   )
 )
