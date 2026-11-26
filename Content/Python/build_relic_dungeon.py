@@ -10,7 +10,7 @@ import os
 import random
 import unreal
 import aerondel_safe as safe
-from aerondel_util import ROOT, mat, eal
+from aerondel_util import ROOT, mat, eal, open_or_create_map
 from build_starter_town import box, label, actors, levels, spawn, V
 
 MAP = ROOT + "/Maps/RelicDungeon"
@@ -46,9 +46,9 @@ def _build(seed, site):
     theme = data["sites"][site]["theme"]
     rgb = lambda h: ((h >> 16 & 255) / 255.0, (h >> 8 & 255) / 255.0, (h & 255) / 255.0)
     floor, wall, accent = mat("Dungeon_Floor", rgb(theme["floor"])), mat("Dungeon_Wall", rgb(theme["wall"])), mat("Dungeon_Gate", rgb(theme["accent"]), 0.5, 0.3)
-    if eal.does_asset_exist(MAP):
-        eal.delete_asset(MAP)
-    levels.new_level(MAP)
+    if not open_or_create_map(MAP, levels):
+        unreal.log_error("[Aerondel] Could not open or create " + MAP)
+        return
     rng = random.Random(seed)
     rooms, links = layout(rng, 8, 1)
     gates = list(data["gates"].keys()); rng.shuffle(gates)
