@@ -146,16 +146,16 @@ void AAerondelMob::TryRig()
 AAIController* AAerondelMob::AI() const { return Cast<AAIController>(GetController()); }
 
 
-static bool MobHasNav(const UObject* W)
+static bool MobHasNav(const UWorld* W)
 {
 	const UNavigationSystemV1* Nav = FNavigationSystem::GetCurrent<UNavigationSystemV1>(W);
-	return Nav && Nav->GetDefaultNavDataInstance(FNavigationSystem::DontAutoCreate) != nullptr;
+	return Nav && Nav->GetDefaultNavDataInstance() != nullptr;
 }
 
 static void MobSteerOrPath(AAerondelMob* Mob, AAIController* C, const FVector& Dest, float Acceptance)
 {
 	if (!Mob || !C) return;
-	if (MobHasNav(Mob)) { C->MoveToLocation(Dest, Acceptance); return; }
+	if (MobHasNav(Mob->GetWorld())) { C->MoveToLocation(Dest, Acceptance); return; }
 	FVector To = Dest - Mob->GetActorLocation(); To.Z = 0.f;
 	if (To.SizeSquared() <= Acceptance * Acceptance) return;
 	Mob->AddMovementInput(To.GetSafeNormal(), 1.f);
@@ -276,7 +276,7 @@ void AAerondelMob::Tick(float Dt)
 		if (!T || IsLeashed(T)) { Target = nullptr; SetState(EMobState::Return); MobSteerOrPath(this, C, Home, 30.f); break; }
 		if (StunTicks > 0) { C->StopMovement(); break; }
 		if (FVector::Dist2D(T->GetActorLocation(), GetActorLocation()) < Definition->AttackRange) { C->StopMovement(); SetState(EMobState::Attack); break; }
-		if (MobHasNav(this)) C->MoveToActor(T, 120.f); else MobSteerOrPath(this, C, T->GetActorLocation(), 120.f);
+		if (MobHasNav(GetWorld())) C->MoveToActor(T, 120.f); else MobSteerOrPath(this, C, T->GetActorLocation(), 120.f);
 		break;
 	case EMobState::Attack:
 		if (!T || IsLeashed(T)) { Target = nullptr; SetState(EMobState::Return); MobSteerOrPath(this, C, Home, 30.f); break; }
@@ -288,7 +288,7 @@ void AAerondelMob::Tick(float Dt)
 	case EMobState::Return:
 		if (FVector::Dist2D(GetActorLocation(), Home) < 100.f || StateTime > 10.f)
 		{
-			if (!MobHasNav(this) && FVector::Dist2D(GetActorLocation(), Home) >= 100.f) SetActorLocation(Home, false, nullptr, ETeleportType::TeleportPhysics);
+			if (!MobHasNav(GetWorld()) && FVector::Dist2D(GetActorLocation(), Home) >= 100.f) SetActorLocation(Home, false, nullptr, ETeleportType::TeleportPhysics);
 			Health->Heal(Health->GetMax()); SetState(EMobState::Idle);
 		}
 		else MobSteerOrPath(this, C, Home, 30.f);
