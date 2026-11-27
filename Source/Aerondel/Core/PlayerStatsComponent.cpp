@@ -7,6 +7,7 @@
 #include "Inventory/EquipmentComponent.h"
 #include "Quests/QuestComponent.h"
 #include "Combat/HealthComponent.h"
+#include "Combat/AerondelFloatText.h"
 #include "Data/GameDatabase.h"
 #include "Features/VenturesFeature.h"
 #include "Data/ContentDefs.h"
@@ -237,7 +238,9 @@ bool UPlayerStatsComponent::Consume(int32 InventorySlot)
 		S->Inventory->RemoveFromSlot(InventorySlot, 1);
 		const int32 Before = S->Health->GetCurrent();
 		S->Health->Heal(UAerondelRules::HealAmount(S, Item));
-		Msg(FText::Format(LOCTEXT("Eat", "You eat the {0}. It heals {1} hitpoints."), Item->DisplayName, S->Health->GetCurrent() - Before));
+		const int32 Healed = S->Health->GetCurrent() - Before;
+		if (Healed > 0) AAerondelFloatText::ShowOn(S->GetPawn(), Healed, true);
+		Msg(FText::Format(LOCTEXT("Eat", "You eat the {0}. It heals {1} hitpoints."), Item->DisplayName, Healed));
 		if (UVenturesFeature* V = UVenturesFeature::Get(this)) V->RoadOnConsume(Item);
 		if (Item->BuffPrayer > 0)
 		{
@@ -434,6 +437,7 @@ void UPlayerStatsComponent::ApplyPlayerDamage(int32 Amount, AActor* Source)
 	if (Red > 0.f) Amount = FMath::Max(0, FMath::RoundToInt(Amount * FMath::Max(0.f, 1.f - Red)));
 	Amount = UVenturesFeature::FilterIncoming(this, Amount);
 	S->Health->ApplyDamage(Amount, Source);
+	AAerondelFloatText::ShowOn(S->GetPawn(), Amount, false);
 	UVenturesFeature::HookPlayerHurt(this, Amount);
 	if (UEconomyFeature* Econ = UEconomyFeature::Get(this)) Econ->OnPlayerHit();
 	if (S->Health->IsDead()) HandleDeath();

@@ -9,6 +9,8 @@
 #include "Bank/BankComponent.h"
 #include "Quests/QuestComponent.h"
 #include "Combat/HealthComponent.h"
+#include "Combat/PlayerCombatComponent.h"
+#include "Combat/AerondelMob.h"
 #include "Data/ItemDef.h"
 #include "Data/SkillDef.h"
 #include "Data/QuestDef.h"
@@ -270,6 +272,22 @@ void AAerondelHUD::DrawHUD()
 	if (const AAerondelPlayerController* PC = Cast<AAerondelPlayerController>(PlayerOwner))
 		if (!PC->GetHoverText().IsEmpty()) DrawText(PC->GetHoverText().ToString(), Yellow, 20, Y, Font, 1.2f);
 	Y += 28;
+	// Current combat target: name + HP bar (cheap canvas, all tiers).
+	if (APawn* Pawn = PlayerOwner->GetPawn())
+		if (const UPlayerCombatComponent* Cc = Pawn->FindComponentByClass<UPlayerCombatComponent>())
+			if (const AAerondelMob* Mob = Cc->GetTarget())
+			{
+				const int32 Hp = Mob->GetHp(), Mx = FMath::Max(1, Mob->GetMaxHp());
+				const float BarW = 240.f, BarH = 14.f;
+				const float BX = Canvas->ClipX * 0.5f - BarW * 0.5f, BY = 18.f;
+				const FString Nm = Mob->GetDisplayName().ToString();
+				DrawText(Nm, Yellow, BX, BY - 2.f, Font, 1.15f);
+				DrawRect(FLinearColor(0.f, 0.f, 0.f, 0.65f), BX, BY + 16.f, BarW, BarH);
+				const float Frac = FMath::Clamp(float(Hp) / float(Mx), 0.f, 1.f);
+				const FLinearColor BarC = Frac > 0.5f ? FLinearColor(0.25f, 0.8f, 0.3f) : Frac > 0.25f ? FLinearColor(0.95f, 0.75f, 0.15f) : FLinearColor(0.9f, 0.2f, 0.15f);
+				DrawRect(BarC, BX + 1.f, BY + 17.f, (BarW - 2.f) * Frac, BarH - 2.f);
+				DrawText(FString::Printf(TEXT("%d / %d"), Hp, Mx), White, BX + BarW + 8.f, BY + 14.f, Font);
+			}
 	DrawText(FString::Printf(TEXT("HP %d/%d   Combat %d   Total %d   QP %d"), PS->Health->GetCurrent(), PS->Health->GetMax(),
 		PS->Skills->CombatLevel(), PS->Skills->TotalLevel(), PS->Quests->QuestPoints()), White, 20, Y, Font);
 	Y += 22;

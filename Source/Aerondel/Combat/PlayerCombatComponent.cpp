@@ -2,6 +2,7 @@
 #include "Player/AerondelCharacter.h"
 #include "Combat/AerondelMob.h"
 #include "Combat/HealthComponent.h"
+#include "Combat/AerondelFloatText.h"
 #include "Core/AerondelPlayerState.h"
 #include "Core/PlayerStatsComponent.h"
 #include "Core/AerondelEvents.h"
@@ -212,7 +213,8 @@ void UPlayerCombatComponent::ApplyHex(AAerondelMob* Mob, USpellDef* Spell, int32
 	if (Spell->Hex == TEXT("rot")) { Mob->ApplyVenom(FMath::Max(4, FMath::RoundToInt(Spell->MaxHit * 0.2f))); Msg(FText::Format(LOCTEXT("Rot", "The {0} begins to rot."), Mob->GetDisplayName())); }
 	else if (Spell->Hex == TEXT("bind")) { Mob->Stun(4); Msg(FText::Format(LOCTEXT("Bind", "Roots of bog-rope bind the {0}!"), Mob->GetDisplayName())); }
 	else if (Spell->Hex == TEXT("wither")) { Mob->Wither(33); Msg(FText::Format(LOCTEXT("Wither", "The {0} withers. It hits softer."), Mob->GetDisplayName())); }
-	else if (Spell->Hex == TEXT("leech") && Dmg > 0) if (AAerondelPlayerState* S = PS()) S->Health->Heal(Dmg / 2);
+	else if (Spell->Hex == TEXT("leech") && Dmg > 0) if (AAerondelPlayerState* S = PS())
+	{ const int32 H = Dmg / 2; S->Health->Heal(H); if (H > 0) AAerondelFloatText::ShowOn(S->GetPawn(), H, true); }
 }
 
 void UPlayerCombatComponent::PlayerAttack(AAerondelMob* Mob, float Power)

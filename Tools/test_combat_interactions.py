@@ -114,6 +114,21 @@ op = body(S("UI/AerondelHUD.cpp"), "AAerondelHUD::OpenPanel(")
 if not op or "WristPanel" not in op:
     errs.append("OpenPanel should show the C++ panel on the VR wrist widget")
 
+# 8. Target HP bar + floating damage numbers (capped on Low).
+if "AAerondelFloatText" not in S("Combat/AerondelFloatText.h"):
+    errs.append("AAerondelFloatText missing")
+mob = S("Combat/AerondelMob.cpp")  # re-read after earlier mob = 
+if "AAerondelFloatText::ShowOn" not in mob:
+    errs.append("Mob hits should spawn floating damage numbers")
+if "{2}/{3}" not in S("Combat/AerondelMob.cpp") and "GetHp()" not in S("Combat/AerondelMob.cpp"):
+    errs.append("Mob nameplate should show current HP")
+if "GetTarget()" not in S("UI/AerondelHUD.cpp") or "BarW" not in S("UI/AerondelHUD.cpp"):
+    errs.append("HUD should draw a target HP bar for the current combat target")
+if "ShowOn(S->GetPawn(), Amount, false)" not in S("Core/PlayerStatsComponent.cpp"):
+    errs.append("Incoming player damage should spawn a floating number")
+if "bHeal" not in S("Combat/AerondelFloatText.h"):
+    errs.append("Floating heals need a green path")
+
 if errs:
     print("FAIL " + "\nFAIL ".join(errs))
     sys.exit(1)
