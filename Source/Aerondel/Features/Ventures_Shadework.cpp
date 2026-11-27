@@ -3,6 +3,7 @@
 #include "Core/AerondelPlayerState.h"
 #include "Inventory/EquipmentComponent.h"
 #include "Combat/AerondelMob.h"
+#include "Combat/AerondelMobRegistry.h"
 #include "Rules/AerondelRules.h"
 #include "EngineUtils.h"
 #include "Engine/World.h"
@@ -93,9 +94,9 @@ TArray<AAerondelMob*> UVenturesFeature::ShadeFoesNear(float RadiusM) const
 	const float Rcm = RadiusM * 100.f;
 	const AAerondelPlayerState* PS = GetPS();
 	AActor* Pawn = PS ? PS->GetPawn() : nullptr;
-	for (TActorIterator<AAerondelMob> It(W); It; ++It)
+	FAerondelMobList LiveMobs; AerondelMobs::Live(W, LiveMobs);
+	for (AAerondelMob* M : LiveMobs)
 	{
-		AAerondelMob* M = *It;
 		if (!M || M->IsDead()) continue;
 		if (Pawn && FVector::Dist2D(M->GetActorLocation(), Pawn->GetActorLocation()) <= Rcm) Out.Add(M);
 	}

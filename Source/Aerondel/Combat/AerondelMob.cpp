@@ -1,4 +1,5 @@
 #include "Combat/AerondelMob.h"
+#include "Combat/AerondelMobRegistry.h"
 #include "Combat/HealthComponent.h"
 #include "Rules/AerondelRules.h"
 #include "Core/PlayerStatsComponent.h"
@@ -92,9 +93,16 @@ void AAerondelMob::RefreshNameplate()
 	}
 }
 
+void AAerondelMob::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	if (UAerondelMobRegistry* Reg = UAerondelMobRegistry::GetFor(GetWorld())) Reg->UnregisterMob(this);
+	Super::EndPlay(EndPlayReason);
+}
+
 void AAerondelMob::BeginPlay()
 {
 	Super::BeginPlay();
+	if (UAerondelMobRegistry* Reg = UAerondelMobRegistry::GetFor(GetWorld())) Reg->RegisterMob(this);
 	if (!Definition && !DefinitionId.IsNone())
 	{
 		if (UGameDatabase* Db = UGameDatabase::Get()) Definition = Db->FindMob(DefinitionId);

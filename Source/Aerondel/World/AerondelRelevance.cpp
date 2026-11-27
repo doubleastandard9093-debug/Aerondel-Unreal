@@ -1,5 +1,6 @@
 #include "World/AerondelRelevance.h"
 #include "Combat/AerondelMob.h"
+#include "Combat/AerondelMobRegistry.h"
 #include "Interaction/NpcTalk.h"
 #include "Interaction/ResourceNode.h"
 #include "Player/AerondelCharacter.h"
@@ -42,9 +43,17 @@ void UAerondelRelevanceSubsystem::Tick(float Dt)
 		Apply(A, Band);
 		Bands.Add(A, (uint8)Band);
 	};
-	for (TActorIterator<AAerondelMob> It(W); It; ++It) Visit(*It, *It);
+	FAerondelMobList LiveMobs; AerondelMobs::Live(W, LiveMobs); // registry snapshot, no per-pass actor-hash walk
+	for (AAerondelMob* M : LiveMobs) Visit(M, M);
 	for (TActorIterator<ANpcTalk> It(W); It; ++It) Visit(*It, nullptr);
 	for (TActorIterator<AResourceNode> It(W); It; ++It) Visit(*It, nullptr);
+
+	if (++PrunePass >= 20)
+	{
+		PrunePass = 0;
+		for (auto It = Bands.CreateIterator(); It; ++It) if (!It.Key().IsValid()) It.RemoveCurrent();
+		for (auto It = BaseTick.CreateIterator(); It; ++It) if (!It.Key().IsValid()) It.RemoveCurrent();
+	}
 
 	if (Count[0] != LastLog[0] || Count[1] != LastLog[1] || Count[2] != LastLog[2])
 	{

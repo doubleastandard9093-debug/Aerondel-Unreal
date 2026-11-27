@@ -63,6 +63,7 @@ public:
 	UFUNCTION(BlueprintPure, Category="Mob") FText GetDisplayName() const;
 
 	virtual void BeginPlay() override;
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 	virtual void Tick(float Dt) override;
 	virtual void OnConstruction(const FTransform& Xf) override;
 
