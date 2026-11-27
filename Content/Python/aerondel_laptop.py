@@ -17,7 +17,7 @@ import build_world_blockout as blockout
 import build_aerondel_regions
 import world_placements
 import world_partition as wpart
-from build_starter_town import actors, levels
+from build_starter_town import actors, levels, rebuild_built_index
 
 PROGRESS_NAME = "AerondelLaptopProgress.json"
 REGION_CHUNK = 3
@@ -197,6 +197,7 @@ def run():
             blockout.MAP, blockout.levels, partitioned=True,
             create_partitioned=wpart.new_partitioned_level, clear=False,
         ):
+            rebuild_built_index()
             blockout.ensure_world_navmesh(float(w.get("worldHalf", 300)))
             try:
                 wpart.save_all()
@@ -264,6 +265,7 @@ def _run_chunks(w, nodes, mobs, regions, ids, r_slices, p_slices, progress, task
     ):
         unreal.log_error("[Aerondel] Could not open or create " + blockout.MAP)
         return False
+    rebuild_built_index()
     if wpart.is_partitioned():
         # Editor-session only: shrink streamed range while placing. Finalize writes the shipped range.
         try:

@@ -14,9 +14,93 @@
 #include "Rules/AerondelRules.h"
 #include "Features/VenturesFeature.h"
 #include "Components/StaticMeshComponent.h"
+#include "Engine/StaticMesh.h"
+#include "UObject/ConstructorHelpers.h"
 #include "TimerManager.h"
 
+
 #define LOCTEXT_NAMESPACE "AerondelResource"
+
+static UStaticMesh* BasicShape(const TCHAR* Path)
+{
+	return LoadObject<UStaticMesh>(nullptr, Path);
+}
+
+static bool IsEngineBasicShape(const UStaticMesh* Mesh)
+{
+	if (!Mesh) return true;
+	return Mesh->GetPathName().StartsWith(TEXT("/Engine/BasicShapes/"));
+}
+
+EResourceKind AResourceNode::GuessKind() const
+{
+	if (Definition) return Definition->Kind;
+	const FString Id = DefinitionId.ToString().ToLower();
+	if (Id.StartsWith(TEXT("fish"))) return EResourceKind::FishingSpot;
+	if (Id.StartsWith(TEXT("herb"))) return EResourceKind::HerbPatch;
+	if (Id.StartsWith(TEXT("rock")) || Id.Contains(TEXT("ore")) || Id.StartsWith(TEXT("mine"))) return EResourceKind::Rock;
+	return EResourceKind::Tree;
+}
+
+void AResourceNode::EnsureMeshes()
+{
+	const EResourceKind Kind = GuessKind();
+	const TCHAR* LivePath = TEXT("/Engine/BasicShapes/Cone.Cone");
+	const TCHAR* DeadPath = TEXT("/Engine/BasicShapes/Cylinder.Cylinder");
+	FVector LiveScale(2.6f, 2.6f, 4.5f);
+	FVector LiveLoc(0.f, 0.f, 225.f);
+	FVector DeadScale(1.2f, 1.2f, 0.6f);
+	FVector DeadLoc(0.f, 0.f, 30.f);
+	switch (Kind)
+	{
+	case EResourceKind::Rock:
+		LivePath = TEXT("/Engine/BasicShapes/Sphere.Sphere");
+		DeadPath = TEXT("/Engine/BasicShapes/Sphere.Sphere");
+		LiveScale = FVector(1.4f, 1.2f, 0.9f);
+		LiveLoc = FVector(0.f, 0.f, 45.f);
+		DeadScale = FVector(1.3f, 1.1f, 0.8f);
+		DeadLoc = FVector(0.f, 0.f, 40.f);
+		break;
+	case EResourceKind::FishingSpot:
+		LivePath = TEXT("/Engine/BasicShapes/Cylinder.Cylinder");
+		DeadPath = TEXT("/Engine/BasicShapes/Cylinder.Cylinder");
+		LiveScale = FVector(1.2f, 1.2f, 0.05f);
+		LiveLoc = FVector(0.f, 0.f, 3.f);
+		DeadScale = LiveScale;
+		DeadLoc = LiveLoc;
+		break;
+	case EResourceKind::HerbPatch:
+		LivePath = TEXT("/Engine/BasicShapes/Cylinder.Cylinder");
+		DeadPath = TEXT("/Engine/BasicShapes/Cylinder.Cylinder");
+		LiveScale = FVector(0.8f, 0.8f, 0.3f);
+		LiveLoc = FVector(0.f, 0.f, 15.f);
+		DeadScale = FVector(0.6f, 0.6f, 0.15f);
+		DeadLoc = FVector(0.f, 0.f, 8.f);
+		break;
+	default:
+		break;
+	}
+
+	auto Fill = [](UStaticMeshComponent* Comp, const TCHAR* Path, const FVector& Scale, const FVector& Loc)
+	{
+		if (!Comp) return;
+		const bool bWasEmpty = Comp->GetStaticMesh() == nullptr;
+		if (bWasEmpty || IsEngineBasicShape(Comp->GetStaticMesh()))
+		{
+			if (UStaticMesh* M = BasicShape(Path))
+			{
+				if (Comp->GetStaticMesh() != M) Comp->SetStaticMesh(M);
+			}
+		}
+		if (bWasEmpty && Comp->GetRelativeScale3D().Equals(FVector::OneVector))
+		{
+			Comp->SetRelativeScale3D(Scale);
+			Comp->SetRelativeLocation(Loc);
+		}
+	};
+	Fill(Mesh, LivePath, LiveScale, LiveLoc);
+	Fill(DepletedMesh, DeadPath, DeadScale, DeadLoc);
+}
 
 AResourceNode::AResourceNode()
 {
@@ -24,17 +108,30 @@ AResourceNode::AResourceNode()
 	DepletedMesh->SetupAttachment(Root);
 	DepletedMesh->SetVisibility(false);
 	DepletedMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	// ConstructorHelpers so the CDO itself has a mesh (map check flags a NULL StaticMesh).
+	static ConstructorHelpers::FObjectFinder<UStaticMesh> Cone(TEXT("/Engine/BasicShapes/Cone.Cone"));
+	static ConstructorHelpers::FObjectFinder<UStaticMesh> Cyl(TEXT("/Engine/BasicShapes/Cylinder.Cylinder"));
+	if (Mesh && !Mesh->GetStaticMesh() && Cone.Succeeded()) Mesh->SetStaticMesh(Cone.Object);
+	if (DepletedMesh && !DepletedMesh->GetStaticMesh() && Cyl.Succeeded()) DepletedMesh->SetStaticMesh(Cyl.Object);
 }
 
 void AResourceNode::OnConstruction(const FTransform& Xf)
 {
 	Super::OnConstruction(Xf);
 	if (Definition) DisplayName = Definition->DisplayName;
+	EnsureMeshes();
+}
+
+void AResourceNode::PostLoad()
+{
+	Super::PostLoad();
+	EnsureMeshes();
 }
 
 void AResourceNode::BeginPlay()
 {
 	Super::BeginPlay();
+	EnsureMeshes();
 	// Low / Quest: hundreds of trees and rocks in the full World; no dynamic shadows from them (High keeps shadows).
 	const EAerondelTier Tier = UAerondelScalability::GetSavedTier();
 	if (Tier == EAerondelTier::Low || Tier == EAerondelTier::Quest)
@@ -47,6 +144,7 @@ void AResourceNode::BeginPlay()
 		if (UGameDatabase* Db = UGameDatabase::Get()) Definition = Db->FindResourceNode(DefinitionId);
 		if (Definition) DisplayName = Definition->DisplayName;
 		else UE_LOG(LogTemp, Warning, TEXT("[Aerondel] Placement: resource node %s has unknown id %s"), *GetName(), *DefinitionId.ToString());
+		EnsureMeshes();
 	}
 }
 

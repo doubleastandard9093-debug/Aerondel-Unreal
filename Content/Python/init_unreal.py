@@ -32,6 +32,8 @@ ENTRIES = [
      "import aerondel_safe, build_realism_materials, importlib; importlib.reload(aerondel_safe); importlib.reload(build_realism_materials); build_realism_materials.run()"),
     ("BuildCharacterLods", "9. Build Character LODs (NPCs/monsters, not the player)", "Adds 2 auto-reduced LODs to shared rigged NPC/monster meshes (LOD0 unchanged); player rig skipped. Run after 7/7b.",
      "import build_character_lods, importlib; importlib.reload(build_character_lods); build_character_lods.run()"),
+    ("RemoveDuplicateBuilderActors", "Remove duplicate builder actors (current map)", "Deletes extra copies of Aerondel-built blockout/placement actors that share a label and location. Never removes unique or user-placed actors. Use after a World rebuild stacked copies (Map Check 'in the same location').",
+     "import build_starter_town, importlib; importlib.reload(build_starter_town); build_starter_town.remove_duplicate_builder_actors()"),
     ("RunAll", "Run All setup (1-3 + smooth shapes; NOT the World map)", "Setup steps only; use 0 for the full game world",
      "import aerondel_all, importlib; importlib.reload(aerondel_all); aerondel_all.run()"),
 ]
