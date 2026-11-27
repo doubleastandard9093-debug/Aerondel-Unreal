@@ -131,6 +131,47 @@ class ImportScript(unittest.TestCase):
         self.assertNotIn('_cmd("FlushRenderingCommands")', self.src)
         self.assertNotIn("_cmd('FlushRenderingCommands')", self.src)
 
+    def test_import_logs_clips_and_reimports_when_idle_walk_are_missing(self):
+        self.assertIn("def _log_rig_clips", self.src)
+        self.assertIn("%d clips [%s] -> states %s", self.src)
+        self.assertIn("_core_states_mapped", self.src)
+        self.assertIn("idle/walk clips are missing — reimporting", self.src)
+        self.assertIn("_is_anim_sequence", self.src)
+
+    def test_clip_patterns_map_real_lite_idle_walk_run_attack(self):
+        """The CLIP regexes must pick idle/walk/run/attack from the real glTF clip names."""
+        import re
+        # Mirror clip_name(): Interchange may prefix "<Mesh>_Anim_<Clip>".
+        def cname(n):
+            n = str(n).split("|")[-1]
+            n = re.sub(r"^.*?_Anim_", "", n)
+            return n.lower()
+        # Parse CLIP from the importer so the test tracks the live patterns.
+        ns = {}
+        exec(self.src[self.src.index("CLIP = {"):self.src.index("def src_dir")], ns, ns)
+        clip = ns["CLIP"]
+
+        def pick(names, state):
+            anims = [(cname(n), n) for n in names]
+            for pat in clip[state]:
+                for name, path in anims:
+                    if re.search(pat, name):
+                        return path
+            return None
+
+        adventurer = ["Death", "Idle", "Walk", "Run", "Sword_Slash", "HitRecieve", "Interact"]
+        cow = ["Attack_Headbutt", "Death", "Gallop", "Walk", "Idle", "Idle_2"]
+        goblin = ["Attack", "Death", "HitRecieve", "Idle", "Jump", "Run", "Walk"]
+        for names, idle, walk, run, attack in (
+            (adventurer, "Idle", "Walk", "Run", "Sword_Slash"),
+            (cow, "Idle", "Walk", "Gallop", "Attack_Headbutt"),
+            (goblin, "Idle", "Walk", "Run", "Attack"),
+        ):
+            self.assertEqual(pick(names, "idle"), idle)
+            self.assertEqual(pick(names, "walk"), walk)
+            self.assertEqual(pick(names, "run"), run)
+            self.assertEqual(pick(names, "attack"), attack)
+
 
 class CppSafetyNet(unittest.TestCase):
     def setUp(self):
@@ -150,6 +191,7 @@ class CppSafetyNet(unittest.TestCase):
         self.assertIn("anim skeleton", self.cpp)
         self.assertIn("HoldRefPose", self.cpp)
         self.assertIn("posed skeleton bunched vs bind pose", self.cpp)
+        self.assertIn("no clip for this state (rigs.json states:", self.cpp)
         self.assertIn("AlignBindPose", self.cpp)
         self.assertIn("ignoring legacy yaw -90", self.cpp)
         self.assertIn("LowestFootZ", self.cpp)
