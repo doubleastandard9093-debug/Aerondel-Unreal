@@ -20,7 +20,7 @@ import time
 import unreal
 import aerondel_safe as safe
 from aerondel_util import safe_asset_name
-from aerondel_rig_math import bake_glb_for_unreal
+from aerondel_rig_math import bake_glb_for_unreal, validate_baked_for_interchange
 
 DEST = "/Game/Aerondel/Models"
 CLIP = {
@@ -77,18 +77,34 @@ def _pipeline(skeletal):
     return p
 
 
+def baked_glb_destination(src_path, saved_dir):
+    """Where the Interchange-legal bake is written: Saved/Aerondel/baked_glb/<basename>."""
+    return os.path.join(saved_dir, os.path.basename(src_path))
+
+
 def import_glb(path, dest, skeletal=False):
-    """Interchange import with our pipeline; falls back to a plain AssetImportTask if the scripted manager is missing."""
+    """Interchange import with our pipeline; falls back to a plain AssetImportTask if the scripted manager is missing.
+
+    Skeletal meshes are always imported from the baked copy (one skin, identity root mesh,
+    upright joint rest). The source glb is never sent to Interchange on a bake failure —
+    that is what produced the lying multi-skin bind pose.
+    """
     if skeletal:
+        source = path
         try:
             saved = os.path.join(unreal.Paths.project_saved_dir(), "Aerondel", "baked_glb")
             os.makedirs(saved, exist_ok=True)
-            baked = os.path.join(saved, os.path.basename(path))
-            bake_glb_for_unreal(path, baked)
+            baked = baked_glb_destination(source, saved)
+            bake_glb_for_unreal(source, baked)
+            problems = validate_baked_for_interchange(baked)
+            if problems:
+                raise RuntimeError("; ".join(problems))
             path = baked
-            unreal.log("[Aerondel] baked %s into a single bind space (standing, shared IBMs)" % os.path.basename(baked))
+            unreal.log("[Aerondel] baked %s -> %s (one skin, scene-root identity mesh, shared IBMs)" % (
+                os.path.basename(source), baked))
         except Exception as e:
-            unreal.log_warning("[Aerondel] bind-space bake failed (%s); importing the source glb" % e)
+            unreal.log_error("[Aerondel] bind-space bake failed for %s: %s — not importing the source glb (it would lie down / split skins)" % (source, e))
+            return []
     try:
         mgr = unreal.InterchangeManager.get_interchange_manager_scripted()
         src = unreal.InterchangeManager.create_source_data(path)
@@ -200,8 +216,11 @@ BATCH_SMALL = 10        # "small batch" menu entry: new models per run
 
 
 def _cvars(values):
+    """Set import-only cvars that actually exist on this engine. Missing names are skipped silently."""
     old = {}
     for k, v in values.items():
+        if not safe._cvar_exists(k):
+            continue
         old[k] = safe._get(k)
         safe._cmd("%s %s" % (k, v))
     return old
@@ -280,7 +299,7 @@ def _save_done(done):
         json.dump(sorted(done), fh, indent=1)
 
 
-def _scan_rig(folder):
+def _scan_rig_once(folder):
     mesh, anims = None, []
     for a in assets_in(folder):
         c = _cls(a)
@@ -288,6 +307,24 @@ def _scan_rig(folder):
             mesh = obj_path(a)
         elif c == "AnimSequence":
             anims.append((clip_name(a.asset_name), obj_path(a)))
+    return mesh, anims
+
+
+def _scan_rig(folder):
+    """Find the skeletal mesh and AnimSequences under folder. Refresh the registry if clips are late."""
+    mesh, anims = _scan_rig_once(folder)
+    if mesh and not anims:
+        try:
+            reg = unreal.AssetRegistryHelpers.get_asset_registry()
+            if hasattr(reg, "scan_paths_synchronous"):
+                reg.scan_paths_synchronous([folder], True)
+            elif hasattr(reg, "search_all_assets"):
+                reg.search_all_assets(True)
+        except Exception:
+            pass
+        mesh, anims = _scan_rig_once(folder)
+        if not anims:
+            unreal.log_warning("[Aerondel] %s: skeletal mesh imported but no AnimSequence assets found (idle/walk/run will hold the reference pose)" % folder)
     return mesh, anims
 
 
