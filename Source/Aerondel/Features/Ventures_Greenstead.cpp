@@ -38,7 +38,7 @@ namespace VenturesGreen
 		{ TEXT("Potato seed"), 5 }, { TEXT("Cabbage seed"), 6 }, { TEXT("Wheat seed"), 5 },
 		{ TEXT("Tomato seed"), 8 }, { TEXT("Pumpkin seed"), 10 }, { TEXT("Winterroot seed"), 8 },
 	};
-	static constexpr int32 DeedGold = 2000;
+	static constexpr int32 GreenDeedGold = 2000;
 	static const FCrop* FindCrop(const FString& Id) { for (const FCrop& C : Crops) if (Id == C.Id) return &C; return nullptr; }
 	static const FAnimal* FindAnimal(const FString& Id) { for (const FAnimal& A : Animals) if (Id == A.Id) return &A; return nullptr; }
 	static const FDecor* FindDecor(const FString& Id) { for (const FDecor& D : Decors) if (Id == D.Id) return &D; return nullptr; }
@@ -245,7 +245,7 @@ bool UVenturesFeature::GreenRipe(int32 I) const
 bool UVenturesFeature::GreenBuy()
 {
 	if (bGreenDeed) { Say(TEXT("You already hold the Greenstead deed.")); return false; }
-	if (!TakeCoins(DeedGold)) { Say(FString::Printf(TEXT("The Greenstead deed costs %d coins."), DeedGold)); return false; }
+	if (!TakeCoins(GreenDeedGold)) { Say(FString::Printf(TEXT("The Greenstead deed costs %d coins."), GreenDeedGold)); return false; }
 	bGreenDeed = true;
 	GreenEnsurePlots();
 	Say(TEXT("Greenstead is yours. Sail there from Ventures -> Greenstead. It sits on the Hearthhold island — a farm for making things, not a town storehouse."));
@@ -426,7 +426,7 @@ void UVenturesFeature::TabGreen(FGPanelModel& M)
 	if (!bGreenDeed)
 	{
 		M.Lines.Add(TEXT("A making-things farm on the Hearthhold island. Town houses are for storage; this is where you grow, tend and jar. The deed is 2,000 coins and does not train Farming — planting does."));
-		VAct14(M, FString::Printf(TEXT("Buy the deed (%d coins)"), DeedGold), [this] { GreenBuy(); });
+		VAct14(M, FString::Printf(TEXT("Buy the deed (%d coins)"), GreenDeedGold), [this] { GreenBuy(); });
 		return;
 	}
 	GreenEnsurePlots();

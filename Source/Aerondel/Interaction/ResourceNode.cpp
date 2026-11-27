@@ -12,6 +12,7 @@
 #include "Bank/BankComponent.h"
 #include "Core/AerondelEvents.h"
 #include "Rules/AerondelRules.h"
+#include "Features/VenturesFeature.h"
 #include "Components/StaticMeshComponent.h"
 #include "TimerManager.h"
 
@@ -99,6 +100,7 @@ bool AResourceNode::Roll(AActor* InInstigator, float Bonus)
 	else S->Inventory->Add(R.Item, R.Count);
 	if (R.Count > 1) Msg(LOCTEXT("Double", "You get an extra one!"));
 	S->Skills->AddXp(Definition->Skill, R.Xp * UAerondelRules::XpMultiplier(S, SkillId));
+	if (SkillId == FName(TEXT("mining"))) if (UVenturesFeature* V = UVenturesFeature::Get(S)) V->ScoreOn(TEXT("mine"));
 	if (Definition->Kind == EResourceKind::Rock)
 	{
 		if (UItemDef* Extra = UAerondelRules::MineSideDrop(R.Item))

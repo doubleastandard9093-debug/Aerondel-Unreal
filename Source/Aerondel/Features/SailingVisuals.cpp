@@ -15,7 +15,7 @@
 
 namespace
 {
-	UStaticMesh* Shape(const TCHAR* Name)
+	UStaticMesh* SailShapeMesh(const TCHAR* Name)
 	{
 		return LoadObject<UStaticMesh>(nullptr, *FString::Printf(TEXT("/Engine/BasicShapes/%s.%s"), Name, Name));
 	}
@@ -67,7 +67,7 @@ void ASailingVisuals::BeginPlay()
 UStaticMeshComponent* ASailingVisuals::Part(FShipParts& S, const TCHAR* ShapeName, const FVector& Loc, const FVector& Scale, const FLinearColor& Color, const FRotator& Rot)
 {
 	UStaticMeshComponent* C = NewObject<UStaticMeshComponent>(this);
-	C->SetStaticMesh(Shape(ShapeName));
+	C->SetStaticMesh(SailShapeMesh(ShapeName));
 	C->SetupAttachment(S.Root);
 	C->SetRelativeLocationAndRotation(Loc, Rot);
 	C->SetRelativeScale3D(Scale);

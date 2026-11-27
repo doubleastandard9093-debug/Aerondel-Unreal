@@ -66539,6 +66539,150 @@
    "z": -20,
    "town": "Larkhaven",
    "tint": "#3a3a4a"
+  },
+  "trailhand": {
+   "name": "Trailhand Kes",
+   "examine": "She deals a build-a-path game in Emberfold. Ranks must rise, and a card must match the suit or step exactly one rank.",
+   "service": "trail",
+   "x": 46,
+   "z": -21,
+   "town": "Emberfold",
+   "tint": "#c8a040"
+  },
+  "skillwords": {
+   "name": "Wordwise Tavian",
+   "examine": "People hear more than Persuade, a Lie or a hard word. If your skill is up to it, say so.",
+   "service": "checks",
+   "x": 21,
+   "z": -18,
+   "town": "Larkhaven",
+   "tint": "#e8d8a8"
+  },
+  "banners": {
+   "name": "Quartermaster Odile",
+   "examine": "She keeps the banners and standing rewards. A Wary banner can be mended here for 250 coins. Larkhaven, the bank and the Saga stay open.",
+   "service": "banners",
+   "x": -63,
+   "z": -75,
+   "town": "Whitecairn",
+   "tint": "#d8d8e0"
+  },
+  "kitwright": {
+   "name": "Kitwright Osha",
+   "examine": "I fit kits to a worn blade or plate: a longer haft, a hush-string, a lamp-rim, a padded collar, a watch-sight. They change how the piece behaves. They are not grafts, and they will not simply make it hit harder.",
+   "service": "kits",
+   "x": 23,
+   "z": -14,
+   "town": "Larkhaven",
+   "tint": "#c8b080"
+  },
+  "wayfreight": {
+   "name": "Freighter Wend",
+   "examine": "If you own two homes, I can string a freight line between them. Deposit at one, withdraw at the other. The Hold forge can pull from the pool when you are there. This is not a new house, and a Townstead chest stays private until you deposit.",
+   "service": "freight",
+   "x": 25,
+   "z": -16,
+   "town": "Larkhaven",
+   "tint": "#b0a070"
+  },
+  "waycamp": {
+   "name": "Campwright Noll",
+   "examine": "I pack a tiny camp you can set down in the wild and pack up again. One at a time. Not in a town, not on the farm, not on Claimridge. Freeframe stays the Construction grind, and raids never come for a Waycamp.",
+   "service": "camp",
+   "x": 27,
+   "z": -18,
+   "town": "Larkhaven",
+   "tint": "#8a6a3a"
+  },
+  "skywyrms": {
+   "name": "Wyrmwatcher Cald",
+   "examine": "Now and then a Skywyrm is sighted over the high wilds. You can go to it or let it pass. It is one foe, not a Colossus, and not Ashwyrm on the Contested Wilds route. A kill yields a soul for the veil bench, and a little Hunter or Prayer. There is never more than one sighting at a time.",
+   "service": "wyrms",
+   "x": 29,
+   "z": -20,
+   "town": "Larkhaven",
+   "tint": "#6a8a4a"
+  },
+  "veilcraft": {
+   "name": "Veilwright Ise",
+   "examine": "At my veil bench you may unmake a non-unique kit-bearing piece to learn its named effect — the item is destroyed, the lesson stays. Bind that lesson onto a plain weapon or armour with a Skywyrm soul, or a lesser bright soul, plus a little essence. One binding per item. You can unbind later. This is not a Facet, not a graft, and not a kit, and it will not simply make the piece hit harder. Uniques keep their identity.",
+   "service": "veil",
+   "x": 118,
+   "z": -32,
+   "town": "Highcrest",
+   "tint": "#d0c8e8"
+  },
+  "shadework": {
+   "name": "Shadeguide Vess",
+   "examine": "Leave a foe's notice — a roll, a corner, or simply starting from out of combat — and you are unseen for a short window. The first strike in that window is a Shade hit: a modest extra, and a much larger fill of their Guardbreak bar. Bosses and Colossi only feel a little of it, so you cannot lock them. This is not a sneak through town, and it does not replace a pickpocket, Stillwatch or True Aim.",
+   "service": "shade",
+   "x": 31,
+   "z": -16,
+   "town": "Larkhaven",
+   "tint": "#708090"
+  },
+  "wardfine": {
+   "name": "Wardclerk Penn",
+   "examine": "A failed pocket in town is no longer only a stun. A guard will stop you: pay the fine, wait at the keep, or resist. Unique and quest items are never taken. Larkhaven is always solvable — you can pay, wait, or walk to the bank. A Wary banner may make a town quicker to stop you, but the fine is always payable.",
+   "service": "keep",
+   "x": -8,
+   "z": -4,
+   "town": "Larkhaven",
+   "tint": "#c8b060"
+  },
+  "oathframe": {
+   "name": "Framewright Orel",
+   "examine": "At my bench you assemble an Oathframe: a heavy suit you step into. You walk slowly, you cannot fly or climb well, and a slam fills a foe's Guardbreak bar. A hearth-core powers it; when the core runs dry you step out, you do not die. It is not a Path, not a Vocation, and it will not simply make you hit harder. Shops and houses will ask you to step out. The town road is fine.",
+   "service": "oath",
+   "x": 21,
+   "z": -12,
+   "town": "Larkhaven",
+   "tint": "#6a6a75"
+  },
+  "hardroad": {
+   "name": "Roadwise Marla",
+   "examine": "Hardroad is an optional way of travelling. When it is on, hunger, thirst and rest tick slowly. Food still heals, a well or waterskin helps thirst, and a Townstead or Waycamp bed helps rest. If a meter is low, your health, prayer and run energy recover more slowly. The meters never kill you, never strip XP, and never block a skill. You can turn it off at any time. An Oathframe's core still drains either way — that is a frame rule, not a survival rule.",
+   "service": "road",
+   "x": 19,
+   "z": -10,
+   "town": "Larkhaven",
+   "tint": "#c8a060"
+  },
+  "seasonboard": {
+   "name": "Boardclerk Edda",
+   "examine": "The Seasonboard is a score season. Mine, carve, climb, finish a Tide, place a Waycamp or win a Trailhand hand, and you earn season score — not Standing. Daily Writs still pay Standing. Tiers unlock a Lookplate dye, a kit schematic, and a visit from Waresmith Ryn. Miss a day and nothing is taken from you. There is no paid pass and no other-player ladder.",
+   "service": "score",
+   "x": 17,
+   "z": -8,
+   "town": "Larkhaven",
+   "tint": "#c8a060"
+  },
+  "scorevendor": {
+   "name": "Waresmith Ryn",
+   "examine": "I travel with the season. When the Boardclerk posts my visit, I open a small stall in Larkhaven: Ridgewalk soles that ease a climb, and a Season flask for the road. Nothing I sell is a damage race. Claim the vendor tier on the Seasonboard and I will sell to you.",
+   "service": "score",
+   "x": 15,
+   "z": -6,
+   "town": "Larkhaven",
+   "tint": "#c8a060"
+  },
+  "wildmarks": {
+   "name": "Markwise Calla",
+   "examine": "A Wildmark is a mark the wild leaves on you: a downside and a boon together. Night-eye, fire-kindled, deep-lung. You can take one from an Ashfall, a marked foe, or a drafted tonic. Two is plenty; three is the most. My hush tonic quiets them for a time; the clear tonic lifts one. Ysolde still treats habit-quirks, not these.",
+   "service": "blight",
+   "x": 13,
+   "z": -10,
+   "town": "Larkhaven",
+   "tint": "#c8a060"
+  },
+  "ashfall": {
+   "name": "Ashwatcher Bren",
+   "examine": "An Ashfall is a short Ley flare in the high wilds. You will get a warning: begin it, or let it pass — nothing is owed if you walk away. For a few minutes that wild region changes its spawns, may raise a Wildmark chance, may show an Ash crystal, and may attract a Skywyrm. It will not settle on a town, a Townstead, Greenstead or Claimridge. It is not a Burst Tide and not a siege. On a phone it is a sky tint and a spawn swap, not a blast. You can also carve an Ash-totem to call one when you are ready.",
+   "service": "ash",
+   "x": 33,
+   "z": -14,
+   "town": "Larkhaven",
+   "tint": "#c8a060"
   }
  },
  "towns": [

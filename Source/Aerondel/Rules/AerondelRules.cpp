@@ -20,7 +20,7 @@
 
 namespace
 {
-	const UGameDatabase* Db() { return UGameDatabase::Get(); }
+	const UGameDatabase* RulesDb() { return UGameDatabase::Get(); }
 	int32 Lvl(const AAerondelPlayerState* PS, FName Skill) { return PS && PS->Skills ? PS->Skills->GetLevelById(Skill) : 1; }
 	UItemDef* Worn(const AAerondelPlayerState* PS, EEquipSlot S) { return PS && PS->Equipment ? PS->Equipment->GetEquipped(S) : nullptr; }
 	float Rand() { return FMath::FRand(); }
@@ -77,7 +77,7 @@ TArray<FString> UAerondelRules::SynergyLines(const AAerondelPlayerState* PS, FNa
 
 float UAerondelRules::Perk(const AAerondelPlayerState* PS, FName SkillId, FName Key)
 {
-	const UGameDatabase* D = Db();
+	const UGameDatabase* D = RulesDb();
 	const USkillDef* S = D ? D->FindSkill(SkillId) : nullptr;
 	float V = 0.f;
 	if (S)
@@ -101,7 +101,7 @@ float UAerondelRules::QuestFx(const AAerondelPlayerState* PS, FName Key)
 	float V = 0.f;
 	for (const FQuestProgress& P : PS->Quests->GetAll())
 		if (P.Quest && P.State == EQuestState::Completed) if (const float* F = P.Quest->PermanentBonus.Find(Key)) V += *F;
-	if (const UGameDatabase* D = Db())
+	if (const UGameDatabase* D = RulesDb())
 	{
 		const int32 QP = PS->Quests->QuestPoints();
 		for (const FQuestPointMilestone& M : D->QuestPointMilestones)
@@ -121,7 +121,7 @@ float UAerondelRules::GearFx(const AAerondelPlayerState* PS, FName Key)
 bool UAerondelRules::SetStatus(const AAerondelPlayerState* PS, const FArmourSet*& OutSet, int32& OutHave, int32& OutNeed)
 {
 	OutSet = nullptr; OutHave = 0; OutNeed = 1;
-	const UGameDatabase* D = Db();
+	const UGameDatabase* D = RulesDb();
 	if (!D || !PS) return false;
 	for (const FArmourSet& S : D->ArmourSets)
 	{
@@ -143,7 +143,7 @@ float UAerondelRules::SetFx(const AAerondelPlayerState* PS, FName Key)
 
 float UAerondelRules::PrayerFx(const AAerondelPlayerState* PS, FName Key)
 {
-	const UGameDatabase* D = Db();
+	const UGameDatabase* D = RulesDb();
 	if (!PS || !PS->Stats || !D) return 0.f;
 	float V = 0.f;
 	for (FName Id : PS->Stats->ActivePrayers) if (const UPrayerDef* P = D->FindPrayer(Id)) V += P->GetEffect(Key);
@@ -275,7 +275,7 @@ UItemDef* UAerondelRules::MineSideDrop(const UItemDef* OreItem)
 	if (R < 0.04f) Name = TEXT("Stone slab");
 	else if (R < 0.14f) Name = TEXT("Limestone");
 	else return nullptr;
-	return Db() ? Db()->FindItem(UAerondelFeature::Id(Name)) : nullptr;
+	return RulesDb() ? RulesDb()->FindItem(UAerondelFeature::Id(Name)) : nullptr;
 }
 
 
@@ -298,7 +298,7 @@ bool UAerondelRules::IsRanged(const AAerondelPlayerState* PS)
 
 const FCombatStyle* UAerondelRules::CurrentStyle(const AAerondelPlayerState* PS)
 {
-	const UGameDatabase* D = Db();
+	const UGameDatabase* D = RulesDb();
 	if (!D) return nullptr;
 	const TArray<FCombatStyle>& L = IsRanged(PS) ? D->RangedStyles : D->MeleeStyles;
 	if (L.Num() == 0) return nullptr;
@@ -310,13 +310,21 @@ int32 UAerondelRules::AttackSpeedTicks(const AAerondelPlayerState* PS)
 {
 	const UItemDef* W = Worn(PS, EEquipSlot::Weapon);
 	const FCombatStyle* S = CurrentStyle(PS);
-	return FMath::Max(2, (W ? W->AttackSpeedTicks : 4) + (S ? S->SpeedTicks : 0));
+	int32 T = (W ? W->AttackSpeedTicks : 4) + (S ? S->SpeedTicks : 0);
+	if (const UVenturesFeature* V = UVenturesFeature::Get(PS)) T += V->KitSpeedBonus(IsRanged(PS));
+	return FMath::Max(2, T);
 }
 
 float UAerondelRules::AttackRangeTiles(const AAerondelPlayerState* PS)
 {
-	if (IsRanged(PS)) { const FCombatStyle* S = CurrentStyle(PS); return 7.f + (S ? S->RangeTiles : 0.f); }
-	return 1.6f;
+	float R = 1.6f;
+	if (IsRanged(PS)) { const FCombatStyle* S = CurrentStyle(PS); R = 7.f + (S ? S->RangeTiles : 0.f); }
+	if (const UVenturesFeature* V = UVenturesFeature::Get(PS))
+	{
+		R += V->KitRangeBonus(IsRanged(PS));
+		if (IsRanged(PS) && V->KitHush()) R = FMath::Max(4.f, R);
+	}
+	return R;
 }
 
 float UAerondelRules::HitChance(float A, float D)
@@ -457,7 +465,7 @@ bool UAerondelRules::CanCast(const AAerondelPlayerState* PS, const USpellDef* Sp
 USpellDef* UAerondelRules::BestSpell(const AAerondelPlayerState* PS)
 {
 	USpellDef* Best = nullptr; FText Dummy;
-	if (const UGameDatabase* D = Db()) for (USpellDef* S : D->Spells) if (CanCast(PS, S, Dummy)) Best = S;
+	if (const UGameDatabase* D = RulesDb()) for (USpellDef* S : D->Spells) if (CanCast(PS, S, Dummy)) Best = S;
 	return Best;
 }
 
@@ -544,7 +552,7 @@ int32 UAerondelRules::PotionTicks(const AAerondelPlayerState* PS, int32 BaseTick
 
 float UAerondelRules::PrayerDrainPerTick(const AAerondelPlayerState* PS)
 {
-	const UGameDatabase* D = Db();
+	const UGameDatabase* D = RulesDb();
 	if (!PS || !PS->Stats || !D) return 0.f;
 	float Drain = 0.f;
 	for (FName Id : PS->Stats->ActivePrayers) if (const UPrayerDef* P = D->FindPrayer(Id)) Drain += P->DrainPerTick;

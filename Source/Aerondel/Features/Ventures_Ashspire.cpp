@@ -11,7 +11,7 @@
 
 namespace VenturesSpire
 {
-	static const TCHAR* Foes[] = { TEXT("Ashen raider"), TEXT("Sand Reaver"), TEXT("Ember Imp"), TEXT("Magma Brute"), TEXT("Canopy Stalker"), TEXT("Rime Wraith"), TEXT("Voidborn Knight") };
+	static const TCHAR* SpireFoes[] = { TEXT("Ashen raider"), TEXT("Sand Reaver"), TEXT("Ember Imp"), TEXT("Magma Brute"), TEXT("Canopy Stalker"), TEXT("Rime Wraith"), TEXT("Voidborn Knight") };
 	static constexpr int32 Floors = 7;
 	struct FBoon { const TCHAR* Id; const TCHAR* Name; const TCHAR* Desc; const TCHAR* Spirit; };
 	static const FBoon Boons[] = {
@@ -33,7 +33,7 @@ namespace VenturesSpire
 	static const FBoon* FindBoon(const FString& Id) { for (const FBoon& B : Boons) if (Id == B.Id) return &B; return nullptr; }
 	static const FUnlock* FindUnlock(const FString& Id) { for (const FUnlock& U : Unlocks) if (Id == U.Id) return &U; return nullptr; }
 	static FString PhaseOf(int32 F) { return F == Floors ? TEXT("boss") : (F == 3 || F == 6) ? TEXT("event") : TEXT("fight"); }
-	static const TCHAR* PickFoe() { return Foes[FMath::RandRange(0, (int32)UE_ARRAY_COUNT(Foes) - 1)]; }
+	static const TCHAR* SpirePickFoe() { return SpireFoes[FMath::RandRange(0, (int32)UE_ARRAY_COUNT(SpireFoes) - 1)]; }
 	static void VAct19(FGPanelModel& M, const FString& L, TFunction<void()> F, bool bEnabled = true, bool bClose = false)
 	{ FGPanelAction A; A.Label = L; A.Run = MoveTemp(F); A.bEnabled = bEnabled; A.bClose = bClose; M.Actions.Add(MoveTemp(A)); }
 }
@@ -90,7 +90,7 @@ void UVenturesFeature::SpireSpawnFloor()
 	if (Run.Mode != TEXT("fight") && Run.Mode != TEXT("boss")) return;
 	const bool bBoss = Run.Mode == TEXT("boss");
 	const int32 N = bBoss ? 1 : 3 + FMath::Min(2, Run.Floor / 2);
-	const FString Type = bBoss ? TEXT("Voidborn Knight") : PickFoe();
+	const FString Type = bBoss ? TEXT("Voidborn Knight") : SpirePickFoe();
 	int32 L = FMath::RoundToInt(Run.L * (1.f + Run.Floor * 0.08f) + (bBoss ? SpireBestFloor * 4 : 0));
 	if (bBoss && LumenOn()) L += FMath::Max(0, FMath::RoundToInt(LumenScore - 1000.f));
 	const int32 Room = FMath::Max(1, CapFoes(15) - ZoneAlive().Num());

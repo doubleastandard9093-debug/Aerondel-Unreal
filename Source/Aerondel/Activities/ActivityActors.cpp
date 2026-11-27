@@ -1,5 +1,6 @@
 #include "Activities/ActivityActors.h"
 #include "Features/EconomyFeature.h"
+#include "Features/VenturesFeature.h"
 #include "Core/AerondelPlayerState.h"
 #include "Core/PlayerStatsComponent.h"
 #include "Core/AerondelEvents.h"
@@ -93,6 +94,7 @@ void AThieveTarget::Interact(AActor* InInstigator)
 		Msg(FText::Format(LOCTEXT("Caught", "You fail to pick the {0}'s pocket. You've been stunned!"), T->DisplayName));
 		S->Stats->StunUntil = S->Stats->GameTick + T->StunTicks;
 		S->Stats->ApplyPlayerDamage(FMath::Max(1, FMath::FloorToInt(T->FailDamage * (0.5f + FMath::FRand() * 0.5f))), this);
+		if (UVenturesFeature* V = UVenturesFeature::Get(this)) V->FineOnFail(this, T->DisplayName.ToString());
 		return;
 	}
 	for (const FDropEntry& D : T->Loot)
@@ -164,6 +166,7 @@ FText AShopCounter::GetInteractLabel() const
 
 void AShopCounter::Interact(AActor* InInstigator)
 {
+	if (UVenturesFeature* V = UVenturesFeature::Get(this)) if (V->OathOn()) { Msg(LOCTEXT("OathShop", "The shopkeeper asks you to step out of the Oathframe first.")); return; }
 	if (!GetShop()) { Msg(LOCTEXT("Closed", "The shop is closed.")); return; }
 	OnShopOpened.Broadcast(this, InInstigator);
 	if (UAerondelEvents* Ev = UAerondelEvents::Get(this)) Ev->OnServiceRequested.Broadcast(TEXT("shop"), this); // C++ UMG shop panel
@@ -187,6 +190,11 @@ TArray<int32> AShopCounter::VisibleStock(AActor* Player) const
 		}
 		if (!E.RequiresSkill99.IsNone() && S->Skills->GetLevelById(E.RequiresSkill99) < 99) continue;
 		if (E.bRequiresQuestCape && !bQuestCape) continue;
+		if (UVenturesFeature* V = UVenturesFeature::Get(this))
+		{
+			const int32 Price = E.Price > 0 ? E.Price : (E.Item ? FMath::Max(1, E.Item->Value) : 1);
+			if (V->BannerHideStock(ShopId, this, Price)) continue;
+		}
 		Out.Add(i);
 	}
 	return Out;

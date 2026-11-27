@@ -18,7 +18,7 @@ namespace VenturesLey
 		for (int32 i = 0; i < S.Len(); ++i) { H ^= (uint32)S[i]; H *= 16777619u; }
 		return H;
 	}
-	static const FWeb& Web()
+	static const FWeb& LeyWeb()
 	{
 		static FWeb W;
 		static bool bBuilt = false;
@@ -98,13 +98,13 @@ namespace VenturesLey
 	}
 	static const FNode* FindNode(const FString& Id)
 	{
-		const FWeb& W = Web();
+		const FWeb& W = LeyWeb();
 		if (const int32* I = W.Index.Find(Id)) return &W.Nodes[*I];
 		return nullptr;
 	}
 	static TArray<FString> Shortest(const FString& From, const FString& To)
 	{
-		const FWeb& W = Web();
+		const FWeb& W = LeyWeb();
 		TArray<FString> Q; Q.Add(From);
 		TMap<FString, FString> Prev; Prev.Add(From, FString());
 		int32 Head = 0;
@@ -185,14 +185,14 @@ bool UVenturesFeature::LeyOpen() const { return CombatLevel() >= 50; }
 bool UVenturesFeature::LeyKey(const FString& InId) const
 {
 	if (!LeyNodes.Contains(TEXT("start"))) return false;
-	for (const FNode& N : Web().Nodes) if (N.Key == InId && LeyNodes.Contains(N.Id)) return true;
+	for (const FNode& N : LeyWeb().Nodes) if (N.Key == InId && LeyNodes.Contains(N.Id)) return true;
 	return false;
 }
 
 bool UVenturesFeature::LeyHas(const FString& InId) const
 {
 	if (!LeyNodes.Contains(TEXT("start"))) return false;
-	for (const FNode& N : Web().Nodes) if (N.Fx == InId && LeyNodes.Contains(N.Id)) return true;
+	for (const FNode& N : LeyWeb().Nodes) if (N.Fx == InId && LeyNodes.Contains(N.Id)) return true;
 	return false;
 }
 
@@ -257,7 +257,7 @@ bool UVenturesFeature::LeyFill(const FString& InId)
 	if (InId != TEXT("start") && !LeyNodes.Contains(TEXT("start"))) { if (!LeyFill(TEXT("start"))) return false; }
 	if (InId != TEXT("start"))
 	{
-		const TArray<FString>* L = Web().Links.Find(InId);
+		const TArray<FString>* L = LeyWeb().Links.Find(InId);
 		bool bAdj = false; if (L) for (const FString& X : *L) if (LeyNodes.Contains(X)) { bAdj = true; break; }
 		if (!bAdj) { Say(TEXT("Fill a node next to one you already have, starting at the Ley Heart.")); return false; }
 	}
@@ -307,12 +307,12 @@ void UVenturesFeature::TabLey(FGPanelModel& M)
 	VAct16(M, bLeyRec ? TEXT("• Recommended path on") : TEXT("Recommended path"), [this] { bLeyRec = !bLeyRec; });
 	VAct16(M, TEXT("Refund (500 coins, 70% Ley returns)"), [this] { LeyRefund(); });
 	TArray<FString> FilledKeys;
-	for (const FNode& N : Web().Nodes) if (N.Kind == TEXT("key") && LeyNodes.Contains(N.Id)) FilledKeys.Add(N.Name);
-	M.Lines.Add(FString::Printf(TEXT("Filled %d / %d. %s"), LeyNodes.Num(), Web().Nodes.Num(), FilledKeys.Num() ? *FString::Join(FilledKeys, TEXT(" · ")) : TEXT("No keystone yet.")));
+	for (const FNode& N : LeyWeb().Nodes) if (N.Kind == TEXT("key") && LeyNodes.Contains(N.Id)) FilledKeys.Add(N.Name);
+	M.Lines.Add(FString::Printf(TEXT("Filled %d / %d. %s"), LeyNodes.Num(), LeyWeb().Nodes.Num(), FilledKeys.Num() ? *FString::Join(FilledKeys, TEXT(" · ")) : TEXT("No keystone yet.")));
 	if (bLeyRec)
 	{
 		const FNode* FirstKey = nullptr;
-		for (const FNode& N : Web().Nodes) if (N.Kind == TEXT("key")) { FirstKey = &N; break; }
+		for (const FNode& N : LeyWeb().Nodes) if (N.Kind == TEXT("key")) { FirstKey = &N; break; }
 		if (FirstKey)
 		{
 			const TArray<FString> Path = Shortest(TEXT("start"), FirstKey->Id);
@@ -327,11 +327,11 @@ void UVenturesFeature::TabLey(FGPanelModel& M)
 		}
 	}
 	int32 Shown = 0;
-	for (const FNode& N : Web().Nodes)
+	for (const FNode& N : LeyWeb().Nodes)
 	{
 		if (LeyNodes.Contains(N.Id)) continue;
 		bool bAdj = N.Id == TEXT("start");
-		if (!bAdj) if (const TArray<FString>* L = Web().Links.Find(N.Id)) for (const FString& X : *L) if (LeyNodes.Contains(X)) { bAdj = true; break; }
+		if (!bAdj) if (const TArray<FString>* L = LeyWeb().Links.Find(N.Id)) for (const FString& X : *L) if (LeyNodes.Contains(X)) { bAdj = true; break; }
 		if (!bAdj) continue;
 		if (N.Kind == TEXT("small") && Shown >= 10) continue;
 		VAct16(M, FString::Printf(TEXT("Fill %s (%d Ley, ring %d)"), *N.Name, N.Cost, N.Ring), [this, InId = N.Id] { LeyFill(InId); });

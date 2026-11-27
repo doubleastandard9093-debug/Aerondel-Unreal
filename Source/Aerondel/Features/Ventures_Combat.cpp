@@ -75,7 +75,7 @@ using namespace VenturesCombat;
 static void VAct2(FGPanelModel& M, const FString& L, TFunction<void()> F, bool bEnabled = true)
 { FGPanelAction A; A.Label = L; A.Run = MoveTemp(F); A.bEnabled = bEnabled; M.Actions.Add(MoveTemp(A)); }
 
-static FString ItemName(const UItemDef* I) { return I ? I->DisplayName.ToString() : FString(); }
+static FString CombatItemName(const UItemDef* I) { return I ? I->DisplayName.ToString() : FString(); }
 
 // ---------------------------------------------------------------- state
 
@@ -291,7 +291,7 @@ float UVenturesFeature::GraftSum(const FString& Stat) const
 	float T = 0.f;
 	for (const auto& E : PS->Equipment->GetAll())
 	{
-		const TArray<FString>* L = GraftsOn.Find(ItemName(E.Value.Get()));
+		const TArray<FString>* L = GraftsOn.Find(CombatItemName(E.Value.Get()));
 		if (!L) continue;
 		int32 Ti, Ty;
 		for (const FString& G : *L) if (ParseGraft(G, Ti, Ty) && Stat == GraftStats[Ty]) T += GraftVals[Ti];
@@ -302,7 +302,7 @@ float UVenturesFeature::GraftSum(const FString& Stat) const
 static bool IsWorn(const AAerondelPlayerState* PS, const FString& Item)
 {
 	if (!PS || !PS->Equipment) return false;
-	for (const auto& E : PS->Equipment->GetAll()) if (ItemName(E.Value.Get()) == Item) return true;
+	for (const auto& E : PS->Equipment->GetAll()) if (CombatItemName(E.Value.Get()) == Item) return true;
 	return false;
 }
 
@@ -448,7 +448,7 @@ void UVenturesFeature::TabGrafts(FGPanelModel& M)
 		for (const FItemStack& S : PS->Inventory->GetSlots())
 		{
 			if (S.IsEmpty()) continue;
-			const FString N = ItemName(S.Item.Get());
+			const FString N = CombatItemName(S.Item.Get());
 			int32 Ti, Ty;
 			if (ParseGraft(N, Ti, Ty)) Held.AddUnique(N);
 		}
@@ -464,7 +464,7 @@ void UVenturesFeature::TabGrafts(FGPanelModel& M)
 	if (PS && PS->Equipment)
 		for (const auto& E : PS->Equipment->GetAll())
 		{
-			const FString It = ItemName(E.Value.Get());
+			const FString It = CombatItemName(E.Value.Get());
 			if (It.IsEmpty()) continue;
 			const TArray<FString>* L = GraftsOn.Find(It);
 			const int32 Num = L ? L->Num() : 0;

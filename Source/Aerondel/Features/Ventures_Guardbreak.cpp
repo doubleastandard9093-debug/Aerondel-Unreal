@@ -81,6 +81,8 @@ int32 UVenturesFeature::PlayerPoiseMax() const
 			if (Def >= 20) N += 4.f + FMath::Min(8.f, Def / 20.f);
 		}
 	}
+		N += (float)KitPoiseBonus();
+	if (OathOn()) N += 36.f;
 	return FMath::RoundToInt(N);
 }
 
@@ -160,7 +162,7 @@ void UVenturesFeature::IncomingGuard(int32 Amount)
 
 void UVenturesFeature::HookPlayerHurt(const UObject* WorldContext, int32 Amount)
 {
-	if (UVenturesFeature* V = Get(WorldContext)) { V->VocMarkFight(); V->IncomingGuard(Amount); }
+	if (UVenturesFeature* V = Get(WorldContext)) { V->VocMarkFight(); V->IncomingGuard(Amount); if (Amount > 0) V->ShadeNotice(); }
 }
 
 void UVenturesFeature::TickGuard()

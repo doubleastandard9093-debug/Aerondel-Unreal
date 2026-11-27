@@ -1,5 +1,6 @@
 #include "Features/FlowFeature.h"
 #include "Features/StillwatchFeature.h"
+#include "Features/VenturesFeature.h"
 #include "Core/AerondelPlayerState.h"
 #include "Core/PlayerStatsComponent.h"
 
@@ -45,5 +46,6 @@ bool UFlowFeature::TryDodge(int32 BonusMs)
 	if (PS->Stats->RunEnergy < DodgeCost) { Say(TEXT("You are too tired to roll.")); return false; }
 	PS->Stats->RunEnergy -= DodgeCost;
 	DodgeReadyAt = Now + DodgeCdMs; IframeUntil = Now + IframeMs + BonusMs;
+	if (UVenturesFeature* V = UVenturesFeature::Get(this)) V->ShadeBreakLine();
 	return true;
 }

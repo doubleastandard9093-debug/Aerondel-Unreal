@@ -27,7 +27,7 @@ namespace VenturesVoc
 		{ TEXT("huntward"),   TEXT("Huntward"),     TEXT("Bulwark"), TEXT("A hunt job that likes Guardbreak."), TEXT("Your hits fill poise a little faster, and a fallen hunt stays carvable a few seconds longer."), TEXT("Hunter"), 20, { TEXT("vread"), TEXT("vbind"), TEXT("vtrail") } },
 	};
 	struct FVocSkill { const TCHAR* Id; const TCHAR* Voc; const TCHAR* Name; const TCHAR* Desc; int32 Cd = 20; bool bSelf = false; };
-	static const FVocSkill Skills[] = {
+	static const FVocSkill VocSkills[] = {
 		{ TEXT("vbrace"),     TEXT("warder"),     TEXT("Guard Stance"),  TEXT("Blunt incoming blows for a few seconds (1 less damage per hit)."), 30, true },
 		{ TEXT("vshove"),     TEXT("warder"),     TEXT("Shield Shove"),  TEXT("Shove the foe back a step. No extra damage."), 22, false },
 		{ TEXT("vhold"),      TEXT("warder"),     TEXT("Iron Hold"),     TEXT("Your poise will not break for a short time."), 50, true },
@@ -48,7 +48,7 @@ namespace VenturesVoc
 		{ TEXT("vtrail"),     TEXT("huntward"),   TEXT("Linger"),        TEXT("A nearby fallen hunt stays carvable a little longer."), 40, true },
 	};
 	static const FVocDef* FindVoc(const FString& Id) { for (const FVocDef& V : Vocs) if (Id == V.Id) return &V; return nullptr; }
-	static const FVocSkill* FindSkill(const FString& Id) { for (const FVocSkill& S : Skills) if (Id == S.Id) return &S; return nullptr; }
+	static const FVocSkill* FindSkill(const FString& Id) { for (const FVocSkill& S : VocSkills) if (Id == S.Id) return &S; return nullptr; }
 	static void VAct10(FGPanelModel& M, const FString& L, TFunction<void()> F, bool bEnabled = true, bool bClose = false)
 	{ FGPanelAction A; A.Label = L; A.Run = MoveTemp(F); A.bEnabled = bEnabled; A.bClose = bClose; M.Actions.Add(MoveTemp(A)); }
 }
@@ -280,7 +280,7 @@ void UVenturesFeature::TabVoc(FGPanelModel& M)
 	if (!VocId.IsEmpty())
 	{
 		M.Lines.Add(TEXT("Techniques:"));
-		for (const FVocSkill& S : Skills)
+		for (const FVocSkill& S : VocSkills)
 		{
 			if (VocId != S.Voc) continue;
 			const bool bReady = !VocCd.Contains(S.Id) || TickNow() >= VocCd.FindChecked(S.Id);

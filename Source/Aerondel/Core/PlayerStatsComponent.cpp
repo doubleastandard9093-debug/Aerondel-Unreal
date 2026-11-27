@@ -95,6 +95,7 @@ void UPlayerStatsComponent::GameTickFn()
 		float Rate = 1.f + UAerondelRules::Perk(S, TEXT("hitpoints"), TEXT("regen")) + UAerondelRules::PrayerFx(S, TEXT("regen")) + UAerondelRules::GearFx(S, TEXT("regen"));
 		if (GameTick < WardUntil) Rate += 2.f; // Warding Hymn
 		if (H->GetCurrent() < H->GetMax() * 0.3f) Rate *= 1.f + UAerondelRules::Perk(S, TEXT("hitpoints"), TEXT("lowRegen"));
+		Rate *= UVenturesFeature::RoadRegenMul(this);
 		RegenAcc += Rate / 6.f;
 		int32 Heal = 0;
 		while (RegenAcc >= 1.f) { RegenAcc -= 1.f; ++Heal; }
@@ -134,7 +135,7 @@ void UPlayerStatsComponent::GameTickFn()
 	if (bRunning && bMoving) { RunEnergy = FMath::Max(0.f, RunEnergy - 0.67f); if (RunEnergy <= 0.f) bRunning = false; bDirty = true; }
 	else if (RunEnergy < 100.f)
 	{
-		RunEnergy = FMath::Min(100.f, RunEnergy + 0.45f * (1.f + UAerondelRules::QuestFx(S, TEXT("runRegen")) + S->Skills->GetLevelById(TEXT("agility")) / 100.f));
+		RunEnergy = FMath::Min(100.f, RunEnergy + 0.45f * (1.f + UAerondelRules::QuestFx(S, TEXT("runRegen")) + S->Skills->GetLevelById(TEXT("agility")) / 100.f) * UVenturesFeature::RoadRegenMul(this));
 		bDirty = true;
 	}
 	if (bDirty) OnChanged.Broadcast();
@@ -179,6 +180,17 @@ bool UPlayerStatsComponent::Consume(int32 InventorySlot)
 	if (!S) return false;
 	UItemDef* Item = S->Inventory->GetSlot(InventorySlot).Item;
 	if (!Item) return false;
+	if (Item->DisplayName.ToString() == TEXT("Ash-totem"))
+	{
+		if (UVenturesFeature* V = UVenturesFeature::Get(this))
+		{
+			if (!V->AshCall()) return false;
+			S->Inventory->RemoveFromSlot(InventorySlot, 1);
+			OnChanged.Broadcast();
+			return true;
+		}
+		return false;
+	}
 	const UGameDatabase* Db = UGameDatabase::Get();
 	if (const UPotionDef* P = Db ? Db->FindPotionForItem(Item) : nullptr)
 	{
@@ -222,6 +234,7 @@ bool UPlayerStatsComponent::Consume(int32 InventorySlot)
 		const int32 Before = S->Health->GetCurrent();
 		S->Health->Heal(UAerondelRules::HealAmount(S, Item));
 		Msg(FText::Format(LOCTEXT("Eat", "You eat the {0}. It heals {1} hitpoints."), Item->DisplayName, S->Health->GetCurrent() - Before));
+		if (UVenturesFeature* V = UVenturesFeature::Get(this)) V->RoadOnConsume(Item);
 		if (Item->BuffPrayer > 0)
 		{
 			PrayerPoints = FMath::Min<float>(UAerondelRules::MaxPrayerPoints(S), PrayerPoints + Item->BuffPrayer * 10);
