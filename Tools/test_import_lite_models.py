@@ -126,6 +126,11 @@ class ImportScript(unittest.TestCase):
         self.assertIn("no AnimSequence assets found", self.src)
         self.assertIn("scan_paths_synchronous", self.src)
 
+    def test_flush_rendering_commands_is_not_issued_as_a_console_command(self):
+        # UE 5.8 has no FlushRenderingCommands cvar; calling it spams FindConsoleObject.
+        self.assertNotIn('_cmd("FlushRenderingCommands")', self.src)
+        self.assertNotIn("_cmd('FlushRenderingCommands')", self.src)
+
 
 class CppSafetyNet(unittest.TestCase):
     def setUp(self):
@@ -385,6 +390,138 @@ class BindSpaceBakeAndAlign(unittest.TestCase):
         errors = int(issues.get("numErrors") or 0)
         # Some infos/warnings (unused accessors from the source BIN) are acceptable.
         self.assertEqual(errors, 0, report)
+
+
+def _lite_rigged_glbs():
+    roots = [
+        ROOT / "Tools" / "ImportSource" / "models_ue" / "rigged",
+        ROOT / "Tools" / "ImportSource" / "models_ue" / "characters",
+    ]
+    files = []
+    for folder in roots:
+        if folder.is_dir():
+            files.extend(sorted(folder.glob("*.glb")))
+    return files
+
+
+def _run_khronos_validator(glb_path):
+    """Return the gltf-validator report dict, or None if node/npm/package are unavailable."""
+    import json as _json
+    import shutil
+    import subprocess
+    import os
+    node = shutil.which("node")
+    npm = shutil.which("npm")
+    if not node or not npm:
+        return None
+    cache = Path("/tmp/aerondel_gltf_validator")
+    pkg = cache / "node_modules" / "gltf-validator"
+    if not pkg.is_dir():
+        cache.mkdir(parents=True, exist_ok=True)
+        r = subprocess.run(
+            [npm, "install", "--prefix", str(cache), "gltf-validator"],
+            capture_output=True, text=True, timeout=120,
+        )
+        if r.returncode != 0:
+            return None
+    js = cache / "validate_one.js"
+    js.write_text(
+        "const fs = require('fs');\n"
+        "const validator = require('gltf-validator');\n"
+        "const bytes = new Uint8Array(fs.readFileSync(process.argv[2]));\n"
+        "validator.validateBytes(bytes).then((report) => {\n"
+        "  process.stdout.write(JSON.stringify(report));\n"
+        "}).catch((err) => { console.error(err); process.exit(2); });\n"
+    )
+    r = subprocess.run(
+        [node, str(js), str(glb_path)],
+        capture_output=True, text=True, timeout=60,
+        cwd=str(cache),
+        env={**os.environ, "NODE_PATH": str(cache / "node_modules")},
+    )
+    if r.returncode != 0:
+        raise AssertionError("gltf-validator failed on %s: %s" % (glb_path, r.stderr or r.stdout))
+    return _json.loads(r.stdout)
+
+
+class AllLiteRigsBake(unittest.TestCase):
+    """Bake every Lite rigged/character glb and enforce Interchange + Khronos rules."""
+
+    @classmethod
+    def setUpClass(cls):
+        import sys
+        sys.path.insert(0, str(ROOT / "Content" / "Python"))
+        import aerondel_rig_math as rig
+        cls.rig = rig
+        cls.files = _lite_rigged_glbs()
+        cls.baked = {}
+        cls.problems = {}
+        outdir = Path("/tmp/aerondel_test_all_lite_baked")
+        outdir.mkdir(parents=True, exist_ok=True)
+        for src in cls.files:
+            dst = outdir / src.name
+            rig.bake_glb_for_unreal(str(src), str(dst))
+            cls.baked[src.name] = dst
+            cls.problems[src.name] = rig.validate_baked_for_interchange(
+                str(dst), require_upright=(src.name == "adventurer.glb")
+            )
+
+    def test_every_lite_rig_is_present(self):
+        self.assertGreaterEqual(len(self.files), 20, self.files)
+        names = {p.name for p in self.files}
+        for need in ("adventurer.glb", "cow.glb", "orc_enemy.glb", "wolf.glb", "wizard.glb", "yeti.glb", "folk_m_a.glb"):
+            self.assertIn(need, names)
+
+    def test_every_baked_glb_passes_interchange_and_animation_target_validation(self):
+        failed = {name: probs for name, probs in self.problems.items() if probs}
+        self.assertEqual(failed, {}, failed)
+
+    def test_animation_channels_target_in_scene_joints_on_previously_broken_rigs(self):
+        """cow/wolf IK bones and orc_enemy/wizard/yeti Head were left under the
+        unused armature; Interchange then Ensure-failed NodeUidPtr on their clips."""
+        rig = self.rig
+        for name, must in (
+            ("cow.glb", ("IKBackLeg.L", "IKFrontLeg.R", "Body")),
+            ("wolf.glb", ("IKBackLeg.L", "IKFrontLeg.L", "Body")),
+            ("orc_enemy.glb", ("Head", "Body")),
+            ("wizard.glb", ("Head", "Body")),
+            ("yeti.glb", ("Head", "Body")),
+        ):
+            gltf, _ = rig.load_glb(self.baked[name])
+            nodes = gltf["nodes"]
+            names = [n.get("name") for n in nodes]
+            reach = rig._reachable_nodes(gltf)
+            joints = set(gltf["skins"][0]["joints"])
+            for bone in must:
+                self.assertIn(bone, names, name)
+                i = names.index(bone)
+                self.assertIn(i, joints, "%s %s" % (name, bone))
+                self.assertIn(i, reach, "%s %s not in the scene graph" % (name, bone))
+            # At least one clip still targets the formerly-orphaned joint.
+            targeted = set()
+            for anim in gltf.get("animations") or []:
+                for ch in anim.get("channels") or []:
+                    ni = (ch.get("target") or {}).get("node")
+                    if isinstance(ni, int) and 0 <= ni < len(names):
+                        targeted.add(names[ni])
+            for bone in must:
+                self.assertIn(bone, targeted, "%s: no clip targets %s" % (name, bone))
+
+    def test_khronos_validator_accepts_every_baked_lite_glb(self):
+        skipped = 0
+        errors = {}
+        for name, path in self.baked.items():
+            report = _run_khronos_validator(path)
+            if report is None:
+                skipped += 1
+                continue
+            nerr = int((report.get("issues") or {}).get("numErrors") or 0)
+            if nerr:
+                msgs = [m for m in (report.get("issues") or {}).get("messages") or [] if m.get("severity") == 0]
+                errors[name] = (nerr, msgs[:5])
+        if skipped == len(self.baked):
+            self.skipTest("node/npm/gltf-validator not available")
+        self.assertEqual(errors, {}, errors)
 
 
 if __name__ == "__main__":
