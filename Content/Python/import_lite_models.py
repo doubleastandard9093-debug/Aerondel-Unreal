@@ -260,7 +260,8 @@ def _flush():
                     break
                 except Exception:
                     pass
-    safe._cmd("FlushRenderingCommands")
+    # Do not call the console command FlushRenderingCommands: it is not a cvar in UE 5.8
+    # and spams "failed FindConsoleObject". The Python flush_rendering_commands above is enough.
     time.sleep(PAUSE_S)
 
 

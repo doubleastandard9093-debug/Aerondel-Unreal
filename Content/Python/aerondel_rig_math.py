@@ -10,7 +10,7 @@ and split feet. This baker:
   * merges every skinned primitive into ONE mesh with ONE skin and ONE IBM set (inv of each
     joint's world bind);
   * places the skinned mesh node at the scene root with identity TRS;
-  * flattens CharacterArmature into Root and bakes the armature scale into every descendant's
+  * lifts every joint out of non-joint ancestors (CharacterArmature / AnimalArmature and their IK or Head siblings), composing that transform into rest TRS and animation keys, and bakes leftover scale into every descendant's
     local translation (and translation animation keys) so joint rest TRS itself stands upright
     in glTF Y-up (head above feet) even if an importer ignores the IBMs.
 
@@ -476,43 +476,311 @@ def _detach(nodes, parent, i, scenes=None):
                 sc["nodes"] = [r for r in roots if r != i]
 
 
-def _flatten_armature(gltf, joint_set, parent):
-    """Compose each non-joint ancestor of the first joint into that joint and reparent it up."""
-    nodes = gltf["nodes"]
-    skins = gltf.get("skins") or []
-    if not skins or not skins[0].get("joints"):
-        return
-    first = skins[0]["joints"][0]
+def _nonjoint_ancestor_chain(parent, joint_set, j):
+    """Non-joint ancestors of j, nearest first (e.g. AnimalArmature, RootNode)."""
     anc = []
-    i = parent[first]
-    while i >= 0:
-        if i not in joint_set:
-            anc.append(i)
+    i = parent[j]
+    while i >= 0 and i not in joint_set:
+        anc.append(i)
         i = parent[i]
-    if not anc:
+    return anc
+
+
+def _times_of(accessor_rows):
+    out = []
+    for row in accessor_rows:
+        out.append(float(row[0] if isinstance(row, (list, tuple)) else row))
+    return out
+
+
+def _sample_vec(entry, t, rest):
+    rest = [float(x) for x in rest]
+    if entry is None:
+        return rest
+    times, values, interp = entry
+    if not times:
+        return rest
+    if t <= times[0]:
+        return [float(x) for x in values[0]]
+    if t >= times[-1]:
+        return [float(x) for x in values[-1]]
+    i = 0
+    while i + 1 < len(times) and times[i + 1] < t:
+        i += 1
+    if interp == "STEP" or times[i + 1] == times[i]:
+        return [float(x) for x in values[i]]
+    u = (t - times[i]) / (times[i + 1] - times[i])
+    a, b = values[i], values[i + 1]
+    return [float(a[k]) + u * (float(b[k]) - float(a[k])) for k in range(len(a))]
+
+
+def _sample_quat(entry, t, rest):
+    if entry is None:
+        return [float(x) for x in rest]
+    times, values, interp = entry
+    if not times:
+        return [float(x) for x in rest]
+    if t <= times[0]:
+        return [float(x) for x in values[0]]
+    if t >= times[-1]:
+        return [float(x) for x in values[-1]]
+    i = 0
+    while i + 1 < len(times) and times[i + 1] < t:
+        i += 1
+    if interp == "STEP" or times[i + 1] == times[i]:
+        return [float(x) for x in values[i]]
+    u = (t - times[i]) / (times[i + 1] - times[i])
+    a = [float(x) for x in values[i]]
+    b = [float(x) for x in values[i + 1]]
+    if sum(x * y for x, y in zip(a, b)) < 0:
+        b = [-x for x in b]
+    q = [a[k] + u * (b[k] - a[k]) for k in range(4)]
+    return list(q_normalize(tuple(q)))
+
+
+def _write_f32_acc(gltf, blob, rows, typ):
+    cols = _COLS[typ]
+    off, length = _append_f32(blob, rows, cols)
+    acc = _add_view_acc(gltf, off, length, len(rows), typ)
+    if typ in ("VEC3", "SCALAR") and rows:
+        if typ == "SCALAR":
+            vals = [float(r[0] if isinstance(r, (list, tuple)) else r) for r in rows]
+            gltf["accessors"][acc]["min"] = [min(vals)]
+            gltf["accessors"][acc]["max"] = [max(vals)]
+        else:
+            mn, mx = _aabb(rows)
+            gltf["accessors"][acc]["min"] = mn
+            gltf["accessors"][acc]["max"] = mx
+    return acc
+
+
+def _compose_parent_into_node(gltf, blob, node_i, parent_M):
+    """Bake a constant parent matrix into a node's rest TRS and transform animation keys.
+
+    Animation keys are in the node's original local space; overwriting only the rest
+    would lose the parent (armature -90 X * 100) as soon as a clip plays.
+    """
+    if mat4_close(parent_M, mat4_identity(), 1e-12):
         return
-    M = mat4_identity()
-    for a in reversed(anc):
-        M = mat4_mul(M, _node_local(nodes[a]))
-    M = mat4_mul(M, _node_local(nodes[first]))
-    t, r, s = _mat4_to_trs(M)
-    _write_trs(nodes[first], t, r, s)
-    top = anc[-1]
-    new_parent = parent[top]
-    _detach(nodes, parent, first, gltf.get("scenes"))
-    if new_parent >= 0:
-        ch = list(nodes[new_parent].get("children") or [])
-        if first not in ch:
-            ch.append(first)
-        nodes[new_parent]["children"] = ch
-    else:
-        for sc in gltf.get("scenes") or []:
-            roots = list(sc.get("nodes") or [])
-            if first not in roots:
-                roots.append(first)
-            sc["nodes"] = roots
-    for a in anc:
-        _write_trs(nodes[a], [0, 0, 0], [0, 0, 0, 1], [1, 1, 1])
+    nodes = gltf["nodes"]
+    old_t, old_r, old_s = _node_trs_components(nodes[node_i])
+    nt, nr, ns = _mat4_to_trs(mat4_mul(parent_M, _mat4_trs(old_t, old_r, old_s)))
+    _write_trs(nodes[node_i], nt, nr, ns)
+    for anim in gltf.get("animations") or []:
+        by_path = {}
+        for ch in anim.get("channels") or []:
+            tgt = ch.get("target") or {}
+            if tgt.get("node") != node_i:
+                continue
+            path = tgt.get("path")
+            if path in ("translation", "rotation", "scale"):
+                by_path[path] = ch
+        if not by_path:
+            continue
+        sampled = {}
+        union = []
+        for path, ch in by_path.items():
+            samp = anim["samplers"][ch["sampler"]]
+            times = _times_of(_read_accessor(gltf, blob, samp["input"]))
+            values = _read_accessor(gltf, blob, samp["output"])
+            sampled[path] = (times, values, samp.get("interpolation") or "LINEAR")
+            union.extend(times)
+        union = sorted(set(union))
+        if not union:
+            continue
+        new_T, new_R, new_S = [], [], []
+        for t in union:
+            T = _sample_vec(sampled.get("translation"), t, old_t)
+            R = _sample_quat(sampled.get("rotation"), t, old_r)
+            S = _sample_vec(sampled.get("scale"), t, old_s)
+            t2, r2, s2 = _mat4_to_trs(mat4_mul(parent_M, _mat4_trs(T, R, S)))
+            new_T.append(t2)
+            new_R.append(r2)
+            new_S.append(s2)
+        time_acc = _write_f32_acc(gltf, blob, [[t] for t in union], "SCALAR")
+        path_rows = {
+            "translation": (new_T, "VEC3"),
+            "rotation": (new_R, "VEC4"),
+            "scale": (new_S, "VEC3"),
+        }
+
+        def _varies(rows, eps=1e-6):
+            if not rows:
+                return False
+            return any(any(abs(a - b) > eps for a, b in zip(rows[0], r)) for r in rows[1:])
+
+        for path, (rows, typ) in path_rows.items():
+            if path not in sampled and not _varies(rows):
+                continue
+            out_acc = _write_f32_acc(gltf, blob, rows, typ)
+            anim.setdefault("samplers", []).append({
+                "input": time_acc,
+                "output": out_acc,
+                "interpolation": "LINEAR",
+            })
+            si = len(anim["samplers"]) - 1
+            if path in by_path:
+                by_path[path]["sampler"] = si
+            else:
+                anim.setdefault("channels", []).append({
+                    "sampler": si,
+                    "target": {"node": node_i, "path": path},
+                })
+
+
+def _lift_joints_off_nonjoint_parents(gltf, blob, joint_set):
+    """Reparent every joint out of non-joint ancestors (CharacterArmature, AnimalArmature, RootNode).
+
+    The previous baker only lifted skins[0].joints[0], so sibling joints (cow IK targets,
+    orc_enemy/wizard/yeti Head) stayed parented to the now-unused armature. Interchange
+    never created a NodeUid for them, then Ensure'd on their animation channels.
+    """
+    nodes = gltf["nodes"]
+    # Do not mutate ancestor TRS until every joint has been composed against the originals.
+    parent = node_parents(nodes)
+    to_lift = []
+    for j in joint_set:
+        anc = _nonjoint_ancestor_chain(parent, joint_set, j)
+        if anc:
+            to_lift.append((j, anc))
+    for j, anc in to_lift:
+        parent = node_parents(nodes)
+        # Re-read the ancestor chain against the still-original ancestor locals.
+        anc = _nonjoint_ancestor_chain(parent, joint_set, j)
+        if not anc:
+            continue
+        M = mat4_identity()
+        for a in reversed(anc):
+            M = mat4_mul(M, _node_local(nodes[a]))
+        _compose_parent_into_node(gltf, blob, j, M)
+        top = anc[-1]
+        new_parent = parent[top]
+        _detach(nodes, parent, j, gltf.get("scenes"))
+        if new_parent >= 0:
+            ch = list(nodes[new_parent].get("children") or [])
+            if j not in ch:
+                ch.append(j)
+            nodes[new_parent]["children"] = ch
+        else:
+            for sc in gltf.get("scenes") or []:
+                roots = list(sc.get("nodes") or [])
+                if j not in roots:
+                    roots.append(j)
+                sc["nodes"] = roots
+
+
+def _joint_roots(nodes, joint_set):
+    parent = node_parents(nodes)
+    return [j for j in joint_set if parent[j] < 0 or parent[j] not in joint_set]
+
+
+def _reachable_nodes(gltf):
+    nodes = gltf["nodes"]
+    seen = set()
+    stack = []
+    for sc in gltf.get("scenes") or []:
+        stack.extend(sc.get("nodes") or [])
+    while stack:
+        i = int(stack.pop())
+        if i in seen or i < 0 or i >= len(nodes):
+            continue
+        seen.add(i)
+        stack.extend(nodes[i].get("children") or [])
+    return seen
+
+
+def _compact_nodes(gltf, keep):
+    """Drop unused nodes and remap children, scenes, skins, and animation targets."""
+    nodes = gltf["nodes"]
+    mapping = {}
+    new_nodes = []
+    for i, n in enumerate(nodes):
+        if i in keep:
+            mapping[i] = len(new_nodes)
+            new_nodes.append(n)
+    for n in new_nodes:
+        if "children" in n:
+            n["children"] = [mapping[c] for c in n["children"] if c in mapping]
+            if not n["children"]:
+                n.pop("children", None)
+    for sc in gltf.get("scenes") or []:
+        sc["nodes"] = [mapping[i] for i in (sc.get("nodes") or []) if i in mapping]
+    for skin in gltf.get("skins") or []:
+        skin["joints"] = [mapping[j] for j in skin.get("joints") or [] if j in mapping]
+        if "skeleton" in skin:
+            if skin["skeleton"] in mapping:
+                skin["skeleton"] = mapping[skin["skeleton"]]
+            else:
+                skin.pop("skeleton", None)
+    for anim in gltf.get("animations") or []:
+        for ch in anim.get("channels") or []:
+            tgt = ch.get("target") or {}
+            ni = tgt.get("node")
+            if ni in mapping:
+                tgt["node"] = mapping[ni]
+            else:
+                tgt["node"] = None
+    gltf["nodes"] = new_nodes
+    return mapping
+
+
+def _scrub_animations(gltf, joint_set, mesh_nodes=None):
+    """Drop channels whose target is missing or not a joint (weights may target a mesh node).
+
+    Retarget leftover CharacterArmature / AnimalArmature channels onto the first joint
+    only if that node still exists; otherwise drop them. Remove empty samplers and animations.
+    """
+    mesh_nodes = set(mesh_nodes or [])
+    nodes = gltf.get("nodes") or []
+    nN = len(nodes)
+    # If a channel still points at a leftover armature name (should already be lifted), drop it.
+    armature_names = {"characterarmature", "animalarmature", "enemyarmature", "spiderarmature", "armature", "rootnode"}
+    first = None
+    skins = gltf.get("skins") or []
+    if skins and skins[0].get("joints"):
+        first = skins[0]["joints"][0]
+    kept_anims = []
+    for anim in gltf.get("animations") or []:
+        channels = []
+        for ch in anim.get("channels") or []:
+            tgt = ch.get("target") or {}
+            ni = tgt.get("node")
+            path = tgt.get("path")
+            if ni is None or not isinstance(ni, int) or ni < 0 or ni >= nN:
+                continue
+            name = (nodes[ni].get("name") or "").lower()
+            if name in armature_names or "armature" in name:
+                if first is None or path == "weights":
+                    continue
+                tgt["node"] = first
+                ni = first
+            if ni in joint_set:
+                channels.append(ch)
+                continue
+            if path == "weights" and ni in mesh_nodes:
+                channels.append(ch)
+                continue
+            # Non-joint, non-mesh target (old mesh node, empty leftover): drop.
+        if not channels:
+            continue
+        used = []
+        remap_s = {}
+        new_samplers = []
+        for ch in channels:
+            si = ch.get("sampler")
+            if si not in remap_s:
+                if not isinstance(si, int) or si < 0 or si >= len(anim.get("samplers") or []):
+                    continue
+                remap_s[si] = len(new_samplers)
+                new_samplers.append(anim["samplers"][si])
+            ch["sampler"] = remap_s[si]
+            used.append(ch)
+        if not used or not new_samplers:
+            continue
+        anim["channels"] = used
+        anim["samplers"] = new_samplers
+        kept_anims.append(anim)
+    gltf["animations"] = kept_anims
 
 
 def _scale_translation_accessors(gltf, blob, node_ids, k):
@@ -676,12 +944,14 @@ def bake_glb_for_unreal(src, dst):
         write_glb(gltf, blob, dst)
         return dst
 
-    # Flatten armature into the first joint, then bake its scale into descendant TRS + keys.
-    # Do this BEFORE writing IBMs so IBMs match the joint rest that Interchange will see.
-    _flatten_armature(gltf, joint_set, parent)
+    # Lift EVERY joint out of non-joint ancestors (not just the first), composing the
+    # armature rest into that joint's rest TRS and its animation keys. Then bake leftover
+    # scale out of every joint root so rest TRS is upright with scale 1.
+    _lift_joints_off_nonjoint_parents(gltf, blob, joint_set)
     parent = node_parents(nodes)
     first = joints[0]
-    _unscale_root(gltf, blob, first)
+    for root_j in _joint_roots(nodes, joint_set):
+        _unscale_root(gltf, blob, root_j)
 
     worlds, parent = node_worlds(nodes)
     Jbind = [worlds[j] for j in joints]
@@ -719,24 +989,55 @@ def bake_glb_for_unreal(src, dst):
     nodes.append(mesh_node)
     mesh_ni = len(nodes) - 1
 
-    # Scene roots = identity skinned mesh + the skeleton root (first joint).
-    # Drop leftover RootNode / CharacterArmature empties so they cannot sneak a -90 X back in.
+    # Scene roots = identity skinned mesh + every joint that has no joint parent
+    # (Body and the cow/wolf IK roots, orc_enemy Head, …). Unskinned prop meshes
+    # that already hang off a joint (matt's Knife, sam's Axe) stay parented there
+    # and must not be listed as scene roots (SCENE_NON_ROOT_NODE).
+    joint_roots = _joint_roots(nodes, joint_set)
+    parent = node_parents(nodes)
+    unskinned_all, unskinned_roots = [], []
+    for r, n in enumerate(nodes):
+        if r == mesh_ni or r in joint_set:
+            continue
+        if "mesh" in n and "skin" not in n:
+            unskinned_all.append(r)
+            if parent[r] < 0:
+                unskinned_roots.append(r)
     for sc in scenes:
-        roots = []
-        for r in sc.get("nodes") or []:
-            if r == first or r == mesh_ni:
-                continue
-            # Keep only unskinned mesh nodes (props).
-            rn = nodes[r] if r < len(nodes) else None
-            if rn and "mesh" in rn and "skin" not in rn:
-                roots.append(r)
-        sc["nodes"] = [mesh_ni, first] + roots
+        seen = set()
+        ordered = []
+        for r in [mesh_ni] + joint_roots + unskinned_roots:
+            if r not in seen:
+                seen.add(r)
+                ordered.append(r)
+        sc["nodes"] = ordered
     gltf["scene"] = gltf.get("scene", 0)
     if gltf["scene"] >= len(scenes):
         gltf["scene"] = 0
 
-    # An empty "children": [] array is a glTF error (EMPTY_ENTITY), e.g. CharacterArmature
-    # after Root is reparented to the scene.
+    # Drop leftover empty nodes (RootNode, CharacterArmature, old mesh nodes) and remap
+    # every index (skins, children, scenes, animation channel targets).
+    keep = set(joint_set)
+    keep.add(mesh_ni)
+    keep.update(unskinned_all)
+    mapping = _compact_nodes(gltf, keep)
+    nodes = gltf["nodes"]
+    joint_set = set(mapping[j] for j in joint_set if j in mapping)
+    first = mapping.get(first, gltf["skins"][0]["joints"][0] if gltf.get("skins") else 0)
+    # skin.skeleton must be a common root of every joint. Multiple joint roots
+    # (cow IK, orc_enemy Head) have no common root — omit the optional field.
+    if gltf.get("skins"):
+        roots_after = _joint_roots(nodes, joint_set)
+        if len(roots_after) == 1:
+            gltf["skins"][0]["skeleton"] = roots_after[0]
+        else:
+            gltf["skins"][0].pop("skeleton", None)
+    mesh_nodes = set()
+    if mesh_ni in mapping:
+        mesh_nodes.add(mapping[mesh_ni])
+    mesh_nodes.update(skinned_mesh_nodes(gltf))
+    _scrub_animations(gltf, joint_set, mesh_nodes)
+
     for n in nodes:
         ch = n.get("children")
         if isinstance(ch, list) and len(ch) == 0:
@@ -832,9 +1133,53 @@ def validate_baked_for_interchange(path, src=None, require_upright=False):
             if not (ue_head[2] > ue_feet[2] + 0.5):
                 problems.append("joint rest is not upright after glTF->UE (head Z=%.3f, feet Z=%.3f)" % (
                     ue_head[2], ue_feet[2]))
+    # Every animation channel must target an existing joint (or weights on a mesh node).
+    # Interchange Ensure-fails (NodeUidPtr) when a channel points at a node it did not create.
+    reach = _reachable_nodes(gltf)
+    joint_ids = set()
+    for skin in skins:
+        for j in skin.get("joints") or []:
+            joint_ids.add(j)
+            if j < 0 or j >= len(nodes):
+                problems.append("skin joint index %s is out of range" % j)
+            elif j not in reach:
+                problems.append("joint %s is not in the scene graph (Interchange would have no NodeUid)" % (
+                    nodes[j].get("name") if 0 <= j < len(nodes) else j))
+    mesh_ids = set(skinned_mesh_nodes(gltf))
     anims = gltf.get("animations") or []
     if not anims:
         problems.append("no animations on the baked file")
+    for anim in anims:
+        if not anim.get("channels"):
+            problems.append("animation %s has no channels" % (anim.get("name") or "?"))
+            continue
+        used = set()
+        for ch in anim.get("channels") or []:
+            tgt = ch.get("target") or {}
+            ni = tgt.get("node")
+            path = tgt.get("path")
+            if ni is None or not isinstance(ni, int) or ni < 0 or ni >= len(nodes):
+                problems.append("animation %s channel path %s targets missing node %s" % (
+                    anim.get("name") or "?", path, ni))
+                continue
+            si = ch.get("sampler")
+            if not isinstance(si, int) or si < 0 or si >= len(anim.get("samplers") or []):
+                problems.append("animation %s has a channel with a missing sampler" % (anim.get("name") or "?"))
+            else:
+                used.add(si)
+            if path == "weights":
+                if ni not in mesh_ids:
+                    problems.append("animation %s weights target %s is not a skinned mesh node" % (
+                        anim.get("name") or "?", nodes[ni].get("name") or ni))
+            elif ni not in joint_ids:
+                problems.append("animation %s channel %s targets non-joint node %s" % (
+                    anim.get("name") or "?", path, nodes[ni].get("name") or ni))
+            elif ni not in reach:
+                problems.append("animation %s channel targets joint %s which is not in the scene" % (
+                    anim.get("name") or "?", nodes[ni].get("name") or ni))
+        for si, samp in enumerate(anim.get("samplers") or []):
+            if si not in used:
+                problems.append("animation %s has an unused sampler %d" % (anim.get("name") or "?", si))
     return problems
 
 
