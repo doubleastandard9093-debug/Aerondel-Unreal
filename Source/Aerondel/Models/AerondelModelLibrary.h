@@ -29,9 +29,10 @@ public:
 	static int32 GetBindPoseMode();
 	static void SetBindPoseMode(int32 Mode, USkeletalMeshComponent* PlayerMesh);
 	UFUNCTION(BlueprintCallable, Category="Aerondel|Models") static void ReloadRigTable();
-	/** Scales the applied mesh to HeightCm (largest of height / 0.6 x length for quadrupeds), puts its feet at -HalfHeight
-	 *  and turns it by the rigs.json pitch/yaw/roll (yaw default -90: imported glTF characters face +Y). Humanoid bind
-	 *  poses that do not stand on +Z are rotated upright from the reference skeleton, not from a possibly folded clip.
+	/** Scales the applied mesh to HeightCm (largest of height / 0.6 x length for quadrupeds) and puts its feet at -HalfHeight.
+	 *  Rotation is computed from the bind/reference pose: feet->head becomes +Z and the character faces +X. rigs.json
+	 *  pitch/yaw/roll are extra offsets (default 0; a legacy yaw of -90 is ignored so it cannot double-apply). A clip
+	 *  that lays the body down or bunches the bones is dropped in favour of the bind pose.
 	 *  Returns false if the mesh is unusable so the caller can show the greybox body instead. */
 	UFUNCTION(BlueprintCallable, Category="Aerondel|Models") static bool FitRig(USkeletalMeshComponent* Comp, float HeightCm, float HalfHeight);
 	/** Stops animation, clears the skeletal mesh and rig tags, so a placeholder capsule/box can be shown. */

@@ -134,7 +134,9 @@ The Adventurer (and rigged NPCs/monsters) come from **Aerondel > 7. Import Lite 
 3. Remove those names from `Saved/Aerondel/lite_import_done.json` (or delete the file to reimport everything).
 4. Run **7** or **7b**, wait for `rigs.json` to finish writing, then **File > Refresh Visual Studio Project** is not required — just press Play (or call `UAerondelModelLibrary.ReloadRigTable` if the editor was already in PIE).
 
-If a clip's skeleton does not match the mesh, or the clip is additive, the character now holds its bind (reference) pose instead of a folded "looking at the sky" pose, and an invalid rig falls back to the greybox capsule. Service objects with no rig mapping (cry-stones, the banner rack, …) keep their placeholder mesh; the "no rig mapped" line is logged once per id. Mesh rotation is `pitch` / `yaw` / `roll` in `Content/Data/rigs.json` (defaults 0, -90, 0) and can be overridden per rig. Bind-pose diagnostic: `aerondel.Rig.BindPose 1` or `-AerondelBindPose`.
+If a clip's skeleton does not match the mesh, the clip is additive, or the clip lays the body down, the character holds its bind (reference) pose instead of a folded or prone pose, and an invalid rig falls back to the greybox capsule. FitRig auto-aligns from the bind pose (head +Z, facing +X) and does not apply the old default yaw of -90 on top of that. Service objects with no rig mapping (cry-stones, the banner rack, …) keep their placeholder mesh; the "no rig mapped" line is logged once per id. Optional extra `pitch` / `yaw` / `roll` in `Content/Data/rigs.json` default to 0 and can be overridden per rig. Bind-pose diagnostic: `aerondel.Rig.BindPose 1` or `-AerondelBindPose`.
+
+**Reimport is required** for the Adventurer's feet: the source glTF has a separate feet mesh with its own inverse-bind matrices. A previous import could leave the boots standing beside a lying torso. Deleting the imported folder and running **7 / 7b** bakes every mesh into one bind space before Interchange runs.
 
 ## Aerondel update (events, guilds, villages, quests)
 `Content/Data/aerondel_update.json` mirrors Lite's goblin village Snarlwick (190,40), ogre village Gorrumhold (-200,-30),
