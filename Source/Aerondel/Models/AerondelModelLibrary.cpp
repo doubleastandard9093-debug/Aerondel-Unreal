@@ -263,7 +263,14 @@ void UAerondelModelLibrary::SetAnimState(USkeletalMeshComponent* Comp, FName Sta
 	if (!Path) Path = Rig->Anims.Find(TEXT("idle"));
 	if (!Path)
 	{
-		AerondelRigs::HoldRefPose(Comp, TEXT("no clip for this state"));
+		FString Have;
+		for (const TPair<FName, FString>& P : Rig->Anims)
+		{
+			if (!Have.IsEmpty()) Have += TEXT(",");
+			Have += P.Key.ToString();
+		}
+		AerondelRigs::HoldRefPose(Comp, *FString::Printf(
+			TEXT("no clip for this state (rigs.json states: %s)"), Have.IsEmpty() ? TEXT("none") : *Have));
 		return;
 	}
 	UAnimSequence* Seq = LoadObject<UAnimSequence>(nullptr, **Path);

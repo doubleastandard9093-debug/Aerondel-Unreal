@@ -192,6 +192,16 @@ def run():
         unreal.log("[Aerondel] Laptop world already complete. To rebuild from scratch, delete Saved/%s and run 0L again."
                    % PROGRESS_NAME)
         blockout.write_build_marker(False, len(nodes), len(mobs), laptop=True, skipped=SKIPPED_OPTIONAL)
+        # Still ensure nav: a completed 0L can lack RecastNavMesh if paths were never built.
+        if blockout.open_or_create_map(
+            blockout.MAP, blockout.levels, partitioned=True,
+            create_partitioned=wpart.new_partitioned_level, clear=False,
+        ):
+            blockout.ensure_world_navmesh(float(w.get("worldHalf", 300)))
+            try:
+                wpart.save_all()
+            except Exception:
+                pass
         return
 
     done = list(progress.get("done") or [])
