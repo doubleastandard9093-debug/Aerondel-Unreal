@@ -990,6 +990,21 @@ class EditorBuilders(unittest.TestCase):
         self.assertIn("def run_laptop", full)
         self.assertIn("build_world_blockout.run(small=False)", full)
 
+    def test_world_and_laptop_builds_ensure_a_covering_navmesh(self):
+        """Play logs 'Unable to find RecastNavMesh' unless 0/0L/4 place bounds and build paths."""
+        with open(os.path.join(PY, "build_world_blockout.py"), encoding="utf-8") as fh:
+            blockout = fh.read()
+        with open(os.path.join(PY, "aerondel_laptop.py"), encoding="utf-8") as fh:
+            laptop = fh.read()
+        self.assertIn("def ensure_world_navmesh(", blockout)
+        self.assertIn("NavMeshBoundsVolume", blockout)
+        self.assertIn("_request_nav_build", blockout)
+        self.assertIn("Build > Build Paths", blockout)
+        self.assertIn("ensure_world_navmesh(half)", blockout)
+        self.assertIn("def finalize_world", blockout)
+        # 0L already-complete path still fixes nav without rebuilding the world.
+        self.assertIn('ensure_world_navmesh(float(w.get("worldHalf", 300)))', laptop)
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=1)
