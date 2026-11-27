@@ -13,7 +13,7 @@ import json
 import math
 import os
 import unreal
-from aerondel_util import ROOT, mat, eal, open_or_create_map, try_call
+from aerondel_util import ROOT, mat, eal, open_or_create_map, try_call, editor_world
 import aerondel_safe as safe
 import build_starter_town as bst
 import world_partition as wpart
@@ -276,6 +276,145 @@ def build_world_base(w, half, task):
     build_towns(w)  # banners, signposts, bank chests, waystone plinths
 
 
+
+def _iter_level_actors():
+    return try_call(actors, "get_all_level_actors", default=None) or []
+
+
+def _actor_class_name(a):
+    try:
+        return a.get_class().get_name()
+    except Exception:
+        return ""
+
+
+def ensure_world_navmesh(half):
+    """Guarantee a world-covering NavMeshBoundsVolume and build Recast nav data.
+
+    Spawning the volume alone is not enough: Play logs 'Unable to find RecastNavMesh'
+    until paths are built. This resizes the existing volume (or places one), requests
+    a nav build, and sets Recast runtime generation to Dynamic so World Partition
+    tiles stream in. If the engine API to build paths is missing, the log tells
+    Aaron to use Build > Build Paths.
+    """
+    half = float(half or 300)
+    nav = None
+    recasts = []
+    for a in _iter_level_actors():
+        cls = _actor_class_name(a)
+        lab = try_call(a, "get_actor_label", default="", warn=False)
+        if cls == "NavMeshBoundsVolume" or lab == "NavMeshBounds":
+            nav = a
+        if "RecastNavMesh" in cls or cls == "AbstractNavData":
+            recasts.append(a)
+    if nav is None:
+        nav_cls = getattr(unreal, "NavMeshBoundsVolume", None)
+        if nav_cls is None:
+            unreal.log_warning("[Aerondel] NavMeshBoundsVolume class is not available; add one by hand and Build > Build Paths.")
+            return False
+        nav = spawn(nav_cls, V(0, 2, 0))
+        if not nav:
+            unreal.log_warning("[Aerondel] Could not spawn NavMeshBoundsVolume; add one covering the world and Build > Build Paths.")
+            return False
+        unreal.log("[Aerondel] placed NavMeshBoundsVolume covering %.0f x %.0f m" % (half * 2, half * 2))
+    # Default engine brush is 200 cm; scale so XY covers worldHalf in each direction, Z plenty for hills.
+    try_call(nav, "set_actor_location", V(0, 2, 0), False)
+    try_call(nav, "set_actor_scale3d", unreal.Vector(half, half, max(50.0, half * 0.1)))
+    label(nav, "NavMeshBounds", "Environment")
+    built = _request_nav_build()
+    recasts = [a for a in _iter_level_actors() if "RecastNavMesh" in _actor_class_name(a) or _actor_class_name(a) == "AbstractNavData"]
+    dynamic = wpart.dynamic_navmesh(actors)
+    if not recasts:
+        unreal.log_warning("[Aerondel] No RecastNavMesh after placing NavMeshBounds (%.0f m). "
+                           "In the editor: Build > Build Paths, then File > Save All on the World map." % (half * 2))
+        return False
+    unreal.log("[Aerondel] NavMesh ready: bounds %.0f x %.0f m, %d RecastNavMesh, dynamic=%d, build=%s" % (
+        half * 2, half * 2, len(recasts), int(dynamic or 0), "ok" if built else "requested"))
+    return True
+
+
+def _request_nav_build():
+    """Best-effort nav rebuild across UE 5.x Python APIs. Returns True if a call appeared to run."""
+    world = None
+    try:
+        world = editor_world()
+    except Exception:
+        world = None
+    tried = False
+    ns_cls = getattr(unreal, "NavigationSystemV1", None)
+    if ns_cls is not None:
+        ns = None
+        for meth, args in (
+            ("get_navigation_system", (world,) if world is not None else ()),
+            ("get_current", (world,) if world is not None else ()),
+        ):
+            fn = getattr(ns_cls, meth, None)
+            if not callable(fn):
+                continue
+            try:
+                ns = fn(*args) if args else fn()
+            except Exception:
+                ns = None
+            if ns:
+                break
+        if ns is None and world is not None:
+            ns = try_call(world, "get_navigation_system", default=None, warn=False)
+        if ns is not None:
+            for meth in ("build", "rebuild_all", "simple_build"):
+                fn = getattr(ns, meth, None)
+                if callable(fn):
+                    try:
+                        fn()
+                        tried = True
+                        break
+                    except TypeError:
+                        try:
+                            fn(True)
+                            tried = True
+                            break
+                        except Exception:
+                            continue
+                    except Exception:
+                        continue
+    for sub_name in ("EditorNavigationSubsystem",):
+        try:
+            sub = unreal.get_editor_subsystem(getattr(unreal, sub_name))
+        except Exception:
+            sub = None
+        if sub is None:
+            continue
+        for meth in ("build", "rebuild_all", "editor_build"):
+            if try_call(sub, meth, default=None, warn=False) is not None or hasattr(sub, meth):
+                fn = getattr(sub, meth, None)
+                if callable(fn):
+                    try:
+                        fn()
+                        tried = True
+                        break
+                    except Exception:
+                        continue
+    # Level editor "build navigation" option if present (names vary).
+    try:
+        les = unreal.get_editor_subsystem(unreal.LevelEditorSubsystem)
+    except Exception:
+        les = None
+    if les is not None:
+        for meth in ("editor_build", "build"):
+            fn = getattr(les, meth, None)
+            if not callable(fn):
+                continue
+            try:
+                fn()
+                tried = True
+                break
+            except TypeError:
+                # Some builds take an options enum; skip rather than guess a bad value.
+                continue
+            except Exception:
+                continue
+    return tried
+
+
 def finalize_world(task=None):
     """Apply World Partition streaming flags and save. Uses the shipped loading range."""
     if task:
@@ -283,9 +422,13 @@ def finalize_world(task=None):
     if wpart.is_partitioned():
         wpart.configure_runtime_grid()
         wpart.apply_streaming_flags(actors)
-        wpart.dynamic_navmesh(actors)
     else:
         unreal.log_warning("[Aerondel] World map is not partitioned; it will load all at once until converted (Tools > Convert Level).")
+    # Always (re)place/resize the bounds and build Recast — missing RecastNavMesh is why Play
+    # logs "Unable to find RecastNavMesh" after 0L/4 if paths were never built.
+    w = load_world()
+    half = float((w or {}).get("worldHalf", 300) if isinstance(w, dict) else 300)
+    ensure_world_navmesh(half)
     try_call(levels, "save_current_level")
     wpart.save_all()
 
@@ -341,3 +484,5 @@ def write_build_marker(small, n_nodes, n_mobs, laptop=False, skipped=None):
     with open(path, "w", encoding="utf-8") as f:
         json.dump(payload, f)
     unreal.log("[Aerondel] World build marker: " + path + " mode=" + mode)
+
+
