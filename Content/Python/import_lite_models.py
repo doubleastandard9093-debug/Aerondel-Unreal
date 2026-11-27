@@ -303,33 +303,82 @@ def _save_done(done):
         json.dump(sorted(done), fh, indent=1)
 
 
+def _is_anim_sequence(cls_name):
+    n = str(cls_name or "")
+    return n == "AnimSequence" or n.endswith("AnimSequence") or n == "AnimSequenceBase"
+
+
+def _is_skeletal_mesh(cls_name):
+    n = str(cls_name or "")
+    return n == "SkeletalMesh" or n.endswith("SkeletalMesh")
+
+
 def _scan_rig_once(folder):
     mesh, anims = None, []
     for a in assets_in(folder):
         c = _cls(a)
-        if c == "SkeletalMesh" and not mesh:
+        if _is_skeletal_mesh(c) and not mesh:
             mesh = obj_path(a)
-        elif c == "AnimSequence":
+        elif _is_anim_sequence(c):
             anims.append((clip_name(a.asset_name), obj_path(a)))
     return mesh, anims
 
 
+def _refresh_registry(folder):
+    try:
+        reg = unreal.AssetRegistryHelpers.get_asset_registry()
+        if hasattr(reg, "scan_paths_synchronous"):
+            reg.scan_paths_synchronous([folder], True)
+        elif hasattr(reg, "search_all_assets"):
+            reg.search_all_assets(True)
+    except Exception:
+        pass
+
+
+def _folder_asset_summary(folder, limit=24):
+    bits = []
+    try:
+        for a in assets_in(folder):
+            bits.append("%s:%s" % (_cls(a), a.asset_name))
+            if len(bits) >= limit:
+                bits.append("...")
+                break
+    except Exception:
+        return "(could not list)"
+    return ", ".join(bits) or "(empty)"
+
+
 def _scan_rig(folder):
     """Find the skeletal mesh and AnimSequences under folder. Refresh the registry if clips are late."""
+    _refresh_registry(folder)
     mesh, anims = _scan_rig_once(folder)
     if mesh and not anims:
-        try:
-            reg = unreal.AssetRegistryHelpers.get_asset_registry()
-            if hasattr(reg, "scan_paths_synchronous"):
-                reg.scan_paths_synchronous([folder], True)
-            elif hasattr(reg, "search_all_assets"):
-                reg.search_all_assets(True)
-        except Exception:
-            pass
+        _refresh_registry(folder)
         mesh, anims = _scan_rig_once(folder)
         if not anims:
-            unreal.log_warning("[Aerondel] %s: skeletal mesh imported but no AnimSequence assets found (idle/walk/run will hold the reference pose)" % folder)
+            unreal.log_warning("[Aerondel] %s: skeletal mesh imported but no AnimSequence assets found (idle/walk/run will hold the reference pose). Assets: %s" % (folder, _folder_asset_summary(folder)))
     return mesh, anims
+
+
+def _core_states_mapped(anims):
+    """True if idle or walk would be written to rigs.json (C++ falls back to idle, then holds ref pose)."""
+    return bool(pick(anims, "idle") or pick(anims, "walk"))
+
+
+def _log_rig_clips(key, folder, mesh, anims, states):
+    """Always list the clips found for a rig and which states they mapped to."""
+    names = [n for n, _ in anims]
+    mapped = ["%s=%s" % (s, (p or "").rsplit(".", 1)[-1]) for s, p in states.items() if p]
+    missing = [s for s in ("idle", "walk", "run", "attack") if not states.get(s)]
+    unreal.log("[Aerondel] %s: %d clips [%s] -> states %s (mesh %s)" % (
+        key, len(anims), ", ".join(names) if names else "none",
+        ", ".join(mapped) if mapped else "none", mesh or "none"))
+    if missing:
+        extra = ""
+        if not anims:
+            extra = "; folder assets: " + _folder_asset_summary(folder)
+        unreal.log_warning("[Aerondel] %s: no clip mapped for %s — Play will hold the reference pose for those states%s" % (
+            key, ",".join(missing), extra))
 
 
 def _static_names(folder):
@@ -382,10 +431,14 @@ def run(batch=None):
                 key = os.path.splitext(f)[0]
                 folder = "%s/%s/%s" % (DEST, safe_asset_name(d), safe_asset_name(key))
                 mesh, anims = _scan_rig(folder)
-                if mesh:
+                # A mesh without idle/walk (failed anim import, e.g. NodeUidPtr) must be reimported,
+                # not skipped, or rigs.json stays empty and Play holds the reference pose.
+                if mesh and _core_states_mapped(anims):
                     skipped += 1  # already imported (by an earlier, maybe crashed, run): keep it, just map it
                     task.frame("%s (already imported)" % f)
                 else:
+                    if mesh and anims is not None and not _core_states_mapped(anims):
+                        unreal.log_warning("[Aerondel] %s: skeletal mesh is present but idle/walk clips are missing — reimporting" % f)
                     if batch and imported >= batch:
                         stopped = True
                         break
@@ -403,12 +456,15 @@ def run(batch=None):
                     _flush()
                 if mesh:
                     tune_anims(folder, mesh)
+                    # Clips may appear only after tune/save; scan once more before writing rigs.json.
+                    if not _core_states_mapped(anims):
+                        mesh, anims = _scan_rig(folder)
                 done.add("%s/%s" % (g, f))
                 _save_done(done)
                 states = {s: pick(anims, s) for s in CLIP}
                 rigs[key] = {"mesh": mesh, "anims": {s: p for s, p in states.items() if p}}
                 _write_rigs(root, rigs)  # partial rigs.json after every model, so a crash loses nothing
-                unreal.log("[Aerondel] %s: %d clips, states %s" % (key, len(anims), ",".join(sorted(rigs[key]["anims"]))))
+                _log_rig_clips(key, folder, mesh, anims, states)
             if not stopped:
                 for g, d, f in statics:
                     key = os.path.splitext(f)[0].lower()
