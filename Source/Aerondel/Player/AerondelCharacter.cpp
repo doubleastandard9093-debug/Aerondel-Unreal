@@ -192,7 +192,7 @@ void AAerondelCharacter::CancelInteraction()
 bool AAerondelCharacter::HasNavMesh() const
 {
 	const UNavigationSystemV1* Nav = FNavigationSystem::GetCurrent<UNavigationSystemV1>(GetWorld());
-	return Nav && Nav->GetDefaultNavDataInstance(FNavigationSystem::DontAutoCreate) != nullptr;
+	return Nav && Nav->GetDefaultNavDataInstance() != nullptr;
 }
 
 void AAerondelCharacter::MoveToWorld(const FVector& Dest)
