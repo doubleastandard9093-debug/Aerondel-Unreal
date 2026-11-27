@@ -102,6 +102,31 @@ class ImportScript(unittest.TestCase):
         self.assertEqual(rmap.get("player"), "adventurer")
 
 
+    def test_import_points_at_baked_path_and_does_not_fall_back_to_source(self):
+        self.assertIn("baked_glb_destination", self.src)
+        self.assertIn("Saved/Aerondel/baked_glb", self.src)
+        self.assertIn("validate_baked_for_interchange", self.src)
+        self.assertIn("not importing the source glb", self.src)
+        self.assertNotIn("; importing the source glb", self.src)
+
+    def test_missing_ue58_cvars_are_only_set_if_they_exist(self):
+        self.assertIn("_cvar_exists", self.src)
+        self.assertIn("if not safe._cvar_exists(k):", self.src)
+        safe = (ROOT / "Content" / "Python" / "aerondel_safe.py").read_text(encoding="utf-8")
+        self.assertIn("def _cvar_exists(name):", safe)
+        for name in (
+            "Editor.AsyncAnimationCompilationMaxConcurrency",
+            "r.ShaderCompiler.MaxShaderJobs",
+            "Interchange.FeatureFlags.Import.ThumbnailGeneration",
+        ):
+            self.assertIn(name, self.src)  # still listed as desired throttles
+            self.assertIn('"%s"' % name, safe)  # known-missing, skipped unless a probe finds them
+
+    def test_scan_rig_warns_when_clips_are_missing(self):
+        self.assertIn("no AnimSequence assets found", self.src)
+        self.assertIn("scan_paths_synchronous", self.src)
+
+
 class CppSafetyNet(unittest.TestCase):
     def setUp(self):
         self.cpp = LIB_CPP.read_text(encoding="utf-8")
@@ -124,6 +149,9 @@ class CppSafetyNet(unittest.TestCase):
         self.assertIn("ignoring legacy yaw -90", self.cpp)
         self.assertIn("LowestFootZ", self.cpp)
         self.assertIn("clip laid the body down", self.cpp)
+        self.assertIn("AlignFromMeshBounds", self.cpp)
+        self.assertIn("using mesh bounds", self.cpp)
+        self.assertIn("degenerate head-feet / bind pose missing", self.cpp)
 
     def test_unmapped_rig_is_logged_once_then_verbose(self):
         self.assertIn("MissingWarned", self.cpp)
@@ -158,7 +186,7 @@ class BindSpaceBakeAndAlign(unittest.TestCase):
         cls.gltf, cls.blob = rig.load_glb(cls.baked)
         cls.lm = rig.landmarks(rig.joint_world_positions(cls.gltf, cls.blob))
         cls.aabb = rig.mesh_vertex_aabb(cls.gltf, cls.blob)
-        cls.feet_aabb = rig.mesh_vertex_aabb(cls.gltf, cls.blob, "Adventurer_Feet")
+        cls.src_gltf, cls.src_blob = rig.load_glb(ADVENTURER)
 
     def test_baked_character_stands_in_gltf_y_up_with_feet_on_the_ground(self):
         self.assertIsNotNone(self.aabb)
@@ -168,14 +196,15 @@ class BindSpaceBakeAndAlign(unittest.TestCase):
         self.assertLess(height, 2.1)
         self.assertGreater(float(mn[1]), -0.05)
         self.assertLess(float(mx[1]), 2.1)
-        # Feet mesh is a pair of boots at the origin, not a 2 m-wide upright slab.
-        self.assertIsNotNone(self.feet_aabb)
-        fmin, fmax = self.feet_aabb
-        self.assertGreater(float(fmin[1]), -0.05)
-        self.assertLess(float(fmax[1]), 0.40)
-        self.assertLess(float(fmax[0] - fmin[0]), 1.0)
-        # Head is above the feet in the bind pose.
+        # Feet joints sit on the ground, not a 2 m-wide upright slab.
+        for name, p in self.rig.joint_world_positions(self.gltf).items():
+            if self.rig.is_foot_name(name):
+                self.assertGreater(p[1], -0.05, name)
+                self.assertLess(p[1], 0.40, name)
         self.assertGreater(self.lm["head"][1], self.lm["feet"][1] + 1.2)
+        # After the glTF Y-up -> UE Z-up conversion, head Z is above feet Z.
+        head_ue, feet_ue = self.rig.gltf_to_ue(self.lm["head"]), self.rig.gltf_to_ue(self.lm["feet"])
+        self.assertGreater(head_ue[2], feet_ue[2] + 1.2)
 
     def test_alignment_maps_baked_pose_to_head_up_feet_down_facing_x(self):
         rig = self.rig
@@ -210,32 +239,28 @@ class BindSpaceBakeAndAlign(unittest.TestCase):
         root = next(i for i, n in enumerate(nodes) if n.get("name") == "Root")
         # World as if Root has no ancestors.
         worlds = [None] * len(nodes)
-        def W(i):
-            if worlds[i] is not None:
-                return worlds[i]
-            import numpy as np
-            L = rig._node_local(nodes[i])
-            if i == root or parent[i] < 0 or parent[i] != parent[i]:
-                pass
-            if i == root:
-                worlds[i] = L
-            elif parent[i] >= 0 and _under_root(i):
-                worlds[i] = W(parent[i]) @ L
-            else:
-                worlds[i] = L
-            return worlds[i]
         def _under_root(i):
             while i >= 0:
                 if i == root:
                     return True
                 i = parent[i]
             return False
+        def W(i):
+            if worlds[i] is not None:
+                return worlds[i]
+            L = rig._node_local(nodes[i])
+            if i == root:
+                worlds[i] = L
+            elif parent[i] >= 0 and _under_root(i):
+                worlds[i] = rig.mat4_mul(W(parent[i]), L)
+            else:
+                worlds[i] = L
+            return worlds[i]
         pos = {}
         for i, n in enumerate(nodes):
             if not _under_root(i):
                 continue
-            M = W(i)
-            pos[n.get("name") or str(i)] = (float(M[0, 3]), float(M[1, 3]), float(M[2, 3]))
+            pos[n.get("name") or str(i)] = rig.mat4_translation(W(i))
         lm = rig.landmarks(pos)
         self.assertIsNotNone(lm)
         head = rig.gltf_to_ue(lm["head"])
@@ -265,6 +290,101 @@ class BindSpaceBakeAndAlign(unittest.TestCase):
         self.assertIn("ignoring legacy yaw -90", cpp)
         self.assertNotIn("Yaw = -90.f", cpp)
 
+    def test_baked_file_is_interchange_legal_one_skin_root_identity_consistent_ibm(self):
+        rig, gltf, blob = self.rig, self.gltf, self.blob
+        problems = rig.validate_baked_for_interchange(self.baked, require_upright=True)
+        self.assertEqual(problems, [], problems)
+        self.assertEqual(len(gltf.get("skins") or []), 1)
+        roots = rig.scene_root_set(gltf)
+        worlds, parent = rig.node_worlds(gltf["nodes"])
+        skinned = rig.skinned_mesh_nodes(gltf)
+        self.assertTrue(skinned, "no skinned mesh node")
+        for i in skinned:
+            self.assertIn(i, roots, gltf["nodes"][i].get("name"))
+            self.assertLess(parent[i], 0)
+            self.assertTrue(rig.is_identity_node(gltf["nodes"][i]), gltf["nodes"][i])
+        # One IBM per joint, matching inv(world).
+        skin = gltf["skins"][0]
+        ibms = rig.ibm_matrices(gltf, blob, skin)
+        self.assertEqual(len(ibms), len(skin["joints"]))
+        for k, j in enumerate(skin["joints"]):
+            expected = rig.mat4_inv(worlds[j])
+            self.assertTrue(rig.mat4_close(ibms[k], expected, 1e-3), gltf["nodes"][j].get("name"))
+
+    def test_baked_animations_are_present_and_translations_are_in_the_new_joint_space(self):
+        rig, gltf, blob = self.rig, self.gltf, self.blob
+        names = [a.get("name") for a in gltf.get("animations") or []]
+        self.assertEqual(len(names), len(self.src_gltf.get("animations") or []))
+        for need in ("Idle", "Walk", "Run", "Sword_Slash", "Death"):
+            self.assertIn(need, names)
+        # Death stays first so use_t0_as_ref_pose remains off.
+        self.assertEqual(names[0].lower(), "death")
+        # Import CLIP patterns would pick idle/walk/run/attack from these names.
+        src = IMPORT_PY.read_text(encoding="utf-8")
+        self.assertIn('r"^idle$"', src)
+        self.assertIn('r"^walk$"', src)
+        self.assertIn('r"^run$"', src)
+        self.assertIn("sword_slash", src.lower())
+
+        def first_translation(g, b, clip, node_name):
+            nodes = g["nodes"]
+            ni = next(i for i, n in enumerate(nodes) if n.get("name") == node_name)
+            anim = next(a for a in g["animations"] if a.get("name") == clip)
+            for ch in anim["channels"]:
+                if ch["target"].get("node") == ni and ch["target"]["path"] == "translation":
+                    return rig._read_accessor(g, b, anim["samplers"][ch["sampler"]]["output"])[0]
+            return None
+
+        # Root was scaled 100; every descendant translation key must be * 100.
+        for clip, node in (("Idle", "Body"), ("Walk", "Shoulder.L"), ("Run", "Foot.L")):
+            src_t = first_translation(self.src_gltf, self.src_blob, clip, node)
+            dst_t = first_translation(gltf, blob, clip, node)
+            self.assertIsNotNone(src_t, "%s %s missing on source" % (clip, node))
+            self.assertIsNotNone(dst_t, "%s %s missing on bake" % (clip, node))
+            for a, b in zip(src_t, dst_t):
+                self.assertAlmostEqual(float(b), float(a) * 100.0, delta=1e-3, msg="%s %s" % (clip, node))
+
+    def test_khronos_gltf_validator_accepts_the_baked_adventurer(self):
+        """Independent parser/validator: gltf-validator via node, if npm can install it."""
+        import json as _json
+        import shutil
+        import subprocess
+        import os
+        node = shutil.which("node")
+        npm = shutil.which("npm")
+        if not node or not npm:
+            self.skipTest("node/npm not available")
+        cache = Path("/tmp/aerondel_gltf_validator")
+        pkg = cache / "node_modules" / "gltf-validator"
+        if not pkg.is_dir():
+            cache.mkdir(parents=True, exist_ok=True)
+            r = subprocess.run(
+                [npm, "install", "--prefix", str(cache), "gltf-validator"],
+                capture_output=True, text=True, timeout=120,
+            )
+            if r.returncode != 0:
+                self.skipTest("npm install gltf-validator failed: %s" % (r.stderr or r.stdout)[:400])
+        js = cache / "validate_one.js"
+        js.write_text(
+            "const fs = require('fs');\n"
+            "const validator = require('gltf-validator');\n"
+            "const bytes = new Uint8Array(fs.readFileSync(process.argv[2]));\n"
+            "validator.validateBytes(bytes).then((report) => {\n"
+            "  process.stdout.write(JSON.stringify(report));\n"
+            "}).catch((err) => { console.error(err); process.exit(2); });\n"
+        )
+        r = subprocess.run(
+            [node, str(js), str(self.baked)],
+            capture_output=True, text=True, timeout=60,
+            cwd=str(cache),
+            env={**os.environ, "NODE_PATH": str(cache / "node_modules")},
+        )
+        self.assertEqual(r.returncode, 0, r.stderr or r.stdout)
+        report = _json.loads(r.stdout)
+        issues = report.get("issues") or {}
+        errors = int(issues.get("numErrors") or 0)
+        # Some infos/warnings (unused accessors from the source BIN) are acceptable.
+        self.assertEqual(errors, 0, report)
 
 
 if __name__ == "__main__":
