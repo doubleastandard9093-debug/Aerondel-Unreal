@@ -23,10 +23,20 @@ public:
 	/** idle, walk, run, attack, hit, death, gather. Falls back to idle; death plays once. */
 	UFUNCTION(BlueprintCallable, Category="Aerondel|Models") static void SetAnimState(USkeletalMeshComponent* Comp, FName State);
 	UFUNCTION(BlueprintPure, Category="Aerondel|Models") static FString ResolveKey(const FString& Key);
+	/** Pose diagnostic (reversible, changes no assets): 0 = normal animation, 1 = player rig held in its bind pose,
+	 *  2 = every rig in bind pose. Console: aerondel.Rig.BindPose N, launch arg -AerondelBindPose (= 1), or Settings.
+	 *  If the bent player stands straight in bind pose, the imported animation clips (not the mesh) are at fault. */
+	static int32 GetBindPoseMode();
+	static void SetBindPoseMode(int32 Mode, USkeletalMeshComponent* PlayerMesh);
 	UFUNCTION(BlueprintCallable, Category="Aerondel|Models") static void ReloadRigTable();
-	/** Scales the applied mesh to HeightCm (largest of height / 0.6 x length for quadrupeds), puts its feet at -HalfHeight
-	 *  and turns it by the rigs.json "yaw" (default -90: imported glTF characters face +Y). */
-	UFUNCTION(BlueprintCallable, Category="Aerondel|Models") static void FitRig(USkeletalMeshComponent* Comp, float HeightCm, float HalfHeight);
+	/** Scales the applied mesh to HeightCm (largest of height / 0.6 x length for quadrupeds) and puts its feet at -HalfHeight.
+	 *  Rotation is computed from the bind/reference pose: feet->head becomes +Z and the character faces +X. rigs.json
+	 *  pitch/yaw/roll are extra offsets (default 0; a legacy yaw of -90 is ignored so it cannot double-apply). A clip
+	 *  that lays the body down or bunches the bones is dropped in favour of the bind pose.
+	 *  Returns false if the mesh is unusable so the caller can show the greybox body instead. */
+	UFUNCTION(BlueprintCallable, Category="Aerondel|Models") static bool FitRig(USkeletalMeshComponent* Comp, float HeightCm, float HalfHeight);
+	/** Stops animation, clears the skeletal mesh and rig tags, so a placeholder capsule/box can be shown. */
+	UFUNCTION(BlueprintCallable, Category="Aerondel|Models") static void ClearRig(USkeletalMeshComponent* Comp);
 	/** Largest extent of the skeleton's bone positions: reference pose (Posed = nullptr) or that component's current pose. */
 	static double BoneExtent(const USkeletalMesh* Mesh, const USkeletalMeshComponent* Posed);
 	/** High/Ultra only: swaps each material slot for a dynamic instance of the matching realism master

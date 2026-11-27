@@ -1,5 +1,7 @@
 {
- "yaw": -90,
+ "yaw": 0,
+ "pitch": 0,
+ "roll": 0,
  "player": "adventurer",
  "aliases": {
   "npc_mage": "wizard",

@@ -15,6 +15,7 @@ While a SafeRun is active:
 import math
 import time
 import unreal
+from aerondel_util import editor_world, try_call
 
 BATCH = 40              # spawns between breathers
 CELL_CM = 12800.0       # World Partition cell (world_partition.CELL_SIZE_CM)
@@ -31,20 +32,72 @@ LOW_CVARS = {
 }
 
 _active = None
+_chunk_tag = None
+
+
+# Console variables confirmed absent in UE 5.8. Setting them prints "Command not recognized".
+# Still probe first so a later engine that adds them will use them.
+_UE58_MISSING_CVARS = frozenset({
+    "Editor.AsyncAnimationCompilationMaxConcurrency",
+    "r.ShaderCompiler.MaxShaderJobs",
+    "Interchange.FeatureFlags.Import.ThumbnailGeneration",
+})
+
+
+def _cvar_exists(name):
+    """True only when the engine actually has this console variable. Missing names stay silent."""
+    if not name:
+        return False
+    sl = getattr(unreal, "SystemLibrary", None)
+    if sl:
+        for meth in ("is_console_variable_registered", "does_console_variable_exist", "console_variable_exists"):
+            fn = getattr(sl, meth, None)
+            if callable(fn):
+                try:
+                    return bool(fn(name))
+                except Exception:
+                    break
+    for cls_name in ("IConsoleManager", "ConsoleManager"):
+        cls = getattr(unreal, cls_name, None)
+        if cls is None:
+            continue
+        mgr = None
+        for meth in ("get", "get_default_object", "get_i_console_manager"):
+            fn = getattr(cls, meth, None)
+            if callable(fn):
+                try:
+                    mgr = fn()
+                    break
+                except Exception:
+                    continue
+        if mgr is None:
+            try:
+                mgr = unreal.get_default_object(cls)
+            except Exception:
+                mgr = cls
+        for meth in ("find_console_variable", "find_console_command"):
+            fn = getattr(mgr, meth, None)
+            if callable(fn):
+                try:
+                    found = fn(name)
+                    if found is not None and found is not False:
+                        return True
+                    return False
+                except Exception:
+                    continue
+    # get_console_variable_float_value returns 0 for missing names, so it is not a probe.
+    return name not in _UE58_MISSING_CVARS
 
 
 def _cmd(c):
     try:
-        unreal.SystemLibrary.execute_console_command(unreal.EditorLevelLibrary.get_editor_world(), c)
+        try_call(unreal.SystemLibrary, "execute_console_command", editor_world(), c)
     except Exception as e:
         unreal.log_warning("[Aerondel] console '%s' failed: %s" % (c, e))
 
 
 def _get(name):
-    try:
-        return unreal.SystemLibrary.get_console_variable_float_value(name)
-    except Exception:
-        return None
+    return try_call(unreal.SystemLibrary, "get_console_variable_float_value", name, default=None, warn=False)
 
 
 def _set_realtime(on):
@@ -67,7 +120,34 @@ def active():
 
 def save_dirty():
     """Save every dirty package (used between import batches)."""
-    unreal.EditorLoadingAndSavingUtils.save_dirty_packages(True, True)
+    try:
+        try_call(unreal.EditorLoadingAndSavingUtils, "save_dirty_packages", True, True)
+    except Exception as e:  # noqa: BLE001
+        unreal.log_warning("[Aerondel] save_dirty_packages failed: %s" % e)
+
+
+def current_chunk_tag():
+    """Laptop-build chunk id applied to newly labelled actors, or None."""
+    return _chunk_tag
+
+
+class chunk_scope:
+    """Tag every actor labelled inside this block with laptop_chunk:<name> for resumable rebuilds."""
+
+    def __init__(self, name):
+        self.name = name
+        self.prev = None
+
+    def __enter__(self):
+        global _chunk_tag
+        self.prev = _chunk_tag
+        _chunk_tag = self.name
+        return self
+
+    def __exit__(self, *a):
+        global _chunk_tag
+        _chunk_tag = self.prev
+        return False
 
 
 def tick(n=1):
@@ -95,14 +175,17 @@ class Cancelled(Exception):
 
 
 class SafeRun:
-    def __init__(self, title, total_frames=1, small=False, save_fn=None):
+    def __init__(self, title, total_frames=1, small=False, save_fn=None, cvar_overrides=None):
         self.title, self.total, self.small, self.save_fn = title, max(1, total_frames), small, save_fn
+        self.cvars = dict(LOW_CVARS)
+        if cvar_overrides:
+            self.cvars.update(cvar_overrides)
         self.count, self.since, self.cells, self.skipped, self.task, self.saved = 0, 0, {}, 0, None, {}
         self.cancelled = False
 
     def __enter__(self):
         global _active
-        for k, v in LOW_CVARS.items():
+        for k, v in self.cvars.items():
             self.saved[k] = _get(k)
             _cmd("%s %s" % (k, v))
         _set_realtime(False)
@@ -128,7 +211,7 @@ class SafeRun:
     def breathe(self, save=False):
         self._check()
         try:
-            unreal.SystemLibrary.collect_garbage()
+            try_call(unreal.SystemLibrary, "collect_garbage", warn=False)
         except Exception:
             pass
         self.task.enter_progress_frame(0, "%s: %d actors placed" % (self.title, self.count))

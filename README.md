@@ -25,7 +25,7 @@ The in-game world is called **Aerondel**; every town, NPC, monster, item, skill,
 | UI | `UAerondelWidgetBase` → HUD / Inventory / Skills / QuestLog C++ bases for UMG; `AAerondelHUD` Canvas fallback so it's playable before any widget exists |
 | Save | `UAerondelSaveGame` + `UAerondelSaveSubsystem` (autosave every 60 s and on quit, content referenced by stable ids) |
 | Graphics | `UAerondelScalability` tiers Quest / Low / High / Ultra; desktop Lumen + Nanite + VSM + TSR; Quest mobile forward + MSAA 4x + multiview + Vulkan + foveation |
-| Editor | `Content/Python`: **Aerondel** menu with Create Input Assets, Generate Starter Data, Build Starter Town, Run All |
+| Editor | `Content/Python`: **Aerondel** menu with 0 / 0L (full or laptop world), Create Input Assets, Generate Starter Data, Build Starter Town, Run All |
 
 ## First-time setup (Windows PC)
 
@@ -101,6 +101,43 @@ tier shrinks the range at runtime (Android 160 m, Low 256 m, High 384 m, Ultra 5
 `AerondelScalability.cpp`. To grow the map, add coordinates to `Content/Data/world.json` and re-run
 the blockout; new areas stream automatically. Optional: Build > Build HLODs for distant proxies.
 If the log says the map isn't partitioned, open it and use Tools > Convert Level, then re-run.
+
+### Laptop / low-memory build (0L)
+
+On an 8 GB Intel UHD laptop (for example an ASUS Vivobook Go 15), use
+**Aerondel > 0L. BUILD FULL WORLD - LAPTOP (slim, low memory)** instead of **0**.
+
+It places the same complete world (every town, region, resource node and monster — gameplay works)
+but in saved, resumable chunks: after each chunk it saves the level and packages, collects garbage
+and drops references. Editor scalability is forced to Low for the session (`sg.* 0`,
+`r.ScreenPercentage 50`, `t.MaxFPS 30`, realtime viewport off, Lumen / VSM / volumetric fog / DFAO
+off via console only — no Default*.ini or Nanite changes) and restored afterwards. World Partition's
+editor loading range is lowered while placing and set back to the shipped 384 m range at the end.
+
+Optional heavy steps are skipped: high-fidelity and realism materials, festival decor, HLODs, and
+Lite model import unless you already ran **7** / **7b**. Decorative biome props use instanced meshes
+at lower density; gameplay placements are not thinned. The packager accepts a laptop build (`mode=laptop`
+in `Saved/AerondelWorldBuild.json`) with a log note about those skipped optionals; it still refuses
+the **4s** small-test map.
+
+Progress lives in `Saved/AerondelLaptopProgress.json`. If the editor crashes mid-way, run **0L**
+again — completed chunks are skipped and a partial in-flight chunk is retried. To start over, delete
+that progress file (and optionally the World map) and run **0L** again. Close other apps first; expect
+several GB of editor memory.
+
+### Player and Lite rigs (7 / 7b)
+
+The Adventurer (and rigged NPCs/monsters) come from **Aerondel > 7. Import Lite Models** or **7b** (10 models per run). **0L does not import them.** After a C++ change to rig fitting, or to pick up a new bind-space bake:
+
+1. Rebuild the editor (FitRig is C++).
+2. Close PIE.
+3. In the Content Browser delete `/Game/Aerondel/Models/Rigged/adventurer` (and any other rigged or character folders you want refreshed).
+4. Remove those names from `Saved/Aerondel/lite_import_done.json` (or delete the file to reimport everything).
+5. Run **7** or **7b**. The importer bakes each glTF to `Saved/Aerondel/baked_glb/<name>.glb` (one skin, skinned mesh at the scene root with identity TRS, armature rotation and scale baked into the joint rest so the character stands even if IBMs are ignored) and imports *that* file — never the source on a bake failure. Look for `baked adventurer.glb -> .../baked_glb/adventurer.glb (one skin, scene-root identity mesh, shared IBMs)` and `adventurer: N clips, states ...idle,run,walk`. Then press Play (or call `UAerondelModelLibrary.ReloadRigTable` if the editor was already in PIE).
+
+If a clip's skeleton does not match the mesh, the clip is additive, or the clip lays the body down, the character holds its bind (reference) pose instead of a folded or prone pose, and an invalid rig falls back to the greybox capsule. FitRig auto-aligns from the bind pose (head +Z, facing +X), stands a lying or missing bind pose from the mesh bounds, and does not apply the old default yaw of -90 on top of that. Service objects with no rig mapping (cry-stones, the banner rack, …) keep their placeholder mesh; the "no rig mapped" line is logged once per id. Optional extra `pitch` / `yaw` / `roll` in `Content/Data/rigs.json` default to 0 and can be overridden per rig. Bind-pose diagnostic: `aerondel.Rig.BindPose 1` or `-AerondelBindPose`.
+
+**Reimport is required** after this bake: the source Adventurer glTF has five skinned meshes with different inverse-bind matrices and a non-root CharacterArmature at -90 X × 100. Importing that file (or an older bake that kept five skins / nested mesh nodes) makes Interchange ignore every IBM, so the reference pose lies on the ground and clips fail to map.
 
 ## Aerondel update (events, guilds, villages, quests)
 `Content/Data/aerondel_update.json` mirrors Lite's goblin village Snarlwick (190,40), ogre village Gorrumhold (-200,-30),

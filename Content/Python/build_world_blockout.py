@@ -13,7 +13,7 @@ import json
 import math
 import os
 import unreal
-from aerondel_util import ROOT, mat, eal
+from aerondel_util import ROOT, mat, eal, open_or_create_map, try_call, editor_world
 import aerondel_safe as safe
 import build_starter_town as bst
 import world_partition as wpart
@@ -57,7 +57,7 @@ def place_volume(place_id, x, z, size=12.0, display=None):
     v.set_editor_property("place_id", unreal.Name(place_id))
     if display:
         v.set_editor_property("display_name", display)
-    v.set_actor_scale3d(unreal.Vector(size / 8.0, size / 8.0, 1.0))  # default box extent is 8 m wide
+    try_call(v, "set_actor_scale3d", unreal.Vector(size / 8.0, size / 8.0, 1.0))  # default box extent is 8 m wide
     return label(v, "Place_" + place_id, "Places")
 
 
@@ -82,7 +82,7 @@ def text3d(name, folder, x, y, z, text, size=60.0, yaw=0.0, rgb=(255, 236, 180))
         except Exception:
             pass  # left-aligned is fine
         c.set_editor_property("text_render_color", unreal.Color(r=rgb[0], g=rgb[1], b=rgb[2], a=255))
-        c.set_collision_profile_name("NoCollision")
+        try_call(c, "set_collision_profile_name", "NoCollision")
         label(a, "%s_%d" % (name, i), folder)
 
 
@@ -133,160 +133,356 @@ def build_towns(w):
             box(name + "_WaystonePlinth", f, (tp[0], 0.12, tp[1]), (2.2, 0.24, 2.2), plinth, shape=CYL)
 
 
+def build_world_base(w, half, task):
+    """Ground, lighting, water, paths, buildings, guilds, landmarks, places, feature sites, sea, towns."""
+    task.frame("Ground and lighting")
+    bst.environment()
+    for a in (try_call(actors, "get_all_level_actors", default=None) or []):  # replace the starter-town ground/fences with a world-sized one
+        if try_call(a, "get_folder_path", default="", warn=False) == "Environment" and try_call(a, "get_actor_label", default="", warn=False) in ("Ground", "Town square", "Fence N", "Fence S", "Fence W", "NavMeshBounds", "PlayerStart"):
+            try_call(actors, "destroy_actor", a)
+    box("Ground", "Environment", (0, -0.05, 0), (half * 2, 0.1, half * 2), mat("Grass", (0.3, 0.45, 0.2), 0.95))
+    nav = spawn(unreal.NavMeshBoundsVolume, V(0, 2, 0))
+    try_call(nav, "set_actor_scale3d", unreal.Vector(half, half, 10))
+    label(nav, "NavMeshBounds", "Environment")
+    sp = w.get("spawn", {"x": 0, "z": 0})
+    label(spawn(unreal.PlayerStart, V(sp["x"], 1.0, sp["z"])), "PlayerStart", "Environment")
+
+    task.frame("Water")
+    water = mat("Water", (0.15, 0.35, 0.55), 0.1)
+    lk = w.get("lake")
+    if lk:
+        a = box("Lake", "Water", (lk["x"], 0.02, lk["z"]), (lk["r"] * 2, 0.04, lk["r"] * 2), water, shape=CYL, collide=False)
+        if a and getattr(a, "static_mesh_component", None):
+            a.static_mesh_component.set_editor_property("can_ever_affect_navigation", False)
+    for i, p in enumerate(w.get("ponds", [])):
+        a = box("Pond_%d" % i, "Water", (p["x"], 0.02, p["z"]), (p["r"] * 2, 0.04, p["r"] * 2), water, shape=CYL, collide=False)
+        if a and getattr(a, "static_mesh_component", None):
+            a.static_mesh_component.set_editor_property("can_ever_affect_navigation", False)
+    # shore blockers (invisible, pawn-only) are added with the gameplay placements below
+
+    task.frame("Paths")
+    dirt = mat("Path", (0.55, 0.45, 0.3), 0.9)
+    for i, (x1, z1, x2, z2) in enumerate(safe.limit(w.get("paths", []))):
+        length = math.hypot(x2 - x1, z2 - z1)
+        yaw = math.degrees(math.atan2(z2 - z1, x2 - x1))
+        box("Path_%02d" % i, "Paths", ((x1 + x2) / 2, 0.015, (z1 + z2) / 2), (length + 2, 0.03, 2.4), dirt, yaw=yaw, collide=False)
+
+    task.frame("Buildings")
+    for i, b in enumerate(safe.limit(w.get("buildings", []))):
+        x, z, bw, bd, wall, roof, name = b[0], b[1], b[2], b[3], b[4], b[5], b[6]
+        house(name.replace(" ", "_"), x, z, bw, bd, wall, roof, "Buildings/" + name)
+
+    task.frame("Guilds")
+    for g in safe.limit(w.get("guilds", [])):
+        name, f = g["name"], "Guilds/" + g["name"]
+        house(name.replace(" ", "_"), g["x"], g["z"], g["w"], g["d"], g["wall"], g["roof"], f)
+        for j, s in enumerate(g.get("stations", [])):
+            st = STATION.get(s)
+            if st:
+                bst.station("%s %s %d" % (name, s, j), f, (g["x"] - g["w"] / 2 + 1.5 + j * 2, 0.5, g["z"] + g["d"] / 2 + 1.5),
+                            (1.4, 1, 1), mat("Iron", (0.25, 0.25, 0.28), 0.4, 0.9), getattr(unreal.StationType, st))
+        if g.get("bank"):
+            bst.interactable(unreal.BankChest, name + " bank", f, (g["x"] + g["w"] / 2 - 1, 0.45, g["z"] + g["d"] / 2 + 1.5),
+                             CUBE, (1.2, 0.9, 0.8), mat("Chest", (0.5, 0.3, 0.15)))
+        place_volume(name, g["x"], g["z"], max(g["w"], g["d"]) + 4)  # extra ids; quests use the "places" table
+
+    task.frame("Landmarks and towns")
+    stone = mat("StoneDark", (0.45, 0.42, 0.4))
+    for lm in safe.limit(w.get("landmarks", [])):
+        box("Landmark_" + lm["n"], "Landmarks", (lm["x"], 2, lm["z"]), (1.2, 4, 1.2), stone)
+        place_volume(lm["n"], lm["x"], lm["z"], 16)
+    for town, t in safe.limit(w.get("towns", {})):
+        place_volume(town, t["x"], t["z"], 40, t.get("banner", town))  # "You arrive at Royal City of Highcrest."
+    # Quest visit targets (quests.json "place" ids -> world.json "places", exported from the web PLACES table).
+    for pid, p in safe.limit(w.get("places", {})):
+        place_volume(pid, p["x"], p["z"], p["r"] * 2, p.get("name"))
+    cave = w.get("cave")
+    if cave:
+        e = cave["entrance"]
+        box("Cave entrance", "Cave", (e["x"], 2, e["z"]), (6, 4, 2), stone)
+        box("Cave floor", "Cave", (cave["x"], -0.04, cave["z"]), (cave["r"] * 2, 0.1, cave["r"] * 2), stone, shape=CYL)
+        place_volume("Cave", cave["x"], cave["z"], cave["r"] * 2)
+
+    # Feature sites from the v18 port (C++ features own the logic; these are greybox anchors + place volumes).
+    # Feature NPCs: quests.json "npcs" entries with a service and a home spot (web world.js SARIM/ISLE lists).
+    quests_path = os.path.join(unreal.Paths.project_content_dir(), "Data", "quests.json")
+    with open(quests_path, "r", encoding="utf-8") as f:
+        npcs = json.load(f).get("npcs", {})
+    counter = mat("Counter", (0.45, 0.32, 0.2))
+    for nid, n in safe.limit(npcs):
+        if "x" not in n:
+            continue
+        # JSON-only NpcDefs: the actor resolves npc_id at BeginPlay (no Npc_ asset needed).
+        a = spawn(unreal.NpcTalk, V(n["x"], 0, n["z"]))
+        a.set_editor_property("npc_id", unreal.Name(nid))
+        a.set_editor_property("display_name", n["name"])
+        t = n.get("tint", "#a08060").lstrip("#")
+        rgb = tuple(int(t[i:i + 2], 16) / 255.0 for i in (0, 2, 4))
+        if nid.startswith("waystone_"):  # carved standing stone instead of a person
+            bst.set_mesh(a.get_editor_property("mesh"), CUBE, (0.7, 0.5, 2.2), tone_mat(rgb), rel=(0, 0, 110.0))
+        else:
+            bst.set_mesh(a.get_editor_property("mesh"), CYL, (0.55, 0.55, 1.75), tone_mat(rgb), rel=(0, 0, 87.5))
+        a.set_editor_property("range", 220.0)
+        label(a, n["name"], ("Towns/" + n["town"] + "/NPCs") if n.get("town") else "FeatureSites/NPCs")
+        svc = n.get("service", "")
+        shop = svc[5:] if svc.startswith("shop:") else ("hexer" if svc == "hexer" else None)
+        if shop:  # trade happens at a counter beside them
+            c = bst.interactable(unreal.ShopCounter, n["name"] + " stall", "FeatureSites/Shops", (n["x"] + 1.5, 0.5, n["z"]),
+                                 CUBE, (1.2, 1.0, 0.7), counter)
+            c.set_editor_property("shop_id", unreal.Name(shop))
+    for pid, x, z, r in FEATURE_SITES:
+        place_volume(pid, x, z, r * 2)
+    fort = mat("FortStone", (0.4, 0.38, 0.36))
+    for i in range(16):  # siege fort palisade ring, radius 16
+        a = i * math.tau / 16
+        box("Fort_Wall_%02d" % i, "FeatureSites/Siege", (-1000 + 16 * math.cos(a), 2, -640 + 16 * math.sin(a)), (6.4, 4, 1), fort,
+            yaw=math.degrees(a) + 90)
+    banner = mat("WildsBanner", (0.6, 0.1, 0.1))
+    for i, (dx, dz) in enumerate(((-6, -6), (6, -6), (-6, 6), (6, 6))):
+        box("Wilds_Banner_%d" % i, "FeatureSites/Wilds", (122 + dx, 2.5, -122 + dz), (0.2, 5, 1.2), banner)
+    # Ventures pads (web adapt/zone.js): flat 28x28 floors with low walls at x = -1000.
+    for zid, zz, fc, ec in (("Vigil", 135, (0.23, 0.2, 0.27), (0.5, 0.35, 0.55)), ("Breach", 205, (0.23, 0.23, 0.27), (0.42, 0.35, 0.54)),
+                            ("Hold", 270, (0.3, 0.26, 0.2), (0.5, 0.4, 0.28))):
+        fl, ed = mat("Venture%sFloor" % zid, fc), mat("Venture%sEdge" % zid, ec)
+        box("Venture_%s_Floor" % zid, "FeatureSites/Ventures", (-1000, 0.05, zz), (28, 0.1, 28), fl)
+        # Wall width/depth must not be named `w`: that would shadow the world dict
+        # and make later build_towns(w) / regions / placements receive a float.
+        for i, (ww, dd, dx, dz) in enumerate(((28, 0.6, 0, -14), (28, 0.6, 0, 14), (0.6, 28, -14, 0), (0.6, 28, 14, 0))):
+            box("Venture_%s_Wall_%d" % (zid, i), "FeatureSites/Ventures", (-1000 + dx, 0.8, zz + dz), (ww, 1.6, dd), ed)
+    node = mat("BreachNode", (0.8, 0.3, 1.0))
+    for i, (dx, dz) in enumerate(((-8, -6), (8, -6), (0, -11))):
+        box("Venture_Breach_Node_%d" % i, "FeatureSites/Ventures", (-1000 + dx, 0.5, 205 + dz), (1.2, 1, 1.2), node)
+    for k, dx, dz, c in (("Forge", -7, -6, (0.35, 0.29, 0.29)), ("Garden", 0, -8, (0.23, 0.54, 0.23)), ("Kennel", 7, -6, (0.48, 0.35, 0.23))):
+        box("Hearthhold_" + k, "FeatureSites/Ventures", (-1000 + dx, 1.2, 270 + dz), (3, 2.4, 3), mat("Hold" + k, c))
+    box("Hearthhold_Boat", "FeatureSites/Ventures", (-1000, 0.3, 280), (2.2, 0.6, 2.2), mat("HoldBoat", (0.42, 0.82, 1.0)), shape=CYL)
+    box("Venture_Breach_Ward", "FeatureSites/Ventures", (-1000, 1.1, 205), (1.6, 2.2, 1.6), mat("BreachWard", (0.4, 0.8, 1.0)))
+    felt = mat("CardFelt", (0.1, 0.4, 0.2))
+    for i in range(2):
+        box("Card_Table_%d" % i, "FeatureSites/Brineholt", (80 + i * 4 - 2, 0.45, 1030), (2, 0.9, 1.2), felt)
+    # Saltreach Sound (z > 760): open water, the three islands with docks. Ships, cannonballs and the deck are runtime
+    # (ASailingVisuals); the sea surface is visual only (no collision) - the deck carries you.
+    sea = mat("SeaWater", (0.08, 0.25, 0.38), 0.05)
+    box("Sarim_Sound", "Sea", (0, -0.3, 980), (900, 0.05, 460), sea, collide=False)
+    sand = mat("Sand", (0.76, 0.68, 0.48), 0.95)
+    for iid, ix, iz, ir, dx, dz in (("Gullrest", -70, 960, 26, -70, 932), ("Brineholt", 80, 1030, 24, 54, 1030), ("Wreckers_Reef", 10, 1120, 22, 10, 1096)):
+        box("Isle_" + iid, "Sea/Islands", (ix, -0.5, iz), (ir * 2, 1.2, ir * 2), sand, shape=CYL)
+        yaw = math.degrees(math.atan2(dz - iz, dx - ix))
+        box("Dock_" + iid, "Sea/Islands", ((ix + dx) / 2 + (dx - ix) * 0.25, 0.15, (iz + dz) / 2 + (dz - iz) * 0.25), (12, 0.3, 3),
+            mat("Planks", (0.45, 0.32, 0.2)), yaw=yaw)
+        place_volume(iid.lower(), ix, iz, ir * 2)
+    box("Port_Sarim_Dock", "FeatureSites/Docks", (-80, 0.2, 80), (6, 0.4, 14), mat("Planks", (0.45, 0.32, 0.2)))
+
+    task.frame("Towns, regions and sea")
+    build_towns(w)  # banners, signposts, bank chests, waystone plinths
+
+
+
+def _iter_level_actors():
+    return try_call(actors, "get_all_level_actors", default=None) or []
+
+
+def _actor_class_name(a):
+    try:
+        return a.get_class().get_name()
+    except Exception:
+        return ""
+
+
+def ensure_world_navmesh(half):
+    """Guarantee a world-covering NavMeshBoundsVolume and build Recast nav data.
+
+    Spawning the volume alone is not enough: Play logs 'Unable to find RecastNavMesh'
+    until paths are built. This resizes the existing volume (or places one), requests
+    a nav build, and sets Recast runtime generation to Dynamic so World Partition
+    tiles stream in. If the engine API to build paths is missing, the log tells
+    Aaron to use Build > Build Paths.
+    """
+    half = float(half or 300)
+    nav = None
+    recasts = []
+    for a in _iter_level_actors():
+        cls = _actor_class_name(a)
+        lab = try_call(a, "get_actor_label", default="", warn=False)
+        if cls == "NavMeshBoundsVolume" or lab == "NavMeshBounds":
+            nav = a
+        if "RecastNavMesh" in cls or cls == "AbstractNavData":
+            recasts.append(a)
+    if nav is None:
+        nav_cls = getattr(unreal, "NavMeshBoundsVolume", None)
+        if nav_cls is None:
+            unreal.log_warning("[Aerondel] NavMeshBoundsVolume class is not available; add one by hand and Build > Build Paths.")
+            return False
+        nav = spawn(nav_cls, V(0, 2, 0))
+        if not nav:
+            unreal.log_warning("[Aerondel] Could not spawn NavMeshBoundsVolume; add one covering the world and Build > Build Paths.")
+            return False
+        unreal.log("[Aerondel] placed NavMeshBoundsVolume covering %.0f x %.0f m" % (half * 2, half * 2))
+    # Default engine brush is 200 cm; scale so XY covers worldHalf in each direction, Z plenty for hills.
+    try_call(nav, "set_actor_location", V(0, 2, 0), False)
+    try_call(nav, "set_actor_scale3d", unreal.Vector(half, half, max(50.0, half * 0.1)))
+    label(nav, "NavMeshBounds", "Environment")
+    built = _request_nav_build()
+    recasts = [a for a in _iter_level_actors() if "RecastNavMesh" in _actor_class_name(a) or _actor_class_name(a) == "AbstractNavData"]
+    dynamic = wpart.dynamic_navmesh(actors)
+    if not recasts:
+        unreal.log_warning("[Aerondel] No RecastNavMesh after placing NavMeshBounds (%.0f m). "
+                           "In the editor: Build > Build Paths, then File > Save All on the World map." % (half * 2))
+        return False
+    unreal.log("[Aerondel] NavMesh ready: bounds %.0f x %.0f m, %d RecastNavMesh, dynamic=%d, build=%s" % (
+        half * 2, half * 2, len(recasts), int(dynamic or 0), "ok" if built else "requested"))
+    return True
+
+
+def _request_nav_build():
+    """Best-effort nav rebuild across UE 5.x Python APIs. Returns True if a call appeared to run."""
+    world = None
+    try:
+        world = editor_world()
+    except Exception:
+        world = None
+    tried = False
+    ns_cls = getattr(unreal, "NavigationSystemV1", None)
+    if ns_cls is not None:
+        ns = None
+        for meth, args in (
+            ("get_navigation_system", (world,) if world is not None else ()),
+            ("get_current", (world,) if world is not None else ()),
+        ):
+            fn = getattr(ns_cls, meth, None)
+            if not callable(fn):
+                continue
+            try:
+                ns = fn(*args) if args else fn()
+            except Exception:
+                ns = None
+            if ns:
+                break
+        if ns is None and world is not None:
+            ns = try_call(world, "get_navigation_system", default=None, warn=False)
+        if ns is not None:
+            for meth in ("build", "rebuild_all", "simple_build"):
+                fn = getattr(ns, meth, None)
+                if callable(fn):
+                    try:
+                        fn()
+                        tried = True
+                        break
+                    except TypeError:
+                        try:
+                            fn(True)
+                            tried = True
+                            break
+                        except Exception:
+                            continue
+                    except Exception:
+                        continue
+    for sub_name in ("EditorNavigationSubsystem",):
+        try:
+            sub = unreal.get_editor_subsystem(getattr(unreal, sub_name))
+        except Exception:
+            sub = None
+        if sub is None:
+            continue
+        for meth in ("build", "rebuild_all", "editor_build"):
+            if try_call(sub, meth, default=None, warn=False) is not None or hasattr(sub, meth):
+                fn = getattr(sub, meth, None)
+                if callable(fn):
+                    try:
+                        fn()
+                        tried = True
+                        break
+                    except Exception:
+                        continue
+    # Level editor "build navigation" option if present (names vary).
+    try:
+        les = unreal.get_editor_subsystem(unreal.LevelEditorSubsystem)
+    except Exception:
+        les = None
+    if les is not None:
+        for meth in ("editor_build", "build"):
+            fn = getattr(les, meth, None)
+            if not callable(fn):
+                continue
+            try:
+                fn()
+                tried = True
+                break
+            except TypeError:
+                # Some builds take an options enum; skip rather than guess a bad value.
+                continue
+            except Exception:
+                continue
+    return tried
+
+
+def finalize_world(task=None):
+    """Apply World Partition streaming flags and save. Uses the shipped loading range."""
+    if task:
+        task.frame("World Partition streaming + save")
+    if wpart.is_partitioned():
+        wpart.configure_runtime_grid()
+        wpart.apply_streaming_flags(actors)
+    else:
+        unreal.log_warning("[Aerondel] World map is not partitioned; it will load all at once until converted (Tools > Convert Level).")
+    # Always (re)place/resize the bounds and build Recast — missing RecastNavMesh is why Play
+    # logs "Unable to find RecastNavMesh" after 0L/4 if paths were never built.
+    w = load_world()
+    half = float((w or {}).get("worldHalf", 300) if isinstance(w, dict) else 300)
+    ensure_world_navmesh(half)
+    try_call(levels, "save_current_level")
+    wpart.save_all()
+
+
 def run(small=False):
     """small=True: quick 'small test' (first few of each category, no signpost text) to check the machine copes."""
     w = load_world()
-    if eal.does_asset_exist(MAP):
-        eal.delete_asset(MAP)
-    if not wpart.new_partitioned_level(MAP, levels):  # World Partition: actors stream in 128 m cells
-        unreal.log_error("[Aerondel] Could not create " + MAP)
+    if not isinstance(w, dict):
+        unreal.log_error("[Aerondel] world.json did not load as an object")
+        return
+    # Idempotent: load the existing World Partition map and rebuild actors (delete+NewLevel fails once the asset exists).
+    if not open_or_create_map(MAP, levels, partitioned=True, create_partitioned=wpart.new_partitioned_level):
+        unreal.log_error("[Aerondel] Could not open or create " + MAP)
         return
     half = float(w.get("worldHalf", 300))
-    with safe.SafeRun("World blockout", 9, small=small, save_fn=levels.save_current_level) as task:
+    n_nodes = n_mobs = 0  # stays 0 if the run is cancelled -> the packager refuses this World
+    with safe.SafeRun("World blockout", 10, small=small, save_fn=levels.save_current_level) as task:
 
-        task.frame("Ground and lighting")
-        bst.environment()
-        for a in actors.get_all_level_actors():  # replace the starter-town ground/fences with a world-sized one
-            if a.get_folder_path() == "Environment" and a.get_actor_label() in ("Ground", "Town square", "Fence N", "Fence S", "Fence W", "NavMeshBounds", "PlayerStart"):
-                actors.destroy_actor(a)
-        box("Ground", "Environment", (0, -0.05, 0), (half * 2, 0.1, half * 2), mat("Grass", (0.3, 0.45, 0.2), 0.95))
-        nav = spawn(unreal.NavMeshBoundsVolume, V(0, 2, 0))
-        nav.set_actor_scale3d(unreal.Vector(half, half, 10))
-        label(nav, "NavMeshBounds", "Environment")
-        sp = w.get("spawn", {"x": 0, "z": 0})
-        label(spawn(unreal.PlayerStart, V(sp["x"], 1.0, sp["z"])), "PlayerStart", "Environment")
+        build_world_base(w, half, task)
 
-        task.frame("Water")
-        water = mat("Water", (0.15, 0.35, 0.55), 0.1)
-        lk = w.get("lake")
-        if lk:
-            box("Lake", "Water", (lk["x"], 0.02, lk["z"]), (lk["r"] * 2, 0.04, lk["r"] * 2), water, shape=CYL, collide=False)
-        for i, p in enumerate(w.get("ponds", [])):
-            box("Pond_%d" % i, "Water", (p["x"], 0.02, p["z"]), (p["r"] * 2, 0.04, p["r"] * 2), water, shape=CYL, collide=False)
-
-        task.frame("Paths")
-        dirt = mat("Path", (0.55, 0.45, 0.3), 0.9)
-        for i, (x1, z1, x2, z2) in enumerate(safe.limit(w.get("paths", []))):
-            length = math.hypot(x2 - x1, z2 - z1)
-            yaw = math.degrees(math.atan2(z2 - z1, x2 - x1))
-            box("Path_%02d" % i, "Paths", ((x1 + x2) / 2, 0.015, (z1 + z2) / 2), (length + 2, 0.03, 2.4), dirt, yaw=yaw, collide=False)
-
-        task.frame("Buildings")
-        for i, b in enumerate(safe.limit(w.get("buildings", []))):
-            x, z, bw, bd, wall, roof, name = b[0], b[1], b[2], b[3], b[4], b[5], b[6]
-            house(name.replace(" ", "_"), x, z, bw, bd, wall, roof, "Buildings/" + name)
-
-        task.frame("Guilds")
-        for g in safe.limit(w.get("guilds", [])):
-            name, f = g["name"], "Guilds/" + g["name"]
-            house(name.replace(" ", "_"), g["x"], g["z"], g["w"], g["d"], g["wall"], g["roof"], f)
-            for j, s in enumerate(g.get("stations", [])):
-                st = STATION.get(s)
-                if st:
-                    bst.station("%s %s %d" % (name, s, j), f, (g["x"] - g["w"] / 2 + 1.5 + j * 2, 0.5, g["z"] + g["d"] / 2 + 1.5),
-                                (1.4, 1, 1), mat("Iron", (0.25, 0.25, 0.28), 0.4, 0.9), getattr(unreal.StationType, st))
-            if g.get("bank"):
-                bst.interactable(unreal.BankChest, name + " bank", f, (g["x"] + g["w"] / 2 - 1, 0.45, g["z"] + g["d"] / 2 + 1.5),
-                                 CUBE, (1.2, 0.9, 0.8), mat("Chest", (0.5, 0.3, 0.15)))
-            place_volume(name, g["x"], g["z"], max(g["w"], g["d"]) + 4)  # extra ids; quests use the "places" table
-
-        task.frame("Landmarks and towns")
-        stone = mat("StoneDark", (0.45, 0.42, 0.4))
-        for lm in safe.limit(w.get("landmarks", [])):
-            box("Landmark_" + lm["n"], "Landmarks", (lm["x"], 2, lm["z"]), (1.2, 4, 1.2), stone)
-            place_volume(lm["n"], lm["x"], lm["z"], 16)
-        for town, t in safe.limit(w.get("towns", {})):
-            place_volume(town, t["x"], t["z"], 40, t.get("banner", town))  # "You arrive at Royal City of Highcrest."
-        # Quest visit targets (quests.json "place" ids -> world.json "places", exported from the web PLACES table).
-        for pid, p in safe.limit(w.get("places", {})):
-            place_volume(pid, p["x"], p["z"], p["r"] * 2, p.get("name"))
-        cave = w.get("cave")
-        if cave:
-            e = cave["entrance"]
-            box("Cave entrance", "Cave", (e["x"], 2, e["z"]), (6, 4, 2), stone)
-            box("Cave floor", "Cave", (cave["x"], -0.04, cave["z"]), (cave["r"] * 2, 0.1, cave["r"] * 2), stone, shape=CYL)
-            place_volume("Cave", cave["x"], cave["z"], cave["r"] * 2)
-
-        # Feature sites from the v18 port (C++ features own the logic; these are greybox anchors + place volumes).
-        # Feature NPCs: quests.json "npcs" entries with a service and a home spot (web world.js SARIM/ISLE lists).
-        quests_path = os.path.join(unreal.Paths.project_content_dir(), "Data", "quests.json")
-        with open(quests_path, "r", encoding="utf-8") as f:
-            npcs = json.load(f).get("npcs", {})
-        counter = mat("Counter", (0.45, 0.32, 0.2))
-        for nid, n in safe.limit(npcs):
-            if "x" not in n:
-                continue
-            # JSON-only NpcDefs: the actor resolves npc_id at BeginPlay (no Npc_ asset needed).
-            a = spawn(unreal.NpcTalk, V(n["x"], 0, n["z"]))
-            a.set_editor_property("npc_id", unreal.Name(nid))
-            a.set_editor_property("display_name", n["name"])
-            t = n.get("tint", "#a08060").lstrip("#")
-            rgb = tuple(int(t[i:i + 2], 16) / 255.0 for i in (0, 2, 4))
-            if nid.startswith("waystone_"):  # carved standing stone instead of a person
-                bst.set_mesh(a.get_editor_property("mesh"), CUBE, (0.7, 0.5, 2.2), tone_mat(rgb), rel=(0, 0, 110.0))
-            else:
-                bst.set_mesh(a.get_editor_property("mesh"), CYL, (0.55, 0.55, 1.75), tone_mat(rgb), rel=(0, 0, 87.5))
-            a.set_editor_property("range", 220.0)
-            label(a, n["name"], ("Towns/" + n["town"] + "/NPCs") if n.get("town") else "FeatureSites/NPCs")
-            svc = n.get("service", "")
-            shop = svc[5:] if svc.startswith("shop:") else ("hexer" if svc == "hexer" else None)
-            if shop:  # trade happens at a counter beside them
-                c = bst.interactable(unreal.ShopCounter, n["name"] + " stall", "FeatureSites/Shops", (n["x"] + 1.5, 0.5, n["z"]),
-                                     CUBE, (1.2, 1.0, 0.7), counter)
-                c.set_editor_property("shop_id", unreal.Name(shop))
-        for pid, x, z, r in FEATURE_SITES:
-            place_volume(pid, x, z, r * 2)
-        fort = mat("FortStone", (0.4, 0.38, 0.36))
-        for i in range(16):  # siege fort palisade ring, radius 16
-            a = i * math.tau / 16
-            box("Fort_Wall_%02d" % i, "FeatureSites/Siege", (-1000 + 16 * math.cos(a), 2, -640 + 16 * math.sin(a)), (6.4, 4, 1), fort,
-                yaw=math.degrees(a) + 90)
-        banner = mat("WildsBanner", (0.6, 0.1, 0.1))
-        for i, (dx, dz) in enumerate(((-6, -6), (6, -6), (-6, 6), (6, 6))):
-            box("Wilds_Banner_%d" % i, "FeatureSites/Wilds", (122 + dx, 2.5, -122 + dz), (0.2, 5, 1.2), banner)
-        # Ventures pads (web adapt/zone.js): flat 28x28 floors with low walls at x = -1000.
-        for zid, zz, fc, ec in (("Vigil", 135, (0.23, 0.2, 0.27), (0.5, 0.35, 0.55)), ("Breach", 205, (0.23, 0.23, 0.27), (0.42, 0.35, 0.54)),
-                                ("Hold", 270, (0.3, 0.26, 0.2), (0.5, 0.4, 0.28))):
-            fl, ed = mat("Venture%sFloor" % zid, fc), mat("Venture%sEdge" % zid, ec)
-            box("Venture_%s_Floor" % zid, "FeatureSites/Ventures", (-1000, 0.05, zz), (28, 0.1, 28), fl)
-            for i, (w, d, dx, dz) in enumerate(((28, 0.6, 0, -14), (28, 0.6, 0, 14), (0.6, 28, -14, 0), (0.6, 28, 14, 0))):
-                box("Venture_%s_Wall_%d" % (zid, i), "FeatureSites/Ventures", (-1000 + dx, 0.8, zz + dz), (w, 1.6, d), ed)
-        node = mat("BreachNode", (0.8, 0.3, 1.0))
-        for i, (dx, dz) in enumerate(((-8, -6), (8, -6), (0, -11))):
-            box("Venture_Breach_Node_%d" % i, "FeatureSites/Ventures", (-1000 + dx, 0.5, 205 + dz), (1.2, 1, 1.2), node)
-        for k, dx, dz, c in (("Forge", -7, -6, (0.35, 0.29, 0.29)), ("Garden", 0, -8, (0.23, 0.54, 0.23)), ("Kennel", 7, -6, (0.48, 0.35, 0.23))):
-            box("Hearthhold_" + k, "FeatureSites/Ventures", (-1000 + dx, 1.2, 270 + dz), (3, 2.4, 3), mat("Hold" + k, c))
-        box("Hearthhold_Boat", "FeatureSites/Ventures", (-1000, 0.3, 280), (2.2, 0.6, 2.2), mat("HoldBoat", (0.42, 0.82, 1.0)), shape=CYL)
-        box("Venture_Breach_Ward", "FeatureSites/Ventures", (-1000, 1.1, 205), (1.6, 2.2, 1.6), mat("BreachWard", (0.4, 0.8, 1.0)))
-        felt = mat("CardFelt", (0.1, 0.4, 0.2))
-        for i in range(2):
-            box("Card_Table_%d" % i, "FeatureSites/Brineholt", (80 + i * 4 - 2, 0.45, 1030), (2, 0.9, 1.2), felt)
-        # Saltreach Sound (z > 760): open water, the three islands with docks. Ships, cannonballs and the deck are runtime
-        # (ASailingVisuals); the sea surface is visual only (no collision) - the deck carries you.
-        sea = mat("SeaWater", (0.08, 0.25, 0.38), 0.05)
-        box("Sarim_Sound", "Sea", (0, -0.3, 980), (900, 0.05, 460), sea, collide=False)
-        sand = mat("Sand", (0.76, 0.68, 0.48), 0.95)
-        for iid, ix, iz, ir, dx, dz in (("Gullrest", -70, 960, 26, -70, 932), ("Brineholt", 80, 1030, 24, 54, 1030), ("Wreckers_Reef", 10, 1120, 22, 10, 1096)):
-            box("Isle_" + iid, "Sea/Islands", (ix, -0.5, iz), (ir * 2, 1.2, ir * 2), sand, shape=CYL)
-            yaw = math.degrees(math.atan2(dz - iz, dx - ix))
-            box("Dock_" + iid, "Sea/Islands", ((ix + dx) / 2 + (dx - ix) * 0.25, 0.15, (iz + dz) / 2 + (dz - iz) * 0.25), (12, 0.3, 3),
-                mat("Planks", (0.45, 0.32, 0.2)), yaw=yaw)
-            place_volume(iid.lower(), ix, iz, ir * 2)
-        box("Port_Sarim_Dock", "FeatureSites/Docks", (-80, 0.2, 80), (6, 0.4, 14), mat("Planks", (0.45, 0.32, 0.2)))
-
-        task.frame("Towns, regions and sea")
-        build_towns(w)  # banners, signposts, bank chests, waystone plinths
         import build_aerondel_regions, importlib
         importlib.reload(build_aerondel_regions)
         build_aerondel_regions.build(w, density=0.4 if small else 1.0)  # climate-region ground, biome props, dig sites, Delver's Descent
 
-        task.frame("World Partition streaming + save")
-        if wpart.is_partitioned():
-            wpart.configure_runtime_grid()
-            wpart.apply_streaming_flags(actors)
-            wpart.dynamic_navmesh(actors)
-        else:
-            unreal.log_warning("[Aerondel] World map is not partitioned; it will load all at once until converted (Tools > Convert Level).")
-        levels.save_current_level()
-        wpart.save_all()
-    unreal.log("[Aerondel] World blockout saved to " + MAP)
+        task.frame("Gameplay placements (trees, rocks, fishing, herbs, monsters) + shore blockers")
+        import world_placements
+        importlib.reload(world_placements)
+        n_nodes, n_mobs = world_placements.build(w, small=small)
+
+        finalize_world(task)
+    write_build_marker(small, n_nodes, n_mobs)
+    unreal.log("[Aerondel] World blockout saved to " + MAP + (" -- SMALL TEST ONLY, not the whole world" if small else " (FULL world)"))
+
+
+def write_build_marker(small, n_nodes, n_mobs, laptop=False, skipped=None):
+    """Saved/AerondelWorldBuild.json: Tools/package_win64.bat refuses to package a small-test or placement-less World.
+
+    Laptop builds have full gameplay coverage (mode=laptop) and are allowed to package, with a log note
+    that optional high-fidelity / decor / HLODs were skipped.
+    """
+    path = os.path.join(unreal.Paths.project_saved_dir(), "AerondelWorldBuild.json")
+    if small:
+        mode = "small"
+    elif laptop:
+        mode = "laptop"
+    else:
+        mode = "full"
+    payload = {"mode": mode, "nodes": n_nodes, "mobs": n_mobs}
+    if laptop:
+        payload["laptop"] = True
+        payload["skipped"] = list(skipped or [])
+        payload["note"] = "Full world coverage; high-fidelity/realism materials, festival decor and HLODs were skipped."
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(payload, f)
+    unreal.log("[Aerondel] World build marker: " + path + " mode=" + mode)
+
+

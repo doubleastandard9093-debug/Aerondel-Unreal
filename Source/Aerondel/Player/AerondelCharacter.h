@@ -17,6 +17,8 @@ class AERONDEL_API AAerondelCharacter : public ACharacter
 	GENERATED_BODY()
 public:
 	AAerondelCharacter();
+	/** Actor the player is walking to / gathering from / talking to (kept fully active by the relevance subsystem). */
+	AActor* GetPendingInteraction() const { return Pending.Get(); }
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Camera") TObjectPtr<USpringArmComponent> SpringArm;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Camera") TObjectPtr<UCameraComponent> Camera;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Combat") TObjectPtr<UPlayerCombatComponent> Combat;

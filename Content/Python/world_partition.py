@@ -18,6 +18,7 @@ Every engine call that differs between versions is wrapped: if one isn't availab
 builder logs exactly what to set by hand instead of failing the whole build.
 """
 import unreal
+from aerondel_util import editor_world, try_call
 
 CELL_SIZE_CM = 12800.0       # 128 m cells
 LOADING_RANGE_CM = 38400.0   # 384 m (3 cells) on High/Ultra
@@ -52,10 +53,7 @@ def new_partitioned_level(path, levels):
 
 
 def _world():
-    try:
-        return unreal.get_editor_subsystem(unreal.UnrealEditorSubsystem).get_editor_world()
-    except Exception:  # noqa: BLE001
-        return unreal.EditorLevelLibrary.get_editor_world()
+    return editor_world()
 
 
 def is_partitioned():
@@ -104,19 +102,19 @@ def configure_runtime_grid(cell=CELL_SIZE_CM, loading_range=LOADING_RANGE_CM):
 
 
 def _always_loaded(a):
-    cls = a.get_class().get_name()
+    cls = try_call(try_call(a, "get_class", default=None, warn=False), "get_name", default="", warn=False) or ""
     if cls in ALWAYS_LOADED_CLASSES:
         return True
-    if a.get_actor_label() in ALWAYS_LOADED_LABELS:
+    if try_call(a, "get_actor_label", default="", warn=False) in ALWAYS_LOADED_LABELS:
         return True
-    folder = str(a.get_folder_path())
+    folder = str(try_call(a, "get_folder_path", default="", warn=False) or "")
     return any(folder == f or folder.startswith(f + "/") for f in ALWAYS_LOADED_FOLDERS)
 
 
 def apply_streaming_flags(actors):
     """Spatially load everything except the essentials. Returns (streamed, always)."""
     streamed = always = 0
-    for a in actors.get_all_level_actors():
+    for a in (try_call(actors, "get_all_level_actors", default=None) or []):
         keep = _always_loaded(a)
         try:
             a.set_editor_property("is_spatially_loaded", not keep)
@@ -133,7 +131,7 @@ def apply_streaming_flags(actors):
 def dynamic_navmesh(actors):
     """Static navmesh can't follow streamed cells; regenerate tiles at runtime on this map only."""
     n = 0
-    for a in actors.get_all_level_actors():
+    for a in (try_call(actors, "get_all_level_actors", default=None) or []):
         if a.get_class().get_name() == "RecastNavMesh":
             try:
                 a.set_editor_property("runtime_generation", unreal.RuntimeGenerationType.DYNAMIC)

@@ -12,6 +12,8 @@ public class Aerondel : ModuleRules
 		{
 			"Core", "CoreUObject", "Engine", "InputCore", "EnhancedInput",
 			"UMG", "Slate", "SlateCore", "AIModule", "NavigationSystem",
+			// HMD/XRBase stay: XR/*.cpp and PlatformModeSubsystem call HMD APIs even when the
+			// OpenXR *plugin* is Android-only (Windows flat PC). Do not delete VR sources.
 			"HeadMountedDisplay", "XRBase", "GameplayTags", "DeveloperSettings",
 			"Json", "JsonUtilities"
 		});

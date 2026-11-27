@@ -61,6 +61,11 @@ AAerondelMob::AAerondelMob()
 void AAerondelMob::OnConstruction(const FTransform& Xf)
 {
 	Super::OnConstruction(Xf);
+	ApplyDefinitionShape();
+}
+
+void AAerondelMob::ApplyDefinitionShape()
+{
 	if (!Definition) return;
 	// Placeholder body: a tinted box sized from the data (cube mesh is 100 cm).
 	const FVector S = Definition->BodySize;
@@ -90,6 +95,12 @@ void AAerondelMob::RefreshNameplate()
 void AAerondelMob::BeginPlay()
 {
 	Super::BeginPlay();
+	if (!Definition && !DefinitionId.IsNone())
+	{
+		if (UGameDatabase* Db = UGameDatabase::Get()) Definition = Db->FindMob(DefinitionId);
+		if (Definition) ApplyDefinitionShape();
+		else UE_LOG(LogTemp, Warning, TEXT("[Aerondel] Placement: mob %s has unknown id %s"), *GetName(), *DefinitionId.ToString());
+	}
 	Home = GetActorLocation();
 	Health->SetMax(Definition ? Definition->Hitpoints : 5, true);
 	Health->OnDied.AddDynamic(this, &AAerondelMob::HandleDied);
@@ -103,10 +114,18 @@ void AAerondelMob::TryRig()
 	USkeletalMeshComponent* Sk = GetMesh();
 	if (!Definition || !Sk) return;
 	bRigged = UAerondelModelLibrary::ApplyRig(Sk, TEXT("mob:") + Definition->Id.ToString());
-	UE_LOG(LogTemp, Log, TEXT("[Aerondel] Spawn mob %s (%s): rig %s"), *GetName(), *Definition->Id.ToString(), bRigged ? TEXT("applied") : TEXT("FAILED, placeholder box"));
-	if (!bRigged) return;
 	UCapsuleComponent* Cap = GetCapsuleComponent();
-	UAerondelModelLibrary::FitRig(Sk, Definition->BodySize.Z, Cap->GetUnscaledCapsuleHalfHeight());
+	if (bRigged && !UAerondelModelLibrary::FitRig(Sk, Definition->BodySize.Z, Cap->GetUnscaledCapsuleHalfHeight()))
+	{
+		UAerondelModelLibrary::ClearRig(Sk);
+		bRigged = false;
+	}
+	UE_LOG(LogTemp, Log, TEXT("[Aerondel] Spawn mob %s (%s): rig %s"), *GetName(), *Definition->Id.ToString(), bRigged ? TEXT("applied") : TEXT("FAILED, placeholder box"));
+	if (!bRigged)
+	{
+		if (Body) Body->SetVisibility(true);
+		return;
+	}
 	Sk->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	FLinearColor TintC; float TintK = 0.f;
 	if (UAerondelModelLibrary::MobTint(Definition->Id, TintC, TintK)) UAerondelModelLibrary::ApplyTint(Sk, TintC, TintK); // e.g. pale-blue Ice Giant on the giant rig

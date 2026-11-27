@@ -7,7 +7,7 @@ NavMeshBoundsVolume, sun/sky/skylight/fog, PlayerStart. Saved to /Game/Gielinor/
 Run "Generate Starter Data" first.
 """
 import unreal
-from aerondel_util import ROOT, mat, eal
+from aerondel_util import ROOT, mat, eal, open_or_create_map, refresh_actor, try_call, component_by_class, editor_world, set_props
 import aerondel_safe as safe
 
 MAP = ROOT + "/Maps/StarterTown"
@@ -58,8 +58,18 @@ def data(kind, name):
 
 
 def label(actor, text, folder):
-    actor.set_actor_label(text)
-    actor.set_folder_path(folder)
+    try_call(actor, "set_actor_label", text)
+    try_call(actor, "set_folder_path", folder)
+    tag = safe.current_chunk_tag()
+    if tag and actor is not None:
+        try:
+            tags = list(actor.get_editor_property("tags") or [])
+            token = unreal.Name("laptop_chunk:" + tag)
+            if token not in tags and str(token) not in [str(x) for x in tags]:
+                tags.append(token)
+                actor.set_editor_property("tags", tags)
+        except Exception:  # noqa: BLE001
+            pass
     return actor
 
 
@@ -78,9 +88,10 @@ def box(name, folder, center, size, material, shape=CUBE, yaw=0.0, collide=True,
     c = a.static_mesh_component
     c.set_static_mesh(mesh(shape, _smooth_ok(shape, size)))
     c.set_world_scale3d(unreal.Vector(size[0], size[2], size[1]))
-    c.set_material(0, material)
+    if material is not None:
+        c.set_material(0, material)
     if not collide:
-        c.set_collision_profile_name("NoCollision")
+        try_call(c, "set_collision_profile_name", "NoCollision")
     return label(a, name, folder)
 
 
@@ -100,9 +111,9 @@ def instanced(name, folder, shape, material, transforms_m, collide=False):
     cx = sum(c[0] for c, _, _ in kept) / len(kept)
     cz = sum(c[2] for c, _, _ in kept) / len(kept)
     a = spawn(cls, V(cx, 0, cz))
-    a.setup(mesh(shape, True), material, collide)
+    try_call(a, "setup", mesh(shape, True), material, collide)
     xf = [unreal.Transform(V(*c), unreal.Rotator(0, 0, y), unreal.Vector(s[0], s[2], s[1])) for c, s, y in kept]
-    a.add_instances(xf)
+    try_call(a, "add_instances", xf)
     return label(a, name, folder)
 
 
@@ -110,7 +121,8 @@ def set_mesh(comp, shape, scale, material, rel=(0, 0, 0)):
     comp.set_static_mesh(mesh(shape, _smooth_ok(shape, scale)))
     comp.set_relative_scale3d(unreal.Vector(*scale))
     comp.set_relative_location(unreal.Vector(*rel), False, False)
-    comp.set_material(0, material)
+    if material is not None:
+        comp.set_material(0, material)
 
 
 # ---------------------------------------------------------------- buildings
@@ -137,17 +149,16 @@ def building(name, cx, cz, w, d, h, wall_mat):
     leaf = door.get_editor_property("mesh")
     set_mesh(leaf, CUBE, ((DOOR_W - 0.04), 0.08, (DOOR_H - 0.02)), mat("Door", (0.4, 0.25, 0.12)),
              rel=(DOOR_W / 2 * M, 0, DOOR_H / 2 * M))
-    leaf.set_collision_response_to_channel(unreal.CollisionChannel.ECC_VISIBILITY, unreal.CollisionResponseType.ECR_BLOCK)
+    try_call(leaf, "set_collision_response_to_channel", unreal.CollisionChannel.ECC_VISIBILITY, unreal.CollisionResponseType.ECR_BLOCK)
     leaf.set_editor_property("can_ever_affect_navigation", False)  # NavMesh paths through doorways; the leaf still blocks bodies
     door.set_editor_property("display_name", "Door")
     label(door, f"{name}_Door", f)
 
     lamp = spawn(unreal.PointLight, V(cx, h - 0.6, cz), unreal.Rotator(0, 0, 0))
-    lc = lamp.get_component_by_class(unreal.PointLightComponent)
-    lc.set_editor_property("intensity", 3000.0)
-    lc.set_editor_property("light_color", unreal.Color(255, 214, 160, 255))
-    lc.set_editor_property("attenuation_radius", max(w, d) * M)
-    lc.set_editor_property("cast_shadows", False)  # cheap interiors (Quest budget)
+    lc = component_by_class(lamp, unreal.PointLightComponent)
+    if lc:
+        set_props(lc, intensity=3000.0, light_color=unreal.Color(255, 214, 160, 255),
+                  attenuation_radius=max(w, d) * M, cast_shadows=False)  # cheap interiors (Quest budget)
     label(lamp, f"{name}_Lamp", f)
     return lambda lx, ly, lz: (cx + lx, ly, cz + lz)
 
@@ -193,8 +204,9 @@ def pond(node_def, x, z):
         a = spawn(unreal.ResourceNode, V(x + ox, 0.05, z + oz), unreal.Rotator(0, 0, 0))
         a.set_editor_property("definition", node_def)
         set_mesh(a.get_editor_property("mesh"), CYL, (1.2, 1.2, 0.05), mat("FishSpot", (0.5, 0.75, 1.0), 0.1))
-        a.get_editor_property("mesh").set_collision_profile_name("OverlapAllDynamic")
-        a.get_editor_property("mesh").set_collision_response_to_channel(unreal.CollisionChannel.ECC_VISIBILITY, unreal.CollisionResponseType.ECR_BLOCK)
+        m = a.get_editor_property("mesh")
+        try_call(m, "set_collision_profile_name", "OverlapAllDynamic")
+        try_call(m, "set_collision_response_to_channel", unreal.CollisionChannel.ECC_VISIBILITY, unreal.CollisionResponseType.ECR_BLOCK)
         a.set_editor_property("range", 450.0)  # cast from the shore
         label(a, f"Fishing spot {i + 1}", "Resources/Pond")
 
@@ -213,7 +225,7 @@ def npc(npc_id, x, z, yaw=0.0):
 def mob(mob_def, x, z, name):
     a = spawn(unreal.AerondelMob, V(x, 1.0, z), unreal.Rotator(0, 0, 0))
     a.set_editor_property("definition", mob_def)
-    a.rerun_construction_scripts()
+    refresh_actor(a)
     return label(a, name, "Mobs")
 
 
@@ -227,27 +239,28 @@ def environment():
     box("Fence W", f, (-23, 0.5, -24), (0.15, 1, 12), mat("Wood", (0.5, 0.35, 0.2)))
 
     sun = spawn(unreal.DirectionalLight, V(0, 30, 0), unreal.Rotator(0, -45, 35))
-    sc = sun.get_component_by_class(unreal.DirectionalLightComponent)
-    sc.set_editor_property("intensity", 8.0)
-    sc.set_editor_property("atmosphere_sun_light", True)
-    sc.set_editor_property("mobility", unreal.ComponentMobility.MOVABLE)
-    sc.set_editor_property("dynamic_shadow_distance_movable_light", 6000.0)  # one CSM-friendly distance for Quest
+    sc = component_by_class(sun, unreal.DirectionalLightComponent)
+    if sc:
+        set_props(sc, intensity=8.0, atmosphere_sun_light=True, mobility=unreal.ComponentMobility.MOVABLE,
+                  dynamic_shadow_distance_movable_light=6000.0)  # one CSM-friendly distance for Quest
     label(sun, "Sun", f)
     label(spawn(unreal.SkyAtmosphere, V(0, 0, 0)), "SkyAtmosphere", f)
     sky = spawn(unreal.SkyLight, V(0, 5, 0))
-    skc = sky.get_component_by_class(unreal.SkyLightComponent)
-    skc.set_editor_property("real_time_capture", True)
-    skc.set_editor_property("mobility", unreal.ComponentMobility.MOVABLE)
+    skc = component_by_class(sky, unreal.SkyLightComponent)
+    if skc:
+        set_props(skc, real_time_capture=True, mobility=unreal.ComponentMobility.MOVABLE)
     label(sky, "SkyLight", f)
     fog = spawn(unreal.ExponentialHeightFog, V(0, 0, 0))
-    fog.get_component_by_class(unreal.ExponentialHeightFogComponent).set_editor_property("fog_density", 0.01)
+    fc = component_by_class(fog, unreal.ExponentialHeightFogComponent)
+    if fc:
+        fc.set_editor_property("fog_density", 0.01)
     label(fog, "HeightFog", f)
     pp = spawn(unreal.PostProcessVolume, V(0, 0, 0))
     pp.set_editor_property("unbound", True)
     label(pp, "PostProcess (unbound)", f)
 
     nav = spawn(unreal.NavMeshBoundsVolume, V(0, 2, 0))
-    nav.set_actor_scale3d(unreal.Vector(75, 75, 10))  # default brush is 200 cm -> 150 x 150 x 20 m
+    try_call(nav, "set_actor_scale3d", unreal.Vector(75, 75, 10))  # default brush is 200 cm -> 150 x 150 x 20 m
     label(nav, "NavMeshBounds", f)
 
     start = spawn(unreal.PlayerStart, V(0, 1.0, -4), unreal.Rotator(0, 0, 90))
@@ -255,10 +268,9 @@ def environment():
 
 
 def run(small=False):
-    if eal.does_asset_exist(MAP):
-        eal.delete_asset(MAP)
-    if not levels.new_level(MAP):
-        unreal.log_error("[Aerondel] Could not create " + MAP)
+    # Idempotent: load the existing level and replace generated actors (NewLevel fails if the map already exists).
+    if not open_or_create_map(MAP, levels):
+        unreal.log_error("[Aerondel] Could not open or create " + MAP)
         return
 
     with safe.SafeRun("Building Larkhaven", 6, small=small, save_fn=levels.save_current_level) as task:
@@ -277,10 +289,9 @@ def run(small=False):
         booth = interactable(unreal.BankChest, "Bank booth", "Town/Bank", bank(2.5, 0.45, 3), CUBE, (1.2, 0.9, 0.8), mat("Chest", (0.5, 0.3, 0.15)))
         station("Furnace", "Town/Smithy", smithy(-3, 1.0, 2.5), (2, 2, 1.6), mat("Brick", (0.55, 0.25, 0.18)), unreal.StationType.FURNACE)
         glow = spawn(unreal.PointLight, V(*smithy(-3, 1.0, 1.5)))
-        gc = glow.get_component_by_class(unreal.PointLightComponent)
-        gc.set_editor_property("light_color", unreal.Color(255, 120, 40, 255))
-        gc.set_editor_property("intensity", 2500.0)
-        gc.set_editor_property("cast_shadows", False)
+        gc = component_by_class(glow, unreal.PointLightComponent)
+        if gc:
+            set_props(gc, light_color=unreal.Color(255, 120, 40, 255), intensity=2500.0, cast_shadows=False)
         label(glow, "Furnace glow", "Town/Smithy")
         station("Anvil", "Town/Smithy", smithy(2, 0.4, 1), (1.2, 0.8, 0.5), mat("Iron", (0.25, 0.25, 0.28), 0.4, 0.9), unreal.StationType.ANVIL)
         station("Cooking range", "Town/GeneralStore", store(-3.5, 0.5, 2.8), (1.6, 1, 1), mat("IronBlack", (0.12, 0.12, 0.12), 0.5, 0.6), unreal.StationType.RANGE)
@@ -313,11 +324,13 @@ def run(small=False):
             mob(gob, x, z, f"Goblin {i + 1}")
 
         task.frame("World settings, NavMesh, save")
-        world = unreal.get_editor_subsystem(unreal.UnrealEditorSubsystem).get_editor_world()
-        ws = world.get_world_settings()
-        ws.set_editor_property("default_game_mode", unreal.AerondelGameMode)
-        unreal.SystemLibrary.execute_console_command(world, "RebuildNavigation")
-        levels.save_current_level()
+        world = editor_world()
+        ws = try_call(world, "get_world_settings", default=None) if world else None
+        if ws:
+            ws.set_editor_property("default_game_mode", unreal.AerondelGameMode)
+        if world:
+            try_call(unreal.SystemLibrary, "execute_console_command", world, "RebuildNavigation")
+        try_call(levels, "save_current_level")
 
     unreal.log(f"[Aerondel] Built {MAP}. Press Play (desktop) or VR Preview (headset).")
 

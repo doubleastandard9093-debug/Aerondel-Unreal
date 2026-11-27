@@ -1,6 +1,8 @@
 #include "Interaction/ResourceNode.h"
 #include "Player/AerondelCharacter.h"
 #include "Data/ResourceNodeDef.h"
+#include "Data/GameDatabase.h"
+#include "World/AerondelScalability.h"
 #include "Data/ItemDef.h"
 #include "Data/SkillDef.h"
 #include "Core/AerondelPlayerState.h"
@@ -27,6 +29,24 @@ void AResourceNode::OnConstruction(const FTransform& Xf)
 {
 	Super::OnConstruction(Xf);
 	if (Definition) DisplayName = Definition->DisplayName;
+}
+
+void AResourceNode::BeginPlay()
+{
+	Super::BeginPlay();
+	// Low / Quest: hundreds of trees and rocks in the full World; no dynamic shadows from them (High keeps shadows).
+	const EAerondelTier Tier = UAerondelScalability::GetSavedTier();
+	if (Tier == EAerondelTier::Low || Tier == EAerondelTier::Quest)
+	{
+		if (Mesh) Mesh->SetCastShadow(false);
+		if (DepletedMesh) DepletedMesh->SetCastShadow(false);
+	}
+	if (!Definition && !DefinitionId.IsNone())
+	{
+		if (UGameDatabase* Db = UGameDatabase::Get()) Definition = Db->FindResourceNode(DefinitionId);
+		if (Definition) DisplayName = Definition->DisplayName;
+		else UE_LOG(LogTemp, Warning, TEXT("[Aerondel] Placement: resource node %s has unknown id %s"), *GetName(), *DefinitionId.ToString());
+	}
 }
 
 FText AResourceNode::GetInteractLabel() const

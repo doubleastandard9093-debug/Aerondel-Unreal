@@ -19,6 +19,11 @@ import re
 import time
 import unreal
 import aerondel_safe as safe
+from aerondel_util import safe_asset_name
+import importlib as _importlib
+import aerondel_rig_math as _aerondel_rig_math
+_importlib.reload(_aerondel_rig_math)
+from aerondel_rig_math import bake_glb_for_unreal, validate_baked_for_interchange
 
 DEST = "/Game/Aerondel/Models"
 CLIP = {
@@ -48,7 +53,15 @@ def _set(obj, **kv):
 def _pipeline(skeletal):
     """Interchange generic pipeline: skeletal mesh + all animations into one per-rig skeleton (each rig imports into its
     own folder, so the skeleton is shared by that rig's mesh and clips), smooth recomputed normals, no Nanite, no
-    per-asset materials explosion (one material per glTF material)."""
+    per-asset materials explosion (one material per glTF material).
+
+    Axis / scale: the glTF translator already maps glTF Y-up to UE Z-up. Quaternius/Kenney files still
+    carry a CharacterArmature node at -90 deg X with scale 100 that is *not* a skin joint; bake_meshes
+    folds that node into the skeletal mesh and its clips so bind pose and animations share one space.
+    use_t0_as_ref_pose stays OFF: these glTFs list Death as animation[0], so T0 would rebind the mesh
+    to a corpse pose (bent, looking at the sky). force_front_x_axis / convert_scene are set when the
+    property exists (FBX-style translators); _set no-ops them on glTF.
+    """
     p = unreal.InterchangeGenericAssetsPipeline()
     mesh = p.get_editor_property("mesh_pipeline")
     _set(mesh, import_static_meshes=not skeletal, import_skeletal_meshes=skeletal, combine_skeletal_meshes=True,
@@ -56,16 +69,45 @@ def _pipeline(skeletal):
          recompute_tangents=True, use_mikk_t_space=True, compute_weighted_normals=True, generate_lightmap_u_vs=not skeletal)
     common = p.get_editor_property("common_meshes_properties")
     _set(common, recompute_normals=True, recompute_tangents=True, use_mikk_t_space=True, compute_weighted_normals=True,
-         keep_sections_separate=False)
+         keep_sections_separate=False, bake_meshes=True, bake_pivot_meshes=True)
     common_sk = p.get_editor_property("common_skeletal_meshes_and_animations_properties")
-    _set(common_sk, import_only_animations=False, convert_static_mesh_to_skeletal_mesh=False)
+    _set(common_sk, import_only_animations=False, convert_static_mesh_to_skeletal_mesh=False,
+         use_t0_as_ref_pose=False, try_auto_select_skeleton=True)
     anim = p.get_editor_property("animation_pipeline")
     _set(anim, import_animations=skeletal, import_bone_tracks=True, import_custom_attribute=False)
+    # Present on FBX import data / some pipeline versions; ignored when missing.
+    _set(p, convert_scene=True, convert_scene_unit=True, force_front_x_axis=True)
     return p
 
 
+def baked_glb_destination(src_path, saved_dir):
+    """Where the Interchange-legal bake is written: Saved/Aerondel/baked_glb/<basename>."""
+    return os.path.join(saved_dir, os.path.basename(src_path))
+
+
 def import_glb(path, dest, skeletal=False):
-    """Interchange import with our pipeline; falls back to a plain AssetImportTask if the scripted manager is missing."""
+    """Interchange import with our pipeline; falls back to a plain AssetImportTask if the scripted manager is missing.
+
+    Skeletal meshes are always imported from the baked copy (one skin, identity root mesh,
+    upright joint rest). The source glb is never sent to Interchange on a bake failure —
+    that is what produced the lying multi-skin bind pose.
+    """
+    if skeletal:
+        source = path
+        try:
+            saved = os.path.join(unreal.Paths.project_saved_dir(), "Aerondel", "baked_glb")
+            os.makedirs(saved, exist_ok=True)
+            baked = baked_glb_destination(source, saved)
+            bake_glb_for_unreal(source, baked)
+            problems = validate_baked_for_interchange(baked)
+            if problems:
+                raise RuntimeError("; ".join(problems))
+            path = baked
+            unreal.log("[Aerondel] baked %s -> %s (one skin, scene-root identity mesh, shared IBMs)" % (
+                os.path.basename(source), baked))
+        except Exception as e:
+            unreal.log_error("[Aerondel] bind-space bake failed for %s: %s — not importing the source glb (it would lie down / split skins)" % (source, e))
+            return []
     try:
         mgr = unreal.InterchangeManager.get_interchange_manager_scripted()
         src = unreal.InterchangeManager.create_source_data(path)
@@ -122,6 +164,48 @@ def tune_mesh(path):
     unreal.EditorAssetLibrary.save_loaded_asset(m)
 
 
+def _additive_none():
+    enum = getattr(unreal, "AdditiveAnimationType", None) or getattr(unreal, "EAdditiveAnimationType", None)
+    if enum is None:
+        return 0
+    return getattr(enum, "AAT_NONE", None) or getattr(enum, "NONE", 0)
+
+
+def tune_anims(folder, mesh_path):
+    """Point every imported clip at the folder's skeleton and strip additive mode.
+
+    A clip imported against a different skeleton (or marked additive with no base pose) is what
+    folds the Adventurer into a bunched, sky-facing pose at runtime. Missing properties are skipped.
+    """
+    mesh = unreal.load_asset(mesh_path) if mesh_path else None
+    skel = None
+    if mesh:
+        try:
+            skel = mesh.get_editor_property("skeleton")
+        except Exception:
+            skel = getattr(mesh, "skeleton", None)
+    none = _additive_none()
+    for a in assets_in(folder):
+        if _cls(a) != "AnimSequence":
+            continue
+        seq = unreal.load_asset(obj_path(a))
+        if not seq:
+            continue
+        if skel:
+            try:
+                seq.set_editor_property("skeleton", skel)
+            except Exception:
+                pass
+        try:
+            seq.set_editor_property("additive_anim_type", none)
+        except Exception:
+            pass
+        try:
+            unreal.EditorAssetLibrary.save_loaded_asset(seq)
+        except Exception:
+            pass
+
+
 # Extra import-only throttles for 128 MB iGPUs (2 s TDR): no parallel compiles, small texture pool, no realtime thumbnails.
 IMPORT_CVARS = {
     "Editor.AsyncSkinnedAssetCompilationMaxConcurrency": 1, "Editor.AsyncStaticMeshCompilationMaxConcurrency": 1,
@@ -135,8 +219,11 @@ BATCH_SMALL = 10        # "small batch" menu entry: new models per run
 
 
 def _cvars(values):
+    """Set import-only cvars that actually exist on this engine. Missing names are skipped silently."""
     old = {}
     for k, v in values.items():
+        if not safe._cvar_exists(k):
+            continue
         old[k] = safe._get(k)
         safe._cmd("%s %s" % (k, v))
     return old
@@ -176,7 +263,8 @@ def _flush():
                     break
                 except Exception:
                     pass
-    safe._cmd("FlushRenderingCommands")
+    # Do not call the console command FlushRenderingCommands: it is not a cvar in UE 5.8
+    # and spams "failed FindConsoleObject". The Python flush_rendering_commands above is enough.
     time.sleep(PAUSE_S)
 
 
@@ -215,15 +303,82 @@ def _save_done(done):
         json.dump(sorted(done), fh, indent=1)
 
 
-def _scan_rig(folder):
+def _is_anim_sequence(cls_name):
+    n = str(cls_name or "")
+    return n == "AnimSequence" or n.endswith("AnimSequence") or n == "AnimSequenceBase"
+
+
+def _is_skeletal_mesh(cls_name):
+    n = str(cls_name or "")
+    return n == "SkeletalMesh" or n.endswith("SkeletalMesh")
+
+
+def _scan_rig_once(folder):
     mesh, anims = None, []
     for a in assets_in(folder):
         c = _cls(a)
-        if c == "SkeletalMesh" and not mesh:
+        if _is_skeletal_mesh(c) and not mesh:
             mesh = obj_path(a)
-        elif c == "AnimSequence":
+        elif _is_anim_sequence(c):
             anims.append((clip_name(a.asset_name), obj_path(a)))
     return mesh, anims
+
+
+def _refresh_registry(folder):
+    try:
+        reg = unreal.AssetRegistryHelpers.get_asset_registry()
+        if hasattr(reg, "scan_paths_synchronous"):
+            reg.scan_paths_synchronous([folder], True)
+        elif hasattr(reg, "search_all_assets"):
+            reg.search_all_assets(True)
+    except Exception:
+        pass
+
+
+def _folder_asset_summary(folder, limit=24):
+    bits = []
+    try:
+        for a in assets_in(folder):
+            bits.append("%s:%s" % (_cls(a), a.asset_name))
+            if len(bits) >= limit:
+                bits.append("...")
+                break
+    except Exception:
+        return "(could not list)"
+    return ", ".join(bits) or "(empty)"
+
+
+def _scan_rig(folder):
+    """Find the skeletal mesh and AnimSequences under folder. Refresh the registry if clips are late."""
+    _refresh_registry(folder)
+    mesh, anims = _scan_rig_once(folder)
+    if mesh and not anims:
+        _refresh_registry(folder)
+        mesh, anims = _scan_rig_once(folder)
+        if not anims:
+            unreal.log_warning("[Aerondel] %s: skeletal mesh imported but no AnimSequence assets found (idle/walk/run will hold the reference pose). Assets: %s" % (folder, _folder_asset_summary(folder)))
+    return mesh, anims
+
+
+def _core_states_mapped(anims):
+    """True if idle or walk would be written to rigs.json (C++ falls back to idle, then holds ref pose)."""
+    return bool(pick(anims, "idle") or pick(anims, "walk"))
+
+
+def _log_rig_clips(key, folder, mesh, anims, states):
+    """Always list the clips found for a rig and which states they mapped to."""
+    names = [n for n, _ in anims]
+    mapped = ["%s=%s" % (s, (p or "").rsplit(".", 1)[-1]) for s, p in states.items() if p]
+    missing = [s for s in ("idle", "walk", "run", "attack") if not states.get(s)]
+    unreal.log("[Aerondel] %s: %d clips [%s] -> states %s (mesh %s)" % (
+        key, len(anims), ", ".join(names) if names else "none",
+        ", ".join(mapped) if mapped else "none", mesh or "none"))
+    if missing:
+        extra = ""
+        if not anims:
+            extra = "; folder assets: " + _folder_asset_summary(folder)
+        unreal.log_warning("[Aerondel] %s: no clip mapped for %s — Play will hold the reference pose for those states%s" % (
+            key, ",".join(missing), extra))
 
 
 def _static_names(folder):
@@ -237,7 +392,9 @@ def _write_rigs(root, rigs):
         if target in rigs:
             rigs[alias] = rigs[target]
     out = {
-        "yaw": rmap.get("yaw", -90),
+        "yaw": rmap.get("yaw", 0),
+        "pitch": rmap.get("pitch", 0),
+        "roll": rmap.get("roll", 0),
         "rigs": rigs,
         "player": rmap.get("player", "adventurer"),
         "monsters": {k: v for k, v in rmap.get("monsters", {}).items() if v in rigs},
@@ -272,12 +429,16 @@ def run(batch=None):
         with safe.SafeRun("Importing Lite models" + (" (batch of %d)" % batch if batch else ""), len(files) + len(statics)) as task:
             for g, d, f in files:
                 key = os.path.splitext(f)[0]
-                folder = "%s/%s/%s" % (DEST, d, key)
+                folder = "%s/%s/%s" % (DEST, safe_asset_name(d), safe_asset_name(key))
                 mesh, anims = _scan_rig(folder)
-                if mesh:
+                # A mesh without idle/walk (failed anim import, e.g. NodeUidPtr) must be reimported,
+                # not skipped, or rigs.json stays empty and Play holds the reference pose.
+                if mesh and _core_states_mapped(anims):
                     skipped += 1  # already imported (by an earlier, maybe crashed, run): keep it, just map it
                     task.frame("%s (already imported)" % f)
                 else:
+                    if mesh and anims is not None and not _core_states_mapped(anims):
+                        unreal.log_warning("[Aerondel] %s: skeletal mesh is present but idle/walk clips are missing — reimporting" % f)
                     if batch and imported >= batch:
                         stopped = True
                         break
@@ -293,16 +454,21 @@ def run(batch=None):
                     tune_mesh(mesh)
                     imported += 1
                     _flush()
+                if mesh:
+                    tune_anims(folder, mesh)
+                    # Clips may appear only after tune/save; scan once more before writing rigs.json.
+                    if not _core_states_mapped(anims):
+                        mesh, anims = _scan_rig(folder)
                 done.add("%s/%s" % (g, f))
                 _save_done(done)
                 states = {s: pick(anims, s) for s in CLIP}
                 rigs[key] = {"mesh": mesh, "anims": {s: p for s, p in states.items() if p}}
                 _write_rigs(root, rigs)  # partial rigs.json after every model, so a crash loses nothing
-                unreal.log("[Aerondel] %s: %d clips, states %s" % (key, len(anims), ",".join(sorted(rigs[key]["anims"]))))
+                _log_rig_clips(key, folder, mesh, anims, states)
             if not stopped:
                 for g, d, f in statics:
                     key = os.path.splitext(f)[0].lower()
-                    folder = "%s/%s" % (DEST, d)
+                    folder = "%s/%s" % (DEST, safe_asset_name(d))
                     tag = "%s/%s" % (g, f)
                     names = _static_names(folder)
                     if tag in done or any(n == key or n == "sm_" + key or n.startswith(key + "_") or n.startswith("sm_" + key + "_") for n in names):
