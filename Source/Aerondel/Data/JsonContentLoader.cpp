@@ -198,6 +198,7 @@ int32 FJsonContentLoader::MergeInto(UGameDatabase* Db, const FString& Dir)
 				USkillDef* S = Upsert(Db, Db->Skills, Id(Name), bFill, Created);
 				if (S->DisplayName.IsEmpty()) S->DisplayName = Txt(Name);
 				if (Name == TEXT("Hitpoints")) S->StartLevel = 10;
+				if (Name == TEXT("Hunter") || Name == TEXT("Construction") || Name == TEXT("Farming")) S->MaxLevel = 1000;
 				if (S->Perks.Num() == 0)
 				{
 					if (const FArr* P = Arr(Perks, *Name))

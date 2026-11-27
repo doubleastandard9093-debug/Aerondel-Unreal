@@ -67,7 +67,7 @@ int32 UXpCurve::LevelForXp(float Xp, int32 MaxLevel)
 int32 UXpCurve::MaxLevelFor(const USkillDef* Skill)
 {
 	if (!Skill) return SkillMaxLevel;
-	static const FName Combat[] = { TEXT("attack"), TEXT("strength"), TEXT("defence"), TEXT("hitpoints"), TEXT("ranged"), TEXT("magic"), TEXT("prayer"), TEXT("swordsmanship") };
+	static const FName Combat[] = { TEXT("attack"), TEXT("strength"), TEXT("defence"), TEXT("hitpoints"), TEXT("ranged"), TEXT("magic"), TEXT("prayer"), TEXT("swordsmanship"), TEXT("hunter"), TEXT("construction"), TEXT("farming") }; // hunter/construction/farming are high-cap non-combat skills (web HIGH_CAP_SKILLS)
 	for (const FName& C : Combat) if (Skill->Id == C) return CombatMaxLevel; // FName compare is case-insensitive
 	return FMath::Clamp(Skill->MaxLevel, 1, MaxTableLevel - 1);
 }

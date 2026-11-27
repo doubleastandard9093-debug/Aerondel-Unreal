@@ -17,6 +17,7 @@
 #include "GameFramework/Pawn.h"
 #include "EngineUtils.h"
 #include "Features/TrueAimFeature.h"
+#include "Features/VenturesFeature.h"
 #include "Engine/GameInstance.h"
 
 #define LOCTEXT_NAMESPACE "AerondelCombat"
@@ -94,9 +95,10 @@ bool UPlayerCombatComponent::CastAt(AAerondelMob* Mob, USpellDef* Spell)
 	AAerondelPlayerState* S = PS();
 	FText Why;
 	if (!UAerondelRules::CanCast(S, Spell, Why)) { Msg(Why); return false; }
-	const bool bSaved = FMath::FRand() < UAerondelRules::Perk(S, TEXT("magic"), TEXT("runeSave"));
+	const bool bFocus = UVenturesFeature::ConsumeVocFocus(S);
+	const bool bSaved = bFocus || FMath::FRand() < UAerondelRules::Perk(S, TEXT("magic"), TEXT("runeSave"));
 	if (!bSaved) for (const TPair<UItemDef*, int32>& R : UAerondelRules::RuneCost(S, Spell)) S->Inventory->Remove(R.Key, R.Value);
-	else Msg(LOCTEXT("RuneSave", "Your magic saves your runes."));
+	else Msg(bFocus ? LOCTEXT("LeyFocus", "Ley Focus: the spell spends no runes.") : LOCTEXT("RuneSave", "Your magic saves your runes."));
 	const UMobDef* Def = Mob->Definition;
 	int32 Dmg = 0;
 	if (FMath::FRand() < UAerondelRules::MagicAccuracy(S, Def))
@@ -143,9 +145,13 @@ int32 UPlayerCombatComponent::MagicKit(AAerondelMob* Mob, USpellDef* Spell)
 	const UAbilityDef* A = Db->FindAbility(St->QueuedAbility);
 	if (!A || A->Style != TEXT("magic")) return 0;
 	const FName Special = St->ConsumeQueuedAbility(); // starts the cooldown
-	for (const FRuneCost& R : A->Runes)
-		if (S->Inventory->CountOf(R.Rune) < R.Amount) { Msg(FText::Format(LOCTEXT("KitRunes", "Not enough runes for {0}."), A->DisplayName)); return 0; }
-	for (const FRuneCost& R : A->Runes) S->Inventory->Remove(R.Rune, R.Amount);
+	const bool bKitFocus = UVenturesFeature::ConsumeVocFocus(S);
+	if (!bKitFocus)
+	{
+		for (const FRuneCost& R : A->Runes)
+			if (S->Inventory->CountOf(R.Rune) < R.Amount) { Msg(FText::Format(LOCTEXT("KitRunes", "Not enough runes for {0}."), A->DisplayName)); return 0; }
+		for (const FRuneCost& R : A->Runes) S->Inventory->Remove(R.Rune, R.Amount);
+	}
 	Msg(FText::Format(LOCTEXT("Kit", "{0}!"), A->DisplayName));
 	const int32 Mh = UAerondelRules::MagicMaxHit(S, Spell);
 	int32 Extra = 0;
@@ -258,6 +264,14 @@ void UPlayerCombatComponent::PlayerAttack(AAerondelMob* Mob, float Power)
 		if (FMath::FRand() < UAerondelRules::GearFx(S, TEXT("echo"))) { Swings.Add(With(0.f, -0.4f)); Msg(LOCTEXT("Echo", "A free echo arrow follows!")); } // gear: echo at 60% power
 	}
 	ArsenalSwing(Mob, Swings, bRanged, Special);
+	{
+		const UItemDef* FacetWpn = S->Equipment ? S->Equipment->GetEquipped(EEquipSlot::Weapon) : nullptr;
+		UVenturesFeature::NoteCombatSpecial(GetOwner(), Special, FacetWpn ? FacetWpn->WeaponClass : NAME_None);
+		if (!Special.IsNone() && UVenturesFeature::FacetOn(GetOwner(), TEXT("echo")))
+		{
+			FSwingMods Echo = Base; Echo.Damage -= 0.25f; Swings.Add(Echo);
+		}
+	}
 	float Next = UAerondelRules::AttackSpeedTicks(S) * UAerondelRules::TickSeconds;
 	if (!bRanged && FMath::FRand() < UAerondelRules::Perk(S, TEXT("attack"), TEXT("quick"))) Next = FMath::Max(UAerondelRules::TickSeconds, Next - UAerondelRules::TickSeconds);
 	Cooldown = Next;
@@ -283,11 +297,11 @@ void UPlayerCombatComponent::PlayerAttack(AAerondelMob* Mob, float Power)
 		if (bAlive && P.bStun) { Mob->Stun(5); Msg(FText::Format(LOCTEXT("Stun", "The {0} is stunned!"), Mob->GetDisplayName())); }
 	}
 	if (Special == TEXT("challenge") && !Mob->IsDead()) { Mob->Challenge(4, 10); Msg(FText::Format(LOCTEXT("Challenge", "You shove the {0} back on its heels; it only has eyes for you."), Mob->GetDisplayName())); }
-	if (Special == TEXT("bash") && !Mob->IsDead()) { Mob->Stun(5); Msg(FText::Format(LOCTEXT("Stun", "The {0} is stunned!"), Mob->GetDisplayName())); }
+	if (Special == TEXT("bash") && !Mob->IsDead()) { Mob->Stun(5 + UVenturesFeature::StunBonusTicks(GetOwner(), Special)); Msg(FText::Format(LOCTEXT("Stun", "The {0} is stunned!"), Mob->GetDisplayName())); }
 	const UItemDef* Wpn = S->Equipment ? S->Equipment->GetEquipped(EEquipSlot::Weapon) : nullptr;
 	if (Special == TEXT("whirl") && !bRanged) // Reaping Whirl: every other foe within 4 m takes a cut too (5 m with a glaive)
 	{
-		const float R = Wpn && Wpn->WeaponClass == TEXT("glaive") ? 500.f : 400.f;
+		const float R = (Wpn && Wpn->WeaponClass == TEXT("glaive") ? 500.f : 400.f) + UVenturesFeature::WhirlBonusM(GetOwner()) * 100.f;
 		const FVector P0 = GetOwner()->GetActorLocation();
 		TArray<AAerondelMob*> Near;
 		for (TActorIterator<AAerondelMob> It(GetWorld()); It; ++It)
@@ -318,7 +332,7 @@ void UPlayerCombatComponent::ArsenalSwing(AAerondelMob* Mob, TArray<FSwingMods>&
 	if (Special == TEXT("iaido")) { Swings[0].Damage += Cls == TEXT("katana") ? 2.5f : 1.5f; Swings[0].Accuracy += 0.4f; }
 	else if (Special == TEXT("crescent")) { Swings[0].Damage += 0.2f; const int32 N = Cls == TEXT("scimitar") ? 2 : 1; for (int32 i = 0; i < N; ++i) Extra(0.f); }
 	else if (Special == TEXT("whirl")) { Swings[0].Damage -= 0.1f; const int32 N = Cls == TEXT("glaive") ? 4 : 3; for (int32 i = 0; i < N; ++i) Extra(0.f); }
-	else if (Special == TEXT("gale")) { Swings[0].Accuracy += 0.3f; Mob->Stun(Cls == TEXT("warfan") ? 8 : 5); Msg(FText::Format(LOCTEXT("Gale", "A gale pins the {0} in place!"), Mob->GetDisplayName())); }
+	else if (Special == TEXT("gale")) { Swings[0].Accuracy += 0.3f; Mob->Stun((Cls == TEXT("warfan") ? 8 : 5) + UVenturesFeature::StunBonusTicks(GetOwner(), Special)); Msg(FText::Format(LOCTEXT("Gale", "A gale pins the {0} in place!"), Mob->GetDisplayName())); }
 	else if (Special == TEXT("ricochet")) { const float B = Cls == TEXT("chakram") ? 0.4f : 0.25f; Extra(B); Extra(B * 2.f); }
 	else if (Special == TEXT("starfall")) { Swings[0].Damage += 0.3f; for (int32 i = 0; i < 3; ++i) { FText E; if (St && St->UseAmmo(E)) Extra(0.f); } } // each extra shot uses ammo
 	else if (Special == TEXT("eclipse")) { Swings[0].Damage += Mob->GetHp() < Mob->GetMaxHp() * 0.15f ? 9.f : 4.f; Swings[0].Accuracy += 0.5f; }
@@ -353,6 +367,7 @@ void UPlayerCombatComponent::BonusHit(AAerondelMob* Mob, const FText& Label)
 void UPlayerCombatComponent::TickComponent(float Dt, ELevelTick TickType, FActorComponentTickFunction* Fn)
 {
 	Super::TickComponent(Dt, TickType, Fn);
+	if (UVenturesFeature* V = UVenturesFeature::Get(GetOwner())) V->TickHordeFire();
 	Cooldown -= Dt;
 	AAerondelMob* Mob = Target.Get();
 	if (!Mob) return;

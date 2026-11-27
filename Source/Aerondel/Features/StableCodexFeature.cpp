@@ -2,7 +2,7 @@
 #include "Features/SteedsFeature.h"
 #include "Features/SkywingFeature.h"
 
-static const TCHAR* GLookSlots[] = { TEXT("head"), TEXT("body"), TEXT("legs"), TEXT("shield"), TEXT("cape") };
+static const TCHAR* GLookSlots[] = { TEXT("head"), TEXT("body"), TEXT("legs"), TEXT("shield"), TEXT("cape"), TEXT("weapon") };
 
 const TArray<FString>& UStableCodexFeature::Roosts()
 {
@@ -15,7 +15,7 @@ TArray<FCodexMount> UStableCodexFeature::GetMounts() const
 	const USteedsFeature* St = Feature<USteedsFeature>();
 	const USkywingFeature* Sk = Feature<USkywingFeature>();
 	TArray<FCodexMount> Out;
-	auto Add = [&Out](const TCHAR* Id, const TCHAR* Name, const TCHAR* Kind, const TCHAR* How, bool bOwned) { FCodexMount& M = Out.AddDefaulted_GetRef(); M.Id = Id; M.Name = Name; M.Kind = Kind; M.How = How; M.bOwned = bOwned; };
+	auto Add = [&Out](const TCHAR* InId, const TCHAR* Name, const TCHAR* Kind, const TCHAR* How, bool bOwned) { FCodexMount& M = Out.AddDefaulted_GetRef(); M.Id = InId; M.Name = Name; M.Kind = Kind; M.How = How; M.bOwned = bOwned; };
 	Add(TEXT("stag"), TEXT("Fernback Stag"), TEXT("steed"), TEXT("Agility 10"), St && St->Owns(TEXT("stag")));
 	Add(TEXT("boar"), TEXT("Ironbristle Boar"), TEXT("steed"), TEXT("Agility 30"), St && St->Owns(TEXT("boar")));
 	Add(TEXT("skywing"), TEXT("Skywing"), TEXT("flyer"), TEXT("Agility 70 and Exalted with a faction"), Sk && Sk->IsUnlocked());

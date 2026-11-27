@@ -66418,6 +66418,127 @@
    "z": 8,
    "town": "Larkhaven",
    "tint": "#4a8a6a"
+  },
+  "huntwright": {
+   "name": "Huntwright Sable",
+   "examine": "Bring her the parts you carve and she will make hunt gear of them. She can also read a trail, if your Hunter is up to it.",
+   "service": "hunt",
+   "x": 16,
+   "z": -13,
+   "tint": "#4a3a2a"
+  },
+  "crystone_stormheave": {
+   "name": "Stormheave cry-stone",
+   "examine": "A weathered cry-stone. The word Storm is cut shallowest.",
+   "service": "cries",
+   "x": 36,
+   "z": -70,
+   "tint": "#c8d0e0"
+  },
+  "crystone_rimehold": {
+   "name": "Rimehold cry-stone",
+   "examine": "A weathered cry-stone. The word Rime is cut shallowest.",
+   "service": "cries",
+   "x": -42,
+   "z": -92,
+   "tint": "#a8d8f0"
+  },
+  "crystone_windstride": {
+   "name": "Windstride cry-stone",
+   "examine": "A weathered cry-stone. The word Wind is cut shallowest.",
+   "service": "cries",
+   "x": 88,
+   "z": 18,
+   "tint": "#d0e8c8"
+  },
+  "crystone_heartencry": {
+   "name": "Heartencry cry-stone",
+   "examine": "A weathered cry-stone. The word Heart is cut shallowest.",
+   "service": "cries",
+   "x": 48,
+   "z": -48,
+   "tint": "#f0d080"
+  },
+  "facetier": {
+   "name": "Facetier Vesa",
+   "examine": "She cuts Facet Stones and sockets them into a weapon or a small frame.",
+   "service": "facets",
+   "x": 14.5,
+   "z": -17,
+   "town": "Larkhaven",
+   "tint": "#80c8f0"
+  },
+  "leyweaver": {
+   "name": "Leyweaver Ione",
+   "examine": "She tends the Leyweave. Ley is earned from fights — not Anima.",
+   "service": "ley",
+   "x": 11.5,
+   "z": -14.5,
+   "town": "Larkhaven",
+   "tint": "#a080c8"
+  },
+  "hordewake": {
+   "name": "Wakekeeper Brin",
+   "examine": "She keeps the Hordewake arena. You move; the weapons fire on their own.",
+   "service": "horde",
+   "x": 16,
+   "z": -16,
+   "town": "Larkhaven",
+   "tint": "#c85a4a"
+  },
+  "deepmarks": {
+   "name": "Markwarden Sera",
+   "examine": "She tends a climbing ladder of instanced rooms. A Breach clear can leave a low-tier mark.",
+   "service": "marks",
+   "x": 10,
+   "z": -17,
+   "town": "Larkhaven",
+   "tint": "#5a7aaa"
+  },
+  "ashspire": {
+   "name": "Spirekeeper Nahl",
+   "examine": "He keeps the Ashspire climb. Leave or fall and the climb is over — you keep the Ash.",
+   "service": "spire",
+   "x": 13,
+   "z": -19,
+   "town": "Larkhaven",
+   "tint": "#c86a3a"
+  },
+  "kinbeasts": {
+   "name": "Beastbinder Cal",
+   "examine": "Weaken a wild creature and bind it with a vessel. One Kinbeast or one Ashkin — never both.",
+   "service": "kin",
+   "x": 8,
+   "z": -15,
+   "town": "Larkhaven",
+   "tint": "#6a7a4a"
+  },
+  "leychem": {
+   "name": "Leychemist Rowan",
+   "examine": "Fire, wind and metal listen to a few simple rules. Rain puts fire out. Town houses and the farm will not quietly burn down.",
+   "service": "chem",
+   "x": 5,
+   "z": -18,
+   "town": "Larkhaven",
+   "tint": "#c85a2a"
+  },
+  "freeframe": {
+   "name": "Plotwarden Tess",
+   "examine": "Claimridge is a wild plot north of town. Claim it, then build piece by piece. This is not a town house and not the farm.",
+   "service": "frame",
+   "x": 18,
+   "z": -14,
+   "town": "Larkhaven",
+   "tint": "#8a5a2a"
+  },
+  "holdraids": {
+   "name": "Ward-captain Rhee",
+   "examine": "If you have claimed a wild plot, occasional raids will try the walls. They are telegraphed; you can delay or skip them. Town houses and the farm are never raided.",
+   "service": "raids",
+   "x": 3,
+   "z": -20,
+   "town": "Larkhaven",
+   "tint": "#3a3a4a"
   }
  },
  "towns": [

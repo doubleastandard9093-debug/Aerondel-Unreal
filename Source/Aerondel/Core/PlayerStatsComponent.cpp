@@ -8,6 +8,7 @@
 #include "Quests/QuestComponent.h"
 #include "Combat/HealthComponent.h"
 #include "Data/GameDatabase.h"
+#include "Features/VenturesFeature.h"
 #include "Data/ContentDefs.h"
 #include "Data/ItemDef.h"
 #include "Data/MobDef.h"
@@ -106,7 +107,7 @@ void UPlayerStatsComponent::GameTickFn()
 		if (PrayerPoints <= 0.f) { ActivePrayers.Reset(); Msg(LOCTEXT("PrayerOut", "You have run out of prayer points. Recharge them at an altar.")); }
 		bDirty = true;
 	}
-	const float PpRegen = UAerondelRules::Perk(S, TEXT("prayer"), TEXT("ppRegen")) + UAerondelRules::QuestFx(S, TEXT("ppRegen"));
+	const float PpRegen = (UAerondelRules::Perk(S, TEXT("prayer"), TEXT("ppRegen")) + UAerondelRules::QuestFx(S, TEXT("ppRegen"))) * UVenturesFeature::PrayerRegenMul(this);
 	const float PpMax = UAerondelRules::MaxPrayerPoints(S);
 	if (PpRegen > 0.f && PrayerPoints < PpMax) { PrayerPoints = FMath::Min(PpMax, PrayerPoints + PpRegen); bDirty = true; }
 	// Effect timers.
@@ -376,7 +377,9 @@ void UPlayerStatsComponent::ApplyPlayerDamage(int32 Amount, AActor* Source)
 	if (Mob && Mob->IsWithered()) Amount = FMath::Max(1, FMath::FloorToInt(Amount * 0.7f));
 	const float Red = (GameTick < WallUntil ? 0.6f : 0.f) + (GameTick < WardUntil ? 0.4f : 0.f); // uncapped (web v21)
 	if (Red > 0.f) Amount = FMath::Max(0, FMath::RoundToInt(Amount * FMath::Max(0.f, 1.f - Red)));
+	Amount = UVenturesFeature::FilterIncoming(this, Amount);
 	S->Health->ApplyDamage(Amount, Source);
+	UVenturesFeature::HookPlayerHurt(this, Amount);
 	if (UEconomyFeature* Econ = UEconomyFeature::Get(this)) Econ->OnPlayerHit();
 	if (S->Health->IsDead()) { HandleDeath(); UAerondelFeature::NotifyPlayerDied(this); }
 }

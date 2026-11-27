@@ -2481,7 +2481,7 @@
    "type": "food",
    "heal": 10,
    "buff": {
-    "icon": "🍲",
+    "icon": "\ud83c\udf72",
     "ticks": 300,
     "boost": {
      "Strength": [
@@ -2496,7 +2496,7 @@
    "type": "food",
    "heal": 8,
    "buff": {
-    "icon": "🙏",
+    "icon": "\ud83d\ude4f",
     "prayer": 12
    }
   },
@@ -2505,7 +2505,7 @@
    "type": "food",
    "heal": 14,
    "buff": {
-    "icon": "🥧",
+    "icon": "\ud83e\udd67",
     "ticks": 300,
     "boost": {
      "Defence": [
@@ -2520,7 +2520,7 @@
    "type": "food",
    "heal": 24,
    "buff": {
-    "icon": "🍖",
+    "icon": "\ud83c\udf56",
     "ticks": 400,
     "boost": {
      "Attack": [
@@ -3029,7 +3029,7 @@
    },
    "tint": 9058842,
    "highTier": true,
-   "icon": "🗡️",
+   "icon": "\ud83d\udde1\ufe0f",
    "special": "Cleave: 15% chance of a hit with +50% damage. Dropped by Cinder Warden",
    "req": {
     "Attack": 140,
@@ -3122,7 +3122,7 @@
    },
    "tint": 4876842,
    "highTier": true,
-   "icon": "🗡️",
+   "icon": "\ud83d\udde1\ufe0f",
    "special": "30% chance to poison (260 damage, fading). Dropped by Bramble Colossus",
    "req": {
     "Attack": 220,
@@ -3212,7 +3212,7 @@
    },
    "tint": 12114160,
    "highTier": true,
-   "icon": "🔱",
+   "icon": "\ud83d\udd31",
    "special": "15% chance to freeze the foe for 3 seconds. Dropped by Glacier Behemoth",
    "req": {
     "Attack": 320,
@@ -3302,7 +3302,7 @@
    },
    "tint": 6978208,
    "highTier": true,
-   "icon": "🪭",
+   "icon": "\ud83e\udead",
    "special": "Thunderclap: 20% chance to strike twice. Dropped by Peak Warlord",
    "req": {
     "Attack": 450,
@@ -3392,7 +3392,7 @@
    },
    "tint": 3820090,
    "highTier": true,
-   "icon": "💿",
+   "icon": "\ud83d\udcbf",
    "special": "Heals you for 12% of the damage you deal. Dropped by Bog Revenant",
    "req": {
     "Attack": 600,
@@ -3483,7 +3483,7 @@
    },
    "tint": 13148256,
    "highTier": true,
-   "icon": "🗡️",
+   "icon": "\ud83d\udde1\ufe0f",
    "special": "+8% critical hit chance; 10% chance of a +50% hit. Dropped by Dune Tyrant",
    "req": {
     "Attack": 720,
@@ -3574,7 +3574,7 @@
    },
    "tint": 13651994,
    "highTier": true,
-   "icon": "🔱",
+   "icon": "\ud83d\udd31",
    "special": "+8% damage; 20% chance of a +50% hit. Dropped by Molten Archon",
    "req": {
     "Attack": 880,
@@ -3665,7 +3665,7 @@
    },
    "tint": 3811930,
    "highTier": true,
-   "icon": "🗡️",
+   "icon": "\ud83d\udde1\ufe0f",
    "special": "20% chance to strike twice; heals 6% of damage dealt. Dropped by Voidborn Knight",
    "req": {
     "Attack": 950,
@@ -3758,7 +3758,7 @@
    },
    "tint": 6961824,
    "highTier": true,
-   "icon": "🗡️",
+   "icon": "\ud83d\udde1\ufe0f",
    "special": "The Sunderlord's own blade: 25% chance to strike twice, 25% chance of a +50% hit, heals 10% of damage dealt, +10% damage. Dropped by Sunderlord Vexmar",
    "req": {
     "Attack": 1000,
@@ -5130,6 +5130,1312 @@
    "type": "misc",
    "value": 2500,
    "examine": "A shard of this season's artifact. A keepsake of a finished Chronicle chapter."
+  },
+  "Hunt remnant": {
+   "value": 25,
+   "type": "resource",
+   "special": "A leftover scrap from a carved hunt."
+  },
+  "Cinder horn": {
+   "value": 56,
+   "type": "resource",
+   "huntPart": true,
+   "huntBoss": "Cinder Warden",
+   "special": "Carved from Cinder Warden."
+  },
+  "Ash plate": {
+   "value": 56,
+   "type": "resource",
+   "huntPart": true,
+   "huntBoss": "Cinder Warden",
+   "special": "Carved from Cinder Warden."
+  },
+  "Ember tail": {
+   "value": 56,
+   "type": "resource",
+   "huntPart": true,
+   "huntBoss": "Cinder Warden",
+   "special": "Carved from Cinder Warden."
+  },
+  "Brandhide cleaver": {
+   "value": 56000,
+   "unique": true,
+   "type": "weapon",
+   "wclass": "scimitar",
+   "atk": 117,
+   "str": 107,
+   "speed": 3,
+   "rarity": "rare",
+   "tint": 9058842,
+   "highTier": true,
+   "huntSet": "Brandhide",
+   "huntBoss": "Cinder Warden",
+   "special": "Huntwright Brandhide. Carves 20% faster. Crafted from Cinder Warden parts.",
+   "req": {
+    "Attack": 140,
+    "Hunter": 1,
+    "Swordsmanship": 1
+   }
+  },
+  "Brandhide helm": {
+   "value": 35000,
+   "unique": true,
+   "type": "head",
+   "set": "Brandhide",
+   "huntSet": "Brandhide",
+   "huntBoss": "Cinder Warden",
+   "def": 32,
+   "rdef": 29,
+   "rarity": "rare",
+   "tint": 9058842,
+   "highTier": true,
+   "special": "Brandhide hunt set. Carves 20% faster. Crafted from Cinder Warden parts.",
+   "req": {
+    "Defence": 140,
+    "Hunter": 1
+   }
+  },
+  "Brandhide cuirass": {
+   "value": 35000,
+   "unique": true,
+   "type": "body",
+   "set": "Brandhide",
+   "huntSet": "Brandhide",
+   "huntBoss": "Cinder Warden",
+   "def": 77,
+   "rdef": 69,
+   "rarity": "rare",
+   "tint": 9058842,
+   "highTier": true,
+   "special": "Brandhide hunt set. Carves 20% faster. Crafted from Cinder Warden parts.",
+   "req": {
+    "Defence": 140,
+    "Hunter": 1
+   }
+  },
+  "Brandhide greaves": {
+   "value": 35000,
+   "unique": true,
+   "type": "legs",
+   "set": "Brandhide",
+   "huntSet": "Brandhide",
+   "huntBoss": "Cinder Warden",
+   "def": 60,
+   "rdef": 54,
+   "rarity": "rare",
+   "tint": 9058842,
+   "highTier": true,
+   "special": "Brandhide hunt set. Carves 20% faster. Crafted from Cinder Warden parts.",
+   "req": {
+    "Defence": 140,
+    "Hunter": 1
+   }
+  },
+  "Bramble horn": {
+   "value": 88,
+   "type": "resource",
+   "huntPart": true,
+   "huntBoss": "Bramble Colossus",
+   "special": "Carved from Bramble Colossus."
+  },
+  "Thorn plate": {
+   "value": 88,
+   "type": "resource",
+   "huntPart": true,
+   "huntBoss": "Bramble Colossus",
+   "special": "Carved from Bramble Colossus."
+  },
+  "Vine lash": {
+   "value": 88,
+   "type": "resource",
+   "huntPart": true,
+   "huntBoss": "Bramble Colossus",
+   "special": "Carved from Bramble Colossus."
+  },
+  "Briarhide hook": {
+   "value": 88000,
+   "unique": true,
+   "type": "weapon",
+   "wclass": "scimitar",
+   "atk": 174,
+   "str": 162,
+   "speed": 3,
+   "rarity": "rare",
+   "tint": 4876842,
+   "highTier": true,
+   "huntSet": "Briarhide",
+   "huntBoss": "Bramble Colossus",
+   "special": "Huntwright Briarhide. Carves 20% faster. Crafted from Bramble Colossus parts.",
+   "req": {
+    "Attack": 220,
+    "Hunter": 20,
+    "Swordsmanship": 10
+   }
+  },
+  "Briarhide helm": {
+   "value": 55000,
+   "unique": true,
+   "type": "head",
+   "set": "Briarhide",
+   "huntSet": "Briarhide",
+   "huntBoss": "Bramble Colossus",
+   "def": 51,
+   "rdef": 46,
+   "rarity": "rare",
+   "tint": 4876842,
+   "highTier": true,
+   "special": "Briarhide hunt set. Carves 20% faster. Crafted from Bramble Colossus parts.",
+   "req": {
+    "Defence": 220,
+    "Hunter": 20
+   }
+  },
+  "Briarhide cuirass": {
+   "value": 55000,
+   "unique": true,
+   "type": "body",
+   "set": "Briarhide",
+   "huntSet": "Briarhide",
+   "huntBoss": "Bramble Colossus",
+   "def": 121,
+   "rdef": 109,
+   "rarity": "rare",
+   "tint": 4876842,
+   "highTier": true,
+   "special": "Briarhide hunt set. Carves 20% faster. Crafted from Bramble Colossus parts.",
+   "req": {
+    "Defence": 220,
+    "Hunter": 20
+   }
+  },
+  "Briarhide greaves": {
+   "value": 55000,
+   "unique": true,
+   "type": "legs",
+   "set": "Briarhide",
+   "huntSet": "Briarhide",
+   "huntBoss": "Bramble Colossus",
+   "def": 94,
+   "rdef": 85,
+   "rarity": "rare",
+   "tint": 4876842,
+   "highTier": true,
+   "special": "Briarhide hunt set. Carves 20% faster. Crafted from Bramble Colossus parts.",
+   "req": {
+    "Defence": 220,
+    "Hunter": 20
+   }
+  },
+  "Rime horn": {
+   "value": 128,
+   "type": "resource",
+   "huntPart": true,
+   "huntBoss": "Glacier Behemoth",
+   "special": "Carved from Glacier Behemoth."
+  },
+  "Frost plate": {
+   "value": 128,
+   "type": "resource",
+   "huntPart": true,
+   "huntBoss": "Glacier Behemoth",
+   "special": "Carved from Glacier Behemoth."
+  },
+  "Ice lash": {
+   "value": 128,
+   "type": "resource",
+   "huntPart": true,
+   "huntBoss": "Glacier Behemoth",
+   "special": "Carved from Glacier Behemoth."
+  },
+  "Rimehide pike": {
+   "value": 128000,
+   "unique": true,
+   "type": "weapon",
+   "wclass": "glaive",
+   "atk": 246,
+   "str": 230,
+   "speed": 6,
+   "rarity": "rare",
+   "tint": 12114160,
+   "highTier": true,
+   "huntSet": "Rimehide",
+   "huntBoss": "Glacier Behemoth",
+   "special": "Huntwright Rimehide. Part breaks last a little longer. Crafted from Glacier Behemoth parts.",
+   "req": {
+    "Attack": 320,
+    "Hunter": 40,
+    "Swordsmanship": 20
+   }
+  },
+  "Rimehide helm": {
+   "value": 80000,
+   "unique": true,
+   "type": "head",
+   "set": "Rimehide",
+   "huntSet": "Rimehide",
+   "huntBoss": "Glacier Behemoth",
+   "def": 74,
+   "rdef": 67,
+   "rarity": "rare",
+   "tint": 12114160,
+   "highTier": true,
+   "special": "Rimehide hunt set. Part breaks last a little longer. Crafted from Glacier Behemoth parts.",
+   "req": {
+    "Defence": 320,
+    "Hunter": 40
+   }
+  },
+  "Rimehide cuirass": {
+   "value": 80000,
+   "unique": true,
+   "type": "body",
+   "set": "Rimehide",
+   "huntSet": "Rimehide",
+   "huntBoss": "Glacier Behemoth",
+   "def": 176,
+   "rdef": 158,
+   "rarity": "rare",
+   "tint": 12114160,
+   "highTier": true,
+   "special": "Rimehide hunt set. Part breaks last a little longer. Crafted from Glacier Behemoth parts.",
+   "req": {
+    "Defence": 320,
+    "Hunter": 40
+   }
+  },
+  "Rimehide greaves": {
+   "value": 80000,
+   "unique": true,
+   "type": "legs",
+   "set": "Rimehide",
+   "huntSet": "Rimehide",
+   "huntBoss": "Glacier Behemoth",
+   "def": 137,
+   "rdef": 124,
+   "rarity": "rare",
+   "tint": 12114160,
+   "highTier": true,
+   "special": "Rimehide hunt set. Part breaks last a little longer. Crafted from Glacier Behemoth parts.",
+   "req": {
+    "Defence": 320,
+    "Hunter": 40
+   }
+  },
+  "Peak horn": {
+   "value": 180,
+   "type": "resource",
+   "huntPart": true,
+   "huntBoss": "Peak Warlord",
+   "special": "Carved from Peak Warlord."
+  },
+  "Storm plate": {
+   "value": 180,
+   "type": "resource",
+   "huntPart": true,
+   "huntBoss": "Peak Warlord",
+   "special": "Carved from Peak Warlord."
+  },
+  "Warlord plume": {
+   "value": 180,
+   "type": "resource",
+   "huntPart": true,
+   "huntBoss": "Peak Warlord",
+   "special": "Carved from Peak Warlord."
+  },
+  "Stormhide fan": {
+   "value": 180000,
+   "unique": true,
+   "type": "weapon",
+   "wclass": "warfan",
+   "atk": 340,
+   "str": 318,
+   "speed": 3,
+   "rarity": "epic",
+   "tint": 6978208,
+   "highTier": true,
+   "huntSet": "Stormhide",
+   "huntBoss": "Peak Warlord",
+   "special": "Huntwright Stormhide. Tracks resolve a little faster. Crafted from Peak Warlord parts.",
+   "req": {
+    "Attack": 450,
+    "Hunter": 60,
+    "Swordsmanship": 30
+   }
+  },
+  "Stormhide helm": {
+   "value": 112500,
+   "unique": true,
+   "type": "head",
+   "set": "Stormhide",
+   "huntSet": "Stormhide",
+   "huntBoss": "Peak Warlord",
+   "def": 104,
+   "rdef": 94,
+   "rarity": "epic",
+   "tint": 6978208,
+   "highTier": true,
+   "special": "Stormhide hunt set. Tracks resolve a little faster. Crafted from Peak Warlord parts.",
+   "req": {
+    "Defence": 450,
+    "Hunter": 60
+   }
+  },
+  "Stormhide cuirass": {
+   "value": 112500,
+   "unique": true,
+   "type": "body",
+   "set": "Stormhide",
+   "huntSet": "Stormhide",
+   "huntBoss": "Peak Warlord",
+   "def": 248,
+   "rdef": 223,
+   "rarity": "epic",
+   "tint": 6978208,
+   "highTier": true,
+   "special": "Stormhide hunt set. Tracks resolve a little faster. Crafted from Peak Warlord parts.",
+   "req": {
+    "Defence": 450,
+    "Hunter": 60
+   }
+  },
+  "Stormhide greaves": {
+   "value": 112500,
+   "unique": true,
+   "type": "legs",
+   "set": "Stormhide",
+   "huntSet": "Stormhide",
+   "huntBoss": "Peak Warlord",
+   "def": 193,
+   "rdef": 174,
+   "rarity": "epic",
+   "tint": 6978208,
+   "highTier": true,
+   "special": "Stormhide hunt set. Tracks resolve a little faster. Crafted from Peak Warlord parts.",
+   "req": {
+    "Defence": 450,
+    "Hunter": 60
+   }
+  },
+  "Bog crest": {
+   "value": 240,
+   "type": "resource",
+   "huntPart": true,
+   "huntBoss": "Bog Revenant",
+   "special": "Carved from Bog Revenant."
+  },
+  "Mire plate": {
+   "value": 240,
+   "type": "resource",
+   "huntPart": true,
+   "huntBoss": "Bog Revenant",
+   "special": "Carved from Bog Revenant."
+  },
+  "Revenant coil": {
+   "value": 240,
+   "type": "resource",
+   "huntPart": true,
+   "huntBoss": "Bog Revenant",
+   "special": "Carved from Bog Revenant."
+  },
+  "Mirehide disc": {
+   "value": 240000,
+   "unique": true,
+   "type": "weapon",
+   "wclass": "chakram",
+   "atk": 448,
+   "str": 420,
+   "speed": 3,
+   "rarity": "epic",
+   "tint": 3820090,
+   "highTier": true,
+   "huntSet": "Mirehide",
+   "huntBoss": "Bog Revenant",
+   "special": "Huntwright Mirehide. Carves 20% faster. Crafted from Bog Revenant parts.",
+   "req": {
+    "Attack": 600,
+    "Hunter": 80,
+    "Swordsmanship": 40
+   }
+  },
+  "Mirehide helm": {
+   "value": 150000,
+   "unique": true,
+   "type": "head",
+   "set": "Mirehide",
+   "huntSet": "Mirehide",
+   "huntBoss": "Bog Revenant",
+   "def": 139,
+   "rdef": 125,
+   "rarity": "epic",
+   "tint": 3820090,
+   "highTier": true,
+   "special": "Mirehide hunt set. Carves 20% faster. Crafted from Bog Revenant parts.",
+   "req": {
+    "Defence": 600,
+    "Hunter": 80
+   }
+  },
+  "Mirehide cuirass": {
+   "value": 150000,
+   "unique": true,
+   "type": "body",
+   "set": "Mirehide",
+   "huntSet": "Mirehide",
+   "huntBoss": "Bog Revenant",
+   "def": 330,
+   "rdef": 297,
+   "rarity": "epic",
+   "tint": 3820090,
+   "highTier": true,
+   "special": "Mirehide hunt set. Carves 20% faster. Crafted from Bog Revenant parts.",
+   "req": {
+    "Defence": 600,
+    "Hunter": 80
+   }
+  },
+  "Mirehide greaves": {
+   "value": 150000,
+   "unique": true,
+   "type": "legs",
+   "set": "Mirehide",
+   "huntSet": "Mirehide",
+   "huntBoss": "Bog Revenant",
+   "def": 257,
+   "rdef": 232,
+   "rarity": "epic",
+   "tint": 3820090,
+   "highTier": true,
+   "special": "Mirehide hunt set. Carves 20% faster. Crafted from Bog Revenant parts.",
+   "req": {
+    "Defence": 600,
+    "Hunter": 80
+   }
+  },
+  "Dune horn": {
+   "value": 288,
+   "type": "resource",
+   "huntPart": true,
+   "huntBoss": "Dune Tyrant",
+   "special": "Carved from Dune Tyrant."
+  },
+  "Sand plate": {
+   "value": 288,
+   "type": "resource",
+   "huntPart": true,
+   "huntBoss": "Dune Tyrant",
+   "special": "Carved from Dune Tyrant."
+  },
+  "Tyrant lash": {
+   "value": 288,
+   "type": "resource",
+   "huntPart": true,
+   "huntBoss": "Dune Tyrant",
+   "special": "Carved from Dune Tyrant."
+  },
+  "Dunewrought scimitar": {
+   "value": 288000,
+   "unique": true,
+   "type": "weapon",
+   "wclass": "scimitar",
+   "atk": 534,
+   "str": 502,
+   "speed": 3,
+   "rarity": "epic",
+   "tint": 13148256,
+   "highTier": true,
+   "huntSet": "Dunewrought",
+   "huntBoss": "Dune Tyrant",
+   "special": "Huntwright Dunewrought. Part breaks last a little longer. Crafted from Dune Tyrant parts.",
+   "req": {
+    "Attack": 720,
+    "Hunter": 120,
+    "Swordsmanship": 60
+   }
+  },
+  "Dunewrought helm": {
+   "value": 180000,
+   "unique": true,
+   "type": "head",
+   "set": "Dunewrought",
+   "huntSet": "Dunewrought",
+   "huntBoss": "Dune Tyrant",
+   "def": 166,
+   "rdef": 150,
+   "rarity": "epic",
+   "tint": 13148256,
+   "highTier": true,
+   "special": "Dunewrought hunt set. Part breaks last a little longer. Crafted from Dune Tyrant parts.",
+   "req": {
+    "Defence": 720,
+    "Hunter": 120
+   }
+  },
+  "Dunewrought cuirass": {
+   "value": 180000,
+   "unique": true,
+   "type": "body",
+   "set": "Dunewrought",
+   "huntSet": "Dunewrought",
+   "huntBoss": "Dune Tyrant",
+   "def": 396,
+   "rdef": 356,
+   "rarity": "epic",
+   "tint": 13148256,
+   "highTier": true,
+   "special": "Dunewrought hunt set. Part breaks last a little longer. Crafted from Dune Tyrant parts.",
+   "req": {
+    "Defence": 720,
+    "Hunter": 120
+   }
+  },
+  "Dunewrought greaves": {
+   "value": 180000,
+   "unique": true,
+   "type": "legs",
+   "set": "Dunewrought",
+   "huntSet": "Dunewrought",
+   "huntBoss": "Dune Tyrant",
+   "def": 309,
+   "rdef": 278,
+   "rarity": "epic",
+   "tint": 13148256,
+   "highTier": true,
+   "special": "Dunewrought hunt set. Part breaks last a little longer. Crafted from Dune Tyrant parts.",
+   "req": {
+    "Defence": 720,
+    "Hunter": 120
+   }
+  },
+  "Archon horn": {
+   "value": 352,
+   "type": "resource",
+   "huntPart": true,
+   "huntBoss": "Molten Archon",
+   "special": "Carved from Molten Archon."
+  },
+  "Magma plate": {
+   "value": 352,
+   "type": "resource",
+   "huntPart": true,
+   "huntBoss": "Molten Archon",
+   "special": "Carved from Molten Archon."
+  },
+  "Ember core": {
+   "value": 352,
+   "type": "resource",
+   "huntPart": true,
+   "huntBoss": "Molten Archon",
+   "special": "Carved from Molten Archon."
+  },
+  "Cinderwrought glaive": {
+   "value": 352000,
+   "unique": true,
+   "type": "weapon",
+   "wclass": "glaive",
+   "atk": 650,
+   "str": 610,
+   "speed": 6,
+   "rarity": "epic",
+   "tint": 13651994,
+   "highTier": true,
+   "huntSet": "Cinderwrought",
+   "huntBoss": "Molten Archon",
+   "special": "Huntwright Cinderwrought. Carves 20% faster. Crafted from Molten Archon parts.",
+   "req": {
+    "Attack": 880,
+    "Hunter": 200,
+    "Swordsmanship": 100
+   }
+  },
+  "Cinderwrought helm": {
+   "value": 220000,
+   "unique": true,
+   "type": "head",
+   "set": "Cinderwrought",
+   "huntSet": "Cinderwrought",
+   "huntBoss": "Molten Archon",
+   "def": 203,
+   "rdef": 183,
+   "rarity": "epic",
+   "tint": 13651994,
+   "highTier": true,
+   "special": "Cinderwrought hunt set. Carves 20% faster. Crafted from Molten Archon parts.",
+   "req": {
+    "Defence": 880,
+    "Hunter": 200
+   }
+  },
+  "Cinderwrought cuirass": {
+   "value": 220000,
+   "unique": true,
+   "type": "body",
+   "set": "Cinderwrought",
+   "huntSet": "Cinderwrought",
+   "huntBoss": "Molten Archon",
+   "def": 484,
+   "rdef": 436,
+   "rarity": "epic",
+   "tint": 13651994,
+   "highTier": true,
+   "special": "Cinderwrought hunt set. Carves 20% faster. Crafted from Molten Archon parts.",
+   "req": {
+    "Defence": 880,
+    "Hunter": 200
+   }
+  },
+  "Cinderwrought greaves": {
+   "value": 220000,
+   "unique": true,
+   "type": "legs",
+   "set": "Cinderwrought",
+   "huntSet": "Cinderwrought",
+   "huntBoss": "Molten Archon",
+   "def": 378,
+   "rdef": 340,
+   "rarity": "epic",
+   "tint": 13651994,
+   "highTier": true,
+   "special": "Cinderwrought hunt set. Carves 20% faster. Crafted from Molten Archon parts.",
+   "req": {
+    "Defence": 880,
+    "Hunter": 200
+   }
+  },
+  "Void crest": {
+   "value": 380,
+   "type": "resource",
+   "huntPart": true,
+   "huntBoss": "Voidborn Knight",
+   "special": "Carved from Voidborn Knight."
+  },
+  "Night plate": {
+   "value": 380,
+   "type": "resource",
+   "huntPart": true,
+   "huntBoss": "Voidborn Knight",
+   "special": "Carved from Voidborn Knight."
+  },
+  "Knight core": {
+   "value": 380,
+   "type": "resource",
+   "huntPart": true,
+   "huntBoss": "Voidborn Knight",
+   "special": "Carved from Voidborn Knight."
+  },
+  "Nightwrought katana": {
+   "value": 380000,
+   "unique": true,
+   "type": "weapon",
+   "wclass": "katana",
+   "atk": 700,
+   "str": 658,
+   "speed": 4,
+   "rarity": "legendary",
+   "tint": 3811930,
+   "highTier": true,
+   "huntSet": "Nightwrought",
+   "huntBoss": "Voidborn Knight",
+   "special": "Huntwright Nightwrought. Part breaks last a little longer. Crafted from Voidborn Knight parts.",
+   "req": {
+    "Attack": 950,
+    "Hunter": 350,
+    "Swordsmanship": 175
+   }
+  },
+  "Nightwrought helm": {
+   "value": 237500,
+   "unique": true,
+   "type": "head",
+   "set": "Nightwrought",
+   "huntSet": "Nightwrought",
+   "huntBoss": "Voidborn Knight",
+   "def": 220,
+   "rdef": 198,
+   "rarity": "legendary",
+   "tint": 3811930,
+   "highTier": true,
+   "special": "Nightwrought hunt set. Part breaks last a little longer. Crafted from Voidborn Knight parts.",
+   "req": {
+    "Defence": 950,
+    "Hunter": 350
+   }
+  },
+  "Nightwrought cuirass": {
+   "value": 237500,
+   "unique": true,
+   "type": "body",
+   "set": "Nightwrought",
+   "huntSet": "Nightwrought",
+   "huntBoss": "Voidborn Knight",
+   "def": 523,
+   "rdef": 471,
+   "rarity": "legendary",
+   "tint": 3811930,
+   "highTier": true,
+   "special": "Nightwrought hunt set. Part breaks last a little longer. Crafted from Voidborn Knight parts.",
+   "req": {
+    "Defence": 950,
+    "Hunter": 350
+   }
+  },
+  "Nightwrought greaves": {
+   "value": 237500,
+   "unique": true,
+   "type": "legs",
+   "set": "Nightwrought",
+   "huntSet": "Nightwrought",
+   "huntBoss": "Voidborn Knight",
+   "def": 408,
+   "rdef": 367,
+   "rarity": "legendary",
+   "tint": 3811930,
+   "highTier": true,
+   "special": "Nightwrought hunt set. Part breaks last a little longer. Crafted from Voidborn Knight parts.",
+   "req": {
+    "Defence": 950,
+    "Hunter": 350
+   }
+  },
+  "Eclipse horn": {
+   "value": 400,
+   "type": "resource",
+   "huntPart": true,
+   "huntBoss": "Sunderlord Vexmar",
+   "special": "Carved from Sunderlord Vexmar."
+  },
+  "Sunder plate": {
+   "value": 400,
+   "type": "resource",
+   "huntPart": true,
+   "huntBoss": "Sunderlord Vexmar",
+   "special": "Carved from Sunderlord Vexmar."
+  },
+  "Last-light core": {
+   "value": 400,
+   "type": "resource",
+   "huntPart": true,
+   "huntBoss": "Sunderlord Vexmar",
+   "special": "Carved from Sunderlord Vexmar."
+  },
+  "Eclipse lash": {
+   "value": 400,
+   "type": "resource",
+   "huntPart": true,
+   "huntBoss": "Sunderlord Vexmar",
+   "special": "Carved from Sunderlord Vexmar."
+  },
+  "Eclipshide edge": {
+   "value": 400000,
+   "unique": true,
+   "type": "weapon",
+   "wclass": "katana",
+   "atk": 736,
+   "str": 692,
+   "speed": 4,
+   "rarity": "legendary",
+   "tint": 6961824,
+   "highTier": true,
+   "huntSet": "Eclipshide",
+   "huntBoss": "Sunderlord Vexmar",
+   "special": "Huntwright Eclipshide. Carves 25% faster and part breaks last longer. Crafted from Sunderlord Vexmar parts.",
+   "req": {
+    "Attack": 1000,
+    "Hunter": 500,
+    "Swordsmanship": 250
+   }
+  },
+  "Eclipshide helm": {
+   "value": 250000,
+   "unique": true,
+   "type": "head",
+   "set": "Eclipshide",
+   "huntSet": "Eclipshide",
+   "huntBoss": "Sunderlord Vexmar",
+   "def": 231,
+   "rdef": 208,
+   "rarity": "legendary",
+   "tint": 6961824,
+   "highTier": true,
+   "special": "Eclipshide hunt set. Carves 25% faster and part breaks last longer. Crafted from Sunderlord Vexmar parts.",
+   "req": {
+    "Defence": 1000,
+    "Hunter": 500
+   }
+  },
+  "Eclipshide cuirass": {
+   "value": 250000,
+   "unique": true,
+   "type": "body",
+   "set": "Eclipshide",
+   "huntSet": "Eclipshide",
+   "huntBoss": "Sunderlord Vexmar",
+   "def": 550,
+   "rdef": 495,
+   "rarity": "legendary",
+   "tint": 6961824,
+   "highTier": true,
+   "special": "Eclipshide hunt set. Carves 25% faster and part breaks last longer. Crafted from Sunderlord Vexmar parts.",
+   "req": {
+    "Defence": 1000,
+    "Hunter": 500
+   }
+  },
+  "Eclipshide greaves": {
+   "value": 250000,
+   "unique": true,
+   "type": "legs",
+   "set": "Eclipshide",
+   "huntSet": "Eclipshide",
+   "huntBoss": "Sunderlord Vexmar",
+   "def": 429,
+   "rdef": 386,
+   "rarity": "legendary",
+   "tint": 6961824,
+   "highTier": true,
+   "special": "Eclipshide hunt set. Carves 25% faster and part breaks last longer. Crafted from Sunderlord Vexmar parts.",
+   "req": {
+    "Defence": 1000,
+    "Hunter": 500
+   }
+  },
+  "Stone horn": {
+   "value": 56,
+   "type": "resource",
+   "huntPart": true,
+   "huntBoss": "Stonehorn",
+   "special": "Carved from Stonehorn."
+  },
+  "Hill plate": {
+   "value": 56,
+   "type": "resource",
+   "huntPart": true,
+   "huntBoss": "Stonehorn",
+   "special": "Carved from Stonehorn."
+  },
+  "Hillhide maul-blade": {
+   "value": 56000,
+   "unique": true,
+   "type": "weapon",
+   "wclass": "scimitar",
+   "atk": 117,
+   "str": 107,
+   "speed": 3,
+   "rarity": "rare",
+   "tint": 8022602,
+   "highTier": true,
+   "huntSet": "Hillhide",
+   "huntBoss": "Stonehorn",
+   "special": "Huntwright Hillhide. Part breaks last a little longer. Crafted from Stonehorn parts.",
+   "req": {
+    "Attack": 140,
+    "Hunter": 15,
+    "Swordsmanship": 8
+   }
+  },
+  "Hillhide helm": {
+   "value": 35000,
+   "unique": true,
+   "type": "head",
+   "set": "Hillhide",
+   "huntSet": "Hillhide",
+   "huntBoss": "Stonehorn",
+   "def": 32,
+   "rdef": 29,
+   "rarity": "rare",
+   "tint": 8022602,
+   "highTier": true,
+   "special": "Hillhide hunt set. Part breaks last a little longer. Crafted from Stonehorn parts.",
+   "req": {
+    "Defence": 140,
+    "Hunter": 15
+   }
+  },
+  "Hillhide cuirass": {
+   "value": 35000,
+   "unique": true,
+   "type": "body",
+   "set": "Hillhide",
+   "huntSet": "Hillhide",
+   "huntBoss": "Stonehorn",
+   "def": 77,
+   "rdef": 69,
+   "rarity": "rare",
+   "tint": 8022602,
+   "highTier": true,
+   "special": "Hillhide hunt set. Part breaks last a little longer. Crafted from Stonehorn parts.",
+   "req": {
+    "Defence": 140,
+    "Hunter": 15
+   }
+  },
+  "Hillhide greaves": {
+   "value": 35000,
+   "unique": true,
+   "type": "legs",
+   "set": "Hillhide",
+   "huntSet": "Hillhide",
+   "huntBoss": "Stonehorn",
+   "def": 60,
+   "rdef": 54,
+   "rarity": "rare",
+   "tint": 8022602,
+   "highTier": true,
+   "special": "Hillhide hunt set. Part breaks last a little longer. Crafted from Stonehorn parts.",
+   "req": {
+    "Defence": 140,
+    "Hunter": 15
+   }
+  },
+  "Frost horn": {
+   "value": 60,
+   "type": "resource",
+   "huntPart": true,
+   "huntBoss": "Frostmaw",
+   "special": "Carved from Frostmaw."
+  },
+  "Scar plate": {
+   "value": 60,
+   "type": "resource",
+   "huntPart": true,
+   "huntBoss": "Frostmaw",
+   "special": "Carved from Frostmaw."
+  },
+  "Scarhide fang": {
+   "value": 60000,
+   "unique": true,
+   "type": "weapon",
+   "wclass": "scimitar",
+   "atk": 124,
+   "str": 114,
+   "speed": 3,
+   "rarity": "rare",
+   "tint": 9089224,
+   "highTier": true,
+   "huntSet": "Scarhide",
+   "huntBoss": "Frostmaw",
+   "special": "Huntwright Scarhide. Carves 20% faster. Crafted from Frostmaw parts.",
+   "req": {
+    "Attack": 150,
+    "Hunter": 25,
+    "Swordsmanship": 13
+   }
+  },
+  "Scarhide helm": {
+   "value": 37500,
+   "unique": true,
+   "type": "head",
+   "set": "Scarhide",
+   "huntSet": "Scarhide",
+   "huntBoss": "Frostmaw",
+   "def": 35,
+   "rdef": 31,
+   "rarity": "rare",
+   "tint": 9089224,
+   "highTier": true,
+   "special": "Scarhide hunt set. Carves 20% faster. Crafted from Frostmaw parts.",
+   "req": {
+    "Defence": 150,
+    "Hunter": 25
+   }
+  },
+  "Scarhide cuirass": {
+   "value": 37500,
+   "unique": true,
+   "type": "body",
+   "set": "Scarhide",
+   "huntSet": "Scarhide",
+   "huntBoss": "Frostmaw",
+   "def": 83,
+   "rdef": 75,
+   "rarity": "rare",
+   "tint": 9089224,
+   "highTier": true,
+   "special": "Scarhide hunt set. Carves 20% faster. Crafted from Frostmaw parts.",
+   "req": {
+    "Defence": 150,
+    "Hunter": 25
+   }
+  },
+  "Scarhide greaves": {
+   "value": 37500,
+   "unique": true,
+   "type": "legs",
+   "set": "Scarhide",
+   "huntSet": "Scarhide",
+   "huntBoss": "Frostmaw",
+   "def": 65,
+   "rdef": 58,
+   "rarity": "rare",
+   "tint": 9089224,
+   "highTier": true,
+   "special": "Scarhide hunt set. Carves 20% faster. Crafted from Frostmaw parts.",
+   "req": {
+    "Defence": 150,
+    "Hunter": 25
+   }
+  },
+  "Wyrm horn": {
+   "value": 66,
+   "type": "resource",
+   "huntPart": true,
+   "huntBoss": "Ashwyrm",
+   "special": "Carved from Ashwyrm."
+  },
+  "Ashwyrm scale": {
+   "value": 66,
+   "type": "resource",
+   "huntPart": true,
+   "huntBoss": "Ashwyrm",
+   "special": "Carved from Ashwyrm."
+  },
+  "Cinder tail": {
+   "value": 66,
+   "type": "resource",
+   "huntPart": true,
+   "huntBoss": "Ashwyrm",
+   "special": "Carved from Ashwyrm."
+  },
+  "Cinderback glaive": {
+   "value": 66000,
+   "unique": true,
+   "type": "weapon",
+   "wclass": "glaive",
+   "atk": 135,
+   "str": 124,
+   "speed": 6,
+   "rarity": "rare",
+   "tint": 8010266,
+   "highTier": true,
+   "huntSet": "Cinderback",
+   "huntBoss": "Ashwyrm",
+   "special": "Huntwright Cinderback. Part breaks last a little longer. Crafted from Ashwyrm parts.",
+   "req": {
+    "Attack": 165,
+    "Hunter": 30,
+    "Swordsmanship": 15
+   }
+  },
+  "Cinderback helm": {
+   "value": 41250,
+   "unique": true,
+   "type": "head",
+   "set": "Cinderback",
+   "huntSet": "Cinderback",
+   "huntBoss": "Ashwyrm",
+   "def": 38,
+   "rdef": 34,
+   "rarity": "rare",
+   "tint": 8010266,
+   "highTier": true,
+   "special": "Cinderback hunt set. Part breaks last a little longer. Crafted from Ashwyrm parts.",
+   "req": {
+    "Defence": 165,
+    "Hunter": 30
+   }
+  },
+  "Cinderback cuirass": {
+   "value": 41250,
+   "unique": true,
+   "type": "body",
+   "set": "Cinderback",
+   "huntSet": "Cinderback",
+   "huntBoss": "Ashwyrm",
+   "def": 91,
+   "rdef": 82,
+   "rarity": "rare",
+   "tint": 8010266,
+   "highTier": true,
+   "special": "Cinderback hunt set. Part breaks last a little longer. Crafted from Ashwyrm parts.",
+   "req": {
+    "Defence": 165,
+    "Hunter": 30
+   }
+  },
+  "Cinderback greaves": {
+   "value": 41250,
+   "unique": true,
+   "type": "legs",
+   "set": "Cinderback",
+   "huntSet": "Cinderback",
+   "huntBoss": "Ashwyrm",
+   "def": 71,
+   "rdef": 64,
+   "rarity": "rare",
+   "tint": 8010266,
+   "highTier": true,
+   "special": "Cinderback hunt set. Part breaks last a little longer. Crafted from Ashwyrm parts.",
+   "req": {
+    "Defence": 165,
+    "Hunter": 30
+   }
+  },
+  "Ember ash": {
+   "value": 80,
+   "type": "ash",
+   "ashId": "shades",
+   "special": "Summon a brief pack of shades. Costs Prayer; one Ashkin or Kinbeast at a time."
+  },
+  "Bulwark ash": {
+   "value": 240,
+   "type": "ash",
+   "ashId": "ward",
+   "special": "Summon a shield-bearer spirit. Costs Prayer; one Ashkin or Kinbeast at a time."
+  },
+  "Longshot ash": {
+   "value": 260,
+   "type": "ash",
+   "ashId": "ranger",
+   "special": "Summon a ranger spirit. Costs Prayer; one Ashkin or Kinbeast at a time."
+  },
+  "Potato seed": {
+   "value": 5,
+   "type": "seed"
+  },
+  "Cabbage seed": {
+   "value": 6,
+   "type": "seed"
+  },
+  "Wheat seed": {
+   "value": 5,
+   "type": "seed"
+  },
+  "Tomato seed": {
+   "value": 8,
+   "type": "seed"
+  },
+  "Pumpkin seed": {
+   "value": 10,
+   "type": "seed"
+  },
+  "Winterroot seed": {
+   "value": 8,
+   "type": "seed"
+  },
+  "Potato": {
+   "value": 4,
+   "type": "food",
+   "heal": 3,
+   "farm": true
+  },
+  "Cabbage": {
+   "value": 5,
+   "type": "food",
+   "heal": 3,
+   "farm": true
+  },
+  "Wheat": {
+   "value": 3,
+   "type": "resource",
+   "farm": true
+  },
+  "Tomato": {
+   "value": 6,
+   "type": "food",
+   "heal": 4,
+   "farm": true
+  },
+  "Pumpkin": {
+   "value": 10,
+   "type": "food",
+   "heal": 6,
+   "farm": true
+  },
+  "Winterroot": {
+   "value": 7,
+   "type": "food",
+   "heal": 4,
+   "farm": true
+  },
+  "Egg": {
+   "value": 4,
+   "type": "food",
+   "heal": 2,
+   "farm": true
+  },
+  "Milk": {
+   "value": 5,
+   "type": "food",
+   "heal": 3,
+   "farm": true
+  },
+  "Wool": {
+   "value": 8,
+   "type": "processed",
+   "farm": true
+  },
+  "Farm preserves": {
+   "value": 14,
+   "type": "food",
+   "heal": 8,
+   "farm": true
+  },
+  "Dull facet": {
+   "value": 40,
+   "type": "resource",
+   "special": "An uncut Facet Stone. Cut it with Glyphcraft or Crafting."
+  },
+  "Facet frame": {
+   "value": 120,
+   "type": "resource",
+   "special": "A small frame that holds two more Facet Stones beside your weapon."
+  },
+  "Twin-cut Facet": {
+   "value": 90,
+   "type": "facet",
+   "facet": "echo",
+   "special": "A socketed skill lands a second, lighter hit."
+  },
+  "Storm-glass Facet": {
+   "value": 90,
+   "type": "facet",
+   "facet": "frost",
+   "special": "A socketed skill briefly binds the foe in frost."
+  },
+  "Ironroot Facet": {
+   "value": 90,
+   "type": "facet",
+   "facet": "stun",
+   "special": "Stunning skills hold a foe a little longer."
+  },
+  "Wide-reap Facet": {
+   "value": 90,
+   "type": "facet",
+   "facet": "whirl",
+   "special": "Reaping Whirl reaches farther."
+  },
+  "Trail-disc Facet": {
+   "value": 90,
+   "type": "facet",
+   "facet": "trail",
+   "special": "Ricochet or a chakram leaves a short cutting trail."
+  },
+  "Bind vessel": {
+   "value": 20,
+   "type": "vessel",
+   "vessel": 1,
+   "special": "Throw at a weakened common creature to bind a Kinbeast. Hunter governs the catch."
+  },
+  "Sturdy vessel": {
+   "value": 80,
+   "type": "vessel",
+   "vessel": 2,
+   "special": "A firmer vessel for harder hunts. Needs Hunter 30."
+  },
+  "Fine vessel": {
+   "value": 220,
+   "type": "vessel",
+   "vessel": 3,
+   "special": "A fine vessel for rare frontier beasts. Needs Hunter 75."
+  },
+  "Limestone": {
+   "value": 3,
+   "type": "resource",
+   "special": "Soft building stone. Cut it into a Stone slab with Crafting, or find a finished slab while mining."
+  },
+  "Stone slab": {
+   "value": 8,
+   "type": "resource",
+   "special": "Cut stone for Freeframe walls and reinforced plates. Crafted from limestone or found while mining."
   }
  },
  "metals": [
@@ -5372,64 +6678,64 @@
   {
    "id": "axe",
    "name": "Axe",
-   "icon": "🪓",
+   "icon": "\ud83e\ude93",
    "skill": "Woodcutting"
   },
   {
    "id": "pickaxe",
    "name": "Pickaxe",
-   "icon": "⛏️",
+   "icon": "\u26cf\ufe0f",
    "skill": "Mining"
   },
   {
    "id": "net",
    "name": "Fishing net",
-   "icon": "🥅"
+   "icon": "\ud83e\udd45"
   },
   {
    "id": "rod",
    "name": "Fishing rod",
-   "icon": "🎣"
+   "icon": "\ud83c\udfa3"
   },
   {
    "id": "cage",
    "name": "Lobster pot",
-   "icon": "🧺"
+   "icon": "\ud83e\uddfa"
   },
   {
    "id": "harpoon",
    "name": "Harpoon",
-   "icon": "🔱"
+   "icon": "\ud83d\udd31"
   },
   {
    "id": "hammer",
    "name": "Hammer",
-   "icon": "🔨"
+   "icon": "\ud83d\udd28"
   },
   {
    "id": "knife",
    "name": "Knife",
-   "icon": "🔪"
+   "icon": "\ud83d\udd2a"
   },
   {
    "id": "needle",
    "name": "Needle",
-   "icon": "🪡"
+   "icon": "\ud83e\udea1"
   },
   {
    "id": "tinderbox",
    "name": "Tinderbox",
-   "icon": "🔥"
+   "icon": "\ud83d\udd25"
   },
   {
    "id": "spade",
    "name": "Spade",
-   "icon": "🪏"
+   "icon": "\ud83e\ude8f"
   },
   {
    "id": "mattock",
    "name": "Mattock",
-   "icon": "⛏️",
+   "icon": "\u26cf\ufe0f",
    "skill": "Relicry"
   }
  ],

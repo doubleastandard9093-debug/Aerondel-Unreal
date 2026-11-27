@@ -123,7 +123,12 @@ void UVenturesFeature::LoadZone(const FJsonObject& A)
 
 FVector2D UVenturesFeature::ZoneC(const FString& ZoneId)
 {
-	const double Z = ZoneId == TEXT("vigil") ? 135.0 : ZoneId == TEXT("hold") ? 270.0 : 205.0;
+	double Z = 205.0;
+	if (ZoneId == TEXT("vigil")) Z = 135.0;
+	else if (ZoneId == TEXT("hold")) Z = 270.0;
+	else if (ZoneId == TEXT("horde")) Z = 340.0;
+	else if (ZoneId == TEXT("marks")) Z = 410.0;
+	else if (ZoneId == TEXT("spire")) Z = 480.0;
 	return FVector2D(-1000.0, Z);
 }
 
@@ -186,6 +191,9 @@ void UVenturesFeature::RunEnd(bool bWin)
 	Run.bOn = false;
 	if (Run.Kind == TEXT("breach")) BreachFinish(bWin);
 	if (Run.Kind == TEXT("vigil")) VigilFinish(bWin);
+	if (Run.Kind == TEXT("horde")) HordeFinish(bWin);
+	if (Run.Kind == TEXT("marks")) MarkFinish(bWin);
+	if (Run.Kind == TEXT("spire")) SpireFinish(bWin);
 	ZonePark();
 	const FString Z = Run.Zone;
 	const FVector2D Back = Run.Return;
@@ -201,7 +209,9 @@ void UVenturesFeature::RunEnd(bool bWin)
 
 float UVenturesFeature::TakenZone() const
 {
-	return Run.bOn && Run.Kind == TEXT("breach") && Run.Mod == TEXT("frenzy") ? 1.3f : 1.f;
+	if (Run.bOn && Run.Kind == TEXT("breach") && Run.Mod == TEXT("frenzy")) return 1.3f;
+	if (InRunKind(TEXT("marks")) && Run.Mods.Contains(TEXT("frenzy"))) return 1.12f;
+	return 1.f;
 }
 
 // ---------------------------------------------------------------- tick / kills
@@ -216,6 +226,9 @@ void UVenturesFeature::TickZone()
 			Run.Away = 0;
 			if (Run.Kind == TEXT("breach")) BreachStep();
 			else if (Run.Kind == TEXT("vigil")) VigilStep();
+			else if (Run.Kind == TEXT("horde")) TickHorde();
+			else if (Run.Kind == TEXT("marks")) TickMark();
+			else if (Run.Kind == TEXT("spire")) TickSpire();
 		}
 	}
 	if (TickN % 5 != 0) return;
@@ -225,7 +238,7 @@ void UVenturesFeature::TickZone()
 	if (TideRegion >= 0 && Now > TideUntil) { bTideWaved = false; TideEnd(); }
 	// Safety: standing on a Ventures pad with no run (e.g. after a reload) sends you home.
 	FVector2D P;
-	if (!Run.bOn && PlayerWebPos(P) && P.X < -980.0 && (OnPad(TEXT("breach")) || OnPad(TEXT("vigil"))))
+	if (!Run.bOn && PlayerWebPos(P) && P.X < -980.0 && (OnPad(TEXT("breach")) || OnPad(TEXT("vigil")) || OnPad(TEXT("horde")) || OnPad(TEXT("marks")) || OnPad(TEXT("spire"))))
 		TeleportPlayer(FVector2D(0.0, 10.0));
 }
 
@@ -487,6 +500,7 @@ void UVenturesFeature::BreachFinish(bool bWin)
 	if (Grade == TEXT("S") || Run.bHard || FMath::FRand() < 0.35f) BonusDrop(nullptr, TEXT("the breach"));
 	BreachClearGear(Run.Mode);
 	ChronBreach();
+	MarkFromBreach(Run.bHard, Grade);
 }
 
 void UVenturesFeature::TabBreach(FGPanelModel& M)
