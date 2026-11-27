@@ -31,6 +31,8 @@
 #include "Activities/ActivityActors.h"
 #include "Interaction/AerondelInteractable.h"
 #include "Interaction/NpcTalk.h"
+#include "Interaction/Station.h"
+#include "Data/RecipeDef.h"
 #include "Core/AerondelPlayerState.h"
 #include "Core/PlayerStatsComponent.h"
 #include "Core/AerondelEvents.h"
@@ -647,6 +649,49 @@ void FAerondelPanels::Build(UWorld* W, FName Panel, AActor* Ctx, FGPanelModel& M
 					Pw->TeleportTo(UAerondelFeature::WebToWorld(Dest.X, Dest.Y + 2.0, 1.2), Pw->GetActorRotation());
 				}, true);
 			}
+		}
+		Close(M); return;
+	}
+	if (P == TEXT("station"))
+	{
+		AStation* St = Cast<AStation>(Ctx);
+		M.Title = St ? St->GetInteractLabel().ToString() : TEXT("Station");
+		if (St && Pawn)
+		{
+			TWeakObjectPtr<AStation> WS = St;
+			TWeakObjectPtr<APawn> WP = Pawn;
+			TArray<URecipeDef*> Recs = St->GetRecipes();
+			Recs.Sort([](const URecipeDef* A, const URecipeDef* B)
+			{
+				if (!A || !B) return B != nullptr;
+				if (A->LevelRequired != B->LevelRequired) return A->LevelRequired < B->LevelRequired;
+				return A->DisplayName.ToString() < B->DisplayName.ToString();
+			});
+			int32 Shown = 0;
+			for (URecipeDef* R : Recs)
+			{
+				if (!R || !R->Output) continue;
+				FString Need;
+				for (const FItemAmount& In : R->Inputs)
+					if (In.Item) Need += (Need.IsEmpty() ? TEXT("") : TEXT(", ")) + FString::Printf(TEXT("%dx %s"), In.Amount, *In.Item->DisplayName.ToString());
+				const int32 Lvl = R->LevelRequired;
+				const FString Skill = R->Skill ? R->Skill->DisplayName.ToString() : TEXT("");
+				const bool bCan = St->CanCraft(Pawn, R, false);
+				const int32 N = bCan ? St->CountAffordable(Pawn, R) : 0;
+				M.Lines.Add(FString::Printf(TEXT("%s  (%s %d)  %s%s"),
+					*R->DisplayName.ToString(), *Skill, Lvl, *Need, bCan ? TEXT("") : TEXT("  — can't make this yet")));
+				if (bCan)
+				{
+					TWeakObjectPtr<URecipeDef> WR = R;
+					Act(M, FString::Printf(TEXT("Make 1 %s"), *R->Output->DisplayName.ToString()),
+						[WS, WP, WR] { if (WS.IsValid() && WP.IsValid() && WR.IsValid()) WS->CraftRecipe(WP.Get(), WR.Get(), 1); }, true);
+					if (N > 1)
+						Act(M, FString::Printf(TEXT("Make all %s (%d)"), *R->Output->DisplayName.ToString(), N),
+							[WS, WP, WR] { if (WS.IsValid() && WP.IsValid() && WR.IsValid()) WS->CraftRecipe(WP.Get(), WR.Get(), -1); }, true);
+				}
+				++Shown;
+			}
+			if (Shown == 0) M.Lines.Add(TEXT("No recipes at this station."));
 		}
 		Close(M); return;
 	}

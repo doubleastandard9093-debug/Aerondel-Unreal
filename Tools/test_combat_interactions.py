@@ -99,6 +99,21 @@ if not gi or "You take" not in gi:
 if "A / E to use" not in hud:
     errs.append("Gamepad hover prompt should mention A / E")
 
+# 7. Station recipe picker (mouse / pad panel / VR wrist).
+st = S("Interaction/Station.cpp")
+inter = body(st, "AStation::Interact(")
+if not inter or 'TEXT("station")' not in inter:
+    errs.append("AStation::Interact should open the station recipe panel")
+if "CraftLeft" not in st or "CountAffordable" not in S("Interaction/Station.h"):
+    errs.append("Stations need make-1 / make-all (CraftLeft / CountAffordable)")
+if 'P == TEXT("station")' not in S("UI/AerondelPanels.cpp"):
+    errs.append("FAerondelPanels must build a station recipe picker")
+if "Make 1" not in S("UI/AerondelPanels.cpp") or "Make all" not in S("UI/AerondelPanels.cpp"):
+    errs.append("Station panel should offer Make 1 and Make all")
+op = body(S("UI/AerondelHUD.cpp"), "AAerondelHUD::OpenPanel(")
+if not op or "WristPanel" not in op:
+    errs.append("OpenPanel should show the C++ panel on the VR wrist widget")
+
 if errs:
     print("FAIL " + "\nFAIL ".join(errs))
     sys.exit(1)

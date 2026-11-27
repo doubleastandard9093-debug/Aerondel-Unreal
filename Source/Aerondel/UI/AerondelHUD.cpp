@@ -19,6 +19,7 @@
 #include "Engine/World.h"
 #include "Engine/Font.h"
 #include "XR/AerondelVRPawn.h"
+#include "Components/WidgetComponent.h"
 #include "Features/TrueAimFeature.h"
 #include "Engine/GameInstance.h"
 #include "EngineUtils.h"
@@ -57,14 +58,24 @@ static FName PadPanelName(EAerondelPadMenu M)
 
 void AAerondelHUD::OpenPanel(FName PanelName, AActor* Context)
 {
-	if (!PlayerOwner || PlayerOwner->GetPawn<AAerondelVRPawn>()) return; // VR uses the wrist widget
+	if (!PlayerOwner) return;
 	if (!Panel)
 	{
 		Panel = CreateWidget<UAerondelPanelWidget>(PlayerOwner, UAerondelPanelWidget::StaticClass());
 		if (!Panel) return;
 		Panel->OnClosed.BindUObject(this, &AAerondelHUD::ClosePanel);
 	}
-	if (!Panel->IsInViewport()) Panel->AddToViewport(50);
+	if (AAerondelVRPawn* VR = PlayerOwner->GetPawn<AAerondelVRPawn>())
+	{
+		// Same C++ panel as desktop, shown on the left-wrist widget so grab/poke can pick a recipe in VR.
+		if (VR->WristPanel)
+		{
+			VR->WristPanel->SetWidget(Panel);
+			VR->WristPanel->SetVisibility(true);
+			VR->WristPanel->SetHiddenInGame(false);
+		}
+	}
+	else if (!Panel->IsInViewport()) Panel->AddToViewport(50);
 	Panel->Open(PanelName, Context);
 }
 
@@ -89,10 +100,19 @@ bool AAerondelHUD::HandleHudClick(const FVector2D& Pos)
 	return true;
 }
 
-FName AAerondelHUD::GetOpenPanel() const { return Panel && Panel->IsInViewport() ? Panel->GetPanel() : NAME_None; }
+FName AAerondelHUD::GetOpenPanel() const
+{
+	if (!Panel) return NAME_None;
+	if (Panel->IsInViewport()) return Panel->GetPanel();
+	if (const AAerondelVRPawn* VR = PlayerOwner ? PlayerOwner->GetPawn<AAerondelVRPawn>() : nullptr)
+		if (VR->WristPanel && VR->WristPanel->IsVisible()) return Panel->GetPanel();
+	return NAME_None;
+}
 
 void AAerondelHUD::ClosePanel()
 {
+	if (AAerondelVRPawn* VR = PlayerOwner ? PlayerOwner->GetPawn<AAerondelVRPawn>() : nullptr)
+		if (VR->WristPanel && VR->WristPanel->GetWidget() == Panel) VR->WristPanel->SetVisibility(false);
 	if (Panel && Panel->IsInViewport()) Panel->RemoveFromParent();
 	if (bMenuOpen && Widget) Widget->ShowPadMenu(OpenMenu, false);
 	bMenuOpen = false;
