@@ -313,22 +313,42 @@ static bool IsRightBone(const FString& B)
 	return B.EndsWith(TEXT(".r")) || B.EndsWith(TEXT("_r")) || B.Contains(TEXT(".r.")) || B.Contains(TEXT("_r_")) || B.Contains(TEXT("right"));
 }
 
+// When the bind/ref pose is missing or clustered at the origin (Interchange ignored IBMs
+// and left every bone at identity), head-feet cannot be measured. Rotate the mesh's
+// longest imported bounds axis to +Z so a lying reference pose still stands up.
+static FQuat AlignFromMeshBounds(const USkeletalMesh* Mesh)
+{
+	if (!Mesh) return FQuat::Identity;
+	const FBox Box = Mesh->GetBounds().GetBox();
+	const FVector Size = Box.GetSize();
+	const double X = Size.X, Y = Size.Y, Z = Size.Z;
+	const double Longest = FMath::Max3(X, Y, Z);
+	if (Longest < 1.0) return FQuat::Identity;
+	// Already standing: height is the longest (or nearly) axis.
+	if (Z >= Longest * 0.75) return FQuat::Identity;
+	const FVector Axis = (X >= Y) ? FVector::ForwardVector : FVector::RightVector;
+	return FQuat::FindBetweenNormals(Axis.GetSafeNormal(), FVector::UpVector);
+}
+
 // Map the BIND pose so feet->head is +Z and the character faces +X. Using the bind pose (not a
 // playing clip) avoids folding a mismatched animation into the estimate. rigs.json pitch/yaw/roll
-// are applied on top and default to 0.
+// are applied on top and default to 0. If the bind pose is missing or degenerate, fall back to
+// the imported mesh bounds so a lying reference pose still stands.
 static FQuat AlignBindPose(const USkeletalMesh* Mesh, FVector* OutHead, FVector* OutFeet)
 {
 	if (!Mesh) return FQuat::Identity;
 	const FReferenceSkeleton& Ref = Mesh->GetRefSkeleton();
 	const TArray<FTransform> Cs = ComponentSpaceRefPose(Mesh);
 	const int32 N = Ref.GetNum();
-	if (N < 3 || Cs.Num() != N) return FQuat::Identity;
+	if (N < 3 || Cs.Num() != N) return AlignFromMeshBounds(Mesh);
 	int32 Head = INDEX_NONE;
 	FVector Feet = FVector::ZeroVector; int32 NF = 0;
 	FVector Left = FVector::ZeroVector, Right = FVector::ZeroVector; int32 NL = 0, NR = 0;
 	FVector ShL = FVector::ZeroVector, ShR = FVector::ZeroVector; int32 NSL = 0, NSR = 0;
+	FBox BoneBox(ForceInit);
 	for (int32 i = 0; i < N; ++i)
 	{
+		BoneBox += Cs[i].GetLocation();
 		const FString B = Ref.GetBoneName(i).ToString().ToLower();
 		if (Head == INDEX_NONE && IsHeadBone(B)) Head = i;
 		if (IsFootBone(B)) { Feet += Cs[i].GetLocation(); ++NF; }
@@ -345,14 +365,22 @@ static FQuat AlignBindPose(const USkeletalMesh* Mesh, FVector* OutHead, FVector*
 			else if (IsRightBone(B)) { Right += Cs[i].GetLocation(); ++NR; }
 		}
 	}
-	if (Head == INDEX_NONE) return FQuat::Identity;
 	FVector CP = FVector::ZeroVector; for (int32 i = 0; i < N; ++i) CP += Cs[i].GetLocation(); CP /= N;
-	const FVector HeadP = Cs[Head].GetLocation();
+	const FVector HeadP = Head != INDEX_NONE ? Cs[Head].GetLocation() : FVector::ZeroVector;
 	const FVector FeetP = NF ? Feet / NF : CP;
-	if (OutHead) *OutHead = HeadP;
-	if (OutFeet) *OutFeet = FeetP;
-	const FVector Up = (HeadP - FeetP).GetSafeNormal();
-	if (Up.IsNearlyZero()) return FQuat::Identity;
+	if (OutHead) *OutHead = Head != INDEX_NONE ? HeadP : BoneBox.GetCenter();
+	if (OutFeet) *OutFeet = NF ? FeetP : BoneBox.Min;
+	const FVector Up = Head != INDEX_NONE ? (HeadP - FeetP).GetSafeNormal() : FVector::ZeroVector;
+	const bool bDegenerate = Head == INDEX_NONE || Up.IsNearlyZero() || BoneBox.GetExtent().GetMax() < 1.0;
+	if (bDegenerate)
+	{
+		const FVector Size = Mesh->GetBounds().GetBox().GetSize();
+		UE_LOG(LogTemp, Warning, TEXT("[Aerondel] AlignBindPose %s: %s (bone box %.2f), using mesh bounds (%.2f x %.2f x %.2f) to stand a lying/missing bind pose"),
+			*Mesh->GetName(),
+			Head == INDEX_NONE ? TEXT("no head bone") : TEXT("degenerate head-feet / bind pose missing"),
+			BoneBox.GetSize().GetMax(), Size.X, Size.Y, Size.Z);
+		return AlignFromMeshBounds(Mesh);
+	}
 	FQuat Q = FQuat::FindBetweenNormals(Up, FVector::UpVector);
 	FVector L, R; bool bLR = false;
 	if (NSL && NSR) { L = ShL / NSL; R = ShR / NSR; bLR = true; }
