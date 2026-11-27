@@ -1,4 +1,5 @@
 #include "Features/VenturesFeature.h"
+#include "Features/VenturesTowns.h"
 #include "Features/StableCodexFeature.h"
 #include "UI/AerondelPanels.h"
 #include "Core/AerondelEvents.h"
@@ -47,16 +48,10 @@ namespace VenturesData
 		{ TEXT("Bloodroot"), 0x7a1a24 }, { TEXT("Ashgrey"), 0x7a7a78 }, { TEXT("Sunflax"), 0xe0c870 }, { TEXT("Nightjet"), 0x14141c } };
 	static const TCHAR* LookSlots[] = { TEXT("head"), TEXT("body"), TEXT("legs"), TEXT("shield"), TEXT("cape"), TEXT("weapon") };
 
-	// Towns in world.json order (web metres).
-	struct FVdTown { const TCHAR* Name; float X; float Z; };
-	static const FVdTown VdTowns[] = {
-		{ TEXT("Larkhaven"), 0, 0 }, { TEXT("Emberfold"), 50, -24 }, { TEXT("Saltreach"), -80, 60 }, { TEXT("Highcrest"), 120, -40 },
-		{ TEXT("Whitecairn"), -60, -80 }, { TEXT("Thistlewell"), 40, 90 }, { TEXT("Rimeholt"), -250, -355 }, { TEXT("Cragmoor Lodge"), 235, -350 },
-		{ TEXT("Cinderpost"), 355, -140 }, { TEXT("Mirage Well"), 360, 120 }, { TEXT("Vinehollow"), 210, 360 }, { TEXT("Bogwatch"), -360, 185 },
-		{ TEXT("Ashgate Post"), 540, 0 }, { TEXT("Briarwatch"), 380, 400 }, { TEXT("Thunderhold"), -390, 400 }, { TEXT("Lanternmoor"), -545, -10 },
-		{ TEXT("Mirrorsand Rest"), -410, -440 }, { TEXT("Slagwatch"), 0, -545 }, { TEXT("Last Light Bastion"), 420, -430 },
-		{ TEXT("Snarlwick"), 190, 40 }, { TEXT("Gorrumhold"), -200, -30 }, { TEXT("Sylvaranth"), 30, 230 } };
-	static constexpr int32 NumTowns = (int32)UE_ARRAY_COUNT(VdTowns);
+	// Towns in world.json order (web metres): the shared table in VenturesTowns.h.
+	using FVdTown = VenturesTowns::FTownPt;
+	static constexpr const FVdTown* VdTowns = VenturesTowns::All;
+	static constexpr int32 NumTowns = VenturesTowns::Num;
 
 	static const TCHAR* Souls[] = { TEXT("Cinder Warden"), TEXT("Bramble Colossus"), TEXT("Glacier Behemoth"), TEXT("Peak Warlord"), TEXT("Bog Revenant"),
 		TEXT("Dune Tyrant"), TEXT("Molten Archon"), TEXT("Voidborn Knight"), TEXT("Sunderlord Vexmar"), TEXT("Captain Saltgrave"), TEXT("Stonehorn"), TEXT("Frostmaw"), TEXT("Ashwyrm") };

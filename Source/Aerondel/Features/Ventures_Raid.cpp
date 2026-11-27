@@ -61,7 +61,7 @@ namespace VenturesRaid
 	struct FTrip { const TCHAR* Key; const TCHAR* Name; int32 Mins; int32 Rolls; };
 	static const FTrip Trips[] = { { TEXT("short"), TEXT("Coastal forage"), 10, 1 }, { TEXT("mid"), TEXT("Ridge survey"), 30, 3 }, { TEXT("long"), TEXT("Deep frontier"), 60, 7 } };
 	static const FTrip* FindTrip(const FString& K) { for (const FTrip& T : Trips) if (K == T.Key) return &T; return nullptr; }
-	static const TCHAR* Herbs[] = { TEXT("Greenwort"), TEXT("Marshmint"), TEXT("Tallowroot"), TEXT("Harrowbloom"), TEXT("Toadflax"), TEXT("Ironleaf") };
+	static const TCHAR* RaidHerbs[] = { TEXT("Greenwort"), TEXT("Marshmint"), TEXT("Tallowroot"), TEXT("Harrowbloom"), TEXT("Toadflax"), TEXT("Ironleaf") };
 	struct FLoot { const TCHAR* Item; int32 N; };
 	static const FLoot HoldLoot[] = { { TEXT("Iron ore"), 6 }, { TEXT("Coal"), 6 }, { TEXT("Oak logs"), 6 }, { TEXT("Willow logs"), 5 }, { TEXT("Raw trout"), 5 }, { TEXT("Flax"), 8 } };
 	static FString HoldToday() { return FDateTime::UtcNow().ToString(TEXT("%Y-%m-%d")); }
@@ -525,7 +525,7 @@ void UVenturesFeature::HoldGarden()
 	HoldGardenAt = Now;
 	static const int32 Ns[] = { 0, 6, 12, 20 };
 	const int32 N = Ns[FMath::Clamp(*L, 0, 3)];
-	for (int32 i = 0; i < N; ++i) GiveItem(Herbs[FMath::RandRange(0, (int32)UE_ARRAY_COUNT(Herbs) - 1)], 1);
+	for (int32 i = 0; i < N; ++i) GiveItem(RaidHerbs[FMath::RandRange(0, (int32)UE_ARRAY_COUNT(RaidHerbs) - 1)], 1);
 	Say(FString::Printf(TEXT("You harvest %d herbs."), N));
 }
 

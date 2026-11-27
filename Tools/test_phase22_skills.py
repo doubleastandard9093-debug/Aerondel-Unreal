@@ -96,6 +96,9 @@ if exists("Source/Aerondel/Features/Ventures_Ashfall.cpp"):
         # Load must end in-progress flares
         if "AshEnd" not in src[src.find("LoadAsh"):src.find("LoadAsh")+800] and "started" not in src[src.find("LoadAsh"):src.find("LoadAsh")+800]:
             errs.append("Ashfall Load should end an in-progress flare safely")
+    fb = src[src.find("::AshForbidden("):][:600]
+    if "VenturesTowns::NumMain" not in fb or "VenturesTowns::All)" in fb:
+        errs.append("Ashfall must only refuse the five main towns (VenturesTowns::NumMain), matching web MAIN_TOWNS")
     if "Greenstead" not in src or "Claimridge" not in src:
         errs.append("Ashfall must refuse Greenstead and Claimridge")
     if "Townstead" not in src and "NearTownHouse" not in src:

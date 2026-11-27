@@ -1,4 +1,5 @@
 #include "Features/VenturesFeature.h"
+#include "Features/VenturesTowns.h"
 #include "UI/AerondelPanels.h"
 #include "Combat/AerondelMob.h"
 #include "Data/GameDatabase.h"
@@ -18,15 +19,6 @@ namespace VenturesAshfall
 	static constexpr int64 AshfallCadenceMin = 22ll * 60 * 1000, AshfallCadenceSpan = 12ll * 60 * 1000;
 	static constexpr float AshfallTownR = 16.f + 8.f, AshfallRegionPad = 8.f, AshfallDefaultR = 40.f, AshfallGatherR = 5.f;
 	static constexpr float AshfallPlotX = 22.f, AshfallPlotZ = 78.f, AshfallPlotHalf = 12.f;
-	struct FAshfallTown { const TCHAR* Name; float X, Z; };
-	static const FAshfallTown AshfallTowns[] = {
-		{ TEXT("Larkhaven"), 0, 0 }, { TEXT("Emberfold"), 50, -24 }, { TEXT("Saltreach"), -80, 60 }, { TEXT("Highcrest"), 120, -40 },
-		{ TEXT("Whitecairn"), -60, -80 }, { TEXT("Thistlewell"), 40, 90 }, { TEXT("Rimeholt"), -250, -355 }, { TEXT("Cragmoor Lodge"), 235, -350 },
-		{ TEXT("Cinderpost"), 355, -140 }, { TEXT("Mirage Well"), 360, 120 }, { TEXT("Vinehollow"), 210, 360 }, { TEXT("Bogwatch"), -360, 185 },
-		{ TEXT("Ashgate Post"), 540, 0 }, { TEXT("Briarwatch"), 380, 400 }, { TEXT("Thunderhold"), -390, 400 }, { TEXT("Lanternmoor"), -545, -10 },
-		{ TEXT("Mirrorsand Rest"), -410, -440 }, { TEXT("Slagwatch"), 0, -545 }, { TEXT("Last Light Bastion"), 420, -430 },
-		{ TEXT("Snarlwick"), 190, 40 }, { TEXT("Gorrumhold"), -200, -30 }, { TEXT("Sylvaranth"), 30, 230 }
-	};
 	struct FAshfallReg { const TCHAR* Id; const TCHAR* Name; float X, Z, R; };
 	static const FAshfallReg AshfallRegions[] = {
 		{ TEXT("rimeholt"),    TEXT("Rimeholt Tundra"),      -240.f, -347.f, 40.f },
@@ -64,8 +56,8 @@ using namespace VenturesAshfall;
 
 FString UVenturesFeature::AshForbidden(float X, float Z) const
 {
-	for (const FAshfallTown& T : AshfallTowns)
-		if (FMath::Sqrt(FMath::Square(X - T.X) + FMath::Square(Z - T.Z)) < AshfallTownR) return T.Name;
+	for (int32 i = 0; i < VenturesTowns::NumMain; ++i) // the five main towns only, same as web MAIN_TOWNS
+		if (VenturesTowns::Dist(VenturesTowns::All[i], X, Z) < AshfallTownR) return VenturesTowns::All[i].Name;
 	if (NearTownHouse(FVector2D(X, Z), 8.f)) return TEXT("a Townstead");
 	const FVector2D Hold = ZoneC(TEXT("hold"));
 	if (FMath::Abs(X - Hold.X) < 20.f && FMath::Abs(Z - Hold.Y) < 16.f) return TEXT("Greenstead");

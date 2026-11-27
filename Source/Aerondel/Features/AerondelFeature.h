@@ -8,6 +8,10 @@
 class AAerondelPlayerState;
 class UMobDef;
 class AAerondelMob;
+class UAerondelFeature;
+
+/** Snapshot list of features. Inline storage (33 features today) so the per-swing / per-XP / per-tick totals never hit the heap. */
+typedef TArray<UAerondelFeature*, TInlineAllocator<48>> FAerondelFeatureList;
 
 /**
  * Base for the systems ported from Aerondel-Lite (phases 1-9, mechanics pass, Hearth & Arena, WoW/Outer Worlds/TERA round).
@@ -42,8 +46,8 @@ public:
 	/** Called every game tick (0.6 s) by UFeatureTicker. */
 	virtual void OnGameTick() {}
 
-	/** All live features of a game instance. */
-	static TArray<UAerondelFeature*> AllFor(const UGameInstance* GI);
+	/** All live features of a game instance (a snapshot, safe if a feature goes away mid-loop). */
+	static FAerondelFeatureList AllFor(const UGameInstance* GI);
 	static float TotalXpBonus(const UObject* WorldContext, FName SkillId);
 	static float TotalDamageTakenMult(const UObject* WorldContext, const UMobDef* Source, float HpFrac);
 	static float TotalDamageDealtBonus(const UObject* WorldContext, const UMobDef* Target);
