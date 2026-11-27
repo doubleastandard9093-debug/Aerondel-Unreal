@@ -1,4 +1,5 @@
 #include "Features/ColossiFeature.h"
+#include "Dom/JsonObject.h"
 #include "Features/ArenaFeature.h"
 #include "Features/StandingFeature.h"
 #include "Features/StillwatchFeature.h"

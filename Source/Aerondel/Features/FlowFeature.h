@@ -1,5 +1,6 @@
 #pragma once
 #include "CoreMinimal.h"
+#include "Dom/JsonObject.h"
 #include "Features/AerondelFeature.h"
 #include "FlowFeature.generated.h"
 

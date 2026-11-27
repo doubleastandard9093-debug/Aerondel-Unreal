@@ -1,4 +1,5 @@
 #include "Save/AerondelSaveSubsystem.h"
+#include "Dom/JsonObject.h"
 #include "Save/AerondelSaveGame.h"
 #include "Core/AerondelPlayerState.h"
 #include "Skills/SkillsComponent.h"

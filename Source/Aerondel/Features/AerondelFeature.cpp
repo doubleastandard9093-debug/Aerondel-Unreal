@@ -1,4 +1,6 @@
 #include "Features/AerondelFeature.h"
+#include "Dom/JsonObject.h"
+#include "Engine/HitResult.h"
 #include "Core/AerondelPlayerState.h"
 #include "Core/AerondelEvents.h"
 #include "Skills/SkillsComponent.h"
@@ -22,7 +24,6 @@
 #include "Data/MobDef.h"
 #include "UObject/Package.h"
 #include "CollisionQueryParams.h"
-#include "Engine/HitResult.h"
 
 namespace AerondelFeatureRegistry { static TArray<TWeakObjectPtr<UAerondelFeature>> All; }
 
@@ -227,4 +228,10 @@ TMap<FString, int32> UAerondelFeature::JIntMap(const FJsonObject& O, const TCHAR
 	if (TSharedPtr<FJsonObject> J = JObj(O, Key))
 		for (const auto& P : J->Values) if (P.Value.IsValid() && P.Value->Type == EJson::Number) Out.Add(FString(*P.Key), (int32)P.Value->AsNumber());
 	return Out;
+}
+
+UGameInstanceSubsystem* UAerondelFeature::FeatureOfClass(UClass* Class) const
+{
+	UGameInstance* GI = GetGameInstance();
+	return GI && Class ? GI->GetSubsystemBase(Class) : nullptr;
 }

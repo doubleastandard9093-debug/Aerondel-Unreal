@@ -1,4 +1,5 @@
 #include "Features/ArenaFeature.h"
+#include "Dom/JsonObject.h"
 #include "Features/StandingFeature.h"
 #include "Math/RandomStream.h"
 

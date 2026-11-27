@@ -1,4 +1,5 @@
 #include "Features/TongueFeature.h"
+#include "Dom/JsonObject.h"
 #include "Features/CompanionsFeature.h"
 #include "Core/AerondelPlayerState.h"
 #include "Quests/QuestComponent.h"

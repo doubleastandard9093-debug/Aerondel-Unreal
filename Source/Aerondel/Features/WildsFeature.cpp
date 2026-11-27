@@ -1,4 +1,5 @@
 #include "Features/WildsFeature.h"
+#include "Dom/JsonObject.h"
 #include "Features/StandingFeature.h"
 #include "Features/ArenaFeature.h"
 #include "Combat/AerondelMob.h"

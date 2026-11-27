@@ -1,4 +1,5 @@
 #include "Features/StandingFeature.h"
+#include "Dom/JsonObject.h"
 #include "Core/AerondelPlayerState.h"
 #include "Quests/QuestComponent.h"
 #include "Data/QuestDef.h"

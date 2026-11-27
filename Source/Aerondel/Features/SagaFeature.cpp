@@ -1,4 +1,5 @@
 #include "Features/SagaFeature.h"
+#include "Dom/JsonObject.h"
 #include "Features/StandingFeature.h"
 #include "Core/AerondelEvents.h"
 #include "Core/AerondelPlayerState.h"

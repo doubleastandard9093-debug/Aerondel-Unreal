@@ -1,4 +1,5 @@
 #include "Features/RegionCampsFeature.h"
+#include "Engine/HitResult.h"
 #include "Features/VenturesFeature.h"
 #include "Combat/AerondelMob.h"
 #include "Data/GameDatabase.h"
@@ -11,7 +12,6 @@
 #include "Dom/JsonValue.h"
 #include "Serialization/JsonReader.h"
 #include "Serialization/JsonSerializer.h"
-#include "Engine/HitResult.h"
 
 void URegionCampsFeature::LoadCamps()
 {

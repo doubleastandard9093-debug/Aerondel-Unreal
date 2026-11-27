@@ -1,4 +1,5 @@
 #include "Features/CharterFeature.h"
+#include "Dom/JsonObject.h"
 #include "Features/TongueFeature.h"
 #include "Features/StandingFeature.h"
 #include "Features/CompanionsFeature.h"

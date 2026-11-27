@@ -1,4 +1,5 @@
 #include "Features/QuirksFeature.h"
+#include "Dom/JsonObject.h"
 #include "Core/AerondelEvents.h"
 #include "Core/AerondelPlayerState.h"
 #include "Rules/AerondelRules.h"
