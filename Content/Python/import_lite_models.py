@@ -20,6 +20,7 @@ import time
 import unreal
 import aerondel_safe as safe
 from aerondel_util import safe_asset_name
+from aerondel_rig_math import bake_glb_for_unreal
 
 DEST = "/Game/Aerondel/Models"
 CLIP = {
@@ -78,6 +79,16 @@ def _pipeline(skeletal):
 
 def import_glb(path, dest, skeletal=False):
     """Interchange import with our pipeline; falls back to a plain AssetImportTask if the scripted manager is missing."""
+    if skeletal:
+        try:
+            saved = os.path.join(unreal.Paths.project_saved_dir(), "Aerondel", "baked_glb")
+            os.makedirs(saved, exist_ok=True)
+            baked = os.path.join(saved, os.path.basename(path))
+            bake_glb_for_unreal(path, baked)
+            path = baked
+            unreal.log("[Aerondel] baked %s into a single bind space (standing, shared IBMs)" % os.path.basename(baked))
+        except Exception as e:
+            unreal.log_warning("[Aerondel] bind-space bake failed (%s); importing the source glb" % e)
     try:
         mgr = unreal.InterchangeManager.get_interchange_manager_scripted()
         src = unreal.InterchangeManager.create_source_data(path)
@@ -291,7 +302,7 @@ def _write_rigs(root, rigs):
         if target in rigs:
             rigs[alias] = rigs[target]
     out = {
-        "yaw": rmap.get("yaw", -90),
+        "yaw": rmap.get("yaw", 0),
         "pitch": rmap.get("pitch", 0),
         "roll": rmap.get("roll", 0),
         "rigs": rigs,
