@@ -35,6 +35,60 @@ _active = None
 _chunk_tag = None
 
 
+# Console variables confirmed absent in UE 5.8. Setting them prints "Command not recognized".
+# Still probe first so a later engine that adds them will use them.
+_UE58_MISSING_CVARS = frozenset({
+    "Editor.AsyncAnimationCompilationMaxConcurrency",
+    "r.ShaderCompiler.MaxShaderJobs",
+    "Interchange.FeatureFlags.Import.ThumbnailGeneration",
+})
+
+
+def _cvar_exists(name):
+    """True only when the engine actually has this console variable. Missing names stay silent."""
+    if not name:
+        return False
+    sl = getattr(unreal, "SystemLibrary", None)
+    if sl:
+        for meth in ("is_console_variable_registered", "does_console_variable_exist", "console_variable_exists"):
+            fn = getattr(sl, meth, None)
+            if callable(fn):
+                try:
+                    return bool(fn(name))
+                except Exception:
+                    break
+    for cls_name in ("IConsoleManager", "ConsoleManager"):
+        cls = getattr(unreal, cls_name, None)
+        if cls is None:
+            continue
+        mgr = None
+        for meth in ("get", "get_default_object", "get_i_console_manager"):
+            fn = getattr(cls, meth, None)
+            if callable(fn):
+                try:
+                    mgr = fn()
+                    break
+                except Exception:
+                    continue
+        if mgr is None:
+            try:
+                mgr = unreal.get_default_object(cls)
+            except Exception:
+                mgr = cls
+        for meth in ("find_console_variable", "find_console_command"):
+            fn = getattr(mgr, meth, None)
+            if callable(fn):
+                try:
+                    found = fn(name)
+                    if found is not None and found is not False:
+                        return True
+                    return False
+                except Exception:
+                    continue
+    # get_console_variable_float_value returns 0 for missing names, so it is not a probe.
+    return name not in _UE58_MISSING_CVARS
+
+
 def _cmd(c):
     try:
         try_call(unreal.SystemLibrary, "execute_console_command", editor_world(), c)
