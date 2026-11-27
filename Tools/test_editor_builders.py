@@ -985,6 +985,8 @@ class EditorBuilders(unittest.TestCase):
         self.assertIn("BuildFullWorldLaptop", src)
         self.assertIn("0L. BUILD FULL WORLD - LAPTOP", src)
         self.assertIn("aerondel_full_world.run_laptop()", src)
+        self.assertIn("RemoveDuplicateBuilderActors", src)
+        self.assertIn("remove_duplicate_builder_actors", src)
         with open(os.path.join(PY, "aerondel_full_world.py"), encoding="utf-8") as fh:
             full = fh.read()
         self.assertIn("def run_laptop", full)
@@ -1005,6 +1007,45 @@ class EditorBuilders(unittest.TestCase):
         # 0L already-complete path still fixes nav without rebuilding the world.
         self.assertIn('ensure_world_navmesh(float(w.get("worldHalf", 300)))', laptop)
 
+
+    def test_builders_tag_and_reuse_existing_actors(self):
+        with open(os.path.join(PY, "build_starter_town.py"), encoding="utf-8") as fh:
+            src = fh.read()
+        self.assertIn("AerondelBuilt:", src)
+        self.assertIn("def built_key(", src)
+        self.assertIn("def take_existing(", src)
+        self.assertIn("def remove_duplicate_builder_actors(", src)
+        self.assertIn("def rebuild_built_index(", src)
+        self.assertIn("is_builder_actor", src)
+        self.assertIn("Never touches a unique", src)
+        # spawn accepts a key and reuses
+        self.assertIn("key=None, name=None, folder=None", src)
+        self.assertIn("take_existing(k)", src)
+        with open(os.path.join(PY, "world_placements.py"), encoding="utf-8") as fh:
+            wp = fh.read()
+        self.assertIn("depleted_mesh", wp)
+        self.assertIn("name=lab, folder=folder", wp)
+        with open(os.path.join(PY, "build_world_blockout.py"), encoding="utf-8") as fh:
+            bo = fh.read()
+        self.assertIn("rebuild_built_index()", bo)
+
+    def test_resource_node_assigns_a_basic_shape_when_mesh_is_null(self):
+        with open(os.path.join(ROOT, "Source", "Aerondel", "Interaction", "ResourceNode.cpp"), encoding="utf-8") as fh:
+            cpp = fh.read()
+        with open(os.path.join(ROOT, "Source", "Aerondel", "Interaction", "ResourceNode.h"), encoding="utf-8") as fh:
+            hdr = fh.read()
+        self.assertIn("EnsureMeshes", hdr)
+        self.assertIn("PostLoad", hdr)
+        self.assertIn("void AResourceNode::EnsureMeshes", cpp)
+        self.assertIn("/Engine/BasicShapes/Cone.Cone", cpp)
+        self.assertIn("/Engine/BasicShapes/Cylinder.Cylinder", cpp)
+        self.assertIn("/Engine/BasicShapes/Sphere.Sphere", cpp)
+        self.assertIn("ConstructorHelpers::FObjectFinder<UStaticMesh>", cpp)
+        self.assertIn("DepletedMesh", cpp)
+        self.assertIn("GuessKind", cpp)
+        # OnConstruction / PostLoad / BeginPlay all fill a null mesh so the map check is clean in-editor.
+        self.assertIn("EnsureMeshes();", cpp)
+        self.assertGreaterEqual(cpp.count("EnsureMeshes();"), 3)
 
 if __name__ == "__main__":
     unittest.main(verbosity=1)

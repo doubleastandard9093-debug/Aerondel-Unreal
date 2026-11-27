@@ -60,7 +60,7 @@ class EditorBuild(unittest.TestCase):
         fake.Paths.project_content_dir.return_value = ROOT + "/Content/"
         bst = types.SimpleNamespace(CONE="c", SPHERE="s", CYL="y", V=lambda x, y, z: (x, y, z), mesh=lambda *a: None,
                                     set_mesh=lambda *a, **k: None, label=lambda a, *r: a,
-                                    spawn=lambda cls, loc, rot=None: spawned.append(Obj(cls)) or spawned[-1])
+                                    spawn=lambda cls, loc, rot=None, **kw: spawned.append(Obj(cls)) or spawned[-1])
         def try_call(obj, name, *args, default=None, warn=True, **kwargs):
             fn = getattr(obj, name, None)
             if not callable(fn):

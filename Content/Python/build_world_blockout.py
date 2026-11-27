@@ -53,7 +53,7 @@ def tone_mat(rgb):
 
 
 def place_volume(place_id, x, z, size=12.0, display=None):
-    v = spawn(unreal.QuestPlaceVolume, V(x, 2, z))
+    v = spawn(unreal.QuestPlaceVolume, V(x, 2, z), name="Place_" + place_id, folder="Places")
     v.set_editor_property("place_id", unreal.Name(place_id))
     if display:
         v.set_editor_property("display_name", display)
@@ -70,7 +70,8 @@ def house(name, x, z, w, d, wall, roof, folder):
 def text3d(name, folder, x, y, z, text, size=60.0, yaw=0.0, rgb=(255, 236, 180)):
     """World-space label (TextRenderActor): cheap on every graphics tier, two-sided by spawning a back-to-back pair."""
     for i, yy in enumerate((yaw, yaw + 180.0)):
-        a = spawn(unreal.TextRenderActor, V(x, y, z), unreal.Rotator(0, 0, yy))
+        a = spawn(unreal.TextRenderActor, V(x, y, z), unreal.Rotator(0, 0, yy),
+                  name="%s_%d" % (name, i), folder=folder)
         c = a.get_editor_property("text_render")
         try:
             c.set_text(unreal.Text(text))
@@ -141,11 +142,11 @@ def build_world_base(w, half, task):
         if try_call(a, "get_folder_path", default="", warn=False) == "Environment" and try_call(a, "get_actor_label", default="", warn=False) in ("Ground", "Town square", "Fence N", "Fence S", "Fence W", "NavMeshBounds", "PlayerStart"):
             try_call(actors, "destroy_actor", a)
     box("Ground", "Environment", (0, -0.05, 0), (half * 2, 0.1, half * 2), mat("Grass", (0.3, 0.45, 0.2), 0.95))
-    nav = spawn(unreal.NavMeshBoundsVolume, V(0, 2, 0))
+    nav = spawn(unreal.NavMeshBoundsVolume, V(0, 2, 0), name="NavMeshBounds", folder="Environment")
     try_call(nav, "set_actor_scale3d", unreal.Vector(half, half, 10))
     label(nav, "NavMeshBounds", "Environment")
     sp = w.get("spawn", {"x": 0, "z": 0})
-    label(spawn(unreal.PlayerStart, V(sp["x"], 1.0, sp["z"])), "PlayerStart", "Environment")
+    label(spawn(unreal.PlayerStart, V(sp["x"], 1.0, sp["z"]), name="PlayerStart", folder="Environment"), "PlayerStart", "Environment")
 
     task.frame("Water")
     water = mat("Water", (0.15, 0.35, 0.55), 0.1)
@@ -213,7 +214,8 @@ def build_world_base(w, half, task):
         if "x" not in n:
             continue
         # JSON-only NpcDefs: the actor resolves npc_id at BeginPlay (no Npc_ asset needed).
-        a = spawn(unreal.NpcTalk, V(n["x"], 0, n["z"]))
+        folder = ("Towns/" + n["town"] + "/NPCs") if n.get("town") else "FeatureSites/NPCs"
+        a = spawn(unreal.NpcTalk, V(n["x"], 0, n["z"]), name=n["name"], folder=folder)
         a.set_editor_property("npc_id", unreal.Name(nid))
         a.set_editor_property("display_name", n["name"])
         t = n.get("tint", "#a08060").lstrip("#")
@@ -312,7 +314,7 @@ def ensure_world_navmesh(half):
         if nav_cls is None:
             unreal.log_warning("[Aerondel] NavMeshBoundsVolume class is not available; add one by hand and Build > Build Paths.")
             return False
-        nav = spawn(nav_cls, V(0, 2, 0))
+        nav = spawn(nav_cls, V(0, 2, 0), name="NavMeshBounds", folder="Environment")
         if not nav:
             unreal.log_warning("[Aerondel] Could not spawn NavMeshBoundsVolume; add one covering the world and Build > Build Paths.")
             return False
@@ -443,6 +445,8 @@ def run(small=False):
     if not open_or_create_map(MAP, levels, partitioned=True, create_partitioned=wpart.new_partitioned_level):
         unreal.log_error("[Aerondel] Could not open or create " + MAP)
         return
+    from build_starter_town import rebuild_built_index
+    rebuild_built_index()
     half = float(w.get("worldHalf", 300))
     n_nodes = n_mobs = 0  # stays 0 if the run is cancelled -> the packager refuses this World
     with safe.SafeRun("World blockout", 10, small=small, save_fn=levels.save_current_level) as task:

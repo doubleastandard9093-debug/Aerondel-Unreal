@@ -78,7 +78,7 @@ def build(world, small=False, nodes=None, mobs=None, shores=True):
 
     if shores:
         for name, x, z, dia, h in shore_blockers(world):
-            a = bst.spawn(unreal.StaticMeshActor, bst.V(x, h / 2, z))
+            a = bst.spawn(unreal.StaticMeshActor, bst.V(x, h / 2, z), name=name, folder="Water")
             c = a.static_mesh_component
             c.set_static_mesh(bst.mesh(bst.CYL, False))
             c.set_world_scale3d(unreal.Vector(dia, dia, h))
@@ -95,20 +95,26 @@ def build(world, small=False, nodes=None, mobs=None, shores=True):
         if not look:
             continue
         shape, scale, relz, rgb, rng, folder = look
-        a = bst.spawn(unreal.ResourceNode, bst.V(n["x"], 0.05 if n["type"] == "fish" else 0, n["z"]))
+        lab = "%s (%s)" % ("Fishing spot" if n["type"] == "fish" else n["kind"], n["def"])
+        loc = bst.V(n["x"], 0.05 if n["type"] == "fish" else 0, n["z"])
+        a = bst.spawn(unreal.ResourceNode, loc, name=lab, folder=folder)
         a.set_editor_property("definition_id", n["def"])
         m = a.get_editor_property("mesh")
         bst.set_mesh(m, shapes[shape], scale, mat("Node_" + n["type"], rgb, 0.3 if n["type"] == "fish" else 0.8), rel=(0, 0, relz))
+        dead_shape = shapes["SPHERE"] if n["type"] == "rock" else shapes["CYL"]
+        dead_scale = (1.3, 1.1, 0.8) if n["type"] == "rock" else ((1.0, 1.0, 0.04) if n["type"] == "fish" else (0.5, 0.5, 0.4))
+        dead_rel = (0, 0, 40) if n["type"] == "rock" else ((0, 0, 2) if n["type"] == "fish" else (0, 0, 20))
+        bst.set_mesh(a.get_editor_property("depleted_mesh"), dead_shape, dead_scale, mat("Node_" + n["type"] + "Empty", rgb, 0.5), rel=dead_rel)
         if n["type"] == "fish":
             try_call(m, "set_collision_profile_name", "OverlapAllDynamic")  # never blocks walking; still clickable
             try_call(m, "set_collision_response_to_channel", unreal.CollisionChannel.ECC_VISIBILITY, unreal.CollisionResponseType.ECR_BLOCK)
             m.set_editor_property("can_ever_affect_navigation", False)
         a.set_editor_property("range", FISH_RANGE_CM if n["type"] == "fish" else rng)
-        bst.label(a, "%s (%s)" % ("Fishing spot" if n["type"] == "fish" else n["kind"], n["def"]), folder)
+        bst.label(a, lab, folder)
         made_nodes += 1
 
     for mb in mobs:
-        a = bst.spawn(unreal.AerondelMob, bst.V(mb["x"], 1.0, mb["z"]))
+        a = bst.spawn(unreal.AerondelMob, bst.V(mb["x"], 1.0, mb["z"]), name=mb["type"], folder="Mobs")
         a.set_editor_property("definition_id", mb["def"])
         a.set_editor_property("wander_radius", wander_cm(mb.get("roam")))
         bst.label(a, mb["type"], "Mobs")

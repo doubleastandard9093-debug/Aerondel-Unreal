@@ -1,6 +1,7 @@
 #pragma once
 #include "CoreMinimal.h"
 #include "Interaction/InteractableActor.h"
+#include "Data/AerondelTypes.h"
 #include "ResourceNode.generated.h"
 
 class UResourceNodeDef; class UItemDef;
@@ -23,6 +24,7 @@ public:
 	virtual void Interact(AActor* InInstigator) override;
 	virtual void OnToolHit(AActor* InInstigator, EToolType Tool, float Power) override;
 	virtual void OnConstruction(const FTransform& Xf) override;
+	virtual void PostLoad() override;
 	virtual void BeginPlay() override;
 
 	UFUNCTION(BlueprintPure, Category="Resource") bool IsDepleted() const { return bDepleted; }
@@ -35,6 +37,8 @@ private:
 	bool Roll(AActor* InInstigator, float Bonus);
 	void SetDepleted(bool b);
 	void Respawn() { SetDepleted(false); }
+	void EnsureMeshes();
+	EResourceKind GuessKind() const;
 	bool bDepleted = false;
 	FTimerHandle RespawnTimer;
 };

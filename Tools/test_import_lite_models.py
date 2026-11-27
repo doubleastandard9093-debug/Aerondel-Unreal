@@ -139,38 +139,95 @@ class ImportScript(unittest.TestCase):
         self.assertIn("_is_anim_sequence", self.src)
 
     def test_clip_patterns_map_real_lite_idle_walk_run_attack(self):
-        """The CLIP regexes must pick idle/walk/run/attack from the real glTF clip names."""
-        import re
-        # Mirror clip_name(): Interchange may prefix "<Mesh>_Anim_<Clip>".
-        def cname(n):
-            n = str(n).split("|")[-1]
-            n = re.sub(r"^.*?_Anim_", "", n)
-            return n.lower()
-        # Parse CLIP from the importer so the test tracks the live patterns.
-        ns = {}
-        exec(self.src[self.src.index("CLIP = {"):self.src.index("def src_dir")], ns, ns)
-        clip = ns["CLIP"]
+        """CLIP / clip_name must pick idle/walk/run/attack from real glTF names and Interchange prefixes."""
+        import sys
+        sys.path.insert(0, str(ROOT / "Content" / "Python"))
+        import aerondel_clips as clips
+        from importlib import reload
+        reload(clips)
+
+        self.assertIn("from aerondel_clips import", self.src)
+        self.assertIn("apply_state_fallbacks", self.src)
+        self.assertIn("animRates", self.src)
 
         def pick(names, state):
-            anims = [(cname(n), n) for n in names]
-            for pat in clip[state]:
-                for name, path in anims:
-                    if re.search(pat, name):
-                        return path
-            return None
+            anims = [(clips.clip_name(n), n) for n in names]
+            return clips.pick(anims, state)
 
         adventurer = ["Death", "Idle", "Walk", "Run", "Sword_Slash", "HitRecieve", "Interact"]
         cow = ["Attack_Headbutt", "Death", "Gallop", "Walk", "Idle", "Idle_2"]
         goblin = ["Attack", "Death", "HitRecieve", "Idle", "Jump", "Run", "Walk"]
+        yeti = ["Bite_Front", "Dance", "Death", "HitRecieve", "Idle", "Jump", "No", "Walk", "Yes"]
+        wizard = list(yeti)
+        orc_enemy = list(yeti)
+        spider = ["Spider_Attack", "Spider_Death", "Spider_Idle", "Spider_Jump", "Spider_Walk"]
+        folk = ["static", "idle", "walk", "sprint", "attack-melee-right", "die", "pick-up"]
         for names, idle, walk, run, attack in (
             (adventurer, "Idle", "Walk", "Run", "Sword_Slash"),
             (cow, "Idle", "Walk", "Gallop", "Attack_Headbutt"),
             (goblin, "Idle", "Walk", "Run", "Attack"),
+            (yeti, "Idle", "Walk", "Walk", "Bite_Front"),  # no run: fallback is applied later
+            (wizard, "Idle", "Walk", "Walk", "Bite_Front"),
+            (orc_enemy, "Idle", "Walk", "Walk", "Bite_Front"),
+            (spider, "Spider_Idle", "Spider_Walk", "Spider_Walk", "Spider_Attack"),
+            (folk, "idle", "walk", "sprint", "attack-melee-right"),
         ):
-            self.assertEqual(pick(names, "idle"), idle)
-            self.assertEqual(pick(names, "walk"), walk)
-            self.assertEqual(pick(names, "run"), run)
-            self.assertEqual(pick(names, "attack"), attack)
+            self.assertEqual(pick(names, "idle"), idle, names)
+            self.assertEqual(pick(names, "walk"), walk, names)
+            # run may be missing on yeti/wizard until apply_state_fallbacks
+            if any(clips.clip_name(n) in ("run", "gallop", "sprint") or n.endswith("Run") or n.endswith("Sprint") or n.endswith("Gallop") for n in names):
+                self.assertEqual(pick(names, "run"), run, names)
+            self.assertEqual(pick(names, "attack"), attack, names)
+
+        # Interchange prefixes that the old ^idle$ patterns missed (walk still matched via substring).
+        prefixes = (
+            ["Adventurer_Idle", "Adventurer_Walk", "Adventurer_Run", "Adventurer_Sword_Slash"],
+            ["Anim_Idle", "Anim_Walk", "Anim_Run", "Anim_Sword_Slash"],
+            ["SK_Adventurer_Anim_Idle", "SK_Adventurer_Anim_Walk", "SK_Adventurer_Anim_Run", "SK_Adventurer_Anim_Sword_Slash"],
+            ["Adventurer_Anim_Idle", "Adventurer_Anim_Walk", "Adventurer_Anim_Run", "Adventurer_Anim_Sword_Slash"],
+            ["Yeti_Bite_Front", "Yeti_Idle", "Yeti_Walk", "Yeti_Death"],
+            ["Anim_Bite_Front", "Anim_Idle", "Anim_Walk"],
+        )
+        for names in prefixes:
+            self.assertTrue(pick(names, "idle"), names)
+            self.assertTrue(pick(names, "walk"), names)
+            if any("slash" in n.lower() or "bite" in n.lower() for n in names):
+                self.assertTrue(pick(names, "attack"), names)
+
+        # Prefer a plain Idle over Idle_HitReact / Jump_ToIdle.
+        cow_prefixed = ["Cow_Attack_Headbutt", "Cow_Idle_HitReact_Left", "Cow_Walk", "Cow_Idle_2", "Cow_Idle"]
+        self.assertEqual(pick(cow_prefixed, "idle"), "Cow_Idle")
+        self.assertEqual(pick(cow_prefixed, "walk"), "Cow_Walk")
+
+        # Synonyms and fallbacks: no idle -> frozen walk; no attack -> bite/slash.
+        anims = [(clips.clip_name(n), n) for n in ["Walk", "Run", "Slash"]]
+        states = {s: clips.pick(anims, s) for s in clips.CLIP}
+        self.assertIsNone(states["idle"])
+        states, rates = clips.apply_state_fallbacks(anims, states)
+        self.assertEqual(states["idle"], "Walk")
+        self.assertEqual(rates.get("idle"), 0.0)
+        self.assertEqual(states["attack"], "Slash")
+        anims2 = [(clips.clip_name(n), n) for n in ["stand", "Walk"]]
+        self.assertEqual(clips.pick(anims2, "idle"), "stand")
+
+
+    def test_baker_pads_single_key_clips_to_two_keys(self):
+        """Interchange may drop 1-key static clips; the bake must pad them to 2 keys."""
+        import sys
+        sys.path.insert(0, str(ROOT / "Content" / "Python"))
+        import aerondel_rig_math as rig
+        gltf = {"asset": {"version": "2.0"}, "accessors": [], "bufferViews": [], "buffers": [{}],
+                "nodes": [{"name": "Root"}], "animations": []}
+        blob = bytearray()
+        t_acc = rig._write_f32_acc(gltf, blob, [[0.0]], "SCALAR")
+        v_acc = rig._write_f32_acc(gltf, blob, [[0.0, 0.0, 0.0]], "VEC3")
+        gltf["animations"] = [{"name": "Idle", "samplers": [{"input": t_acc, "output": v_acc, "interpolation": "LINEAR"}],
+                               "channels": [{"sampler": 0, "target": {"node": 0, "path": "translation"}}]}]
+        self.assertEqual(gltf["accessors"][t_acc]["count"], 1)
+        rig._pad_short_animation_samplers(gltf, blob)
+        new_in = gltf["animations"][0]["samplers"][0]["input"]
+        self.assertGreaterEqual(gltf["accessors"][new_in]["count"], 2)
+        self.assertIn("def _pad_short_animation_samplers", (ROOT / "Content" / "Python" / "aerondel_rig_math.py").read_text(encoding="utf-8"))
 
 
 class CppSafetyNet(unittest.TestCase):
@@ -216,6 +273,25 @@ class CppSafetyNet(unittest.TestCase):
         self.assertIn("TryGetNumberField(TEXT(\"pitch\")", self.cpp)
         self.assertIn("TryGetNumberField(TEXT(\"roll\")", self.cpp)
         self.assertIn("RotationFor", self.cpp)
+
+    def test_idle_falls_back_to_frozen_walk_and_honours_anim_rates(self):
+        self.assertIn("animRates", self.cpp)
+        self.assertIn("AnimRates", self.cpp)
+        self.assertIn("SetPlayRate(PlayRate)", self.cpp)
+        self.assertIn("PlayRate = 0.f", self.cpp)
+        self.assertIn("SetPosition(0.f, false)", self.cpp)
+        # Missing attack / hit / death also fall back to a sensible existing clip, not the ref pose.
+        self.assertIn("if (!Path && State == Attack)", self.cpp)
+        self.assertIn("if (!Path && State == Death)", self.cpp)
+
+    def test_unmapped_npcs_default_to_a_folk_or_obvious_creature_rig(self):
+        self.assertIn("DefaultCharacterRig", self.cpp)
+        self.assertIn("StableIdHash", self.cpp)
+        self.assertIn("folk_", self.cpp)
+        self.assertIn("ObviousBeastRig", self.cpp)
+        # Token match (wolf, spider, ...) not a substring, so feature NPCs like skywyrms stay folk.
+        self.assertIn("Id.StartsWith(Name + TEXT(\"_\")", self.cpp)
+        self.assertIn("npc:", self.cpp)
 
 
 
@@ -366,12 +442,12 @@ class BindSpaceBakeAndAlign(unittest.TestCase):
             self.assertIn(need, names)
         # Death stays first so use_t0_as_ref_pose remains off.
         self.assertEqual(names[0].lower(), "death")
-        # Import CLIP patterns would pick idle/walk/run/attack from these names.
-        src = IMPORT_PY.read_text(encoding="utf-8")
-        self.assertIn('r"^idle$"', src)
-        self.assertIn('r"^walk$"', src)
-        self.assertIn('r"^run$"', src)
-        self.assertIn("sword_slash", src.lower())
+        # Import CLIP patterns would pick idle/walk/run/attack from these names (prefix-tolerant).
+        clips = (ROOT / "Content" / "Python" / "aerondel_clips.py").read_text(encoding="utf-8")
+        self.assertIn(r"(^|_|-)idle$", clips)
+        self.assertIn(r"(^|_|-)walk$", clips)
+        self.assertIn(r"(^|_|-)run$", clips)
+        self.assertIn("sword_slash", clips.lower())
 
         def first_translation(g, b, clip, node_name):
             nodes = g["nodes"]
