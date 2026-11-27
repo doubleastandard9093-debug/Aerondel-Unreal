@@ -20,6 +20,9 @@ import time
 import unreal
 import aerondel_safe as safe
 from aerondel_util import safe_asset_name
+import importlib as _importlib
+import aerondel_rig_math as _aerondel_rig_math
+_importlib.reload(_aerondel_rig_math)
 from aerondel_rig_math import bake_glb_for_unreal, validate_baked_for_interchange
 
 DEST = "/Game/Aerondel/Models"
