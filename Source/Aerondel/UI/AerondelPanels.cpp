@@ -168,6 +168,7 @@ void FAerondelPanels::Build(UWorld* W, FName Panel, AActor* Ctx, FGPanelModel& M
 			}
 		}
 		M.Lines.Add(TEXT("Camera: hold right (or middle) mouse and move to look around; wheel zooms."));
+		M.Lines.Add(TEXT("Combat: Q (keyboard) or LB+B (gamepad) stops attacking. Esc is Settings, B alone is dodge."));
 		{
 			const int32 BP = UAerondelModelLibrary::GetBindPoseMode();
 			ACharacter* PlayerChar = Cast<ACharacter>(Pawn);

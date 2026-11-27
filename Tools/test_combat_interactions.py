@@ -142,6 +142,24 @@ sk = (root / "Content/Data/skills.json").read_text(encoding="utf-8")
 if '"Firemaking"' not in sk:
     errs.append("skills.json should list Firemaking so old saves just start it at level 1")
 
+# 10. Stop-attack: Q (keyboard) and LB+B (gamepad), not Esc (Settings) or B alone (dodge).
+ch = S("Player/AerondelCharacter.cpp")
+if "StopAttack" not in S("Player/AerondelCharacter.h") or "EKeys::Q" not in ch:
+    errs.append("Q should be bound to StopAttack")
+if "ClearTarget" not in body(ch, "AAerondelCharacter::StopAttack("):
+    errs.append("StopAttack must ClearTarget")
+gb = S("Player/AerondelGamepadComponent.cpp")
+ob = body(gb, "UAerondelGamepadComponent::OnB(")
+if not ob or "bLBHeld" not in ob or "StopAttack" not in ob:
+    errs.append("LB+B should call StopAttack; B alone stays dodge")
+if "EKeys::Escape" in ch and "StopAttack" in ch:
+    # Esc must still be Settings, not stop-attack
+    settings = body(ch, "void AAerondelCharacter::BuildVentureKeys")
+    if settings and "Escape" in settings and "IA_ClearTarget" in settings:
+        # both exist; make sure Escape is mapped to Settings, not Clear
+        if "MapKey(S, EKeys::Escape)" not in ch:
+            errs.append("Esc must remain Settings")
+
 if errs:
     print("FAIL " + "\nFAIL ".join(errs))
     sys.exit(1)

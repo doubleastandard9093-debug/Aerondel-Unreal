@@ -23,6 +23,7 @@
 #include "UObject/ConstructorHelpers.h"
 #include "TimerManager.h"
 #include "Core/AerondelPlayerState.h"
+#include "Core/AerondelEvents.h"
 #include "Inventory/EquipmentComponent.h"
 #include "Data/ItemDef.h"
 #include "Features/VenturesFeature.h"
@@ -105,7 +106,7 @@ void AAerondelCharacter::SetupPlayerInputComponent(UInputComponent* Input)
 	if (EIC)
 	{
 		BuildVentureKeys();
-		static const TCHAR* Names[] = { TEXT("overflare"), TEXT("ventures"), TEXT("tether"), TEXT("super"), TEXT("dash"), TEXT("settings"), TEXT("ashkin"), TEXT("wordcry"), TEXT("kinbeast"), TEXT("climb") };
+		static const TCHAR* Names[] = { TEXT("overflare"), TEXT("ventures"), TEXT("tether"), TEXT("super"), TEXT("dash"), TEXT("settings"), TEXT("ashkin"), TEXT("wordcry"), TEXT("kinbeast"), TEXT("climb"), TEXT("clear") };
 		for (int32 i = 0; i < VentureActions.Num() && i < UE_ARRAY_COUNT(Names); ++i)
 		{
 			const FName K(Names[i]);
@@ -316,6 +317,11 @@ void AAerondelCharacter::BuildVentureKeys()
 	Climb->ValueType = EInputActionValueType::Boolean;
 	VentureActions.Add(Climb);
 	VentureContext->MapKey(Climb, EKeys::Comma);
+	// Stop attacking (Q): bound in C++ so it works without re-running Create Input Assets. Esc is already Settings.
+	UInputAction* Clear = NewObject<UInputAction>(this, FName(TEXT("IA_ClearTarget")));
+	Clear->ValueType = EInputActionValueType::Boolean;
+	VentureActions.Add(Clear);
+	VentureContext->MapKey(Clear, EKeys::Q);
 }
 
 void AAerondelCharacter::OnVentureKey(FName Key)
@@ -334,7 +340,17 @@ void AAerondelCharacter::OnVentureKey(FName Key)
 		if (Hud->GetOpenPanel().ToString().StartsWith(TEXT("ventures"))) Hud->ClosePanel(); else Hud->OpenPanel(TEXT("ventures"), nullptr);
 		return;
 	}
+	if (Key == FName(TEXT("clear"))) { StopAttack(); return; }
 	if (UVenturesFeature* V = UVenturesFeature::Get(this)) V->OnKey(Key);
+}
+
+void AAerondelCharacter::StopAttack()
+{
+	if (!Combat || !Combat->GetTarget()) return;
+	Combat->ClearTarget();
+	bDirectMove = false;
+	if (AController* C = GetController()) C->StopMovement();
+	if (UAerondelEvents* Ev = UAerondelEvents::Get(this)) Ev->Message(NSLOCTEXT("Aerondel", "StopAtk", "You stop attacking."));
 }
 
 void AAerondelCharacter::PlayBodyAnim(FName State) { if (bRigged) UAerondelModelLibrary::SetAnimState(GetMesh(), State); }

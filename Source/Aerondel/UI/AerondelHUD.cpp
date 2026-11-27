@@ -287,6 +287,7 @@ void AAerondelHUD::DrawHUD()
 				const FLinearColor BarC = Frac > 0.5f ? FLinearColor(0.25f, 0.8f, 0.3f) : Frac > 0.25f ? FLinearColor(0.95f, 0.75f, 0.15f) : FLinearColor(0.9f, 0.2f, 0.15f);
 				DrawRect(BarC, BX + 1.f, BY + 17.f, (BarW - 2.f) * Frac, BarH - 2.f);
 				DrawText(FString::Printf(TEXT("%d / %d"), Hp, Mx), White, BX + BarW + 8.f, BY + 14.f, Font);
+				DrawText(TEXT("Q / LB+B: stop attacking"), FLinearColor(0.8f, 0.8f, 0.8f), BX, BY + 32.f, Font);
 			}
 	DrawText(FString::Printf(TEXT("HP %d/%d   Combat %d   Total %d   QP %d"), PS->Health->GetCurrent(), PS->Health->GetMax(),
 		PS->Skills->CombatLevel(), PS->Skills->TotalLevel(), PS->Quests->QuestPoints()), White, 20, Y, Font);

@@ -238,6 +238,7 @@ void UAerondelGamepadComponent::OnB(const FInputActionValue&)
 {
 	MarkPad();
 	AAerondelCharacter* C = Ch();
+	if (bLBHeld && C) { C->StopAttack(); return; } // LB+B: stop attacking (B alone stays dodge)
 	UGameInstance* GI = GetWorld() ? GetWorld()->GetGameInstance() : nullptr;
 	UFlowFeature* Flow = GI ? GI->GetSubsystem<UFlowFeature>() : nullptr;
 	if (!C || !Flow || !Flow->TryDodge()) return;

@@ -36,6 +36,8 @@ public:
 	void CancelInteraction();
 	/** Click-to-move / approach: uses the NavMesh when it exists, otherwise walks in a straight line. */
 	void MoveToWorld(const FVector& Dest);
+	/** Q / LB+B: drop the combat target and stop auto-approach. */
+	void StopAttack();
 	/** True when a Recast nav data actor is in the world (Build Paths has been run). */
 	bool HasNavMesh() const;
 	/** Positive = zoom out (cm of spring-arm length). */
