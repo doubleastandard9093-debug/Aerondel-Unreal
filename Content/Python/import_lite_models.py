@@ -24,19 +24,9 @@ import importlib as _importlib
 import aerondel_rig_math as _aerondel_rig_math
 _importlib.reload(_aerondel_rig_math)
 from aerondel_rig_math import bake_glb_for_unreal, validate_baked_for_interchange
+from aerondel_clips import CLIP, clip_name, pick, apply_state_fallbacks
 
 DEST = "/Game/Aerondel/Models"
-CLIP = {
-    "idle": [r"^idle$", r"^spider_idle$", r"flying_idle", r"^idle"],
-    "walk": [r"^walk$", r"spider_walk", r"fast_flying", r"walk"],
-    "run": [r"^run$", r"^gallop$", r"^sprint$", r"spider_walk", r"fast_flying", r"run|walk"],
-    "attack": [r"sword_slash", r"^slash$", r"^attack$", r"spider_attack", r"attack-melee-right", r"bite|headbutt|punch|weapon|attack"],
-    "hit": [r"hitre", r"hit"],
-    "death": [r"death", r"^die$"],
-    "gather": [r"interact|pick-up"],
-}
-
-
 def src_dir():
     return os.path.join(unreal.Paths.project_dir(), "Tools", "ImportSource")
 
@@ -132,21 +122,6 @@ def import_glb(path, dest, skeletal=False):
 def assets_in(folder):
     reg = unreal.AssetRegistryHelpers.get_asset_registry()
     return reg.get_assets_by_path(folder, recursive=True)
-
-
-def clip_name(asset_name):
-    # Interchange names sequences "<Mesh>_Anim_<Clip>" or "<Clip>"; also strip Blender "Armature|" prefixes.
-    n = str(asset_name).split("|")[-1]
-    n = re.sub(r"^.*?_Anim_", "", n)
-    return n.lower()
-
-
-def pick(anims, state):
-    for pat in CLIP[state]:
-        for name, path in anims:
-            if re.search(pat, name):
-                return path
-    return None
 
 
 def obj_path(a):
@@ -365,7 +340,7 @@ def _core_states_mapped(anims):
     return bool(pick(anims, "idle") or pick(anims, "walk"))
 
 
-def _log_rig_clips(key, folder, mesh, anims, states):
+def _log_rig_clips(key, folder, mesh, anims, states, rates=None):
     """Always list the clips found for a rig and which states they mapped to."""
     names = [n for n, _ in anims]
     mapped = ["%s=%s" % (s, (p or "").rsplit(".", 1)[-1]) for s, p in states.items() if p]
@@ -373,6 +348,9 @@ def _log_rig_clips(key, folder, mesh, anims, states):
     unreal.log("[Aerondel] %s: %d clips [%s] -> states %s (mesh %s)" % (
         key, len(anims), ", ".join(names) if names else "none",
         ", ".join(mapped) if mapped else "none", mesh or "none"))
+    frozen = [s for s, r in (rates or {}).items() if r == 0]
+    if frozen:
+        unreal.log("[Aerondel] %s: frozen fallback (play rate 0) for %s" % (key, ",".join(frozen)))
     if missing:
         extra = ""
         if not anims:
@@ -462,9 +440,13 @@ def run(batch=None):
                 done.add("%s/%s" % (g, f))
                 _save_done(done)
                 states = {s: pick(anims, s) for s in CLIP}
-                rigs[key] = {"mesh": mesh, "anims": {s: p for s, p in states.items() if p}}
+                states, rates = apply_state_fallbacks(anims, states)
+                entry = {"mesh": mesh, "anims": {s: p for s, p in states.items() if p}}
+                if rates:
+                    entry["animRates"] = rates
+                rigs[key] = entry
                 _write_rigs(root, rigs)  # partial rigs.json after every model, so a crash loses nothing
-                _log_rig_clips(key, folder, mesh, anims, states)
+                _log_rig_clips(key, folder, mesh, anims, states, rates)
             if not stopped:
                 for g, d, f in statics:
                     key = os.path.splitext(f)[0].lower()

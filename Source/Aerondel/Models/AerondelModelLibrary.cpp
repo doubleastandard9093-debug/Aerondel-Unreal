@@ -19,13 +19,14 @@
 #include "HAL/IConsoleManager.h"
 #include "Misc/CommandLine.h"
 #include "Misc/Parse.h"
+#include "Misc/Char.h"
 
 static TAutoConsoleVariable<int32> CVarAerondelBindPose(TEXT("aerondel.Rig.BindPose"), 0,
 	TEXT("Pose diagnostic: 0 = animate normally, 1 = hold the player rig in its bind (reference) pose, 2 = all rigs in bind pose."));
 
 namespace AerondelRigs
 {
-	struct FRig { FString Mesh; TMap<FName, FString> Anims; TOptional<float> Yaw, Pitch, Roll; };
+	struct FRig { FString Mesh; TMap<FName, FString> Anims; TMap<FName, float> AnimRates; TOptional<float> Yaw, Pitch, Roll; };
 	static bool bLoaded = false;
 	static TMap<FString, FRig> Rigs;
 	static TMap<FString, FString> Monsters, Npcs;
@@ -100,6 +101,52 @@ namespace AerondelRigs
 		return true;
 	}
 
+
+	static uint32 StableIdHash(const FString& S)
+	{
+		uint32 H = 2166136261u;
+		for (const TCHAR C : S)
+		{
+			H ^= (uint32)FChar::ToLower(C);
+			H *= 16777619u;
+		}
+		return H;
+	}
+
+	/** Creature rig to use when an unmapped id obviously names that creature. Feature NPCs such as skywyrms stay folk. */
+	static const TCHAR* ObviousBeastRig(const FString& Id)
+	{
+		static const TCHAR* Beasts[] = {
+			TEXT("spider"), TEXT("wolf"), TEXT("dragon"), TEXT("cow"), TEXT("goblin"), TEXT("orc"),
+			TEXT("demon"), TEXT("skeleton"), TEXT("zombie"), TEXT("yeti"), TEXT("giant"), TEXT("ghost"),
+		};
+		for (const TCHAR* B : Beasts)
+		{
+			const FString Name(B);
+			if (Id.Equals(Name, ESearchCase::IgnoreCase)
+				|| Id.StartsWith(Name + TEXT("_"), ESearchCase::IgnoreCase)
+				|| Id.EndsWith(TEXT("_") + Name, ESearchCase::IgnoreCase))
+			{
+				if (Rigs.Contains(Name)) return B;
+			}
+		}
+		return nullptr;
+	}
+
+	static FString DefaultCharacterRig(const FString& Id)
+	{
+		if (const TCHAR* Beast = ObviousBeastRig(Id)) return FString(Beast);
+		TArray<FString> Folks;
+		for (const TPair<FString, FRig>& P : Rigs)
+		{
+			if (P.Key.StartsWith(TEXT("folk_"))) Folks.Add(P.Key);
+		}
+		Folks.Sort();
+		if (Folks.Num() > 0) return Folks[StableIdHash(Id) % Folks.Num()];
+		if (Rigs.Contains(TEXT("adventurer"))) return TEXT("adventurer");
+		return FString();
+	}
+
 	static void Load()
 	{
 		if (bLoaded) return;
@@ -118,6 +165,13 @@ namespace AerondelRigs
 				FRig Rig; (*RO)->TryGetStringField(TEXT("mesh"), Rig.Mesh);
 				const TSharedPtr<FJsonObject>* A = nullptr;
 				if ((*RO)->TryGetObjectField(TEXT("anims"), A)) for (const auto& Q : (*A)->Values) { FString S; if (Q.Value.IsValid() && Q.Value->TryGetString(S)) Rig.Anims.Add(FName(*FString(*Q.Key)), S); }
+				const TSharedPtr<FJsonObject>* Rates = nullptr;
+				if ((*RO)->TryGetObjectField(TEXT("animRates"), Rates))
+					for (const auto& Q : (*Rates)->Values)
+					{
+						double V = 1.0;
+						if (Q.Value.IsValid() && Q.Value->TryGetNumber(V)) Rig.AnimRates.Add(FName(*FString(*Q.Key)), (float)V);
+					}
 				double RY = 0, RP = 0, RR = 0;
 				if ((*RO)->TryGetNumberField(TEXT("yaw"), RY)) Rig.Yaw = (float)RY;
 				if ((*RO)->TryGetNumberField(TEXT("pitch"), RP)) Rig.Pitch = (float)RP;
@@ -153,8 +207,18 @@ FString UAerondelModelLibrary::ResolveKey(const FString& Key)
 {
 	AerondelRigs::Load();
 	if (Key == TEXT("player")) return AerondelRigs::Player;
-	if (Key.StartsWith(TEXT("mob:"))) return AerondelRigs::Monsters.FindRef(Key.Mid(4).ToLower());
-	if (Key.StartsWith(TEXT("npc:"))) return AerondelRigs::Npcs.FindRef(Key.Mid(4).ToLower());
+	if (Key.StartsWith(TEXT("mob:")))
+	{
+		const FString Id = Key.Mid(4).ToLower();
+		if (const FString* Found = AerondelRigs::Monsters.Find(Id)) return *Found;
+		return AerondelRigs::DefaultCharacterRig(Id);
+	}
+	if (Key.StartsWith(TEXT("npc:")))
+	{
+		const FString Id = Key.Mid(4).ToLower();
+		if (const FString* Found = AerondelRigs::Npcs.Find(Id)) return *Found;
+		return AerondelRigs::DefaultCharacterRig(Id);
+	}
 	return Key;
 }
 
@@ -258,9 +322,34 @@ void UAerondelModelLibrary::SetAnimState(USkeletalMeshComponent* Comp, FName Sta
 		}
 		return;
 	}
+	const FName Walk(TEXT("walk")), Run(TEXT("run"));
 	const FString* Path = Rig->Anims.Find(State);
-	if (!Path && State == FName(TEXT("run"))) Path = Rig->Anims.Find(TEXT("walk"));
-	if (!Path) Path = Rig->Anims.Find(TEXT("idle"));
+	float PlayRate = 1.f;
+	if (const float* Rate = Rig->AnimRates.Find(State)) PlayRate = *Rate;
+	if (!Path && State == Run) Path = Rig->Anims.Find(Walk);
+	if (!Path && State == Idle)
+	{
+		Path = Rig->Anims.Find(Walk);
+		if (!Path) Path = Rig->Anims.Find(Run);
+		PlayRate = 0.f; // first frame of walk/run, frozen, instead of the T/reference pose
+	}
+	if (!Path && State == Attack)
+	{
+		Path = Rig->Anims.Find(Hit);
+		if (!Path) Path = Rig->Anims.Find(Idle);
+	}
+	if (!Path && State == Hit)
+	{
+		Path = Rig->Anims.Find(Attack);
+		if (!Path) Path = Rig->Anims.Find(Idle);
+	}
+	if (!Path && State == Death)
+	{
+		Path = Rig->Anims.Find(Hit);
+		if (!Path) Path = Rig->Anims.Find(Attack);
+		if (!Path) Path = Rig->Anims.Find(Idle);
+	}
+	if (!Path) Path = Rig->Anims.Find(Idle);
 	if (!Path)
 	{
 		FString Have;
@@ -284,6 +373,11 @@ void UAerondelModelLibrary::SetAnimState(USkeletalMeshComponent* Comp, FName Sta
 	Comp->ComponentTags.Add(FName(*(TEXT("AerondelAnim:") + State.ToString())));
 	const bool bLoop = !bOneShot;
 	Comp->PlayAnimation(Seq, bLoop);
+	Comp->SetPlayRate(PlayRate);
+	if (PlayRate <= KINDA_SMALL_NUMBER)
+	{
+		Comp->SetPosition(0.f, false);
+	}
 }
 
 static TArray<FTransform> ComponentSpaceRefPose(const USkeletalMesh* Mesh)

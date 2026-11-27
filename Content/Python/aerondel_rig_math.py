@@ -12,7 +12,8 @@ and split feet. This baker:
   * places the skinned mesh node at the scene root with identity TRS;
   * lifts every joint out of non-joint ancestors (CharacterArmature / AnimalArmature and their IK or Head siblings), composing that transform into rest TRS and animation keys, and bakes leftover scale into every descendant's
     local translation (and translation animation keys) so joint rest TRS itself stands upright
-    in glTF Y-up (head above feet) even if an importer ignores the IBMs.
+    in glTF Y-up (head above feet) even if an importer ignores the IBMs;
+  * pads any 1-key (static) animation sampler to two keys so Interchange does not drop it.
 
 Alignment (align_bind_pose) maps feet->head to +Z and facing to +X. Offsets in rigs.json default
 to 0; the old yaw=-90 default is not used.
@@ -783,6 +784,46 @@ def _scrub_animations(gltf, joint_set, mesh_nodes=None):
     gltf["animations"] = kept_anims
 
 
+
+def _pad_short_animation_samplers(gltf, blob):
+    """Interchange may skip single-keyframe (static) clips; pad every sampler to at least 2 keys."""
+    accs = gltf.get("accessors") or []
+    for anim in gltf.get("animations") or []:
+        for samp in anim.get("samplers") or []:
+            inp, out = samp.get("input"), samp.get("output")
+            if not isinstance(inp, int) or not isinstance(out, int):
+                continue
+            if inp < 0 or inp >= len(accs) or out < 0 or out >= len(accs):
+                continue
+            count = accs[inp].get("count") or 0
+            if count >= 2:
+                continue
+            times = _times_of(_read_accessor(gltf, blob, inp)) if count >= 1 else [0.0]
+            values = _read_accessor(gltf, blob, out) if count >= 1 else []
+            if not times:
+                times = [0.0]
+            t0 = float(times[0])
+            dt = 1.0 / 30.0
+            interp = (samp.get("interpolation") or "LINEAR").upper()
+            typ = accs[out]["type"] if out < len(accs) else "VEC3"
+            if interp == "CUBICSPLINE":
+                # One key is three output rows: in-tangent, value, out-tangent.
+                if len(values) < 3:
+                    if not values:
+                        continue
+                    triple = values[:1] * 3 if len(values) == 1 else (values + values[:1])[:3]
+                else:
+                    triple = values[:3]
+                new_vals = list(triple) + list(triple)
+            else:
+                if not values:
+                    continue
+                new_vals = [values[0], values[0]]
+            samp["input"] = _write_f32_acc(gltf, blob, [[t0], [t0 + dt]], "SCALAR")
+            samp["output"] = _write_f32_acc(gltf, blob, new_vals, typ)
+    return blob
+
+
 def _scale_translation_accessors(gltf, blob, node_ids, k):
     """Multiply translation keyframes of the given nodes by k (copy-on-write if shared)."""
     want = set(node_ids)
@@ -1037,6 +1078,7 @@ def bake_glb_for_unreal(src, dst):
         mesh_nodes.add(mapping[mesh_ni])
     mesh_nodes.update(skinned_mesh_nodes(gltf))
     _scrub_animations(gltf, joint_set, mesh_nodes)
+    _pad_short_animation_samplers(gltf, blob)
 
     for n in nodes:
         ch = n.get("children")
