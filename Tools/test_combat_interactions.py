@@ -129,6 +129,19 @@ if "ShowOn(S->GetPawn(), Amount, false)" not in S("Core/PlayerStatsComponent.cpp
 if "bHeal" not in S("Combat/AerondelFloatText.h"):
     errs.append("Floating heals need a green path")
 
+# 9. Firemaking XP on lighting logs (Unreal only; Lite has no Firemaking skill).
+rules = S("Rules/AerondelRules.cpp")
+if "UAerondelRules::FiremakingXp" not in rules:
+    errs.append("FiremakingXp table missing")
+for s in ('oak_logs', 'willow_logs', 'maple_logs', 'yew_logs', 'magic_logs', 'logs'):
+    if s not in rules:
+        errs.append(f"FiremakingXp should cover {s}")
+if "FindSkill(TEXT(\"firemaking\"))" not in S("Interaction/AerondelFire.cpp"):
+    errs.append("Lighting a fire should award Firemaking XP")
+sk = (root / "Content/Data/skills.json").read_text(encoding="utf-8")
+if '"Firemaking"' not in sk:
+    errs.append("skills.json should list Firemaking so old saves just start it at level 1")
+
 if errs:
     print("FAIL " + "\nFAIL ".join(errs))
     sys.exit(1)

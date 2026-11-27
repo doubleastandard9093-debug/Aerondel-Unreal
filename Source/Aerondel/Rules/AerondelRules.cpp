@@ -544,6 +544,21 @@ float UAerondelRules::BuryXp(const AAerondelPlayerState* PS, const UItemDef* Bon
 	return Bones && Bones->PrayerXp > 0.f ? Bones->PrayerXp * (1.f + Perk(PS, TEXT("prayer"), TEXT("buryXp"))) : 0.f;
 }
 
+float UAerondelRules::FiremakingXp(const UItemDef* Logs)
+{
+	// Same log tiers as Lite woodcutting; XP sits a little above the tree XP (classic firemaking feel).
+	if (!Logs) return 0.f;
+	const FName Id = Logs->Id;
+	if (Id == TEXT("oak_logs")) return 60.f;
+	if (Id == TEXT("willow_logs")) return 90.f;
+	if (Id == TEXT("maple_logs")) return 135.f;
+	if (Id == TEXT("yew_logs")) return 202.5f;
+	if (Id == TEXT("magic_logs")) return 303.8f;
+	if (Id == TEXT("delve_logs")) return 50.f;
+	if (Id == TEXT("logs") || Id.ToString().EndsWith(TEXT("_logs"))) return 40.f;
+	return 0.f;
+}
+
 int32 UAerondelRules::PotionTicks(const AAerondelPlayerState* PS, int32 BaseTicks)
 {
 	const float More = Perk(PS, TEXT("herbalism"), TEXT("potionTime")) + QuestFx(PS, TEXT("potionTime")) + GearFx(PS, TEXT("potionTime"));

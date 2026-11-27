@@ -11,6 +11,9 @@
 #include "Inventory/InventoryComponent.h"
 #include "Rules/AerondelRules.h"
 #include "Data/ItemDef.h"
+#include "Data/GameDatabase.h"
+#include "Data/SkillDef.h"
+#include "Skills/SkillsComponent.h"
 
 #define LOCTEXT_NAMESPACE "AerondelFire"
 
@@ -73,12 +76,18 @@ AAerondelFire* AAerondelFire::LightFrom(AActor* InInstigator, int32 InventorySlo
 		if (Ev) Ev->Message(LOCTEXT("NotHere", "You can't light a fire here."));
 		return nullptr;
 	}
+	const float Xp = UAerondelRules::FiremakingXp(Stack.Item) * UAerondelRules::XpMultiplier(S, TEXT("firemaking"));
 	if (!S->Inventory->RemoveFromSlot(InventorySlot, 1)) return nullptr;
 	FActorSpawnParameters P;
 	P.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 	UClass* Cls = FireClass ? FireClass.Get() : AAerondelFire::StaticClass();
 	AAerondelFire* Fire = World->SpawnActor<AAerondelFire>(Cls, Loc, FRotator::ZeroRotator, P);
-	if (Ev) Ev->Message(LOCTEXT("Catches", "The fire catches and the logs begin to burn."));
+	if (Xp > 0.f && S->Skills)
+		if (const UGameDatabase* Db = UGameDatabase::Get()) S->Skills->AddXp(Db->FindSkill(TEXT("firemaking")), Xp);
+	if (Ev)
+		Ev->Message(Xp > 0.f
+			? FText::Format(LOCTEXT("CatchesXp", "The fire catches and the logs begin to burn. (+{0} Firemaking XP)"), FMath::RoundToInt(Xp))
+			: LOCTEXT("Catches", "The fire catches and the logs begin to burn."));
 	return Fire;
 }
 
