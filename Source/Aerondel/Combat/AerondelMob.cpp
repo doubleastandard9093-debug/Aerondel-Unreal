@@ -142,6 +142,23 @@ void AAerondelMob::TryRig()
 
 AAIController* AAerondelMob::AI() const { return Cast<AAIController>(GetController()); }
 
+
+static bool MobHasNav(const UObject* W)
+{
+	const UNavigationSystemV1* Nav = FNavigationSystem::GetCurrent<UNavigationSystemV1>(W);
+	return Nav && Nav->GetDefaultNavDataInstance(FNavigationSystem::DontAutoCreate) != nullptr;
+}
+
+static void MobSteerOrPath(AAerondelMob* Mob, AAIController* C, const FVector& Dest, float Acceptance)
+{
+	if (!Mob || !C) return;
+	if (MobHasNav(Mob)) { C->MoveToLocation(Dest, Acceptance); return; }
+	FVector To = Dest - Mob->GetActorLocation(); To.Z = 0.f;
+	if (To.SizeSquared() <= Acceptance * Acceptance) return;
+	Mob->AddMovementInput(To.GetSafeNormal(), 1.f);
+}
+
+
 FText AAerondelMob::GetInteractLabel() const
 {
 	return Definition ? FText::Format(NSLOCTEXT("Aerondel", "Attack", "Attack {0} (level {1})"), Definition->DisplayName, Definition->CombatLevel) : FText::GetEmpty();
@@ -251,13 +268,13 @@ void AAerondelMob::Tick(float Dt)
 		if (C->GetMoveStatus() == EPathFollowingStatus::Idle || StateTime > 8.f) SetState(EMobState::Idle);
 		break;
 	case EMobState::Chase:
-		if (!T || IsLeashed(T)) { Target = nullptr; SetState(EMobState::Return); C->MoveToLocation(Home, 30.f); break; }
+		if (!T || IsLeashed(T)) { Target = nullptr; SetState(EMobState::Return); MobSteerOrPath(this, C, Home, 30.f); break; }
 		if (StunTicks > 0) { C->StopMovement(); break; }
 		if (FVector::Dist2D(T->GetActorLocation(), GetActorLocation()) < Definition->AttackRange) { C->StopMovement(); SetState(EMobState::Attack); break; }
-		C->MoveToActor(T, 120.f);
+		if (MobHasNav(this)) C->MoveToActor(T, 120.f); else MobSteerOrPath(this, C, T->GetActorLocation(), 120.f);
 		break;
 	case EMobState::Attack:
-		if (!T || IsLeashed(T)) { Target = nullptr; SetState(EMobState::Return); C->MoveToLocation(Home, 30.f); break; }
+		if (!T || IsLeashed(T)) { Target = nullptr; SetState(EMobState::Return); MobSteerOrPath(this, C, Home, 30.f); break; }
 		if (FVector::Dist2D(T->GetActorLocation(), GetActorLocation()) > Definition->AttackRange + 50.f) { SetState(EMobState::Chase); break; }
 		if (StunTicks > 0) break;
 		{ FVector To = T->GetActorLocation() - GetActorLocation(); To.Z = 0; if (!To.IsNearlyZero()) SetActorRotation(To.Rotation()); }
@@ -266,8 +283,10 @@ void AAerondelMob::Tick(float Dt)
 	case EMobState::Return:
 		if (FVector::Dist2D(GetActorLocation(), Home) < 100.f || StateTime > 10.f)
 		{
+			if (!MobHasNav(this) && FVector::Dist2D(GetActorLocation(), Home) >= 100.f) SetActorLocation(Home, false, nullptr, ETeleportType::TeleportPhysics);
 			Health->Heal(Health->GetMax()); SetState(EMobState::Idle);
 		}
+		else MobSteerOrPath(this, C, Home, 30.f);
 		break;
 	case EMobState::Dead: break;
 	}
@@ -354,7 +373,8 @@ void AAerondelMob::HandleDied(AActor* Killer)
 
 void AAerondelMob::Respawn()
 {
-	StunTicks = 0; VenomDamage = 0;
+	StunTicks = 0; WitherTicks = 0; TauntTicks = 0; VenomDamage = 0; VenomNext = 0; AttackCooldown = 0.f;
+	Target = nullptr;
 	SetActorLocation(Home, false, nullptr, ETeleportType::TeleportPhysics);
 	Health->SetMax(Definition ? Definition->Hitpoints : 5, true);
 	GetWorldTimerManager().ClearTimer(CorpseTimer);

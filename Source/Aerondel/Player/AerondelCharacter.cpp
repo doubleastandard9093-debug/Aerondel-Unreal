@@ -16,6 +16,7 @@
 #include "EnhancedInputSubsystems.h"
 #include "Engine/LocalPlayer.h"
 #include "Blueprint/AIBlueprintHelperLibrary.h"
+#include "NavigationSystem.h"
 #include "Engine/OverlapResult.h"
 #include "Engine/StaticMesh.h"
 #include "Engine/World.h"
@@ -98,6 +99,7 @@ void AAerondelCharacter::SetupPlayerInputComponent(UInputComponent* Input)
 		EIC->BindAction(A, ETriggerEvent::Completed, this, &AAerondelCharacter::OnOrbitEnd);
 	}
 	if (UInputAction* A = Cfg->Interact.LoadSynchronous()) EIC->BindAction(A, ETriggerEvent::Started, this, &AAerondelCharacter::OnInteract);
+	if (UInputAction* A = Cfg->ToggleInventory.LoadSynchronous()) EIC->BindAction(A, ETriggerEvent::Started, this, &AAerondelCharacter::OnToggleInventory);
 	if (UInputAction* A = Cfg->Jump.LoadSynchronous()) EIC->BindAction(A, ETriggerEvent::Started, this, &ACharacter::Jump);
 	if (Gamepad) Gamepad->Bind(EIC);
 	if (EIC)
@@ -118,6 +120,7 @@ void AAerondelCharacter::OnMove(const FInputActionValue& V)
 	const FVector2D In = V.Get<FVector2D>();
 	if (In.IsNearlyZero()) return;
 	CancelInteraction();
+	bDirectMove = false;
 	if (AController* C = GetController()) C->StopMovement();
 	const FRotator Yaw(0, GetControlRotation().Yaw, 0);
 	AddMovementInput(FRotationMatrix(Yaw).GetUnitAxis(EAxis::X), In.Y);
@@ -144,6 +147,13 @@ void AAerondelCharacter::OnInteract(const FInputActionValue&)
 	if (AActor* T = FindNearestInteractable()) QueueInteraction(T);
 }
 
+void AAerondelCharacter::OnToggleInventory(const FInputActionValue&)
+{
+	APlayerController* PC = Cast<APlayerController>(GetController());
+	if (AAerondelHUD* Hud = PC ? Cast<AAerondelHUD>(PC->GetHUD()) : nullptr)
+		Hud->TogglePadMenu(EAerondelPadMenu::Inventory);
+}
+
 AActor* AAerondelCharacter::FindNearestInteractable(float Radius) const
 {
 	TArray<FOverlapResult> Hits;
@@ -168,14 +178,40 @@ void AAerondelCharacter::QueueInteraction(AActor* Target)
 	if (IAerondelInteractable* Old = Cast<IAerondelInteractable>(Pending.Get())) Old->StopInteract(this);
 	Combat->ClearTarget();
 	Pending = Target;
-	if (!AInteractableActor::InRange(this, I, 1.f) && GetController())
-		UAIBlueprintHelperLibrary::SimpleMoveToLocation(GetController(), I->GetInteractPoint());
+	if (!AInteractableActor::InRange(this, I, 1.f)) MoveToWorld(I->GetInteractPoint());
 }
 
 void AAerondelCharacter::CancelInteraction()
 {
 	if (IAerondelInteractable* I = Cast<IAerondelInteractable>(Pending.Get())) I->StopInteract(this);
 	Pending = nullptr;
+	bDirectMove = false;
+}
+
+bool AAerondelCharacter::HasNavMesh() const
+{
+	const UNavigationSystemV1* Nav = FNavigationSystem::GetCurrent<UNavigationSystemV1>(GetWorld());
+	return Nav && Nav->GetDefaultNavDataInstance(FNavigationSystem::DontAutoCreate) != nullptr;
+}
+
+void AAerondelCharacter::MoveToWorld(const FVector& Dest)
+{
+	if (HasNavMesh() && GetController())
+	{
+		bDirectMove = false;
+		UAIBlueprintHelperLibrary::SimpleMoveToLocation(GetController(), Dest);
+		return;
+	}
+	DirectDest = Dest;
+	bDirectMove = true;
+}
+
+void AAerondelCharacter::TickDirectMove(float)
+{
+	if (!bDirectMove) return;
+	FVector To = DirectDest - GetActorLocation(); To.Z = 0.f;
+	if (To.SizeSquared() < 40.f * 40.f) { bDirectMove = false; if (AController* C = GetController()) C->StopMovement(); return; }
+	AddMovementInput(To.GetSafeNormal(), 1.f);
 }
 
 void AAerondelCharacter::Tick(float Dt)
@@ -188,6 +224,7 @@ void AAerondelCharacter::Tick(float Dt)
 		UAerondelModelLibrary::SetAnimState(GetMesh(), V > 330.f ? FName(TEXT("run")) : V > 20.f ? FName(TEXT("walk")) : FName(TEXT("idle")));
 	}
 	SpringArm->TargetArmLength = FMath::FInterpTo(SpringArm->TargetArmLength, TargetArm, Dt, 10.f);
+	TickDirectMove(Dt);
 	AActor* T = Pending.Get();
 	IAerondelInteractable* I = Cast<IAerondelInteractable>(T);
 	if (I && AInteractableActor::InRange(this, I, 1.f))

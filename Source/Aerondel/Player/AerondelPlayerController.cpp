@@ -4,6 +4,7 @@
 #include "Player/AerondelCharacter.h"
 #include "Core/AerondelInputConfig.h"
 #include "Core/AerondelPlayerState.h"
+#include "Core/PlayerStatsComponent.h"
 #include "Core/AerondelEvents.h"
 #include "Combat/HealthComponent.h"
 #include "Combat/AerondelMob.h"
@@ -84,12 +85,15 @@ void AAerondelPlayerController::OnClick(const FInputActionValue&)
 		return;
 	}
 	Ch->CancelInteraction();
-	UAIBlueprintHelperLibrary::SimpleMoveToLocation(this, Hit.ImpactPoint); // click-to-move on the NavMesh
+	Ch->MoveToWorld(Hit.ImpactPoint); // NavMesh when present, else a straight walk
 }
 
 void AAerondelPlayerController::OnPlayerDied(AActor*)
 {
-	if (UAerondelEvents* Ev = UAerondelEvents::Get(this)) Ev->Message(NSLOCTEXT("Aerondel", "Died", "Oh dear, you are dead!"));
-	if (APawn* P = GetPawn()) P->TeleportTo(RespawnPoint + FVector(0, 0, 100), P->GetActorRotation());
-	if (AAerondelPlayerState* PS = GetPlayerState<AAerondelPlayerState>()) PS->Health->SetMax(PS->Health->GetMax(), true);
+	// Health::OnDied fires in the middle of ApplyDamage, before UPlayerStatsComponent::ApplyPlayerDamage
+	// can see IsDead(). Reviving here used to skip HandleDeath (prayers, poison, stun, feature notify).
+	// If something damaged Health directly, call HandleDeath ourselves; if ApplyPlayerDamage is about
+	// to call it, HandleDeath is a no-op once HP is already refilled.
+	if (AAerondelPlayerState* PS = GetPlayerState<AAerondelPlayerState>())
+		if (PS->Health && PS->Health->IsDead() && PS->Stats) PS->Stats->HandleDeath();
 }

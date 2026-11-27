@@ -1,7 +1,48 @@
 #include "Bank/BankComponent.h"
 #include "Data/ItemDef.h"
+#include "GameFramework/Actor.h"
 
-UBankComponent::UBankComponent() { Capacity = 400; bStackEverything = true; }
+UBankComponent::UBankComponent()
+{
+	Capacity = 400; bStackEverything = true;
+	PrimaryComponentTick.bCanEverTick = true;
+	PrimaryComponentTick.bStartWithTickEnabled = false;
+	PrimaryComponentTick.TickInterval = 0.25f;
+}
+
+void UBankComponent::Open()
+{
+	bOpen = true;
+	BankUser = nullptr; BankSource = nullptr;
+	SetComponentTickEnabled(false);
+	OnOpenChanged.Broadcast(true);
+}
+
+void UBankComponent::OpenFrom(AActor* User, AActor* Source, float RangeCm)
+{
+	bOpen = true;
+	BankUser = User; BankSource = Source; CloseRangeCm = RangeCm;
+	SetComponentTickEnabled(User && Source);
+	OnOpenChanged.Broadcast(true);
+}
+
+void UBankComponent::Close()
+{
+	if (!bOpen) return;
+	bOpen = false;
+	BankUser = nullptr; BankSource = nullptr;
+	SetComponentTickEnabled(false);
+	OnOpenChanged.Broadcast(false);
+}
+
+void UBankComponent::TickComponent(float Dt, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+{
+	Super::TickComponent(Dt, TickType, ThisTickFunction);
+	AActor* U = BankUser.Get();
+	AActor* S = BankSource.Get();
+	if (!bOpen || !U || !S) { if (bOpen && (!U || !S)) Close(); return; }
+	if (FVector::Dist2D(U->GetActorLocation(), S->GetActorLocation()) > CloseRangeCm) Close();
+}
 
 int32 UBankComponent::Deposit(UInventoryComponent* From, UItemDef* Item, int32 Count)
 {

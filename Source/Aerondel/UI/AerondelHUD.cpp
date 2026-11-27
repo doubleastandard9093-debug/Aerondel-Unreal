@@ -1,6 +1,7 @@
 #include "UI/AerondelHUD.h"
 #include "UI/AerondelWidgetBase.h"
 #include "Core/AerondelPlayerState.h"
+#include "Core/PlayerStatsComponent.h"
 #include "Core/AerondelEvents.h"
 #include "Player/AerondelPlayerController.h"
 #include "Skills/SkillsComponent.h"
@@ -75,6 +76,13 @@ void AAerondelHUD::ToggleSettings()
 
 bool AAerondelHUD::HandleHudClick(const FVector2D& Pos)
 {
+	for (int32 i = 0; i < InvClickSlots.Num(); ++i)
+	{
+		if (Pos.X < InvClickMin[i].X || Pos.Y < InvClickMin[i].Y || Pos.X > InvClickMax[i].X || Pos.Y > InvClickMax[i].Y) continue;
+		if (AAerondelPlayerState* PS = PlayerOwner ? PlayerOwner->GetPlayerState<AAerondelPlayerState>() : nullptr)
+			if (PS->Stats) PS->Stats->UseInventorySlot(InvClickSlots[i]);
+		return true;
+	}
 	if (SettingsBtnMax.X <= SettingsBtnMin.X) return false;
 	if (Pos.X < SettingsBtnMin.X || Pos.Y < SettingsBtnMin.Y || Pos.X > SettingsBtnMax.X || Pos.Y > SettingsBtnMax.Y) return false;
 	ToggleSettings();
@@ -188,7 +196,7 @@ void AAerondelHUD::DrawPadMenu(AAerondelPlayerState* PS)
 	{
 		Line(TEXT("Nearby"), Gold);
 		const AAerondelPlayerController* PC = Cast<AAerondelPlayerController>(PlayerOwner);
-		if (PC && !PC->GetHoverText().IsEmpty()) Line(FString::Printf(TEXT("Target: %s  (A to use)"), *PC->GetHoverText().ToString()), White);
+		if (PC && !PC->GetHoverText().IsEmpty()) Line(FString::Printf(TEXT("Target: %s  (A / E to use)"), *PC->GetHoverText().ToString()), White);
 		int32 N = 0;
 		for (TActorIterator<AActor> It(GetWorld()); It && N < 10; ++It)
 		{
@@ -232,7 +240,7 @@ void AAerondelHUD::DrawHUD()
 		DrawRect(FLinearColor(0.f, 0.f, 0.f, 0.6f), SettingsBtnMin.X, SettingsBtnMin.Y, BW, BH);
 		DrawText(TEXT("Settings (F10 / Esc)"), FLinearColor(1.f, 0.9f, 0.3f), SettingsBtnMin.X + 10.f, SettingsBtnMin.Y + 6.f, GEngine->GetSmallFont());
 	}
-	if (Widget || !Canvas || !PlayerOwner || PlayerOwner->GetPawn<AAerondelVRPawn>()) return;
+	if (Widget || !Canvas || !PlayerOwner || PlayerOwner->GetPawn<AAerondelVRPawn>()) { InvClickSlots.Reset(); InvClickMin.Reset(); InvClickMax.Reset(); return; }
 	AAerondelPlayerState* PS = PlayerOwner->GetPlayerState<AAerondelPlayerState>();
 	if (!PS) return;
 	UFont* Font = GEngine->GetSmallFont();
@@ -252,12 +260,20 @@ void AAerondelHUD::DrawHUD()
 		Y += 16;
 	}
 
-	// Inventory (right side).
-	float IY = 20.f; const float X = Canvas->ClipX - 260.f;
-	DrawText(PS->Bank->IsOpen() ? TEXT("Inventory (bank open)") : TEXT("Inventory"), Yellow, X, IY, Font); IY += 18;
+	// Inventory (right side, below the Settings button so clicks don't overlap it). Click a line to use the item.
+	InvClickSlots.Reset(); InvClickMin.Reset(); InvClickMax.Reset();
+	float IY = 50.f; const float X = Canvas->ClipX - 260.f;
+	DrawText(PS->Bank->IsOpen() ? TEXT("Inventory (bank open, click to deposit)") : TEXT("Inventory (click to use)"), Yellow, X, IY, Font); IY += 18;
 	const TArray<FItemStack>& Slots = PS->Inventory->GetSlots();
 	for (int32 i = 0; i < Slots.Num(); ++i)
-		if (!Slots[i].IsEmpty()) { DrawText(FString::Printf(TEXT("%2d  %s x%d"), i + 1, *Slots[i].Item->DisplayName.ToString(), Slots[i].Count), White, X, IY, Font); IY += 16; }
+		if (!Slots[i].IsEmpty())
+		{
+			DrawText(FString::Printf(TEXT("%2d  %s x%d"), i + 1, *Slots[i].Item->DisplayName.ToString(), Slots[i].Count), White, X, IY, Font);
+			InvClickSlots.Add(i);
+			InvClickMin.Add(FVector2D(X, IY));
+			InvClickMax.Add(FVector2D(X + 250.f, IY + 16.f));
+			IY += 16;
+		}
 
 	// Quest step.
 	for (const FQuestProgress& Q : PS->Quests->GetAll())

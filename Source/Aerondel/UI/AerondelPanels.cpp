@@ -32,6 +32,7 @@
 #include "Interaction/AerondelInteractable.h"
 #include "Interaction/NpcTalk.h"
 #include "Core/AerondelPlayerState.h"
+#include "Core/PlayerStatsComponent.h"
 #include "Core/AerondelEvents.h"
 #include "Inventory/InventoryComponent.h"
 #include "Skills/SkillsComponent.h"
@@ -91,7 +92,17 @@ void FAerondelPanels::Build(UWorld* W, FName Panel, AActor* Ctx, FGPanelModel& M
 		if (PS && PS->Inventory)
 		{
 			int32 Used = 0;
-			for (const FItemStack& S : PS->Inventory->GetSlots()) if (!S.IsEmpty()) { ++Used; M.Lines.Add(FString::Printf(TEXT("%s x%d"), *S.Item->DisplayName.ToString(), S.Count)); }
+			TWeakObjectPtr<AAerondelPlayerState> WPS = PS;
+			const bool bBank = PS->Bank && PS->Bank->IsOpen();
+			for (int32 i = 0; i < PS->Inventory->GetSlots().Num(); ++i)
+			{
+				const FItemStack& S = PS->Inventory->GetSlots()[i];
+				if (S.IsEmpty()) continue;
+				++Used;
+				M.Lines.Add(FString::Printf(TEXT("%s x%d"), *S.Item->DisplayName.ToString(), S.Count));
+				const TCHAR* Verb = bBank ? TEXT("Deposit") : TEXT("Use");
+				Act(M, FString::Printf(TEXT("%s %s"), Verb, *S.Item->DisplayName.ToString()), [WPS, i] { if (WPS.IsValid() && WPS->Stats) WPS->Stats->UseInventorySlot(i); });
+			}
 			M.Lines.Add(FString::Printf(TEXT("%d / %d slots"), Used, PS->Inventory->GetSlots().Num()));
 		}
 		if (USailingFeature* Sea = Sub<USailingFeature>(W))

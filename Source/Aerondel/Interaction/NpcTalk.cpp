@@ -2,6 +2,7 @@
 #include "Features/VenturesFeature.h"
 #include "Data/NpcDef.h"
 #include "Core/AerondelPlayerState.h"
+#include "Bank/BankComponent.h"
 #include "Core/AerondelEvents.h"
 #include "Quests/QuestComponent.h"
 #include "Data/GameDatabase.h"
@@ -61,6 +62,15 @@ void ANpcTalk::Interact(AActor* InInstigator)
 		if (!To.IsNearlyZero()) SetActorRotation(To.Rotation());
 	}
 	AAerondelPlayerState* S = PS(InInstigator);
+	const FString Id = Definition->Id.ToString();
+	const FString Name = Definition->DisplayName.ToString();
+	const bool bBanker = Definition->Service == TEXT("bank") || Id.StartsWith(TEXT("banker"))
+		|| Name.StartsWith(TEXT("Banker")) || Name.StartsWith(TEXT("Royal Banker"));
+	if (bBanker && S && S->Bank)
+	{
+		S->Bank->OpenFrom(InInstigator, this, GetInteractRange() * 2.f);
+		return;
+	}
 	if (UVenturesFeature* V = UVenturesFeature::Get(this))
 	{
 		if (V->SkillHasOpen(Definition->Id))

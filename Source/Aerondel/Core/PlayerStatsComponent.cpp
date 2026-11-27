@@ -23,6 +23,10 @@
 #include "Combat/AerondelMob.h"
 #include "Features/PathsFeature.h"
 #include "Features/EconomyFeature.h"
+#include "Player/AerondelCharacter.h"
+#include "Combat/PlayerCombatComponent.h"
+#include "Interaction/AerondelFire.h"
+#include "Bank/BankComponent.h"
 #include "Engine/GameInstance.h"
 
 #define LOCTEXT_NAMESPACE "AerondelStats"
@@ -257,6 +261,44 @@ bool UPlayerStatsComponent::Consume(int32 InventorySlot)
 	return false;
 }
 
+bool UPlayerStatsComponent::UseInventorySlot(int32 InventorySlot)
+{
+	AAerondelPlayerState* S = PS();
+	if (!S || !S->Inventory) return false;
+	const FItemStack Stack = S->Inventory->GetSlot(InventorySlot);
+	UItemDef* Item = Stack.Item;
+	if (!Item) return false;
+	if (S->Bank && S->Bank->IsOpen())
+	{
+		S->Bank->Deposit(S->Inventory, Item, Item->bStackable ? Stack.Count : 1);
+		return true;
+	}
+	const bool bFood = Item->IsFood();
+	if (Consume(InventorySlot))
+	{
+		// Lite: eating delays the next swing by two ticks, drinking by one.
+		if (APawn* Pawn = S->GetPawn())
+			if (UPlayerCombatComponent* C = Pawn->FindComponentByClass<UPlayerCombatComponent>())
+				C->DelayNextAttack((bFood ? 2.f : 1.f) * UAerondelRules::TickSeconds);
+		return true;
+	}
+	if (BuryBones(InventorySlot) || CleanHerb(InventorySlot)) return true;
+	if (Item->IsTool() && AddTool(Item))
+	{
+		S->Inventory->RemoveFromSlot(InventorySlot, 1);
+		Msg(FText::Format(LOCTEXT("ToolBelt", "The {0} goes on your toolbelt."), Item->DisplayName));
+		return true;
+	}
+	if (Item->EquipSlot != EEquipSlot::None && S->Equipment && S->Equipment->EquipFromInventory(InventorySlot)) return true;
+	if (AAerondelFire::IsLogs(Item))
+	{
+		AActor* Pawn = S->GetPawn();
+		return AAerondelFire::LightFrom(Pawn ? Pawn : Cast<AActor>(S), InventorySlot, nullptr) != nullptr;
+	}
+	Msg(FText::Format(LOCTEXT("NoUse", "You can't use the {0} right now."), Item->DisplayName));
+	return false;
+}
+
 bool UPlayerStatsComponent::BuryBones(int32 InventorySlot)
 {
 	AAerondelPlayerState* S = PS();
@@ -394,13 +436,13 @@ void UPlayerStatsComponent::ApplyPlayerDamage(int32 Amount, AActor* Source)
 	S->Health->ApplyDamage(Amount, Source);
 	UVenturesFeature::HookPlayerHurt(this, Amount);
 	if (UEconomyFeature* Econ = UEconomyFeature::Get(this)) Econ->OnPlayerHit();
-	if (S->Health->IsDead()) { HandleDeath(); UAerondelFeature::NotifyPlayerDied(this); }
+	if (S->Health->IsDead()) HandleDeath();
 }
 
 void UPlayerStatsComponent::HandleDeath()
 {
 	AAerondelPlayerState* S = PS();
-	if (!S) return;
+	if (!S || !S->Health || !S->Health->IsDead()) return; // already revived (don't double-teleport)
 	Msg(LOCTEXT("Dead", "Oh dear, you are dead! You wake up back in town. You keep all of your items."));
 	ActivePrayers.Reset();
 	QueuedAbility = NAME_None;
@@ -411,12 +453,16 @@ void UPlayerStatsComponent::HandleDeath()
 	RefreshMaxHp(true);
 	if (APawn* Pawn = S->GetPawn())
 	{
+		if (UPlayerCombatComponent* C = Pawn->FindComponentByClass<UPlayerCombatComponent>()) C->ClearTarget();
+		if (AAerondelCharacter* Ch = Cast<AAerondelCharacter>(Pawn)) Ch->CancelInteraction();
+		if (AController* Ctl = Pawn->GetController()) Ctl->StopMovement();
 		AActor* Start = nullptr;
 		if (AGameModeBase* GM = GetWorld()->GetAuthGameMode()) Start = GM->FindPlayerStart(Pawn->GetController());
 		if (Start) Pawn->TeleportTo(Start->GetActorLocation(), Start->GetActorRotation());
 	}
 	OnDied.Broadcast();
 	OnChanged.Broadcast();
+	UAerondelFeature::NotifyPlayerDied(this);
 }
 
 bool UPlayerStatsComponent::StartBounty(FName Id)

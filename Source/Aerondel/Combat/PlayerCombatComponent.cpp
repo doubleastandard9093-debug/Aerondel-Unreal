@@ -377,7 +377,11 @@ void UPlayerCombatComponent::TickComponent(float Dt, ELevelTick TickType, FActor
 	const float Dist = FVector::Dist2D(Pawn->GetActorLocation(), Mob->GetActorLocation());
 	if (Dist > AttackRangeCm())
 	{
-		if (bAutoApproach && Pawn->GetController()) UAIBlueprintHelperLibrary::SimpleMoveToActor(Pawn->GetController(), Mob);
+		if (bAutoApproach)
+		{
+			if (AAerondelCharacter* Ch = Cast<AAerondelCharacter>(Pawn)) Ch->MoveToWorld(Mob->GetActorLocation());
+			else if (Pawn->GetController()) UAIBlueprintHelperLibrary::SimpleMoveToActor(Pawn->GetController(), Mob);
+		}
 		return;
 	}
 	AAerondelPlayerState* S = PS();

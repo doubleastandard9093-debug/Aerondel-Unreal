@@ -14,9 +14,12 @@ public:
 	UBankComponent();
 	UPROPERTY(BlueprintAssignable) FOnBankOpen OnOpenChanged;
 
-	UFUNCTION(BlueprintCallable, Category="Bank") void Open() { bOpen = true; OnOpenChanged.Broadcast(true); }
-	UFUNCTION(BlueprintCallable, Category="Bank") void Close() { bOpen = false; OnOpenChanged.Broadcast(false); }
+	UFUNCTION(BlueprintCallable, Category="Bank") void Open();
+	/** Opens the bank and closes it when User walks more than RangeCm from Source (chest or banker). */
+	UFUNCTION(BlueprintCallable, Category="Bank") void OpenFrom(AActor* User, AActor* Source, float RangeCm = 400.f);
+	UFUNCTION(BlueprintCallable, Category="Bank") void Close();
 	UFUNCTION(BlueprintPure, Category="Bank") bool IsOpen() const { return bOpen; }
+	virtual void TickComponent(float Dt, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 	UFUNCTION(BlueprintCallable, Category="Bank") int32 Deposit(UInventoryComponent* From, UItemDef* Item, int32 Count);
 	UFUNCTION(BlueprintCallable, Category="Bank") void DepositAll(UInventoryComponent* From);
@@ -24,4 +27,7 @@ public:
 
 private:
 	bool bOpen = false;
+	TWeakObjectPtr<AActor> BankUser;
+	TWeakObjectPtr<AActor> BankSource;
+	float CloseRangeCm = 400.f;
 };

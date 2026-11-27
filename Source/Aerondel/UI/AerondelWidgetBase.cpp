@@ -1,6 +1,7 @@
 #include "UI/AerondelWidgetBase.h"
 #include "Features/VenturesFeature.h"
 #include "Core/AerondelPlayerState.h"
+#include "Core/PlayerStatsComponent.h"
 #include "Core/AerondelEvents.h"
 #include "Player/AerondelPlayerController.h"
 #include "Inventory/InventoryComponent.h"
@@ -69,18 +70,8 @@ void UAerondelInventoryWidget::BindSources()
 
 void UAerondelInventoryWidget::UseSlot(int32 SlotIndex)
 {
-	AAerondelPlayerState* PS = GetAerondelPlayerState();
-	if (!PS) return;
-	const FItemStack S = PS->Inventory->GetSlot(SlotIndex);
-	if (S.IsEmpty()) return;
-	if (PS->Bank->IsOpen()) { PS->Bank->Deposit(PS->Inventory, S.Item, S.Item->bStackable ? S.Count : 1); return; }
-	if (S.Item->DisplayName.ToString() == TEXT("Ash-totem"))
-	{
-		if (UVenturesFeature* V = UVenturesFeature::Get(this)) { if (V->AshCall()) PS->Inventory->RemoveFromSlot(SlotIndex, 1); }
-		return;
-	}
-	if (S.Item->EquipSlot != EEquipSlot::None) { PS->Equipment->EquipFromInventory(SlotIndex); return; }
-	if (S.Item->HealAmount > 0) { PS->Inventory->RemoveFromSlot(SlotIndex, 1); PS->Health->Heal(S.Item->HealAmount); if (UVenturesFeature* V = UVenturesFeature::Get(this)) V->RoadOnConsume(S.Item); return; }
+	if (AAerondelPlayerState* PS = GetAerondelPlayerState())
+		if (PS->Stats) PS->Stats->UseInventorySlot(SlotIndex);
 }
 
 void UAerondelInventoryWidget::DropSlot(int32 SlotIndex)

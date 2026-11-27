@@ -6,7 +6,7 @@ ABankChest::ABankChest() { PrimaryActorTick.bCanEverTick = true; PrimaryActorTic
 
 void ABankChest::Interact(AActor* InInstigator)
 {
-	if (AAerondelPlayerState* S = PS(InInstigator)) { S->Bank->Open(); User = InInstigator; }
+	if (AAerondelPlayerState* S = PS(InInstigator)) { S->Bank->OpenFrom(InInstigator, this, GetInteractRange() * 2.f); User = InInstigator; }
 }
 
 void ABankChest::Tick(float Dt)
@@ -15,7 +15,7 @@ void ABankChest::Tick(float Dt)
 	AActor* U = User.Get();
 	if (U && !InRange(U, this, 2.f))
 	{
-		if (AAerondelPlayerState* S = PS(U)) S->Bank->Close();
+		if (AAerondelPlayerState* S = PS(U)) if (S->Bank && S->Bank->IsOpen()) S->Bank->Close();
 		User = nullptr;
 	}
 }

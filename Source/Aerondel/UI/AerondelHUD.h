@@ -44,6 +44,8 @@ private:
 	UPROPERTY() TObjectPtr<class UAerondelPanelWidget> Panel;
 	bool bAimBound = false;
 	FVector2D SettingsBtnMin = FVector2D::ZeroVector, SettingsBtnMax = FVector2D::ZeroVector;
+	TArray<int32> InvClickSlots;
+	TArray<FVector2D> InvClickMin, InvClickMax;
 	UFUNCTION() void OnDlg(const FText& Speaker, const TArray<FText>& Lines);
 	UPROPERTY() TObjectPtr<UAerondelHudWidget> Widget;
 	TArray<FText> Messages;
