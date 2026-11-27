@@ -69,6 +69,7 @@ public:
 
 private:
 	UFUNCTION() void HandleDied(AActor* Killer);
+	UFUNCTION() void OnHealthChanged(int32 Current, int32 Max, int32 Delta) { RefreshNameplate(); }
 	/** Swaps the box for the imported rig (rigs.json "monsters"); false keeps the box. */
 	void TryRig();
 	void HideCorpse();

@@ -1,6 +1,7 @@
 #include "Combat/AerondelMob.h"
 #include "Combat/AerondelMobRegistry.h"
 #include "Combat/HealthComponent.h"
+#include "Combat/AerondelFloatText.h"
 #include "Rules/AerondelRules.h"
 #include "Core/PlayerStatsComponent.h"
 #include "Data/GameDatabase.h"
@@ -86,7 +87,8 @@ void AAerondelMob::RefreshNameplate()
 {
 	if (Nameplate && Definition)
 	{
-		Nameplate->SetText(FText::Format(NSLOCTEXT("Aerondel", "MobPlate", "{0} (lvl {1})"), Definition->DisplayName, Definition->CombatLevel));
+		Nameplate->SetText(FText::Format(NSLOCTEXT("Aerondel", "MobPlate", "{0} (lvl {1})  {2}/{3}"),
+			Definition->DisplayName, Definition->CombatLevel, GetHp(), GetMaxHp()));
 		const int32 L = Definition->CombatLevel;
 		Nameplate->SetTextRenderColor(L >= 500 ? FColor(200, 90, 255) : L >= 200 ? FColor(255, 70, 50) : L >= 60 ? FColor(255, 160, 40) : L >= 20 ? FColor(255, 235, 90) : FColor(140, 255, 120));
 		Nameplate->SetRelativeLocation(FVector(0, 0, GetCapsuleComponent()->GetUnscaledCapsuleHalfHeight() + 30.f));
@@ -112,6 +114,7 @@ void AAerondelMob::BeginPlay()
 	Home = GetActorLocation();
 	Health->SetMax(Definition ? Definition->Hitpoints : 5, true);
 	Health->OnDied.AddDynamic(this, &AAerondelMob::HandleDied);
+	Health->OnHealthChanged.AddDynamic(this, &AAerondelMob::OnHealthChanged);
 	TryRig();
 	RefreshNameplate(); // pre-placed mobs saved before the plate existed only get it set here
 	if (Nameplate) { Nameplate->SetHiddenInGame(false); Nameplate->SetVisibility(true); }
@@ -141,6 +144,23 @@ void AAerondelMob::TryRig()
 }
 
 AAIController* AAerondelMob::AI() const { return Cast<AAIController>(GetController()); }
+
+
+static bool MobHasNav(const UObject* W)
+{
+	const UNavigationSystemV1* Nav = FNavigationSystem::GetCurrent<UNavigationSystemV1>(W);
+	return Nav && Nav->GetDefaultNavDataInstance(FNavigationSystem::DontAutoCreate) != nullptr;
+}
+
+static void MobSteerOrPath(AAerondelMob* Mob, AAIController* C, const FVector& Dest, float Acceptance)
+{
+	if (!Mob || !C) return;
+	if (MobHasNav(Mob)) { C->MoveToLocation(Dest, Acceptance); return; }
+	FVector To = Dest - Mob->GetActorLocation(); To.Z = 0.f;
+	if (To.SizeSquared() <= Acceptance * Acceptance) return;
+	Mob->AddMovementInput(To.GetSafeNormal(), 1.f);
+}
+
 
 FText AAerondelMob::GetInteractLabel() const
 {
@@ -174,6 +194,7 @@ void AAerondelMob::TakePlayerDamage(int32 Damage, AActor* Attacker)
 {
 	if (State == EMobState::Dead) return;
 	Damage = UVenturesFeature::HookPlayerHit(this, Damage, Attacker); // Ventures: Crestbreak, Overflare gain, Attunements
+	AAerondelFloatText::ShowOn(this, Damage, false);
 	Target = Attacker;
 	if (State != EMobState::Attack) { SetState(EMobState::Chase); AttackCooldown = FMath::Min(AttackCooldown, UAerondelRules::TickSeconds); }
 	if (bRigged && Damage > 0 && !UAerondelModelLibrary::IsBusy(GetMesh())) UAerondelModelLibrary::SetAnimState(GetMesh(), TEXT("hit"));
@@ -198,6 +219,7 @@ void AAerondelMob::GameTick()
 		const int32 D = FMath::Min(VenomDamage, Health->GetCurrent());
 		VenomDamage = FMath::Max(0, VenomDamage - 2);
 		Health->ApplyDamage(D, Target.Get());
+		if (D > 0) AAerondelFloatText::ShowOn(this, D, false);
 	}
 }
 
@@ -251,13 +273,13 @@ void AAerondelMob::Tick(float Dt)
 		if (C->GetMoveStatus() == EPathFollowingStatus::Idle || StateTime > 8.f) SetState(EMobState::Idle);
 		break;
 	case EMobState::Chase:
-		if (!T || IsLeashed(T)) { Target = nullptr; SetState(EMobState::Return); C->MoveToLocation(Home, 30.f); break; }
+		if (!T || IsLeashed(T)) { Target = nullptr; SetState(EMobState::Return); MobSteerOrPath(this, C, Home, 30.f); break; }
 		if (StunTicks > 0) { C->StopMovement(); break; }
 		if (FVector::Dist2D(T->GetActorLocation(), GetActorLocation()) < Definition->AttackRange) { C->StopMovement(); SetState(EMobState::Attack); break; }
-		C->MoveToActor(T, 120.f);
+		if (MobHasNav(this)) C->MoveToActor(T, 120.f); else MobSteerOrPath(this, C, T->GetActorLocation(), 120.f);
 		break;
 	case EMobState::Attack:
-		if (!T || IsLeashed(T)) { Target = nullptr; SetState(EMobState::Return); C->MoveToLocation(Home, 30.f); break; }
+		if (!T || IsLeashed(T)) { Target = nullptr; SetState(EMobState::Return); MobSteerOrPath(this, C, Home, 30.f); break; }
 		if (FVector::Dist2D(T->GetActorLocation(), GetActorLocation()) > Definition->AttackRange + 50.f) { SetState(EMobState::Chase); break; }
 		if (StunTicks > 0) break;
 		{ FVector To = T->GetActorLocation() - GetActorLocation(); To.Z = 0; if (!To.IsNearlyZero()) SetActorRotation(To.Rotation()); }
@@ -266,8 +288,10 @@ void AAerondelMob::Tick(float Dt)
 	case EMobState::Return:
 		if (FVector::Dist2D(GetActorLocation(), Home) < 100.f || StateTime > 10.f)
 		{
+			if (!MobHasNav(this) && FVector::Dist2D(GetActorLocation(), Home) >= 100.f) SetActorLocation(Home, false, nullptr, ETeleportType::TeleportPhysics);
 			Health->Heal(Health->GetMax()); SetState(EMobState::Idle);
 		}
+		else MobSteerOrPath(this, C, Home, 30.f);
 		break;
 	case EMobState::Dead: break;
 	}
@@ -354,7 +378,8 @@ void AAerondelMob::HandleDied(AActor* Killer)
 
 void AAerondelMob::Respawn()
 {
-	StunTicks = 0; VenomDamage = 0;
+	StunTicks = 0; WitherTicks = 0; TauntTicks = 0; VenomDamage = 0; VenomNext = 0; AttackCooldown = 0.f;
+	Target = nullptr;
 	SetActorLocation(Home, false, nullptr, ETeleportType::TeleportPhysics);
 	Health->SetMax(Definition ? Definition->Hitpoints : 5, true);
 	GetWorldTimerManager().ClearTimer(CorpseTimer);

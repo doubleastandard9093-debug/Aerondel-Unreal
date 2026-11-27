@@ -36,6 +36,8 @@ public:
 	void PlayerAttack(AAerondelMob* Mob, float Power = 1.f);
 	/** Riposte: a free hit with normal xp. */
 	void BonusHit(AAerondelMob* Mob, const FText& Label);
+	/** Push the next auto-attack back (eating in combat, matching the web build). */
+	void DelayNextAttack(float Seconds) { Cooldown = FMath::Max(Cooldown, Seconds); }
 	/** Mob hit us: auto-retaliate when idle. */
 	void OnAttackedBy(AAerondelMob* Mob);
 

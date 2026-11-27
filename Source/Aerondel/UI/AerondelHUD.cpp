@@ -1,6 +1,7 @@
 #include "UI/AerondelHUD.h"
 #include "UI/AerondelWidgetBase.h"
 #include "Core/AerondelPlayerState.h"
+#include "Core/PlayerStatsComponent.h"
 #include "Core/AerondelEvents.h"
 #include "Player/AerondelPlayerController.h"
 #include "Skills/SkillsComponent.h"
@@ -8,6 +9,8 @@
 #include "Bank/BankComponent.h"
 #include "Quests/QuestComponent.h"
 #include "Combat/HealthComponent.h"
+#include "Combat/PlayerCombatComponent.h"
+#include "Combat/AerondelMob.h"
 #include "Data/ItemDef.h"
 #include "Data/SkillDef.h"
 #include "Data/QuestDef.h"
@@ -18,6 +21,7 @@
 #include "Engine/World.h"
 #include "Engine/Font.h"
 #include "XR/AerondelVRPawn.h"
+#include "Components/WidgetComponent.h"
 #include "Features/TrueAimFeature.h"
 #include "Engine/GameInstance.h"
 #include "EngineUtils.h"
@@ -56,14 +60,24 @@ static FName PadPanelName(EAerondelPadMenu M)
 
 void AAerondelHUD::OpenPanel(FName PanelName, AActor* Context)
 {
-	if (!PlayerOwner || PlayerOwner->GetPawn<AAerondelVRPawn>()) return; // VR uses the wrist widget
+	if (!PlayerOwner) return;
 	if (!Panel)
 	{
 		Panel = CreateWidget<UAerondelPanelWidget>(PlayerOwner, UAerondelPanelWidget::StaticClass());
 		if (!Panel) return;
 		Panel->OnClosed.BindUObject(this, &AAerondelHUD::ClosePanel);
 	}
-	if (!Panel->IsInViewport()) Panel->AddToViewport(50);
+	if (AAerondelVRPawn* VR = PlayerOwner->GetPawn<AAerondelVRPawn>())
+	{
+		// Same C++ panel as desktop, shown on the left-wrist widget so grab/poke can pick a recipe in VR.
+		if (VR->WristPanel)
+		{
+			VR->WristPanel->SetWidget(Panel);
+			VR->WristPanel->SetVisibility(true);
+			VR->WristPanel->SetHiddenInGame(false);
+		}
+	}
+	else if (!Panel->IsInViewport()) Panel->AddToViewport(50);
 	Panel->Open(PanelName, Context);
 }
 
@@ -75,16 +89,32 @@ void AAerondelHUD::ToggleSettings()
 
 bool AAerondelHUD::HandleHudClick(const FVector2D& Pos)
 {
+	for (int32 i = 0; i < InvClickSlots.Num(); ++i)
+	{
+		if (Pos.X < InvClickMin[i].X || Pos.Y < InvClickMin[i].Y || Pos.X > InvClickMax[i].X || Pos.Y > InvClickMax[i].Y) continue;
+		if (AAerondelPlayerState* PS = PlayerOwner ? PlayerOwner->GetPlayerState<AAerondelPlayerState>() : nullptr)
+			if (PS->Stats) PS->Stats->UseInventorySlot(InvClickSlots[i]);
+		return true;
+	}
 	if (SettingsBtnMax.X <= SettingsBtnMin.X) return false;
 	if (Pos.X < SettingsBtnMin.X || Pos.Y < SettingsBtnMin.Y || Pos.X > SettingsBtnMax.X || Pos.Y > SettingsBtnMax.Y) return false;
 	ToggleSettings();
 	return true;
 }
 
-FName AAerondelHUD::GetOpenPanel() const { return Panel && Panel->IsInViewport() ? Panel->GetPanel() : NAME_None; }
+FName AAerondelHUD::GetOpenPanel() const
+{
+	if (!Panel) return NAME_None;
+	if (Panel->IsInViewport()) return Panel->GetPanel();
+	if (const AAerondelVRPawn* VR = PlayerOwner ? PlayerOwner->GetPawn<AAerondelVRPawn>() : nullptr)
+		if (VR->WristPanel && VR->WristPanel->IsVisible()) return Panel->GetPanel();
+	return NAME_None;
+}
 
 void AAerondelHUD::ClosePanel()
 {
+	if (AAerondelVRPawn* VR = PlayerOwner ? PlayerOwner->GetPawn<AAerondelVRPawn>() : nullptr)
+		if (VR->WristPanel && VR->WristPanel->GetWidget() == Panel) VR->WristPanel->SetVisibility(false);
 	if (Panel && Panel->IsInViewport()) Panel->RemoveFromParent();
 	if (bMenuOpen && Widget) Widget->ShowPadMenu(OpenMenu, false);
 	bMenuOpen = false;
@@ -188,7 +218,7 @@ void AAerondelHUD::DrawPadMenu(AAerondelPlayerState* PS)
 	{
 		Line(TEXT("Nearby"), Gold);
 		const AAerondelPlayerController* PC = Cast<AAerondelPlayerController>(PlayerOwner);
-		if (PC && !PC->GetHoverText().IsEmpty()) Line(FString::Printf(TEXT("Target: %s  (A to use)"), *PC->GetHoverText().ToString()), White);
+		if (PC && !PC->GetHoverText().IsEmpty()) Line(FString::Printf(TEXT("Target: %s  (A / E to use)"), *PC->GetHoverText().ToString()), White);
 		int32 N = 0;
 		for (TActorIterator<AActor> It(GetWorld()); It && N < 10; ++It)
 		{
@@ -232,7 +262,7 @@ void AAerondelHUD::DrawHUD()
 		DrawRect(FLinearColor(0.f, 0.f, 0.f, 0.6f), SettingsBtnMin.X, SettingsBtnMin.Y, BW, BH);
 		DrawText(TEXT("Settings (F10 / Esc)"), FLinearColor(1.f, 0.9f, 0.3f), SettingsBtnMin.X + 10.f, SettingsBtnMin.Y + 6.f, GEngine->GetSmallFont());
 	}
-	if (Widget || !Canvas || !PlayerOwner || PlayerOwner->GetPawn<AAerondelVRPawn>()) return;
+	if (Widget || !Canvas || !PlayerOwner || PlayerOwner->GetPawn<AAerondelVRPawn>()) { InvClickSlots.Reset(); InvClickMin.Reset(); InvClickMax.Reset(); return; }
 	AAerondelPlayerState* PS = PlayerOwner->GetPlayerState<AAerondelPlayerState>();
 	if (!PS) return;
 	UFont* Font = GEngine->GetSmallFont();
@@ -242,6 +272,23 @@ void AAerondelHUD::DrawHUD()
 	if (const AAerondelPlayerController* PC = Cast<AAerondelPlayerController>(PlayerOwner))
 		if (!PC->GetHoverText().IsEmpty()) DrawText(PC->GetHoverText().ToString(), Yellow, 20, Y, Font, 1.2f);
 	Y += 28;
+	// Current combat target: name + HP bar (cheap canvas, all tiers).
+	if (APawn* Pawn = PlayerOwner->GetPawn())
+		if (const UPlayerCombatComponent* Cc = Pawn->FindComponentByClass<UPlayerCombatComponent>())
+			if (const AAerondelMob* Mob = Cc->GetTarget())
+			{
+				const int32 Hp = Mob->GetHp(), Mx = FMath::Max(1, Mob->GetMaxHp());
+				const float BarW = 240.f, BarH = 14.f;
+				const float BX = Canvas->ClipX * 0.5f - BarW * 0.5f, BY = 18.f;
+				const FString Nm = Mob->GetDisplayName().ToString();
+				DrawText(Nm, Yellow, BX, BY - 2.f, Font, 1.15f);
+				DrawRect(FLinearColor(0.f, 0.f, 0.f, 0.65f), BX, BY + 16.f, BarW, BarH);
+				const float Frac = FMath::Clamp(float(Hp) / float(Mx), 0.f, 1.f);
+				const FLinearColor BarC = Frac > 0.5f ? FLinearColor(0.25f, 0.8f, 0.3f) : Frac > 0.25f ? FLinearColor(0.95f, 0.75f, 0.15f) : FLinearColor(0.9f, 0.2f, 0.15f);
+				DrawRect(BarC, BX + 1.f, BY + 17.f, (BarW - 2.f) * Frac, BarH - 2.f);
+				DrawText(FString::Printf(TEXT("%d / %d"), Hp, Mx), White, BX + BarW + 8.f, BY + 14.f, Font);
+				DrawText(TEXT("Q / LB+B: stop attacking"), FLinearColor(0.8f, 0.8f, 0.8f), BX, BY + 32.f, Font);
+			}
 	DrawText(FString::Printf(TEXT("HP %d/%d   Combat %d   Total %d   QP %d"), PS->Health->GetCurrent(), PS->Health->GetMax(),
 		PS->Skills->CombatLevel(), PS->Skills->TotalLevel(), PS->Quests->QuestPoints()), White, 20, Y, Font);
 	Y += 22;
@@ -252,12 +299,20 @@ void AAerondelHUD::DrawHUD()
 		Y += 16;
 	}
 
-	// Inventory (right side).
-	float IY = 20.f; const float X = Canvas->ClipX - 260.f;
-	DrawText(PS->Bank->IsOpen() ? TEXT("Inventory (bank open)") : TEXT("Inventory"), Yellow, X, IY, Font); IY += 18;
+	// Inventory (right side, below the Settings button so clicks don't overlap it). Click a line to use the item.
+	InvClickSlots.Reset(); InvClickMin.Reset(); InvClickMax.Reset();
+	float IY = 50.f; const float X = Canvas->ClipX - 260.f;
+	DrawText(PS->Bank->IsOpen() ? TEXT("Inventory (bank open, click to deposit)") : TEXT("Inventory (click to use)"), Yellow, X, IY, Font); IY += 18;
 	const TArray<FItemStack>& Slots = PS->Inventory->GetSlots();
 	for (int32 i = 0; i < Slots.Num(); ++i)
-		if (!Slots[i].IsEmpty()) { DrawText(FString::Printf(TEXT("%2d  %s x%d"), i + 1, *Slots[i].Item->DisplayName.ToString(), Slots[i].Count), White, X, IY, Font); IY += 16; }
+		if (!Slots[i].IsEmpty())
+		{
+			DrawText(FString::Printf(TEXT("%2d  %s x%d"), i + 1, *Slots[i].Item->DisplayName.ToString(), Slots[i].Count), White, X, IY, Font);
+			InvClickSlots.Add(i);
+			InvClickMin.Add(FVector2D(X, IY));
+			InvClickMax.Add(FVector2D(X + 250.f, IY + 16.f));
+			IY += 16;
+		}
 
 	// Quest step.
 	for (const FQuestProgress& Q : PS->Quests->GetAll())

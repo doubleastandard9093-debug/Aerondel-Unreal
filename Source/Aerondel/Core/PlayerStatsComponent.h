@@ -100,6 +100,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category="Stats") int32 RechargePrayer();
 	/** Eat food or drink a potion from a backpack slot. Returns true if something was consumed. */
 	UFUNCTION(BlueprintCallable, Category="Stats") bool Consume(int32 InventorySlot);
+	/** Bank deposit (if the bank is open), eat/drink, bury, clean, wield/wear, toolbelt, or light logs. */
+	UFUNCTION(BlueprintCallable, Category="Stats") bool UseInventorySlot(int32 InventorySlot);
 	UFUNCTION(BlueprintCallable, Category="Stats") bool BuryBones(int32 InventorySlot);
 	/** Clean a grimy herb (Herbalism level check). */
 	UFUNCTION(BlueprintCallable, Category="Stats") bool CleanHerb(int32 InventorySlot);

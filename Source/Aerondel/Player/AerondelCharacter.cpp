@@ -16,12 +16,14 @@
 #include "EnhancedInputSubsystems.h"
 #include "Engine/LocalPlayer.h"
 #include "Blueprint/AIBlueprintHelperLibrary.h"
+#include "NavigationSystem.h"
 #include "Engine/OverlapResult.h"
 #include "Engine/StaticMesh.h"
 #include "Engine/World.h"
 #include "UObject/ConstructorHelpers.h"
 #include "TimerManager.h"
 #include "Core/AerondelPlayerState.h"
+#include "Core/AerondelEvents.h"
 #include "Inventory/EquipmentComponent.h"
 #include "Data/ItemDef.h"
 #include "Features/VenturesFeature.h"
@@ -98,12 +100,13 @@ void AAerondelCharacter::SetupPlayerInputComponent(UInputComponent* Input)
 		EIC->BindAction(A, ETriggerEvent::Completed, this, &AAerondelCharacter::OnOrbitEnd);
 	}
 	if (UInputAction* A = Cfg->Interact.LoadSynchronous()) EIC->BindAction(A, ETriggerEvent::Started, this, &AAerondelCharacter::OnInteract);
+	if (UInputAction* A = Cfg->ToggleInventory.LoadSynchronous()) EIC->BindAction(A, ETriggerEvent::Started, this, &AAerondelCharacter::OnToggleInventory);
 	if (UInputAction* A = Cfg->Jump.LoadSynchronous()) EIC->BindAction(A, ETriggerEvent::Started, this, &ACharacter::Jump);
 	if (Gamepad) Gamepad->Bind(EIC);
 	if (EIC)
 	{
 		BuildVentureKeys();
-		static const TCHAR* Names[] = { TEXT("overflare"), TEXT("ventures"), TEXT("tether"), TEXT("super"), TEXT("dash"), TEXT("settings"), TEXT("ashkin"), TEXT("wordcry"), TEXT("kinbeast"), TEXT("climb") };
+		static const TCHAR* Names[] = { TEXT("overflare"), TEXT("ventures"), TEXT("tether"), TEXT("super"), TEXT("dash"), TEXT("settings"), TEXT("ashkin"), TEXT("wordcry"), TEXT("kinbeast"), TEXT("climb"), TEXT("clear") };
 		for (int32 i = 0; i < VentureActions.Num() && i < UE_ARRAY_COUNT(Names); ++i)
 		{
 			const FName K(Names[i]);
@@ -118,6 +121,7 @@ void AAerondelCharacter::OnMove(const FInputActionValue& V)
 	const FVector2D In = V.Get<FVector2D>();
 	if (In.IsNearlyZero()) return;
 	CancelInteraction();
+	bDirectMove = false;
 	if (AController* C = GetController()) C->StopMovement();
 	const FRotator Yaw(0, GetControlRotation().Yaw, 0);
 	AddMovementInput(FRotationMatrix(Yaw).GetUnitAxis(EAxis::X), In.Y);
@@ -144,6 +148,13 @@ void AAerondelCharacter::OnInteract(const FInputActionValue&)
 	if (AActor* T = FindNearestInteractable()) QueueInteraction(T);
 }
 
+void AAerondelCharacter::OnToggleInventory(const FInputActionValue&)
+{
+	APlayerController* PC = Cast<APlayerController>(GetController());
+	if (AAerondelHUD* Hud = PC ? Cast<AAerondelHUD>(PC->GetHUD()) : nullptr)
+		Hud->TogglePadMenu(EAerondelPadMenu::Inventory);
+}
+
 AActor* AAerondelCharacter::FindNearestInteractable(float Radius) const
 {
 	TArray<FOverlapResult> Hits;
@@ -168,14 +179,40 @@ void AAerondelCharacter::QueueInteraction(AActor* Target)
 	if (IAerondelInteractable* Old = Cast<IAerondelInteractable>(Pending.Get())) Old->StopInteract(this);
 	Combat->ClearTarget();
 	Pending = Target;
-	if (!AInteractableActor::InRange(this, I, 1.f) && GetController())
-		UAIBlueprintHelperLibrary::SimpleMoveToLocation(GetController(), I->GetInteractPoint());
+	if (!AInteractableActor::InRange(this, I, 1.f)) MoveToWorld(I->GetInteractPoint());
 }
 
 void AAerondelCharacter::CancelInteraction()
 {
 	if (IAerondelInteractable* I = Cast<IAerondelInteractable>(Pending.Get())) I->StopInteract(this);
 	Pending = nullptr;
+	bDirectMove = false;
+}
+
+bool AAerondelCharacter::HasNavMesh() const
+{
+	const UNavigationSystemV1* Nav = FNavigationSystem::GetCurrent<UNavigationSystemV1>(GetWorld());
+	return Nav && Nav->GetDefaultNavDataInstance(FNavigationSystem::DontAutoCreate) != nullptr;
+}
+
+void AAerondelCharacter::MoveToWorld(const FVector& Dest)
+{
+	if (HasNavMesh() && GetController())
+	{
+		bDirectMove = false;
+		UAIBlueprintHelperLibrary::SimpleMoveToLocation(GetController(), Dest);
+		return;
+	}
+	DirectDest = Dest;
+	bDirectMove = true;
+}
+
+void AAerondelCharacter::TickDirectMove(float)
+{
+	if (!bDirectMove) return;
+	FVector To = DirectDest - GetActorLocation(); To.Z = 0.f;
+	if (To.SizeSquared() < 40.f * 40.f) { bDirectMove = false; if (AController* C = GetController()) C->StopMovement(); return; }
+	AddMovementInput(To.GetSafeNormal(), 1.f);
 }
 
 void AAerondelCharacter::Tick(float Dt)
@@ -188,6 +225,7 @@ void AAerondelCharacter::Tick(float Dt)
 		UAerondelModelLibrary::SetAnimState(GetMesh(), V > 330.f ? FName(TEXT("run")) : V > 20.f ? FName(TEXT("walk")) : FName(TEXT("idle")));
 	}
 	SpringArm->TargetArmLength = FMath::FInterpTo(SpringArm->TargetArmLength, TargetArm, Dt, 10.f);
+	TickDirectMove(Dt);
 	AActor* T = Pending.Get();
 	IAerondelInteractable* I = Cast<IAerondelInteractable>(T);
 	if (I && AInteractableActor::InRange(this, I, 1.f))
@@ -279,6 +317,11 @@ void AAerondelCharacter::BuildVentureKeys()
 	Climb->ValueType = EInputActionValueType::Boolean;
 	VentureActions.Add(Climb);
 	VentureContext->MapKey(Climb, EKeys::Comma);
+	// Stop attacking (Q): bound in C++ so it works without re-running Create Input Assets. Esc is already Settings.
+	UInputAction* Clear = NewObject<UInputAction>(this, FName(TEXT("IA_ClearTarget")));
+	Clear->ValueType = EInputActionValueType::Boolean;
+	VentureActions.Add(Clear);
+	VentureContext->MapKey(Clear, EKeys::Q);
 }
 
 void AAerondelCharacter::OnVentureKey(FName Key)
@@ -297,7 +340,17 @@ void AAerondelCharacter::OnVentureKey(FName Key)
 		if (Hud->GetOpenPanel().ToString().StartsWith(TEXT("ventures"))) Hud->ClosePanel(); else Hud->OpenPanel(TEXT("ventures"), nullptr);
 		return;
 	}
+	if (Key == FName(TEXT("clear"))) { StopAttack(); return; }
 	if (UVenturesFeature* V = UVenturesFeature::Get(this)) V->OnKey(Key);
+}
+
+void AAerondelCharacter::StopAttack()
+{
+	if (!Combat || !Combat->GetTarget()) return;
+	Combat->ClearTarget();
+	bDirectMove = false;
+	if (AController* C = GetController()) C->StopMovement();
+	if (UAerondelEvents* Ev = UAerondelEvents::Get(this)) Ev->Message(NSLOCTEXT("Aerondel", "StopAtk", "You stop attacking."));
 }
 
 void AAerondelCharacter::PlayBodyAnim(FName State) { if (bRigged) UAerondelModelLibrary::SetAnimState(GetMesh(), State); }

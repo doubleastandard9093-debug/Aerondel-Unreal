@@ -34,6 +34,12 @@ public:
 	/** Walk to the target then Interact() (desktop click / gamepad interact). */
 	void QueueInteraction(AActor* Target);
 	void CancelInteraction();
+	/** Click-to-move / approach: uses the NavMesh when it exists, otherwise walks in a straight line. */
+	void MoveToWorld(const FVector& Dest);
+	/** Q / LB+B: drop the combat target and stop auto-approach. */
+	void StopAttack();
+	/** True when a Recast nav data actor is in the world (Build Paths has been run). */
+	bool HasNavMesh() const;
 	/** Positive = zoom out (cm of spring-arm length). */
 	void AddZoom(float Cm) { TargetArm = FMath::Clamp(TargetArm + Cm, MinZoom, MaxZoom); }
 	/** Nearest interactable within Radius in front of the pawn (gamepad "A"). */
@@ -59,6 +65,7 @@ private:
 	void OnOrbitStart(const FInputActionValue& V) { bOrbiting = true; }
 	void OnOrbitEnd(const FInputActionValue& V) { bOrbiting = false; }
 	void OnInteract(const FInputActionValue& V);
+	void OnToggleInventory(const FInputActionValue& V);
 	/** Ventures keys (U Overflare, J hub, L Tether, N Attunement super, C Glidewalk dash): runtime actions + context, like the gamepad layout. */
 	void BuildVentureKeys();
 	void OnVentureKey(FName Key);
@@ -69,4 +76,7 @@ private:
 	TWeakObjectPtr<AActor> Pending;
 	bool bOrbiting = false;
 	float TargetArm = 700.f;
+	bool bDirectMove = false;
+	FVector DirectDest = FVector::ZeroVector;
+	void TickDirectMove(float Dt);
 };

@@ -34,6 +34,8 @@ void AGroundItem::Interact(AActor* InInstigator)
 	AAerondelPlayerState* S = PS(InInstigator);
 	if (!S || !Item) return;
 	const int32 Left = S->Inventory->Add(Item, Count);
+	const int32 Took = Count - Left;
+	if (Took > 0) Msg(FText::Format(NSLOCTEXT("Aerondel", "Took", "You take {0} x {1}."), Took, Item->DisplayName));
 	if (Left == 0) Destroy(); else Count = Left;
 }
 

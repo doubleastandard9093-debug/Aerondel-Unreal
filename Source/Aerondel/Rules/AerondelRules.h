@@ -127,6 +127,8 @@ public:
 	UFUNCTION(BlueprintPure, Category="Aerondel|Rules") static int32 BuyPrice(const AAerondelPlayerState* PS, int32 Price);
 	UFUNCTION(BlueprintPure, Category="Aerondel|Rules") static int32 HealAmount(const AAerondelPlayerState* PS, const UItemDef* Food);
 	UFUNCTION(BlueprintPure, Category="Aerondel|Rules") static float BuryXp(const AAerondelPlayerState* PS, const UItemDef* Bones);
+	/** Firemaking XP for lighting this log type (Lite-style values on the same log tiers). */
+	UFUNCTION(BlueprintPure, Category="Aerondel|Rules") static float FiremakingXp(const UItemDef* Logs);
 	UFUNCTION(BlueprintPure, Category="Aerondel|Rules") static int32 PotionTicks(const AAerondelPlayerState* PS, int32 BaseTicks);
 	UFUNCTION(BlueprintPure, Category="Aerondel|Rules") static float PrayerDrainPerTick(const AAerondelPlayerState* PS);
 
